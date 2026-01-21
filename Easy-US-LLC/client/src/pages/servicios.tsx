@@ -394,7 +394,6 @@ export default function Servicios() {
       <AsistenciaProcesadores />
       <ServiciosAdicionales />
       <Soporte />
-      <ComoTrabajamos />
 
       <HelpSection />
       <Footer />
@@ -512,42 +511,6 @@ function Soporte() {
             <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
               <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function ComoTrabajamos() {
-  return (
-    <section className="py-20 sm:py-32 bg-white">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PROCESO</span>
-            Cómo Trabajamos
-          </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(En 6 simples pasos)</p>
-        </div>
-        <div className="max-w-3xl mx-auto">
-          {[
-            { num: "1", title: "Elige en que estado constituir tu LLC", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
-            { num: "2", title: "Unas preguntas rapidas y esenciales", text: "5 minutos. Datos básicos de tu LLC." },
-            { num: "3", title: "Foto de tu dni o pasaporte", text: "DNI o pasaporte. Foto con móvil." },
-            { num: "4", title: "Tramitamos la constitución", text: "Secretario de Estado, EIN, todos los documentos." },
-            { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
-            { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
-          ].map((step, i) => (
-            <div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
-              <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
-                {step.num}
-              </div>
-              <div className="pt-1 sm:pt-2 text-center">
-                <p className="font-black uppercase tracking-tight text-lg sm:text-2xl text-brand-dark mb-1">{step.title}</p>
-                <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">{step.text}</p>
-              </div>
             </div>
           ))}
         </div>
