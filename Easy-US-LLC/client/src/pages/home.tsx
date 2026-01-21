@@ -6,7 +6,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
-import { HeroSection } from "@/components/layout/hero-section";
+import { HelpSection } from "@/components/layout/help-section";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 
 export default function Home() {
@@ -139,37 +139,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="bg-white py-16 sm:py-24 border-t border-brand-lime/10">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="max-w-4xl mx-auto text-center flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
-              ¿NECESITAS AYUDA?
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10 text-center">
-              (Estamos aquí para resolver todas tus dudas)
-            </p>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
-              <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                <Button 
-                  size="lg"
-                  className="bg-brand-lime text-brand-dark font-black text-base px-8 border-0 w-full rounded-full h-14 shadow-lg hover:bg-brand-lime/90 active:bg-brand-lime transition-all flex items-center justify-center gap-2"
-                >
-                  Envíanos un WhatsApp
-                </Button>
-              </a>
-              <Button 
-                size="lg" 
-                variant="outline" 
-                onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot'))} 
-                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white transition-all"
-              >
-                Nuestro Asistente 24/7
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HelpSection />
       <Footer />
     </div>
   );
