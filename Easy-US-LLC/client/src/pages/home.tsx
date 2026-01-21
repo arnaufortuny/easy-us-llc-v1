@@ -76,12 +76,12 @@ export default function Home() {
         </div>
       </HeroSection>
       <section className="bg-white py-20 sm:py-24" id="ventajas">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8 text-center flex flex-col items-center">
-          <div className="mb-16 sm:mb-20 w-full flex flex-col items-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 tracking-tight uppercase text-center">Ventajas fiscales</h2>
-            <p className="text-brand-lime font-black text-xl sm:text-2xl uppercase tracking-wide text-center">Te ayudamos a optimizar tu estructura</p>
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="mb-16 sm:mb-20 text-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 tracking-tight uppercase">Ventajas fiscales</h2>
+            <p className="text-brand-lime font-black text-xl sm:text-2xl uppercase tracking-wide">Te ayudamos a optimizar tu estructura</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {[
               { badge: "IVA", title: "Eliminamos el IVA en tus servicios digitales", text: "Trabajamos para que tu LLC no cobre IVA a clientes B2B internacionales.", footer: "Tus servicios están exentos." },
               { badge: "Impuestos", title: "Eliminamos el Impuesto de Sociedades", text: "Te constituimos en New Mexico o Wyoming: 0% impuesto estatal.", footer: "Impuesto de Sociedades al 0%." },
