@@ -108,6 +108,16 @@ export default function Servicios() {
     }));
   };
 
+  const maintenanceFeatures = [
+    "Presentación Form 1120 ante el IRS",
+    "Presentación Form 5472 ante el IRS",
+    "Renovación Registered Agent (12 meses)",
+    "Presentación y Gestión Annual Report",
+    "Soporte Ilimitado (12 meses)",
+    "Renovación de BOI Report (si fuera necesario)",
+    "1 Actualización de Articles of Organization"
+  ];
+
   return (
     <div className="min-h-screen font-sans bg-white text-center">
       <Navbar />
@@ -293,37 +303,44 @@ export default function Servicios() {
             <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo incluido anualmente)</p>
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {[
-              { title: "Renovación Registered Agent", desc: "Gestionamos renovación automática de tu Registered Agent cada año. Nunca pierdes tu dirección oficial en el estado." },
-              { title: "Declaraciones fiscales anuales", desc: "Preparamos y presentamos Forms 1120 y 5472 ante el IRS cada año antes del deadline." },
-              { title: "Annual Report (WY/DE)", desc: "Presentamos el Annual Report obligatorio ante el estado cada año para mantener tu LLC activa." },
-              { title: "Recordatorios y alertas", desc: "Te avisamos con antelación de deadlines importantes y renovaciones pendientes." },
-              { title: "Soporte continuado", desc: "Email y WhatsApp para consultas sobre obligaciones, uso de LLC y renovaciones." },
-            ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-4 sm:p-6 text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2 sm:mb-3">{service.title}</p>
-                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              { state: "New Mexico", price: "349€", annual: true },
+              { state: "Wyoming", price: "499€", annual: true },
+              { state: "Delaware", price: "599€", annual: true }
+            ].map((item, i) => (
+              <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
+                <div className="p-5 sm:p-8 flex-grow">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
+                    <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Mantenimiento</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <p className="text-4xl sm:text-5xl font-black text-brand-dark">{item.price}</p>
+                    <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año</span>
+                  </div>
+                  <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                    Tasas estatales incluidas
+                  </p>
+                  <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                    {maintenanceFeatures.map((f) => (
+                      <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left leading-tight">
+                        <span className="text-brand-lime font-black">✓</span> 
+                        <span>{f}</span>
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-5 sm:p-8 pt-0">
+                  <Button 
+                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
+                  >
+                    Contratar Mantenimiento
+                  </Button>
+                </div>
               </div>
             ))}
-          </div>
-          
-          <div className="mt-16 max-w-4xl mx-auto">
-            <div className="bg-white rounded-3xl border border-brand-lime/20 shadow-sm overflow-hidden">
-              <div className="grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-brand-lime/10">
-                {[
-                  { state: "New Mexico", price: "349€" },
-                  { state: "Wyoming", price: "499€" },
-                  { state: "Delaware", price: "599€" }
-                ].map((item, i) => (
-                  <div key={i} className="p-8 text-center bg-brand-lime/5">
-                    <p className="text-brand-dark/60 font-bold text-xs uppercase tracking-widest mb-2">{item.state}</p>
-                    <p className="text-3xl font-black text-brand-dark mb-1">{item.price}</p>
-                    <p className="text-brand-dark/40 text-xs font-medium uppercase">Anuales todo incluido</p>
-                  </div>
-                ))}
-              </div>
-            </div>
           </div>
         </div>
       </section>
