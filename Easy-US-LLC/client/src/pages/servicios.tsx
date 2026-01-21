@@ -136,10 +136,15 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20" id="pricing">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight mb-8 sm:mb-12">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">MANTENIMIENTO / PACKS</span>
-            Nuestros Packs
-          </h2>
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">MANTENIMIENTO / PACKS</span>
+              Nuestros Packs
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+              (Elige el plan que mejor se adapte a ti)
+            </p>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* New Mexico */}
             <div className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
@@ -329,10 +334,15 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20 bg-white border-t border-brand-lime/10">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center mb-12 uppercase tracking-tight">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">FAQ</span>
-            Preguntas Frecuentes de Nuestros Servicios
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">FAQ</span>
+              Preguntas Frecuentes
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+              (Resolvemos tus dudas de inmediato)
+            </p>
+          </div>
           <div className="space-y-4">
             {faqCategories.map((category) => (
               <div key={category.title} className="space-y-4">
@@ -399,10 +409,11 @@ export default function Servicios() {
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">AYUDA</span>
               ¿NECESITAS AYUDA?
             </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-xl text-center mx-auto">
-              Estamos aquí para resolver todas tus dudas. Contáctanos sin compromiso o consulta nuestro asistente virtual.
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-8 sm:mb-10">
+              (Estamos aquí para resolver todas tus dudas)
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
               <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
@@ -579,10 +590,15 @@ function PorQueEasyUSLLC() {
   return (
     <section className="py-8 sm:py-14 bg-white">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight mb-8 sm:mb-12">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">VALORES</span>
-          ¿Por qué Easy US LLC?
-        </h2>
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">VALORES</span>
+            ¿Por qué Easy US LLC?
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+            (Lo que nos hace diferentes)
+          </p>
+        </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {[
             { title: "Rapidez Real", desc: "LLC lista en 2-3 días hábiles. Sin esperas innecesarias." },
