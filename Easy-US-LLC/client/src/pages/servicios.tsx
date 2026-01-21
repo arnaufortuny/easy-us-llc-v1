@@ -189,7 +189,7 @@ export default function Servicios() {
                 <Button 
                   onClick={() => handleSelectProduct(nmProduct?.id || 1)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-dark text-white font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime hover:text-brand-dark transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (nmProduct?.id || 1) ? "Procesando..." : "Elegir New Mexico"}
                 </Button>
@@ -227,7 +227,7 @@ export default function Servicios() {
                 <Button 
                   onClick={() => handleSelectProduct(wyProduct?.id || 2)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-dark text-white font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime hover:text-brand-dark transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (wyProduct?.id || 2) ? "Procesando..." : "Elegir Wyoming"}
                 </Button>
@@ -265,7 +265,7 @@ export default function Servicios() {
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-dark text-white font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime hover:text-brand-dark transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
                 </Button>
