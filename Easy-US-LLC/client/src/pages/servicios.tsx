@@ -531,11 +531,15 @@ function Soporte() {
   return (
     <section className="py-8 sm:py-14">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark text-center uppercase tracking-tight">
-          <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">SOPORTE</span>
-          Soporte Ilimitado
-        </h2>
-        <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-6 sm:mb-10">(Durante 12 meses incluido)</p>
+        <div className="text-center mb-6 sm:mb-10">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">SOPORTE</span>
+            Soporte Ilimitado
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+            (Durante 12 meses incluido)
+          </p>
+        </div>
         <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8">
           {[
             { title: "Email y WhatsApp", desc: "Atención personalizada para tus dudas operativas." },
