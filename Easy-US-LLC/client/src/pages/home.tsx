@@ -27,22 +27,22 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen font-sans text-left bg-white">
+    <div className="min-h-screen font-sans text-center bg-white">
       <Navbar />
       <HeroSection 
         title={
-          <h1 className="font-black uppercase tracking-tighter text-white mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word]" style={{ fontSize: 'clamp(32px, 5vw, 72px)', lineHeight: '1' }}>
+          <h1 className="font-black uppercase tracking-tighter text-white mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" style={{ fontSize: 'clamp(32px, 5vw, 72px)', lineHeight: '1' }}>
             REDUCIMOS TU CARGA FISCAL<br />
             <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
           </h1>
         }
         subtitle={
-          <p className="text-base sm:text-xl text-white/90 font-medium max-w-3xl mb-10 leading-relaxed">
+          <p className="text-base sm:text-xl text-white/90 font-medium max-w-3xl mb-10 leading-relaxed mx-auto text-center">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
-        <div className="hidden sm:flex flex-wrap justify-start gap-2 sm:gap-4 mb-8 sm:mb-10 w-full max-w-full overflow-hidden">
+        <div className="hidden sm:flex flex-wrap justify-center gap-2 sm:gap-4 mb-8 sm:mb-10 w-full max-w-full overflow-hidden">
           <span className="inline-flex items-center px-3 py-1.5 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base shadow-md whitespace-nowrap">
             LLC + EIN en 3 días
           </span>
@@ -53,7 +53,7 @@ export default function Home() {
             Tarjeta internacional
           </span>
         </div>
-        <div className="mb-8 sm:mb-10 flex justify-start">
+        <div className="mb-8 sm:mb-10 flex justify-center">
           <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 sm:gap-6 bg-white px-4 py-3 sm:px-8 sm:py-5 rounded-full shadow-lg border border-gray-100">
             <img src={trustpilotLogo} alt="Trustpilot" className="h-6 sm:h-10 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
@@ -66,7 +66,7 @@ export default function Home() {
             <span className="text-brand-dark text-sm sm:text-xl font-black">5/5</span>
           </a>
         </div>
-        <div className="flex flex-col sm:flex-row justify-start gap-3 sm:gap-4 mb-8 sm:mb-12 w-full">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-8 sm:mb-12 w-full">
           <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 border-0 rounded-full w-full sm:w-auto h-12 sm:h-14 shadow-lg">
             {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
           </Button>
@@ -126,11 +126,11 @@ export default function Home() {
               { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
               { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
             ].map((step, i) => (
-              <div key={i} className="flex gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
+              <div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
                 <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
                   {step.num}
                 </div>
-                <div className="pt-1 sm:pt-2 text-left">
+                <div className="pt-1 sm:pt-2 text-center">
                   <p className="font-black uppercase tracking-tight text-lg sm:text-2xl text-brand-dark mb-1">{step.title}</p>
                   <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">{step.text}</p>
                 </div>

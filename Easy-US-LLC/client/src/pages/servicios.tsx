@@ -95,7 +95,7 @@ export default function Servicios() {
   };
 
   return (
-    <div className="min-h-screen font-sans bg-white text-left">
+    <div className="min-h-screen font-sans bg-white text-center">
       <Navbar />
       
       <HeroSection 
@@ -127,7 +127,7 @@ export default function Servicios() {
               { title: "Registered Agent 12 meses", desc: "Contratamos y pagamos tu Registered Agent oficial en el estado durante el primer año completo. Tu dirección legal en USA." },
               { title: "Soporte y Orientación", desc: "Te ayudamos con bancos, procesadores y dudas durante todo el proceso de constitución." },
             ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98]">
+              <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98] text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
                 <p className="text-[10px] sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
@@ -173,7 +173,7 @@ export default function Servicios() {
                     "BOI Report presentado",
                     "Soporte completo 12 meses y Servicio Express"
                   ].map((f) => (
-                    <p key={f} className="flex items-center gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
@@ -219,7 +219,7 @@ export default function Servicios() {
                     "BOI Report presentado",
                     "Soporte completo 12 meses y Servicio Express"
                   ].map((f) => (
-                    <p key={f} className="flex items-center gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
@@ -265,7 +265,7 @@ export default function Servicios() {
                     "BOI Report presentado",
                     "Soporte completo 12 meses y Servicio Express"
                   ].map((f) => (
-                    <p key={f} className="flex items-center gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
@@ -585,11 +585,11 @@ function ComoTrabajamos() {
             { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
             { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
           ].map((step, i) => (
-            <div key={i} className="flex gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
+            <div key={i} className="flex flex-col items-center gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
               <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
                 {step.num}
               </div>
-              <div className="pt-1 sm:pt-2 text-left">
+              <div className="pt-1 sm:pt-2 text-center">
                 <p className="font-black uppercase tracking-tight text-lg sm:text-2xl text-brand-dark mb-1">{step.title}</p>
                 <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">{step.text}</p>
               </div>
