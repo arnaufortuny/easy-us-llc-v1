@@ -18,12 +18,13 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-12 pb-8 sm:pt-24 sm:pb-24 lg:pt-32 lg:pb-32 bg-primary ${className}`}
+      className={`relative overflow-hidden pt-12 pb-8 sm:pt-24 sm:pb-24 lg:pt-32 lg:pb-32 bg-white ${className}`}
       style={{
         backgroundImage: `url(${heroBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: 'white'
       }}
     >
       {showOverlay && (
