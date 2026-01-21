@@ -107,18 +107,32 @@ export default function Home() {
         </div>
       </section>
       <section className="bg-white py-16 sm:py-24 border-t border-brand-lime/10">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight">¿NECESITAS AYUDA?</h2>
-          <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-xl mx-auto">Estamos aquí para resolver todas tus dudas.</p>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-              <Button size="lg" className="bg-brand-lime text-brand-dark font-black text-base px-8 border-0 w-full rounded-full h-14 shadow-lg hover:bg-brand-lime/90 flex items-center justify-center gap-2">
-                Envíanos un WhatsApp
+        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+          <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark mb-4 uppercase tracking-tight">
+              ¿NECESITAS AYUDA?
+            </h2>
+            <p className="text-muted-foreground text-base sm:text-lg mb-8 max-w-xl text-center mx-auto">
+              Estamos aquí para resolver todas tus dudas. Contáctanos sin compromiso o consulta nuestro asistente virtual.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-4 w-full">
+              <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
+                <Button 
+                  size="lg"
+                  className="bg-brand-lime text-brand-dark font-black text-base px-8 border-0 w-full rounded-full h-14 shadow-lg hover:bg-brand-lime/90 active:bg-brand-lime transition-all flex items-center justify-center gap-2"
+                >
+                  Envíanos un WhatsApp
+                </Button>
+              </a>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot'))} 
+                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white transition-all"
+              >
+                Nuestro Asistente 24/7
               </Button>
-            </a>
-            <Button size="lg" variant="outline" onClick={() => window.dispatchEvent(new CustomEvent('open-chatbot'))} className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white">
-              Nuestro Asistente 24/7
-            </Button>
+            </div>
           </div>
         </div>
       </section>
