@@ -17,7 +17,7 @@ export default function Legal() {
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl text-white/90 font-medium max-w-2xl">
+          <p className="text-lg sm:text-xl text-white/90 font-medium max-w-2xl mb-12 sm:mb-20">
             Fortuny Consulting LLC - 20 de enero de 2026
           </p>
         }

@@ -86,7 +86,11 @@ export default function Consulta() {
       {/* Hero */}
       <HeroSection 
         title="Consulta tu Solicitud"
-        subtitle="Ingresa tu código de solicitud para ver el estado de tu LLC"
+        subtitle={
+          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
+            Ingresa tu código de solicitud para ver el estado de tu LLC
+          </p>
+        }
       />
 
       {/* Search Form */}
