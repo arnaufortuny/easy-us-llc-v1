@@ -79,10 +79,11 @@ export default function Home() {
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-16 sm:mb-20">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">VENTAJAS</span>
               Ventajas fiscales
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-xl sm:text-2xl mt-1 sm:mt-2">
-              Te ayudamos a optimizar tu estructura
+            <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2">
+              (Te ayudamos a optimizar tu estructura)
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
@@ -113,14 +114,15 @@ export default function Home() {
             <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2">PROCESO</span>
             Cómo Trabajamos
           </h2>
-          <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-12 sm:mb-20">(En 5 simples pasos)</p>
+          <p className="text-center text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 mb-12 sm:mb-20">(En 6 simples pasos)</p>
           <div className="max-w-3xl mx-auto">
             {[
-              { num: "1", title: "Eliges estado y pagas", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
-              { num: "2", title: "Formulario rápido", text: "5 minutos. Datos básicos de tu LLC." },
-              { num: "3", title: "Envías foto ID", text: "DNI o pasaporte. Foto con móvil." },
-              { num: "4", title: "Tramitamos todo", text: "Gobierno, EIN, documentos, BOI Report." },
-              { num: "5", title: "Recibes tu LLC", text: "En 2-3 días hábiles todo en tu email." },
+              { num: "1", title: "Elige en que estado constituir tu LLC", text: "New Mexico, Wyoming o Delaware. Pago seguro." },
+              { num: "2", title: "Unas preguntas rapidas y esenciales", text: "5 minutos. Datos básicos de tu LLC." },
+              { num: "3", title: "Foto de tu dni o pasaporte", text: "DNI o pasaporte. Foto con móvil." },
+              { num: "4", title: "Tramitamos la constitución", text: "Secretario de Estado, EIN, todos los documentos." },
+              { num: "5", title: "Recibes tu documentación", text: "En 2-3 días hábiles todo en tu email." },
+              { num: "6", title: "Te ayudamos a abrir pasarelas y cuentas bancarias", text: "Acompañamiento en Mercury, Relay y Stripe." },
             ].map((step, i) => (
               <div key={i} className="flex gap-4 sm:gap-6 mb-6 sm:mb-10 last:mb-0">
                 <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 bg-brand-lime rounded-full flex items-center justify-center text-brand-dark font-black text-lg sm:text-2xl shadow-md">
