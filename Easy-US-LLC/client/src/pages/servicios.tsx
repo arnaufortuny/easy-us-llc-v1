@@ -35,6 +35,19 @@ export default function Servicios() {
   const wyProduct = products?.find(p => p.name.includes("Wyoming"));
   const deProduct = products?.find(p => p.name.includes("Delaware"));
 
+  const packFeatures = [
+    "Tasas del estado pagadas",
+    "Registered Agent (12 meses)",
+    "Articles of Organization",
+    "Operating Agreement",
+    "EIN del IRS",
+    "BOI Report presentado",
+    "Dirección nuestra",
+    "Asistencia con bancos",
+    "Soporte completo 12 meses",
+    "Servicio Express"
+  ];
+
   const faqCategories = [
     {
       title: "Sobre el Servicio",
@@ -102,7 +115,7 @@ export default function Servicios() {
         className="pt-24 sm:pt-32 lg:pt-40"
         title={<h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white uppercase tracking-tight leading-[1.1]">Nuestros <span className="text-brand-lime">Servicios</span></h1>}
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl">
+          <p className="text-lg sm:text-xl lg:text-2xl text-white/90 font-medium leading-relaxed max-w-2xl mx-auto">
             Constituimos tu LLC en Estados Unidos de forma simple, rápida y transparente.
           </p>
         }
@@ -122,7 +135,7 @@ export default function Servicios() {
             {[
               { title: "Tramitación completa ante el gobierno", desc: "Preparamos y presentamos electrónicamente tus Articles of Organization ante el Secretary of State. Gestionamos todo el proceso oficial." },
               { title: "Obtención de EIN ante el IRS", desc: "Solicitamos y obtenemos tu Employer Identification Number (número fiscal) directamente ante el Internal Revenue Service." },
-              { title: "Operating Agreement profesional", desc: "Redactamos tu contrato interno completo que regula funcionamiento de tu LLC. Documento legal imprescindible para bancos." },
+              { title: "Operating Agreement", desc: "Redactamos tu contrato interno completo que regula funcionamiento de tu LLC. Documento legal imprescindible para bancos." },
               { title: "Presentación BOI Report ante FinCEN", desc: "Preparamos y presentamos tu Beneficial Ownership Information Report ante Financial Crimes Enforcement Network. Obligatorio federal desde 2024." },
               { title: "Registered Agent 12 meses", desc: "Contratamos y pagamos tu Registered Agent oficial en el estado durante el primer año completo. Tu dirección legal en USA." },
               { title: "Soporte y Orientación", desc: "Te ayudamos con bancos, procesadores y dudas durante todo el proceso de constitución." },
@@ -164,15 +177,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </p>
                 <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization oficiales",
-                    "Operating Agreement profesional",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Soporte completo 12 meses y Servicio Express"
-                  ].map((f) => (
+                  {packFeatures.map((f) => (
                     <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
@@ -210,15 +215,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </p>
                 <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization oficiales",
-                    "Operating Agreement profesional",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Soporte completo 12 meses y Servicio Express"
-                  ].map((f) => (
+                  {packFeatures.map((f) => (
                     <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
@@ -256,15 +253,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </p>
                 <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm mb-8 sm:mb-10 border-t border-brand-lime/10 pt-4 sm:pt-6">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization oficiales",
-                    "Operating Agreement profesional",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Soporte completo 12 meses y Servicio Express"
-                  ].map((f) => (
+                  {packFeatures.map((f) => (
                     <p key={f} className="flex items-center justify-center gap-2 sm:gap-3 text-brand-dark/80 font-medium">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
@@ -307,7 +296,7 @@ export default function Servicios() {
               { title: "Recordatorios y alertas", desc: "Te avisamos con antelación de deadlines importantes y renovaciones pendientes." },
               { title: "Soporte continuado", desc: "Email y WhatsApp para consultas sobre obligaciones, uso de LLC y renovaciones." },
             ].map((service, i) => (
-              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-4 sm:p-6">
+              <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-4 sm:p-6 text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2 sm:mb-3">{service.title}</p>
                 <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
@@ -428,13 +417,13 @@ export default function Servicios() {
                 </Button>
               </a>
               <Button 
-                size="lg"
-                variant="outline"
+                size="lg" 
+                variant="outline" 
                 onClick={() => {
                   const event = new CustomEvent('open-chatbot');
                   window.dispatchEvent(event);
-                }}
-                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white transition-colors"
+                }} 
+                className="border-brand-dark text-brand-dark font-black text-base px-8 w-full sm:w-auto rounded-full h-14 hover:bg-brand-dark hover:text-white transition-all"
               >
                 Nuestro Asistente 24/7
               </Button>
@@ -466,7 +455,7 @@ function AsistenciaBancaria() {
             { title: "Revisión de solicitud", desc: "Revisamos tu aplicación antes de enviar." },
             { title: "Soporte durante proceso", desc: "Respondemos dudas hasta que cuenta esté aprobada." },
           ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5">
+            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
               <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
@@ -524,7 +513,7 @@ function ServiciosAdicionales() {
             { title: "Enmiendas a la LLC", desc: "Cambio de nombre, adición de miembros o actualización de datos." },
             { title: "Disolución de LLC", desc: "Cierre oficial y ordenado de tu estructura americana." },
           ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6">
+            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
               <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
@@ -554,7 +543,7 @@ function Soporte() {
             { title: "Guía de bienvenida", desc: "Manual completo sobre cómo usar y mantener tu LLC." },
             { title: "Alertas de plazos", desc: "Te avisamos de todas las obligaciones para que no olvides nada." },
           ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm">
+            <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
               <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
             </div>
@@ -621,7 +610,7 @@ function PorQueEasyUSLLC() {
             { title: "Especialistas", desc: "Somos profesionales ayudando a emprendedores digitales." },
             { title: "Soporte Humano", desc: "Hablamos tu idioma. Atención por WhatsApp y email." },
           ].map((feature, i) => (
-            <div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 hover:bg-brand-lime/10 transition-colors">
+            <div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 hover:bg-brand-lime/10 transition-colors text-center">
               <p className="font-bold text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
             </div>
