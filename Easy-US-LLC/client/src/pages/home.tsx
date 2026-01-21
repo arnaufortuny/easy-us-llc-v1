@@ -32,39 +32,39 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         title={
-          <h1 className="font-black uppercase tracking-tighter text-white mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(32px, 5vw, 72px)', lineHeight: '1' }}>
+          <h1 className="font-black uppercase tracking-tighter text-white mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(28px, 6vw, 72px)', lineHeight: '1.1' }}>
             REDUCIMOS TU CARGA FISCAL<br />
             <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
           </h1>
         }
         subtitle={
-          <p className="text-base sm:text-xl text-white/90 font-medium max-w-3xl mb-10 leading-relaxed text-left">
+          <p className="text-sm sm:text-xl text-white/90 font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
-        <div className="hidden sm:flex flex-wrap justify-start gap-2 sm:gap-4 mb-8 sm:mb-10 w-full max-w-full overflow-hidden">
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base shadow-md whitespace-nowrap">
+        <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-6 sm:mb-10 w-full max-w-full overflow-hidden">
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             LLC + EIN en 3 días
           </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Gestión documental completa
           </span>
-          <span className="inline-flex items-center px-3 py-1.5 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Tarjeta internacional
           </span>
         </div>
-        <div className="mb-8 sm:mb-10 flex justify-start">
-          <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 sm:gap-6 bg-white px-4 py-3 sm:px-8 sm:py-5 rounded-full shadow-lg border border-gray-100">
-            <img src={trustpilotLogo} alt="Trustpilot" className="h-6 sm:h-10 w-auto" />
+        <div className="mb-6 sm:mb-10 flex justify-start">
+          <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 sm:gap-6 bg-white px-3 py-2 sm:px-8 sm:py-5 rounded-full shadow-lg border border-gray-100">
+            <img src={trustpilotLogo} alt="Trustpilot" className="h-5 sm:h-10 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
               {[1,2,3,4,5].map((star) => (
-                <svg key={star} className="w-4 h-4 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="#00b67a">
+                <svg key={star} className="w-3 h-3 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="#00b67a">
                   <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                 </svg>
               ))}
             </div>
-            <span className="text-brand-dark text-sm sm:text-xl font-black">5/5</span>
+            <span className="text-brand-dark text-xs sm:text-xl font-black">5/5</span>
           </a>
         </div>
         <div className="flex flex-col sm:flex-row justify-start gap-3 sm:gap-4 mb-8 sm:mb-12 w-full">
