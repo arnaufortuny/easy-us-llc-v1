@@ -804,6 +804,7 @@ export default function ApplicationWizard() {
             </div>
           </motion.div>
         )}
+        </div>
       </main>
 
       <HelpSection />
