@@ -57,14 +57,14 @@ export function NewsletterSection() {
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="max-w-sm w-full mx-auto relative group flex flex-col items-center">
+          <form onSubmit={handleSubscribe} className="max-w-sm w-full mx-auto relative group flex flex-col items-center text-center">
             <div className="relative w-full">
               <Input 
                 type="email" 
                 placeholder="Tu correo electrónico" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 pl-5 pr-12 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/20 text-sm font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl w-full"
+                className="h-12 pl-5 pr-12 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/20 text-sm font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl w-full text-center"
                 required
               />
               <Button 
