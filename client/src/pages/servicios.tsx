@@ -296,7 +296,7 @@ export default function Servicios() {
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
                 </Button>
@@ -312,7 +312,6 @@ export default function Servicios() {
       {/* 3. Banca & Mantenimiento (Unified Section) */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="bancos">
         <div className="w-full px-5 sm:px-8">
-          {/* Bancos Sub-section */}
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
@@ -339,7 +338,6 @@ export default function Servicios() {
 
           <div className="border-t border-brand-dark/5 w-full max-w-7xl mx-auto mb-12" />
 
-          {/* Mantenimiento Sub-section */}
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
@@ -353,8 +351,8 @@ export default function Servicios() {
               { state: "Wyoming", price: "499€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
-                <div className="p-5 sm:p-8 flex-grow text-center">
+              <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group text-center">
+                <div className="p-5 sm:p-8 flex-grow">
                   <div className="flex justify-between items-start mb-4">
                     <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
                     <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Mantenimiento</span>
@@ -377,7 +375,7 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-8 pt-0">
-                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto whitespace-normal leading-tight">
+                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto">
                     Contratar Mantenimiento
                   </Button>
                 </div>
