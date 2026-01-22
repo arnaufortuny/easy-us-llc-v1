@@ -60,7 +60,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             {/* Trustpilot above title for mobile, hidden on PC */}
-            <motion.div className="mb-10 sm:hidden flex justify-center mt-6" variants={fadeIn}>
+            <motion.div className="mb-4 sm:hidden flex justify-center mt-6" variants={fadeIn}>
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
                 <div className="flex gap-1">
@@ -76,7 +76,7 @@ export default function Home() {
 
             <motion.h1 
               className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.85' }}
+              style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
               Optimiza la estructura fiscal de tu negocio digital<br />
@@ -92,7 +92,7 @@ export default function Home() {
             variants={staggerContainer}
           >
             <motion.p 
-              className="text-[13px] sm:text-base text-brand-dark font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
+              className="text-[14px] sm:text-base text-brand-dark font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
               variants={fadeIn}
             >
               Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional. <br />
