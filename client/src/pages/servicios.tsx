@@ -684,15 +684,7 @@ export default function Servicios() {
               </motion.div>
             ))}
             
-            <motion.div className="pt-8 flex justify-center" variants={fadeIn}>
-              <Link href="/faq" className="w-full sm:w-auto px-4 sm:px-0">
-                <Button 
-                  className="bg-brand-lime text-brand-dark font-black text-[10px] sm:text-base px-6 sm:px-10 w-full sm:w-auto rounded-full h-12 sm:h-14 hover:bg-brand-lime/90 transition-all uppercase tracking-widest shadow-lg whitespace-normal sm:whitespace-nowrap leading-tight sm:leading-normal py-2 sm:py-0 border-0"
-                >
-                  Ver todas las preguntas frecuentes
-                </Button>
-              </Link>
-            </motion.div>
+            {/* Removed FAQ button as requested */}
           </motion.div>
         </div>
       </section>
@@ -731,16 +723,7 @@ export default function Servicios() {
               </motion.div>
             ))}
           </motion.div>
-          <div className="mt-16 text-center">
-            <Link href="/faq">
-              <Button 
-                variant="outline" 
-                className="border-brand-dark text-brand-dark font-black px-10 py-6 rounded-full text-lg hover:bg-brand-dark/5"
-              >
-                Ver todas las preguntas frecuentes (FAQ)
-              </Button>
-            </Link>
-          </div>
+          {/* Removed redundant FAQ button from Soporte section as well */}
         </div>
       </section>
 
