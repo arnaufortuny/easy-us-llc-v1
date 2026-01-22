@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, users } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getWelcomeEmailTemplate, getOtpEmailTemplate } from "./lib/email";
+import { sendEmail, getWelcomeEmailTemplate, getOtpEmailTemplate, getConfirmationEmailTemplate } from "./lib/email";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -122,6 +122,20 @@ export async function registerRoutes(
       }
 
       const updatedApp = await storage.updateLlcApplication(appId, updates);
+      
+      // If status is being updated to "submitted", send confirmation email
+      if (updates.status === "submitted" && updatedApp.ownerEmail) {
+        sendEmail({
+          to: updatedApp.ownerEmail,
+          subject: `Confirmación de Solicitud - ${updatedApp.requestCode}`,
+          html: getConfirmationEmailTemplate(
+            updatedApp.ownerFullName || "Cliente",
+            updatedApp.requestCode || "N/A",
+            updatedApp
+          ),
+        }).catch(err => console.error("Error sending confirmation email:", err));
+      }
+
       res.json(updatedApp);
     } catch (err) {
       if (err instanceof z.ZodError) {

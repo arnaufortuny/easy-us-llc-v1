@@ -47,23 +47,49 @@ export function getOtpEmailTemplate(otp: string) {
   `;
 }
 
-export function getWelcomeEmailTemplate(name: string) {
+export function getConfirmationEmailTemplate(name: string, requestCode: string, details: any) {
   return `
-    <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px;">
-      <h2 style="color: #333;">¡Bienvenido a Easy US LLC, ${name}!</h2>
-      <p>Estamos encantados de acompañarte en la creación de tu empresa en Estados Unidos.</p>
-      <p>Nuestro equipo ya está revisando tu solicitud y nos pondremos en contacto contigo muy pronto para los siguientes pasos.</p>
-      <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin: 20px 0;">
-        <h3 style="margin-top: 0;">¿Qué sigue ahora?</h3>
-        <ol>
-          <li>Revisión de tu información básica.</li>
-          <li>Verificación de identidad (DNI o Pasaporte).</li>
-          <li>Inicio del proceso de constitución oficial.</li>
-        </ol>
+    <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; color: #1a1a1a;">
+      <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="color: #b6ff40; margin: 0; font-size: 28px; text-transform: uppercase;">Easy US LLC</h1>
+        <p style="color: #666; font-size: 14px;">Confirmación de Solicitud</p>
       </div>
-      <p>Si tienes alguna duda inmediata, puedes escribirnos por WhatsApp.</p>
-      <p style="color: #888; font-size: 12px; margin-top: 30px;">
-        Este es un message automático de Easy US LLC.
+      
+      <h2 style="font-size: 20px; margin-bottom: 20px;">¡Hola ${name}!</h2>
+      <p style="line-height: 1.6;">Hemos recibido correctamente toda la información para la constitución de tu nueva LLC. Nuestro equipo de expertos comenzará la revisión técnica de inmediato.</p>
+      
+      <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin: 25px 0; border: 1px solid #eee;">
+        <p style="margin: 0 0 10px 0; font-weight: bold; color: #666; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Número de Solicitud</p>
+        <p style="margin: 0; font-size: 24px; font-weight: 900; color: #1a1a1a;">${requestCode}</p>
+      </div>
+
+      <h3 style="font-size: 16px; border-bottom: 2px solid #b6ff40; padding-bottom: 8px; margin-top: 30px;">Detalles de la Solicitud:</h3>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+        <tr>
+          <td style="padding: 8px 0; color: #666; width: 40%;">Empresa (Opción 1):</td>
+          <td style="padding: 8px 0; font-weight: bold;">${details.companyName} ${details.designator}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; color: #666;">Estado de formación:</td>
+          <td style="padding: 8px 0; font-weight: bold;">${details.state}</td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; color: #666;">Categoría:</td>
+          <td style="padding: 8px 0; font-weight: bold;">${details.businessCategory}</td>
+        </tr>
+      </table>
+
+      <div style="margin-top: 40px; padding: 20px; background: #1a1a1a; color: #fff; border-radius: 12px;">
+        <h4 style="margin: 0 0 10px 0; color: #b6ff40;">¿Qué sucede ahora?</h4>
+        <ul style="margin: 0; padding-left: 20px; line-height: 1.6; font-size: 14px;">
+          <li>Revisaremos que los nombres elegidos estén disponibles.</li>
+          <li>Prepararemos los Articles of Organization para su presentación.</li>
+          <li>Te contactaremos si necesitamos alguna aclaración adicional.</li>
+        </ul>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 14px; text-align: center; color: #666;">
+        Si tienes cualquier duda, recuerda que tienes soporte prioritario vía WhatsApp.
       </p>
     </div>
   `;
