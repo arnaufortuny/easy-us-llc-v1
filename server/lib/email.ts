@@ -3,13 +3,16 @@ import nodemailer from "nodemailer";
 // Configuración de transporte
 // Nota: El usuario deberá configurar las variables de entorno SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS
 const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST || "smtp.example.com",
+  host: process.env.SMTP_HOST || "smtp.ionos.com",
   port: parseInt(process.env.SMTP_PORT || "587"),
   secure: process.env.SMTP_PORT === "465",
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  tls: {
+    rejectUnauthorized: false
+  }
 });
 
 export async function sendEmail({ to, subject, html }: { to: string, subject: string, html: string }) {
