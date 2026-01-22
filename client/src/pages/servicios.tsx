@@ -381,9 +381,9 @@ export default function Servicios() {
               { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
-              <motion.div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
-                <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
+                <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
           </motion.div>
