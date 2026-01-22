@@ -153,7 +153,7 @@ export default function FAQ() {
         }
         subtitle={
           <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
-            Resolvimos tus dudas sobre LLCs.
+            Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
           </p>
         }
       />
