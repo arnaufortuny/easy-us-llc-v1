@@ -351,31 +351,31 @@ export default function Servicios() {
               { state: "Wyoming", price: "499€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group text-center">
-                <div className="p-5 sm:p-8 flex-grow">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
-                    <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Mantenimiento</span>
+              <div key={i} className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center">
+                <div className="p-4 sm:p-6 flex-grow text-center">
+                  <div className="flex justify-between items-start mb-2 sm:mb-3">
+                    <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
+                    <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Mantenimiento</span>
                   </div>
-                  <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <p className="text-4xl sm:text-5xl font-black text-brand-dark">{item.price}</p>
-                    <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año</span>
+                  <div className="flex items-baseline justify-center gap-1 mb-1">
+                    <p className="text-3xl sm:text-4xl font-black text-brand-dark">{item.price}</p>
+                    <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año</span>
                   </div>
-                  <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center justify-center gap-1.5">
-                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                  <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
+                    <span className="w-1 h-1 rounded-full bg-brand-lime" />
                     Tasas estatales incluidas
                   </p>
-                  <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                  <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
                     {maintenanceFeatures.map((f) => (
-                      <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left leading-tight">
+                      <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                         <span className="text-brand-lime font-black">✓</span> 
                         <span>{f}</span>
                       </p>
                     ))}
                   </div>
                 </div>
-                <div className="p-5 sm:p-8 pt-0">
-                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto">
+                <div className="p-4 sm:p-6 pt-0">
+                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11">
                     Contratar Mantenimiento
                   </Button>
                 </div>
