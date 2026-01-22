@@ -199,22 +199,34 @@ export default function ApplicationWizard() {
 
           <div className="bg-white rounded-[3rem] shadow-2xl shadow-black/5 border border-gray-100 overflow-hidden mb-20">
             <div className="p-8 md:p-14">
-              {/* Paso 1 2 3 4 en horizontal - eslabones redondos adaptados */}
-              <div className="flex justify-between items-center mb-10 relative max-w-sm mx-auto">
-                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gray-100 -translate-y-1/2 z-0" />
-                <div 
-                  className="absolute top-1/2 left-0 h-[1px] bg-brand-lime -translate-y-1/2 z-0 transition-all duration-700 ease-in-out" 
-                  style={{ width: `${(step / 3) * 100}%` }} 
-                />
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="relative z-10 flex flex-col items-center">
-                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-black text-[10px] md:text-xs transition-all duration-500 border-2 ${
-                      step >= i - 1 
-                        ? 'bg-brand-lime border-brand-lime text-brand-dark scale-105 shadow-[0_0_15px_rgba(217,255,0,0.3)]' 
-                        : 'bg-white border-gray-100 text-gray-300'
+              {/* Vertical Step Indicator - Eslabones en casillas de arriba a abajo */}
+              <div className="flex flex-col gap-4 mb-12 max-w-xs mx-auto">
+                {[
+                  { n: 1, label: "Datos Personales" },
+                  { n: 2, label: "Tu Nueva LLC" },
+                  { n: 3, label: "Verificación" },
+                  { n: 4, label: "Revisión Final" }
+                ].map((s, i) => (
+                  <div 
+                    key={s.n} 
+                    className={`flex items-center gap-4 p-3 rounded-2xl border-2 transition-all duration-500 ${
+                      step === i 
+                        ? 'bg-brand-lime/10 border-brand-lime shadow-[0_0_15px_rgba(217,255,0,0.2)]' 
+                        : step > i 
+                          ? 'bg-gray-50 border-gray-100 opacity-60' 
+                          : 'bg-white border-gray-50 opacity-40'
+                    }`}
+                  >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0 ${
+                      step >= i ? 'bg-brand-lime text-brand-dark' : 'bg-gray-100 text-gray-400'
                     }`}>
-                      {i}
+                      {step > i ? <Check className="w-4 h-4" /> : s.n}
                     </div>
+                    <span className={`text-[10px] uppercase font-black tracking-widest ${
+                      step >= i ? 'text-brand-dark' : 'text-gray-400'
+                    }`}>
+                      {s.label}
+                    </span>
                   </div>
                 ))}
               </div>
