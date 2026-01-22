@@ -10,6 +10,7 @@ import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -50,6 +51,8 @@ const staggerContainer = {
 
 export default function Servicios() {
   const [, setLocation] = useLocation();
+
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
@@ -626,26 +629,55 @@ export default function Servicios() {
             <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Resolvemos tus dudas principales)</motion.p>
           </motion.div>
 
-          <motion.div 
-            className="max-w-3xl mx-auto space-y-4"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+          <div className="max-w-4xl mx-auto space-y-4">
             {[
               { q: "¿Cuánto tiempo tarda en estar lista mi LLC?", a: "El proceso suele tardar entre 2 y 3 días hábiles en New Mexico y Wyoming, y hasta 5 días en Delaware." },
               { q: "¿Necesito viajar a EE. UU. para abrir mi LLC?", a: "No, todo el proceso se realiza de forma 100% online y remota." },
               { q: "¿Puedo abrir una cuenta bancaria desde mi país?", a: "Sí, te ayudamos a abrir cuentas en Mercury y Relay sin necesidad de viajar." }
             ].map((faq, i) => (
-              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10" variants={fadeIn}>
-                <p className="font-black uppercase text-brand-dark mb-2 text-sm sm:text-lg">{faq.q}</p>
-                <p className="text-muted-foreground text-xs sm:text-base leading-relaxed">{faq.a}</p>
+              <motion.div 
+                key={i}
+                className={`border-2 rounded-2xl overflow-hidden bg-white shadow-lg transition-all duration-300 ${openFaq === i ? "border-brand-lime" : "border-brand-dark/5"}`}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.1 }}
+                viewport={{ once: true }}
+              >
+                <button 
+                  className="w-full p-6 sm:p-8 flex items-center justify-between text-left transition-colors hover:bg-brand-dark/[0.02]"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                >
+                  <span className="text-lg sm:text-xl font-black uppercase tracking-tight text-brand-dark">
+                    {faq.q}
+                  </span>
+                  <motion.div
+                    animate={{ rotate: openFaq === i ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className={`w-6 h-6 ${openFaq === i ? "text-brand-lime" : "text-brand-dark"}`} />
+                  </motion.div>
+                </button>
+                <AnimatePresence>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                    >
+                      <div className="px-6 pb-6 sm:px-8 sm:pb-8 pt-0">
+                        <div className="border-t border-brand-dark/10 pt-6">
+                          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed font-medium">
+                            {faq.a}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
-            
-            {/* Removed FAQ button as requested */}
-          </motion.div>
+          </div>
         </div>
       </section>
 
