@@ -25,7 +25,11 @@ export function NewsletterSection() {
       const data = await response.json();
 
       if (response.ok) {
-        toast({ title: "¡Suscrito!", description: "Revisa tu bandeja de entrada." });
+        toast({ 
+          title: "¡Suscrito!", 
+          description: "Revisa tu bandeja de entrada.",
+          variant: "success"
+        });
         setEmail("");
       } else {
         toast({ title: "Error", description: data.message || "No se pudo completar la suscripción.", variant: "destructive" });
