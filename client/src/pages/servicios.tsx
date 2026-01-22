@@ -173,33 +173,19 @@ export default function Servicios() {
           </h1>
         }
         subtitle={
-          <motion.div 
-            className="flex flex-col items-center"
-            initial="initial"
-            animate="animate"
-            variants={staggerContainer}
-          >
-            <motion.p 
-              className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2"
-              variants={fadeIn}
+            <motion.div 
+              className="flex flex-col items-center"
+              initial="initial"
+              animate="animate"
+              variants={staggerContainer}
             >
-              Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-            </motion.p>
-            <motion.div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 w-full max-w-lg mx-auto" variants={fadeIn}>
-              <Button 
-                size="lg" 
-                className="bg-brand-lime text-brand-dark font-black px-10 h-14 rounded-full text-lg shadow-lg hover:shadow-brand-lime/20 transition-all hover:scale-105 active:scale-95 w-full sm:w-auto"
-                onClick={() => {
-                  const element = document.getElementById('pricing');
-                  if (element) {
-                    element.scrollIntoView({ behavior: 'smooth' });
-                  }
-                }}
+              <motion.p 
+                className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2"
+                variants={fadeIn}
               >
-                VER PRECIOS
-              </Button>
+                Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
+              </motion.p>
             </motion.div>
-          </motion.div>
         }
       />
 
