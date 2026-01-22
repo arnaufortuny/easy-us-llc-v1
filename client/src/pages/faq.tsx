@@ -144,34 +144,34 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-32 lg:pt-40 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center mb-2">
             PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
             Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
           </p>
         }
       />
 
-      <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5">
+      <section className="py-4 sm:py-20 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <motion.div 
-            className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center"
+            className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={staggerContainer}
           >
             <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">FAQ</span>
+              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
