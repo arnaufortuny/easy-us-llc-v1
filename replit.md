@@ -1,88 +1,28 @@
-# Easy US LLC - Replit Agent Guide
+# Easy US LLC - Project Overview
 
-## Overview
+## Description
+Easy US LLC is a business formation service for Spanish-speaking entrepreneurs looking to establish LLCs in the United States (New Mexico, Wyoming, Delaware).
 
-Easy US LLC is a full-stack web application for a business formation service that helps users create LLCs (Limited Liability Companies) in the United States. The platform targets Spanish-speaking entrepreneurs looking to establish US-based companies, offering packages for New Mexico, Wyoming, and Delaware formations.
+## Design System
+- **Colors**: Pure white background, brand-lime (#d9ff00) accents.
+- **Typography**: Inter for titles, Sans-serif for body.
+- **Animations**: Framer Motion (fadeIn, staggerContainer).
 
-The application handles the complete LLC formation workflow: product selection, order creation, application form completion with document uploads, and status tracking. It integrates with Stripe for payments and uses Replit Auth for user authentication.
+## Key Features
+- LLC formation in 3 states.
+- Banking assistance (Mercury, Relay).
+- Annual maintenance services.
+- Multilingual support (Spanish focus).
 
-## User Preferences
+## Project Structure
+- `client/src/pages/`: Main application pages (Home, Servicios, FAQ, Contacto).
+- `client/src/components/layout/`: Shared layout components (Navbar, Footer, HeroSection, Newsletter).
+- `shared/schema.ts`: Drizzle database schema and Zod types.
+- `server/`: Express backend with Drizzle storage.
 
-Preferred communication style: Simple, everyday language.
-
-## System Architecture
-
-### Frontend Architecture
-- **Framework**: React 18 with TypeScript
-- **Routing**: Wouter (lightweight React router)
-- **State Management**: TanStack React Query for server state
-- **Styling**: Tailwind CSS with shadcn/ui component library
-- **Animations**: Framer Motion
-- **Build Tool**: Vite with custom path aliases (@/, @shared/, @assets/)
-
-The frontend follows a pages-based structure where each route corresponds to a page component. Components are organized into UI primitives (shadcn/ui), layout components, and feature-specific components.
-
-### Backend Architecture
-- **Framework**: Express.js with TypeScript
-- **Database ORM**: Drizzle ORM with PostgreSQL
-- **API Design**: RESTful endpoints defined in shared/routes.ts with Zod validation
-- **Session Management**: express-session with connect-pg-simple for PostgreSQL session storage
-
-The backend uses a storage abstraction layer (server/storage.ts) that implements database operations. This pattern allows for easier testing and potential future database swaps.
-
-### Data Storage
-- **Database**: PostgreSQL (provisioned via Replit)
-- **Schema Location**: shared/schema.ts using Drizzle ORM
-- **Migrations**: Managed via drizzle-kit with migrations stored in /migrations folder
-
-Key database tables:
-- `users` and `sessions` - Authentication (required for Replit Auth)
-- `products` - LLC packages with pricing
-- `orders` - Purchase records linked to users and products
-- `llc_applications` - Form data for LLC formation applications
-- `application_documents` - Uploaded document references
-
-### Authentication
-- **Provider**: Replit Auth (OpenID Connect)
-- **Implementation**: Passport.js with custom OIDC strategy
-- **Session Storage**: PostgreSQL via connect-pg-simple
-- **Protected Routes**: Uses `isAuthenticated` middleware for API endpoints requiring auth
-
-The auth system supports guest order creation - users can start an order without logging in, and a guest user record is created automatically.
-
-### Shared Code Pattern
-The `shared/` directory contains code used by both frontend and backend:
-- `schema.ts` - Database schemas and Zod validation schemas
-- `routes.ts` - API endpoint definitions with input/output types
-- `models/auth.ts` - User and session table definitions
-
-## External Dependencies
-
-### Payment Processing
-- **Stripe**: Payment processing integration (stripe package installed, checkout flow implemented)
-
-### Database
-- **PostgreSQL**: Primary database, connection via DATABASE_URL environment variable
-- **Drizzle ORM**: Type-safe database queries and schema management
-
-### Authentication
-- **Replit Auth**: OpenID Connect authentication via replit.com/oidc
-- Required environment variables: ISSUER_URL, REPL_ID, SESSION_SECRET
-
-### Email (Package Installed)
-- **Nodemailer**: Email sending capability (nodemailer package present)
-
-### AI Services (Packages Installed)
-- **OpenAI**: openai package installed
-- **Google Generative AI**: @google/generative-ai package installed
-
-### Third-Party Banking Partners (Referenced in UI)
-- Mercury Bank
-- Relay Financial
-
-These are mentioned in the chatbot and UI for user guidance about US banking options, not direct API integrations.
-
-### Build and Development
-- **Vite**: Frontend development server and build tool
-- **esbuild**: Server bundling for production
-- **tsx**: TypeScript execution for development
+## Recent Changes
+- Standardized Hero sections on mobile (pt-32, min-h-[450px]).
+- Implemented Framer Motion animations across all main pages.
+- Standardized Section 1 formatting across all pages.
+- Added Newsletter section globally.
+- Cleaned up unused components (CookieBanner).

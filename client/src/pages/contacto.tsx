@@ -5,6 +5,21 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { HelpSection } from "@/components/layout/help-section";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import heroBg from "@/assets/hero-bg.png";
+import { motion } from "framer-motion";
+
+const fadeIn = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  animate: {
+    transition: {
+      staggerChildren: 0.1
+    }
+  }
+};
 
 export default function Contacto() {
   return (
@@ -26,17 +41,29 @@ export default function Contacto() {
       />
       <section className="py-8 sm:py-20 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+          <motion.div 
+            className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">CONTACTO</span>
               Vías de comunicación
-            </h2>
-            <p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Estamos para ayudarte)</p>
-          </div>
+            </motion.h2>
+            <motion.p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Estamos para ayudarte)</motion.p>
+          </motion.div>
           
-          <div className="max-w-4xl mx-auto">
+          <motion.div 
+            className="max-w-4xl mx-auto"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
             <div className="grid md:grid-cols-2 gap-12">
-              <div className="space-y-8">
+              <motion.div className="space-y-8" variants={fadeIn}>
                 <div className="space-y-6">
                   <a href="mailto:info@easyusallc.com" className="group flex items-start gap-4 p-6 bg-brand-lime/5 border-l-4 border-brand-lime hover:bg-brand-lime/10 transition-colors">
                     <div className="w-12 h-12 rounded-full bg-brand-lime flex items-center justify-center flex-shrink-0 text-brand-dark">
@@ -57,13 +84,14 @@ export default function Contacto() {
                     </div>
                   </a>
                 </div>
-              </div>
-              <div 
+              </motion.div>
+              <motion.div 
                 className="flex flex-col justify-center p-8 sm:p-12 text-white bg-cover bg-center bg-no-repeat relative overflow-hidden rounded-2xl"
                 style={{ 
                   backgroundImage: `url(${heroBg})`,
                   backgroundColor: '#000000'
                 }}
+                variants={fadeIn}
               >
                 <div className="absolute inset-0 bg-black/40 z-0" />
                 <div className="relative z-10">
@@ -74,9 +102,9 @@ export default function Contacto() {
                     <p>Email & WhatsApp: 24 a 48h</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </section>
       <HelpSection />

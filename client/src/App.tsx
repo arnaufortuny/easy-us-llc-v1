@@ -16,8 +16,7 @@ import Cookies from "@/pages/legal/cookies";
 import Consulta from "@/pages/consulta";
 import Contacto from "@/pages/contacto";
 import FAQ from "@/pages/faq";
-import { CookieBanner } from "@/components/cookie-banner";
-
+// CookieBanner removed as requested
 function ScrollToTop() {
   const [location] = useLocation();
   
@@ -54,7 +53,6 @@ function App() {
         <ScrollToTop />
         <Toaster />
         <Router />
-        <CookieBanner />
       </TooltipProvider>
     </QueryClientProvider>
   );
