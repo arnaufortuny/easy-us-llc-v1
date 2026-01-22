@@ -146,123 +146,123 @@ export default function Servicios() {
             </p>
           </div>
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={staggerContainer}
           >
             {/* New Mexico */}
-            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group" variants={fadeIn}>
-              <div className="p-4 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-2 sm:mb-3">
-                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
-                  <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
+            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                  <h3 className="text-xl sm:text-xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
+                  <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">639€</p>
-                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
+                <div className="flex items-baseline justify-center gap-1 mb-2">
+                  <p className="text-4xl sm:text-4xl font-black text-brand-dark">639€</p>
+                  <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
+                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-brand-lime/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
-                      <span>{f}</span>
+                      <span className="text-xs sm:text-base">{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-4 sm:p-6 pt-0">
+              <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(nmProduct?.id || 1)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (nmProduct?.id || 1) ? "Procesando..." : "Elegir New Mexico"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 339€</p>
+              <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 339€</p>
               </div>
             </motion.div>
 
             {/* Wyoming */}
-            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group" variants={fadeIn}>
-              <div className="p-4 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-2 sm:mb-3">
-                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
-                  <span className="bg-brand-dark text-white text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
+            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                  <h3 className="text-xl sm:text-xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
+                  <span className="bg-brand-dark text-white text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">799€</p>
-                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
+                <div className="flex items-baseline justify-center gap-1 mb-2">
+                  <p className="text-4xl sm:text-4xl font-black text-brand-dark">799€</p>
+                  <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
+                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-brand-lime/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
-                      <span>{f}</span>
+                      <span className="text-xs sm:text-base">{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-4 sm:p-6 pt-0">
+              <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(wyProduct?.id || 2)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (wyProduct?.id || 2) ? "Procesando..." : "Elegir Wyoming"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 449€</p>
+              <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 449€</p>
               </div>
             </motion.div>
 
             {/* Delaware */}
-            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group" variants={fadeIn}>
-              <div className="p-4 sm:p-6 flex-grow text-center">
-                <div className="flex justify-between items-start mb-2 sm:mb-3">
-                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
-                  <span className="bg-brand-lime text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
+            <motion.div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+              <div className="p-5 sm:p-6 flex-grow text-center">
+                <div className="flex justify-between items-start mb-3 sm:mb-3">
+                  <h3 className="text-xl sm:text-xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
+                  <span className="bg-brand-lime text-brand-dark text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
                 </div>
-                <div className="flex items-baseline justify-center gap-1 mb-1">
-                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">999€</p>
-                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
+                <div className="flex items-baseline justify-center gap-1 mb-2">
+                  <p className="text-4xl sm:text-4xl font-black text-brand-dark">999€</p>
+                  <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
-                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
+                <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-brand-lime/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
+                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
-                      <span>{f}</span>
+                      <span className="text-xs sm:text-base">{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-4 sm:p-6 pt-0">
+              <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 599€</p>
+              <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 599€</p>
               </div>
             </motion.div>
           </motion.div>
@@ -330,7 +330,7 @@ export default function Servicios() {
             <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo incluido anualmente)</motion.p>
           </motion.div>
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
@@ -341,31 +341,31 @@ export default function Servicios() {
               { state: "Wyoming", price: "449€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <motion.div key={i} className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center" variants={fadeIn}>
-                <div className="p-4 sm:p-6 flex-grow text-center">
-                  <div className="flex justify-between items-start mb-2 sm:mb-3">
-                    <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
-                    <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Mantenimiento</span>
+              <motion.div key={i} className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+                <div className="p-5 sm:p-6 flex-grow text-center">
+                  <div className="flex justify-between items-start mb-3 sm:mb-3">
+                    <h3 className="text-xl sm:text-xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
+                    <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Mantenimiento</span>
                   </div>
-                  <div className="flex items-baseline justify-center gap-1 mb-1">
-                    <p className="text-3xl sm:text-4xl font-black text-brand-dark">{item.price}</p>
-                    <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año</span>
+                  <div className="flex items-baseline justify-center gap-1 mb-2">
+                    <p className="text-4xl sm:text-4xl font-black text-brand-dark">{item.price}</p>
+                    <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
-                  <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center justify-center gap-1">
-                    <span className="w-1 h-1 rounded-full bg-brand-lime" />
+                  <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-lime" />
                     Tasas estatales incluidas
                   </p>
-                  <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-brand-lime/10 pt-4 sm:pt-4">
                     {maintenanceFeatures.map((f) => (
-                      <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
+                      <p key={f} className="flex items-center justify-start gap-2 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                         <span className="text-brand-lime font-black">✓</span> 
-                        <span>{f}</span>
+                        <span className="text-xs sm:text-base">{f}</span>
                       </p>
                     ))}
                   </div>
                 </div>
-                <div className="p-4 sm:p-6 pt-0">
-                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11">
+                <div className="p-5 sm:p-6 pt-0">
+                  <Button className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-4 text-base sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11">
                     Contratar Mantenimiento
                   </Button>
                 </div>
