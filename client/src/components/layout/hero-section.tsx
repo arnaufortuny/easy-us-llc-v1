@@ -18,7 +18,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-10 pb-8 sm:pt-24 sm:pb-24 lg:pt-32 lg:pb-32 bg-white ${className}`}
+      className={`relative overflow-hidden pt-6 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 bg-white ${className}`}
     >
       {showOverlay && (
         <div className="absolute inset-0 z-1 bg-white/40" />

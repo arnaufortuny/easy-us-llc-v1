@@ -38,12 +38,12 @@ export default function Home() {
           </h1>
         }
         subtitle={
-          <p className="text-sm sm:text-xl text-brand-dark font-medium max-w-3xl mb-6 sm:mb-10 leading-relaxed text-left">
+          <p className="text-sm sm:text-lg text-brand-dark font-medium max-w-3xl mb-4 sm:mb-6 leading-relaxed text-left">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
-        <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-6 sm:mb-10 w-full max-w-full overflow-hidden">
+        <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-4 sm:mb-6 w-full max-w-full overflow-hidden">
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Tu LLC en 2 días
           </span>
@@ -63,7 +63,7 @@ export default function Home() {
             Tarjeta Física de Crédito y Débito
           </span>
         </div>
-        <div className="mb-6 sm:mb-10 flex justify-start">
+        <div className="mb-4 sm:mb-6 flex justify-start">
           <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 sm:gap-6 bg-white px-3 py-2 sm:px-8 sm:py-5 rounded-full shadow-lg border border-gray-100">
             <img src={trustpilotLogo} alt="Trustpilot" className="h-5 sm:h-10 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
@@ -76,7 +76,7 @@ export default function Home() {
             <span className="text-brand-dark text-xs sm:text-xl font-black">5/5</span>
           </a>
         </div>
-        <div className="flex flex-col sm:flex-row justify-start gap-3 sm:gap-4 mb-8 sm:mb-12 w-full">
+        <div className="flex flex-col sm:flex-row justify-start gap-3 sm:gap-4 mb-4 sm:mb-6 w-full">
           <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 border-0 rounded-full w-full sm:w-auto h-12 sm:h-14 shadow-lg">
             {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
           </Button>
