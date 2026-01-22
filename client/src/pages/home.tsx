@@ -32,7 +32,7 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-white">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-24 sm:pt-32"
+        className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16"
         title={
           <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" style={{ fontSize: 'clamp(28px, 6vw, 64px)', lineHeight: '0.95' }}>
             Optimiza la estructura fiscal de tu negocio digital<br />

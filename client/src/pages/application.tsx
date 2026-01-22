@@ -219,7 +219,7 @@ export default function ApplicationWizard() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-24 sm:pt-32 lg:pt-40"
+        className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
         title={
           <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-6 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] font-heading text-center" style={{ fontSize: 'clamp(32px, 6vw, 72px)', lineHeight: '1' }}>
             Vamos a constituir <span className="text-brand-lime">tu LLC</span>
