@@ -21,11 +21,8 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
-- Standardized Hero sections on mobile (pt-32, min-h-[450px]).
-- Implemented Framer Motion animations across all main pages.
-- Standardized Section 1 formatting across all pages.
-- Added Newsletter section globally.
-- Cleaned up unused components (CookieBanner).
-- Optimized system performance: removed temporary files (zip, logs, images).
-- Enhanced admin email logging with styled system templates.
-- Compacted FAQ mobile layouts for better UX.
+- Redesigned application wizard with a vertical flow (Steps 1-4) and a prominent "VAMOS A CONSTITUIR TU LLC" header.
+- Implemented a cleaner, more professional UI for the form with larger fields (h-20), rounded corners (rounded-3xl), and solid white backgrounds for all interactive elements.
+- Optimized system performance by removing temporary files and unused components.
+- Standardized Hero sections and Framer Motion animations across all main pages.
+- Enhanced global Newsletter and FAQ sections for better mobile UX.
