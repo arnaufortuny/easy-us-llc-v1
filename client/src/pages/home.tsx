@@ -98,7 +98,7 @@ export default function Home() {
           </div>
           <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
             {[
-              { badge: "IVA", title: "Eliminamos el IVA en tus servicios digitales", text: "Trabajamos para que tu LLC no cobre IVA a clientes B2B internacionales.", footer: "Tus servicios están exentos." },
+              { badge: "IVA", title: "Sin IVA en la LLC", text: "Tu LLC no aplica IVA en servicios digitales prestados a clientes internacionales B2B. Estructuramos la actividad para que la facturación se realice sin IVA desde la empresa americana, conforme a la normativa aplicable.", footer: "Tus servicios están exentos." },
               { badge: "Impuestos", title: "Eliminamos el Impuesto de Sociedades", text: "Te constituimos en New Mexico o Wyoming: 0% impuesto estatal.", footer: "Impuesto de Sociedades al 0%." },
               { badge: "Cuotas", title: "Eliminamos la cuota fija mensual", text: "No existe cuota de autónomos. No pagas nada hasta que generes beneficios.", footer: "Sin cuota de autónomos." },
               { badge: "Banca", title: "Apertura de cuenta Mercury & Relay", text: "Te acompañamos en la apertura de tus cuentas bancarias USA y obtención de tarjeta física de crédito y débito.", footer: "Tarjeta física internacional." },
