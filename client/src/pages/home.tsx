@@ -32,55 +32,55 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         title={
-          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-8 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(38px, 9vw, 96px)', lineHeight: '1' }}>
+          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(32px, 8vw, 84px)', lineHeight: '0.95' }}>
             REDUCIMOS TU CARGA FISCAL<br />
             <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
           </h1>
         }
         subtitle={
-          <p className="text-sm sm:text-lg text-brand-dark font-medium max-w-3xl mb-4 sm:mb-6 leading-relaxed text-left">
+          <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-3 sm:mb-4 leading-relaxed text-left">
             Profesionales ayudando a profesionales. <span className="block sm:inline">Te entregamos tu LLC en 3 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
-        <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-4 sm:mb-6 w-full max-w-full overflow-hidden">
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+        <div className="flex flex-wrap justify-start gap-1 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Tu LLC en 2 días
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Pack Todo Incluido
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Sin IVA
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Precios Transparentes, Trato Cercano
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Apertura Cuenta Mercury & Relay
           </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Tarjeta Física de Crédito y Débito
           </span>
         </div>
-        <div className="mb-4 sm:mb-6 flex justify-start">
-          <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 sm:gap-6 bg-white px-3 py-2 sm:px-8 sm:py-5 rounded-full shadow-lg border border-gray-100">
-            <img src={trustpilotLogo} alt="Trustpilot" className="h-5 sm:h-10 w-auto" />
+        <div className="mb-3 sm:mb-4 flex justify-start">
+          <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
+            <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
               {[1,2,3,4,5].map((star) => (
-                <svg key={star} className="w-3 h-3 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="#00b67a">
+                <svg key={star} className="w-2.5 h-2.5 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="#00b67a">
                   <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                 </svg>
               ))}
             </div>
-            <span className="text-brand-dark text-xs sm:text-xl font-black">5/5</span>
+            <span className="text-brand-dark text-[10px] sm:text-lg font-black">5/5</span>
           </a>
         </div>
-        <div className="flex flex-col sm:flex-row justify-start gap-3 sm:gap-4 mb-4 sm:mb-6 w-full">
-          <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 border-0 rounded-full w-full sm:w-auto h-12 sm:h-14 shadow-lg">
+        <div className="flex flex-col sm:flex-row justify-start gap-2 sm:gap-3 mb-2 sm:mb-4 w-full">
+          <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-xs sm:text-sm px-4 sm:px-8 border-0 rounded-full w-full sm:w-auto h-10 sm:h-12 shadow-md">
             {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
           </Button>
-          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-base px-6 sm:px-10 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-14">
+          <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-xs sm:text-sm px-4 sm:px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-10 sm:h-12">
             Conoce Nuestros Servicios
           </Button>
         </div>
