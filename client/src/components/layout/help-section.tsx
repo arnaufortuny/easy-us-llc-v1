@@ -13,10 +13,10 @@ export function HelpSection() {
           className="text-center space-y-4 w-full flex flex-col items-center"
         >
           <div className="space-y-1.5 w-full text-center">
-            <h2 className="text-base md:text-lg font-black uppercase tracking-tight text-brand-dark leading-none text-center">
+            <h2 className="text-lg md:text-xl font-black uppercase tracking-tight text-brand-dark leading-none text-center">
               ¿NECESITAS <span className="text-brand-dark bg-brand-lime px-1.5 inline-block">AYUDA</span>?
             </h2>
-            <p className="text-brand-dark/50 text-[9px] md:text-xs font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
+            <p className="text-brand-dark/50 text-[10px] md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
               Estamos aquí para resolver todas tus dudas de inmediato.
             </p>
           </div>
