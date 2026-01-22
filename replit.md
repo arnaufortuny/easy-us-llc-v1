@@ -26,3 +26,6 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - Standardized Section 1 formatting across all pages.
 - Added Newsletter section globally.
 - Cleaned up unused components (CookieBanner).
+- Optimized system performance: removed temporary files (zip, logs, images).
+- Enhanced admin email logging with styled system templates.
+- Compacted FAQ mobile layouts for better UX.
