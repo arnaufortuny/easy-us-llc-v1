@@ -645,7 +645,7 @@ export default function Servicios() {
               <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">FAQ</span>
               Preguntas Frecuentes
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Resolvemos tus dudas principales)</motion.p>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-sm sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto space-y-4">
