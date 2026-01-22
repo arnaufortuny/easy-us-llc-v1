@@ -328,6 +328,28 @@ export default function Servicios() {
               </div>
             </motion.div>
           </motion.div>
+          
+          <motion.div 
+            className="mt-12 sm:mt-16 flex justify-center"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={fadeIn}
+          >
+            <Button 
+              onClick={() => {
+                const element = document.getElementById('extras');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              variant="outline"
+              className="group border-brand-dark/20 text-brand-dark font-black rounded-full px-8 py-6 text-lg hover:bg-brand-dark hover:text-white transition-all transform hover:scale-105 active:scale-95 shadow-sm"
+            >
+              ¿Qué incluyen?
+              <ChevronDown className="ml-2 w-5 h-5 transition-transform group-hover:translate-y-1" />
+            </Button>
+          </motion.div>
         </div>
       </section>
 
