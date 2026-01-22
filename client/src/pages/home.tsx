@@ -87,7 +87,7 @@ export default function Home() {
           </Button>
         </div>
       </HeroSection>
-      <section className="bg-white py-20 sm:py-24" id="ventajas">
+      <section className="bg-white py-20 sm:py-24 border-t border-brand-dark/5" id="ventajas">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-16 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -122,7 +122,7 @@ export default function Home() {
 
       <PorQueEasyUSLLC />
 
-      <section className="py-20 sm:py-32 bg-white">
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -162,7 +162,7 @@ export default function Home() {
 
 function PorQueEasyUSLLC() {
   return (
-    <section className="py-8 sm:py-14 bg-white">
+    <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
