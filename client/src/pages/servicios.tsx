@@ -190,116 +190,116 @@ export default function Servicios() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {/* New Mexico */}
-            <div className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
-              <div className="p-5 sm:p-8 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
-                  <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Popular | 2-3 días hábiles todo</span>
+            <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
+              <div className="p-4 sm:p-6 flex-grow">
+                <div className="flex justify-between items-start mb-2 sm:mb-3">
+                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">New Mexico</h3>
+                  <span className="bg-brand-lime/20 text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <p className="text-4xl sm:text-5xl font-black text-brand-dark">639€</p>
-                  <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año 1</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">639€</p>
+                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
-                  <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-5 sm:p-8 pt-0">
+              <div className="p-4 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(nmProduct?.id || 1)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (nmProduct?.id || 1) ? "Procesando..." : "Elegir New Mexico"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/50 px-5 py-3 sm:px-6 sm:py-4 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[8px] sm:text-[10px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 349€</p>
+              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 349€</p>
               </div>
             </div>
 
             {/* Wyoming */}
-            <div className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
-              <div className="p-5 sm:p-8 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
-                  <span className="bg-brand-dark text-white text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Premium | 2-3 días hábiles</span>
+            <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
+              <div className="p-4 sm:p-6 flex-grow">
+                <div className="flex justify-between items-start mb-2 sm:mb-3">
+                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Wyoming</h3>
+                  <span className="bg-brand-dark text-white text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <p className="text-4xl sm:text-5xl font-black text-brand-dark">799€</p>
-                  <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año 1</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">799€</p>
+                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
-                  <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-5 sm:p-8 pt-0">
+              <div className="p-4 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(wyProduct?.id || 2)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (wyProduct?.id || 2) ? "Procesando..." : "Elegir Wyoming"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/50 px-5 py-3 sm:px-6 sm:py-4 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[8px] sm:text-[10px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 499€</p>
+              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 499€</p>
               </div>
             </div>
 
             {/* Delaware */}
-            <div className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
-              <div className="p-5 sm:p-8 flex-grow">
-                <div className="flex justify-between items-start mb-4">
-                  <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
-                  <span className="bg-brand-lime text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Startups | de 2 a 5 días hábiles</span>
+            <div className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group">
+              <div className="p-4 sm:p-6 flex-grow">
+                <div className="flex justify-between items-start mb-2 sm:mb-3">
+                  <h3 className="text-lg sm:text-xl font-black text-brand-dark uppercase tracking-tight">Delaware</h3>
+                  <span className="bg-brand-lime text-brand-dark text-[8px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
                 </div>
-                <div className="flex items-baseline gap-1 mb-2">
-                  <p className="text-4xl sm:text-5xl font-black text-brand-dark">999€</p>
-                  <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año 1</span>
+                <div className="flex items-baseline gap-1 mb-1">
+                  <p className="text-3xl sm:text-4xl font-black text-brand-dark">999€</p>
+                  <span className="text-muted-foreground text-[10px] sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
-                  <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                <p className="text-muted-foreground text-[8px] sm:text-[9px] font-black uppercase tracking-widest mb-3 sm:mb-4 flex items-center gap-1">
+                  <span className="w-1 h-1 rounded-full bg-brand-lime" />
                   Tasas estatales incluidas
                 </p>
-                <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                <div className="space-y-1.5 sm:space-y-2 text-xs sm:text-base mb-3 sm:mb-4 border-t border-brand-lime/10 pt-3 sm:pt-4">
                   {packFeatures.map((f) => (
-                    <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left">
+                    <p key={f} className="flex items-center justify-start gap-1.5 sm:gap-2 text-brand-dark/80 font-medium text-left leading-tight">
                       <span className="text-brand-lime font-black">✓</span> 
                       <span>{f}</span>
                     </p>
                   ))}
                 </div>
               </div>
-              <div className="p-5 sm:p-8 pt-0">
+              <div className="p-4 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct(deProduct?.id || 3)}
                   disabled={createOrderMutation.isPending}
-                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-5 sm:py-7 text-base sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-12 sm:h-14"
+                  className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-3 sm:py-4 text-sm sm:text-base border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-9 sm:h-11"
                 >
                   {createOrderMutation.isPending && createOrderMutation.variables === (deProduct?.id || 3) ? "Procesando..." : "Elegir Delaware"}
                 </Button>
               </div>
-              <div className="bg-brand-cream/50 px-5 py-3 sm:px-6 sm:py-4 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[8px] sm:text-[10px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 599€</p>
+              <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 599€</p>
               </div>
             </div>
           </div>
