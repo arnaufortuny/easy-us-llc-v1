@@ -6,6 +6,24 @@ import { HelpSection } from "@/components/layout/help-section";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import heroBg from "@/assets/hero-bg.png";
 import { motion } from "framer-motion";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
+
+const contactFormSchema = z.object({
+  nombre: z.string().min(2, "El nombre es demasiado corto"),
+  apellido: z.string().min(2, "El apellido es demasiado corto"),
+  email: z.string().email("Email inválido"),
+  subject: z.string().min(5, "El asunto es demasiado corto"),
+  mensaje: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
+});
+
+type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -22,6 +40,35 @@ const staggerContainer = {
 };
 
 export default function Contacto() {
+  const { toast } = useToast();
+  const form = useForm<ContactFormValues>({
+    resolver: zodResolver(contactFormSchema),
+    defaultValues: {
+      nombre: "",
+      apellido: "",
+      email: "",
+      subject: "",
+      mensaje: "",
+    },
+  });
+
+  const onSubmit = async (data: ContactFormValues) => {
+    try {
+      await apiRequest("POST", "/api/contact", data);
+      toast({
+        title: "Mensaje enviado",
+        description: "Hemos recibido tu mensaje correctamente.",
+      });
+      form.reset();
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo enviar el mensaje. Inténtalo de nuevo.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden">
       <Navbar />
@@ -62,7 +109,7 @@ export default function Contacto() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <div className="grid md:grid-cols-2 gap-12">
+            <div className="grid md:grid-cols-2 gap-12 mb-16">
               <motion.div className="space-y-8" variants={fadeIn}>
                 <div className="space-y-6">
                   <a href="mailto:info@easyusallc.com" className="group flex items-start gap-4 p-6 bg-brand-lime/5 border-l-4 border-brand-lime hover:bg-brand-lime/10 transition-colors">
@@ -104,6 +151,95 @@ export default function Contacto() {
                 </div>
               </motion.div>
             </div>
+
+            <motion.div 
+              className="bg-white p-8 sm:p-12 rounded-2xl border border-brand-lime/20 shadow-xl"
+              variants={fadeIn}
+            >
+              <h3 className="text-2xl sm:text-3xl font-black uppercase mb-8 text-brand-dark text-center">Envíanos un mensaje</h3>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <FormField
+                      control={form.control}
+                      name="nombre"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-black uppercase text-xs tracking-widest">Nombre</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Tu nombre" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="apellido"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="font-black uppercase text-xs tracking-widest">Apellido</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Tu apellido" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-black uppercase text-xs tracking-widest">Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="tu@email.com" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="subject"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-black uppercase text-xs tracking-widest">Asunto</FormLabel>
+                        <FormControl>
+                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="mensaje"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-black uppercase text-xs tracking-widest">Mensaje</FormLabel>
+                        <FormControl>
+                          <Textarea 
+                            placeholder="Escribe tu mensaje aquí..." 
+                            className="min-h-[150px] rounded-xl border-brand-lime/30 focus:border-brand-lime" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button 
+                    type="submit" 
+                    disabled={form.formState.isSubmitting}
+                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-6 text-lg hover:bg-brand-lime/90 transition-all shadow-lg"
+                  >
+                    {form.formState.isSubmitting ? "Enviando..." : "Enviar Mensaje"}
+                  </Button>
+                </form>
+              </Form>
+            </motion.div>
           </motion.div>
         </div>
       </section>

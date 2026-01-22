@@ -79,6 +79,20 @@ export async function registerRoutes(
         status: "draft",
       });
 
+      // Notification to admin about NEW ORDER
+      await sendEmail({
+        to: "afortuny07@gmail.com",
+        subject: `NUEVO PEDIDO: ${product.name} - ${order.id}`,
+        html: `
+          <h1>Nuevo pedido recibido</h1>
+          <p><strong>Pedido ID:</strong> ${order.id}</p>
+          <p><strong>Producto:</strong> ${product.name}</p>
+          <p><strong>Importe:</strong> ${(order.amount / 100).toFixed(2)}€</p>
+          <p><strong>Usuario ID:</strong> ${userId}</p>
+          <p><strong>Fecha:</strong> ${new Date().toLocaleString()}</p>
+        `,
+      }).catch(err => console.error("Error sending admin order notification:", err));
+
       // Return order with application
       res.status(201).json({ ...order, application });
 
@@ -242,6 +256,56 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Email inválido" });
       }
       res.status(500).json({ message: "Error al suscribirse" });
+    }
+  });
+
+  // Contact form
+  app.post("/api/contact", async (req, res) => {
+    try {
+      const contactData = z.object({
+        nombre: z.string(),
+        apellido: z.string(),
+        email: z.string().email(),
+        subject: z.string(),
+        mensaje: z.string(),
+      }).parse(req.body);
+
+      const messageId = Math.floor(100000 + Math.random() * 900000);
+
+      // Notification to admin
+      await sendEmail({
+        to: "afortuny07@gmail.com",
+        subject: `Nuevo mensaje de contacto: ${contactData.subject}`,
+        html: `
+          <h1>Nuevo mensaje de contacto</h1>
+          <p><strong>De:</strong> ${contactData.nombre} ${contactData.apellido} (${contactData.email})</p>
+          <p><strong>Asunto:</strong> ${contactData.subject}</p>
+          <p><strong>Mensaje:</strong></p>
+          <p>${contactData.mensaje}</p>
+          <hr />
+          <p>ID de mensaje: #${messageId}</p>
+        `,
+      });
+
+      // Confirmation to user
+      await sendEmail({
+        to: contactData.email,
+        subject: `Confirmación de mensaje - Easy US LLC #${messageId}`,
+        html: `
+          <h1>Hemos recibido tu mensaje</h1>
+          <p>Hola ${contactData.nombre},</p>
+          <p>Gracias por contactar con Easy US LLC. Hemos recibido tu mensaje correctamente y te responderemos en menos de 24 horas.</p>
+          <p><strong>Tu número de mensaje es: #${messageId}</strong></p>
+          <br />
+          <p>Saludos,</p>
+          <p>El equipo de Easy US LLC</p>
+        `,
+      });
+
+      res.json({ success: true, messageId });
+    } catch (err) {
+      console.error("Error processing contact form:", err);
+      res.status(400).json({ message: "Error al procesar el mensaje" });
     }
   });
 
