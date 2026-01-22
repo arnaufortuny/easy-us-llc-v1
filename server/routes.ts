@@ -144,8 +144,7 @@ export async function registerRoutes(
           subject: `Confirmación de Solicitud - ${updatedApp.requestCode}`,
           html: getConfirmationEmailTemplate(
             updatedApp.ownerFullName || "Cliente",
-            updatedApp.requestCode || "N/A",
-            updatedApp
+            updatedApp.requestCode || "N/A"
           ),
         }).catch(err => console.error("Error sending confirmation email:", err));
       }
