@@ -436,7 +436,7 @@ export default function Servicios() {
               { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
-                <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
+                <p className="font-display font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
                 <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </div>
             ))}
