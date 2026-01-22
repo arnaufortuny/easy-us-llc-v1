@@ -56,43 +56,18 @@ export default function Home() {
             animate="animate"
             variants={staggerContainer}
           >
-            {/* Badges only on PC */}
-            <motion.div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2" variants={fadeIn}>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Tu LLC en 2 días
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Pack Todo Incluido
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Sin IVA
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Precios Transparentes
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Trato Cercano
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Apertura Cuenta Mercury & Relay
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
-                Tarjeta Física de Crédito y Débito
-              </span>
-            </motion.div>
-
-            {/* Trustpilot only on Mobile, above title */}
-            <motion.div className="mb-8 flex justify-center sm:hidden" variants={fadeIn}>
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
-                <div className="flex gap-0.5">
+            {/* Trustpilot above title for everyone */}
+            <motion.div className="mb-8 flex justify-center" variants={fadeIn}>
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
+                <div className="flex gap-0.5 sm:gap-1">
                   {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-3 h-3" viewBox="0 0 24 24" fill="#00b67a">
+                    <svg key={star} className="w-2.5 h-2.5 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="#00b67a">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
                   ))}
                 </div>
-                <span className="text-brand-dark text-[11px] font-black">5/5</span>
+                <span className="text-brand-dark text-[10px] sm:text-lg font-black">5/5</span>
               </a>
             </motion.div>
 
@@ -120,6 +95,31 @@ export default function Home() {
               Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
             </motion.p>
             
+            {/* Badges below description for PC */}
+            <motion.div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2" variants={fadeIn}>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Tu LLC en 2 días
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Pack Todo Incluido
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Sin IVA
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Precios Transparentes
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Trato Cercano
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Apertura Cuenta Mercury & Relay
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Tarjeta Física de Crédito y Débito
+              </span>
+            </motion.div>
+
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-8 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 shadow-md">
                 {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
@@ -127,20 +127,6 @@ export default function Home() {
               <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12">
                 Conoce Nuestros Servicios
               </Button>
-            </motion.div>
-
-            <motion.div className="hidden sm:flex mb-3 sm:mb-4 justify-center" variants={fadeIn}>
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
-                <div className="flex gap-0.5 sm:gap-1">
-                  {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-2.5 h-2.5 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="#00b67a">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                  ))}
-                </div>
-                <span className="text-brand-dark text-[10px] sm:text-lg font-black">5/5</span>
-              </a>
             </motion.div>
           </motion.div>
         }
