@@ -122,31 +122,7 @@ export default function Home() {
 
       <PorQueEasyUSLLC />
 
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
-              Asistencia Bancaria
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-              (AYUDAMOS A ABRIR CUENTAS EN FINTECH Y BANCOS, SI EL CLIENTE LO REQUIERE)
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="p-8 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
-              <p className="font-black uppercase tracking-tighter text-xl sm:text-2xl mb-4 text-brand-dark">Cuentas Fintech</p>
-              <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">Apertura en Mercury, Relay y plataformas líderes para operar en USD desde el primer día.</p>
-            </div>
-            <div className="p-8 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 text-center">
-              <p className="font-black uppercase tracking-tighter text-xl sm:text-2xl mb-4 text-brand-dark">Banca Tradicional</p>
-              <p className="text-sm sm:text-lg text-muted-foreground leading-relaxed">Asesoramiento para opciones de banca tradicional según el perfil de tu negocio.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="extras">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -174,7 +150,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="soporte">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -195,7 +171,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="proceso">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
