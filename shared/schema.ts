@@ -32,6 +32,7 @@ export const llcApplications = pgTable("llc_applications", {
   ownerPhone: text("owner_phone"),
   ownerBirthDate: text("owner_birth_date"),
   ownerAddress: text("owner_address"),
+  ownerStreetType: text("owner_street_type"), // Calle, Avenida, Paseo
   ownerCity: text("owner_city"),
   ownerCountry: text("owner_country"),
   ownerProvince: text("owner_province"),
@@ -40,12 +41,15 @@ export const llcApplications = pgTable("llc_applications", {
   ownerIdType: text("owner_id_type"), // DNI or Passport
   idLater: boolean("id_later").notNull().default(false),
   dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),
+  termsConsent: boolean("terms_consent").notNull().default(false),
   ageConfirmation: boolean("age_confirmation").notNull().default(false),
   companyName: text("company_name"),
   companyNameOption2: text("company_name_option_2"),
   designator: text("designator"), // LLC, L.L.C., Ltd.
   companyDescription: text("company_description"),
   businessCategory: text("business_category"),
+  businessCategoryOther: text("business_category_other"),
+  notes: text("notes"),
   state: text("state"),
   status: text("status").notNull().default("draft"), // draft, submitted, filed, rejected
   submittedAt: timestamp("submitted_at"),

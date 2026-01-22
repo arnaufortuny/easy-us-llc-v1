@@ -152,32 +152,67 @@ export async function registerRoutes(
           to: "afortuny07@gmail.com",
           subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - #${updatedApp.id}`,
           html: `
-            <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
-              <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
-                <h1 style="margin: 0;">LOG DE SISTEMA: NUEVA SOLICITUD</h1>
-                <p style="margin: 10px 0 0 0; font-weight: bold;">SOLICITUD ID: #${updatedApp.id}</p>
+            <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; border-radius: 20px; background-color: #fff;">
+              <div style="background: #000; color: #d9ff00; padding: 30px; text-align: center; border-radius: 15px 15px 0 0;">
+                <h1 style="margin: 0; font-size: 24px;">LOG DE SISTEMA: NUEVA SOLICITUD</h1>
+                <p style="margin: 10px 0 0 0; font-weight: bold; font-size: 18px;">PEDIDO ID: #${updatedApp.id}</p>
               </div>
-              <div style="padding: 20px;">
+              <div style="padding: 30px; color: #333; line-height: 1.6;">
+                <h2 style="border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; color: #000; font-size: 16px; text-transform: uppercase;">Datos Personales</h2>
                 <p><strong>PROPIETARIO:</strong> ${updatedApp.ownerFullName}</p>
                 <p><strong>EMAIL:</strong> ${updatedApp.ownerEmail}</p>
                 <p><strong>TELÉFONO:</strong> ${updatedApp.ownerPhone}</p>
+                <p><strong>DIRECCIÓN:</strong> ${updatedApp.ownerStreetType} ${updatedApp.ownerAddress}, ${updatedApp.ownerPostalCode}, ${updatedApp.ownerCity} (${updatedApp.ownerProvince}), ${updatedApp.ownerCountry}</p>
+                <p><strong>FECHA NACIMIENTO:</strong> ${updatedApp.ownerBirthDate}</p>
+
+                <h2 style="border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; color: #000; font-size: 16px; text-transform: uppercase; margin-top: 30px;">Detalles LLC</h2>
+                <p><strong>NOMBRE 1:</strong> ${updatedApp.companyName}</p>
+                <p><strong>NOMBRE 2:</strong> ${updatedApp.companyNameOption2}</p>
                 <p><strong>ESTADO:</strong> ${updatedApp.state}</p>
-                <p><strong>NOMBRE LLC:</strong> ${updatedApp.companyName}</p>
+                <p><strong>CATEGORÍA:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
                 <p><strong>ACTIVIDAD:</strong> ${updatedApp.companyDescription}</p>
-                <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                <p><strong>NOTAS:</strong> ${updatedApp.notes || "Ninguna"}</p>
+                
+                <div style="margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 10px; font-size: 12px; color: #666;">
+                  <p><strong>FECHA DE REGISTRO:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                  <p><strong>IP CLIENTE:</strong> ${req.ip}</p>
+                </div>
               </div>
             </div>
           `,
         }).catch(err => console.error("Error sending admin notification:", err));
 
-        // Confirmation to client
+        // Confirmation to client with full info
         sendEmail({
           to: updatedApp.ownerEmail,
           subject: `Confirmación de Solicitud #${updatedApp.id} - Easy US LLC`,
-          html: getConfirmationEmailTemplate(
-            updatedApp.ownerFullName || "Cliente",
-            updatedApp.id.toString()
-          ),
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; color: #333;">
+              <div style="max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 20px; overflow: hidden;">
+                <div style="background: #000; color: #d9ff00; padding: 40px; text-align: center;">
+                  <h1 style="margin: 0; text-transform: uppercase;">Solicitud Recibida</h1>
+                  <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO #${updatedApp.id}</p>
+                </div>
+                <div style="padding: 40px;">
+                  <p>Hola <strong>${updatedApp.ownerFullName}</strong>,</p>
+                  <p>Hemos recibido correctamente tu solicitud para formar tu nueva LLC en <strong>${updatedApp.state}</strong>.</p>
+                  
+                  <div style="background: #f9f9f9; padding: 25px; border-radius: 15px; margin: 30px 0;">
+                    <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase; color: #999;">Resumen de tu empresa</h3>
+                    <p style="margin: 5px 0; font-size: 18px; font-weight: bold; color: #000;">${updatedApp.companyName}</p>
+                    <p style="margin: 0; font-size: 14px; color: #666;">${updatedApp.businessCategory}</p>
+                  </div>
+
+                  <p>Nuestro equipo de expertos revisará la disponibilidad del nombre y comenzará con el registro oficial de inmediato.</p>
+                  <p>Te mantendremos informado sobre cada paso del proceso.</p>
+                  
+                  <div style="margin-top: 40px; text-align: center;">
+                    <a href="https://wa.me/34614916910" style="background: #d9ff00; color: #000; padding: 15px 30px; text-decoration: none; border-radius: 50px; font-weight: bold; text-transform: uppercase; font-size: 12px;">Soporte WhatsApp</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `,
         }).catch(err => console.error("Error sending confirmation email:", err));
       }
 
