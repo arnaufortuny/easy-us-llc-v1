@@ -64,32 +64,6 @@ export default function Servicios() {
     <div className="min-h-screen font-sans bg-white text-center">
       <Navbar />
       
-      <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
-        <div className="hidden sm:flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Tu LLC en 2 días
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Pack Todo Incluido
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Sin IVA
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Precios Transparentes
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Trato Cercano
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Apertura Cuenta Mercury & Relay
-          </span>
-          <span className="inline-flex items-center px-3 py-2 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[12px] sm:text-sm shadow-sm whitespace-nowrap">
-            Tarjeta Física de Crédito y Débito
-          </span>
-        </div>
-      </div>
-
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-4 sm:pt-16 lg:pt-20"
         showOverlay={false}

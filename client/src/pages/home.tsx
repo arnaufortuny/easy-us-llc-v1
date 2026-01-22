@@ -56,6 +56,31 @@ export default function Home() {
             animate="animate"
             variants={staggerContainer}
           >
+            {/* Badges only on PC */}
+            <motion.div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2" variants={fadeIn}>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Tu LLC en 2 días
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Pack Todo Incluido
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Sin IVA
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Precios Transparentes
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Trato Cercano
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Apertura Cuenta Mercury & Relay
+              </span>
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+                Tarjeta Física de Crédito y Débito
+              </span>
+            </motion.div>
+
             {/* Trustpilot only on Mobile, above title */}
             <motion.div className="mb-8 flex justify-center sm:hidden" variants={fadeIn}>
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
