@@ -17,7 +17,7 @@ export function HelpSection() {
               ¿NECESITAS <span className="text-brand-dark bg-brand-lime px-2 inline-block">AYUDA</span>?
             </h2>
             <p className="text-brand-dark/60 text-xs md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
-              Estamos aquí para resolver tus dudas de inmediato.
+              ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
             </p>
           </div>
 

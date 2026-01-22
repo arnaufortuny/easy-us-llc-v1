@@ -45,7 +45,7 @@ export function Navbar() {
             <button onClick={() => handleNavClick("/servicios")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-servicios">Nuestros Servicios</button>
             <button onClick={() => scrollToSection("pricing")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-precios">Precios</button>
             <button onClick={() => handleNavClick("/faq")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-faq">FAQ</button>
-            <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-contacto">Contáctanos</button>
+            <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-contacto">Contactanos</button>
           </nav>
 
           <Button 
@@ -105,7 +105,7 @@ export function Navbar() {
                 className="text-left px-3 py-3 rounded-xl text-brand-dark hover:bg-brand-cream transition-colors font-black text-xl uppercase tracking-tighter border border-transparent hover:border-brand-lime/20 mb-4"
                 data-testid="mobile-nav-contacto"
               >
-                Contáctanos
+                Contactanos
               </button>
               <div className="mt-8 px-3 flex flex-col gap-3">
                 <Button 

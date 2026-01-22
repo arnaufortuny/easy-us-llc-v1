@@ -144,7 +144,7 @@ export default function Contacto() {
         }
         subtitle={
           <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
-            ¿Tienes alguna duda técnica o comercial? Estamos aquí para ayudarte a resolverla en menos de 24 horas.
+            ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
           </p>
         }
       />
