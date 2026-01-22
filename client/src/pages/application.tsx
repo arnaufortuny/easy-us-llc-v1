@@ -199,17 +199,18 @@ export default function ApplicationWizard() {
 
           <div className="bg-white rounded-[3rem] shadow-2xl shadow-black/5 border border-gray-100 overflow-hidden mb-20">
             <div className="p-8 md:p-14">
-              <div className="flex justify-between items-center mb-16 relative max-w-2xl mx-auto">
-                <div className="absolute top-1/2 left-0 w-full h-[2px] bg-gray-100 -translate-y-1/2 z-0" />
+              {/* Paso 1 2 3 4 en horizontal - eslabones redondos adaptados */}
+              <div className="flex justify-between items-center mb-10 relative max-w-sm mx-auto">
+                <div className="absolute top-1/2 left-0 w-full h-[1px] bg-gray-100 -translate-y-1/2 z-0" />
                 <div 
-                  className="absolute top-1/2 left-0 h-[2px] bg-brand-lime -translate-y-1/2 z-0 transition-all duration-700 ease-in-out" 
+                  className="absolute top-1/2 left-0 h-[1px] bg-brand-lime -translate-y-1/2 z-0 transition-all duration-700 ease-in-out" 
                   style={{ width: `${(step / 3) * 100}%` }} 
                 />
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="relative z-10 flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center font-black text-sm transition-all duration-500 border-4 ${
+                    <div className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center font-black text-[10px] md:text-xs transition-all duration-500 border-2 ${
                       step >= i - 1 
-                        ? 'bg-brand-lime border-brand-lime text-brand-dark scale-110 shadow-[0_0_20px_rgba(217,255,0,0.4)]' 
+                        ? 'bg-brand-lime border-brand-lime text-brand-dark scale-105 shadow-[0_0_15px_rgba(217,255,0,0.3)]' 
                         : 'bg-white border-gray-100 text-gray-300'
                     }`}>
                       {i}
@@ -219,42 +220,42 @@ export default function ApplicationWizard() {
               </div>
 
               <Form {...form}>
-                <form className="space-y-12">
+                <form className="space-y-8">
                   <AnimatePresence mode="wait">
                     {step === 0 && (
                       <motion.div
                         key="step0"
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="space-y-10"
+                        exit={{ opacity: 0, y: -15 }}
+                        className="space-y-6"
                       >
-                        <div className="space-y-3">
-                          <h2 className="text-4xl font-black uppercase tracking-tight text-brand-dark">1. Datos Personales</h2>
-                          <p className="text-muted-foreground font-medium text-lg">Información oficial del propietario legal.</p>
+                        <div className="space-y-2">
+                          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-brand-dark">1. Datos Personales</h2>
+                          <p className="text-muted-foreground font-medium text-sm md:text-base italic">Información oficial del propietario legal.</p>
                         </div>
                         
-                        <div className="grid grid-cols-1 gap-8">
+                        <div className="grid grid-cols-1 gap-5">
                           <FormField
                             control={form.control}
                             name="ownerFullName"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Nombre Completo (DNI/Pasaporte)</FormLabel>
-                                <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime focus:ring-brand-lime transition-all font-normal text-lg" placeholder="" /></FormControl>
-                                <FormMessage className="font-bold text-xs mt-2" />
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre Completo</FormLabel>
+                                <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime focus:ring-brand-lime transition-all font-normal text-base" placeholder="" /></FormControl>
+                                <FormMessage className="font-bold text-[10px] mt-1.5" />
                               </FormItem>
                             )}
                           />
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <FormField
                               control={form.control}
                               name="ownerEmail"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Email de contacto</FormLabel>
-                                  <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
-                                  <FormMessage className="font-bold text-xs mt-2" />
+                                  <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Email</FormLabel>
+                                  <FormControl><Input {...field} value={field.value || ""} type="email" className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
+                                  <FormMessage className="font-bold text-[10px] mt-1.5" />
                                 </FormItem>
                               )}
                             />
@@ -263,11 +264,11 @@ export default function ApplicationWizard() {
                               name="ownerPhone"
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">WhatsApp / Teléfono</FormLabel>
-                                  <div className="flex gap-3">
-                                    <div className="w-28">
+                                  <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">WhatsApp</FormLabel>
+                                  <div className="flex gap-2">
+                                    <div className="w-24">
                                       <Select defaultValue="+34">
-                                        <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-16 px-6 focus:ring-brand-lime font-normal text-lg">
+                                        <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
                                           <SelectValue placeholder="+34" />
                                         </SelectTrigger>
                                         <SelectContent className="bg-white">
@@ -277,29 +278,29 @@ export default function ApplicationWizard() {
                                         </SelectContent>
                                       </Select>
                                     </div>
-                                    <FormControl className="flex-1"><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormControl className="flex-1"><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </div>
-                                  <FormMessage className="font-bold text-xs mt-2" />
+                                  <FormMessage className="font-bold text-[10px] mt-1.5" />
                                 </FormItem>
                               )}
                             />
                           </div>
 
-                          <div className="space-y-6 pt-10 border-t border-gray-100">
-                            <h3 className="text-[12px] font-black uppercase tracking-[0.3em] text-brand-dark/30 mb-4 flex items-center gap-2">
-                              <MapPin className="w-4 h-4" /> Dirección de Residencia
+                          <div className="space-y-5 pt-6 border-t border-gray-100">
+                            <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-dark/30 flex items-center gap-2">
+                              <MapPin className="w-3.5 h-3.5" /> Residencia
                             </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                               <FormField
                                 control={form.control}
                                 name="ownerStreetType"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Tipo</FormLabel>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Tipo</FormLabel>
                                     <Select onValueChange={field.onChange} defaultValue={field.value || "Calle"}>
                                       <FormControl>
-                                        <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-16 px-6 focus:ring-brand-lime font-normal text-lg">
-                                          <SelectValue placeholder="Selecciona" />
+                                        <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-4 focus:ring-brand-lime font-normal text-base">
+                                          <SelectValue placeholder="Calle" />
                                         </SelectTrigger>
                                       </FormControl>
                                       <SelectContent className="bg-white">
@@ -316,20 +317,20 @@ export default function ApplicationWizard() {
                                 name="ownerAddress"
                                 render={({ field }) => (
                                   <FormItem className="sm:col-span-2">
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Nombre de Vía y Número</FormLabel>
-                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre de Vía y Número</FormLabel>
+                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </FormItem>
                                 )}
                               />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                               <FormField
                                 control={form.control}
                                 name="ownerCity"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Ciudad</FormLabel>
-                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Ciudad</FormLabel>
+                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </FormItem>
                                 )}
                               />
@@ -338,20 +339,20 @@ export default function ApplicationWizard() {
                                 name="ownerProvince"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Provincia / Estado</FormLabel>
-                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Provincia</FormLabel>
+                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </FormItem>
                                 )}
                               />
                             </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div className="grid grid-cols-2 gap-5">
                               <FormField
                                 control={form.control}
                                 name="ownerPostalCode"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Código Postal</FormLabel>
-                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Código Postal</FormLabel>
+                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </FormItem>
                                 )}
                               />
@@ -360,8 +361,8 @@ export default function ApplicationWizard() {
                                 name="ownerCountry"
                                 render={({ field }) => (
                                   <FormItem>
-                                    <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">País</FormLabel>
-                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" placeholder="" /></FormControl>
+                                    <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">País</FormLabel>
+                                    <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" placeholder="" /></FormControl>
                                   </FormItem>
                                 )}
                               />
@@ -372,9 +373,9 @@ export default function ApplicationWizard() {
                             control={form.control}
                             name="ownerBirthDate"
                             render={({ field }) => (
-                              <FormItem className="pt-10 border-t border-gray-100">
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Fecha Nacimiento</FormLabel>
-                                <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg" /></FormControl>
+                              <FormItem className="pt-6 border-t border-gray-100">
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Fecha Nacimiento</FormLabel>
+                                <FormControl><Input {...field} value={field.value || ""} type="date" className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base" /></FormControl>
                               </FormItem>
                             )}
                           />
@@ -385,24 +386,24 @@ export default function ApplicationWizard() {
                     {step === 1 && (
                       <motion.div
                         key="step1"
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="space-y-10"
+                        exit={{ opacity: 0, y: -15 }}
+                        className="space-y-6"
                       >
-                        <div className="space-y-3">
-                          <h2 className="text-4xl font-black uppercase tracking-tight text-brand-dark">2. Tu Nueva LLC</h2>
-                          <p className="text-muted-foreground font-medium text-lg">Configuración de la entidad en {stateFromUrl}</p>
+                        <div className="space-y-2">
+                          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-brand-dark">2. Tu Nueva LLC</h2>
+                          <p className="text-muted-foreground font-medium text-sm md:text-base italic">Configuración en {stateFromUrl}</p>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-8">
+                        <div className="grid grid-cols-1 gap-5">
                           <FormField
                             control={form.control}
                             name="companyName"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Nombre Deseado (Prioridad 1)</FormLabel>
-                                <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg uppercase" placeholder="" /></FormControl>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre (Opción 1)</FormLabel>
+                                <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base uppercase" placeholder="" /></FormControl>
                               </FormItem>
                             )}
                           />
@@ -411,8 +412,8 @@ export default function ApplicationWizard() {
                             name="companyNameOption2"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Nombre Alternativo (Prioridad 2)</FormLabel>
-                                <FormControl><Input {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 h-16 px-8 focus:border-brand-lime font-normal text-lg uppercase" placeholder="" /></FormControl>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Nombre (Opción 2)</FormLabel>
+                                <FormControl><Input {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-brand-lime font-normal text-base uppercase" placeholder="" /></FormControl>
                               </FormItem>
                             )}
                           />
@@ -422,14 +423,14 @@ export default function ApplicationWizard() {
                             name="businessCategory"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Categoría de Negocio</FormLabel>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Categoría de Negocio</FormLabel>
                                 <Select onValueChange={field.onChange} defaultValue={field.value || undefined}>
                                   <FormControl>
-                                    <SelectTrigger className="rounded-2xl border-gray-100 bg-white h-16 px-8 focus:ring-brand-lime font-normal text-lg">
-                                      <SelectValue placeholder="Selecciona una categoría" />
+                                    <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-6 focus:ring-brand-lime font-normal text-base">
+                                      <SelectValue placeholder="Selecciona categoría" />
                                     </SelectTrigger>
                                   </FormControl>
-                                  <SelectContent className="max-h-[300px] bg-white">
+                                  <SelectContent className="max-h-[250px] bg-white">
                                     {BUSINESS_CATEGORIES.map(cat => (
                                       <SelectItem key={cat} value={cat}>{cat}</SelectItem>
                                     ))}
@@ -444,8 +445,8 @@ export default function ApplicationWizard() {
                             name="companyDescription"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Actividad Detallada</FormLabel>
-                                <FormControl><Textarea {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 min-h-[150px] px-8 py-6 focus:border-brand-lime font-normal text-lg resize-none" placeholder="" /></FormControl>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Actividad</FormLabel>
+                                <FormControl><Textarea {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 min-h-[120px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="" /></FormControl>
                               </FormItem>
                             )}
                           />
@@ -455,8 +456,8 @@ export default function ApplicationWizard() {
                             name="notes"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="font-bold text-[11px] uppercase tracking-[0.25em] text-gray-400 mb-2 block">Notas Adicionales</FormLabel>
-                                <FormControl><Textarea {...field} value={field.value || ""} className="rounded-2xl border-gray-100 bg-gray-50/50 min-h-[100px] px-8 py-6 focus:border-brand-lime font-normal text-lg resize-none" placeholder="" /></FormControl>
+                                <FormLabel className="font-bold text-[10px] uppercase tracking-[0.2em] text-gray-400 mb-1.5 block">Notas (Opcional)</FormLabel>
+                                <FormControl><Textarea {...field} value={field.value || ""} className="rounded-xl border-gray-100 bg-gray-50/30 min-h-[80px] px-6 py-4 focus:border-brand-lime font-normal text-base resize-none" placeholder="" /></FormControl>
                               </FormItem>
                             )}
                           />
@@ -467,29 +468,29 @@ export default function ApplicationWizard() {
                     {step === 2 && (
                       <motion.div
                         key="step2"
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="space-y-12 text-center py-10"
+                        exit={{ opacity: 0, y: -15 }}
+                        className="space-y-8 text-center py-6"
                       >
-                        <div className="w-32 h-32 bg-brand-lime/20 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner">
-                          <Mail className="w-14 h-14 text-brand-dark" />
+                        <div className="w-24 h-24 bg-brand-lime/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                          <Mail className="w-10 h-10 text-brand-dark" />
                         </div>
-                        <div className="space-y-4">
-                          <h2 className="text-4xl font-black uppercase tracking-tight text-brand-dark">3. Verificación</h2>
-                          <p className="text-muted-foreground font-medium text-xl px-4">Hemos enviado un código seguro a: <br/><span className="font-black text-brand-dark text-2xl mt-2 block">{form.getValues("ownerEmail")}</span></p>
+                        <div className="space-y-3">
+                          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-brand-dark">3. Verificación</h2>
+                          <p className="text-muted-foreground font-medium text-base px-2">Introduce el código enviado a: <br/><span className="font-black text-brand-dark text-lg mt-1 block truncate">{form.getValues("ownerEmail")}</span></p>
                         </div>
                         
                         {!isOtpSent ? (
                           <Button 
                             type="button" 
                             onClick={sendOtp} 
-                            className="bg-brand-lime text-brand-dark rounded-full px-20 h-20 font-black uppercase tracking-[0.2em] text-sm hover:scale-105 transition-all shadow-2xl shadow-brand-lime/40"
+                            className="bg-brand-lime text-brand-dark rounded-full px-12 h-14 font-black uppercase tracking-widest text-xs hover:scale-105 transition-all shadow-xl shadow-brand-lime/30"
                           >
-                            Enviar Código OTP
+                            Recibir Código
                           </Button>
                         ) : (
-                          <div className="space-y-8 max-w-sm mx-auto">
+                          <div className="space-y-6 max-w-xs mx-auto">
                             <FormField
                               control={form.control}
                               name="otp"
@@ -500,7 +501,7 @@ export default function ApplicationWizard() {
                                       {...field} 
                                       value={field.value || ""} 
                                       maxLength={6} 
-                                      className="text-center text-5xl font-black tracking-[0.6em] h-24 rounded-3xl border-4 border-brand-lime bg-white shadow-xl focus:ring-brand-lime" 
+                                      className="text-center text-4xl font-black tracking-[0.5em] h-16 md:h-20 rounded-2xl border-2 border-brand-lime bg-white shadow-lg focus:ring-brand-lime" 
                                       placeholder="000000" 
                                     />
                                   </FormControl>
@@ -511,11 +512,11 @@ export default function ApplicationWizard() {
                               type="button" 
                               onClick={verifyOtp} 
                               disabled={isEmailVerified} 
-                              className={`w-full rounded-2xl h-20 font-black uppercase tracking-[0.2em] text-sm transition-all shadow-xl ${
+                              className={`w-full rounded-xl h-14 font-black uppercase tracking-widest text-xs transition-all ${
                                 isEmailVerified ? "bg-green-500 text-white" : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90"
                               }`}
                             >
-                              {isEmailVerified ? "Verificado Correctamente ✓" : "Validar Código"}
+                              {isEmailVerified ? "Completado ✓" : "Validar"}
                             </Button>
                           </div>
                         )}
@@ -525,70 +526,70 @@ export default function ApplicationWizard() {
                     {step === 3 && (
                       <motion.div
                         key="step3"
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
-                        className="space-y-10"
+                        exit={{ opacity: 0, y: -15 }}
+                        className="space-y-8"
                       >
-                        <div className="space-y-3 text-center">
-                          <h2 className="text-4xl font-black uppercase tracking-tight text-brand-dark">4. Revisión Final</h2>
-                          <p className="text-muted-foreground font-medium text-lg">Tu solicitud está lista para ser procesada.</p>
+                        <div className="space-y-2 text-center">
+                          <h2 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-brand-dark">4. Revisión</h2>
+                          <p className="text-muted-foreground font-medium text-sm md:text-base">Confirma los detalles de tu LLC.</p>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-8">
-                          <div className="bg-brand-dark text-white rounded-[2rem] p-8 flex justify-between items-center shadow-2xl relative overflow-hidden">
-                             <div className="absolute top-0 right-0 w-48 h-full bg-brand-lime/5 transform skew-x-12 translate-x-16" />
+                        <div className="grid grid-cols-1 gap-6">
+                          <div className="bg-brand-dark text-white rounded-2xl p-6 flex justify-between items-center shadow-xl relative overflow-hidden">
+                             <div className="absolute top-0 right-0 w-32 h-full bg-brand-lime/5 transform skew-x-12 translate-x-12" />
                              <div className="relative z-10">
-                                <p className="text-[12px] font-black uppercase tracking-[0.4em] text-brand-lime/70 mb-2">Orden de Solicitud</p>
-                                <p className="text-4xl font-black font-mono">#{orderNumber.toString().padStart(5, '0')}</p>
+                                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-brand-lime/70 mb-1">Nº Solicitud</p>
+                                <p className="text-2xl font-black font-mono">#{orderNumber.toString().padStart(5, '0')}</p>
                              </div>
-                             <div className="w-16 h-16 bg-brand-lime rounded-2xl flex items-center justify-center rotate-6 relative z-10 shadow-lg">
-                                <ShieldCheck className="w-8 h-8 text-brand-dark" />
+                             <div className="w-12 h-12 bg-brand-lime rounded-xl flex items-center justify-center rotate-6 relative z-10">
+                                <ShieldCheck className="w-6 h-6 text-brand-dark" />
                              </div>
                           </div>
 
-                          <div className="bg-gray-50/50 rounded-[2rem] p-10 border border-gray-100 space-y-8">
-                            <div className="flex justify-between items-center border-b border-gray-200/50 pb-6">
-                              <h4 className="text-sm font-black uppercase tracking-widest text-brand-dark flex items-center gap-3">
-                                <Globe className="w-5 h-5 text-brand-lime" /> Datos del Socio
+                          <div className="bg-gray-50/40 rounded-2xl p-6 border border-gray-100 space-y-6">
+                            <div className="flex justify-between items-center border-b border-gray-200/50 pb-4">
+                              <h4 className="text-xs font-black uppercase tracking-widest text-brand-dark flex items-center gap-2">
+                                <Globe className="w-4 h-4 text-brand-lime" /> Socio
                               </h4>
-                              <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-10 px-6 text-[11px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
+                              <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-8 px-4 text-[10px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                              <div className="space-y-2">
-                                <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Titular Legal</p>
-                                <p className="font-bold text-brand-dark text-xl">{form.getValues("ownerFullName") || "---"}</p>
+                            <div className="grid grid-cols-1 gap-4">
+                              <div className="space-y-1">
+                                <p className="text-[9px] font-bold uppercase text-gray-400">Titular</p>
+                                <p className="font-bold text-brand-dark text-base">{form.getValues("ownerFullName") || "---"}</p>
                               </div>
-                              <div className="space-y-2">
-                                <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Email Confirmado</p>
-                                <p className="font-bold text-brand-dark text-xl truncate">{form.getValues("ownerEmail") || "---"}</p>
+                              <div className="space-y-1">
+                                <p className="text-[9px] font-bold uppercase text-gray-400">Email</p>
+                                <p className="font-bold text-brand-dark text-base truncate">{form.getValues("ownerEmail") || "---"}</p>
                               </div>
                             </div>
                           </div>
                           
-                          <div className="bg-gray-50/50 rounded-[2rem] p-10 border border-gray-100 space-y-8">
-                            <div className="flex justify-between items-center border-b border-gray-200/50 pb-6">
-                              <h4 className="text-sm font-black uppercase tracking-widest text-brand-dark flex items-center gap-3">
-                                <Building2 className="w-5 h-5 text-brand-lime" /> La Empresa
+                          <div className="bg-gray-50/40 rounded-2xl p-6 border border-gray-100 space-y-6">
+                            <div className="flex justify-between items-center border-b border-gray-200/50 pb-4">
+                              <h4 className="text-xs font-black uppercase tracking-widest text-brand-dark flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-brand-lime" /> Entidad
                               </h4>
-                              <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-10 px-6 text-[11px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
+                              <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-8 px-4 text-[10px] uppercase font-black text-brand-lime hover:bg-brand-lime/10 rounded-full">Editar</Button>
                             </div>
-                            <div className="space-y-2">
-                              <p className="text-[10px] font-bold uppercase text-gray-400 tracking-wider">Nombre Reservado</p>
-                              <p className="font-black text-3xl text-brand-dark uppercase tracking-tight">{form.getValues("companyName")}</p>
+                            <div className="space-y-1">
+                              <p className="text-[9px] font-bold uppercase text-gray-400">Nombre</p>
+                              <p className="font-black text-xl text-brand-dark uppercase">{form.getValues("companyName")}</p>
                             </div>
                           </div>
 
-                          <div className="space-y-6 pt-6">
-                            <div className="flex items-start gap-4 p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10">
+                          <div className="space-y-4 pt-4">
+                            <div className="flex items-start gap-3 p-4 bg-brand-lime/5 rounded-xl border border-brand-lime/10">
                               <Checkbox 
                                 id="terms" 
                                 checked={form.watch("termsConsent")}
                                 onCheckedChange={(checked) => form.setValue("termsConsent", checked as boolean)}
-                                className="mt-1 w-6 h-6 rounded-lg border-2 border-gray-200 data-[state=checked]:bg-brand-lime data-[state=checked]:border-brand-lime data-[state=checked]:text-brand-dark shadow-sm"
+                                className="mt-1 w-5 h-5 rounded border-2 border-gray-200 data-[state=checked]:bg-brand-lime data-[state=checked]:border-brand-lime data-[state=checked]:text-brand-dark shadow-sm"
                               />
-                              <label htmlFor="terms" className="text-base font-medium leading-relaxed text-gray-600 cursor-pointer">
-                                Confirmo que los datos son correctos y acepto los <Link href="/legal" className="text-brand-dark font-black underline decoration-brand-lime decoration-[3px] underline-offset-4">Términos de Servicio</Link> y la Política de Privacidad.
+                              <label htmlFor="terms" className="text-xs md:text-sm font-medium leading-relaxed text-gray-600 cursor-pointer">
+                                Acepto los <Link href="/legal" className="text-brand-dark font-black underline decoration-brand-lime decoration-[2px] underline-offset-4">Términos de Servicio</Link> y la Política de Privacidad.
                               </label>
                             </div>
                           </div>
@@ -597,13 +598,13 @@ export default function ApplicationWizard() {
                     )}
                   </AnimatePresence>
 
-                  <div className="flex flex-col sm:flex-row gap-6 pt-12 border-t border-gray-100">
+                  <div className="flex flex-col sm:flex-row gap-4 pt-8 border-t border-gray-100">
                     {step > 0 && (
                       <Button
                         type="button"
                         variant="outline"
                         onClick={prevStep}
-                        className="w-full sm:w-1/3 h-20 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] border-2 border-gray-100 hover:bg-gray-50 hover:border-gray-200 transition-all"
+                        className="w-full sm:w-1/3 h-14 md:h-16 rounded-xl font-black uppercase tracking-[0.15em] text-[10px] border-2 border-gray-100 hover:bg-gray-50 transition-all"
                       >
                         Atrás
                       </Button>
@@ -612,18 +613,18 @@ export default function ApplicationWizard() {
                       type="button"
                       onClick={nextStep}
                       disabled={isSubmitting || (step === 2 && !isEmailVerified)}
-                      className={`h-20 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] transition-all shadow-2xl flex-1 ${
+                      className={`h-14 md:h-16 rounded-xl font-black uppercase tracking-[0.15em] text-[10px] transition-all shadow-xl flex-1 ${
                         step === 3 
                           ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
-                          : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/30"
+                          : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"
                       }`}
                     >
                       {isSubmitting ? (
-                        <Loader2 className="w-6 h-6 animate-spin" />
+                        <Loader2 className="w-5 h-5 animate-spin" />
                       ) : step === 3 ? (
-                        "Enviar Solicitud"
+                        "FINALIZAR SOLICITUD"
                       ) : (
-                        "Continuar"
+                        "CONTINUAR"
                       )}
                     </Button>
                   </div>
