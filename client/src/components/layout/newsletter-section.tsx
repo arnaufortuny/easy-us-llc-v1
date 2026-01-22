@@ -38,33 +38,33 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-12 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5">
+    <section className="py-12 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5 w-full flex justify-center items-center">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
-      <div className="container max-w-2xl mx-auto px-6 relative z-10">
+      <div className="container max-w-2xl mx-auto px-6 relative z-10 flex flex-col items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center space-y-5"
+          className="text-center space-y-5 w-full flex flex-col items-center"
         >
-          <div className="space-y-2">
-            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white leading-none">
+          <div className="space-y-2 w-full text-center">
+            <h2 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white leading-none text-center">
               Únete a nuestra <span className="text-brand-dark bg-brand-lime px-1.5">Newsletter</span>
             </h2>
-            <p className="text-white/50 text-sm md:text-base font-medium max-w-lg mx-auto leading-relaxed">
+            <p className="text-white/50 text-sm md:text-base font-medium max-w-lg mx-auto leading-relaxed text-center">
               Consejos exclusivos sobre fiscalidad y banca en USA.
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="max-w-sm mx-auto relative group">
-            <div className="relative">
+          <form onSubmit={handleSubscribe} className="max-w-sm w-full mx-auto relative group flex flex-col items-center">
+            <div className="relative w-full">
               <Input 
                 type="email" 
                 placeholder="Tu correo electrónico" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 pl-5 pr-12 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/20 text-sm font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl"
+                className="h-12 pl-5 pr-12 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/20 text-sm font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-xl w-full"
                 required
               />
               <Button 
@@ -75,7 +75,7 @@ export function NewsletterSection() {
                 <Send size={16} />
               </Button>
             </div>
-            <p className="mt-3 text-[9px] text-white/20 font-black uppercase tracking-widest">
+            <p className="mt-3 text-[9px] text-white/20 font-black uppercase tracking-widest text-center">
               Sin spam. Solo valor real.
             </p>
           </form>
