@@ -144,7 +144,7 @@ export default function Servicios() {
         }
         subtitle={
           <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-left mb-12 sm:mb-20">
-            Nos encargamos de todo el proceso para que tú no tengas que preocuparte por nada.
+            Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
           </p>
         }
       />
