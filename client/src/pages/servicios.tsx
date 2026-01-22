@@ -334,7 +334,13 @@ export default function Servicios() {
               </div>
             ))}
           </div>
-          <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic mb-12">Incluido en tu paquete inicial.</p>
+          <div className="mt-8 mb-12 flex justify-center">
+            <div className="bg-brand-lime px-8 py-3 rounded-full shadow-lg transform -rotate-1">
+              <p className="text-brand-dark font-display font-black uppercase tracking-[0.2em] text-sm sm:text-base">
+                Incluido en tu paquete inicial
+              </p>
+            </div>
+          </div>
 
           <div className="border-t border-brand-dark/5 w-full max-w-7xl mx-auto mb-12" />
 
