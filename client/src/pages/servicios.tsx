@@ -409,7 +409,13 @@ export default function Servicios() {
       </section>
 
       <AsistenciaBancaria />
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="border-t border-brand-dark/5 w-full" />
+      </div>
       <ServiciosAdicionales />
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="border-t border-brand-dark/5 w-full" />
+      </div>
       <Soporte />
 
       <HelpSection />
