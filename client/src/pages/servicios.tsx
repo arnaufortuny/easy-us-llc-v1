@@ -480,8 +480,10 @@ function ServiciosAdicionales() {
           {[
             { title: "Apostilla de documentos", desc: "Gestión de apostilla de la Haya para validez internacional." },
             { title: "Certificado de Good Standing", desc: "Documento oficial que acredita que tu LLC cumple sus obligaciones." },
-            { title: "Enmiendas a la LLC", desc: "Cambio de nombre, adición de miembros o actualización de datos." },
-            { title: "Disolución de LLC", desc: "Cierre oficial y ordenado de tu estructura americana." },
+            { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
+            { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
+            { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
+            { title: "Presentación fiscal (IRS 1120 y 5472)", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
           ].map((service, i) => (
             <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
               <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
