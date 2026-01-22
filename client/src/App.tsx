@@ -33,6 +33,7 @@ function Router() {
       <Route path="/faq" component={FAQ} />
       <Route path="/contacto" component={Contacto} />
       <Route path="/application" component={ApplicationWizard} />
+      <Route path="/llc/formation" component={ApplicationWizard} />
       <Route path="/legal" component={Legal} />
       <Route path="/privacidad" component={Privacidad} />
       <Route path="/reembolsos" component={Reembolsos} />

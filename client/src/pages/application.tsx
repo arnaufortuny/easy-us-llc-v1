@@ -590,21 +590,21 @@ export default function ApplicationWizard() {
                               <div className="grid grid-cols-2 gap-y-4 gap-x-6">
                                 <div className="space-y-0.5">
                                   <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Nombre Completo</p>
-                                  <p className="font-bold text-brand-dark text-sm">{form.getValues("ownerFullName")}</p>
+                                  <p className="font-bold text-brand-dark text-sm">{form.getValues("ownerFullName") || "---"}</p>
                                 </div>
                                 <div className="space-y-0.5">
                                   <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Email</p>
-                                  <p className="font-bold text-brand-dark text-sm truncate">{form.getValues("ownerEmail")}</p>
+                                  <p className="font-bold text-brand-dark text-sm truncate">{form.getValues("ownerEmail") || "---"}</p>
                                 </div>
                                 <div className="space-y-0.5">
                                   <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">WhatsApp</p>
-                                  <p className="font-bold text-brand-dark text-sm">{form.getValues("ownerPhone")}</p>
+                                  <p className="font-bold text-brand-dark text-sm">{form.getValues("ownerPhone") || "---"}</p>
                                 </div>
                                 <div className="space-y-0.5">
                                   <p className="text-[9px] font-bold uppercase tracking-widest text-gray-400">Dirección</p>
                                   <p className="font-bold text-brand-dark text-xs leading-tight">
-                                    {form.getValues("ownerStreetType")} {form.getValues("ownerAddress")}<br/>
-                                    {form.getValues("ownerPostalCode")} {form.getValues("ownerCity")}<br/>
+                                    {form.getValues("ownerStreetType")} {form.getValues("ownerAddress") || "---"}<br/>
+                                    {form.getValues("ownerPostalCode")} {form.getValues("ownerCity") || "---"}<br/>
                                     {form.getValues("ownerProvince")}, {form.getValues("ownerCountry")}
                                   </p>
                                 </div>
