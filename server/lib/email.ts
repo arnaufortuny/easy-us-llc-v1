@@ -126,30 +126,34 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
   `;
 }
 
-export function getReminderEmailTemplate(name: string, requestCode: string) {
+export function getNewsletterWelcomeTemplate() {
   return `
     <div style="font-family: sans-serif; max-width: 600px; margin: auto; border: 1px solid #eee; padding: 20px; color: #1a1a1a;">
       <div style="text-align: center; margin-bottom: 30px;">
         <h1 style="color: #b6ff40; margin: 0; font-size: 28px; text-transform: uppercase;">Easy US LLC</h1>
-        <p style="color: #666; font-size: 14px;">Recordatorio de Solicitud</p>
+        <p style="color: #666; font-size: 14px;">Newsletter</p>
       </div>
       
-      <h2 style="font-size: 20px; margin-bottom: 20px;">¡Hola ${name}!</h2>
-      <p style="line-height: 1.6;">Hemos notado que no has completado tu solicitud para la constitución de tu nueva LLC.</p>
+      <h2 style="font-size: 20px; margin-bottom: 20px;">¡Gracias por unirte!</h2>
+      <p style="line-height: 1.6;">Ya eres parte de nuestra comunidad. A partir de ahora recibirás consejos exclusivos sobre:</p>
       
       <div style="background: #f9f9f9; padding: 20px; border-radius: 12px; margin: 25px 0; border: 1px solid #eee;">
-        <p style="margin: 0 0 10px 0; font-weight: bold; color: #666; text-transform: uppercase; font-size: 12px; letter-spacing: 1px;">Tu Número de Solicitud es:</p>
-        <p style="margin: 0; font-size: 24px; font-weight: 900; color: #1a1a1a;">${requestCode}</p>
+        <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+          <li>Fiscalidad eficiente en USA.</li>
+          <li>Gestión bancaria (Mercury, Relay).</li>
+          <li>Actualizaciones legales (BOI Report, etc.).</li>
+          <li>Tips para escalar tu negocio desde cualquier lugar.</li>
+        </ul>
       </div>
 
-      <p style="line-height: 1.6;">Tu proceso está a mitad de camino. Solo te faltan unos pocos pasos para tener tu empresa lista en Estados Unidos.</p>
+      <p style="line-height: 1.6;">Estamos aquí para ayudarte a que tu camino empresarial en Estados Unidos sea lo más sencillo posible.</p>
 
       <div style="margin-top: 30px; text-align: center;">
-        <a href="https://easyusllc.com/seguimiento" style="background-color: #b6ff40; color: #1a1a1a; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; display: inline-block;">Continuar mi Solicitud</a>
+        <a href="https://easyusllc.com" style="background-color: #b6ff40; color: #1a1a1a; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; display: inline-block;">Visitar nuestra web</a>
       </div>
 
       <p style="margin-top: 40px; font-size: 14px; text-align: center; color: #666;">
-        Si tienes cualquier duda o problema técnico, escríbenos por WhatsApp y te ayudaremos de inmediato.
+        Si en algún momento deseas dejar de recibir estos correos, puedes hacerlo respondiendo a este email.
       </p>
     </div>
   `;

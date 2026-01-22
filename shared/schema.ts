@@ -67,6 +67,12 @@ export const applicationDocuments = pgTable("application_documents", {
 });
 
 // Relations
+export const newsletterSubscribers = pgTable("newsletter_subscribers", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull().unique(),
+  subscribedAt: timestamp("subscribed_at").defaultNow(),
+});
+
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   product: one(products, { fields: [orders.productId], references: [products.id] }),

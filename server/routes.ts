@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, users } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate } from "./lib/email";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -215,6 +215,33 @@ export async function registerRoutes(
       res.json({ success: true });
     } else {
       res.status(400).json({ message: "Código inválido o caducado" });
+    }
+  });
+
+  // Newsletter
+  app.post("/api/newsletter/subscribe", async (req, res) => {
+    try {
+      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      
+      const isSubscribed = await storage.isSubscribedToNewsletter(email);
+      if (isSubscribed) {
+        return res.status(400).json({ message: "Este email ya está suscrito" });
+      }
+
+      await storage.subscribeToNewsletter(email);
+      
+      await sendEmail({
+        to: email,
+        subject: "¡Bienvenido a la Newsletter de Easy US LLC!",
+        html: getNewsletterWelcomeTemplate(),
+      }).catch(err => console.error("Error sending newsletter welcome email:", err));
+      
+      res.json({ success: true });
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        return res.status(400).json({ message: "Email inválido" });
+      }
+      res.status(500).json({ message: "Error al suscribirse" });
     }
   });
 

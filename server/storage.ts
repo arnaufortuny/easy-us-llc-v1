@@ -1,6 +1,6 @@
 import { db } from "./db";
 import {
-  products, orders, llcApplications, applicationDocuments,
+  products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
   type Product, type Order, type LlcApplication, type ApplicationDocument,
   insertLlcApplicationSchema, insertApplicationDocumentSchema, insertOrderSchema
 } from "@shared/schema";
@@ -35,6 +35,10 @@ export interface IStorage {
   createDocument(doc: InsertApplicationDocument): Promise<ApplicationDocument>;
   getDocumentsByApplicationId(applicationId: number): Promise<ApplicationDocument[]>;
   deleteDocument(id: number): Promise<void>;
+
+  // Newsletter
+  subscribeToNewsletter(email: string): Promise<void>;
+  isSubscribedToNewsletter(email: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -150,6 +154,19 @@ export class DatabaseStorage implements IStorage {
 
   async deleteDocument(id: number): Promise<void> {
     await db.delete(applicationDocuments).where(eq(applicationDocuments.id, id));
+  }
+
+  // Newsletter
+  async subscribeToNewsletter(email: string): Promise<void> {
+    const subscribed = await this.isSubscribedToNewsletter(email);
+    if (!subscribed) {
+      await db.insert(newsletterSubscribers).values({ email });
+    }
+  }
+
+  async isSubscribedToNewsletter(email: string): Promise<boolean> {
+    const [subscriber] = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, email));
+    return !!subscriber;
   }
 }
 
