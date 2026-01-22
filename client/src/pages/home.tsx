@@ -56,18 +56,18 @@ export default function Home() {
             animate="animate"
             variants={staggerContainer}
           >
-            {/* Trustpilot above title for everyone */}
-            <motion.div className="mb-6 sm:mb-8 flex justify-center" variants={fadeIn}>
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 sm:gap-4 bg-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 sm:h-7 w-auto" />
-                <div className="flex gap-1 sm:gap-1">
+            {/* Trustpilot above title for mobile, hidden on PC */}
+            <motion.div className="mb-6 sm:hidden flex justify-center" variants={fadeIn}>
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
+                <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-3.5 h-3.5 sm:w-5 sm:h-5" viewBox="0 0 24 24" fill="#00b67a">
+                    <svg key={star} className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="#00b67a">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
                   ))}
                 </div>
-                <span className="text-brand-dark text-xs sm:text-lg font-black">5/5</span>
+                <span className="text-brand-dark text-xs font-black">5/5</span>
               </a>
             </motion.div>
 
@@ -89,12 +89,27 @@ export default function Home() {
             variants={staggerContainer}
           >
             <motion.p 
-              className="text-[13px] sm:text-base text-brand-dark font-medium max-w-3xl mb-12 sm:mb-4 leading-relaxed text-center mx-auto px-2"
+              className="text-[13px] sm:text-base text-brand-dark font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
               variants={fadeIn}
             >
               Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold mt-2">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
             </motion.p>
             
+            {/* Trustpilot below description for PC, hidden on mobile */}
+            <motion.div className="hidden sm:flex mb-8 justify-center" variants={fadeIn}>
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white px-6 py-3 rounded-full shadow-md border border-gray-100">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
+                <div className="flex gap-1">
+                  {[1,2,3,4,5].map((star) => (
+                    <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#00b67a">
+                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                    </svg>
+                  ))}
+                </div>
+                <span className="text-brand-dark text-lg font-black">5/5</span>
+              </a>
+            </motion.div>
+
             {/* Badges below description for PC */}
             <motion.div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2" variants={fadeIn}>
               <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
