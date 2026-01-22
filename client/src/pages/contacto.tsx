@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const contactFormSchema = z.object({
   nombre: z.string().min(2, "El nombre es demasiado corto"),
@@ -113,9 +113,10 @@ export default function Contacto() {
       return;
     }
     try {
+      const isConstitution = data.subject.toLowerCase().includes("constitución");
       await apiRequest("POST", "/api/contact", data);
       toast({
-        title: "¡Mensaje enviado!",
+        title: isConstitution ? "¡Solicitud de constitución enviada!" : "¡Mensaje enviado!",
         description: "Revisa tu bandeja de entrada.",
         variant: "success"
       });
@@ -130,6 +131,15 @@ export default function Contacto() {
       });
     }
   };
+
+  // Check for pre-filled subject (Constitution)
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const subject = params.get("subject");
+    if (subject) {
+      form.setValue("subject", subject);
+    }
+  }, [form]);
 
   return (
     <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden w-full relative">
