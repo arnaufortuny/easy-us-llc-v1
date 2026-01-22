@@ -342,68 +342,66 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-white">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
           <div className="border-t border-brand-dark/5 w-full mb-12" />
-          <div className="border border-brand-dark/10 rounded-3xl p-8 sm:p-12 bg-white shadow-sm overflow-hidden text-center">
-            <div className="text-center mb-12 flex flex-col items-center justify-center">
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-                <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
-                Preguntas Frecuentes
-              </h2>
-              <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-                (Resolvemos tus dudas de inmediato)
-              </p>
-            </div>
-            <div className="space-y-4 text-left">
-              {faqCategories.map((category) => (
-                <div key={category.title} className="space-y-4">
-                  <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">
-                    <span className="w-1.5 h-6 bg-brand-lime rounded-full" />
-                    {category.title}
-                  </h3>
-                  <div className="space-y-3 pt-6 border-t-2 border-brand-dark/10">
-                    {category.questions.map((item, i) => (
-                      <div 
-                        key={i} 
-                        className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
-                          openItems[category.title] === i 
-                            ? "border-brand-lime bg-brand-lime/[0.03]" 
-                            : "border-brand-dark/5 hover:border-brand-lime/30 bg-white"
-                        }`}
+          <div className="text-center mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">FAQ</span>
+              Preguntas Frecuentes
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              (Resolvemos tus dudas de inmediato)
+            </p>
+          </div>
+          <div className="space-y-4 text-left">
+            {faqCategories.map((category) => (
+              <div key={category.title} className="space-y-4">
+                <h3 className="text-lg font-black text-brand-dark uppercase tracking-tighter flex items-center gap-2 mt-8 mb-4">
+                  <span className="w-1.5 h-6 bg-brand-lime rounded-full" />
+                  {category.title}
+                </h3>
+                <div className="space-y-3 pt-6 border-t-2 border-brand-dark/10">
+                  {category.questions.map((item, i) => (
+                    <div 
+                      key={i} 
+                      className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
+                        openItems[category.title] === i 
+                          ? "border-brand-lime bg-brand-lime/[0.03]" 
+                          : "border-brand-dark/5 hover:border-brand-lime/30 bg-white"
+                      }`}
+                    >
+                      <button
+                        onClick={() => toggleItem(category.title, i)}
+                        className="w-full px-5 py-5 text-left flex items-center justify-between gap-4 touch-manipulation"
                       >
-                        <button
-                          onClick={() => toggleItem(category.title, i)}
-                          className="w-full px-5 py-5 text-left flex items-center justify-between gap-4 touch-manipulation"
-                        >
-                          <span className="font-bold text-brand-dark text-sm sm:text-base leading-tight tracking-tight">
-                            {item.q}
-                          </span>
-                          <span className={`text-xl transition-transform duration-200 shrink-0 ${
-                            openItems[category.title] === i ? "rotate-45 text-brand-lime" : "text-brand-dark/30"
-                          }`}>
-                            +
-                          </span>
-                        </button>
-                        {openItems[category.title] === i && (
-                          <div className="px-5 pb-5 text-brand-dark/80 text-xs sm:text-sm leading-relaxed border-t border-brand-lime/10 pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-brand-lime/5">
-                            {item.a}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                        <span className="font-bold text-brand-dark text-sm sm:text-base leading-tight tracking-tight">
+                          {item.q}
+                        </span>
+                        <span className={`text-xl transition-transform duration-200 shrink-0 ${
+                          openItems[category.title] === i ? "rotate-45 text-brand-lime" : "text-brand-dark/30"
+                        }`}>
+                          +
+                        </span>
+                      </button>
+                      {openItems[category.title] === i && (
+                        <div className="px-5 pb-5 text-brand-dark/80 text-xs sm:text-sm leading-relaxed border-t border-brand-lime/10 pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-brand-lime/5">
+                          {item.a}
+                        </div>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
 
-            <div className="mt-16 text-center">
-              <Link href="/faq">
-                <Button 
-                  className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
-                >
-                  Consulta nuestro FAQ completo
-                  <span className="transition-transform group-hover:translate-x-1">→</span>
-                </Button>
-              </Link>
-            </div>
+          <div className="mt-16 text-center">
+            <Link href="/faq">
+              <Button 
+                className="group bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-8 py-6 rounded-full hover:bg-brand-lime/90 transition-all flex items-center gap-3 mx-auto shadow-xl active:scale-95 border-0"
+              >
+                Consulta nuestro FAQ completo
+                <span className="transition-transform group-hover:translate-x-1">→</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
