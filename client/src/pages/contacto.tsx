@@ -135,15 +135,15 @@ export default function Contacto() {
     <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-32 lg:pt-40 min-h-[400px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center mb-2">
             Contacto
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-20 mx-auto px-2">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
             ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
           </p>
         }
