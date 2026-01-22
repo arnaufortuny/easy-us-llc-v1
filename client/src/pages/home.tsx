@@ -36,17 +36,17 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             {/* Trustpilot only on Mobile, above title */}
-            <div className="mb-6 flex justify-center sm:hidden">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 bg-white px-3 py-2 rounded-full shadow-sm border border-gray-100">
-                <img src={trustpilotLogo} alt="Trustpilot" className="h-4 w-auto" />
+            <div className="mb-8 flex justify-center sm:hidden">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border border-gray-100">
+                <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
                 <div className="flex gap-0.5">
                   {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="#00b67a">
+                    <svg key={star} className="w-3 h-3" viewBox="0 0 24 24" fill="#00b67a">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
                   ))}
                 </div>
-                <span className="text-brand-dark text-[10px] font-black">5/5</span>
+                <span className="text-brand-dark text-[11px] font-black">5/5</span>
               </a>
             </div>
 
@@ -71,7 +71,7 @@ export default function Home() {
               </Button>
             </div>
 
-            <div className="mb-3 sm:mb-4 flex justify-center">
+            <div className="hidden sm:flex mb-3 sm:mb-4 justify-center">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
                 <div className="flex gap-0.5 sm:gap-1">
