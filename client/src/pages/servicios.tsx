@@ -173,9 +173,33 @@ export default function Servicios() {
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
-            Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-          </p>
+          <motion.div 
+            className="flex flex-col items-center"
+            initial="initial"
+            animate="animate"
+            variants={staggerContainer}
+          >
+            <motion.p 
+              className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2"
+              variants={fadeIn}
+            >
+              Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
+            </motion.p>
+            <motion.div className="flex flex-col sm:flex-row justify-center items-center gap-3 md:gap-4 w-full max-w-lg mx-auto" variants={fadeIn}>
+              <Button 
+                size="lg" 
+                className="bg-brand-lime text-brand-dark font-black px-10 h-14 rounded-full text-lg shadow-lg hover:shadow-brand-lime/20 transition-all hover:scale-105 active:scale-95 w-full sm:w-auto"
+                onClick={() => {
+                  const element = document.getElementById('pricing');
+                  if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
+              >
+                VER PRECIOS
+              </Button>
+            </motion.div>
+          </motion.div>
         }
       />
 
@@ -222,15 +246,21 @@ export default function Servicios() {
       {/* 2. Nuestros Packs */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+          <motion.div 
+            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
-              Nuestros Packs
-            </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+              NUESTROS PACKS
+            </motion.h2>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Elige el plan que mejor se adapte a ti)
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
             initial="initial"

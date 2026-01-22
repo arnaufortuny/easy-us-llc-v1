@@ -73,7 +73,7 @@ export default function Home() {
 
             <motion.h1 
               className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.9' }}
+              style={{ fontSize: 'clamp(32px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
               Optimiza la estructura fiscal de tu negocio digital<br />
@@ -143,11 +143,11 @@ export default function Home() {
                 } else {
                   setLocation("/servicios#pricing");
                 }
-              }} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md">
-                {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
+              }} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-sm sm:text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+                {createOrderMutation.isPending ? "Procesando..." : "EMPIEZA AHORA →"}
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12">
-                Conoce Nuestros Servicios →
+              <Button size="lg" onClick={() => setLocation("/servicios")} variant="outline" className="border-brand-dark text-brand-dark font-black text-sm sm:text-sm px-8 hover:bg-brand-dark/5 rounded-full w-full sm:w-auto h-12 sm:h-12 transition-all hover:scale-105 active:scale-95">
+                CONOCE NUESTROS SERVICIOS →
               </Button>
             </motion.div>
           </motion.div>
