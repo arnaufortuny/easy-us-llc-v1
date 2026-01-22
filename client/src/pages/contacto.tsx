@@ -284,11 +284,6 @@ export default function Contacto() {
                     >
                       {form.formState.isSubmitting ? "Enviando..." : "Enviar Mensaje"}
                     </Button>
-                    {!isEmailVerified && (
-                      <p className="text-center text-[10px] font-black uppercase text-brand-dark/30 tracking-[0.2em] mt-4">
-                        * Verifica tu email para habilitar el envío
-                      </p>
-                    )}
                   </div>
                 </form>
               </Form>
