@@ -175,10 +175,10 @@ function PorQueEasyUSLLC() {
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {[
-            { title: "Rapidez real", desc: "Tu LLC lista en 2–3 días hábiles, con un proceso ágil y bien organizado desde el primer momento." },
-            { title: "Transparencia", desc: "Precio claro y cerrado desde el inicio. Todo incluido, sin costes ocultos ni sorpresas." },
-            { title: "Especialistas", desc: "Equipo con experiencia real en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
-            { title: "Soporte humano", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
+            { title: "RAPIDEZ REAL", desc: "Tu LLC lista en 2–3 días hábiles, con un proceso ágil y bien organizado desde el primer momento." },
+            { title: "TRANSPARENCIA", desc: "Precio claro y cerrado desde el inicio. Todo incluido, sin costes ocultos ni sorpresas." },
+            { title: "ESPECIALISTAS", desc: "Equipo con experiencia real en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
+            { title: "SOPORTE HUMANO", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
             <div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 hover:bg-brand-lime/10 transition-colors text-center">
               <p className="font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
