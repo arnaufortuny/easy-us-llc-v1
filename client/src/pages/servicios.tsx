@@ -65,7 +65,7 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-16 sm:pt-16 lg:pt-20"
+        className="flex flex-col items-center justify-center text-center pt-48 sm:pt-16 min-h-[550px] sm:min-h-[auto]"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
@@ -73,7 +73,7 @@ export default function Servicios() {
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2">
             Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
           </p>
         }
