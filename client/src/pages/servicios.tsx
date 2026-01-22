@@ -425,7 +425,6 @@ export default function Servicios() {
       </section>
 
       <AsistenciaBancaria />
-      <AsistenciaProcesadores />
       <ServiciosAdicionales />
       <Soporte />
 
@@ -461,34 +460,6 @@ function AsistenciaBancaria() {
           ))}
         </div>
         <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic">Incluido en tu paquete inicial.</p>
-      </div>
-    </section>
-  );
-}
-
-function AsistenciaProcesadores() {
-  return (
-    <section className="py-8 sm:py-14">
-      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">PAGOS</span>
-            Asistencia con Procesadores
-          </h2>
-          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Te orientamos en activación)</p>
-        </div>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
-          {[
-            { title: "Stripe", desc: "Cómo crear cuenta Stripe conectada a tu LLC." },
-            { title: "Revolut Business", desc: "Proceso de solicitud y vinculación de tu LLC." },
-            { title: "Orientación general", desc: "Explicamos qué procesador es mejor para tu negocio." },
-          ].map((service, i) => (
-            <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-4 sm:p-6 text-center">
-              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2 sm:mb-3">{service.title}</p>
-              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
