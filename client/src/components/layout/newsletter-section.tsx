@@ -71,9 +71,12 @@ export function NewsletterSection() {
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-1.5 top-1.5 h-9 w-9 md:h-11 md:w-11 rounded-full bg-brand-dark text-brand-lime p-0 hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center"
+                className="absolute right-1.5 top-1.5 h-9 w-9 md:h-11 md:w-11 rounded-full bg-white text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-lg flex items-center justify-center border border-brand-dark/10"
               >
-                <Send size={18} />
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 md:w-5 md:h-5">
+                  <path d="m5 12 7 7 7-7"/>
+                  <path d="M12 19V5"/>
+                </svg>
               </Button>
             </div>
           </form>
