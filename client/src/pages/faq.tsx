@@ -5,6 +5,8 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { HelpSection } from "@/components/layout/help-section";
 import { useState } from "react";
 
+import { NewsletterSection } from "@/components/layout/newsletter-section";
+
 const faqCategories = [
   {
     title: "Sobre Easy US LLC",
@@ -212,6 +214,7 @@ export default function FAQ() {
       </section>
 
       <HelpSection />
+      <NewsletterSection />
       <Footer />
     </div>
   );
