@@ -306,16 +306,6 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-
-          <div className="mt-12 flex justify-center">
-            <Button 
-              size="lg" 
-              onClick={() => setLocation("/faq")}
-              className="bg-brand-lime text-brand-dark font-black text-sm sm:text-base px-10 border-0 rounded-full h-14 shadow-lg transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20 uppercase"
-            >
-              VER TODAS LAS PREGUNTAS FRECUENTES
-            </Button>
-          </div>
         </div>
       </section>
 
