@@ -150,7 +150,7 @@ export default function Servicios() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
+      <section className="py-8 sm:py-14 bg-white" id="servicios">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -178,7 +178,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 border-t border-brand-dark/5" id="pricing">
+      <section className="py-12 sm:py-20" id="pricing">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -307,7 +307,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
+      <section className="py-8 sm:py-14 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -359,7 +359,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-lime/10">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -425,9 +425,102 @@ export default function Servicios() {
         </div>
       </section>
 
+      <AsistenciaBancaria />
+      <ServiciosAdicionales />
+      <Soporte />
+
       <HelpSection />
       <NewsletterSection />
       <Footer />
     </div>
+  );
+}
+
+function AsistenciaBancaria() {
+  return (
+    <section className="py-8 sm:py-14 bg-white">
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
+            Asistencia Bancaria
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
+          {[
+            { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
+            { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
+            { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
+            { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
+          ].map((service, i) => (
+            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-5 text-center">
+              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-sm sm:text-lg text-brand-dark font-medium italic">Incluido en tu paquete inicial.</p>
+      </div>
+    </section>
+  );
+}
+
+function ServiciosAdicionales() {
+  return (
+    <section className="py-8 sm:py-14 bg-white">
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">EXTRAS</span>
+            Servicios Adicionales
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Servicios a medida para tu LLC)</p>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-6 mb-8 max-w-4xl mx-auto">
+          {[
+            { title: "Disolución de LLC", desc: "Gestionamos el cierre oficial y ordenado de tu LLC en Estados Unidos, asegurando que la estructura quede correctamente disuelta y sin obligaciones futuras." },
+            { title: "Enmiendas de la LLC", desc: "Tramitamos modificaciones oficiales como cambio de nombre, actualización de datos o ajustes estructurales, manteniendo tu empresa siempre en regla." },
+            { title: "Agente Registrado", desc: "Gestión y renovación del Registered Agent para garantizar que tu LLC disponga de dirección legal válida y cumpla con los requisitos estatales." },
+            { title: "PRESENTACIÓN FISCAL", desc: "Preparamos y presentamos los formularios 1120 y 5472 ante el IRS, cumpliendo con las obligaciones informativas federales aplicables a LLCs de propietarios no residentes." },
+          ].map((service, i) => (
+            <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 text-center">
+              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-2">{service.title}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Soporte() {
+  return (
+    <section className="py-8 sm:py-14">
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">SOPORTE ILIMITADO</span>
+            Soporte Ilimitado
+          </h2>
+          <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            Incluido durante 12 meses
+          </p>
+        </div>
+        <div className="grid md:grid-cols-3 gap-6 sm:gap-8 mb-8">
+          {[
+            { title: "Email y WhatsApp", desc: "Atención directa y personalizada para resolver tus dudas operativas cuando lo necesites." },
+            { title: "Guía de bienvenida", desc: "Manual claro y práctico para entender cómo funciona tu LLC y cómo mantenerla correctamente." },
+            { title: "Alertas de plazos", desc: "Te avisamos con antelación de las obligaciones y fechas clave para que no se te pase nada." },
+          ].map((service, i) => (
+            <div key={i} className="rounded-xl bg-white border border-brand-lime/10 p-6 shadow-sm text-center">
+              <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-3">{service.title}</p>
+              <p className="text-xs sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

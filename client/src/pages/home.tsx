@@ -120,17 +120,9 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
-      </div>
-
       <PorQueEasyUSLLC />
 
-      <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
-      </div>
-
-      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="proceso">
+      <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -161,17 +153,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
-      </div>
-
       <HelpSection />
-
-      <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
-      </div>
-
       <NewsletterSection />
       <Footer />
     </div>
