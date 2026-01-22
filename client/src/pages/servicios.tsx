@@ -161,12 +161,12 @@ export default function Servicios() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-12">
             {[
-              { title: "Tramitación completa ante el gobierno", desc: "Preparamos y presentamos electrónicamente tus Articles of Organization ante el Secretary of State. Gestionamos todo el proceso oficial." },
-              { title: "Obtención de EIN ante el IRS", desc: "Solicitamos y obtenemos tu Employer Identification Number (número fiscal) directamente ante el Internal Revenue Service." },
-              { title: "Cuentas Bancarias Mercury & Relay", desc: "Te acompañamos en la apertura de tus cuentas en Mercury y Relay Financial, con tarjeta física de crédito y débito internacional." },
-              { title: "Presentación BOI Report ante FinCEN", desc: "Preparamos y presentamos tu Beneficial Ownership Information Report ante Financial Crimes Enforcement Network. Obligatorio federal desde 2024." },
-              { title: "Registered Agent 12 meses", desc: "Contratamos y pagamos tu Registered Agent oficial en el estado durante el primer año completo. Tu dirección legal en USA." },
-              { title: "Tarjetas Físicas de Crédito/Débito", desc: "Gestionamos la obtención de tarjetas físicas enviadas a tu domicilio para el control total de los fondos de tu LLC." },
+              { title: "Constitución oficial de tu LLC", desc: "Preparamos y presentamos tu empresa ante el Secretary of State, gestionando todo el proceso de forma ágil y sin que tengas que preocuparte por trámites." },
+              { title: "Obtención del EIN", desc: "Solicitamos tu Employer Identification Number directamente ante el IRS para que tu LLC quede correctamente identificada a nivel fiscal." },
+              { title: "Cuentas bancarias en EE. UU.", desc: "Te acompañamos en la apertura de cuentas en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito." },
+              { title: "BOI Report ante FinCEN", desc: "Preparamos y presentamos tu Beneficial Ownership Information Report, cumpliendo con la obligación federal vigente desde 2024." },
+              { title: "Registered Agent incluido", desc: "Incluimos tu Registered Agent oficial durante el primer año completo, con dirección legal en Estados Unidos para tu empresa." },
+              { title: "Tarjetas físicas", desc: "Gestionamos la obtención de tarjetas físicas de débito y crédito, enviadas a tu domicilio para que puedas operar con total control." },
             ].map((service, i) => (
               <div key={i} className="rounded-xl bg-brand-lime/5 border border-brand-lime/10 p-4 sm:p-6 transition-transform active:scale-[0.98] text-center">
                 <p className="font-black uppercase tracking-tight text-sm sm:text-lg text-brand-dark mb-1 sm:mb-3 leading-tight">{service.title}</p>
