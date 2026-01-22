@@ -307,7 +307,7 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5">
+      <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="bancos">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
@@ -321,9 +321,9 @@ export default function Servicios() {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {[
-              { title: "MERCURY", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
-              { title: "RELAY", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
-              { title: "ESTRATEGIA BANCARIA", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
+              { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
+              { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
+              { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
               { title: "ACOMPAÑAMIENTO CONTINUO", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((bank, i) => (
               <div key={i} className="p-5 sm:p-8 bg-white rounded-2xl border border-brand-dark/5 text-center shadow-sm">
@@ -333,11 +333,65 @@ export default function Servicios() {
             ))}
           </div>
           
-          <div className="text-center italic text-brand-dark font-medium text-sm sm:text-lg">
+          <div className="text-center italic text-brand-dark font-medium text-sm sm:text-lg mb-12">
             Incluido en tu paquete inicial.
+          </div>
+
+          <div className="border-t border-brand-dark/5 w-full mb-12" />
+
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
+              Precios Mantenimiento
+            </h2>
+            <p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo incluido anualmente)</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+            {[
+              { state: "New Mexico", price: "349€", annual: true },
+              { state: "Wyoming", price: "499€", annual: true },
+              { state: "Delaware", price: "599€", annual: true }
+            ].map((item, i) => (
+              <div key={i} className="border-[3px] border-brand-lime rounded-3xl overflow-hidden relative bg-white shadow-xl flex flex-col h-full transform transition-all hover:scale-[1.02] hover:shadow-2xl group">
+                <div className="p-5 sm:p-8 flex-grow">
+                  <div className="flex justify-between items-start mb-4">
+                    <h3 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight">{item.state}</h3>
+                    <span className="bg-brand-lime/20 text-brand-dark text-[10px] sm:text-[13px] font-black px-3 py-1.5 rounded-full uppercase">Mantenimiento</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 mb-2">
+                    <p className="text-4xl sm:text-5xl font-black text-brand-dark">{item.price}</p>
+                    <span className="text-muted-foreground text-xs sm:text-sm font-medium">/año</span>
+                  </div>
+                  <p className="text-muted-foreground text-[8px] sm:text-[10px] font-black uppercase tracking-widest mb-6 sm:mb-8 flex items-center gap-1.5">
+                    <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-brand-lime" />
+                    Tasas estatales incluidas
+                  </p>
+                  <div className="space-y-3 sm:space-y-4 text-sm sm:text-lg mb-4 sm:mb-6 border-t border-brand-lime/10 pt-4 sm:pt-6">
+                    {maintenanceFeatures.map((f) => (
+                      <p key={f} className="flex items-center justify-start gap-2 sm:gap-3 text-brand-dark/80 font-medium text-left leading-tight">
+                        <span className="text-brand-lime font-black">✓</span> 
+                        <span>{f}</span>
+                      </p>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-5 sm:p-8 pt-0">
+                  <Button 
+                    className="w-full bg-brand-lime text-brand-dark font-black rounded-full py-4 sm:py-6 text-sm sm:text-lg border-0 shadow-lg hover:bg-brand-lime/90 transition-all transform active:scale-95 h-auto whitespace-normal leading-tight"
+                  >
+                    Contratar Mantenimiento
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
+
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="border-t border-brand-dark/5 w-full" />
+      </div>
 
       <section className="py-12 sm:py-20 bg-white">
         <div className="container max-w-4xl mx-auto px-4 sm:px-6">
@@ -406,7 +460,11 @@ export default function Servicios() {
         </div>
       </section>
 
-      <AsistenciaBancaria />
+      <div className="container max-w-7xl mx-auto px-5 sm:px-8">
+        <div className="border-t border-brand-dark/5 w-full" />
+      </div>
+
+      <AsistenciaBancariaInternal />
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         <div className="border-t border-brand-dark/5 w-full" />
       </div>
@@ -423,9 +481,9 @@ export default function Servicios() {
   );
 }
 
-function AsistenciaBancaria() {
+function AsistenciaBancariaInternal() {
   return (
-    <section className="py-8 sm:py-14 bg-white">
+    <section className="py-8 sm:py-14 bg-white" id="asistencia-bancaria">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
