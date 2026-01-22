@@ -45,13 +45,19 @@ export default function Home() {
       >
         <div className="flex flex-wrap justify-start gap-1.5 sm:gap-4 mb-6 sm:mb-10 w-full max-w-full overflow-hidden">
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+            Tu LLC en 2 días
+          </span>
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+            Pack Todo Incluido
+          </span>
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
+            Sin IVA
+          </span>
+          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Apertura Cuenta Mercury & Relay
           </span>
           <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
             Tarjeta Física de Crédito y Débito
-          </span>
-          <span className="inline-flex items-center px-2.5 py-1 sm:px-6 sm:py-3 rounded-full bg-brand-lime text-brand-dark font-black text-[9px] sm:text-base shadow-md whitespace-nowrap">
-            Gestión Documental Completa
           </span>
         </div>
         <div className="mb-6 sm:mb-10 flex justify-start">
