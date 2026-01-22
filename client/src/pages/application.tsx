@@ -194,11 +194,11 @@ export default function ApplicationWizard() {
         <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-brand-lime/5 to-transparent -z-10" />
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="pt-32 pb-16 text-center">
+          <div className="pt-32 pb-16 flex flex-col items-center justify-center text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-5xl md:text-7xl font-black uppercase tracking-tight text-brand-dark mb-6 leading-[0.9]"
+              className="text-5xl md:text-7xl font-black uppercase tracking-tight text-brand-dark mb-6 leading-[0.9] text-center"
             >
               VAMOS A <br /> CONSTITUIR TU <span className="text-brand-lime">LLC</span>
             </motion.h1>
