@@ -186,7 +186,7 @@ export default function Servicios() {
                 </Button>
               </div>
               <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 349€</p>
+                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 339€</p>
               </div>
             </motion.div>
 
@@ -224,7 +224,7 @@ export default function Servicios() {
                 </Button>
               </div>
               <div className="bg-brand-cream/30 px-4 py-2 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
-                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 499€</p>
+                <p className="font-black text-[7px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Año 2: 449€</p>
               </div>
             </motion.div>
 
@@ -337,8 +337,8 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             {[
-              { state: "New Mexico", price: "349€", annual: true },
-              { state: "Wyoming", price: "499€", annual: true },
+              { state: "New Mexico", price: "339€", annual: true },
+              { state: "Wyoming", price: "449€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
               <motion.div key={i} className="border-[2px] border-brand-lime rounded-2xl overflow-hidden relative bg-white shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center" variants={fadeIn}>

@@ -321,7 +321,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "New Mexico LLC",
       description: "Constitución rápida en el estado más eficiente. Ideal para bajo coste de mantenimiento.",
-      price: 59900,
+      price: 63900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -336,7 +336,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Wyoming LLC",
       description: "Constitución premium en el estado más prestigioso de USA. Máxima privacidad y protección.",
-      price: 69900,
+      price: 79900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -345,6 +345,21 @@ async function seedDatabase() {
         "Operating Agreement profesional",
         "BOI Report presentado",
         "Annual Report año 1",
+        "Declaraciones fiscales año 1",
+        "Soporte completo 12 meses"
+      ],
+    });
+    await storage.createProduct({
+      name: "Delaware LLC",
+      description: "El estándar para startups y empresas tecnológicas. Reconocimiento legal global.",
+      price: 99900,
+      features: [
+        "Tasas del estado pagadas",
+        "Registered Agent (12 meses)",
+        "Articles of Organization oficiales",
+        "Operating Agreement profesional",
+        "EIN del IRS",
+        "BOI Report presentado",
         "Declaraciones fiscales año 1",
         "Soporte completo 12 meses"
       ],
