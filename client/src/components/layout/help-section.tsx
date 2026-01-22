@@ -35,7 +35,7 @@ export function HelpSection() {
                 variant="outline" 
                 className="border-brand-dark text-brand-dark font-black text-sm md:text-base px-8 w-full rounded-full h-12 md:h-14 hover:bg-brand-dark hover:text-white active:scale-95 transition-all uppercase tracking-tight"
               >
-                PREGUNTAS FRECUENTES
+                Preguntas Frecuentes
               </Button>
             </Link>
           </div>
