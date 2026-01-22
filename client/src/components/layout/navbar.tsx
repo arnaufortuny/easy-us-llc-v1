@@ -33,9 +33,9 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-[100] bg-brand-lime border-b border-brand-dark/10 shadow-md transition-shadow h-20 sm:h-24 flex items-center" data-mobile-menu-open={isOpen}>
-      <div className="container max-w-7xl mx-auto px-4 sm:px-8 w-full">
-        <div className="flex items-center justify-between">
+    <header className="sticky top-0 z-[100] bg-brand-lime border-b border-brand-dark/10 shadow-md transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
+      <div className="w-full px-4 sm:px-8">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl sm:text-2xl font-black text-brand-dark tracking-tighter shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
             EASY US LLC
           </Link>

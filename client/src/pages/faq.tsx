@@ -140,11 +140,11 @@ export default function FAQ() {
   })).filter(category => category.questions.length > 0);
 
   return (
-    <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden">
+    <div className="min-h-screen bg-white font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
 
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-32 lg:pt-40 min-h-[450px] sm:min-h-[auto]"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-32 lg:pt-40 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">

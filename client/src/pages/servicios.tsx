@@ -75,11 +75,11 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-white text-center">
+    <div className="min-h-screen font-sans bg-white text-center overflow-x-hidden w-full relative">
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto]"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">

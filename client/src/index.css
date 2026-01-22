@@ -49,6 +49,13 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+  #root {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold tracking-tight text-left;

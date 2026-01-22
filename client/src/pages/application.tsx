@@ -215,7 +215,7 @@ export default function ApplicationWizard() {
   const isReadOnly = application.status !== 'draft';
 
   return (
-    <div className="min-h-screen bg-white font-sans flex flex-col">
+    <div className="min-h-screen bg-white font-sans flex flex-col overflow-x-hidden w-full relative">
       <Navbar />
       
       <HeroSection 
