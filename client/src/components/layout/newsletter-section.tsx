@@ -38,7 +38,7 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden font-sans border-t border-black/5">
+    <section className="py-20 bg-brand-dark relative overflow-hidden font-sans border-t border-white/5">
       <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="container max-w-4xl mx-auto px-6 relative z-10">
@@ -49,10 +49,10 @@ export function NewsletterSection() {
           className="text-center space-y-8"
         >
           <div className="space-y-4">
-            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-brand-dark leading-none">
-              Únete a nuestra <span className="text-brand-lime bg-brand-dark px-2">Newsletter</span>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter text-white leading-none">
+              Únete a nuestra <span className="text-brand-dark bg-brand-lime px-2">Newsletter</span>
             </h2>
-            <p className="text-brand-dark/60 text-lg md:text-xl font-medium max-w-2xl mx-auto">
+            <p className="text-white/70 text-lg md:text-xl font-medium max-w-2xl mx-auto">
               Recibe consejos exclusivos sobre fiscalidad, banca en USA y estrategias para escalar tu negocio internacional.
             </p>
           </div>
@@ -64,7 +64,7 @@ export function NewsletterSection() {
                 placeholder="Tu correo electrónico" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-16 pl-8 pr-16 rounded-full border-2 border-brand-dark bg-white text-brand-dark placeholder:text-brand-dark/30 text-lg font-bold focus:ring-brand-lime transition-all shadow-xl"
+                className="h-16 pl-8 pr-16 rounded-full border-2 border-white/10 bg-white/5 text-white placeholder:text-white/30 text-lg font-bold focus:border-brand-lime focus:ring-0 transition-all shadow-2xl"
                 required
               />
               <Button 
@@ -75,7 +75,7 @@ export function NewsletterSection() {
                 <Send size={24} />
               </Button>
             </div>
-            <p className="mt-4 text-[10px] text-brand-dark/40 font-black uppercase tracking-widest">
+            <p className="mt-4 text-[10px] text-white/30 font-black uppercase tracking-widest">
               Sin spam. Solo valor real para tu negocio.
             </p>
           </form>
