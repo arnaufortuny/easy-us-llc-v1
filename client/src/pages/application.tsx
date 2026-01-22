@@ -88,6 +88,24 @@ export default function ApplicationWizard() {
   const params = new URLSearchParams(window.location.search);
   const stateFromUrl = params.get("state") || "New Mexico";
 
+  const [selectedCountryPrefix, setSelectedCountryPrefix] = useState("+34");
+
+  useEffect(() => {
+    // Detectar país por zona horaria o configuración del navegador como fallback simple
+    // En una app real usaríamos una API de IP, pero para este requerimiento:
+    try {
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      if (timezone.includes("America/Mexico")) setSelectedCountryPrefix("+52");
+      else if (timezone.includes("America/Argentina")) setSelectedCountryPrefix("+54");
+      else if (timezone.includes("America/Bogota")) setSelectedCountryPrefix("+57");
+      else if (timezone.includes("America/Santiago")) setSelectedCountryPrefix("+56");
+      else if (timezone.includes("America/Lima")) setSelectedCountryPrefix("+51");
+      else if (timezone.includes("America/Caracas")) setSelectedCountryPrefix("+58");
+    } catch (e) {
+      console.error("Error detecting country:", e);
+    }
+  }, []);
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -303,7 +321,10 @@ export default function ApplicationWizard() {
                                           <FormLabel className="font-normal text-sm text-gray-500 mb-1.5 block">Número de teléfono</FormLabel>
                                           <div className="flex gap-2">
                                             <div className="w-32">
-                                              <Select defaultValue="+34">
+                                              <Select 
+                                                value={selectedCountryPrefix} 
+                                                onValueChange={setSelectedCountryPrefix}
+                                              >
                                                 <SelectTrigger className="rounded-xl border-gray-100 bg-white h-12 md:h-14 px-3 focus:ring-brand-lime font-normal text-sm">
                                                   <SelectValue placeholder="+34" />
                                                 </SelectTrigger>
