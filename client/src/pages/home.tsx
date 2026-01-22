@@ -32,19 +32,20 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-white">
       <Navbar />
       <HeroSection 
+        className="flex flex-col items-center justify-center text-center pt-24 sm:pt-32"
         title={
-          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-left" style={{ fontSize: 'clamp(32px, 8vw, 84px)', lineHeight: '0.95' }}>
+          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" style={{ fontSize: 'clamp(32px, 8vw, 84px)', lineHeight: '0.95' }}>
             Optimiza la estructura fiscal de tu negocio digital<br />
             <span className="text-brand-lime">con una LLC Americana</span>
           </h1>
         }
         subtitle={
-          <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-3 sm:mb-4 leading-relaxed text-left">
+          <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-3 sm:mb-4 leading-relaxed text-center mx-auto">
             Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
           </p>
         }
       >
-        <div className="flex flex-wrap justify-start gap-1 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden">
+        <div className="flex flex-wrap justify-center gap-1 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden">
           <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
             Tu LLC en 2 días
           </span>
@@ -64,7 +65,7 @@ export default function Home() {
             Tarjeta Física de Crédito y Débito
           </span>
         </div>
-        <div className="mb-3 sm:mb-4 flex justify-start">
+        <div className="mb-3 sm:mb-4 flex justify-center">
           <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 sm:gap-4 bg-white px-2 py-1.5 sm:px-6 sm:py-3 rounded-full shadow-md border border-gray-100">
             <img src={trustpilotLogo} alt="Trustpilot" className="h-4 sm:h-7 w-auto" />
             <div className="flex gap-0.5 sm:gap-1">
@@ -77,7 +78,7 @@ export default function Home() {
             <span className="text-brand-dark text-[10px] sm:text-lg font-black">5/5</span>
           </a>
         </div>
-        <div className="flex flex-col sm:flex-row justify-start gap-2 sm:gap-3 mb-2 sm:mb-4 w-full">
+        <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-2 sm:mb-4 w-full">
           <Button size="lg" onClick={() => setLocation("/servicios")} disabled={createOrderMutation.isPending} className="bg-brand-lime text-brand-dark font-black text-xs sm:text-sm px-4 sm:px-8 border-0 rounded-full w-full sm:w-auto h-10 sm:h-12 shadow-md">
             {createOrderMutation.isPending ? "Procesando..." : "Empieza ahora →"}
           </Button>

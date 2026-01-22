@@ -219,14 +219,14 @@ export default function ApplicationWizard() {
       <Navbar />
       
       <HeroSection 
-        className="pt-24 sm:pt-32 lg:pt-40"
+        className="flex flex-col items-center justify-center text-center pt-24 sm:pt-32 lg:pt-40"
         title={
-          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-6 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] font-heading" style={{ fontSize: 'clamp(32px, 6vw, 72px)', lineHeight: '1' }}>
+          <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-6 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] font-heading text-center" style={{ fontSize: 'clamp(32px, 6vw, 72px)', lineHeight: '1' }}>
             Vamos a constituir <span className="text-brand-lime">tu LLC</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium max-w-2xl leading-relaxed mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium max-w-2xl leading-relaxed mb-12 sm:mb-20 text-center mx-auto">
             Completa los datos a continuación para iniciar el proceso de formación de tu empresa en Estados Unidos.
           </p>
         }
