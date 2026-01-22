@@ -50,7 +50,7 @@ export default function Home() {
               </a>
             </div>
 
-            <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" style={{ fontSize: 'clamp(32px, 7vw, 76px)', lineHeight: '0.95' }}>
+            <h1 className="font-black uppercase tracking-tighter text-brand-dark mb-2 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" style={{ fontSize: 'clamp(38px, 10vw, 76px)', lineHeight: '0.9' }}>
               Optimiza la estructura fiscal de tu negocio digital<br />
               <span className="text-brand-lime">con una LLC Americana</span>
             </h1>
@@ -58,7 +58,7 @@ export default function Home() {
         }
         subtitle={
           <div className="flex flex-col items-center">
-            <p className="text-xs sm:text-base text-brand-dark font-medium max-w-3xl mb-6 sm:mb-4 leading-relaxed text-center mx-auto">
+            <p className="text-sm sm:text-base text-brand-dark font-medium max-w-3xl mb-6 sm:mb-4 leading-relaxed text-center mx-auto px-2">
               Para freelancers, emprendedores digitales, ecommerce y negocios de servicios online. <span className="block sm:inline font-bold">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
             </p>
             

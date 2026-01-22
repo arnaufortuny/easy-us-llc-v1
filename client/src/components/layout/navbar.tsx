@@ -33,31 +33,31 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-[100] bg-white border-b border-brand-lime/10 shadow-sm transition-shadow h-20 sm:h-24 flex items-center" data-mobile-menu-open={isOpen}>
+    <header className="sticky top-0 z-[100] bg-brand-lime border-b border-brand-dark/10 shadow-md transition-shadow h-20 sm:h-24 flex items-center" data-mobile-menu-open={isOpen}>
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 w-full">
         <div className="flex items-center justify-between">
-          <Link href="/" className="text-xl sm:text-2xl font-black text-brand-lime tracking-tighter shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
+          <Link href="/" className="text-xl sm:text-2xl font-black text-brand-dark tracking-tighter shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); window.scrollTo(0, 0); }} data-testid="link-logo">
             EASY US LLC
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            <button onClick={() => handleNavClick("/")} className="text-base font-bold text-brand-dark hover:text-brand-lime transition-colors" data-testid="nav-inicio">Inicio</button>
-            <button onClick={() => handleNavClick("/servicios")} className="text-base font-bold text-brand-dark hover:text-brand-lime transition-colors" data-testid="nav-servicios">Nuestros Servicios</button>
-            <button onClick={() => scrollToSection("pricing")} className="text-base font-bold text-brand-dark hover:text-brand-lime transition-colors" data-testid="nav-precios">Precios</button>
-            <button onClick={() => handleNavClick("/faq")} className="text-base font-bold text-brand-dark hover:text-brand-lime transition-colors" data-testid="nav-faq">FAQ</button>
-            <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-brand-dark hover:text-brand-lime transition-colors" data-testid="nav-contacto">Contáctanos</button>
+            <button onClick={() => handleNavClick("/")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-inicio">Inicio</button>
+            <button onClick={() => handleNavClick("/servicios")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-servicios">Nuestros Servicios</button>
+            <button onClick={() => scrollToSection("pricing")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-precios">Precios</button>
+            <button onClick={() => handleNavClick("/faq")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-faq">FAQ</button>
+            <button onClick={() => handleNavClick("/contacto")} className="text-base font-bold text-brand-dark hover:text-white transition-colors" data-testid="nav-contacto">Contáctanos</button>
           </nav>
 
           <Button 
             onClick={() => handleNavClick("/servicios")} 
-            className="hidden md:inline-flex bg-brand-lime text-brand-dark font-bold border-0 rounded-full h-12 px-6 hover:bg-brand-lime/90"
+            className="hidden md:inline-flex bg-brand-dark text-white font-bold border-0 rounded-full h-12 px-6 hover:bg-brand-dark/90"
             data-testid="button-nav-cta"
           >
             Constituye ahora tu LLC
           </Button>
 
           <button 
-            className="md:hidden p-2 text-brand-lime relative z-[70]"
+            className="md:hidden p-2 text-brand-dark relative z-[70]"
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
             data-testid="button-mobile-menu"
