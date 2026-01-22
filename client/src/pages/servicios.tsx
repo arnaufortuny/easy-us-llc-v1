@@ -136,19 +136,43 @@ export default function Servicios() {
     <div className="min-h-screen font-sans bg-white text-center">
       <Navbar />
       
-      <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
-        title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
-            Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
-          </h1>
-        }
-        subtitle={
-          <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto">
-            Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-          </p>
-        }
-      />
+        <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
+          <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-6 sm:mb-8 px-2">
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Tu LLC en 2 días
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Pack Todo Incluido
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Sin IVA
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Precios Transparentes
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Trato Cercano
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Apertura Cuenta Mercury & Relay
+            </span>
+            <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
+              Tarjeta Física de Crédito y Débito
+            </span>
+          </div>
+          <HeroSection 
+            className="flex flex-col items-center justify-center text-center pt-12 sm:pt-16 lg:pt-20"
+            title={
+              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center">
+                Constituimos tu LLC en Estados Unidos de <span className="text-brand-lime">forma simple, rápida y transparente.</span>
+              </h1>
+            }
+            subtitle={
+              <p className="text-lg sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto">
+                Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
+              </p>
+            }
+          />
 
       {/* 1. Servicios Constitución */}
       <section className="py-12 sm:py-20 bg-white border-t border-brand-dark/5" id="servicios">

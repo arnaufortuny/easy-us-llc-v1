@@ -45,26 +45,26 @@ export default function Home() {
           </p>
         }
       >
-        <div className="flex flex-wrap justify-center gap-1 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden">
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+        <div className="flex flex-wrap justify-center gap-1.5 sm:gap-3 mb-3 sm:mb-4 w-full max-w-full overflow-hidden px-2">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Tu LLC en 2 días
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Pack Todo Incluido
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Sin IVA
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Precios Transparentes
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Trato Cercano
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Apertura Cuenta Mercury & Relay
           </span>
-          <span className="inline-flex items-center px-2 py-0.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[8px] sm:text-sm shadow-sm whitespace-nowrap">
+          <span className="inline-flex items-center px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-brand-lime text-brand-dark font-black text-[10px] sm:text-sm shadow-sm whitespace-nowrap">
             Tarjeta Física de Crédito y Débito
           </span>
         </div>
