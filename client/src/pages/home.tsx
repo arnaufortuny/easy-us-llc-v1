@@ -121,13 +121,13 @@ export default function Home() {
       </section>
 
       <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
       </div>
 
       <PorQueEasyUSLLC />
 
       <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
       </div>
 
       <section className="py-20 sm:py-32 bg-white border-t border-brand-dark/5" id="proceso">
@@ -163,13 +163,13 @@ export default function Home() {
       </section>
 
       <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
       </div>
 
       <HelpSection />
 
       <div className="w-full flex justify-center py-4 sm:py-8">
-        <div className="w-32 h-1 bg-brand-lime/30 rounded-full" />
+        <div className="w-32 h-1 bg-brand-lime/30 rounded-full border border-brand-dark/5" />
       </div>
 
       <NewsletterSection />
