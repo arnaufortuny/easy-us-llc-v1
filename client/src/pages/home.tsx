@@ -74,8 +74,8 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center px-2" 
-              style={{ fontSize: 'clamp(32px, 9vw, 76px)', lineHeight: '0.85' }}
+              className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
+              style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
               Optimiza la estructura fiscal de tu negocio digital<br />

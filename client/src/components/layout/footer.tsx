@@ -23,12 +23,12 @@ export function Footer() {
     <footer className="border-t bg-brand-dark text-white py-12 sm:py-20 overflow-hidden font-sans">
       <div className="container max-w-7xl mx-auto px-5 sm:px-8">
         {/* Mobile: Logo centered at top */}
-        <div className="flex flex-col items-center mb-8 md:hidden">
-          <Link href="/" className="flex flex-col items-center gap-2 mb-4" onClick={() => window.scrollTo(0, 0)}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 object-contain brightness-0 invert" />
-            <span className="text-lg font-black tracking-tighter uppercase leading-none mt-1">Easy US LLC</span>
+        <div className="flex flex-col items-center mb-10 md:hidden">
+          <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
+            <img src={logoIcon} alt="Easy US LLC" className="w-12 h-12 object-contain brightness-0 invert" />
+            <span className="text-xl font-black tracking-tighter uppercase">Easy US LLC</span>
           </Link>
-          <p className="text-white/70 text-sm text-center max-w-xs leading-relaxed">
+          <p className="text-white/70 text-base text-center max-w-xs">
             Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
           </p>
         </div>
