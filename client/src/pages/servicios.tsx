@@ -268,7 +268,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
                 >
                   Elegir New Mexico
                 </Button>
@@ -305,7 +305,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
                 >
                   Elegir Wyoming
                 </Button>
@@ -342,7 +342,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
                 >
                   Elegir Delaware
                 </Button>
@@ -364,7 +364,7 @@ export default function Servicios() {
               onClick={() => {
                 setLocation("/?scroll=servicios");
               }}
-              className="group bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20"
+              className="group bg-brand-lime text-brand-dark font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20 uppercase"
             >
               ¿Qué incluyen?
               <ChevronDown className="ml-2 w-5 h-5 transition-transform group-hover:translate-y-1" />
@@ -478,7 +478,7 @@ export default function Servicios() {
                           setMaintenanceStep("ask");
                           setMaintenanceDialogOpen(true);
                         }}
-                        className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                        className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20 uppercase"
                       >
                         Elegir Pack {item.state}
                       </Button>
@@ -505,7 +505,7 @@ export default function Servicios() {
                                   setIsEmailVerified(false);
                                   mForm.reset();
                                 }}
-                                className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full"
+                                className="w-full bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full uppercase"
                               >
                                 Ya tengo mi LLC
                               </Button>
@@ -514,7 +514,7 @@ export default function Servicios() {
                                   setMaintenanceDialogOpen(false);
                                   handleSelectProduct(item.state);
                                 }}
-                                className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-md shadow-brand-lime/20"
+                                className="w-full bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full shadow-md shadow-brand-lime/20 uppercase"
                               >
                                 Quiero constituir una nueva
                               </Button>
@@ -562,7 +562,7 @@ export default function Servicios() {
                                       type="button" 
                                       onClick={sendOtp} 
                                       disabled={isSendingOtp || isOtpSent}
-                                      className="bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-12 px-6 rounded-full"
+                                      className="bg-brand-lime text-brand-dark font-black text-sm h-12 px-6 rounded-full uppercase"
                                     >
                                       {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : (isOtpSent ? "Enviado" : "Enviar")}
                                     </Button>
@@ -577,12 +577,12 @@ export default function Servicios() {
                                         name="otp"
                                         render={({ field }) => (
                                           <FormItem>
-                                            <FormControl><Input {...field} maxLength={6} className="rounded-xl h-12 text-center text-xl font-black tracking-widest" placeholder="000000" /></FormControl>
+                                            <FormControl><Input {...field} maxLength={6} className="rounded-3xl h-12 text-center text-xl font-black tracking-widest" placeholder="000000" /></FormControl>
                                           </FormItem>
                                         )}
                                       />
                                     </div>
-                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-12 px-6 rounded-full">
+                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-lime text-brand-dark font-black text-sm h-12 px-6 rounded-full uppercase">
                                       {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verificar"}
                                     </Button>
                                   </div>
@@ -594,7 +594,7 @@ export default function Servicios() {
                                   render={({ field }) => (
                                     <FormItem>
                                       <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Notas adicionales</FormLabel>
-                                      <FormControl><Textarea {...field} disabled={!isEmailVerified} className="rounded-xl min-h-[80px]" /></FormControl>
+                                      <FormControl><Textarea {...field} disabled={!isEmailVerified} className="rounded-3xl min-h-[80px]" /></FormControl>
                                       <FormMessage />
                                     </FormItem>
                                   )}
@@ -602,7 +602,7 @@ export default function Servicios() {
                                 <Button 
                                   type="submit" 
                                   disabled={!isEmailVerified} 
-                                  className={`w-full font-sans font-medium text-[14px] sm:text-base h-14 rounded-full ${
+                                  className={`w-full font-black text-sm h-14 rounded-full uppercase ${
                                     isEmailVerified ? "bg-brand-lime text-brand-dark shadow-md shadow-brand-lime/20" : "bg-gray-100 text-gray-400"
                                   }`}
                                 >

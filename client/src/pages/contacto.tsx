@@ -182,7 +182,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu nombre" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -195,7 +195,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
                           <FormControl>
-                            <Input placeholder="Tu apellido" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -212,7 +212,7 @@ export default function Contacto() {
                           <FormItem className="space-y-1.5 sm:space-y-2">
                             <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="tu@email.com" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
+                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
                             </FormControl>
                             <FormMessage className="text-[10px] sm:text-xs" />
                           </FormItem>
@@ -224,7 +224,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-sans font-medium rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[14px] shadow-lg shadow-brand-lime/20"
+                        className="bg-brand-lime text-brand-dark font-black text-sm rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto shadow-lg shadow-brand-lime/20 uppercase"
                       >
                         {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
                       </Button>
@@ -241,7 +241,7 @@ export default function Contacto() {
                             <FormItem className="space-y-1.5 sm:space-y-2">
                               <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-brand-lime">Introduce el código de 6 dígitos</FormLabel>
                               <FormControl>
-                                <Input placeholder="000000" {...field} className="rounded-xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
+                                <Input placeholder="000000" {...field} className="rounded-3xl border-brand-lime focus:border-brand-lime bg-brand-lime/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
                               </FormControl>
                               <FormMessage className="text-[10px] sm:text-xs" />
                             </FormItem>
@@ -252,7 +252,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-lime text-brand-dark font-sans font-medium rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[14px] shadow-xl shadow-brand-lime/20"
+                        className="bg-brand-lime text-brand-dark font-black text-sm rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto shadow-xl shadow-brand-lime/20 uppercase"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>
@@ -266,7 +266,7 @@ export default function Contacto() {
                       <FormItem className="space-y-1.5 sm:space-y-2">
                         <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Asunto</FormLabel>
                         <FormControl>
-                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={!isEmailVerified} />
+                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-11 sm:h-12" disabled={!isEmailVerified} />
                         </FormControl>
                         <FormMessage className="text-[10px] sm:text-xs" />
                       </FormItem>
@@ -281,7 +281,7 @@ export default function Contacto() {
                         <FormControl>
                           <Textarea 
                             placeholder="Escribe tu mensaje aquí..." 
-                            className="min-h-[120px] sm:min-h-[150px] rounded-xl border-brand-lime/30 focus:border-brand-lime py-3" 
+                            className="min-h-[120px] sm:min-h-[150px] rounded-3xl border-brand-lime/30 focus:border-brand-lime py-3" 
                             {...field} 
                             disabled={!isEmailVerified}
                           />
@@ -294,7 +294,7 @@ export default function Contacto() {
                     <Button 
                       type="submit" 
                       disabled={form.formState.isSubmitting || !isEmailVerified}
-                      className={`w-full font-sans font-medium rounded-full py-7 sm:py-8 text-base transition-all shadow-xl ${
+                      className={`w-full font-black text-sm rounded-full py-7 sm:py-8 transition-all shadow-xl uppercase ${
                         isEmailVerified 
                           ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer shadow-brand-lime/30" 
                           : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
