@@ -80,7 +80,7 @@ export function NewsletterSection() {
                 {loading ? (
                   <Loader2 className="w-3 h-3 md:w-5 md:h-5 animate-spin" />
                 ) : (
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 md:w-5 md:h-5 transform group-hover:translate-x-0.5 transition-transform">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 md:w-5 md:h-5 transform group-hover:translate-x-0.5 transition-transform">
                     <path d="m9 18 6-6-6-6"/>
                   </svg>
                 )}

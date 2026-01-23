@@ -10,7 +10,7 @@ import type { Product } from "@shared/schema";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowRight } from "lucide-react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -141,10 +141,10 @@ export default function Home() {
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => {
                 setLocation("/application");
-              }} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20 uppercase">
+              }} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
                 ¿Estás listo? Selecciona tu pack →
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20 uppercase">
+              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
                 Conoce nuestros servicios →
               </Button>
             </motion.div>
@@ -283,7 +283,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 onClick={() => setLocation("/application")} 
-                className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30 uppercase"
+                className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
               >
                 ¿Estás listo? Selecciona tu pack →
               </Button>
