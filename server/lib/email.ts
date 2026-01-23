@@ -37,14 +37,14 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu email</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, hemos recibido tu email correctamente. Nuestro equipo se pondrá en contacto contigo en un plazo de 24-48 horas.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu mensaje</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, hemos recibido tu mensaje correctamente. Nuestro equipo se pondrá en contacto contigo en un plazo de 1-2 días hábiles.</p>
           
           <div style="background: #f4f4f4; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #6EDC8A; text-align: left;">
-            <p style="margin: 0; font-size: 14px; color: #0E1215;"><strong>Mensaje ID:</strong> ${ticketId}</p>
+            <p style="margin: 0; font-size: 14px; color: #0E1215;"><strong>Número de Ticket:</strong> #${ticketId}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 20px;">Gracias, nos vemos en <strong>Easy US LLC</strong>.</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 20px;">Gracias por confiar en <strong>Easy US LLC</strong>.</p>
         </div>
         ${getEmailFooter()}
       </div>
