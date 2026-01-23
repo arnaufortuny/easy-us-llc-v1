@@ -190,30 +190,41 @@ export async function registerRoutes(
           to: "afortuny07@gmail.com",
           subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - ${orderIdentifier}`,
           html: `
-            <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; border-radius: 20px; background-color: #fff;">
-              <div style="background: #000; color: #d9ff00; padding: 30px; text-align: center; border-radius: 15px 15px 0 0;">
-                <h1 style="margin: 0; font-size: 24px;">LOG DE SISTEMA: NUEVA SOLICITUD</h1>
-                <p style="margin: 10px 0 0 0; font-weight: bold; font-size: 18px;">PEDIDO ID: ${orderIdentifier}</p>
-              </div>
-              <div style="padding: 30px; color: #333; line-height: 1.6;">
-                <h2 style="border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; color: #000; font-size: 16px; text-transform: uppercase;">Datos Personales</h2>
-                <p><strong>PROPIETARIO:</strong> ${updatedApp.ownerFullName}</p>
-                <p><strong>EMAIL:</strong> ${updatedApp.ownerEmail}</p>
-                <p><strong>TELÉFONO:</strong> ${updatedApp.ownerPhone}</p>
-                <p><strong>DIRECCIÓN:</strong> ${updatedApp.ownerStreetType} ${updatedApp.ownerAddress}, ${updatedApp.ownerPostalCode}, ${updatedApp.ownerCity} (${updatedApp.ownerProvince}), ${updatedApp.ownerCountry}</p>
-                <p><strong>FECHA NACIMIENTO:</strong> ${updatedApp.ownerBirthDate}</p>
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                <div style="background-color: #000; padding: 30px 20px; text-align: center;">
+                  <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Log de Sistema: Nueva Solicitud</h1>
+                  <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">REF: ${orderIdentifier}</p>
+                </div>
+                <div style="padding: 40px;">
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Estado de la Transacción</h3>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado Pago:</strong> <span style="color: #0d9488; font-weight: 700;">CONFIRMADO / COMPLETADO</span></p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Fecha/Hora:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                    <p style="margin: 0; font-size: 14px;"><strong>Aceptación Términos:</strong> SÍ (Confirmado)</p>
+                  </div>
 
-                <h2 style="border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; color: #000; font-size: 16px; text-transform: uppercase; margin-top: 30px;">Detalles LLC</h2>
-                <p><strong>NOMBRE 1:</strong> ${updatedApp.companyName}</p>
-                <p><strong>NOMBRE 2:</strong> ${updatedApp.companyNameOption2}</p>
-                <p><strong>ESTADO:</strong> ${updatedApp.state}</p>
-                <p><strong>CATEGORÍA:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
-                <p><strong>ACTIVIDAD:</strong> ${updatedApp.companyDescription}</p>
-                <p><strong>NOTAS:</strong> ${updatedApp.notes || "Ninguna"}</p>
-                
-                <div style="margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 10px; font-size: 12px; color: #666;">
-                  <p><strong>FECHA DE REGISTRO:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-                  <p><strong>IP CLIENTE:</strong> ${req.ip}</p>
+                  <div style="margin-bottom: 25px;">
+                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Información del Propietario</h3>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>DNI / Pasaporte:</strong> ${updatedApp.ownerIdNumber || 'No proporcionado'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone}</p>
+                    <p style="margin: 0; font-size: 14px;"><strong>Dirección:</strong> ${updatedApp.ownerStreetType} ${updatedApp.ownerAddress}, ${updatedApp.ownerPostalCode}, ${updatedApp.ownerCity} (${updatedApp.ownerProvince}), ${updatedApp.ownerCountry}</p>
+                  </div>
+
+                  <div>
+                    <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Detalles de la Empresa</h3>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC (Opción 1):</strong> ${updatedApp.companyName}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC (Opción 2):</strong> ${updatedApp.companyNameOption2}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado de Registro:</strong> ${updatedApp.state}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Actividad Principal:</strong> ${updatedApp.companyDescription}</p>
+                    <p style="margin: 0; font-size: 14px;"><strong>Notas Adicionales:</strong> ${updatedApp.notes || "Ninguna"}</p>
+                  </div>
+                </div>
+                <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
+                  <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Registro de Auditoría Interna - Easy US LLC</p>
                 </div>
               </div>
             </div>
@@ -533,7 +544,7 @@ export async function registerRoutes(
               <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
             </div>
             <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Sistema de Monitoreo Easy US LLC</p>
+              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Log de Sistema v2.0 - Easy US LLC</p>
             </div>
           </div>
         </div>
@@ -544,25 +555,35 @@ export async function registerRoutes(
         <div style="background-color: #f9f9f9; padding: 20px 0;">
           <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
             <div style="background-color: #000; padding: 30px 20px; text-align: center;">
-              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Nuevo Pedido / Mensaje</h1>
+              <h1 style="color: #d9ff00; margin: 0; font-size: 18px; text-transform: uppercase; letter-spacing: 2px;">Nueva Solicitud LLC</h1>
               <p style="color: #fff; margin: 5px 0 0 0; font-size: 10px; opacity: 0.6;">REF: ${requestCode}</p>
             </div>
             <div style="padding: 40px;">
-              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Detalles de la Notificación (Test)</h2>
-              <div style="margin-bottom: 30px;">
-                <h3 style="font-size: 12px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px;">Información del Cliente</h3>
-                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${name}</p>
-                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${email}</p>
+              <div style="margin-bottom: 25px;">
+                <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Estado de la Transacción</h3>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado Pago:</strong> <span style="color: #0d9488; font-weight: 700;">CONFIRMADO (MOCK)</span></p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Fecha/Hora:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+                <p style="margin: 0; font-size: 14px;"><strong>Aceptación Términos:</strong> SÍ (Marcado en formulario)</p>
               </div>
+
+              <div style="margin-bottom: 25px;">
+                <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Información del Propietario</h3>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre:</strong> ${name}</p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>DNI / Pasaporte:</strong> 12345678X (Test)</p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Email:</strong> ${email}</p>
+                <p style="margin: 0; font-size: 14px;"><strong>Dirección:</strong> Calle Falsa 123, 28001 Madrid, España</p>
+              </div>
+
               <div>
-                <h3 style="font-size: 12px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px;">Contenido del Mensaje</h3>
-                <div style="background: #f9f9f9; padding: 20px; border-radius: 6px; font-size: 14px; line-height: 1.6; border: 1px solid #eee;">
-                  Este es un mensaje de prueba mejorado con el mismo estilo profesional que ven los clientes finales.
-                </div>
+                <h3 style="font-size: 11px; text-transform: uppercase; color: #999; border-bottom: 1px solid #eee; padding-bottom: 5px; margin-bottom: 15px; font-weight: 800;">Detalles de la Empresa</h3>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Nombre LLC:</strong> Mi Nueva Empresa LLC</p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Estado:</strong> New Mexico</p>
+                <p style="margin: 0 0 8px 0; font-size: 14px;"><strong>Actividad:</strong> Consultoría de Software y Marketing Digital</p>
+                <p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> Necesito el EIN urgente para abrir cuenta en Mercury.</p>
               </div>
             </div>
             <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Sistema de Monitoreo Easy US LLC</p>
+              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Log de Sistema v2.0 - Easy US LLC</p>
             </div>
           </div>
         </div>

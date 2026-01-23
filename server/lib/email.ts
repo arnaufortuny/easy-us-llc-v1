@@ -106,29 +106,47 @@ export function getWelcomeEmailTemplate(name: string) {
   `;
 }
 
-export function getConfirmationEmailTemplate(name: string, requestCode: string) {
+export function getConfirmationEmailTemplate(name: string, requestCode: string, details?: any) {
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid' });
+  const timeStr = now.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
+
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Confirmación de Solicitud</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, confirmamos que hemos recibido correctamente los datos para el registro de tu nueva LLC.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">¡Gracias por tu pedido, ${name}!</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo comenzará con el proceso de inmediato.</p>
           
-          <div style="background: #fcfcfc; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee;">
-            <p style="margin: 0; font-size: 15px; color: #000;"><strong>Código de Solicitud:</strong> ${requestCode}</p>
+          <div style="background: #fcfcfc; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #eee;">
+            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;">Detalles del Pedido</h3>
+            <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #666;">Número de pedido:</td>
+                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${requestCode}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666;">Fecha y hora:</td>
+                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${dateStr} | ${timeStr}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666;">Nombre Propuesto:</td>
+                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${details?.companyName || 'Pendiente'}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #666;">Estado de Pago:</td>
+                <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0d9488;">Confirmado / Pendiente de Procesar</td>
+              </tr>
+            </table>
           </div>
 
           <div style="margin: 25px 0; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 14px; font-weight: 800; text-transform: uppercase;">Próximos Pasos:</h3>
-            <ol style="margin: 0; padding-left: 20px; color: #555; font-size: 13px; line-height: 1.6;">
-              <li style="margin-bottom: 10px;"><strong>Registro Estatal:</strong> Presentamos los Articles of Organization ante el Secretario de Estado (2-3 días hábiles).</li>
-              <li style="margin-bottom: 10px;"><strong>Gestión del EIN:</strong> Una vez aprobada la LLC, tramitamos tu número de identificación fiscal ante el IRS.</li>
-              <li style="margin-bottom: 10px;"><strong>Documentación Final:</strong> Recibirás tu Operating Agreement y certificados oficiales en formato digital.</li>
-            </ol>
+            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000;">¿Necesitas modificar algo?</h3>
+            <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">Si detectas cualquier error en los datos enviados o necesitas realizar un cambio, por favor <strong>responde directamente a este email</strong> y un agente te asistirá personalmente.</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #666;">Mantén este correo para futuras referencias sobre tu proceso de constitución.</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #666;">Recibirás actualizaciones periódicas sobre el estado de tu formación ante el Secretario de Estado.</p>
         </div>
         ${getEmailFooter()}
       </div>
