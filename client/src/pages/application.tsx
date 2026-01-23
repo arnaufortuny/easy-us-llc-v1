@@ -537,7 +537,7 @@ export default function ApplicationWizard() {
                                     </FormItem>
                                   )}
                                 />
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-6 border-t border-gray-100">
                                   <FormField
                                     control={form.control}
                                     name="ownerIdType"
@@ -660,7 +660,7 @@ export default function ApplicationWizard() {
                                         <Button 
                                           type="button" 
                                           onClick={verifyOtp} 
-                                          className="w-full bg-brand-dark text-white font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl hover:bg-brand-dark/90 transition-all"
+                                          className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
                                         >
                                           Verificar código
                                         </Button>
@@ -766,8 +766,7 @@ export default function ApplicationWizard() {
                                 <Button 
                                   type="button" 
                                   onClick={prevStep} 
-                                  variant="outline" 
-                                  className="rounded-full border-gray-200 text-gray-400 font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm hover:bg-gray-50 transition-all"
+                                  className="rounded-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
                                 >
                                   Atrás
                                 </Button>

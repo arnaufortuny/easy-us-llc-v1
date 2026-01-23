@@ -252,7 +252,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-dark text-white font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-dark/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-xl"
+                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-xl shadow-brand-lime/20"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>
