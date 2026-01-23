@@ -25,7 +25,7 @@ export function Footer() {
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-16 h-16 object-contain brightness-0 invert" />
+            <img src={logoIcon} alt="Easy US LLC" className="w-16 h-16 object-contain" />
           </Link>
           <p className="text-primary-foreground/70 text-base text-center max-w-xs">
             Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
@@ -75,7 +75,7 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
             <Link href="/" className="flex items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-              <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 object-contain brightness-0 invert" />
+              <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 object-contain" />
             </Link>
             <p className="text-primary-foreground/70 text-base max-w-xs">
               Tu LLC en Estados Unidos, creada y gestionada con criterios profesionales, sin complicaciones y con soporte continuo.
