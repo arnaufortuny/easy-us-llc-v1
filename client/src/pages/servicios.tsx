@@ -460,15 +460,7 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 pt-0">
-                  <Dialog open={maintenanceDialogOpen} onOpenChange={(open) => {
-                    setMaintenanceDialogOpen(open);
-                    if (!open) {
-                        setMaintenanceStep("ask");
-                        mForm.reset();
-                        setIsOtpSent(false);
-                        setIsEmailVerified(false);
-                    }
-                  }}>
+                  <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
                     <DialogTrigger asChild>
                       <Button 
                         onClick={() => {
@@ -476,109 +468,147 @@ export default function Servicios() {
                           setMaintenanceStep("ask");
                           setMaintenanceDialogOpen(true);
                         }}
-                        className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                        className="w-full bg-brand-dark text-white font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-dark/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-dark/20"
                       >
-                        Elegir {item.state}
+                        Pack Mantenimiento {item.state}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-md w-[95%] rounded-2xl bg-white">
-                      <DialogHeader>
-                        <DialogTitle className="text-2xl font-black uppercase tracking-tight text-center">Pack Mantenimiento {selectedState}</DialogTitle>
-                      </DialogHeader>
-                      
-                      {maintenanceStep === "ask" ? (
-                        <div className="space-y-6 pt-4">
-                          <p className="text-center text-gray-600 font-medium leading-relaxed">¿Ya tienes una LLC constituida con nosotros o en otro lugar y quieres que gestionemos tu mantenimiento anual?</p>
-                          <Button 
-                            onClick={() => setMaintenanceStep("form")}
-                            className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.2em] text-xs rounded-full h-14 shadow-lg hover:scale-[1.02] transition-all"
+                    <DialogContent className="max-w-md bg-white rounded-3xl p-8 border-brand-lime/20">
+                      <AnimatePresence mode="wait">
+                        {maintenanceStep === "ask" ? (
+                          <motion.div
+                            key="ask"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="space-y-6 text-center"
                           >
-                            Si, contratar mantenimiento
-                          </Button>
-                        </div>
-                      ) : (
-                        <Form {...mForm}>
-                          <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4 pt-4">
-                            <FormField
-                              control={mForm.control}
-                              name="nombre"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Nombre Completo</FormLabel>
-                                  <FormControl><Input {...field} className="rounded-xl" placeholder="Tu nombre" /></FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-                            
-                            <div className="flex gap-2 items-end">
-                              <FormField
-                                control={mForm.control}
-                                name="email"
-                                render={({ field }) => (
-                                  <FormItem className="flex-1">
-                                    <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Email</FormLabel>
-                                    <FormControl><Input {...field} className="rounded-xl" placeholder="tu@email.com" disabled={isEmailVerified || isOtpSent} /></FormControl>
-                                    <FormMessage />
-                                  </FormItem>
-                                )}
-                              />
-                              {!isEmailVerified && (
-                                <Button 
-                                  type="button" 
-                                  onClick={sendOtp} 
-                                  disabled={isSendingOtp || isOtpSent}
-                                  className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.2em] text-[9px] h-10 px-4 rounded-full"
-                                >
-                                  {isSendingOtp ? "..." : "OTP"}
-                                </Button>
-                              )}
+                            <DialogHeader>
+                              <DialogTitle className="text-2xl font-black uppercase text-brand-dark text-center">¿Ya tienes tu LLC?</DialogTitle>
+                            </DialogHeader>
+                            <p className="text-gray-500">¿Deseas contratar el mantenimiento para una LLC que ya tienes o vas a constituir una nueva?</p>
+                            <div className="grid grid-cols-1 gap-3">
+                              <Button 
+                                onClick={() => {
+                                  setMaintenanceStep("form");
+                                  setIsOtpSent(false);
+                                  setIsEmailVerified(false);
+                                  mForm.reset();
+                                }}
+                                className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs"
+                              >
+                                Ya tengo mi LLC
+                              </Button>
+                              <Button 
+                                variant="outline"
+                                onClick={() => {
+                                  setMaintenanceDialogOpen(false);
+                                  handleSelectProduct(item.state);
+                                }}
+                                className="w-full border-brand-dark text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs"
+                              >
+                                Quiero constituir una nueva
+                              </Button>
                             </div>
-
-                            {isOtpSent && !isEmailVerified && (
-                              <div className="flex gap-2 items-end animate-in fade-in slide-in-from-top-1">
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="form"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="space-y-6"
+                          >
+                            <DialogHeader>
+                              <DialogTitle className="text-xl font-black uppercase text-brand-dark text-center">Datos de tu LLC ({selectedState})</DialogTitle>
+                            </DialogHeader>
+                            <Form {...mForm}>
+                              <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4">
                                 <FormField
                                   control={mForm.control}
-                                  name="otp"
+                                  name="nombre"
                                   render={({ field }) => (
-                                    <FormItem className="flex-1">
-                                      <FormLabel className="font-black uppercase text-[10px] tracking-widest text-brand-lime">Introduce el código</FormLabel>
-                                      <FormControl><Input {...field} maxLength={6} className="rounded-xl text-center font-black tracking-[0.3em]" placeholder="000000" /></FormControl>
+                                    <FormItem>
+                                      <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Nombre de la LLC</FormLabel>
+                                      <FormControl><Input {...field} className="rounded-xl h-12" /></FormControl>
+                                      <FormMessage />
                                     </FormItem>
                                   )}
                                 />
-                                <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black uppercase tracking-[0.2em] text-[9px] h-10 px-4 rounded-full">OK</Button>
-                              </div>
-                            )}
+                                <div className="flex gap-2 items-end">
+                                  <div className="flex-1">
+                                    <FormField
+                                      control={mForm.control}
+                                      name="email"
+                                      render={({ field }) => (
+                                        <FormItem>
+                                          <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Email de contacto</FormLabel>
+                                          <FormControl><Input {...field} disabled={isEmailVerified || isOtpSent} className="rounded-xl h-12" /></FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                  </div>
+                                  {!isEmailVerified && (
+                                    <Button 
+                                      type="button" 
+                                      onClick={sendOtp} 
+                                      disabled={isSendingOtp || isOtpSent}
+                                      className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]"
+                                    >
+                                      {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : (isOtpSent ? "Enviado" : "Enviar")}
+                                    </Button>
+                                  )}
+                                </div>
+                                
+                                {isOtpSent && !isEmailVerified && (
+                                  <div className="flex gap-2 items-end animate-in slide-in-from-top-2">
+                                    <div className="flex-1">
+                                      <FormField
+                                        control={mForm.control}
+                                        name="otp"
+                                        render={({ field }) => (
+                                          <FormItem>
+                                            <FormControl><Input {...field} maxLength={6} className="rounded-xl h-12 text-center text-xl font-black tracking-widest" placeholder="000000" /></FormControl>
+                                          </FormItem>
+                                        )}
+                                      />
+                                    </div>
+                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-dark text-white font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]">
+                                      {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verificar"}
+                                    </Button>
+                                  </div>
+                                )}
 
-                            <FormField
-                              control={mForm.control}
-                              name="mensaje"
-                              render={({ field }) => (
-                                <FormItem>
-                                  <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Nombre de tu LLC y dudas</FormLabel>
-                                  <FormControl><Textarea {...field} className="rounded-xl min-h-[80px]" placeholder="Nombre de tu LLC..." /></FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              )}
-                            />
-
-                            <Button 
-                              type="submit" 
-                              disabled={mForm.formState.isSubmitting || !isEmailVerified}
-                              className={`w-full font-black rounded-full py-6 sm:py-7 text-xs sm:text-sm transition-all shadow-xl uppercase tracking-[0.25em] ${
-                                isEmailVerified 
-                                  ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer shadow-brand-lime/30" 
-                                  : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
-                              }`}
-                            >
-                              {mForm.formState.isSubmitting ? "Enviando..." : "Enviar mantenimiento"}
-                            </Button>
-                          </form>
-                        </Form>
-                      )}
+                                <FormField
+                                  control={mForm.control}
+                                  name="mensaje"
+                                  render={({ field }) => (
+                                    <FormItem>
+                                      <FormLabel className="text-[10px] uppercase font-black tracking-widest text-gray-400">Notas adicionales</FormLabel>
+                                      <FormControl><Textarea {...field} disabled={!isEmailVerified} className="rounded-xl min-h-[80px]" /></FormControl>
+                                      <FormMessage />
+                                    </FormItem>
+                                  )}
+                                />
+                                <Button 
+                                  type="submit" 
+                                  disabled={!isEmailVerified} 
+                                  className={`w-full font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs ${
+                                    isEmailVerified ? "bg-brand-lime text-brand-dark" : "bg-gray-100 text-gray-400"
+                                  }`}
+                                >
+                                  Solicitar Mantenimiento
+                                </Button>
+                              </form>
+                            </Form>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
                     </DialogContent>
                   </Dialog>
+                </div>
+                <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
+                  <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Anual</p>
                 </div>
               </motion.div>
             ))}
