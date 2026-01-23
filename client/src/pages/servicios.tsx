@@ -591,8 +591,9 @@ export default function Servicios() {
                                           <FormMessage className="text-[10px]" />
                                         </FormItem>
                                       )}
-                                    </div>
-                                  )}
+                                    />
+                                  </div>
+                                )}
 
                                 <FormField
                                   control={mForm.control}
