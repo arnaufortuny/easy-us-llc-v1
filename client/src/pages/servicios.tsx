@@ -430,12 +430,12 @@ export default function Servicios() {
           >
             <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
-              Precios Mantenimiento
+              Packs Mantenimiento
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo incluido anualmente)</motion.p>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que incluye tu servicio anual)</motion.p>
           </motion.div>
           <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
+            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
@@ -456,8 +456,16 @@ export default function Servicios() {
                     <p className="text-4xl sm:text-4xl font-black text-brand-dark">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
+                  <div className="space-y-2 text-left mt-4 border-t border-brand-lime/10 pt-4">
+                    {maintenanceFeatures.map((f, idx) => (
+                      <p key={idx} className="flex items-start gap-2 text-brand-dark/80 font-medium leading-tight">
+                        <span className="text-brand-lime font-black shrink-0">✓</span> 
+                        <span className="text-[11px] sm:text-xs">{f}</span>
+                      </p>
+                    ))}
+                  </div>
                 </div>
-                <div className="p-5 sm:p-6 pt-0">
+                <div className="p-5 sm:p-6 pt-0 mt-auto">
                   <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
                     <DialogTrigger asChild>
                       <Button 
@@ -673,7 +681,7 @@ export default function Servicios() {
           >
             {maintenanceProcess.map((step, i) => (
               <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-brand-lime/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand-dark text-brand-lime rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-brand-lime text-brand-dark rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
                   {i + 1}
                 </div>
                 <h3 className="text-xl font-black text-brand-dark uppercase mb-3 mt-2">{step.title}</h3>
