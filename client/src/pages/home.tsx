@@ -78,8 +78,8 @@ export default function Home() {
               style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
-              Optimiza la estructura fiscal de tu negocio digital<br />
-              <span className="text-brand-lime">con una LLC Americana</span>
+              OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL<br />
+              <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
             </motion.h1>
           </motion.div>
         }
