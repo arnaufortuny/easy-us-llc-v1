@@ -769,10 +769,6 @@ export default function Servicios() {
                 </AnimatePresence>
               </motion.div>
             ))}
-          </div>
-          <div className="mt-12 flex flex-col items-center">
-            <p className="text-brand-dark/60 font-medium">¿Aún tienes dudas?</p>
-          </div>
         </div>
       </section>
 
