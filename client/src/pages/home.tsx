@@ -334,7 +334,7 @@ function PorQueEasyUSLLC() {
               <div className="p-6 flex-grow">
                 <span className="inline-block px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4 uppercase">{feature.badge}</span>
                 <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{feature.title}</h3>
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.desc || feature.text}</p>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.text}</p>
               </div>
             </motion.div>
           ))}
