@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 
@@ -17,6 +17,34 @@ export async function registerRoutes(
   // Set up Replit Auth FIRST
   await setupAuth(app);
   registerAuthRoutes(app);
+
+  // === Activity Tracking ===
+  app.post("/api/activity/track", async (req, res) => {
+    const { action, details } = req.body;
+    console.log(`ACTIVITY: ${action} - ${details}`);
+    
+    if (action === "CLICK_ELEGIR_ESTADO") {
+      await sendEmail({
+        to: "afortuny07@gmail.com",
+        subject: `ACTIVIDAD: Usuario seleccionó estado - ${details}`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
+            <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+              <h1 style="margin: 0;">NOTIFICACIÓN DE ACTIVIDAD</h1>
+            </div>
+            <div style="padding: 20px;">
+              <p><strong>ACCIÓN:</strong> El usuario pulsó elegir estado.</p>
+              <p><strong>DETALLES:</strong> ${details}</p>
+              <p><strong>IP:</strong> ${req.ip}</p>
+              <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+            </div>
+          </div>
+        `,
+      }).catch(err => console.error("Error sending activity email:", err));
+    }
+    
+    res.json({ success: true });
+  });
 
   // === API Routes ===
 
@@ -459,21 +487,14 @@ export async function registerRoutes(
       });
 
       // Confirmation to user
+      const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
       await sendEmail({
         to: contactData.email,
-        subject: `Confirmación de mensaje - Easy US LLC #${messageId}`,
-        html: `
-          <h1>Hemos recibido tu mensaje</h1>
-          <p>Hola ${contactData.nombre},</p>
-          <p>Gracias por contactar con Easy US LLC. Hemos recibido tu mensaje correctamente y te responderemos en menos de 24 horas.</p>
-          <p><strong>Tu número de mensaje es: #${messageId}</strong></p>
-          <br />
-          <p>Saludos,</p>
-          <p>El equipo de Easy US LLC</p>
-        `,
+        subject: `Confirmación de mensaje - Easy US LLC #${ticketId}`,
+        html: getAutoReplyTemplate(ticketId),
       });
 
-      res.json({ success: true, messageId });
+      res.json({ success: true, messageId, ticketId });
     } catch (err) {
       console.error("Error processing contact form:", err);
       res.status(400).json({ message: "Error al procesar el mensaje" });

@@ -2,8 +2,11 @@ import nodemailer from "nodemailer";
 
 export function getEmailHeader() {
   return `
-    <div style="background-color: #000; padding: 40px 20px; text-align: center; border-bottom: 6px solid #b6ff40;">
-      <h1 style="color: #b6ff40; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 36px; line-height: 1;">
+    <div style="background-color: #000; padding: 40px 20px; text-align: center; border-bottom: 6px solid #d9ff00;">
+      <div style="margin-bottom: 20px;">
+        <img src="https://easyusllc.com/assets/logo-icon.png" alt="Easy US LLC" style="width: 80px; height: 80px; object-contain: contain; filter: brightness(0) invert(1);" />
+      </div>
+      <h1 style="color: #d9ff00; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 36px; line-height: 1;">
         Easy US <span style="color: #fff;">LLC</span>
       </h1>
       <p style="color: #fff; margin: 10px 0 0 0; font-family: 'Inter', Arial, sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8;">Premium Business Formation</p>
@@ -15,13 +18,35 @@ export function getEmailFooter() {
   const year = new Date().getFullYear();
   return `
     <div style="background-color: #000; padding: 40px 20px; text-align: center; color: #fff; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #333;">
-      <p style="margin: 0 0 15px 0; font-weight: 900; color: #b6ff40; text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Expertos en formación de LLC</p>
-      <p style="margin: 0; font-size: 14px; color: #999; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #b6ff40; text-decoration: none;">info@easyusllc.com</a></p>
+      <p style="margin: 0 0 15px 0; font-weight: 900; color: #d9ff00; text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Expertos en formación de LLC</p>
+      <p style="margin: 0; font-size: 14px; color: #999; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #d9ff00; text-decoration: none;">info@easyusllc.com</a></p>
       <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid #222;">
-        <a href="https://wa.me/34614916910" style="background-color: #b6ff40; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">WhatsApp</a>
-        <a href="https://easyusllc.com" style="border: 2px solid #b6ff40; color: #b6ff40; padding: 8px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">Visitar Web</a>
+        <a href="https://wa.me/34614916910" style="background-color: #d9ff00; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">WhatsApp</a>
+        <a href="https://easyusllc.com" style="border: 2px solid #d9ff00; color: #d9ff00; padding: 8px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">Visitar Web</a>
       </div>
       <p style="margin-top: 30px; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px;">© ${year} Easy US LLC. Todos los derechos reservados.</p>
+    </div>
+  `;
+}
+
+export function getAutoReplyTemplate(ticketId: string) {
+  return `
+    <div style="background-color: #f4f4f4; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+        ${getEmailHeader()}
+        <div style="padding: 50px 40px; text-align: center;">
+          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000;">Hemos recibido tu mensaje</h2>
+          <p style="line-height: 1.8; font-size: 16px; color: #555; margin-bottom: 30px;">Gracias por contactar con <strong>Easy US LLC</strong>. Nuestro equipo de soporte ha registrado tu consulta y te responderá en un plazo máximo de 24 horas.</p>
+          
+          <div style="background: #000; padding: 30px; border-radius: 20px; margin: 30px 0; text-align: center; border-left: 8px solid #d9ff00;">
+            <p style="margin: 0 0 10px 0; font-weight: 900; color: #d9ff00; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;">Tu Ticket ID:</p>
+            <p style="margin: 0; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 2px;">#${ticketId}</p>
+          </div>
+
+          <p style="line-height: 1.6; font-size: 14px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Soporte Prioritario</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
     </div>
   `;
 }

@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
+import { StateSelectorPopup } from "./state-selector-popup";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -33,6 +35,7 @@ export function Navbar() {
   };
 
   return (
+    <>
     <header className="sticky top-0 z-[100] bg-brand-lime border-b border-brand-dark/10 shadow-md transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-4 sm:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -49,7 +52,7 @@ export function Navbar() {
           </nav>
 
           <Button 
-            onClick={() => handleNavClick("/servicios")} 
+            onClick={() => setIsPopupOpen(true)} 
             className="hidden md:inline-flex bg-brand-dark text-white font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95"
             data-testid="button-nav-cta"
             variant="default"
@@ -110,7 +113,10 @@ export function Navbar() {
               </button>
               <div className="mt-8 px-3 flex flex-col gap-3">
                 <Button 
-                  onClick={() => handleNavClick("/servicios")}
+                  onClick={() => {
+                    setIsOpen(false);
+                    setIsPopupOpen(true);
+                  }}
                   className="w-full bg-brand-dark text-white font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2"
                   data-testid="mobile-button-cta"
                 >
@@ -136,5 +142,7 @@ export function Navbar() {
         </div>
       )}
     </header>
+    <StateSelectorPopup isOpen={isPopupOpen} onOpenChange={setIsPopupOpen} />
+    </>
   );
 }
