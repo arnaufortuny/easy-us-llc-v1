@@ -770,6 +770,10 @@ export default function Servicios() {
               </motion.div>
             ))}
           </div>
+
+          <div className="w-full mt-12 sm:mt-20">
+            <div className="border-t border-brand-dark/5 w-full" />
+          </div>
         </div>
       </section>
 
