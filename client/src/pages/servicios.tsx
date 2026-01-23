@@ -197,7 +197,7 @@ export default function Servicios() {
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-brand-dark text-brand-lime font-black uppercase tracking-[0.15em] text-[9px] sm:text-[10px] px-4 py-2 rounded-full shadow-lg border border-brand-lime/20"
+                    className="bg-brand-lime text-white font-sans font-medium uppercase tracking-[0.15em] text-[9px] sm:text-[10px] px-4 py-2 rounded-full shadow-lg border border-white/20"
                   >
                     {text}
                   </div>
