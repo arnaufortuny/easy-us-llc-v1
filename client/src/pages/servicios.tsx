@@ -703,8 +703,11 @@ export default function Servicios() {
           >
             <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
-              Preguntas Frecuentes
+              Centro de Ayuda
             </motion.h2>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+              (Todo lo que necesitas saber)
+            </motion.p>
           </motion.div>
           <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
             {[
@@ -727,6 +730,10 @@ export default function Servicios() {
               {
                 q: "¿El precio es final?",
                 a: "Sí, todos nuestros precios incluyen las tasas estatales del primer año, el EIN, el Agente Registrado y el BOI Report. No hay sorpresas."
+              },
+              {
+                q: "¿Puedo abrir una cuenta de Stripe?",
+                a: "Sí, con tu LLC y tu EIN podrás abrir una cuenta de Stripe para procesar pagos de tus clientes en todo el mundo de forma profesional."
               }
             ].map((faq, i) => (
               <motion.div 
