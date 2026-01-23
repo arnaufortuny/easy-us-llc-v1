@@ -790,6 +790,8 @@ export default function ApplicationWizard() {
           </div>
         </div>
       </main>
+      
+      <NewsletterSection />
       <Footer />
     </div>
   );
