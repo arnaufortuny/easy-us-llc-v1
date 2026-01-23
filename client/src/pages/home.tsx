@@ -161,9 +161,9 @@ export default function Home() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
+            <motion.h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center leading-[1.1] sm:leading-tight" variants={fadeIn}>
               <span className="text-brand-lime uppercase tracking-widest text-base font-black block mb-2 text-center">SERVICIOS</span>
-              Constitución de LLC
+              Constitución<br className="sm:hidden" /> de LLC
             </motion.h2>
             <motion.p className="text-brand-lime font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que hacemos por ti)</motion.p>
           </motion.div>
@@ -197,9 +197,9 @@ export default function Home() {
       <section className="bg-white py-8 sm:py-24 border-t border-brand-dark/5" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
-            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center">
+            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center leading-[1.1] sm:leading-tight">
               <span className="text-brand-lime uppercase tracking-widest text-base font-black block mb-2 text-center">VENTAJAS</span>
-              Ventajas fiscales
+              Ventajas<br className="sm:hidden" /> fiscales
             </h2>
             <p className="text-brand-lime font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
           </div>
