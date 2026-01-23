@@ -199,14 +199,17 @@ export default function Servicios() {
                 variants={fadeIn}
               >
                 {[
-                  "Mas de 30 LLC constituidas",
-                  "Nuestros clientes nos valoran 5/5",
-                  "Aprobacion 90% Cuentas",
-                  "Precios Competitivos"
+                  "Tu LLC en 2 días",
+                  "Pack Todo Incluido",
+                  "Sin IVA",
+                  "Precios Transparentes",
+                  "Trato Cercano",
+                  "Apertura Cuenta Mercury & Relay",
+                  "Tarjeta Física de Crédito y Débito"
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-accent text-primary font-black text-sm px-4 py-2 rounded-full shadow-sm"
+                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
                   >
                     {text}
                   </div>
