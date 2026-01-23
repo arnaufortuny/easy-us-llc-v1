@@ -515,13 +515,40 @@ export async function registerRoutes(
       const name = "Cliente de Prueba";
       const requestCode = "NM-9999-ABC-0";
 
+      // HTML for Admin Notification Test (Click/State)
+      const activityHtml = `
+        <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; background: #fff;">
+          <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+            <h1 style="margin: 0; font-size: 20px;">LOG DE SISTEMA: PRUEBA DE ACTIVIDAD</h1>
+          </div>
+          <div style="padding: 20px;">
+            <p><strong>ACCIÓN:</strong> El usuario pulsó elegir estado (TEST).</p>
+            <p><strong>DETALLES:</strong> New Mexico Pack - 639€</p>
+            <p><strong>FECHA:</strong> ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+          </div>
+        </div>
+      `;
+
+      // HTML for Admin Notification Test (Order/Message)
+      const orderHtml = `
+        <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; background: #fff;">
+          <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
+            <h1 style="margin: 0; font-size: 20px;">LOG DE SISTEMA: PRUEBA DE PEDIDO</h1>
+            <p style="margin: 5px 0 0 0;">REF: ${requestCode}</p>
+          </div>
+          <div style="padding: 20px;">
+            <p><strong>PRODUCTO:</strong> Wyoming LLC (TEST)</p>
+            <p><strong>USUARIO:</strong> ${name}</p>
+            <p><strong>EMAIL:</strong> ${email}</p>
+          </div>
+        </div>
+      `;
+
       // Send all templates
       await Promise.all([
-        sendEmail({ to: email, subject: "TEST: Bienvenida", html: getWelcomeEmailTemplate(name) }),
-        sendEmail({ to: email, subject: "TEST: Newsletter", html: getNewsletterWelcomeTemplate() }),
-        sendEmail({ to: email, subject: "TEST: OTP", html: getOtpEmailTemplate(otp) }),
-        sendEmail({ to: email, subject: "TEST: Confirmación Solicitud", html: getConfirmationEmailTemplate(name, requestCode) }),
-        sendEmail({ to: email, subject: "TEST: Auto-Respuesta Soporte", html: getAutoReplyTemplate(ticketId) }),
+        sendEmail({ to: email, subject: "TEST: OTP con Casilla", html: getOtpEmailTemplate(otp) }),
+        sendEmail({ to: email, subject: "TEST ADMIN: Notificación de Click", html: activityHtml }),
+        sendEmail({ to: email, subject: "TEST ADMIN: Notificación de Pedido/Mensaje", html: orderHtml }),
       ]);
 
       res.json({ success: true, message: "Emails de prueba enviados" });
