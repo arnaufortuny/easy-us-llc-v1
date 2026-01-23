@@ -312,15 +312,6 @@ export default function ApplicationWizard() {
             >
               VAMOS A <br /> CONSTITUIR TU <span className="text-brand-lime">LLC</span>
             </motion.h1>
-            {orderNumber && (
-              <motion.div 
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="bg-brand-dark text-brand-lime px-4 py-2 rounded-full font-black text-xs tracking-widest uppercase"
-              >
-                PEDIDO: {orderNumber}
-              </motion.div>
-            )}
           </div>
 
           <div className="space-y-6 mb-20">

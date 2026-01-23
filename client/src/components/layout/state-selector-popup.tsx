@@ -36,40 +36,37 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0">
-        <div className="bg-brand-lime h-2 w-full" />
-        <div className="p-8 pt-6">
-          <DialogHeader className="mb-8">
-            <DialogTitle className="text-3xl font-black uppercase tracking-tight text-brand-dark leading-none mb-2">
+      <DialogContent className="w-[90vw] max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0 sm:w-full">
+        <div className="bg-brand-lime h-1.5 w-full" />
+        <div className="p-6 sm:p-8 pt-5 sm:pt-6">
+          <DialogHeader className="mb-6 sm:mb-8">
+            <DialogTitle className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-brand-dark leading-none mb-2">
               Selecciona el Estado
             </DialogTitle>
-            <DialogDescription className="text-gray-500 font-medium">
+            <DialogDescription className="text-gray-500 font-medium text-sm sm:text-base">
               Elige dónde quieres constituir tu LLC para comenzar.
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4">
+          <div className="grid gap-3 sm:gap-4">
             {STATES.map((state) => (
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className={`group flex items-center justify-between p-5 rounded-2xl border-2 border-gray-100 hover:border-brand-lime hover:bg-brand-lime/5 transition-all text-left w-full active:scale-[0.98]`}
+                className={`group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 border-gray-100 hover:border-brand-lime hover:bg-brand-lime/5 transition-all text-left w-full active:scale-[0.98]`}
               >
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-brand-dark/5 flex items-center justify-center group-hover:bg-brand-lime group-hover:text-brand-dark transition-colors">
-                    <MapPin className="w-6 h-6" />
-                  </div>
+                <div className="flex items-center gap-3 sm:gap-4">
                   <div>
-                    <p className="font-black uppercase tracking-tight text-brand-dark text-lg leading-none mb-1">{state.name}</p>
-                    <p className="text-brand-lime font-black text-sm">{state.price}</p>
+                    <p className="font-black uppercase tracking-tight text-brand-dark text-base sm:text-lg leading-none mb-1">{state.name}</p>
+                    <p className="text-brand-lime font-black text-xs sm:text-sm">{state.price}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-gray-300 group-hover:text-brand-dark transition-colors translate-x-0 group-hover:translate-x-1" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-brand-dark transition-colors translate-x-0 group-hover:translate-x-1" />
               </button>
             ))}
           </div>
           
-          <p className="mt-8 text-[10px] text-center text-gray-400 uppercase font-bold tracking-widest">
+          <p className="mt-6 sm:mt-8 text-[9px] sm:text-[10px] text-center text-gray-400 uppercase font-bold tracking-widest">
             Expertos en formación de LLC
           </p>
         </div>
