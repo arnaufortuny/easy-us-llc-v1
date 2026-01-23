@@ -185,7 +185,7 @@ export default function ApplicationWizard() {
         age--;
       }
       if (age < 18) {
-        toast({ title: "Edad no permitida", description: "Debes ser mayor de 18 años para constituir una LLC.", variant: "destructive" });
+        toast({ title: "Edad no permitida", description: "Lo sentimos, debes ser mayor de 18 años para constituir una LLC.", variant: "destructive" });
         return;
       }
       setStep(1);
@@ -725,7 +725,7 @@ export default function ApplicationWizard() {
                                       type="button" 
                                       onClick={verifyOtp} 
                                       disabled={isEmailVerified} 
-                                      className={`w-full rounded-xl h-14 font-black uppercase tracking-widest text-xs transition-all ${
+                                      className={`w-full rounded-full h-14 font-black uppercase tracking-widest text-xs transition-all ${
                                         isEmailVerified ? "bg-green-500 text-white" : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90"
                                       }`}
                                     >
@@ -830,7 +830,7 @@ export default function ApplicationWizard() {
                                   type="button"
                                   variant="outline"
                                   onClick={prevStep}
-                                  className="w-full sm:w-1/3 h-16 md:h-20 rounded-xl font-black uppercase tracking-[0.15em] text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
+                                  className="w-full sm:w-1/3 h-16 md:h-20 rounded-full font-black uppercase tracking-[0.15em] text-xs border-2 border-gray-100 hover:bg-gray-50 transition-all"
                                 >
                                   Atrás
                                 </Button>
@@ -839,7 +839,7 @@ export default function ApplicationWizard() {
                                 type="button"
                                 onClick={nextStep}
                                 disabled={isSubmitting || (step === 2 && !isEmailVerified)}
-                                className={`h-16 md:h-20 rounded-xl font-black uppercase tracking-[0.25em] text-sm transition-all shadow-xl flex-1 ${
+                                className={`h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-sm transition-all shadow-xl flex-1 ${
                                   step === 3 
                                     ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
                                     : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"
