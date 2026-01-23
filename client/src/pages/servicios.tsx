@@ -259,7 +259,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir New Mexico
                 </Button>
@@ -296,7 +296,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir Wyoming
                 </Button>
@@ -333,7 +333,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                  className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                 >
                   Elegir Delaware
                 </Button>
@@ -355,7 +355,7 @@ export default function Servicios() {
               onClick={() => {
                 setLocation("/?scroll=servicios");
               }}
-              className="group bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20"
+              className="group bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full px-8 py-6 h-14 shadow-md hover:bg-brand-lime/90 transition-all transform hover:scale-105 active:scale-95 shadow-brand-lime/20"
             >
               ¿Qué incluyen?
               <ChevronDown className="ml-2 w-5 h-5 transition-transform group-hover:translate-y-1" />
@@ -395,14 +395,14 @@ export default function Servicios() {
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
               <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
           </motion.div>
           <div className="mt-8 mb-12 flex justify-center">
             <div className="bg-brand-lime px-8 py-3 rounded-full shadow-lg transform -rotate-1">
-              <p className="text-brand-dark font-display font-black uppercase tracking-[0.2em] text-sm sm:text-base">
+              <p className="text-brand-dark font-sans font-black uppercase tracking-[0.2em] text-sm sm:text-base">
                 Incluido en tu paquete inicial
               </p>
             </div>
@@ -467,7 +467,7 @@ export default function Servicios() {
                           setMaintenanceStep("ask");
                           setMaintenanceDialogOpen(true);
                         }}
-                        className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                        className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
                       >
                         Pack Mantenimiento {item.state}
                       </Button>
@@ -494,7 +494,7 @@ export default function Servicios() {
                                   setIsEmailVerified(false);
                                   mForm.reset();
                                 }}
-                                className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs"
+                                className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs"
                               >
                                 Ya tengo mi LLC
                               </Button>
@@ -503,7 +503,7 @@ export default function Servicios() {
                                   setMaintenanceDialogOpen(false);
                                   handleSelectProduct(item.state);
                                 }}
-                                className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-md shadow-brand-lime/20"
+                                className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-md shadow-brand-lime/20"
                               >
                                 Quiero constituir una nueva
                               </Button>
@@ -551,7 +551,7 @@ export default function Servicios() {
                                       type="button" 
                                       onClick={sendOtp} 
                                       disabled={isSendingOtp || isOtpSent}
-                                      className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]"
+                                      className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]"
                                     >
                                       {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : (isOtpSent ? "Enviado" : "Enviar")}
                                     </Button>
@@ -571,7 +571,7 @@ export default function Servicios() {
                                         )}
                                       />
                                     </div>
-                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]">
+                                    <Button type="button" onClick={verifyOtp} disabled={isVerifyingOtp} className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 px-6 rounded-full text-[10px]">
                                       {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verificar"}
                                     </Button>
                                   </div>
@@ -591,7 +591,7 @@ export default function Servicios() {
                                 <Button 
                                   type="submit" 
                                   disabled={!isEmailVerified} 
-                                  className={`w-full font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs ${
+                                  className={`w-full font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs ${
                                     isEmailVerified ? "bg-brand-lime text-brand-dark shadow-md shadow-brand-lime/20" : "bg-gray-100 text-gray-400"
                                   }`}
                                 >

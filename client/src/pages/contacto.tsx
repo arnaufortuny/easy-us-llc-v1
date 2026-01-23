@@ -224,7 +224,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={sendOtp} 
                         disabled={isSendingOtp || isOtpSent}
-                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-lg shadow-brand-lime/20"
+                        className="bg-brand-lime text-brand-dark font-sans font-black rounded-full h-11 sm:h-12 px-8 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-lg shadow-brand-lime/20"
                       >
                         {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
                       </Button>
@@ -252,7 +252,7 @@ export default function Contacto() {
                         type="button" 
                         onClick={verifyOtp} 
                         disabled={isVerifyingOtp}
-                        className="bg-brand-lime text-brand-dark font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-xl shadow-brand-lime/20"
+                        className="bg-brand-lime text-brand-dark font-sans font-black rounded-full h-11 sm:h-12 px-10 hover:bg-brand-lime/90 transition-all shrink-0 w-full sm:w-auto text-[10px] sm:text-[11px] uppercase tracking-[0.25em] shadow-xl shadow-brand-lime/20"
                       >
                         {isVerifyingOtp ? "Verificando..." : "Verificar email"}
                       </Button>
@@ -294,7 +294,7 @@ export default function Contacto() {
                     <Button 
                       type="submit" 
                       disabled={form.formState.isSubmitting || !isEmailVerified}
-                      className={`w-full font-black rounded-full py-7 sm:py-8 text-xs sm:text-sm transition-all shadow-xl uppercase tracking-[0.25em] ${
+                      className={`w-full font-sans font-black rounded-full py-7 sm:py-8 text-xs sm:text-sm transition-all shadow-xl uppercase tracking-[0.25em] ${
                         isEmailVerified 
                           ? "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 cursor-pointer shadow-brand-lime/30" 
                           : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"

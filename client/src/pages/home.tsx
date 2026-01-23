@@ -141,10 +141,10 @@ export default function Home() {
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => {
                 setLocation("/application");
-              }} className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+              }} className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
                 ¿ESTÁS LISTO? SELECCIONA TU PACK →
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
                 Conoce nuestros servicios →
               </Button>
             </motion.div>
@@ -184,7 +184,7 @@ export default function Home() {
               { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
             ].map((service, i) => (
               <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
+                <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{service.title}</p>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
               </motion.div>
             ))}
@@ -281,7 +281,7 @@ export default function Home() {
               <Button 
                 size="lg" 
                 onClick={() => setLocation("/application")} 
-                className="bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] text-xs sm:text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
+                className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-xs sm:text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
               >
                 ¿ESTÁS LISTO? SELECCIONA TU PACK →
               </Button>
@@ -329,7 +329,7 @@ function PorQueEasyUSLLC() {
             { title: "SOPORTE HUMANO", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
             <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-              <p className="font-display font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
+              <p className="font-sans font-black uppercase tracking-tighter text-lg sm:text-xl mb-3 text-brand-dark">{feature.title}</p>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
             </motion.div>
           ))}

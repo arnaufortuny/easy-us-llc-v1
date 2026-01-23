@@ -633,7 +633,7 @@ export default function ApplicationWizard() {
                                     <Button 
                                       type="button" 
                                       onClick={sendOtp} 
-                                      className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                      className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
                                     >
                                       Enviar código de verificación
                                     </Button>
@@ -660,14 +660,14 @@ export default function ApplicationWizard() {
                                         <Button 
                                           type="button" 
                                           onClick={verifyOtp} 
-                                          className="w-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                          className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
                                         >
                                           Verificar código
                                         </Button>
                                         <button 
                                           type="button" 
                                           onClick={sendOtp} 
-                                          className="text-[10px] font-black uppercase tracking-[0.25em] text-brand-lime hover:text-brand-lime/80 underline"
+                                          className="text-[10px] font-sans font-black uppercase tracking-[0.25em] text-brand-lime hover:text-brand-lime/80 underline"
                                         >
                                           Reenviar código
                                         </button>
@@ -704,7 +704,7 @@ export default function ApplicationWizard() {
                                       }`}
                                     >
                                       <div>
-                                        <p className="font-black text-brand-dark uppercase tracking-tight">{method.label}</p>
+                                        <p className="font-sans font-black text-brand-dark uppercase tracking-tight">{method.label}</p>
                                         <p className="text-xs text-gray-500">{method.desc}</p>
                                       </div>
                                       <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
@@ -734,13 +734,13 @@ export default function ApplicationWizard() {
                                         <p className="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Titular</p>
                                         <p className="font-bold text-brand-dark">{form.getValues("ownerFullName")}</p>
                                         <p className="text-gray-500">{form.getValues("ownerEmail")}</p>
-                                        <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-8 px-0 text-[10px] uppercase font-black text-brand-lime hover:bg-transparent">Editar datos</Button>
+                                        <Button type="button" variant="ghost" onClick={() => setStep(0)} className="h-8 px-0 text-[10px] uppercase font-sans font-black text-brand-lime hover:bg-transparent">Editar datos</Button>
                                       </div>
                                       <div>
                                         <p className="text-[10px] font-black uppercase tracking-widest text-brand-dark/40 mb-1">Empresa</p>
                                         <p className="font-bold text-brand-dark">{form.getValues("companyName")}</p>
                                         <p className="text-gray-500">Estado: {form.getValues("state")}</p>
-                                        <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-8 px-0 text-[10px] uppercase font-black text-brand-lime hover:bg-transparent">Editar empresa</Button>
+                                        <Button type="button" variant="ghost" onClick={() => setStep(1)} className="h-8 px-0 text-[10px] uppercase font-sans font-black text-brand-lime hover:bg-transparent">Editar empresa</Button>
                                       </div>
                                     </div>
                                     <div className="space-y-4 bg-white/50 p-6 rounded-2xl border border-brand-lime/10">
@@ -766,7 +766,7 @@ export default function ApplicationWizard() {
                                 <Button 
                                   type="button" 
                                   onClick={prevStep} 
-                                  className="rounded-full bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                  className="rounded-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
                                 >
                                   Atrás
                                 </Button>
@@ -774,7 +774,7 @@ export default function ApplicationWizard() {
                               <Button 
                                 type="button" 
                                 onClick={nextStep}
-                                className="flex-1 bg-brand-lime text-brand-dark font-black uppercase tracking-[0.25em] h-12 md:h-14 rounded-full text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                className="flex-1 bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 md:h-14 rounded-full text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
                               >
                                 {step === 4 ? (isSubmitting ? "Enviando..." : "Enviar Solicitud") : "Continuar"}
                               </Button>
