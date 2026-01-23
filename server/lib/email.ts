@@ -204,11 +204,14 @@ export function getReminderEmailTemplate(name: string, requestCode: string) {
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || "smtp.ionos.es",
   port: parseInt(process.env.SMTP_PORT || "587"),
-  secure: false, // true for 465, false for other ports
+  secure: false,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
 });
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
