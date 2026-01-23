@@ -771,14 +771,7 @@ export default function Servicios() {
             ))}
           </div>
           <div className="mt-12 flex flex-col items-center">
-            <p className="text-brand-dark/60 font-medium mb-6">¿Aún tienes dudas?</p>
-            <Button 
-              variant="outline"
-              onClick={() => setLocation("/faq")}
-              className="font-black text-sm rounded-full px-8 py-6 h-14 shadow-sm hover:scale-105 transition-all"
-            >
-              Ver todas las preguntas <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
+            <p className="text-brand-dark/60 font-medium">¿Aún tienes dudas?</p>
           </div>
         </div>
       </section>
