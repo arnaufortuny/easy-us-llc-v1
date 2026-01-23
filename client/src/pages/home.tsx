@@ -141,10 +141,10 @@ export default function Home() {
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => {
                 setLocation("/application");
-              }} className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
-                ¿ESTÁS LISTO? SELECCIONA TU PACK →
+              }} className="bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+                ¿Estás listo? Selecciona tu pack →
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-[10px] sm:text-xs px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
                 Conoce nuestros servicios →
               </Button>
             </motion.div>
@@ -281,9 +281,9 @@ export default function Home() {
               <Button 
                 size="lg" 
                 onClick={() => setLocation("/application")} 
-                className="bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] text-xs sm:text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
+                className="bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/30"
               >
-                ¿ESTÁS LISTO? SELECCIONA TU PACK →
+                ¿Estás listo? Selecciona tu pack →
               </Button>
             </motion.div>
           </motion.div>

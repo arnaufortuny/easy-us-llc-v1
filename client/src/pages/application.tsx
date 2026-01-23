@@ -633,7 +633,7 @@ export default function ApplicationWizard() {
                                     <Button 
                                       type="button" 
                                       onClick={sendOtp} 
-                                      className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                      className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
                                     >
                                       Enviar código de verificación
                                     </Button>
@@ -660,7 +660,7 @@ export default function ApplicationWizard() {
                                         <Button 
                                           type="button" 
                                           onClick={verifyOtp} 
-                                          className="w-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-14 rounded-full text-xs shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
+                                          className="w-full bg-brand-lime text-brand-dark font-sans font-medium text-[14px] sm:text-base h-14 rounded-full shadow-xl shadow-brand-lime/20 hover:scale-105 active:scale-95 transition-all"
                                         >
                                           Verificar código
                                         </Button>
@@ -766,7 +766,7 @@ export default function ApplicationWizard() {
                                 <Button 
                                   type="button" 
                                   onClick={prevStep} 
-                                  className="rounded-full bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 md:h-14 px-8 md:px-12 text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                  className="rounded-full bg-brand-lime text-brand-dark font-sans font-medium h-12 md:h-14 px-8 md:px-12 text-[14px] md:text-base shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
                                 >
                                   Atrás
                                 </Button>
@@ -774,7 +774,7 @@ export default function ApplicationWizard() {
                               <Button 
                                 type="button" 
                                 onClick={nextStep}
-                                className="flex-1 bg-brand-lime text-brand-dark font-sans font-black uppercase tracking-[0.25em] h-12 md:h-14 rounded-full text-xs md:text-sm shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
+                                className="flex-1 bg-brand-lime text-brand-dark font-sans font-medium h-12 md:h-14 rounded-full text-[14px] md:text-base shadow-xl shadow-brand-lime/20 hover:scale-[1.02] active:scale-95 transition-all"
                               >
                                 {step === 4 ? (isSubmitting ? "Enviando..." : "Enviar Solicitud") : "Continuar"}
                               </Button>
