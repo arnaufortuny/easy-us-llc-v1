@@ -504,6 +504,33 @@ export async function registerRoutes(
   // Seed Data
   await seedDatabase();
 
+  // === Test Email Route ===
+  app.post("/api/admin/test-emails", async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    try {
+      const ticketId = "12345678";
+      const otp = "888999";
+      const name = "Cliente de Prueba";
+      const requestCode = "NM-9999-ABC-0";
+
+      // Send all templates
+      await Promise.all([
+        sendEmail({ to: email, subject: "TEST: Bienvenida", html: getWelcomeEmailTemplate(name) }),
+        sendEmail({ to: email, subject: "TEST: Newsletter", html: getNewsletterWelcomeTemplate() }),
+        sendEmail({ to: email, subject: "TEST: OTP", html: getOtpEmailTemplate(otp) }),
+        sendEmail({ to: email, subject: "TEST: Confirmación Solicitud", html: getConfirmationEmailTemplate(name, requestCode) }),
+        sendEmail({ to: email, subject: "TEST: Auto-Respuesta Soporte", html: getAutoReplyTemplate(ticketId) }),
+      ]);
+
+      res.json({ success: true, message: "Emails de prueba enviados" });
+    } catch (error) {
+      console.error("Error sending test emails:", error);
+      res.status(500).json({ message: "Error al enviar emails de prueba" });
+    }
+  });
+
   return httpServer;
 }
 
