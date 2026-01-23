@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
@@ -69,18 +69,21 @@ export function NewsletterSection() {
                 placeholder="Tu email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-brand-dark/10 bg-brand-dark/5 text-brand-dark placeholder:text-brand-dark/30 text-xs md:text-base font-bold focus:border-brand-dark focus:ring-0 transition-all shadow-xl w-full text-center"
+                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-brand-dark/10 bg-white/40 text-brand-dark placeholder:text-brand-dark/40 text-xs md:text-base font-bold focus:border-brand-dark focus:bg-white focus:ring-0 transition-all shadow-inner w-full text-left"
                 required
               />
               <Button 
                 type="submit"
                 disabled={loading}
-                className="absolute right-1 top-1 h-8 w-8 md:h-12 md:w-12 rounded-full bg-white text-brand-dark p-0 hover:scale-105 active:scale-95 transition-all shadow-md flex items-center justify-center border border-brand-dark/10"
+                className="absolute right-1.5 top-1.5 h-7 w-7 md:h-11 md:w-11 rounded-full bg-brand-dark text-brand-lime p-0 hover:scale-110 active:scale-90 transition-all shadow-lg flex items-center justify-center border-0 group-hover:bg-brand-dark group-focus-within:bg-brand-dark"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 md:w-5 md:h-5">
-                  <path d="m9 18 6-6-6-6"/>
-                  <path d="M5 12h14"/>
-                </svg>
+                {loading ? (
+                  <Loader2 className="w-3 h-3 md:w-5 md:h-5 animate-spin" />
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 md:w-5 md:h-5 transform group-hover:translate-x-0.5 transition-transform">
+                    <path d="m9 18 6-6-6-6"/>
+                  </svg>
+                )}
               </Button>
             </div>
           </form>
