@@ -107,11 +107,11 @@ export async function registerRoutes(
       const application = await storage.createLlcApplication({
         orderId: order.id,
         status: "draft",
-        state: stateFromUrl, // Ensure state is stored early to generate correct request code
+        state: "New Mexico", // Default state or extract from context
       });
 
       // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X
-      const statePrefix = stateFromUrl.includes("Wyoming") ? "WY" : stateFromUrl.includes("Delaware") ? "DE" : "NM";
+      const statePrefix = "NM"; // Default for NM
       const timestamp = Date.now().toString();
       const randomPart = Math.random().toString(36).substring(7).toUpperCase();
       const requestCode = `${statePrefix}-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
@@ -532,7 +532,9 @@ export async function registerRoutes(
               </div>
               <p style="font-size: 12px; color: #999;">IP Origen: 127.0.0.1 | Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
             </div>
-            ${getEmailFooter()}
+            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
+              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Sistema de Monitoreo Easy US LLC</p>
+            </div>
           </div>
         </div>
       `;
@@ -559,7 +561,9 @@ export async function registerRoutes(
                 </div>
               </div>
             </div>
-            ${getEmailFooter()}
+            <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
+              <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">Sistema de Monitoreo Easy US LLC</p>
+            </div>
           </div>
         </div>
       `;
