@@ -242,7 +242,7 @@ export default function Home() {
         <div className="w-full px-5 sm:px-8 text-center">
           <Button 
             size="lg" 
-            onClick={() => setLocation("/application")} 
+            onClick={() => setLocation("/servicios#pricing")} 
             className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 shadow-brand-lime/30"
           >
             Comenzamos? Selecciona tu pack →
