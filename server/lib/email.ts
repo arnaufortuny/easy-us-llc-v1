@@ -2,14 +2,14 @@ import nodemailer from "nodemailer";
 
 export function getEmailHeader() {
   return `
-    <div style="background-color: #000; padding: 40px 20px; text-align: center; border-bottom: 6px solid #d9ff00;">
+    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 1px solid #f0f0f0;">
       <div style="margin-bottom: 20px;">
-        <img src="https://easyusllc.com/assets/logo-icon.png" alt="Easy US LLC" style="width: 80px; height: 80px; object-contain: contain; filter: brightness(0) invert(1);" />
+        <img src="https://easyusllc.com/favicon.png" alt="Easy US LLC" style="width: 50px; height: 50px; object-fit: contain;" />
       </div>
-      <h1 style="color: #d9ff00; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 36px; line-height: 1;">
-        Easy US <span style="color: #fff;">LLC</span>
+      <h1 style="color: #000000; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 24px; line-height: 1;">
+        Easy US <span style="color: #666;">LLC</span>
       </h1>
-      <p style="color: #fff; margin: 10px 0 0 0; font-family: 'Inter', Arial, sans-serif; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; opacity: 0.8;">Premium Business Formation</p>
+      <p style="color: #999; margin: 8px 0 0 0; font-family: 'Inter', Arial, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px;">Premium Business Formation</p>
     </div>
   `;
 }
@@ -17,33 +17,36 @@ export function getEmailHeader() {
 export function getEmailFooter() {
   const year = new Date().getFullYear();
   return `
-    <div style="background-color: #000; padding: 40px 20px; text-align: center; color: #fff; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #333;">
-      <p style="margin: 0 0 15px 0; font-weight: 900; color: #d9ff00; text-transform: uppercase; font-size: 14px; letter-spacing: 2px;">Expertos en formación de LLC</p>
-      <p style="margin: 0; font-size: 14px; color: #999; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #d9ff00; text-decoration: none;">info@easyusllc.com</a></p>
-      <div style="margin-top: 25px; padding-top: 25px; border-top: 1px solid #222;">
-        <a href="https://wa.me/34614916910" style="background-color: #d9ff00; color: #000; padding: 10px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">WhatsApp</a>
-        <a href="https://easyusllc.com" style="border: 2px solid #d9ff00; color: #d9ff00; padding: 8px 20px; text-decoration: none; border-radius: 50px; font-weight: 900; font-size: 12px; text-transform: uppercase; margin: 0 5px; display: inline-block;">Visitar Web</a>
+    <div style="background-color: #fafafa; padding: 40px 20px; text-align: center; color: #666; font-family: 'Inter', Arial, sans-serif; border-top: 1px solid #f0f0f0;">
+      <p style="margin: 0 0 15px 0; font-weight: 800; color: #000; text-transform: uppercase; font-size: 11px; letter-spacing: 1px;">Expertos en formación de LLC</p>
+      <p style="margin: 0; font-size: 12px; color: #888; font-weight: 500;">New Mexico, USA | <a href="mailto:info@easyusllc.com" style="color: #000; text-decoration: none; font-weight: 700;">info@easyusllc.com</a></p>
+      <div style="margin-top: 20px;">
+        <a href="https://wa.me/34614916910" style="color: #000; text-decoration: none; font-weight: 800; font-size: 10px; text-transform: uppercase; margin: 0 10px;">WhatsApp</a>
+        <a href="https://easyusllc.com" style="color: #000; text-decoration: none; font-weight: 800; font-size: 10px; text-transform: uppercase; margin: 0 10px;">Web Oficial</a>
       </div>
-      <p style="margin-top: 30px; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px;">© ${year} Easy US LLC. Todos los derechos reservados.</p>
+      <p style="margin-top: 25px; font-size: 9px; color: #bbb; text-transform: uppercase; letter-spacing: 1px;">© ${year} Easy US LLC. Todos los derechos reservados.</p>
     </div>
   `;
 }
 
 export function getAutoReplyTemplate(ticketId: string) {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px; text-align: center;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000;">Hemos recibido tu mensaje</h2>
-          <p style="line-height: 1.8; font-size: 16px; color: #555; margin-bottom: 30px;">Gracias por contactar con <strong>Easy US LLC</strong>. Nuestro equipo de soporte ha registrado tu consulta y te responderá en un plazo máximo de 24 horas.</p>
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu mensaje</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Gracias por contactar con el equipo de soporte de <strong>Easy US LLC</strong>. Hemos registrado tu consulta correctamente y un agente especializado la revisará en breve.</p>
           
-          <div style="background: #000; padding: 30px; border-radius: 20px; margin: 30px 0; text-align: center; border-left: 8px solid #d9ff00;">
-            <p style="margin: 0 0 10px 0; font-weight: 900; color: #d9ff00; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;">Tu Ticket ID:</p>
-            <p style="margin: 0; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 2px;">#${ticketId}</p>
+          <div style="background: #fcfcfc; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee; text-align: left;">
+            <p style="margin: 0; font-size: 14px; color: #666;"><strong>ID de seguimiento:</strong> #${ticketId}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Soporte Prioritario</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #666; margin-bottom: 20px;">Nuestro tiempo de respuesta habitual es inferior a 24 horas laborables.</p>
+          
+          <div style="padding-top: 20px; border-top: 1px solid #f0f0f0;">
+            <p style="font-size: 12px; color: #999; margin: 0;">Si necesitas añadir información a tu consulta, puedes responder directamente a este correo.</p>
+          </div>
         </div>
         ${getEmailFooter()}
       </div>
@@ -53,19 +56,18 @@ export function getAutoReplyTemplate(ticketId: string) {
 
 export function getOtpEmailTemplate(otp: string) {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px; text-align: center;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000;">Verifica tu identidad</h2>
-          <p style="line-height: 1.8; font-size: 16px; color: #555; margin-bottom: 30px;">Has iniciado el proceso de formación de tu LLC. Para continuar de forma segura, introduce el siguiente código:</p>
+        <div style="padding: 40px; text-align: center;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Código de Verificación</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 30px;">Introduce el siguiente código para validar tu identidad y continuar con el proceso:</p>
           
-          <div style="background: #000; padding: 40px; border-radius: 24px; margin: 30px 0; text-align: center; border: 4px solid #b6ff40;">
-            <p style="margin: 0 0 15px 0; font-weight: 900; color: #b6ff40; text-transform: uppercase; font-size: 12px; letter-spacing: 3px;">Tu código de seguridad</p>
-            <p style="margin: 0; font-size: 52px; font-weight: 900; color: #fff; letter-spacing: 12px;">${otp}</p>
+          <div style="background: #000; padding: 25px; border-radius: 8px; margin: 25px 0; display: inline-block;">
+            <p style="margin: 0; font-size: 28px; font-weight: 800; color: #ffffff; letter-spacing: 6px;">${otp}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #999; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Expira en 10 minutos</p>
+          <p style="line-height: 1.6; font-size: 12px; color: #999; margin-top: 20px;">Este código caducará automáticamente en 10 minutos por motivos de seguridad.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -75,22 +77,23 @@ export function getOtpEmailTemplate(otp: string) {
 
 export function getWelcomeEmailTemplate(name: string) {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000; text-align: center;">¡Bienvenido, ${name}!</h2>
-          <p style="line-height: 1.8; font-size: 17px; color: #444;">Es un placer saludarte. En <strong>Easy US LLC</strong> nos especializamos en hacer que tu entrada al mercado de Estados Unidos sea rápida y sin complicaciones.</p>
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Bienvenido a Easy US LLC, ${name}</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Es un placer acompañarte en la expansión de tu negocio hacia los Estados Unidos. Nuestra misión es simplificar cada paso administrativo para que tú puedas centrarte en crecer.</p>
           
-          <div style="background: #b6ff40; padding: 35px; border-radius: 24px; margin: 35px 0; text-align: center; box-shadow: 0 8px 20px rgba(182, 255, 64, 0.25);">
-            <p style="margin: 0; font-size: 20px; font-weight: 900; color: #000; text-transform: uppercase; letter-spacing: -0.5px;">Tu futuro en USA comienza ahora.</p>
+          <div style="background: #fcfcfc; border-left: 3px solid #000; padding: 20px; margin: 25px 0;">
+            <p style="margin: 0; font-size: 15px; font-weight: 700; color: #000;">¿Qué esperar ahora?</p>
+            <ul style="margin: 15px 0 0 0; padding-left: 20px; color: #555; font-size: 14px; line-height: 1.6;">
+              <li style="margin-bottom: 8px;">Asignación de un agente especializado a tu expediente.</li>
+              <li style="margin-bottom: 8px;">Revisión de disponibilidad de nombres en el estado seleccionado.</li>
+              <li style="margin-bottom: 8px;">Preparación de documentos constitutivos oficiales.</li>
+            </ul>
           </div>
 
-          <p style="line-height: 1.8; font-size: 16px; color: #555;">Nuestro equipo ya ha sido notificado y comenzaremos a trabajar en tu estructura de inmediato. Te mantendremos informado de cada hito alcanzado.</p>
-          
-          <div style="margin-top: 40px; padding: 30px; border-radius: 20px; background-color: #f9f9f9; border: 1px solid #eee;">
-            <p style="margin: 0; font-size: 14px; color: #666; font-weight: 600;">¿Tienes alguna duda urgente? Responde a este email o escríbenos directamente a nuestro WhatsApp de soporte prioritario.</p>
-          </div>
+          <p style="line-height: 1.6; font-size: 14px; color: #666;">Recibirás actualizaciones periódicas sobre el estado de tu formación. Si tienes cualquier consulta, nuestro equipo está a tu disposición vía WhatsApp o email.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -100,19 +103,27 @@ export function getWelcomeEmailTemplate(name: string) {
 
 export function getConfirmationEmailTemplate(name: string, requestCode: string) {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000; text-align: center;">Solicitud Confirmada</h2>
-          <p style="line-height: 1.8; font-size: 17px; color: #444; text-align: center;">Hola <strong>${name}</strong>, hemos recibido correctamente tu formulario de aplicación.</p>
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Confirmación de Solicitud</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, confirmamos que hemos recibido correctamente los datos para el registro de tu nueva LLC.</p>
           
-          <div style="background: #000; padding: 35px; border-radius: 24px; margin: 35px 0; text-align: center; border-left: 8px solid #b6ff40;">
-            <p style="margin: 0 0 10px 0; font-weight: 900; color: #b6ff40; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;">Referencia de Solicitud:</p>
-            <p style="margin: 0; font-size: 32px; font-weight: 900; color: #fff; letter-spacing: 1px;">${requestCode}</p>
+          <div style="background: #fcfcfc; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #eee;">
+            <p style="margin: 0; font-size: 15px; color: #000;"><strong>Código de Solicitud:</strong> ${requestCode}</p>
           </div>
 
-          <p style="line-height: 1.8; font-size: 16px; color: #555;">Estamos procesando tu registro oficial ante el Secretario de Estado. Recibirás tus documentos constitutivos firmados en un plazo de <strong>2-3 días hábiles</strong>.</p>
+          <div style="margin: 25px 0; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; font-weight: 800; text-transform: uppercase;">Próximos Pasos:</h3>
+            <ol style="margin: 0; padding-left: 20px; color: #555; font-size: 13px; line-height: 1.6;">
+              <li style="margin-bottom: 10px;"><strong>Registro Estatal:</strong> Presentamos los Articles of Organization ante el Secretario de Estado (2-3 días hábiles).</li>
+              <li style="margin-bottom: 10px;"><strong>Gestión del EIN:</strong> Una vez aprobada la LLC, tramitamos tu número de identificación fiscal ante el IRS.</li>
+              <li style="margin-bottom: 10px;"><strong>Documentación Final:</strong> Recibirás tu Operating Agreement y certificados oficiales en formato digital.</li>
+            </ol>
+          </div>
+
+          <p style="line-height: 1.6; font-size: 14px; color: #666;">Mantén este correo para futuras referencias sobre tu proceso de constitución.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -122,29 +133,30 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string) 
 
 export function getNewsletterWelcomeTemplate() {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000; text-align: center;">¡Bienvenido a la comunidad!</h2>
-          <p style="line-height: 1.8; font-size: 17px; color: #444; text-align: center; margin-bottom: 35px;">Ya eres parte de la red de emprendedores de <strong>Easy US LLC</strong>.</p>
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Suscripción Confirmada</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Ya formas parte de la comunidad de Easy US LLC. A partir de ahora, recibirás información estratégica para optimizar tu negocio en EE.UU.</p>
           
-          <div style="background: #f9f9f9; padding: 35px; border-radius: 24px; margin: 20px 0; border: 1px solid #eee;">
-            <p style="margin: 0 0 20px 0; font-weight: 900; color: #000; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Contenido exclusivo que recibirás:</p>
-            <ul style="margin: 0; padding-left: 0; list-style: none;">
-              <li style="margin-bottom: 15px; padding-left: 30px; position: relative; font-size: 15px; color: #555; line-height: 1.6;">
-                <span style="position: absolute; left: 0; color: #b6ff40; font-weight: 900;">✓</span> Optimización fiscal para no-residentes.
-              </li>
-              <li style="margin-bottom: 15px; padding-left: 30px; position: relative; font-size: 15px; color: #555; line-height: 1.6;">
-                <span style="position: absolute; left: 0; color: #b6ff40; font-weight: 900;">✓</span> Secretos de banca en Mercury y Relay.
-              </li>
-              <li style="margin-bottom: 15px; padding-left: 30px; position: relative; font-size: 15px; color: #555; line-height: 1.6;">
-                <span style="position: absolute; left: 0; color: #b6ff40; font-weight: 900;">✓</span> Alertas de cumplimiento legal y BOI.
-              </li>
-            </ul>
+          <div style="background: #fcfcfc; padding: 25px; border-radius: 8px; border: 1px solid #eee;">
+            <p style="margin: 0 0 15px 0; font-weight: 800; font-size: 12px; text-transform: uppercase; color: #000;">Lo que vas a recibir:</p>
+            <div style="margin-bottom: 15px;">
+              <p style="margin: 0; font-weight: 700; font-size: 14px; color: #000;">Guías de Cumplimiento</p>
+              <p style="margin: 3px 0 0 0; font-size: 13px; color: #666;">Información clave sobre BOI Reports y declaraciones anuales.</p>
+            </div>
+            <div style="margin-bottom: 15px;">
+              <p style="margin: 0; font-weight: 700; font-size: 14px; color: #000;">Tips de Banca USA</p>
+              <p style="margin: 3px 0 0 0; font-size: 13px; color: #666;">Novedades sobre Mercury, Relay y gestión de fondos en USD.</p>
+            </div>
+            <div>
+              <p style="margin: 0; font-weight: 700; font-size: 14px; color: #000;">Estrategia Fiscal</p>
+              <p style="margin: 3px 0 0 0; font-size: 13px; color: #666;">Cómo operar sin IVA y minimizar el impacto tributario legalmente.</p>
+            </div>
           </div>
 
-          <p style="line-height: 1.8; font-size: 16px; color: #555; text-align: center; margin-top: 30px;">Estamos aquí para ayudarte a escalar tu negocio a nivel global.</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #666; margin-top: 25px; text-align: center;">Bienvenido al ecosistema global de emprendimiento.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -154,20 +166,19 @@ export function getNewsletterWelcomeTemplate() {
 
 export function getReminderEmailTemplate(name: string, requestCode: string) {
   return `
-    <div style="background-color: #f4f4f4; padding: 20px 0;">
-      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 20px; overflow: hidden; color: #1a1a1a; box-shadow: 0 10px 30px rgba(0,0,0,0.1); background-color: #ffffff;">
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
-        <div style="padding: 50px 40px;">
-          <h2 style="font-size: 28px; font-weight: 900; margin-bottom: 25px; text-transform: uppercase; letter-spacing: -0.5px; color: #000; text-align: center;">Termina tu registro</h2>
-          <p style="line-height: 1.8; font-size: 17px; color: #444;">Hola <strong>${name}</strong>, hemos notado que tu solicitud para una nueva LLC aún no está completa.</p>
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Termina tu registro</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444;">Hola <strong>${name}</strong>, hemos notado que tu solicitud para una nueva LLC aún no está completa.</p>
           
-          <div style="background: #f1f5f9; padding: 35px; border-radius: 24px; margin: 35px 0; border: 2px dashed #cbd5e1; text-align: center;">
-            <p style="margin: 0 0 10px 0; font-weight: 900; color: #64748b; text-transform: uppercase; font-size: 11px; letter-spacing: 2px;">Solicitud pendiente:</p>
-            <p style="margin: 0; font-size: 28px; font-weight: 900; color: #000;">${requestCode}</p>
+          <div style="background: #f1f5f9; padding: 25px; border-radius: 8px; margin: 35px 0; border: 1px dashed #cbd5e1; text-align: center;">
+            <p style="margin: 0; font-size: 15px; color: #000;"><strong>Solicitud pendiente:</strong> ${requestCode}</p>
           </div>
 
-          <div style="text-align: center; margin-top: 40px;">
-            <a href="https://easyusllc.com/seguimiento" style="background-color: #b6ff40; color: #000; padding: 20px 45px; text-decoration: none; border-radius: 60px; font-weight: 900; display: inline-block; text-transform: uppercase; font-size: 15px; letter-spacing: 1px; box-shadow: 0 10px 25px rgba(182, 255, 64, 0.4);">Continuar Solicitud →</a>
+          <div style="text-align: center; margin-top: 30px;">
+            <a href="https://easyusllc.com/seguimiento" style="background-color: #000; color: #fff; padding: 15px 35px; text-decoration: none; border-radius: 6px; font-weight: 800; display: inline-block; text-transform: uppercase; font-size: 13px; letter-spacing: 1px;">Continuar Solicitud →</a>
           </div>
         </div>
         ${getEmailFooter()}
