@@ -325,16 +325,17 @@ function PorQueEasyUSLLC() {
           variants={staggerContainer}
         >
           {[
-            { title: "RAPIDEZ REAL", desc: "Tu LLC lista en 2–3 días hábiles, con un proceso ágil y bien organizado desde el primer momento." },
-            { title: "TRANSPARENCIA", desc: "Precio claro y cerrado desde el inicio. Todo incluido, sin costes ocultos ni sorpresas." },
-            { title: "ESPECIALISTAS", desc: "Equipo con experiencia real en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
-            { title: "SOPORTE HUMANO", desc: "Atención directa y cercana en tu idioma, por WhatsApp y email, siempre que lo necesites." },
+            { badge: "RAPIDEZ REAL", title: "Tu LLC lista en 2–3 días hábiles", text: "con un proceso ágil y bien organizado desde el primer momento." },
+            { badge: "TRANSPARENCIA", title: "Precio claro y cerrado desde el inicio", text: "Todo incluido, sin costes ocultos ni sorpresas." },
+            { badge: "ESPECIALISTAS", title: "Equipo con experiencia real", text: "en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
+            { badge: "SOPORTE HUMANO", title: "Atención directa y cercana en tu idioma", text: "por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
-            <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
-                {feature.title}
-              </span>
-              <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.desc}</p>
+            <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
+              <div className="p-6 flex-grow">
+                <span className="inline-block px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4 uppercase">{feature.badge}</span>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{feature.title}</h3>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.desc || feature.text}</p>
+              </div>
             </motion.div>
           ))}
         </motion.div>
