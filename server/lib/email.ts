@@ -1,10 +1,12 @@
 import nodemailer from "nodemailer";
 
 export function getEmailHeader() {
+  const domain = process.env.REPLIT_DEV_DOMAIN || "easyusllc.com";
+  const protocol = domain.includes('replit.dev') ? 'https' : 'https';
   return `
     <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
       <div style="margin-bottom: 20px;">
-        <img src="https://easyusllc.com/logo-email.png" alt="Easy US LLC" style="width: 100px; height: 100px; object-fit: contain; border-radius: 12px; border: 2px solid #6EDC8A; padding: 5px; background: #fff;" />
+        <img src="${protocol}://${domain}/logo-email.png" alt="Easy US LLC" style="width: 100px; height: 100px; object-fit: contain; border-radius: 12px; border: 2px solid #6EDC8A; padding: 5px; background: #fff;" />
       </div>
       <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 28px; line-height: 1;">
         Easy US <span style="color: #6EDC8A;">LLC</span>
