@@ -458,10 +458,10 @@ export default function Servicios() {
                   </div>
                   <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
                     {maintenanceFeatures.map((f, idx) => (
-                      <p key={idx} className="flex items-start gap-2 text-primary/80 font-medium leading-tight text-left">
-                        <span className="text-accent font-black text-xl leading-none">●</span> 
-                        <span className="text-[11px] sm:text-xs pt-0.5">{f}</span>
-                      </p>
+                      <div key={idx} className="flex items-start gap-2 text-primary/80 font-medium leading-tight text-left">
+                        <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
+                        <span className="text-[11px] sm:text-xs">{f}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -474,12 +474,12 @@ export default function Servicios() {
                           setMaintenanceStep("ask");
                           setMaintenanceDialogOpen(true);
                         }}
-                        className="w-full bg-brand-lime text-brand-dark font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-brand-lime/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-brand-lime/20"
+                        className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                       >
                         Elegir Pack {item.state}
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-0 border-brand-lime/30 shadow-2xl">
+                    <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-0 border-accent/30 shadow-2xl">
                       <div className="p-6 sm:p-10">
                         {maintenanceStep === "ask" ? (
                           <div className="text-center space-y-8">
@@ -511,24 +511,24 @@ export default function Servicios() {
                             <div className="flex flex-col sm:flex-row gap-4">
                               <Button 
                                 onClick={() => setMaintenanceStep("form")}
-                                className="flex-1 bg-brand-lime text-brand-dark font-black text-sm h-14 rounded-full shadow-lg hover:bg-brand-lime/90 transform hover:scale-105 transition-all"
+                                className="flex-1 bg-accent text-primary font-black text-sm h-14 rounded-full shadow-lg hover:bg-accent/90 transform hover:scale-105 transition-all"
                               >
                                 Sí, quiero contratarlo
                               </Button>
                               <Button 
                                 variant="outline"
                                 onClick={() => setMaintenanceDialogOpen(false)}
-                                className="flex-1 border-2 border-brand-dark/10 font-black text-sm h-14 rounded-full hover:bg-brand-dark/5 transition-all"
+                                className="flex-1 border-2 border-primary/10 font-black text-sm h-14 rounded-full hover:bg-primary/5 transition-all"
                               >
                                 No por ahora
                               </Button>
                             </div>
-                            <p className="text-[10px] uppercase font-black tracking-widest text-brand-dark/40">Cumple al 100% con el IRS y el Estado</p>
+                            <p className="text-[10px] uppercase font-black tracking-widest text-primary/40">Cumple al 100% con el IRS y el Estado</p>
                           </div>
                         ) : (
                           <div className="space-y-8">
                             <div className="text-center">
-                              <h3 className="text-2xl sm:text-3xl font-black uppercase text-brand-dark tracking-tight">Solicitud de Mantenimiento</h3>
+                              <h3 className="text-2xl sm:text-3xl font-black uppercase text-primary tracking-tight">Solicitud de Mantenimiento</h3>
                               <p className="text-muted-foreground text-sm font-medium mt-2">Completa el formulario y te contactaremos para iniciar el proceso.</p>
                             </div>
 
@@ -542,7 +542,7 @@ export default function Servicios() {
                                       <FormItem>
                                         <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Nombre Completo</FormLabel>
                                         <FormControl>
-                                          <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-12" />
+                                          <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-12" />
                                         </FormControl>
                                         <FormMessage className="text-[10px]" />
                                       </FormItem>
@@ -557,7 +557,7 @@ export default function Servicios() {
                                         render={({ field }) => (
                                           <FormItem className="flex-1">
                                             <FormControl>
-                                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-brand-lime/30 focus:border-brand-lime h-12" disabled={isEmailVerified} />
+                                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-12" disabled={isEmailVerified} />
                                             </FormControl>
                                             <FormMessage className="text-[10px]" />
                                           </FormItem>
@@ -568,7 +568,7 @@ export default function Servicios() {
                                           type="button" 
                                           onClick={sendOtp} 
                                           disabled={isSendingOtp || isOtpSent}
-                                          className="bg-brand-lime text-brand-dark font-black text-xs rounded-full h-12 px-4 shadow-md"
+                                          className="bg-accent text-primary font-black text-xs rounded-full h-12 px-4 shadow-md"
                                         >
                                           {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : isOtpSent ? "Enviado" : "Verificar"}
                                         </Button>
