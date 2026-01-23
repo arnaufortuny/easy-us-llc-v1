@@ -146,12 +146,12 @@ export default function FAQ() {
         className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-brand-dark uppercase tracking-tight leading-[1.1] text-center mb-2">
-            PREGUNTAS <span className="text-brand-lime">FRECUENTES</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
+            PREGUNTAS <span className="text-accent">FRECUENTES</span>
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
             Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
           </p>
         }
@@ -166,11 +166,11 @@ export default function FAQ() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
+            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
@@ -180,9 +180,9 @@ export default function FAQ() {
                 placeholder="Busca tu duda..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full h-9 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-brand-lime/30 focus:border-brand-lime focus:outline-none text-brand-dark font-medium shadow-sm transition-all text-[10px] sm:text-base appearance-none"
+                className="w-full h-9 sm:h-14 pl-10 sm:pl-14 pr-6 rounded-full border-2 border-accent/30 focus:border-accent focus:outline-none text-primary font-medium shadow-sm transition-all text-[10px] sm:text-base appearance-none"
               />
-              <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-brand-lime">
+              <div className="absolute left-3.5 sm:left-5 top-1/2 -translate-y-1/2 text-accent">
                 <svg className="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
@@ -199,8 +199,8 @@ export default function FAQ() {
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
                   <motion.div key={category.title} className="space-y-4 sm:space-y-6" variants={fadeIn}>
-                    <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tight flex items-center gap-3 sm:gap-4">
-                      <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-brand-lime rounded-full shrink-0" />
+                    <h2 className="text-xl sm:text-2xl font-black text-primary uppercase tracking-tight flex items-center gap-3 sm:gap-4">
+                      <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-accent rounded-full shrink-0" />
                       {category.title}
                     </h2>
                     <div className="grid gap-2 sm:gap-3">
@@ -209,25 +209,25 @@ export default function FAQ() {
                           key={i} 
                           className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
                             openItems[category.title] === i 
-                              ? "border-brand-lime bg-brand-lime/[0.03]" 
-                              : "border-brand-dark/5 hover:border-brand-lime/30 bg-white"
+                              ? "border-accent bg-accent/[0.03]" 
+                              : "border-primary/5 hover:border-accent/30 bg-white"
                           }`}
                         >
                           <button
                             onClick={() => toggleItem(category.title, i)}
                             className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                           >
-                            <span className="font-bold text-brand-dark text-sm sm:text-lg leading-tight tracking-tight">
+                            <span className="font-bold text-primary text-sm sm:text-lg leading-tight tracking-tight">
                               {item.q}
                             </span>
                             <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
-                              openItems[category.title] === i ? "rotate-45 text-brand-lime" : "text-brand-dark/30"
+                              openItems[category.title] === i ? "rotate-45 text-accent" : "text-primary/30"
                             }`}>
                               +
                             </span>
                           </button>
                           {(openItems[category.title] === i || searchQuery !== "") && (
-                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-brand-dark/90 text-xs sm:text-base leading-relaxed border-t border-brand-lime/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-brand-lime/5">
+                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-primary/90 text-xs sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
                               {item.a}
                             </div>
                           )}
@@ -238,7 +238,7 @@ export default function FAQ() {
                 ))
               ) : (
                 <div className="text-center py-16 sm:py-20">
-                  <p className="text-brand-dark font-bold text-lg sm:text-xl mb-2">No hemos encontrado nada</p>
+                  <p className="text-primary font-bold text-lg sm:text-xl mb-2">No hemos encontrado nada</p>
                   <p className="text-muted-foreground text-sm sm:text-base">Prueba con otra palabra o contáctanos directamente.</p>
                 </div>
               )}
