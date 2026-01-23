@@ -86,7 +86,7 @@ export default function ApplicationWizard() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
-  const [orderNumber, setOrderNumber] = useState<number>(0);
+  const [orderNumber, setOrderNumber] = useState<string>("");
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
   const { toast } = useToast();
@@ -151,7 +151,7 @@ export default function ApplicationWizard() {
         const res = await apiRequest("POST", "/api/orders", { productId });
         const data = await res.json();
         setAppId(data.application.id);
-        setOrderNumber(data.id);
+        setOrderNumber(data.application.requestCode || `#${data.application.id}`);
       } catch (err) {
         console.error("Error initializing application:", err);
       }
@@ -290,6 +290,15 @@ export default function ApplicationWizard() {
             >
               VAMOS A <br /> CONSTITUIR TU <span className="text-brand-lime">LLC</span>
             </motion.h1>
+            {orderNumber && (
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="bg-brand-dark text-brand-lime px-4 py-2 rounded-full font-black text-xs tracking-widest uppercase"
+              >
+                PEDIDO: {orderNumber}
+              </motion.div>
+            )}
           </div>
 
           <div className="space-y-6 mb-20">
@@ -725,7 +734,7 @@ export default function ApplicationWizard() {
                                 <div className="bg-brand-lime/5 p-8 rounded-[2rem] border border-brand-lime/20 space-y-6">
                                   <div className="flex items-center justify-between border-b border-brand-lime/10 pb-4">
                                     <h4 className="font-black uppercase tracking-tight text-brand-dark">Resumen de la solicitud</h4>
-                                    <span className="bg-brand-lime text-brand-dark font-black text-[10px] px-3 py-1 rounded-full uppercase">Orden #{orderNumber}</span>
+                                    <span className="bg-brand-dark text-brand-lime font-black text-[10px] px-4 py-1.5 rounded-full uppercase tracking-widest">PEDIDO: {orderNumber}</span>
                                   </div>
                                   
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-sm">

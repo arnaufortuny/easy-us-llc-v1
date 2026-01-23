@@ -79,17 +79,26 @@ export async function registerRoutes(
       const application = await storage.createLlcApplication({
         orderId: order.id,
         status: "draft",
+        state: stateFromUrl, // Ensure state is stored early to generate correct request code
       });
+
+      // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X
+      const statePrefix = stateFromUrl.includes("Wyoming") ? "WY" : stateFromUrl.includes("Delaware") ? "DE" : "NM";
+      const timestamp = Date.now().toString();
+      const randomPart = Math.random().toString(36).substring(7).toUpperCase();
+      const requestCode = `${statePrefix}-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
+
+      const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
       // Notification to admin about NEW ORDER
       await sendEmail({
         to: "afortuny07@gmail.com",
-        subject: `NUEVO PEDIDO: ${product.name} - ${order.id}`,
+        subject: `NUEVO PEDIDO: ${product.name} - ${requestCode}`,
         html: `
           <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000;">
             <div style="background: #000; color: #d9ff00; padding: 20px; text-align: center;">
               <h1 style="margin: 0;">LOG DE SISTEMA: NUEVO PEDIDO</h1>
-              <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ID: #${order.id}</p>
+              <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ID: ${requestCode}</p>
             </div>
             <div style="padding: 20px;">
               <p><strong>PRODUCTO:</strong> ${product.name}</p>
@@ -102,7 +111,7 @@ export async function registerRoutes(
       }).catch(err => console.error("Error sending admin order notification:", err));
 
       // Return order with application
-      res.status(201).json({ ...order, application });
+      res.status(201).json({ ...order, application: updatedApplication });
 
       // Send welcome email if user is authenticated and has email
       if (req.user?.email) {
@@ -147,15 +156,16 @@ export async function registerRoutes(
       
       // If status is being updated to "submitted", send confirmation email
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
+        const orderIdentifier = updatedApp.requestCode || `#${updatedApp.id}`;
         // Notification to admin
         sendEmail({
           to: "afortuny07@gmail.com",
-          subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - #${updatedApp.id}`,
+          subject: `NUEVA SOLICITUD LLC: ${updatedApp.companyName} - ${orderIdentifier}`,
           html: `
             <div style="font-family: sans-serif; padding: 20px; border: 2px solid #000; border-radius: 20px; background-color: #fff;">
               <div style="background: #000; color: #d9ff00; padding: 30px; text-align: center; border-radius: 15px 15px 0 0;">
                 <h1 style="margin: 0; font-size: 24px;">LOG DE SISTEMA: NUEVA SOLICITUD</h1>
-                <p style="margin: 10px 0 0 0; font-weight: bold; font-size: 18px;">PEDIDO ID: #${updatedApp.id}</p>
+                <p style="margin: 10px 0 0 0; font-weight: bold; font-size: 18px;">PEDIDO ID: ${orderIdentifier}</p>
               </div>
               <div style="padding: 30px; color: #333; line-height: 1.6;">
                 <h2 style="border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; color: #000; font-size: 16px; text-transform: uppercase;">Datos Personales</h2>
@@ -182,16 +192,16 @@ export async function registerRoutes(
           `,
         }).catch(err => console.error("Error sending admin notification:", err));
 
-        // Confirmation to client with full info
+      // Confirmation to client with full info
         sendEmail({
           to: updatedApp.ownerEmail,
-          subject: `Confirmación de Solicitud #${updatedApp.id} - Easy US LLC`,
+          subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
           html: `
             <div style="font-family: sans-serif; padding: 20px; color: #333;">
               <div style="max-width: 600px; margin: auto; border: 1px solid #eee; border-radius: 20px; overflow: hidden;">
                 <div style="background: #000; color: #d9ff00; padding: 40px; text-align: center;">
                   <h1 style="margin: 0; text-transform: uppercase;">Solicitud Recibida</h1>
-                  <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO #${updatedApp.id}</p>
+                  <p style="margin: 10px 0 0 0; font-weight: bold;">PEDIDO ${orderIdentifier}</p>
                 </div>
                 <div style="padding: 40px;">
                   <p>Hola <strong>${updatedApp.ownerFullName}</strong>,</p>
@@ -201,6 +211,7 @@ export async function registerRoutes(
                     <h3 style="margin-top: 0; font-size: 14px; text-transform: uppercase; color: #999;">Resumen de tu empresa</h3>
                     <p style="margin: 5px 0; font-size: 18px; font-weight: bold; color: #000;">${updatedApp.companyName}</p>
                     <p style="margin: 0; font-size: 14px; color: #666;">${updatedApp.businessCategory}</p>
+                    <p style="margin: 10px 0 0 0; font-size: 12px; color: #999; text-transform: uppercase; font-weight: bold;">Número de pedido: ${orderIdentifier}</p>
                   </div>
 
                   <p>Nuestro equipo de expertos revisará la disponibilidad del nombre y comenzará con el registro oficial de inmediato.</p>
