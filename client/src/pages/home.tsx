@@ -92,13 +92,13 @@ export default function Home() {
             animate="animate"
             variants={staggerContainer}
           >
-            <motion.p 
+            <motion.div 
               className="text-[14px] sm:text-base text-foreground font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
               variants={fadeIn}
             >
               Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional. <br />
               <span className="block sm:inline font-bold mt-2 text-accent">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
-            </motion.p>
+            </motion.div>
             
             {/* Trustpilot below description for PC, hidden on mobile */}
             <motion.div className="hidden sm:flex mb-8 justify-center" variants={fadeIn}>

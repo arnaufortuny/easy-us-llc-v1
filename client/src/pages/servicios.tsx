@@ -187,12 +187,9 @@ export default function Servicios() {
               animate="animate"
               variants={staggerContainer}
             >
-              <motion.p 
-                className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2"
-                variants={fadeIn}
-              >
+            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
                 Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-              </motion.p>
+            </motion.div>
               
               <motion.div 
                 className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
@@ -255,10 +252,10 @@ export default function Servicios() {
                   <p className="text-4xl sm:text-4xl font-black text-primary">639€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
-                </p>
+                </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
@@ -292,10 +289,10 @@ export default function Servicios() {
                   <p className="text-4xl sm:text-4xl font-black text-primary">799€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
-                </p>
+                </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
@@ -329,10 +326,10 @@ export default function Servicios() {
                   <p className="text-4xl sm:text-4xl font-black text-primary">999€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <p className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
-                </p>
+                </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
