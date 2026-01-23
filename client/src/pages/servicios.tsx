@@ -259,7 +259,7 @@ export default function Servicios() {
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
+                      <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
                     </div>
                   ))}
@@ -296,7 +296,7 @@ export default function Servicios() {
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
+                      <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
                     </div>
                   ))}
@@ -333,7 +333,7 @@ export default function Servicios() {
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
                   {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
-                      <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
+                      <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
                     </div>
                   ))}
@@ -459,7 +459,7 @@ export default function Servicios() {
                   <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
                     {maintenanceFeatures.map((f, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-primary/80 font-medium leading-tight text-left">
-                        <span className="text-accent font-black text-xl leading-none pt-0.5">●</span> 
+                        <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                         <span className="text-[11px] sm:text-xs">{f}</span>
                       </div>
                     ))}
@@ -499,9 +499,7 @@ export default function Servicios() {
                               <div className="grid grid-cols-1 gap-3">
                                 {maintenanceFeatures.map((f, idx) => (
                                   <div key={idx} className="flex items-start gap-3">
-                                    <div className="mt-1 w-4 h-4 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                                      <div className="w-2 h-2 rounded-full bg-accent" />
-                                    </div>
+                                    <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" />
                                     <span className="text-sm font-medium text-primary/80">{f}</span>
                                   </div>
                                 ))}
