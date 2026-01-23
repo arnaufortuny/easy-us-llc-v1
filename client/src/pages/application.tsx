@@ -744,6 +744,17 @@ export default function ApplicationWizard() {
 
                             {step === 4 && (
                               <div className="space-y-8">
+                                <div className="bg-brand-dark text-white p-8 rounded-[2rem] relative overflow-hidden mb-8">
+                                  <div className="absolute top-0 right-0 p-8 opacity-10">
+                                    <ShieldCheck className="w-24 h-24" />
+                                  </div>
+                                  <div className="relative z-10 text-center sm:text-left">
+                                    <p className="text-brand-lime font-black text-xs uppercase tracking-[0.2em] mb-2">Código de Pedido</p>
+                                    <h4 className="text-4xl font-black uppercase tracking-tighter mb-4">{orderNumber}</h4>
+                                    <p className="text-gray-400 text-sm max-w-md mx-auto sm:mx-0">Guarda este código para consultar el estado de tu solicitud en cualquier momento.</p>
+                                  </div>
+                                </div>
+                                
                                 <div className="bg-brand-lime/5 p-8 rounded-[2rem] border border-brand-lime/20 space-y-6">
                                   <div className="flex items-center justify-between border-b border-brand-lime/10 pb-4">
                                     <h4 className="font-black uppercase tracking-tight text-brand-dark">Resumen de la solicitud</h4>
