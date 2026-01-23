@@ -191,7 +191,13 @@ export default function ApplicationWizard() {
       setStep(1);
       return;
     }
-    else if (step === 1) fields = ["companyName", "ownerIdNumber", "ownerIdType", "businessCategory", "companyDescription", "ownerCity", "ownerCountry"];
+    else if (step === 1) {
+      fields = ["companyName", "ownerIdNumber", "ownerIdType", "businessCategory", "companyDescription", "ownerCity", "ownerCountry"];
+      const isValid = await form.trigger(fields);
+      if (!isValid) return;
+      setStep(2);
+      return;
+    }
     else if (step === 2) {
       if (!isEmailVerified) {
         toast({ title: "Verificación requerida", description: "Debes verificar tu email antes de continuar.", variant: "destructive" });
@@ -200,6 +206,12 @@ export default function ApplicationWizard() {
       setStep(3);
       return;
     } else if (step === 3) {
+      // Validar si se ha seleccionado un método de pago
+      const notes = form.getValues("notes");
+      if (!notes || !notes.includes("Método de pago seleccionado:")) {
+        toast({ title: "Método de pago", description: "Por favor, selecciona un método de pago antes de continuar.", variant: "destructive" });
+        return;
+      }
       setStep(4);
       return;
     } else if (step === 4) {
@@ -261,8 +273,8 @@ export default function ApplicationWizard() {
     { n: 1, label: "Datos Personales", desc: "Información oficial del propietario legal." },
     { n: 2, label: "Tu Nueva LLC", desc: `Configuración en ${stateFromUrl}` },
     { n: 3, label: "Verificación", desc: "Código de seguridad enviado por email." },
-    { n: 4, label: "Revisión Final", desc: "Confirma los detalles de tu solicitud." },
-    { n: 5, label: "Método de Pago", desc: "Selecciona cómo deseas abonar el servicio." }
+    { n: 4, label: "Método de Pago", desc: "Selecciona cómo deseas abonar el servicio." },
+    { n: 5, label: "Revisión Final", desc: "Confirma los detalles de tu solicitud." }
   ];
 
   return (
@@ -738,6 +750,36 @@ export default function ApplicationWizard() {
 
                             {step === 3 && (
                               <div className="space-y-8">
+                                <div className="space-y-4">
+                                  <p className="text-center font-bold text-gray-600 mb-6">Selecciona tu método de pago preferido</p>
+                                  <div className="grid grid-cols-1 gap-4">
+                                    {PAYMENT_METHODS.map((method) => (
+                                      <div 
+                                        key={method.id}
+                                        onClick={() => {
+                                          form.setValue("notes", `Método de pago seleccionado: ${method.label}. ${form.getValues("notes") || ""}`);
+                                          toast({ title: "Método seleccionado", description: method.label });
+                                        }}
+                                        className="p-6 rounded-2xl border-2 border-gray-100 bg-white hover:border-brand-lime cursor-pointer transition-all shadow-sm group"
+                                      >
+                                        <div className="flex items-center gap-4">
+                                          <div className="w-6 h-6 rounded-full border-2 border-gray-200 group-hover:border-brand-lime flex items-center justify-center">
+                                            <div className="w-3 h-3 rounded-full bg-brand-lime opacity-0 group-hover:opacity-100 transition-opacity" />
+                                          </div>
+                                          <div>
+                                            <h4 className="font-black text-brand-dark uppercase text-sm">{method.label}</h4>
+                                            <p className="text-xs text-gray-500 mt-1">{method.desc}</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+
+                            {step === 4 && (
+                              <div className="space-y-8">
                                 <div className="grid grid-cols-1 gap-6">
                                   <div className="bg-brand-dark text-white rounded-2xl p-6 flex justify-between items-center shadow-xl relative overflow-hidden">
                                     <div className="absolute top-0 right-0 w-32 h-full bg-brand-lime/5 transform skew-x-12 translate-x-12" />
@@ -794,36 +836,6 @@ export default function ApplicationWizard() {
                                 </div>
                               </div>
                             )}
-
-                            {step === 4 && (
-                              <div className="space-y-8">
-                                <div className="space-y-4">
-                                  <p className="text-center font-bold text-gray-600 mb-6">Selecciona tu método de pago preferido</p>
-                                  <div className="grid grid-cols-1 gap-4">
-                                    {PAYMENT_METHODS.map((method) => (
-                                      <div 
-                                        key={method.id}
-                                        onClick={() => {
-                                          form.setValue("notes", `Método de pago seleccionado: ${method.label}. ${form.getValues("notes") || ""}`);
-                                          toast({ title: "Método seleccionado", description: method.label });
-                                        }}
-                                        className="p-6 rounded-2xl border-2 border-gray-100 bg-white hover:border-brand-lime cursor-pointer transition-all shadow-sm group"
-                                      >
-                                        <div className="flex items-center gap-4">
-                                          <div className="w-6 h-6 rounded-full border-2 border-gray-200 group-hover:border-brand-lime flex items-center justify-center">
-                                            <div className="w-3 h-3 rounded-full bg-brand-lime opacity-0 group-hover:opacity-100 transition-opacity" />
-                                          </div>
-                                          <div>
-                                            <h4 className="font-black text-brand-dark uppercase text-sm">{method.label}</h4>
-                                            <p className="text-xs text-gray-500 mt-1">{method.desc}</p>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-                            )}
                             <div className="flex flex-col sm:flex-row gap-4 pt-10 border-t border-gray-50">
                               {step > 0 && (
                                 <Button
@@ -840,14 +852,14 @@ export default function ApplicationWizard() {
                                 onClick={nextStep}
                                 disabled={isSubmitting || (step === 2 && !isEmailVerified)}
                                 className={`h-16 md:h-20 rounded-full font-black uppercase tracking-[0.25em] text-sm transition-all shadow-xl flex-1 ${
-                                  step === 3 
+                                  step === 4 
                                     ? "bg-brand-dark text-white hover:bg-brand-dark/95" 
                                     : "bg-brand-lime text-brand-dark hover:bg-brand-lime/90 shadow-brand-lime/20"
                                 }`}
                               >
                                 {isSubmitting ? (
                                   <Loader2 className="w-5 h-5 animate-spin" />
-                                ) : step === 3 ? (
+                                ) : step === 4 ? (
                                   "FINALIZAR SOLICITUD"
                                 ) : (
                                   "CONTINUAR"
