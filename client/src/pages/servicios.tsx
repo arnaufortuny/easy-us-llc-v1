@@ -179,11 +179,30 @@ export default function Servicios() {
               variants={staggerContainer}
             >
               <motion.p 
-                className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-12 sm:mb-20 mx-auto px-2"
+                className="text-[13px] sm:text-xl lg:text-2xl text-brand-dark font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2"
                 variants={fadeIn}
               >
                 Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
               </motion.p>
+              
+              <motion.div 
+                className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
+                variants={fadeIn}
+              >
+                {[
+                  "Mas de 30 LLC constituidas",
+                  "Nuestros clientes nos valoran 5/5",
+                  "Aprobacion 90% Cuentas",
+                  "Precios Competitivos"
+                ].map((text, i) => (
+                  <div 
+                    key={i} 
+                    className="bg-brand-dark text-brand-lime font-black uppercase tracking-[0.15em] text-[9px] sm:text-[10px] px-4 py-2 rounded-full shadow-lg border border-brand-lime/20"
+                  >
+                    {text}
+                  </div>
+                ))}
+              </motion.div>
             </motion.div>
         }
       />
