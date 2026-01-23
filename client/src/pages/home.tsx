@@ -76,12 +76,12 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black uppercase tracking-tighter text-brand-dark mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
+              className="font-black uppercase tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
               style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
               OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL<br />
-              <span className="text-brand-lime">CON UNA LLC AMERICANA</span>
+              <span className="text-accent">CON UNA LLC AMERICANA</span>
             </motion.h1>
           </motion.div>
         }
@@ -93,11 +93,11 @@ export default function Home() {
             variants={staggerContainer}
           >
             <motion.p 
-              className="text-[14px] sm:text-base text-brand-dark font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
+              className="text-[14px] sm:text-base text-foreground font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2"
               variants={fadeIn}
             >
               Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional. <br />
-              <span className="block sm:inline font-bold mt-2">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
+              <span className="block sm:inline font-bold mt-2 text-accent">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
             </motion.p>
             
             {/* Trustpilot below description for PC, hidden on mobile */}
@@ -117,25 +117,25 @@ export default function Home() {
 
             {/* Badges below description for PC */}
             <motion.div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2" variants={fadeIn}>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Tu LLC en 2 días
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Pack Todo Incluido
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Sin IVA
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Precios Transparentes
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Trato Cercano
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Apertura Cuenta Mercury & Relay
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm whitespace-nowrap">
                 Tarjeta Física de Crédito y Débito
               </span>
             </motion.div>
@@ -143,10 +143,10 @@ export default function Home() {
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => {
                 setIsPopupOpen(true);
-              }} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+              }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-accent/20">
                 ¿Estás listo? Selecciona tu pack →
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-brand-lime text-brand-dark font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-brand-lime/20">
+              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-accent/20">
                 Conoce nuestros servicios →
               </Button>
             </motion.div>
@@ -154,7 +154,7 @@ export default function Home() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5" id="servicios">
+      <section className="py-8 sm:py-14 bg-background border-t border-foreground/5" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <motion.div 
             className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
@@ -163,11 +163,11 @@ export default function Home() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center leading-[1.1] sm:leading-tight" variants={fadeIn}>
-              <span className="text-brand-lime uppercase tracking-widest text-base font-black block mb-2 text-center">SERVICIOS</span>
+            <motion.h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground uppercase tracking-tight text-center leading-[1.1] sm:leading-tight" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-base font-black block mb-2 text-center">SERVICIOS</span>
               Constitución<br className="sm:hidden" /> de LLC
             </motion.h2>
-            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que hacemos por ti)</motion.p>
+            <motion.p className="text-accent font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que hacemos por ti)</motion.p>
           </motion.div>
           
           <motion.div 
@@ -185,8 +185,8 @@ export default function Home() {
               { title: "Registered Agent", desc: "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales." },
               { title: "Soporte experto", desc: "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC." },
             ].map((service, i) => (
-              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
+              <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
                   {service.title}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
@@ -196,14 +196,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-white py-8 sm:py-24 border-t border-brand-dark/5" id="ventajas">
+      <section className="bg-background py-8 sm:py-24 border-t border-foreground/5" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
-            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center leading-[1.1] sm:leading-tight">
-              <span className="text-brand-lime uppercase tracking-widest text-base font-black block mb-2 text-center">VENTAJAS</span>
+            <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground uppercase tracking-tight text-center leading-[1.1] sm:leading-tight">
+              <span className="text-accent uppercase tracking-widest text-base font-black block mb-2 text-center">VENTAJAS</span>
               Ventajas<br className="sm:hidden" /> fiscales
             </h2>
-            <p className="text-brand-lime font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
+            <p className="text-accent font-black uppercase tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
           </div>
           
           <motion.div 
@@ -219,14 +219,14 @@ export default function Home() {
               { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
               { badge: "Banca", title: "Banca internacional", text: "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.", footer: "Tarjeta física internacional." },
             ].map((card, i) => (
-              <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
+              <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col" variants={fadeIn}>
                 <div className="p-6 flex-grow">
-                  <span className="inline-block px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4 uppercase">{card.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{card.title}</h3>
+                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase">{card.badge}</span>
+                  <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight">{card.title}</h3>
                   <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{card.text}</p>
                 </div>
-                <div className="bg-brand-lime/10 px-6 py-4 border-t border-brand-lime/20 mt-auto">
-                  <p className="text-sm font-bold text-brand-dark">{card.footer}</p>
+                <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto">
+                  <p className="text-sm font-bold text-foreground">{card.footer}</p>
                 </div>
               </motion.div>
             ))}
@@ -240,12 +240,12 @@ export default function Home() {
         <div className="border-t border-brand-dark/5 w-full" />
       </div>
 
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-background">
         <div className="w-full px-5 sm:px-8 text-center">
           <Button 
             size="lg" 
             onClick={() => setIsPopupOpen(true)} 
-            className="bg-brand-lime text-brand-dark font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 shadow-brand-lime/30"
+            className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 shadow-accent/30"
           >
             Comenzamos? Selecciona tu pack →
           </Button>
@@ -261,7 +261,7 @@ export default function Home() {
 
 function PorQueEasyUSLLC() {
   return (
-    <section className="py-8 sm:py-14 bg-white border-t border-brand-dark/5">
+    <section className="py-8 sm:py-14 bg-background border-t border-foreground/5">
       <div className="w-full px-5 sm:px-8">
         <motion.div 
           className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
@@ -270,11 +270,11 @@ function PorQueEasyUSLLC() {
           viewport={{ once: true }}
           variants={staggerContainer}
         >
-          <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
-            <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">VALORES</span>
+          <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground uppercase tracking-tight text-center" variants={fadeIn}>
+            <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">VALORES</span>
             ¿Por qué Easy US LLC?
           </motion.h2>
-          <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+          <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
             (Lo que nos hace diferentes)
           </motion.p>
         </motion.div>
@@ -291,10 +291,10 @@ function PorQueEasyUSLLC() {
             { badge: "ESPECIALISTAS", title: "Equipo con experiencia real", text: "en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
             { badge: "SOPORTE HUMANO", title: "Atención directa y cercana en tu idioma", text: "por WhatsApp y email, siempre que lo necesites." },
           ].map((feature, i) => (
-            <motion.div key={i} className="bg-white rounded-2xl shadow-md overflow-hidden border border-brand-dark/5 sm:border-brand-dark/5 border-brand-lime/20 flex flex-col" variants={fadeIn}>
+            <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col" variants={fadeIn}>
               <div className="p-6 flex-grow">
-                <span className="inline-block px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4 uppercase">{feature.badge}</span>
-                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-brand-dark mb-3 leading-tight">{feature.title}</h3>
+                <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 uppercase">{feature.badge}</span>
+                <h3 className="text-xl sm:text-2xl font-black uppercase tracking-tighter text-foreground mb-3 leading-tight">{feature.title}</h3>
                 <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{feature.text}</p>
               </div>
             </motion.div>

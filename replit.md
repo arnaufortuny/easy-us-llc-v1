@@ -26,6 +26,7 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- Migrated Navbar and Footer to use semantic design tokens (accent, primary, primary-foreground).
 - Standardized all email notifications (client/admin) with professional minimalist design (white/gray scheme).
 - Implemented automated response system for customer contact with 24-48h SLAs.
 - Enhanced application tracking with unique request codes and detailed admin logs.
