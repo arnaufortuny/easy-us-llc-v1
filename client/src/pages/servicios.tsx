@@ -767,9 +767,9 @@ export default function Servicios() {
             <p className="text-brand-dark/60 font-medium mb-6">¿Aún tienes dudas?</p>
             <Button 
               onClick={() => setLocation("/faq")}
-              className="bg-brand-dark text-white font-black text-sm rounded-full px-8 py-6 h-14 shadow-lg hover:scale-105 transition-all"
+              className="bg-brand-lime text-brand-dark font-black text-sm rounded-full px-8 py-6 h-14 shadow-lg hover:scale-105 transition-all shadow-brand-lime/20"
             >
-              Ver todas las preguntas
+              Ver todas las preguntas →
             </Button>
           </div>
         </div>
