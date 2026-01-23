@@ -4,7 +4,7 @@ export function getEmailHeader() {
   return `
     <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
       <div style="margin-bottom: 20px;">
-        <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" style="width: 80px; height: 80px; object-fit: contain; border-radius: 50%; border: 2px solid #6EDC8A; padding: 5px; background: #fff;" />
+        <img src="https://i.ibb.co/6R8mH9h/logo-icon.png" alt="Easy US LLC" style="width: 80px; height: 80px; object-fit: contain; border-radius: 50%; border: 2px solid #6EDC8A; padding: 5px; background: #fff;" />
       </div>
       <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 28px; line-height: 1;">
         Easy US <span style="color: #6EDC8A;">LLC</span>
