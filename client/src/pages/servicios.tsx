@@ -2,14 +2,13 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
-import { HelpSection } from "@/components/layout/help-section";
-import { useLocation, Link } from "wouter";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useLocation, Link } from "wouter";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { apiRequest, queryClient } from "@/lib/queryClient";
 import { ChevronDown } from "lucide-react";
 import {
   Dialog,
@@ -662,7 +661,6 @@ export default function Servicios() {
         </div>
       </section>
 
-      <HelpSection />
       <NewsletterSection />
       <Footer />
     </div>

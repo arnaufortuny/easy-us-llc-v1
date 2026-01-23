@@ -2,7 +2,6 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
-import { HelpSection } from "@/components/layout/help-section";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -341,7 +340,6 @@ export default function Contacto() {
           </motion.div>
         </div>
       </section>
-      <HelpSection />
       <NewsletterSection />
       <Footer />
     </div>

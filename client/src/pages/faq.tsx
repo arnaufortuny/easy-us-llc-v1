@@ -2,10 +2,9 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
-import { HelpSection } from "@/components/layout/help-section";
-import { useState } from "react";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -248,7 +247,6 @@ export default function FAQ() {
         </div>
       </section>
 
-      <HelpSection />
       <NewsletterSection />
       <Footer />
     </div>
