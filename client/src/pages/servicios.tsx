@@ -159,6 +159,15 @@ export default function Servicios() {
     "1 Actualización de Articles of Organization"
   ];
 
+  const maintenanceProcess = [
+    { title: "Gestión Fiscal", desc: "Preparación y presentación de los formularios 1120 y 5472 ante el IRS, asegurando el cumplimiento tributario anual de tu LLC." },
+    { title: "Registered Agent", desc: "Renovación del servicio de Agente Registrado por un año más, manteniendo tu dirección legal y la recepción de notificaciones oficiales." },
+    { title: "Annual Report", desc: "Gestión y presentación del Informe Anual ante el Secretario de Estado correspondiente, incluyendo el pago de las tasas estatales obligatorias." },
+    { title: "BOI Report", desc: "Actualización y mantenimiento del Beneficial Ownership Information Report ante FinCEN para reflejar cualquier cambio en la estructura." },
+    { title: "Soporte Continuo", desc: "Acceso ilimitado a nuestro equipo de soporte para resolver dudas sobre la operativa, impuestos y mantenimiento de tu empresa." },
+    { title: "Actualizaciones", desc: "Incluye una actualización anual de tus Articles of Organization en caso de cambios menores en la estructura de la empresa." },
+  ];
+
   return (
     <div className="min-h-screen font-sans bg-white text-center overflow-x-hidden w-full relative">
       <Navbar />
@@ -610,6 +619,41 @@ export default function Servicios() {
                 <div className="bg-brand-cream/30 px-5 py-3 sm:px-5 sm:py-3 border-t border-brand-lime/10 mt-auto text-center">
                   <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-brand-dark/70">Mantenimiento Anual</p>
                 </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          <div className="border-t border-brand-dark/5 w-full max-w-7xl mx-auto my-12" />
+
+          <motion.div 
+            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-brand-dark uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-brand-lime uppercase tracking-widest text-sm font-black block mb-2 text-center">DETALLES</span>
+              ¿Qué realizamos en nuestros packs mantenimiento?
+            </motion.h2>
+            <motion.p className="text-brand-lime font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+              (Gestión completa de tu empresa americana)
+            </motion.p>
+          </motion.div>
+          
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-6 max-w-7xl mx-auto mb-20"
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            variants={staggerContainer}
+          >
+            {maintenanceProcess.map((item, i) => (
+              <motion.div key={i} className="p-6 bg-brand-lime/5 rounded-2xl border border-brand-lime/10 sm:border-brand-lime/10 border-brand-lime/30 hover:bg-brand-lime/10 transition-colors text-center" variants={fadeIn}>
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-brand-lime text-brand-dark font-black text-sm shadow-sm mb-4">
+                  {item.title}
+                </span>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{item.desc}</p>
               </motion.div>
             ))}
           </motion.div>
