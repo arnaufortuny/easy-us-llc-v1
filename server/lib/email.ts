@@ -3,13 +3,13 @@ import nodemailer from "nodemailer";
 export function getEmailHeader() {
   const domain = process.env.REPLIT_DEV_DOMAIN || "easyusllc.com";
   const protocol = 'https';
-  // Logo con URL absoluta y parámetros para evitar caché
-  const logoUrl = `${protocol}://${domain}/logo-email.png?v=2`;
+  // Logo con URL absoluta y parámetros para evitar caché - v3 para asegurar refresco
+  const logoUrl = `${protocol}://${domain}/logo-email.png?v=3`;
   
   return `
     <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
-      <div style="margin-bottom: 20px; display: block;">
-        <img src="${logoUrl}" alt="Easy US LLC" width="120" height="120" style="display: block; margin: 0 auto; width: 120px; height: 120px; object-fit: contain; border: 0;" />
+      <div style="margin-bottom: 20px; display: block; width: 100%; text-align: center;">
+        <img src="${logoUrl}" alt="Easy US LLC" width="120" height="120" style="display: inline-block; margin: 0 auto; width: 120px; height: 120px; object-fit: contain; border: 0;" />
       </div>
       <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 28px; line-height: 1;">
         Easy US <span style="color: #6EDC8A;">LLC</span>
