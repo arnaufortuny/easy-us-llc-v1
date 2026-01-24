@@ -162,7 +162,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <User className="w-5 h-5 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-11 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -171,7 +171,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <User className="w-5 h-5 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-11 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -192,7 +192,7 @@ export default function Contacto() {
                       <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                         <Phone className="w-5 h-5 text-[#6EDC8A]" /> Teléfono:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-11 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                     </FormItem>
                   )} />
                 </div>
@@ -205,7 +205,7 @@ export default function Contacto() {
                     <FormControl>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
                         {SUBJECT_OPTIONS.map((opt) => (
-                          <label key={opt} className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${field.value === opt ? 'border-[#6EDC8A] bg-[#6EDC8A]/5' : 'border-gray-200 bg-white hover:border-[#6EDC8A]/50'}`}>
+                          <label key={opt} className={`flex items-center gap-2 p-2 px-4 rounded-full border cursor-pointer transition-all active:scale-95 ${field.value === opt ? 'border-[#6EDC8A] bg-[#6EDC8A]/5' : 'border-gray-200 bg-white hover:border-[#6EDC8A]/50'}`}>
                             <input type="radio" {...field} value={opt} checked={field.value === opt} className="hidden" />
                             <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-[#6EDC8A]' : 'border-gray-200'}`}>
                               {field.value === opt && <div className="w-2 h-2 rounded-full bg-[#6EDC8A]" />}
@@ -224,7 +224,7 @@ export default function Contacto() {
                     <FormLabel className="text-sm md:text-lg font-black text-primary flex items-center gap-2 uppercase tracking-tight">
                       <MessageCircle className="w-5 h-5 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[1rem] min-h-[100px] p-5 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -243,18 +243,18 @@ export default function Contacto() {
                   <div className="space-y-4 pt-4 border-t border-gray-100">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
-                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
+                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary font-bold px-8 h-11 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
                         </Button>
                       ) : (
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                           <FormField control={form.control} name="otp" render={({ field }) => (
                             <FormItem className="flex-1">
-                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl font-bold border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
+                              <FormControl><Input {...field} className="rounded-full h-11 px-6 text-center text-2xl font-bold border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
-                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-bold px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
+                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-[#6EDC8A] text-primary font-bold px-12 h-11 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                             {isLoading ? <Loader2 className="animate-spin" /> : "Verificar"}
                           </Button>
                         </div>
