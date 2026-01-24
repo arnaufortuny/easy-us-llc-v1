@@ -179,7 +179,7 @@ export default function Contacto() {
                       <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
                         <Mail className="w-3 h-3 text-accent" /> Email:
                       </FormLabel>
-                      <FormControl><Input {...field} type="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="email@ejemplo.com" /></FormControl>
+                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="email@ejemplo.com" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
