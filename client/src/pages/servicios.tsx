@@ -467,6 +467,172 @@ export default function Servicios() {
                     <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
+                  <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
+                    {maintenanceFeatures.map((f) => (
+                      <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
+                        <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
+                        <span className="text-xs sm:text-base">{f}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-5 sm:p-6 pt-0">
+                  <Dialog open={maintenanceDialogOpen && selectedState === item.state} onOpenChange={(open) => {
+                    if (!open) setMaintenanceDialogOpen(false);
+                  }}>
+                    <DialogTrigger asChild>
+                      <Button 
+                        onClick={() => {
+                          setSelectedState(item.state);
+                          setMaintenanceStep("ask");
+                          setMaintenanceDialogOpen(true);
+                        }}
+                        className="w-full bg-primary text-primary-foreground font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-primary/90 transition-all transform active:scale-95 h-11 sm:h-11"
+                      >
+                        Contratar {item.state}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent className="sm:max-w-[425px] rounded-3xl z-[99999] border-0 shadow-2xl overflow-hidden p-0 !bg-white">
+                      <div className="bg-accent h-1.5 w-full" />
+                      <div className="p-6 sm:p-8">
+                        <DialogHeader className="mb-6">
+                          <DialogTitle className="text-2xl font-black uppercase tracking-tight text-primary">Mantenimiento {selectedState}</DialogTitle>
+                        </DialogHeader>
+                        
+                        <AnimatePresence mode="wait">
+                          {maintenanceStep === "ask" ? (
+                            <motion.div 
+                              key="ask"
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              exit={{ opacity: 0, x: -20 }}
+                              className="space-y-6"
+                            >
+                              <p className="text-muted-foreground font-medium text-lg leading-relaxed text-left">
+                                ¿Ya constituiste tu LLC con nosotros o eres un nuevo cliente buscando gestión profesional?
+                              </p>
+                              <div className="grid gap-4">
+                                <Button 
+                                  onClick={() => setMaintenanceStep("form")}
+                                  className="h-16 rounded-2xl bg-accent text-primary font-black text-lg border-0 shadow-lg hover:scale-[1.02] transition-transform"
+                                >
+                                  Soy Cliente de Easy US
+                                </Button>
+                                <Button 
+                                  onClick={() => setMaintenanceStep("form")}
+                                  variant="outline"
+                                  className="h-16 rounded-2xl border-2 border-primary text-primary font-black text-lg hover:bg-primary hover:text-white transition-all"
+                                >
+                                  Soy Nuevo Cliente
+                                </Button>
+                              </div>
+                            </motion.div>
+                          ) : (
+                            <motion.div 
+                              key="form"
+                              initial={{ opacity: 0, x: 20 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              className="space-y-4"
+                            >
+                              <Form {...mForm}>
+                                <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-4">
+                                  <FormField
+                                    control={mForm.control}
+                                    name="nombre"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary/50">Nombre Completo</FormLabel>
+                                        <FormControl>
+                                          <Input placeholder="Tu nombre" className="rounded-xl border-2 border-primary/10 focus:border-accent h-12 text-left" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <div className="flex gap-2 items-end">
+                                    <FormField
+                                      control={mForm.control}
+                                      name="email"
+                                      render={({ field }) => (
+                                        <FormItem className="flex-1">
+                                          <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary/50">Email de Contacto</FormLabel>
+                                          <FormControl>
+                                            <Input placeholder="tu@email.com" className="rounded-xl border-2 border-primary/10 focus:border-accent h-12 text-left" {...field} />
+                                          </FormControl>
+                                          <FormMessage />
+                                        </FormItem>
+                                      )}
+                                    />
+                                    <Button 
+                                      type="button" 
+                                      onClick={sendOtp} 
+                                      disabled={isSendingOtp || isEmailVerified}
+                                      className="h-12 rounded-xl bg-primary text-white font-black px-4 active:scale-95 transition-all"
+                                    >
+                                      {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : (isEmailVerified ? <Check className="w-4 h-4" /> : "Validar")}
+                                    </Button>
+                                  </div>
+
+                                  {isOtpSent && !isEmailVerified && (
+                                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="flex gap-2 items-end">
+                                      <FormField
+                                        control={mForm.control}
+                                        name="otp"
+                                        render={({ field }) => (
+                                          <FormItem className="flex-1">
+                                            <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary/50">Código de Verificación</FormLabel>
+                                            <FormControl>
+                                              <Input placeholder="123456" className="rounded-xl border-2 border-primary/10 focus:border-accent h-12 text-center font-black tracking-[0.5em]" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                          </FormItem>
+                                        )}
+                                      />
+                                      <Button 
+                                        type="button" 
+                                        onClick={verifyOtp} 
+                                        disabled={isVerifyingOtp}
+                                        className="h-12 rounded-xl bg-accent text-primary font-black px-4 active:scale-95 transition-all"
+                                      >
+                                        {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Verificar"}
+                                      </Button>
+                                    </motion.div>
+                                  )}
+
+                                  <FormField
+                                    control={mForm.control}
+                                    name="mensaje"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormLabel className="font-black uppercase text-[10px] tracking-widest text-primary/50">Detalles de tu LLC</FormLabel>
+                                        <FormControl>
+                                          <Textarea placeholder="Cuéntanos el nombre de tu LLC y cualquier detalle relevante..." className="rounded-xl border-2 border-primary/10 focus:border-accent min-h-[100px] text-left" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <Button 
+                                    type="submit" 
+                                    disabled={!isEmailVerified}
+                                    className="w-full bg-accent text-primary font-black text-lg py-6 rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:grayscale"
+                                  >
+                                    Confirmar Mantenimiento
+                                  </Button>
+                                </form>
+                              </Form>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    </DialogContent>
+                  </Dialog>
+                </div>
+              </motion.div>
+            ))}
+                    <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
+                    <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
+                  </div>
                   <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
                     {maintenanceFeatures.map((f, idx) => (
                       <div key={idx} className="flex items-start gap-2 text-primary/80 font-medium leading-tight text-left">
