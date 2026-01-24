@@ -59,9 +59,11 @@ export default function Servicios() {
     "BOI Report presentado",
     "Dirección nuestra",
     "Asistencia con bancos",
-    "Soporte completo 12 meses",
-    "Servicio Express"
+    "Soporte completo 12 meses"
   ];
+
+  const NM_WY_FEATURES = [...packFeatures, "2-3 días hábiles"];
+  const DE_FEATURES = [...packFeatures, "3-5 días hábiles"];
 
   const maintenanceFeatures = [
     "Presentación Form 1120 ante el IRS",
@@ -171,18 +173,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization",
-                    "Operating Agreement",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Dirección nuestra",
-                    "Asistencia con bancos",
-                    "Soporte completo 12 meses",
-                    "2-3 días hábiles"
-                  ].map((f) => (
+                  {NM_WY_FEATURES.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -227,18 +218,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization",
-                    "Operating Agreement",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Dirección nuestra",
-                    "Asistencia con bancos",
-                    "Soporte completo 12 meses",
-                    "2-3 días hábiles"
-                  ].map((f) => (
+                  {NM_WY_FEATURES.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -283,18 +263,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {[
-                    "Tasas del estado pagadas",
-                    "Registered Agent (12 meses)",
-                    "Articles of Organization",
-                    "Operating Agreement",
-                    "EIN del IRS",
-                    "BOI Report presentado",
-                    "Dirección nuestra",
-                    "Asistencia con bancos",
-                    "Soporte completo 12 meses",
-                    "3-5 días hábiles"
-                  ].map((f) => (
+                  {DE_FEATURES.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
