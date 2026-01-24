@@ -8,15 +8,22 @@ export function Footer() {
   const [location, setLocation] = useLocation();
 
   const handleHashClick = (href: string) => {
-    const sectionId = href.replace('/#', '');
-    if (location === '/') {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      setLocation('/');
-      setTimeout(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+    const sectionId = href.split('#')[1];
+    if (!sectionId) return;
+
+    if (location === '/servicios' || location === '/') {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
     }
+    
+    // Redirect to services and scroll to pricing
+    setLocation('/servicios#pricing');
+    setTimeout(() => {
+      document.getElementById('pricing')?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   return (
@@ -39,7 +46,7 @@ export function Footer() {
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
               <Link href="/" className="hover:text-primary-foreground transition-colors py-1 block w-full">Inicio</Link>
               <Link href="/servicios" className="hover:text-primary-foreground transition-colors py-1 block w-full">Nuestros Servicios</Link>
-              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors py-1 block w-full text-left">Precios</Link>
+              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-primary-foreground transition-colors py-1 block w-full text-left">Precios</button>
               <Link href="/faq" className="hover:text-primary-foreground transition-colors py-1 block w-full text-left">FAQ</Link>
             </nav>
           </div>
@@ -87,7 +94,7 @@ export function Footer() {
             <nav className="flex flex-col gap-3 text-base text-primary-foreground/70">
               <Link href="/" className="hover:text-primary-foreground transition-colors">Inicio</Link>
               <Link href="/servicios" className="hover:text-primary-foreground transition-colors">Nuestros Servicios</Link>
-              <Link href="/servicios#pricing" className="hover:text-primary-foreground transition-colors text-left">Precios</Link>
+              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-primary-foreground transition-colors text-left">Precios</button>
               <Link href="/faq" className="hover:text-primary-foreground transition-colors text-left">FAQ</Link>
             </nav>
           </div>

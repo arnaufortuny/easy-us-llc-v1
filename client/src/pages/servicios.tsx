@@ -5,7 +5,7 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, Link } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
@@ -50,6 +50,17 @@ const staggerContainer = {
 
 export default function Servicios() {
   const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (window.location.hash === '#pricing') {
+      const element = document.getElementById('pricing');
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, []);
 
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
