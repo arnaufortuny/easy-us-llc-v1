@@ -37,20 +37,18 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[80vw] sm:w-[320px] max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0">
+      <DialogContent className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-[90vw] sm:w-[320px] max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0 z-[250] !bg-white">
         <div className="bg-accent h-1 w-full" />
         <div className="p-5 sm:p-6 pt-5 sm:pt-6">
           <div className="flex justify-center mb-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 bg-accent/5 rounded-[1rem] flex items-center justify-center p-2 border border-accent/10">
-              <img src={logoIcon} alt="Easy US LLC" className="w-full h-full object-contain" />
-            </div>
+            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
           </div>
           <DialogHeader className="mb-5 sm:mb-6 text-center">
             <DialogTitle className="text-lg sm:text-xl font-black uppercase tracking-tight text-foreground leading-tight mb-1">
-              ¿Quieres el mantenimiento<br />de tu LLC?
+              Constituye ahora<br />tu LLC
             </DialogTitle>
             <DialogDescription className="text-muted-foreground font-medium text-[10px] sm:text-xs">
-              Selecciona el estado donde quieres constituir tu empresa.
+              Selecciona el estado para comenzar.
             </DialogDescription>
           </DialogHeader>
 
@@ -59,7 +57,7 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className={`group flex items-center justify-between p-3 sm:p-3.5 rounded-xl border-2 border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98]`}
+                className={`group flex items-center justify-between p-3 sm:p-3.5 rounded-xl border-2 border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white`}
               >
                 <div className="flex items-center gap-3 sm:gap-3.5">
                   <div>

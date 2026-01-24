@@ -23,28 +23,28 @@ export function HelpSection() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-4 right-4 z-[200] w-[180px] sm:w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
+            className="fixed bottom-4 right-4 z-[200] w-[160px] bg-white rounded-lg shadow-2xl border border-accent/40 overflow-hidden"
           >
             <button 
               onClick={() => setShowPopup(false)}
-              className="absolute top-1 right-1 p-0.5 hover:bg-accent/10 rounded-full transition-colors z-10"
+              className="absolute top-0.5 right-0.5 p-0.5 hover:bg-accent/10 rounded-full transition-colors z-10"
             >
               <X className="w-2.5 h-2.5 text-primary/40" />
             </button>
-            <div className="p-2.5">
-              <div className="flex items-center gap-1.5 mb-1.5">
-                <img src={logoIcon} alt="Easy US LLC" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
-                <h3 className="font-black text-[9px] sm:text-[10px] uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
+            <div className="p-2">
+              <div className="flex items-center gap-1.5 mb-1">
+                <img src={logoIcon} alt="Easy US LLC" className="w-4 h-4 object-contain" />
+                <h3 className="font-black text-[8px] uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
               </div>
               
               <div className="space-y-1">
-                <h4 className="font-black text-[10px] sm:text-[11px] leading-tight text-primary">
+                <h4 className="font-black text-[9px] leading-tight text-primary">
                   ¿Mantenimiento LLC?
                 </h4>
                 <div className="pt-0.5">
                   <Link href="/servicios">
                     <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[8px] sm:text-[9px] h-6 sm:h-7 rounded-lg shadow-sm shadow-accent/10 hover:scale-[1.02] transition-transform p-0"
+                      className="w-full bg-accent text-accent-foreground font-black text-[8px] h-5 rounded shadow-sm shadow-accent/10 hover:scale-[1.02] transition-transform p-0"
                       onClick={() => setShowPopup(false)}
                     >
                       Ver Planes →
