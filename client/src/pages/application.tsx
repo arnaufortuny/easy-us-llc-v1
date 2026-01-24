@@ -195,7 +195,7 @@ export default function ApplicationWizard() {
       return;
     }
     else if (step === 1) {
-      fields = ["companyName", "ownerIdNumber", "ownerIdType", "businessCategory", "companyDescription", "ownerCity", "ownerCountry"];
+      fields = ["ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"];
       const isValid = await form.trigger(fields);
       if (!isValid) return;
       setStep(2);
@@ -205,19 +205,18 @@ export default function ApplicationWizard() {
       return;
     }
     else if (step === 2) {
-      if (!isEmailVerified) {
-        toast({ title: "Verificación requerida", description: "Debes verificar tu email antes de continuar.", variant: "destructive" });
-        return;
-      }
+      fields = ["companyName", "ownerIdNumber", "ownerIdType", "businessCategory", "companyDescription"];
+      const isValid = await form.trigger(fields);
+      if (!isValid) return;
       setStep(3);
       setTimeout(() => {
         window.scrollTo({ top: 0, behavior: 'instant' });
       }, 50);
       return;
-    } else if (step === 3) {
-      const notes = form.getValues("notes");
-      if (!notes || !notes.includes("Método de pago seleccionado:")) {
-        toast({ title: "Método de pago", description: "Por favor, selecciona un método de pago antes de continuar.", variant: "destructive" });
+    }
+    else if (step === 3) {
+      if (!isEmailVerified) {
+        toast({ title: "Verificación requerida", description: "Debes verificar tu email antes de continuar.", variant: "destructive" });
         return;
       }
       setStep(4);
@@ -226,6 +225,17 @@ export default function ApplicationWizard() {
       }, 50);
       return;
     } else if (step === 4) {
+      const notes = form.getValues("notes");
+      if (!notes || !notes.includes("Método de pago seleccionado:")) {
+        toast({ title: "Método de pago", description: "Por favor, selecciona un método de pago antes de continuar.", variant: "destructive" });
+        return;
+      }
+      setStep(5);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }, 50);
+      return;
+    } else if (step === 5) {
       form.handleSubmit(onSubmit)();
       return;
     }
@@ -292,10 +302,11 @@ export default function ApplicationWizard() {
 
   const STEPS_DATA = [
     { n: 1, label: "Datos Personales", desc: "Información oficial del propietario legal." },
-    { n: 2, label: "Tu Nueva LLC", desc: `Configuración en ${stateFromUrl}` },
-    { n: 3, label: "Verificación", desc: "Código de seguridad enviado por email." },
-    { n: 4, label: "Método de Pago", desc: "Selecciona cómo deseas abonar el servicio." },
-    { n: 5, label: "Revisión Final", desc: "Confirma los detalles de tu solicitud." }
+    { n: 2, label: "Dirección de Residencia", desc: "Domicilio completo para el registro." },
+    { n: 3, label: "Tu Nueva LLC", desc: `Configuración en ${stateFromUrl}` },
+    { n: 4, label: "Verificación", desc: "Código de seguridad enviado por email." },
+    { n: 5, label: "Método de Pago", desc: "Selecciona cómo deseas abonar el servicio." },
+    { n: 6, label: "Revisión Final", desc: "Confirma los detalles de tu solicitud." }
   ];
 
   return (
