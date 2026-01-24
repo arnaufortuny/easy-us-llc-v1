@@ -39,8 +39,8 @@ export function HelpSection() {
                 <X className="w-4 h-4 text-primary/30" />
               </button>
               <div className="p-4 text-center">
-                <div className="flex justify-center mb-2">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-7 h-7 object-contain bg-transparent" style={{ display: 'block' }} />
+                <div className="flex justify-center mb-2" style={{ background: 'none', border: 'none', padding: 0, margin: '0 auto 8px' }}>
+                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ display: 'block', background: 'none', border: 'none', padding: 0, margin: 0, borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                 </div>
                 
                 <div className="space-y-1.5">
