@@ -4,7 +4,7 @@ export function getEmailHeader() {
   const domain = process.env.REPLIT_DEV_DOMAIN || "easyusllc.com";
   const protocol = 'https';
   // Logo con URL absoluta y parámetros para evitar caché
-  const logoUrl = `${protocol}://${domain}/logo-email.png?v=1`;
+  const logoUrl = `${protocol}://${domain}/logo-email.png?v=2`;
   
   return `
     <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
