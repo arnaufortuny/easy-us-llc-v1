@@ -45,8 +45,8 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
       >
         <div className="p-6 sm:p-8">
           {/* LOGO SIN CONTENEDORES CIRCULARES, SOLO LA IMAGEN PNG */}
-          <div className="flex justify-center mb-4" style={{ background: 'none', border: 'none', padding: 0, margin: '0 auto 16px' }}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" style={{ display: 'block', background: 'none', border: 'none', padding: 0, margin: 0, borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
+          <div className="flex justify-center mb-4 bg-transparent">
+            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain bg-transparent" style={{ display: 'block', background: 'none', border: 'none', borderRadius: '0' }} />
           </div>
           <DialogHeader className="mb-4 sm:mb-6 text-center">
             <DialogTitle className="text-lg sm:text-xl font-black uppercase tracking-tight text-primary leading-tight">
