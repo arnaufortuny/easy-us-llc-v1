@@ -19,41 +19,45 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-4 right-4 z-[200] w-[160px] bg-white rounded-lg shadow-2xl border border-accent/40 overflow-hidden"
-          >
-            <button 
-              onClick={() => setShowPopup(false)}
-              className="absolute top-0.5 right-0.5 p-0.5 hover:bg-accent/10 rounded-full transition-colors z-10"
+          <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-[280px] bg-white rounded-2xl shadow-2xl border border-accent/40 overflow-hidden"
             >
-              <X className="w-2.5 h-2.5 text-primary/40" />
-            </button>
-            <div className="p-2">
-              <div className="flex items-center gap-1.5 mb-1">
-                <img src={logoIcon} alt="Easy US LLC" className="w-4 h-4 object-contain" />
-                <h3 className="font-black text-[8px] uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
-              </div>
-              
-              <div className="space-y-1">
-                <h4 className="font-black text-[9px] leading-tight text-primary">
-                  ¿Mantenimiento LLC?
-                </h4>
-                <div className="pt-0.5">
-                  <Link href="/servicios">
-                    <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[8px] h-5 rounded shadow-sm shadow-accent/10 hover:scale-[1.02] transition-transform p-0"
-                      onClick={() => setShowPopup(false)}
-                    >
-                      Ver Planes →
-                    </Button>
-                  </Link>
+              <button 
+                onClick={() => setShowPopup(false)}
+                className="absolute top-2 right-2 p-1.5 hover:bg-accent/10 rounded-full transition-colors z-10"
+              >
+                <X className="w-4 h-4 text-primary/40" />
+              </button>
+              <div className="p-5">
+                <div className="flex justify-center mb-4">
+                  <img src={logoIcon} alt="Easy US LLC" className="w-12 h-12 object-contain" />
+                </div>
+                
+                <div className="space-y-3 text-center">
+                  <h4 className="font-black text-lg leading-tight text-primary">
+                    ¿Mantenimiento LLC?
+                  </h4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    Gestión anual completa para que te centres en tu negocio.
+                  </p>
+                  <div className="pt-2">
+                    <Link href="/servicios">
+                      <Button 
+                        className="w-full bg-accent text-accent-foreground font-black text-xs h-10 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                        onClick={() => setShowPopup(false)}
+                      >
+                        Ver Planes →
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
       <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
