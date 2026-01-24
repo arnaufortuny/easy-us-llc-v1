@@ -479,9 +479,6 @@ export default function Servicios() {
               <span className="text-accent uppercase tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
-              (Todo lo que necesitas saber)
-            </motion.p>
           </motion.div>
           <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
             {[
