@@ -244,14 +244,14 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>
-                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 uppercase">Popular | 2-3 días</span>
+                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Popular | 2-3 días</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">639€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
@@ -266,7 +266,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-none py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
                 >
                   Elegir New Mexico
                 </Button>
@@ -284,14 +284,14 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Wyoming</h3>
-                  <span className="bg-primary text-primary-foreground text-[10px] sm:text-[11px] font-black px-2 py-1 uppercase">Premium | 2-3 días</span>
+                  <span className="bg-primary text-primary-foreground text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Premium | 2-3 días</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">799€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
@@ -306,7 +306,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-none py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
                 >
                   Elegir Wyoming
                 </Button>
@@ -324,14 +324,14 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Delaware</h3>
-                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 uppercase">Startups | 2-5 días</span>
+                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Startups | 2-5 días</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
                   <p className="text-4xl sm:text-4xl font-black text-primary">999€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                  <div className="w-1.5 h-1.5 bg-accent" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
@@ -346,7 +346,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-none py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
                 >
                   Elegir Delaware
                 </Button>
