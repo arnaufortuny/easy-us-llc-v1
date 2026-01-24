@@ -400,17 +400,13 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Email no verificado" });
       }
 
-      const messageId = Math.floor(100000 + Math.random() * 900000);
       const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      const userAgent = req.headers['user-agent'];
-      const timestamp = new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' });
-
-      // Confirmation to user
+      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
       const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
       
       // Notification to admin
       logActivity("Acción Contacto", {
-        "ID Mensaje (Ticket)": `#${ticketId}`,
+        "ID Ticket": `#${ticketId}`,
         "Nombre": `${contactData.nombre} ${contactData.apellido}`,
         "Email": contactData.email,
         "Asunto": contactData.subject,
@@ -424,7 +420,7 @@ export async function registerRoutes(
         html: getAutoReplyTemplate(ticketId, contactData.nombre),
       });
 
-      res.json({ success: true, messageId: ticketId, ticketId });
+      res.json({ success: true, ticketId });
     } catch (err) {
       console.error("Error processing contact form:", err);
       res.status(400).json({ message: "Error al procesar el mensaje" });

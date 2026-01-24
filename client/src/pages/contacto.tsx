@@ -114,10 +114,11 @@ export default function Contacto() {
     }
     try {
       const isConstitution = data.subject.toLowerCase().includes("constitución");
-      await apiRequest("POST", "/api/contact", data);
+      const response = await apiRequest("POST", "/api/contact", data);
+      const result = await response.json();
       toast({
-        title: isConstitution ? "¡Solicitud de constitución enviada!" : "¡Mensaje enviado!",
-        description: "Revisa tu bandeja de entrada.",
+        title: "Mensaje Enviado",
+        description: `Tu consulta #${result.ticketId} ha sido recibida. Te responderemos en 24-48h.`,
         variant: "success"
       });
       form.reset();

@@ -42,14 +42,17 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu mensaje</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, hemos recibido tu mensaje correctamente. Nuestro equipo se pondrá en contacto contigo en un plazo de 1-2 días hábiles.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hemos recibido tu consulta</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hola <strong>${name}</strong>, gracias por contactar con Easy US LLC. Tu consulta ha sido registrada correctamente con el identificador que verás a continuación.</p>
           
-          <div style="background: #f4f4f4; padding: 15px; border-radius: 6px; margin: 25px 0; border: 1px solid #6EDC8A; text-align: left;">
-            <p style="margin: 0; font-size: 14px; color: #0E1215;"><strong>Número de Ticket:</strong> #${ticketId}</p>
+          <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #6EDC8A; text-align: center;">
+            <p style="margin: 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Referencia de Seguimiento</p>
+            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">#${ticketId}</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 20px;">Gracias por confiar en <strong>Easy US LLC</strong>.</p>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo de expertos revisará tu mensaje y te responderá de forma personalizada en un plazo de <strong>24 a 48 horas hábiles</strong>.</p>
+          
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si necesitas añadir información adicional, simplemente responde a este correo manteniendo el asunto intacto.</p>
         </div>
         ${getEmailFooter()}
       </div>
@@ -114,16 +117,17 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
       <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
         ${getEmailHeader()}
         <div style="padding: 40px;">
-          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">¡Gracias por tu pedido, ${name}!</h2>
-          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo comenzará con el proceso de inmediato.</p>
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">¡Gracias por tu solicitud, ${name}!</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Hemos recibido correctamente los datos para el registro de tu nueva LLC. Nuestro equipo de especialistas comenzará con la revisión técnica de inmediato.</p>
           
-          <div style="background: #fcfcfc; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #eee;">
-            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;">Detalles del Pedido</h3>
+          <div style="background: #fcfcfc; padding: 25px; border-radius: 8px; margin: 25px 0; border: 1px solid #6EDC8A;">
+            <p style="margin: 0 0 15px 0; font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; letter-spacing: 1px;">Referencia de Solicitud</p>
+            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">${requestCode}</p>
+          </div>
+
+          <div style="margin-bottom: 25px;">
+            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000; border-bottom: 1px solid #f0f0f0; padding-bottom: 8px;">Resumen del Registro</h3>
             <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-              <tr>
-                <td style="padding: 8px 0; color: #666;">Número de pedido:</td>
-                <td style="padding: 8px 0; font-weight: 700; text-align: right;">${requestCode}</td>
-              </tr>
               <tr>
                 <td style="padding: 8px 0; color: #666;">Fecha y hora:</td>
                 <td style="padding: 8px 0; font-weight: 700; text-align: right;">${dateStr} | ${timeStr}</td>
@@ -134,17 +138,16 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
               </tr>
               <tr>
                 <td style="padding: 8px 0; color: #666;">Estado de Pago:</td>
-                <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0d9488;">Confirmado / Pendiente de Procesar</td>
+                <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #0d9488;">Confirmado / Procesando</td>
               </tr>
             </table>
           </div>
 
-          <div style="margin: 25px 0; padding: 20px; border: 1px solid #eee; border-radius: 8px;">
-            <h3 style="margin: 0 0 15px 0; font-size: 13px; font-weight: 800; text-transform: uppercase; color: #000;">¿Necesitas modificar algo?</h3>
-            <p style="margin: 0; font-size: 14px; color: #666; line-height: 1.6;">Si detectas cualquier error en los datos enviados o necesitas realizar un cambio, por favor <strong>responde directamente a este email</strong> y un agente te asistirá personalmente.</p>
+          <div style="background: #FFF9E6; padding: 20px; border-radius: 8px; border: 1px solid #FFE4B3; margin: 25px 0;">
+            <p style="margin: 0; font-size: 14px; color: #856404; line-height: 1.6;"><strong>Próximos Pasos:</strong> En las próximas 24-48h recibirás un email con los documentos constitutivos para tu firma electrónica. Por favor, mantente atento a tu bandeja de entrada.</p>
           </div>
 
-          <p style="line-height: 1.6; font-size: 14px; color: #666;">Recibirás actualizaciones periódicas sobre el estado de tu formación ante el Secretario de Estado.</p>
+          <p style="line-height: 1.6; font-size: 14px; color: #666;">Si necesitas realizar cualquier cambio en los datos suministrados, por favor contacta con nosotros respondiendo a este correo.</p>
         </div>
         ${getEmailFooter()}
       </div>
