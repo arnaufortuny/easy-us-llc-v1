@@ -542,8 +542,24 @@ export default function Servicios() {
             ))}
           </div>
 
-          <div className="w-full mt-12 sm:mt-20">
-            <div className="border-t border-primary/5 w-full" />
+          <div className="w-full mt-12 sm:mt-20 flex flex-col items-center">
+            <div className="border-t border-primary/5 w-full mb-12" />
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center"
+            >
+              <p className="text-primary font-bold mb-6">¿No encuentras lo que buscas?</p>
+              <Button 
+                variant="outline"
+                size="lg"
+                onClick={() => setLocation("/faq")}
+                className="rounded-full border-2 border-accent text-primary font-black px-8 hover:bg-accent hover:text-primary transition-all shadow-md active:scale-95"
+              >
+                Visita nuestro FAQ →
+              </Button>
+            </motion.div>
           </div>
         </div>
       </section>
