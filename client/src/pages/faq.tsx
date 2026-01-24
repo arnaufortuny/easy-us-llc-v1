@@ -146,9 +146,20 @@ export default function FAQ() {
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
-            RESOLVEMOS <span className="text-accent">TODAS TUS DUDAS</span>
-          </h1>
+          <div className="flex flex-col items-center w-full px-4">
+            <motion.div 
+              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6"
+              variants={fadeIn}
+            >
+              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary">
+                Centro de ayuda
+              </span>
+            </motion.div>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center [text-wrap:balance]">
+              RESOLVEMOS <span className="text-accent">TODAS TUS DUDAS</span>
+            </h1>
+          </div>
         }
         subtitle={
             <motion.div 
@@ -175,7 +186,7 @@ export default function FAQ() {
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-accent text-primary font-black text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
+                    className="bg-accent text-primary font-black text-[10px] sm:text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
                   >
                     {text}
                   </div>
