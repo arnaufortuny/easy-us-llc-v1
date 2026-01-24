@@ -1,14 +1,22 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
+import { Button } from "@/components/ui/button";
 
 export default function Privacidad() {
   return (
     <div className="min-h-screen font-sans bg-white">
       <Navbar />
       <HeroSection title="Política de Privacidad" />
-      <div className="container max-w-4xl mx-auto py-16 px-5 sm:px-8">
-        <p className="mb-4 text-muted-foreground leading-relaxed">Su privacidad es importante para nosotros. Tratamos sus datos con la máxima seguridad.</p>
+      <div className="container max-w-4xl mx-auto py-16 px-5 sm:px-8 text-left">
+        <h2 className="text-2xl font-bold mb-6">1. Recopilación de Información</h2>
+        <p className="mb-6 text-muted-foreground leading-relaxed">Easy US LLC recopila información personal cuando usted se registra en nuestro sitio o solicita formación de una LLC. Esto incluye su nombre, dirección de correo electrónico, número de teléfono y detalles de la empresa.</p>
+
+        <h2 className="text-2xl font-bold mb-6">2. Uso de la Información</h2>
+        <p className="mb-6 text-muted-foreground leading-relaxed">La información que recopilamos se utiliza para procesar transacciones, enviar correos electrónicos periódicos y mejorar nuestro servicio de atención al cliente. Sus datos no serán vendidos ni transferidos a terceros sin su consentimiento, excepto para el cumplimiento de los servicios solicitados (como gestiones ante el IRS o Secretarios de Estado).</p>
+
+        <h2 className="text-2xl font-bold mb-6">3. Seguridad de Datos</h2>
+        <p className="mb-6 text-muted-foreground leading-relaxed">Implementamos una variedad de medidas de seguridad para mantener la seguridad de su información personal cuando realiza un pedido o ingresa, envía o accede a su información personal.</p>
       </div>
       <section className="py-8 sm:py-14 bg-muted/40">
         <div className="container max-w-3xl mx-auto px-5 sm:px-8 text-center">
