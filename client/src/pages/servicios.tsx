@@ -486,28 +486,28 @@ export default function Servicios() {
           <div className="max-w-3xl mx-auto space-y-3 sm:space-y-4">
             {[
               {
-                q: "¿Qué documentos necesito para empezar?",
-                a: "Solo tu pasaporte vigente. No necesitas visa, ni viajar a USA, ni ser residente."
+                q: "¿Qué necesito para empezar?",
+                a: "Muy poco. Solo tu documento de identidad y algunos datos básicos sobre ti y tu actividad. No necesitas saber de trámites ni preparar nada complicado. Nosotros te guiamos desde el primer momento y revisamos todo antes de avanzar."
               },
               {
-                q: "¿Cuánto tiempo tarda el proceso?",
-                a: "La constitución suele tardar entre 2 y 5 días hábiles según el estado. El EIN puede tardar de 5 a 15 días adicionales."
-              },
-              {
-                q: "¿Tengo que pagar impuestos en USA?",
-                a: "Si eres un emprendedor digital que no reside en USA y no tiene empleados ni oficinas físicas allí, lo más probable es que tu LLC sea 'Tax Transparent' y no pagues impuestos corporativos en USA."
-              },
-              {
-                q: "¿Qué bancos puedo elegir?",
-                a: "Principalmente trabajamos con Mercury y Relay, que son las mejores opciones para no residentes. Te ayudamos con todo el proceso."
+                q: "¿Cuánto tarda realmente el proceso?",
+                a: "Una vez tenemos la información completa, el proceso suele tardar entre 2 y 3 días hábiles. Nos movemos rápido, pero sin correr riesgos. Preferimos hacerlo bien desde el inicio para que tu LLC quede lista y sin problemas."
               },
               {
                 q: "¿El precio es final?",
-                a: "Sí, todos nuestros precios incluyen las tasas estatales del primer año, el EIN, el Agente Registrado y el BOI Report. No hay sorpresas."
+                a: "Sí. El precio es claro y cerrado desde el primer momento. Todo lo necesario para constituir tu LLC está incluido, sin costes ocultos ni sorpresas después. Lo que ves es lo que pagas."
               },
               {
-                q: "¿Puedo abrir una cuenta de Stripe?",
-                a: "Sí, con tu LLC y tu EIN podrás abrir una cuenta de Stripe para procesar pagos de tus clientes en todo el mundo de forma profesional."
+                q: "¿Pagaré impuestos en Estados Unidos?",
+                a: "Depende de tu caso y de cómo operes, pero no te preocupes: te lo explicamos de forma sencilla y honesta antes de empezar. Nuestro objetivo es que entiendas tu situación y tomes decisiones con tranquilidad."
+              },
+              {
+                q: "¿Puedo abrir cuenta bancaria y Stripe?",
+                a: "Sí. Te acompañamos en la apertura de cuentas bancarias como Mercury o Relay y en plataformas de pago como Stripe. No estás solo en el proceso: te indicamos cómo hacerlo y qué tener en cuenta en cada paso."
+              },
+              {
+                q: "¿Para quién no es una LLC?",
+                a: "Si solo trabajas a nivel local, no vendes online o no tienes actividad internacional, quizá una LLC no sea la mejor opción. Si ese es tu caso, también te lo diremos con total transparencia."
               }
             ].map((faq, i) => (
               <motion.div 
