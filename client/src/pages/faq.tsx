@@ -143,11 +143,11 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
-            PREGUNTAS <span className="text-accent">FRECUENTES</span>
+            RESOLVEMOS <span className="text-accent">TODAS TUS DUDAS</span>
           </h1>
         }
         subtitle={
@@ -157,8 +157,8 @@ export default function FAQ() {
               animate="animate"
               variants={staggerContainer}
             >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
-                Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
+            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-3xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
+                Todo lo que necesitas saber sobre impuestos, banca y la operativa legal de tu LLC en un solo lugar. Información clara para emprendedores digitales.
             </motion.div>
               
               <motion.div 
@@ -166,16 +166,16 @@ export default function FAQ() {
                 variants={fadeIn}
               >
                 {[
-                  "Sobre Easy US LLC",
-                  "Conceptos Clave",
-                  "Impuestos",
-                  "Operativa",
-                  "Plataformas",
-                  "Banca"
+                  "Optimización Fiscal",
+                  "Cuentas Bancarias",
+                  "Cumplimiento IRS",
+                  "Privacidad Total",
+                  "Soporte Continuo",
+                  "Escalabilidad"
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                    className="bg-accent text-primary font-black text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
                   >
                     {text}
                   </div>

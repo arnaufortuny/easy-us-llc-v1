@@ -148,11 +148,11 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
-            Contacto
+            HABLEMOS DE <span className="text-accent">TU PROYECTO</span>
           </h1>
         }
         subtitle={
@@ -162,8 +162,8 @@ export default function Contacto() {
               animate="animate"
               variants={staggerContainer}
             >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
-                ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
+            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-3xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
+                Cuéntanos tu idea y te asesoramos sobre la mejor estructura para tu negocio internacional. Trato humano y profesional desde el primer contacto.
             </motion.div>
               
               <motion.div 
@@ -171,16 +171,16 @@ export default function Contacto() {
                 variants={fadeIn}
               >
                 {[
-                  "Soporte 24h",
-                  "Consultas Fiscales",
-                  "Estructura LLC",
-                  "Banca USA",
-                  "Trato Directo",
-                  "WhatsApp & Email"
+                  "Respuesta en < 24h",
+                  "Asesoramiento Personal",
+                  "Sin Compromiso",
+                  "WhatsApp Directo",
+                  "Expertos en LLC",
+                  "Foco en tu Ahorro"
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                    className="bg-accent text-primary font-black text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
                   >
                     {text}
                   </div>
