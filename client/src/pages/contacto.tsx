@@ -1,56 +1,50 @@
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
-import { Button } from "@/components/ui/button";
-import { HeroSection } from "@/components/layout/hero-section";
-import { NewsletterSection } from "@/components/layout/newsletter-section";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { motion, AnimatePresence } from "framer-motion";
+import { Send, Loader2, CheckCircle2, ShieldCheck, MessageCircle, Info, Mail, User, Phone, HelpCircle } from "lucide-react";
+import { Navbar } from "@/components/layout/navbar";
+import { Footer } from "@/components/layout/footer";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Mail, MessageSquare } from "lucide-react";
 
-import { useState, useEffect } from "react";
-
-const contactFormSchema = z.object({
-  nombre: z.string().min(2, "El nombre es demasiado corto"),
-  apellido: z.string().min(2, "El apellido es demasiado corto"),
+const formSchema = z.object({
+  nombre: z.string().min(1, "Dinos tu nombre"),
+  apellido: z.string().min(1, "Dinos tu apellido"),
   email: z.string().email("Email inválido"),
   telefono: z.string().optional(),
-  subject: z.string().min(5, "El asunto es demasiado corto"),
-  mensaje: z.string().min(10, "El mensaje debe tener al menos 10 caracteres"),
-  otp: z.string().min(6, "El código debe tener 6 dígitos"),
+  subject: z.string().min(1, "Selecciona un motivo"),
+  mensaje: z.string().min(1, "Cuéntanos un poco más"),
+  otp: z.string().min(1, "Verificación requerida"),
+  dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
+  termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
 });
 
-type ContactFormValues = z.infer<typeof contactFormSchema>;
-
-const fadeIn = {
-  initial: { opacity: 0, y: 20 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5, ease: "easeOut" }
-};
-
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.1
-    }
-  }
-};
+const SUBJECT_OPTIONS = [
+  "Crear una LLC",
+  "Pack de mantenimiento",
+  "Disolver una LLC",
+  "Banca / Stripe",
+  "Tengo una duda general",
+  "Otro"
+];
 
 export default function Contacto() {
-  const { toast } = useToast();
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [isSendingOtp, setIsSendingOtp] = useState(false);
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
-  const form = useForm<ContactFormValues>({
-    resolver: zodResolver(contactFormSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       nombre: "",
       apellido: "",
@@ -59,317 +53,239 @@ export default function Contacto() {
       subject: "",
       mensaje: "",
       otp: "",
+      dataProcessingConsent: false,
+      termsConsent: false,
     },
   });
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("success")) setIsSubmitted(true);
+    if (params.get("subject")) form.setValue("subject", params.get("subject") as string);
+  }, [form]);
+
   const sendOtp = async () => {
     const email = form.getValues("email");
-    if (!email || !z.string().email().safeParse(email).success) {
-      toast({ title: "Error", description: "Introduce un email válido", variant: "destructive" });
+    if (!email || !email.includes("@")) {
+      toast({ title: "Email inválido", variant: "destructive" });
       return;
     }
-
-    setIsSendingOtp(true);
+    setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ 
-        title: "¡Código enviado!", 
-        description: "Revisa tu bandeja de entrada.",
-        variant: "success"
-      });
-    } catch (error) {
+      toast({ title: "Código enviado", description: "Revisa tu email" });
+    } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
-      setIsSendingOtp(false);
+      setIsLoading(false);
     }
   };
 
   const verifyOtp = async () => {
     const email = form.getValues("email");
     const otp = form.getValues("otp");
-    if (!otp || otp.length < 6) {
-      toast({ title: "Error", description: "Código incompleto", variant: "destructive" });
-      return;
-    }
-
-    setIsVerifyingOtp(true);
+    setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
-      setIsEmailVerified(true);
-      toast({ 
-        title: "¡Email verificado!", 
-        description: "Ya puedes enviar tu mensaje.",
-        variant: "success"
-      });
-    } catch (error) {
-      toast({ title: "Error", description: "Código incorrecto o caducado", variant: "destructive" });
+      setIsOtpVerified(true);
+      toast({ title: "Email verificado", variant: "success" });
+    } catch (err) {
+      toast({ title: "Código incorrecto", variant: "destructive" });
     } finally {
-      setIsVerifyingOtp(false);
+      setIsLoading(false);
     }
   };
 
-  const onSubmit = async (data: ContactFormValues) => {
-    if (!isEmailVerified) {
-      toast({ title: "Error", description: "Verifica tu email primero", variant: "destructive" });
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!isOtpVerified) {
+      toast({ title: "Verificación requerida", description: "Verifica tu email primero" });
       return;
     }
+    setIsLoading(true);
     try {
-      const isConstitution = data.subject.toLowerCase().includes("constitución");
-      const response = await apiRequest("POST", "/api/contact", data);
-      const result = await response.json();
-      toast({
-        title: "Mensaje Enviado",
-        description: `Tu consulta #${result.ticketId} ha sido recibida. Te responderemos en 24-48h.`,
-        variant: "success"
-      });
-      form.reset();
-      setIsOtpSent(false);
-      setIsEmailVerified(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo enviar el mensaje. Inténtalo de nuevo.",
-        variant: "destructive",
-      });
+      await apiRequest("POST", "/api/contact", values);
+      setIsSubmitted(true);
+      toast({ title: "Mensaje enviado", variant: "success" });
+    } catch (err) {
+      toast({ title: "Error", description: "No se pudo enviar el mensaje", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  // Check for pre-filled subject (Constitution)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const subject = params.get("subject");
-    if (subject) {
-      form.setValue("subject", subject);
-    }
-  }, [form]);
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-background font-sans">
+        <Navbar />
+        <main className="pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
+          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-6">
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-10 h-10 text-primary" />
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black uppercase tracking-tighter text-primary">¡MENSAJE RECIBIDO!</h1>
+            <p className="text-lg md:text-xl font-medium text-foreground/70 leading-relaxed">
+              Hemos recibido tu consulta. Un experto de nuestro equipo la revisará y te contactará en menos de 24-48h laborables.
+            </p>
+            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary-foreground font-black px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> VOLVER AL INICIO </Button>
+          </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
+    <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
-      <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
-        showOverlay={false}
-        title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
-            Contacto
-          </h1>
-        }
-        subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
-            ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
+      <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
+        <div className="text-left space-y-4 mb-12">
+          <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-primary leading-[0.9]">
+            HABLEMOS <span className="text-accent">👋</span>
+          </motion.h1>
+          <p className="text-lg md:text-xl font-medium text-foreground/60 max-w-xl">
+            Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.
           </p>
-        }
-      />
-      <section className="py-8 sm:py-20 bg-background border-t border-primary/5">
-        <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <motion.div 
-            className="max-w-4xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            {/* 1. Formulario Primero */}
-            <motion.div 
-              className="bg-background p-8 sm:p-12 rounded-2xl border border-accent/20 shadow-xl mb-16"
-              variants={fadeIn}
-            >
-              <h3 className="text-2xl sm:text-3xl font-black uppercase mb-8 text-primary text-center">Envíanos un mensaje</h3>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 sm:space-y-5">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
-                    <FormField
-                      control={form.control}
-                      name="nombre"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1.5 sm:space-y-2">
-                          <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
-                          </FormControl>
-                          <FormMessage className="text-[10px] sm:text-xs" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="apellido"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1.5 sm:space-y-2">
-                          <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
-                          </FormControl>
-                          <FormMessage className="text-[10px] sm:text-xs" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+        </div>
 
-                  <FormField
-                    control={form.control}
-                    name="telefono"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1.5 sm:space-y-2">
-                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Teléfono (Opcional)</FormLabel>
-                        <FormControl>
-                          <Input placeholder="+34 000 00 00 00" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
-                        </FormControl>
-                        <FormMessage className="text-[10px] sm:text-xs" />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end">
-                    <div className="flex-1 w-full">
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem className="space-y-1.5 sm:space-y-2">
-                            <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
-                            </FormControl>
-                            <FormMessage className="text-[10px] sm:text-xs" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    {!isEmailVerified && (
-                      <Button 
-                        type="button" 
-                        onClick={sendOtp} 
-                        disabled={isSendingOtp || isOtpSent}
-                        className="bg-accent text-primary font-black text-sm rounded-full h-11 sm:h-12 px-8 hover:bg-accent/90 transition-all shrink-0 w-full sm:w-auto shadow-lg shadow-accent/20 border-0"
-                      >
-                        {isSendingOtp ? "Enviando..." : isOtpSent ? "Código enviado" : "Enviar código"}
-                      </Button>
-                    )}
-                  </div>
+        <div className="grid grid-cols-1 gap-12">
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField control={form.control} name="nombre" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                        <User className="w-3 h-3 text-accent" /> Nombre:
+                      </FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="Tu nombre" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="apellido" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                        <User className="w-3 h-3 text-accent" /> Apellido:
+                      </FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="Tu apellido" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
 
-                  {isOtpSent && !isEmailVerified && (
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-end animate-in fade-in slide-in-from-top-2">
-                      <div className="flex-1 w-full">
-                        <FormField
-                          control={form.control}
-                          name="otp"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5 sm:space-y-2">
-                              <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest text-accent flex items-center gap-2">
-                                <div className="w-2 h-2 rounded-full bg-accent" /> Introduce el código de 6 dígitos
-                              </FormLabel>
-                              <FormControl>
-                                <Input placeholder="000000" {...field} className="rounded-3xl border-accent focus:border-accent bg-accent/5 text-center text-lg tracking-[0.5em] font-black h-11 sm:h-12" maxLength={6} />
-                              </FormControl>
-                              <FormMessage className="text-[10px] sm:text-xs" />
-                            </FormItem>
-                          )}
-                        />
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <FormField control={form.control} name="email" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                        <Mail className="w-3 h-3 text-accent" /> Email:
+                      </FormLabel>
+                      <FormControl><Input {...field} type="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="email@ejemplo.com" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="telefono" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                        <Phone className="w-3 h-3 text-accent" /> Teléfono (opcional):
+                      </FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent transition-all font-bold" placeholder="+34..." /></FormControl>
+                      <FormDescription className="text-[10px] font-bold uppercase opacity-40">Solo si prefieres WhatsApp</FormDescription>
+                    </FormItem>
+                  )} />
+                </div>
+
+                <FormField control={form.control} name="subject" render={({ field }) => (
+                  <FormItem className="space-y-4">
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                      <HelpCircle className="w-3 h-3 text-accent" /> Motivo de tu mensaje:
+                    </FormLabel>
+                    <FormControl>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {SUBJECT_OPTIONS.map((opt) => (
+                          <label key={opt} className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${field.value === opt ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                            <input type="radio" {...field} value={opt} checked={field.value === opt} className="hidden" />
+                            <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${field.value === opt ? 'border-accent' : 'border-gray-200'}`}>
+                              {field.value === opt && <div className="w-2 h-2 rounded-full bg-accent" />}
+                            </div>
+                            <span className="font-bold text-xs md:text-sm text-primary">{opt}</span>
+                          </label>
+                        ))}
                       </div>
-                      <Button 
-                        type="button" 
-                        onClick={verifyOtp} 
-                        disabled={isVerifyingOtp}
-                        className="bg-accent text-primary font-black text-sm rounded-full h-11 sm:h-12 px-10 hover:bg-accent/90 transition-all shrink-0 w-full sm:w-auto shadow-xl shadow-accent/20 border-0"
-                      >
-                        {isVerifyingOtp ? "Verificando..." : "Verificar email"}
-                      </Button>
-                    </div>
-                  )}
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
 
-                  <FormField
-                    control={form.control}
-                    name="subject"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1.5 sm:space-y-2">
-                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Asunto</FormLabel>
-                        <FormControl>
-                          <Input placeholder="¿En qué podemos ayudarte?" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={!isEmailVerified} />
-                        </FormControl>
-                        <FormMessage className="text-[10px] sm:text-xs" />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="mensaje"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1.5 sm:space-y-2">
-                        <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Mensaje</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Escribe tu mensaje aquí..." 
-                            className="min-h-[120px] sm:min-h-[150px] rounded-3xl border-accent/30 focus:border-accent py-3" 
-                            {...field} 
-                            disabled={!isEmailVerified}
-                          />
-                        </FormControl>
-                        <FormMessage className="text-[10px] sm:text-xs" />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="pt-2">
-                    <Button 
-                      type="submit" 
-                      disabled={form.formState.isSubmitting || !isEmailVerified}
-                      className={`w-full font-black text-sm rounded-full py-7 sm:py-8 transition-all shadow-xl border-0 ${
-                        isEmailVerified 
-                          ? "bg-accent text-primary hover:bg-accent/90 cursor-pointer shadow-accent/30" 
-                          : "bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200 shadow-none"
-                      }`}
-                    >
-                      {form.formState.isSubmitting ? "Enviando..." : "Enviar mensaje"}
+                <FormField control={form.control} name="mensaje" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60 flex items-center gap-2">
+                      <MessageCircle className="w-3 h-3 text-accent" /> Tu mensaje:
+                    </FormLabel>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-100 focus:border-accent transition-all font-bold placeholder:font-normal" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+
+                <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 p-4 opacity-10">
+                    <Info className="w-12 h-12" />
+                  </div>
+                  <h3 className="text-primary font-black uppercase text-sm tracking-widest">Nota tranquilizadora</h3>
+                  <p className="text-sm md:text-base font-medium text-foreground/70 leading-relaxed">
+                    Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
+                  </p>
+                </div>
+
+                {!isOtpVerified && (
+                  <div className="space-y-4 pt-4 border-t border-gray-100">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      {!isOtpSent ? (
+                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-primary text-white font-black px-8 h-14 rounded-full active:scale-95 transition-all">
+                          {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR CÓDIGO DE VERIFICACIÓN"}
+                        </Button>
+                      ) : (
+                        <div className="flex flex-col md:flex-row gap-4 w-full">
+                          <FormField control={form.control} name="otp" render={({ field }) => (
+                            <FormItem className="flex-1">
+                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-black border-gray-100 focus:border-accent" placeholder="CÓDIGO (6 DÍGITOS)" /></FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )} />
+                          <Button type="button" onClick={verifyOtp} disabled={isLoading} className="bg-accent text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-accent/20">
+                            {isLoading ? <Loader2 className="animate-spin" /> : "VERIFICAR"}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {isOtpVerified && (
+                  <div className="space-y-6 pt-4 border-t border-gray-100">
+                    <div className="space-y-3">
+                      <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
+                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-100 bg-white hover:border-accent/30 cursor-pointer transition-all">
+                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
+                          <span className="text-[10px] md:text-xs font-bold text-primary opacity-70">Acepto el tratamiento de mis datos para poder responder a mi solicitud.</span>
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="termsConsent" render={({ field }) => (
+                        <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-100 bg-white hover:border-accent/30 cursor-pointer transition-all">
+                          <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" /></FormControl>
+                          <span className="text-[10px] md:text-xs font-bold text-primary opacity-70">He leído y acepto los términos del servicio y la política de privacidad.</span>
+                        </FormItem>
+                      )} />
+                    </div>
+                    <Button type="submit" disabled={isLoading} className="w-full bg-primary text-primary-foreground font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-primary/20">
+                      {isLoading ? <Loader2 className="animate-spin" /> : "ENVIAR MENSAJE"}
                     </Button>
                   </div>
-                </form>
-              </Form>
-            </motion.div>
-
-            {/* 2. Título Vías de Comunicación */}
-            <motion.div 
-              className="text-center mb-10 flex flex-col items-center justify-center"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-            >
-              <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
-                <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-1 sm:mb-2 text-center">CONTACTO</span>
-                Vías de comunicación
-              </motion.h2>
-              <motion.p className="text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Mensaje)</motion.p>
-            </motion.div>
-
-            {/* 3. Vías de Comunicación Detalladas */}
-            <div className="grid md:grid-cols-2 gap-8 mb-16">
-              <motion.div className="space-y-6" variants={fadeIn}>
-                <div className="p-6 bg-accent/5 border-l-4 border-accent rounded-r-2xl flex items-center gap-4">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">EMAIL</p>
-                    <p className="text-lg sm:text-xl font-bold text-primary">info@easyusllc.com</p>
-                  </div>
-                </div>
-              </motion.div>
-              <motion.div className="space-y-6" variants={fadeIn}>
-                <div className="p-6 bg-accent/5 border-l-4 border-accent rounded-r-2xl flex items-center gap-4">
-                  <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                    <MessageSquare className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">WHATSAPP</p>
-                    <p className="text-lg sm:text-xl font-bold text-primary">+34 614 91 69 10</p>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+                )}
+              </form>
+            </Form>
           </motion.div>
         </div>
-      </section>
+      </main>
       <NewsletterSection />
       <Footer />
     </div>
