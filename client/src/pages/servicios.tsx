@@ -59,11 +59,9 @@ export default function Servicios() {
     "BOI Report presentado",
     "Dirección nuestra",
     "Asistencia con bancos",
-    "Soporte completo 12 meses"
+    "Soporte completo 12 meses",
+    "Servicio Express"
   ];
-
-  const NM_WY_FEATURES = [...packFeatures, "2-3 días hábiles"];
-  const DE_FEATURES = [...packFeatures, "3-5 días hábiles"];
 
   const maintenanceFeatures = [
     "Presentación Form 1120 ante el IRS",
@@ -89,23 +87,12 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <div className="flex flex-col items-center w-full px-4">
-            <motion.div 
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6"
-              variants={fadeIn}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary">
-                Nuestros Servicios
-              </span>
-            </motion.div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center [text-wrap:balance]">
-              SOLUCIONES PARA <span className="text-accent">TU LLC</span>
-            </h1>
-          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
+            Constituimos tu LLC en Estados Unidos de <span className="text-accent">forma simple, rápida y transparente.</span>
+          </h1>
         }
         subtitle={
             <motion.div 
@@ -114,8 +101,8 @@ export default function Servicios() {
               animate="animate"
               variants={staggerContainer}
             >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-3xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
-                Desde la creación hasta el mantenimiento anual. Todo lo que tu negocio necesita para operar legalmente en Estados Unidos.
+            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
+                Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
             </motion.div>
               
               <motion.div 
@@ -123,16 +110,17 @@ export default function Servicios() {
                 variants={fadeIn}
               >
                 {[
-                  "Formación Express",
-                  "Banca USA",
-                  "Agente Residente",
-                  "Tax ID (EIN)",
-                  "Compliance",
-                  "Soporte Vitalicio"
+                  "Tu LLC en 2 días",
+                  "Pack Todo Incluido",
+                  "Sin IVA",
+                  "Precios Transparentes",
+                  "Trato Cercano",
+                  "Apertura Cuenta Mercury & Relay",
+                  "Tarjeta Física de Crédito y Débito"
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-accent text-primary font-black text-[10px] sm:text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
+                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
                   >
                     {text}
                   </div>
@@ -183,7 +171,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {NM_WY_FEATURES.map((f) => (
+                  {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -228,7 +216,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {NM_WY_FEATURES.map((f) => (
+                  {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -273,7 +261,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {DE_FEATURES.map((f) => (
+                  {packFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -312,11 +300,14 @@ export default function Servicios() {
           >
             <Button 
               onClick={() => {
-                window.open("https://wa.me/34614916910", "_blank");
+                const element = document.getElementById('pricing');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
               }}
               className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >
-              Alguna duda? Hablemos. →
+              ¿Estás listo? Selecciona tu pack →
             </Button>
           </motion.div>
         </div>

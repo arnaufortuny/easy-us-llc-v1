@@ -143,56 +143,17 @@ export default function FAQ() {
       <Navbar />
 
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
+        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <div className="flex flex-col items-center w-full px-4">
-            <motion.div 
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6"
-              variants={fadeIn}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary">
-                Centro de ayuda
-              </span>
-            </motion.div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center [text-wrap:balance]">
-              RESOLVEMOS <span className="text-accent">TODAS TUS DUDAS</span>
-            </h1>
-          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
+            PREGUNTAS <span className="text-accent">FRECUENTES</span>
+          </h1>
         }
         subtitle={
-            <motion.div 
-              className="flex flex-col items-center"
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-            >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-3xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
-                Todo lo que necesitas saber sobre impuestos, banca y la operativa legal de tu LLC en un solo lugar. Información clara para emprendedores digitales.
-            </motion.div>
-              
-              <motion.div 
-                className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
-                variants={fadeIn}
-              >
-                {[
-                  "Optimización Fiscal",
-                  "Cuentas Bancarias",
-                  "Cumplimiento IRS",
-                  "Privacidad Total",
-                  "Soporte Continuo",
-                  "Escalabilidad"
-                ].map((text, i) => (
-                  <div 
-                    key={i} 
-                    className="bg-accent text-primary font-black text-[10px] sm:text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
-                  >
-                    {text}
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
+            Respondemos de forma clara a las dudas más habituales sobre LLCs, impuestos, bancos y cómo trabajamos.
+          </p>
         }
       />
 

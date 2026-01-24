@@ -148,56 +148,17 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full bg-accent/5"
+        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <div className="flex flex-col items-center w-full px-4">
-            <motion.div 
-              className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 border border-accent/20 mb-6"
-              variants={fadeIn}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.2em] text-primary">
-                Contacto
-              </span>
-            </motion.div>
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center [text-wrap:balance]">
-              HABLEMOS DE <span className="text-accent">TU PROYECTO</span>
-            </h1>
-          </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
+            Contacto
+          </h1>
         }
         subtitle={
-            <motion.div 
-              className="flex flex-col items-center"
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
-            >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-3xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
-                Cuéntanos tu idea y te asesoramos sobre la mejor estructura para tu negocio internacional. Trato humano y profesional desde el primer contacto.
-            </motion.div>
-              
-              <motion.div 
-                className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
-                variants={fadeIn}
-              >
-                {[
-                  "Respuesta en < 24h",
-                  "Asesoramiento Personal",
-                  "Sin Compromiso",
-                  "WhatsApp Directo",
-                  "Expertos en LLC",
-                  "Foco en tu Ahorro"
-                ].map((text, i) => (
-                  <div 
-                    key={i} 
-                    className="bg-accent text-primary font-black text-[10px] sm:text-sm px-4 py-2 rounded-full border border-accent shadow-sm"
-                  >
-                    {text}
-                  </div>
-                ))}
-              </motion.div>
-            </motion.div>
+          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
+            ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
+          </p>
         }
       />
       <section className="py-8 sm:py-20 bg-background border-t border-primary/5">
@@ -225,7 +186,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Nombre</FormLabel>
                           <FormControl>
-                            <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -238,7 +199,7 @@ export default function Contacto() {
                         <FormItem className="space-y-1.5 sm:space-y-2">
                           <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Apellido</FormLabel>
                           <FormControl>
-                            <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                            <Input placeholder="Tu apellido" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                           </FormControl>
                           <FormMessage className="text-[10px] sm:text-xs" />
                         </FormItem>
@@ -253,7 +214,7 @@ export default function Contacto() {
                       <FormItem className="space-y-1.5 sm:space-y-2">
                         <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Teléfono (Opcional)</FormLabel>
                         <FormControl>
-                          <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
+                          <Input placeholder="+34 000 00 00 00" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified} />
                         </FormControl>
                         <FormMessage className="text-[10px] sm:text-xs" />
                       </FormItem>
@@ -269,7 +230,7 @@ export default function Contacto() {
                           <FormItem className="space-y-1.5 sm:space-y-2">
                             <FormLabel className="font-black uppercase text-[10px] sm:text-xs tracking-widest opacity-70">Email</FormLabel>
                             <FormControl>
-                              <Input placeholder="" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
+                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-11 sm:h-12" disabled={isEmailVerified || isOtpSent} />
                             </FormControl>
                             <FormMessage className="text-[10px] sm:text-xs" />
                           </FormItem>
