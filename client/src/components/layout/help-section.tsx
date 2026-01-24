@@ -19,7 +19,7 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <div className="fixed inset-0 z-[300] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -30,7 +30,7 @@ export function HelpSection() {
                 onClick={() => setShowPopup(false)}
                 className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
               >
-                <X className="w-3.5 h-3.5 text-primary/40" />
+                <X className="w-4 h-4 text-primary/40" />
               </button>
               <div className="p-4 text-center">
                 <div className="flex justify-center mb-2">
@@ -38,13 +38,13 @@ export function HelpSection() {
                 </div>
                 
                 <div className="space-y-2">
-                  <h4 className="font-black text-sm leading-tight text-primary">
+                  <h4 className="font-black text-sm leading-tight text-primary uppercase">
                     ¿Mantenimiento LLC?
                   </h4>
                   <div className="pt-1">
                     <Link href="/servicios">
                       <Button 
-                        className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                        className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform uppercase"
                         onClick={() => setShowPopup(false)}
                       >
                         Ver Planes →
