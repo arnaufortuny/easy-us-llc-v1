@@ -253,7 +253,7 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             {/* New Mexico */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-none overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>

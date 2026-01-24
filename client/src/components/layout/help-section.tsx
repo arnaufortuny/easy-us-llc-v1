@@ -9,10 +9,8 @@ export function HelpSection() {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowPopup(true);
-    }, 5000);
-    return () => clearTimeout(timer);
+    // Popup inmediato
+    setShowPopup(true);
   }, []);
 
   return (
