@@ -24,30 +24,27 @@ export function HelpSection() {
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="relative w-full max-w-[280px] bg-white rounded-2xl shadow-2xl border border-accent/40 overflow-hidden"
+              className="relative w-full max-w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
             >
               <button 
                 onClick={() => setShowPopup(false)}
-                className="absolute top-2 right-2 p-1.5 hover:bg-accent/10 rounded-full transition-colors z-10"
+                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
               >
-                <X className="w-4 h-4 text-primary/40" />
+                <X className="w-3.5 h-3.5 text-primary/40" />
               </button>
-              <div className="p-5">
-                <div className="flex justify-center mb-4">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-12 h-12 object-contain" />
+              <div className="p-4 text-center">
+                <div className="flex justify-center mb-2">
+                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" />
                 </div>
                 
-                <div className="space-y-3 text-center">
-                  <h4 className="font-black text-lg leading-tight text-primary">
+                <div className="space-y-2">
+                  <h4 className="font-black text-sm leading-tight text-primary">
                     ¿Mantenimiento LLC?
                   </h4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">
-                    Gestión anual completa para que te centres en tu negocio.
-                  </p>
-                  <div className="pt-2">
+                  <div className="pt-1">
                     <Link href="/servicios">
                       <Button 
-                        className="w-full bg-accent text-accent-foreground font-black text-xs h-10 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
+                        className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform"
                         onClick={() => setShowPopup(false)}
                       >
                         Ver Planes →
