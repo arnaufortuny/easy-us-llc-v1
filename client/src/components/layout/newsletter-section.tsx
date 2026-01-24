@@ -56,9 +56,9 @@ export function NewsletterSection() {
             <h2 className="text-xl md:text-4xl font-black uppercase tracking-tighter text-primary leading-none text-center">
               Únete a nuestra <span className="text-[#6EDC8A] bg-primary px-2 inline-block">Newsletter</span>
             </h2>
-            <p className="text-primary/70 text-xs md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
-              Consejos claros y actualizados sobre fiscalidad en Estados Unidos.
-              <span className="block mt-2">Te mantenemos al día con las últimas novedades que realmente importan para tu negocio.</span>
+            <p className="text-primary/70 text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
+              Consejos claros sobre fiscalidad en USA.
+              <span className="block mt-1">Novedades que realmente importan para tu negocio.</span>
             </p>
           </div>
 
