@@ -19,12 +19,16 @@ export function HelpSection() {
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
       <AnimatePresence>
         {showPopup && (
-          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
+          <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 pointer-events-none">
+            <div 
+              className="absolute inset-0 bg-black/20 backdrop-blur-[2px] pointer-events-auto" 
+              onClick={() => setShowPopup(false)}
+            />
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="relative w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
+              className="relative w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden pointer-events-auto"
             >
               <button 
                 onClick={() => setShowPopup(false)}
