@@ -179,7 +179,7 @@ export default function MaintenanceApplication() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-bold py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
               </motion.div>
             )}
 
@@ -200,8 +200,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -223,8 +223,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -246,8 +246,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -269,8 +269,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -292,8 +292,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -317,8 +317,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -337,8 +337,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -373,8 +373,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -402,8 +402,8 @@ export default function MaintenanceApplication() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -423,8 +423,8 @@ export default function MaintenanceApplication() {
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Verificar email</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Verificar email</Button>
                 </div>
               </motion.div>
             )}
@@ -450,8 +450,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-bold border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-bold rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -485,7 +485,7 @@ export default function MaintenanceApplication() {
                   )} />
                 </div>
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
+                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-bold py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
                     🚀 Enviar y Pagar
                   </Button>
                   <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Reiniciar</Button>
