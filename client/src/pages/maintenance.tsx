@@ -424,7 +424,7 @@ export default function MaintenanceApplication() {
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all uppercase">ENVIAR CÓDIGO</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Enviar código</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
@@ -438,7 +438,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                 </div>
               </motion.div>
             )}
@@ -472,7 +473,7 @@ export default function MaintenanceApplication() {
                   )} />
                 </div>
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
+                  <Button type="submit" className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-[#6EDC8A]/20">
                     🚀 Enviar y Pagar
                   </Button>
                   <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-bold uppercase text-[10px] tracking-widest">Reiniciar</Button>
