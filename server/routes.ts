@@ -1,6 +1,5 @@
 import type { Express } from "express";
 import type { Server } from "http";
-import { setupAuth, registerAuthRoutes, isAuthenticated } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
@@ -14,11 +13,7 @@ export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
-  // Set up Replit Auth FIRST
-  await setupAuth(app);
-  registerAuthRoutes(app);
-
-    // Unified activity log helper
+  // Unified activity log helper
     const logActivity = (title: string, data: any) => {
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
