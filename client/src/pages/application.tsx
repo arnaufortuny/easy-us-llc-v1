@@ -299,10 +299,10 @@ export default function ApplicationWizard() {
   ];
 
   return (
-    <div className="min-h-screen bg-background font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       
-      <main className="relative">
+      <main className="relative w-full">
         <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-accent/5 to-transparent -z-10" />
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
