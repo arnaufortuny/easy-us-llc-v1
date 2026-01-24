@@ -3,17 +3,18 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useEffect } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import NotFound from "@/pages/not-found";
-import Home from "@/pages/home";
-import Legal from "@/pages/legal";
-import Servicios from "@/pages/servicios";
-import Privacidad from "@/pages/legal/privacidad";
-import Reembolsos from "@/pages/legal/reembolsos";
-import Cookies from "@/pages/legal/cookies";
-import Contacto from "@/pages/contacto";
-import FAQ from "@/pages/faq";
-import ApplicationWizard from "@/pages/application";
+
+const Home = lazy(() => import("@/pages/home"));
+const Legal = lazy(() => import("@/pages/legal"));
+const Servicios = lazy(() => import("@/pages/servicios"));
+const Privacidad = lazy(() => import("@/pages/legal/privacidad"));
+const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
+const Cookies = lazy(() => import("@/pages/legal/cookies"));
+const Contacto = lazy(() => import("@/pages/contacto"));
+const FAQ = lazy(() => import("@/pages/faq"));
+const ApplicationWizard = lazy(() => import("@/pages/application"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -27,19 +28,25 @@ function ScrollToTop() {
 
 function Router() {
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/servicios" component={Servicios} />
-      <Route path="/faq" component={FAQ} />
-      <Route path="/contacto" component={Contacto} />
-      <Route path="/application" component={ApplicationWizard} />
-      <Route path="/llc/formation" component={ApplicationWizard} />
-      <Route path="/legal" component={Legal} />
-      <Route path="/privacidad" component={Privacidad} />
-      <Route path="/reembolsos" component={Reembolsos} />
-      <Route path="/cookies" component={Cookies} />
-      <Route component={NotFound} />
-    </Switch>
+    <Suspense fallback={
+      <div className="min-h-screen bg-background flex items-center justify-center transition-opacity duration-300">
+        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route path="/servicios" component={Servicios} />
+        <Route path="/faq" component={FAQ} />
+        <Route path="/contacto" component={Contacto} />
+        <Route path="/application" component={ApplicationWizard} />
+        <Route path="/llc/formation" component={ApplicationWizard} />
+        <Route path="/legal" component={Legal} />
+        <Route path="/privacidad" component={Privacidad} />
+        <Route path="/reembolsos" component={Reembolsos} />
+        <Route path="/cookies" component={Cookies} />
+        <Route component={NotFound} />
+      </Switch>
+    </Suspense>
   );
 }
 

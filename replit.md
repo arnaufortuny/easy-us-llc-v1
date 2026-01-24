@@ -27,9 +27,10 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 
 ## Recent Changes
 - Migrated Navbar and Footer to use semantic design tokens (accent, primary, primary-foreground).
-- Standardized all email notifications (client/admin) with professional minimalist design (white/gray scheme).
+- Standardized all email notifications (client/admin) with professional minimalist design.
 - Implemented automated response system for customer contact with 24-48h SLAs.
-- Enhanced application tracking with unique request codes and detailed admin logs.
-- Optimized database schema with indices and unique constraints for reliability.
-- Synchronized test endpoints to validate entire communication ecosystem.
-- Cleaned up project structure and refined error handling across backend services.
+- Enhanced application tracking with unified ticket IDs for both client and admin.
+- Added optional phone number field to contact form for improved lead quality.
+- Optimized performance: Implemented Gzip compression, advanced cache headers (1 year for assets), and Lazy Loading for all routes.
+- Improved rendering efficiency using `content-visibility: auto` in CSS and better font smoothing.
+- Refined project structure and error handling across backend services.

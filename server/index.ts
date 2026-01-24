@@ -44,7 +44,8 @@ app.use((req, res, next) => {
 
   // Performance Headers
   if (req.method === 'GET') {
-    if (req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js)$/)) {
+    const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
+    if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     } else {
       res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
