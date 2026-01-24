@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
-import { Button } from "@/components/ui/button";
+import { NewsletterSection } from "@/components/layout/newsletter-section";
 
 export default function Reembolsos() {
   return (
@@ -23,33 +23,7 @@ export default function Reembolsos() {
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Los pagos anuales por servicios de mantenimiento (Annual Report, Registered Agent, etc.) no son reembolsables una vez que el servicio ha sido renovado para el periodo correspondiente.</p>
         </div>
       </div>
-      <section className="py-8 sm:py-14 bg-muted/40">
-        <div className="container max-w-3xl mx-auto px-5 sm:px-8 text-center">
-          <h2 className="text-lg sm:text-2xl font-bold text-primary mb-4 uppercase">¿Necesitas ayuda?</h2>
-          <p className="text-sm sm:text-base text-muted-foreground mb-4">
-            Si tienes dudas sobre nuestra política de reembolsos, 
-            puedes contactar con nosotros o consultar nuestro asistente virtual.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
-            <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-              <Button data-testid="button-whatsapp" className="bg-[#6EDC8A] text-[#0E1215] font-black rounded-full w-full border-0 h-12 hover:bg-[#6EDC8A]/90 active:scale-95 transition-all">
-                Envíanos un WhatsApp
-              </Button>
-            </a>
-            <Button 
-              data-testid="button-chatbot" 
-              variant="outline" 
-              onClick={() => {
-                const event = new CustomEvent('open-chatbot');
-                window.dispatchEvent(event);
-              }}
-              className="rounded-full w-full sm:w-auto h-12 font-black border-2 active:scale-95 transition-all"
-            >
-              Nuestro Asistente 24/7
-            </Button>
-          </div>
-        </div>
-      </section>
+      <NewsletterSection />
       <Footer />
     </div>
   );
