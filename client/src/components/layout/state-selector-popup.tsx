@@ -37,14 +37,16 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      {/* ELIMINACIÓN DE BACKDROP OSCURO DEL DIALOG */}
       <DialogContent 
         className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] sm:w-[320px] max-w-md rounded-2xl border-0 shadow-[0_20px_50px_rgba(0,0,0,0.15)] overflow-hidden p-0 z-[99999] !bg-white focus:outline-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
+        style={{ background: 'white' }}
       >
         <div className="p-6 sm:p-8">
           {/* LOGO SIN CONTENEDORES CIRCULARES, SOLO LA IMAGEN PNG */}
           <div className="flex justify-center mb-4 bg-transparent">
-            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain" style={{ background: 'none', border: 'none', borderRadius: '0' }} />
+            <img src={logoIcon} alt="Easy US LLC" className="w-10 h-10 sm:w-12 sm:h-12 object-contain bg-transparent" style={{ display: 'block', background: 'none', border: 'none', borderRadius: '0' }} />
           </div>
           <DialogHeader className="mb-4 sm:mb-6 text-center">
             <DialogTitle className="text-lg sm:text-xl font-black uppercase tracking-tight text-primary leading-tight">
