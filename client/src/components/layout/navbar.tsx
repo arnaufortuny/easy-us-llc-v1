@@ -3,12 +3,10 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
-import { StateSelectorPopup } from "./state-selector-popup";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -52,7 +50,7 @@ export function Navbar() {
           </nav>
 
           <Button 
-            onClick={() => setIsPopupOpen(true)} 
+            onClick={() => setLocation("/servicios#pricing")} 
             className="hidden md:inline-flex bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
             data-testid="button-nav-cta"
             variant="default"
@@ -115,7 +113,7 @@ export function Navbar() {
                 <Button 
                   onClick={() => {
                     setIsOpen(false);
-                    setIsPopupOpen(true);
+                    setLocation("/servicios#pricing");
                   }}
                   className="w-full bg-accent text-accent-foreground font-black text-sm h-12 shadow-lg active:scale-95 transition-transform flex items-center justify-center gap-2 shadow-accent/20"
                   data-testid="mobile-button-cta"
@@ -142,7 +140,6 @@ export function Navbar() {
         </div>
       )}
     </header>
-    <StateSelectorPopup isOpen={isPopupOpen} onOpenChange={setIsPopupOpen} />
     </>
   );
 }

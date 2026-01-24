@@ -47,7 +47,7 @@ export default function Servicios() {
   });
 
   const handleSelectProduct = (stateName: string) => {
-    setLocation(`/application?state=${encodeURIComponent(stateName)}`);
+    window.location.href = `/application?state=${encodeURIComponent(stateName)}`;
   };
 
   const packFeatures = [
