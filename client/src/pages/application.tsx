@@ -357,29 +357,29 @@ export default function ApplicationWizard() {
                           <div className="p-8 pt-2 md:p-12 md:pt-4 border-t border-gray-50 text-left w-full">
                             {step === 0 && (
                               <div className="space-y-8 w-full text-left">
-                                <div className="grid grid-cols-1 gap-5 w-full text-left">
-                                  <FormField
-                                    control={form.control}
-                                    name="state"
-                                    render={({ field }) => (
-                                      <FormItem className="text-left">
-                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Estado de Constitución</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value || stateFromUrl}>
-                                          <FormControl>
-                                            <SelectTrigger className="rounded-3xl border-gray-200 bg-white h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary text-left">
-                                              <SelectValue placeholder="Selecciona un estado" />
-                                            </SelectTrigger>
-                                          </FormControl>
-                                          <SelectContent className="bg-white">
-                                            <SelectItem value="New Mexico">New Mexico</SelectItem>
-                                            <SelectItem value="Wyoming">Wyoming</SelectItem>
-                                            <SelectItem value="Delaware">Delaware</SelectItem>
-                                          </SelectContent>
-                                        </Select>
-                                        <FormMessage className="text-left" />
-                                      </FormItem>
-                                    )}
-                                  />
+                                <FormField
+                                  control={form.control}
+                                  name="state"
+                                  render={({ field }) => (
+                                    <FormItem className="text-left w-full max-w-sm">
+                                      <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight text-left">Estado de Constitución</FormLabel>
+                                      <Select onValueChange={field.onChange} defaultValue={field.value || stateFromUrl}>
+                                        <FormControl>
+                                          <SelectTrigger className="rounded-3xl border-gray-200 bg-white h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary text-left">
+                                            <SelectValue placeholder="Selecciona un estado" />
+                                          </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent className="bg-white">
+                                          <SelectItem value="New Mexico">New Mexico</SelectItem>
+                                          <SelectItem value="Wyoming">Wyoming</SelectItem>
+                                          <SelectItem value="Delaware">Delaware</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                      <FormMessage className="text-left" />
+                                    </FormItem>
+                                  )}
+                                />
+                                <div className="grid grid-cols-1 gap-5 w-full text-left pt-4 border-t border-gray-100">
                                   <FormField
                                     control={form.control}
                                     name="ownerFullName"
