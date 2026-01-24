@@ -146,10 +146,10 @@ export default function Contacto() {
           viewport={{ once: true }}
         >
           <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary uppercase tracking-tight text-center">
-            <span className="text-accent uppercase  text-xs sm:text-sm font-bold block mb-0 text-center">CONTACTO</span>
+            <span className="text-[#6EDC8A] uppercase  text-xs sm:text-sm font-bold block mb-0 text-center">CONTACTO</span>
             Contactanos
           </motion.h2>
-          <motion.p className="text-accent font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
+          <motion.p className="text-[#6EDC8A] font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-12">
