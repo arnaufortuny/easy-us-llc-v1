@@ -1,6 +1,7 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
+import { Button } from "@/components/ui/button";
 
 export default function Terminos() {
   return (
@@ -8,10 +9,33 @@ export default function Terminos() {
       <Navbar />
       <HeroSection title="Términos y Condiciones" />
       <div className="container max-w-4xl mx-auto py-16 px-5 sm:px-8">
-        <h2 className="text-2xl font-bold mb-6">1. Aceptación de los Términos</h2>
-        <p className="mb-4 text-muted-foreground leading-relaxed">Al acceder y utilizar este sitio web, usted acepta estar sujeto a estos términos y condiciones de uso.</p>
-        <h2 className="text-2xl font-bold mb-6">2. Servicios</h2>
-        <p className="mb-4 text-muted-foreground leading-relaxed">Easy US LLC proporciona servicios de consultoría para la formación de empresas en los Estados Unidos.</p>
+        <h2 className="text-2xl font-bold mb-6">1. Servicios y Precios</h2>
+        <p className="mb-4 text-muted-foreground leading-relaxed">Easy US LLC ofrece servicios de formación de empresas en los Estados Unidos. Los precios vigentes son:</p>
+        <ul className="list-disc pl-6 mb-6 text-muted-foreground space-y-2">
+          <li><strong>New Mexico LLC:</strong> 639€ (Año 1)</li>
+          <li><strong>Wyoming LLC:</strong> 799€ (Año 1)</li>
+          <li><strong>Delaware LLC:</strong> 999€ (Año 1)</li>
+        </ul>
+        
+        <p className="mb-4 text-muted-foreground leading-relaxed">Los servicios de mantenimiento anual tienen los siguientes costes:</p>
+        <ul className="list-disc pl-6 mb-8 text-muted-foreground space-y-2">
+          <li><strong>Mantenimiento New Mexico:</strong> 349€/año</li>
+          <li><strong>Mantenimiento Wyoming:</strong> 499€/año</li>
+          <li><strong>Mantenimiento Delaware:</strong> 599€/año</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold mb-6">2. Alcance del Servicio</h2>
+        <p className="mb-6 text-muted-foreground leading-relaxed">Nuestros servicios incluyen la gestión de documentos ante las autoridades estatales y federales correspondientes. No proporcionamos asesoramiento legal o contable específico.</p>
+
+        <h2 className="text-2xl font-bold mb-6">3. Política de Reembolsos</h2>
+        <div className="space-y-4 text-muted-foreground leading-relaxed">
+          <p>Dada la naturaleza de los servicios y las tasas gubernamentales no reembolsables:</p>
+          <ul className="list-disc pl-6 space-y-2">
+            <li>Una vez iniciada la tramitación ante el estado, no se realizarán reembolsos del importe de las tasas.</li>
+            <li>Las cancelaciones antes de iniciar el trámite podrán estar sujetas a una comisión de gestión.</li>
+            <li>El servicio de mantenimiento no es reembolsable una vez procesado el pago anual.</li>
+          </ul>
+        </div>
       </div>
       <section className="py-8 sm:py-14 bg-muted/40">
         <div className="container max-w-3xl mx-auto px-5 sm:px-8 text-center">
