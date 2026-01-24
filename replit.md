@@ -34,3 +34,5 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - Optimized performance: Implemented Gzip compression, advanced cache headers (1 year for assets), and Lazy Loading for all routes.
 - Improved rendering efficiency using `content-visibility: auto` in CSS and better font smoothing.
 - Refined project structure and error handling across backend services.
+- Removed legacy popups for maintenance packs and streamlined navigation to contact form with auto-subject.
+- Cleaned up unused components (state-selector-popup) and documentation files.
