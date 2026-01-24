@@ -57,7 +57,8 @@ export function NewsletterSection() {
               Únete a nuestra <span className="text-primary-foreground bg-primary px-2 inline-block">Newsletter</span>
             </h2>
             <p className="text-accent-foreground/70 text-xs md:text-lg font-medium max-w-2xl mx-auto leading-relaxed text-center px-2">
-              Consejos exclusivos sobre fiscalidad en USA.
+              Consejos claros y actualizados sobre fiscalidad en Estados Unidos.
+              <span className="block mt-2">Te mantenemos al día con las últimas novedades que realmente importan para tu negocio.</span>
             </p>
           </div>
 
