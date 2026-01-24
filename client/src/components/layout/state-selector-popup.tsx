@@ -54,7 +54,7 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className="group flex items-center justify-between p-2.5 rounded-xl border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
+                className="group flex items-center justify-between p-2.5 rounded-none border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
               >
                 <div className="flex items-center">
                   <div>

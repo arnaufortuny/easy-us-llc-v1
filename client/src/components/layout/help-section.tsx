@@ -45,7 +45,7 @@ export function HelpSection() {
                   </h4>
                   <div className="pt-1">
                     <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-full shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform uppercase"
+                      className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-none shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform uppercase"
                       onClick={() => {
                         setShowPopup(false);
                         window.location.href = "/servicios";
