@@ -164,7 +164,7 @@ export default function ApplicationWizard() {
   const nextStep = async () => {
     let fields: (keyof FormValues)[] = [];
     if (step === 0) {
-      fields = ["ownerFullName", "ownerEmail", "ownerPhone", "ownerBirthDate", "termsConsent", "dataProcessingConsent"];
+      fields = ["state", "ownerFullName", "ownerEmail", "ownerPhone", "ownerBirthDate", "termsConsent", "dataProcessingConsent"];
       const isValid = await form.trigger(fields);
       if (!isValid) return;
       
@@ -360,6 +360,28 @@ export default function ApplicationWizard() {
                                 <div className="grid grid-cols-1 gap-5">
                                   <FormField
                                     control={form.control}
+                                    name="state"
+                                    render={({ field }) => (
+                                      <FormItem>
+                                        <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Estado de Constitución</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value || stateFromUrl}>
+                                          <FormControl>
+                                            <SelectTrigger className="rounded-3xl border-gray-200 bg-white h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary">
+                                              <SelectValue placeholder="Selecciona un estado" />
+                                            </SelectTrigger>
+                                          </FormControl>
+                                          <SelectContent className="bg-white">
+                                            <SelectItem value="New Mexico">New Mexico</SelectItem>
+                                            <SelectItem value="Wyoming">Wyoming</SelectItem>
+                                            <SelectItem value="Delaware">Delaware</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
                                     name="ownerFullName"
                                     render={({ field }) => (
                                       <FormItem>
@@ -420,34 +442,13 @@ export default function ApplicationWizard() {
                                     <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-primary/30 flex items-center gap-2">
                                       <MapPin className="w-3.5 h-3.5" /> Dirección de Residencia
                                     </h3>
-                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                                      <FormField
-                                        control={form.control}
-                                        name="ownerStreetType"
-                                        render={({ field }) => (
-                                          <FormItem>
-                                            <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Tipo</FormLabel>
-                                            <Select onValueChange={field.onChange} defaultValue={field.value || "Calle"}>
-                                              <FormControl>
-                                                <SelectTrigger className="rounded-3xl border-gray-200 bg-background h-12 md:h-14 px-4 focus:ring-accent font-medium text-base text-primary">
-                                                  <SelectValue placeholder="Calle" />
-                                                </SelectTrigger>
-                                              </FormControl>
-                                              <SelectContent className="bg-background">
-                                                {STREET_TYPES.map(type => (
-                                                  <SelectItem key={type} value={type}>{type}</SelectItem>
-                                                ))}
-                                              </SelectContent>
-                                            </Select>
-                                          </FormItem>
-                                        )}
-                                      />
+                                    <div className="grid grid-cols-1 gap-5">
                                       <FormField
                                         control={form.control}
                                         name="ownerAddress"
                                         render={({ field }) => (
-                                          <FormItem className="sm:col-span-2">
-                                            <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Nombre de Vía y Número</FormLabel>
+                                          <FormItem>
+                                            <FormLabel className="font-black text-sm text-primary mb-1.5 block uppercase tracking-tight">Dirección completa (Calle, número, piso/puerta)</FormLabel>
                                             <FormControl><Input {...field} value={field.value || ""} className="rounded-3xl border-gray-200 bg-gray-50/30 h-12 md:h-14 px-6 focus:border-accent font-medium text-base text-primary" placeholder="" /></FormControl>
                                           </FormItem>
                                         )}
