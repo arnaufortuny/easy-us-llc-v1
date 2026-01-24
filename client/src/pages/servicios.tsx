@@ -6,33 +6,11 @@ import { NewsletterSection } from "@/components/layout/newsletter-section";
 import type { Product } from "@shared/schema";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useLocation, Link } from "wouter";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { apiRequest, queryClient } from "@/lib/queryClient";
-import { ChevronDown, Check, Loader2, ArrowRight } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { useLocation } from "wouter";
+import { useQuery } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-const maintenanceFormSchema = z.object({
-  nombre: z.string().min(2, "Nombre requerido"),
-  email: z.string().email("Email inválido"),
-  mensaje: z.string().min(10, "Cuéntanos más sobre tu LLC"),
-  otp: z.string().min(6, "Código de 6 dígitos"),
-});
-
-type MaintenanceFormValues = z.infer<typeof maintenanceFormSchema>;
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -67,81 +45,6 @@ export default function Servicios() {
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
-
-  const [maintenanceDialogOpen, setMaintenanceDialogOpen] = useState(false);
-  const [maintenanceStep, setMaintenanceStep] = useState<"ask" | "form">("ask");
-  const [selectedState, setSelectedState] = useState("");
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
-  const [isSendingOtp, setIsSendingOtp] = useState(false);
-  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
-  const { toast } = useToast();
-
-  const mForm = useForm<MaintenanceFormValues>({
-    resolver: zodResolver(maintenanceFormSchema),
-    defaultValues: { nombre: "", email: "", mensaje: "", otp: "" },
-  });
-
-  const sendOtp = async () => {
-    const email = mForm.getValues("email");
-    if (!email || !z.string().email().safeParse(email).success) {
-      toast({ title: "Error", description: "Email inválido", variant: "destructive" });
-      return;
-    }
-    setIsSendingOtp(true);
-    try {
-      await apiRequest("POST", "/api/contact/send-otp", { email });
-      setIsOtpSent(true);
-      toast({ 
-        title: "¡Código enviado!", 
-        description: "Revisa tu bandeja de entrada.",
-        variant: "success"
-      });
-    } catch {
-      toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
-    } finally {
-      setIsSendingOtp(false);
-    }
-  };
-
-  const verifyOtp = async () => {
-    const email = mForm.getValues("email");
-    const otp = mForm.getValues("otp");
-    setIsVerifyingOtp(true);
-    try {
-      await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
-      setIsEmailVerified(true);
-      toast({ 
-        title: "¡Email verificado!", 
-        description: "Ya puedes enviar tu mantenimiento.",
-        variant: "success"
-      });
-    } catch {
-      toast({ title: "Error", description: "Código incorrecto", variant: "destructive" });
-    } finally {
-      setIsVerifyingOtp(false);
-    }
-  };
-
-  const onMaintenanceSubmit = async (data: MaintenanceFormValues) => {
-    try {
-      await apiRequest("POST", "/api/contact", {
-        ...data,
-        apellido: "(Mantenimiento)",
-        subject: `Pack Mantenimiento ${selectedState}`,
-      });
-      toast({ 
-        title: "¡Solicitud enviada!", 
-        description: "Revisa tu bandeja de entrada.",
-        variant: "success"
-      });
-      mForm.reset();
-      setMaintenanceStep("ask");
-      setMaintenanceDialogOpen(false);
-    } catch {
-      toast({ title: "Error", description: "Error al enviar la solicitud", variant: "destructive" });
-    }
-  };
 
   const handleSelectProduct = (stateName: string) => {
     setLocation(`/application?state=${encodeURIComponent(stateName)}`);
@@ -284,9 +187,14 @@ export default function Servicios() {
                   Elegir New Mexico
                 </Button>
               </div>
-              <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70">Mantenimiento Año 2: 349€</p>
-              </div>
+                  <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
+                    <button 
+                      onClick={() => setLocation("/contacto?subject=Mantenimiento New Mexico")}
+                      className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    >
+                      Mantenimiento Año 2: 349€
+                    </button>
+                  </div>
             </motion.div>
 
             {/* Wyoming */}
@@ -321,9 +229,14 @@ export default function Servicios() {
                   Elegir Wyoming
                 </Button>
               </div>
-              <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70">Mantenimiento Año 2: 499€</p>
-              </div>
+                  <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
+                    <button 
+                      onClick={() => setLocation("/contacto?subject=Mantenimiento Wyoming")}
+                      className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    >
+                      Mantenimiento Año 2: 499€
+                    </button>
+                  </div>
             </motion.div>
 
             {/* Delaware */}
@@ -358,9 +271,14 @@ export default function Servicios() {
                   Elegir Delaware
                 </Button>
               </div>
-              <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
-                <p className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70">Mantenimiento Año 2: 599€</p>
-              </div>
+                  <div className="bg-accent/5 px-5 py-3 sm:px-5 sm:py-3 border-t border-accent/10 mt-auto text-center">
+                    <button 
+                      onClick={() => setLocation("/contacto?subject=Mantenimiento Delaware")}
+                      className="font-black text-[10px] sm:text-[9px] uppercase tracking-widest text-primary/70 hover:text-accent transition-colors"
+                    >
+                      Mantenimiento Año 2: 599€
+                    </button>
+                  </div>
             </motion.div>
           </motion.div>
           
@@ -373,12 +291,14 @@ export default function Servicios() {
           >
             <Button 
               onClick={() => {
-                setLocation("/?scroll=servicios");
+                const element = document.getElementById('pricing');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
               }}
               className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >
-              ¿Qué incluyen?
-              <ChevronDown className="ml-2 w-5 h-5 transition-transform group-hover:translate-y-1" />
+              ¿Estás listo? Selecciona tu pack →
             </Button>
           </motion.div>
         </div>
@@ -477,188 +397,15 @@ export default function Servicios() {
                   </div>
                 </div>
                 <div className="p-5 sm:p-6 pt-0 mt-auto">
-                  <Dialog open={maintenanceDialogOpen} onOpenChange={setMaintenanceDialogOpen}>
-                    <DialogTrigger asChild>
-                      <Button 
-                        onClick={() => {
-                          setSelectedState(item.state);
-                          setMaintenanceStep("ask");
-                          setMaintenanceDialogOpen(true);
-                        }}
-                        className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
-                      >
-                        Elegir Pack {item.state}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto rounded-3xl p-0 border-accent/30 shadow-2xl">
-                      <div className="p-6 sm:p-10">
-                        {maintenanceStep === "ask" ? (
-                          <div className="text-center space-y-8">
-                            <DialogHeader>
-                              <div className="w-20 h-20 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-accent/20">
-                                <span className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                                  <div className="w-4 h-4 rounded-full bg-accent" />
-                                </span>
-                              </div>
-                              <DialogTitle className="text-2xl sm:text-4xl font-black uppercase text-primary tracking-tight leading-tight">
-                                ¿Quieres el mantenimiento de tu LLC en <span className="text-accent">{selectedState}</span>?
-                              </DialogTitle>
-                            </DialogHeader>
-                            
-                            <div className="bg-accent/5 rounded-2xl p-6 border border-accent/20 text-left">
-                              <h4 className="font-black uppercase text-xs tracking-widest text-accent mb-4">¿Qué incluye este servicio anual?</h4>
-                              <div className="grid grid-cols-1 gap-3">
-                                {maintenanceFeatures.map((f, idx) => (
-                                  <div key={idx} className="flex items-start gap-3">
-                                    <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" />
-                                    <span className="text-sm font-medium text-primary/80">{f}</span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            <div className="flex flex-col sm:flex-row gap-4">
-                              <Button 
-                                onClick={() => setMaintenanceStep("form")}
-                                className="flex-1 bg-accent text-primary font-black text-sm h-14 rounded-full shadow-lg hover:bg-accent/90 transform hover:scale-105 transition-all"
-                              >
-                                Sí, quiero contratarlo
-                              </Button>
-                              <Button 
-                                variant="outline"
-                                onClick={() => setMaintenanceDialogOpen(false)}
-                                className="flex-1 border-2 border-primary/10 font-black text-sm h-14 rounded-full hover:bg-primary/5 transition-all"
-                              >
-                                No por ahora
-                              </Button>
-                            </div>
-                            <p className="text-[10px] uppercase font-black tracking-widest text-primary/40">Cumple al 100% con el IRS y el Estado</p>
-                          </div>
-                        ) : (
-                          <div className="space-y-8">
-                            <div className="text-center">
-                              <h3 className="text-2xl sm:text-3xl font-black uppercase text-primary tracking-tight">Solicitud de Mantenimiento</h3>
-                              <p className="text-muted-foreground text-sm font-medium mt-2">Completa el formulario y te contactaremos para iniciar el proceso.</p>
-                            </div>
-
-                            <Form {...mForm}>
-                              <form onSubmit={mForm.handleSubmit(onMaintenanceSubmit)} className="space-y-5">
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                  <FormField
-                                    control={mForm.control}
-                                    name="nombre"
-                                    render={({ field }) => (
-                                      <FormItem>
-                                        <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Nombre Completo</FormLabel>
-                                        <FormControl>
-                                          <Input placeholder="Tu nombre" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-12" />
-                                        </FormControl>
-                                        <FormMessage className="text-[10px]" />
-                                      </FormItem>
-                                    )}
-                                  />
-                                  <div className="space-y-2">
-                                    <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Email corporativo</FormLabel>
-                                    <div className="flex gap-2">
-                                      <FormField
-                                        control={mForm.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                          <FormItem className="flex-1">
-                                            <FormControl>
-                                              <Input placeholder="tu@email.com" {...field} className="rounded-3xl border-accent/30 focus:border-accent h-12" disabled={isEmailVerified} />
-                                            </FormControl>
-                                            <FormMessage className="text-[10px]" />
-                                          </FormItem>
-                                        )}
-                                      />
-                                      {!isEmailVerified && (
-                                        <Button 
-                                          type="button" 
-                                          onClick={sendOtp} 
-                                          disabled={isSendingOtp || isOtpSent}
-                                          className="bg-accent text-primary font-black text-xs rounded-full h-12 px-4 shadow-md"
-                                        >
-                                          {isSendingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : isOtpSent ? "Enviado" : "Verificar"}
-                                        </Button>
-                                      )}
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {isOtpSent && !isEmailVerified && (
-                                  <div className="animate-in fade-in slide-in-from-top-2">
-                                    <FormField
-                                      control={mForm.control}
-                                      name="otp"
-                                      render={({ field }) => (
-                                        <FormItem>
-                                          <FormLabel className="font-black uppercase text-[10px] tracking-widest text-accent">Código de Verificación (6 dígitos)</FormLabel>
-                                          <div className="flex gap-2">
-                                            <FormControl>
-                                              <Input placeholder="000000" {...field} className="rounded-3xl border-accent focus:border-accent bg-accent/5 text-center font-black h-12 tracking-[0.3em]" maxLength={6} />
-                                            </FormControl>
-                                            <Button 
-                                              type="button" 
-                                              onClick={verifyOtp} 
-                                              disabled={isVerifyingOtp}
-                                              className="bg-accent text-primary font-black text-xs rounded-full h-12 px-6 shadow-md"
-                                            >
-                                              {isVerifyingOtp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Validar"}
-                                            </Button>
-                                          </div>
-                                          <FormMessage className="text-[10px]" />
-                                        </FormItem>
-                                      )}
-                                    />
-                                  </div>
-                                )}
-
-                                <FormField
-                                  control={mForm.control}
-                                  name="mensaje"
-                                  render={({ field }) => (
-                                    <FormItem>
-                                      <FormLabel className="font-black uppercase text-[10px] tracking-widest opacity-70">Notas adicionales (Opcional)</FormLabel>
-                                      <FormControl>
-                                        <Textarea 
-                                          placeholder="Cuéntanos algún detalle sobre tu LLC..." 
-                                          className="min-h-[100px] rounded-3xl border-accent/30 focus:border-accent py-3" 
-                                          {...field} 
-                                          disabled={!isEmailVerified}
-                                        />
-                                      </FormControl>
-                                      <FormMessage className="text-[10px]" />
-                                    </FormItem>
-                                  )}
-                                />
-
-                                <div className="flex gap-3 pt-4">
-                                  <Button 
-                                    type="button" 
-                                    variant="outline"
-                                    onClick={() => setMaintenanceStep("ask")}
-                                    className="flex-1 font-black text-sm rounded-full h-14 border-2"
-                                  >
-                                    Volver
-                                  </Button>
-                                  <Button 
-                                    type="submit" 
-                                    disabled={!isEmailVerified || mForm.formState.isSubmitting}
-                                    className={`flex-[2] font-black text-sm rounded-full h-14 shadow-xl transition-all ${
-                                      isEmailVerified ? "bg-accent text-accent-foreground hover:bg-accent/90" : "bg-gray-100 text-gray-400 cursor-not-allowed"
-                                    }`}
-                                  >
-                                    {mForm.formState.isSubmitting ? "Enviando..." : "Enviar Solicitud"}
-                                  </Button>
-                                </div>
-                              </form>
-                            </Form>
-                          </div>
-                        )}
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                  <Button 
+                    onClick={() => {
+                      const subject = encodeURIComponent(`Consulta Mantenimiento ${item.state}`);
+                      window.location.href = `/contactanos?subject=${subject}`;
+                    }}
+                    className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  >
+                    Elegir Pack {item.state}
+                  </Button>
                 </div>
               </motion.div>
             ))}

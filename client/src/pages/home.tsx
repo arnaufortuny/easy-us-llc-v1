@@ -9,9 +9,8 @@ import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import { NewsletterSection } from "@/components/layout/newsletter-section";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown, ArrowRight } from "lucide-react";
-import { StateSelectorPopup } from "@/components/layout/state-selector-popup";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -29,7 +28,6 @@ const staggerContainer = {
 
 export default function Home() {
   const [location, setLocation] = useLocation();
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -142,7 +140,10 @@ export default function Home() {
 
             <motion.div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full" variants={fadeIn}>
               <Button size="lg" onClick={() => {
-                setIsPopupOpen(true);
+                const element = document.getElementById('pricing');
+                if (element) {
+                  element.scrollIntoView({ behavior: 'smooth' });
+                }
               }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-accent/20">
                 ¿Estás listo? Selecciona tu pack →
               </Button>
@@ -244,7 +245,12 @@ export default function Home() {
         <div className="w-full px-5 sm:px-8 text-center">
           <Button 
             size="lg" 
-            onClick={() => setIsPopupOpen(true)} 
+            onClick={() => {
+              const element = document.getElementById('pricing');
+              if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+              }
+            }} 
             className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-6 sm:py-8 border-0 rounded-full w-full sm:w-auto shadow-xl transition-all hover:scale-105 active:scale-95 shadow-accent/30"
           >
             Comenzamos? Selecciona tu pack →
@@ -254,7 +260,6 @@ export default function Home() {
 
       <NewsletterSection />
       <Footer />
-      <StateSelectorPopup isOpen={isPopupOpen} onOpenChange={setIsPopupOpen} />
     </div>
   );
 }
