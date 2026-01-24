@@ -36,3 +36,6 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - Refined project structure and error handling across backend services.
 - Removed legacy popups for maintenance packs and streamlined navigation to contact form with auto-subject.
 - Cleaned up unused components (state-selector-popup) and documentation files.
+- Standardized mobile UI across all application forms (LLC Formation and Maintenance Pack).
+- Implemented consistent design tokens: rounded-full buttons, flex-2 primary actions, and touch-optimized scaling.
+- Enhanced form responsiveness with adjusted typography, spacing, and smooth motion animations.
