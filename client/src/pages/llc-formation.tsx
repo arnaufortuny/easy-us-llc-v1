@@ -17,18 +17,26 @@ import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
 
-const formSchema = insertLlcApplicationSchema.extend({
-  otp: z.string().length(6, "El código debe tener 6 dígitos").optional(),
-}).omit({ 
-  orderId: true,
-  requestCode: true,
-  submittedAt: true,
-  emailOtp: true,
-  emailOtpExpires: true,
-  emailVerified: true,
-  paymentStatus: true,
-  status: true,
-  lastUpdated: true
+const formSchema = z.object({
+  ownerFullName: z.string().min(1, "Requerido"),
+  ownerEmail: z.string().email("Email inválido"),
+  ownerPhone: z.string().min(1, "Requerido"),
+  companyName: z.string().min(1, "Requerido"),
+  ownerNamesAlternates: z.string().optional(),
+  state: z.string().min(1, "Requerido"),
+  ownerCount: z.number().default(1),
+  ownerCountryResidency: z.string().min(1, "Requerido"),
+  ownerAddress: z.string().min(1, "Requerido"),
+  ownerBirthDate: z.string().min(1, "Requerido"),
+  businessActivity: z.string().min(1, "Requerido"),
+  isSellingOnline: z.string().min(1, "Requerido"),
+  needsBankAccount: z.string().min(1, "Requerido"),
+  willUseStripe: z.string().min(1, "Requerido"),
+  wantsBoiReport: z.string().min(1, "Requerido"),
+  wantsMaintenancePack: z.string().min(1, "Requerido"),
+  notes: z.string().optional(),
+  idDocumentUrl: z.string().optional(),
+  otp: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
