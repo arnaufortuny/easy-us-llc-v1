@@ -191,8 +191,10 @@ export default function ApplicationWizard() {
                 <FormDescription>Tal y como aparece en tu documento oficial</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Nombre completo:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu nombre" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -209,8 +211,10 @@ export default function ApplicationWizard() {
                 <FormDescription>Para comunicarnos contigo rápidamente si hace falta</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Teléfono:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -230,8 +234,10 @@ export default function ApplicationWizard() {
                 <FormDescription>Aquí recibirás toda la documentación y avisos importantes</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Email:
+                    </FormLabel>
+                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="email@ejemplo.com" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -250,8 +256,10 @@ export default function ApplicationWizard() {
                 </h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Fecha:</FormLabel>
-                    <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Fecha:
+                    </FormLabel>
+                    <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -287,8 +295,10 @@ export default function ApplicationWizard() {
                   )} />
                   <FormField control={form.control} name="ownerIdNumber" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Número del documento:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Número DNI o Pasaporte" /></FormControl>
+                      <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        Número del documento:
+                      </FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Número DNI o Pasaporte" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -308,8 +318,10 @@ export default function ApplicationWizard() {
                 </h2>
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">País:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="España, México, Argentina..." /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      País:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="España, México, Argentina..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -329,8 +341,10 @@ export default function ApplicationWizard() {
                 <FormDescription>Calle, número, ciudad, código postal y país</FormDescription>
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Dirección:</FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Dirección completa..." /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Dirección:
+                    </FormLabel>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Dirección completa..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -350,8 +364,10 @@ export default function ApplicationWizard() {
                 <FormDescription>Si tienes varias opciones, pon la principal aquí</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre deseado:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Nombre deseado:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="MI EMPRESA LLC" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -371,7 +387,7 @@ export default function ApplicationWizard() {
                 <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Mi empresa se dedicará a..." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Mi empresa se dedicará a..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -487,7 +503,7 @@ export default function ApplicationWizard() {
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Enviar código</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-bold py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Enviar código</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (

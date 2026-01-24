@@ -192,8 +192,10 @@ export default function MaintenanceApplication() {
                 <FormDescription>El de los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Nombre completo:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu nombre" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -213,8 +215,10 @@ export default function MaintenanceApplication() {
                 <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Teléfono:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -234,8 +238,10 @@ export default function MaintenanceApplication() {
                 <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Email:
+                    </FormLabel>
+                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="email@ejemplo.com" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -255,8 +261,10 @@ export default function MaintenanceApplication() {
                 <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Nombre de la LLC:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Nombre de la LLC:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="MI EMPRESA LLC" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -276,8 +284,10 @@ export default function MaintenanceApplication() {
                 <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
                 <FormField control={form.control} name="ein" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">EIN:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="00-0000000" /></FormControl>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      EIN:
+                    </FormLabel>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="00-0000000" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -297,9 +307,11 @@ export default function MaintenanceApplication() {
                 <FormDescription>Cada estado tiene sus propios plazos</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest text-primary">Estado:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      Estado:
+                    </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value || ""}>
-                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary text-base"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                       <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                     </Select>
                   </FormItem>
@@ -320,7 +332,7 @@ export default function MaintenanceApplication() {
                 <FormDescription>Tipo de negocio o producto</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] font-bold text-primary placeholder:text-primary/30" placeholder="A qué se dedica tu LLC..." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="A qué se dedica tu LLC..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -424,7 +436,7 @@ export default function MaintenanceApplication() {
                   <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> Verificación
                 </h2>
                 {!isOtpSent ? (
-                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Enviar código</Button>
+                  <Button type="button" onClick={sendOtp} className="w-full bg-[#6EDC8A] text-primary font-bold py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Enviar código</Button>
                 ) : (
                   <div className="space-y-4">
                     <FormField control={form.control} name="otp" render={({ field }) => (
