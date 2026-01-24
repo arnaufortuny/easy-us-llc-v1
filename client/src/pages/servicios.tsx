@@ -166,6 +166,20 @@ export default function Servicios() {
     "Servicio Express"
   ];
 
+  const maintenanceProcess = [
+    { title: "Gestión del Registered Agent", desc: "Mantenemos tu agente registrado activo y gestionamos toda la correspondencia legal de tu LLC." },
+    { title: "Presentación del Annual Report", desc: "Presentamos el informe anual ante el estado para que tu empresa siga en 'Good Standing'." },
+    { title: "IRS Form 1120/5472", desc: "Nos encargamos de las presentaciones informativas obligatorias ante el IRS." },
+    { title: "BOI Report Update", desc: "Actualizamos tu reporte de beneficiarios finales ante el FinCEN si hay cambios." }
+  ];
+
+  const maintenanceFeatures = [
+    "Soporte prioritario por WhatsApp",
+    "Recordatorios de vencimientos",
+    "Traducción de documentos legales",
+    "Gestión de cambios en la LLC"
+  ];
+
   return (
     <div className="min-h-screen font-sans bg-background text-center overflow-x-hidden w-full relative">
       <Navbar />
