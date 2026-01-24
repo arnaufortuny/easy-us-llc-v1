@@ -63,6 +63,16 @@ export default function Servicios() {
     "Servicio Express"
   ];
 
+  const nmWyFeatures = [
+    ...packFeatures.slice(0, -1),
+    "2-3 días hábiles"
+  ];
+
+  const deFeatures = [
+    ...packFeatures.slice(0, -1),
+    "3-5 días hábiles"
+  ];
+
   const maintenanceFeatures = [
     "Presentación Form 1120 ante el IRS",
     "Presentación Form 5472 ante el IRS",
@@ -171,7 +181,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {packFeatures.map((f) => (
+                  {nmWyFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -216,7 +226,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {packFeatures.map((f) => (
+                  {nmWyFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -261,7 +271,7 @@ export default function Servicios() {
                   Tasas estatales incluidas
                 </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
-                  {packFeatures.map((f) => (
+                  {deFeatures.map((f) => (
                     <div key={f} className="flex items-start justify-start gap-2 sm:gap-2 text-primary/80 font-medium text-left leading-tight">
                       <Check className="text-accent w-5 h-5 mt-0.5 flex-shrink-0" /> 
                       <span className="text-xs sm:text-base">{f}</span>
@@ -300,14 +310,11 @@ export default function Servicios() {
           >
             <Button 
               onClick={() => {
-                const element = document.getElementById('pricing');
-                if (element) {
-                  element.scrollIntoView({ behavior: 'smooth' });
-                }
+                window.open("https://wa.me/34624322421", "_blank");
               }}
               className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >
-              ¿Estás listo? Selecciona tu pack →
+              Alguna duda? Hablemos →
             </Button>
           </motion.div>
         </div>
