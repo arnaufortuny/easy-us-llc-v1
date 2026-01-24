@@ -145,13 +145,13 @@ export default function Contacto() {
   }, [form]);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
+    <div className="min-h-screen bg-background font-sans flex flex-col items-center overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2 max-w-4xl mx-auto">
             Contacto
           </h1>
         }
