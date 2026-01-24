@@ -140,16 +140,16 @@ export default function Contacto() {
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
         <motion.div 
-          className="text-center mb-12 sm:mb-20 flex flex-col items-center justify-center"
+          className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
           initial="initial"
           whileInView="animate"
           viewport={{ once: true }}
         >
           <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary uppercase tracking-tight text-center">
-            <span className="text-[#6EDC8A] uppercase  text-xs sm:text-sm font-bold block mb-0 text-center">CONTACTO</span>
+            <span className="text-[#6EDC8A] uppercase tracking-widest text-xs sm:text-sm font-bold block mb-0 text-center">CONTACTO</span>
             Contactanos
           </motion.h2>
-          <motion.p className="text-[#6EDC8A] font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
+          <motion.p className="hidden sm:block text-[#6EDC8A] font-bold uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
         </motion.div>
 
         <div className="grid grid-cols-1 gap-12">
