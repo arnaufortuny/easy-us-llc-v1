@@ -518,12 +518,13 @@ export default function ApplicationWizard() {
                                       render={({ field }) => (
                                         <FormItem className="flex items-start space-x-3 space-y-0 rounded-2xl border border-gray-100 p-4 bg-gray-50/30">
                                           <FormControl>
-                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" />
                                           </FormControl>
                                           <div className="space-y-1 leading-none">
-                                            <FormLabel className="text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-tight">
-                                              Acepto los términos y condiciones de servicio.
+                                            <FormLabel className="text-xs font-medium text-primary/80 leading-relaxed cursor-pointer">
+                                              Declaro que he leído, comprendido y acepto expresamente los <Link href="/legal" className="text-accent font-bold underline">Términos y Condiciones</Link> del servicio, así como las condiciones aplicables a la prestación de los servicios contratados.
                                             </FormLabel>
+                                            <FormMessage />
                                           </div>
                                         </FormItem>
                                       )}
@@ -534,12 +535,13 @@ export default function ApplicationWizard() {
                                       render={({ field }) => (
                                         <FormItem className="flex items-start space-x-3 space-y-0 rounded-2xl border border-gray-100 p-4 bg-gray-50/30">
                                           <FormControl>
-                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} />
+                                            <Checkbox checked={field.value} onCheckedChange={field.onChange} className="mt-1" />
                                           </FormControl>
                                           <div className="space-y-1 leading-none">
-                                            <FormLabel className="text-[10px] sm:text-xs font-medium text-gray-500 uppercase tracking-tight">
-                                              Consiento el tratamiento de mis datos personales para la gestión de mi solicitud.
+                                            <FormLabel className="text-xs font-medium text-primary/80 leading-relaxed cursor-pointer">
+                                              Asimismo, consiento de forma informada el tratamiento de mis datos personales por parte de Easy US LLC, con la única finalidad de gestionar, tramitar y ejecutar mi solicitud, mantener la comunicación necesaria durante el proceso y cumplir con las obligaciones legales y contractuales correspondientes.
                                             </FormLabel>
+                                            <FormMessage />
                                           </div>
                                         </FormItem>
                                       )}
