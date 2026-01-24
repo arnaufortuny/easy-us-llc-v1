@@ -146,7 +146,7 @@ export default function Home() {
               }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-accent/20">
                 ¿Estás listo? Selecciona tu pack →
               </Button>
-              <Button size="lg" onClick={() => setLocation("/servicios")} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md transition-all hover:scale-105 active:scale-95 hover:shadow-accent/20">
+              <Button size="lg" variant="outline" onClick={() => setLocation("/servicios")} className="bg-transparent text-primary border-2 border-primary hover:bg-primary/5 font-black text-sm px-8 rounded-full w-full sm:w-auto h-12 sm:h-12 transition-all hover:scale-105 active:scale-95">
                 Conoce nuestros servicios →
               </Button>
             </motion.div>
