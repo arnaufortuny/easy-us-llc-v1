@@ -32,7 +32,7 @@ export async function registerRoutes(
               ${getEmailHeader()}
               <div style="padding: 40px;">
                 <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
-                <div style="background: #f4f4f4; border-left: 4px solid #000; padding: 20px; margin: 20px 0;">
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
                   ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
                 </div>
                 <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
