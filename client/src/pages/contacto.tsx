@@ -288,6 +288,46 @@ export default function Contacto() {
             </Form>
           </motion.div>
         </div>
+
+        {/* Otras vías de contacto */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="mt-16 pt-12 border-t border-gray-100"
+        >
+          <h3 className="text-xl md:text-2xl font-black text-primary uppercase tracking-tight text-center mb-8">Otras vías de contacto</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <a 
+              href="https://wa.me/1234567890" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-4 p-6 rounded-[2rem] bg-[#25D366]/10 border border-[#25D366]/20 hover:bg-[#25D366]/20 transition-all group"
+            >
+              <div className="w-12 h-12 rounded-full bg-[#25D366] flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <MessageCircle className="w-6 h-6 fill-current" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-black text-primary/60 uppercase tracking-widest">WhatsApp</p>
+                <p className="text-lg font-bold text-primary">Chat Directo</p>
+              </div>
+            </a>
+
+            <a 
+              href="mailto:hola@easyusllc.com" 
+              className="flex items-center justify-center gap-4 p-6 rounded-[2rem] bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all group"
+            >
+              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white group-hover:scale-110 transition-transform">
+                <Mail className="w-6 h-6" />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-black text-primary/60 uppercase tracking-widest">Email</p>
+                <p className="text-lg font-bold text-primary">hola@easyusllc.com</p>
+              </div>
+            </a>
+          </div>
+        </motion.div>
       </main>
       <NewsletterSection />
       <Footer />
