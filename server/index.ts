@@ -2,10 +2,12 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import compression from "compression";
 
 const app = express();
 const httpServer = createServer(app);
 
+app.use(compression());
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
@@ -39,6 +41,15 @@ app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("X-XSS-Protection", "1; mode=block");
+
+  // Performance Headers
+  if (req.method === 'GET') {
+    if (req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js)$/)) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    }
+  }
   
   const start = Date.now();
   const path = req.path;
