@@ -285,10 +285,10 @@ function PorQueEasyUSLLC() {
           variants={staggerContainer}
         >
           {[
-            { badge: "RAPIDEZ REAL", title: "Tu LLC lista en 2–3 días hábiles", text: "con un proceso ágil y bien organizado desde el primer momento." },
-            { badge: "TRANSPARENCIA", title: "Precio claro y cerrado desde el inicio", text: "Todo incluido, sin costes ocultos ni sorpresas." },
-            { badge: "ESPECIALISTAS", title: "Equipo con experiencia real", text: "en negocios digitales e internacionales, enfocados en hacerlo fácil para ti." },
-            { badge: "SOPORTE HUMANO", title: "Atención directa y cercana en tu idioma", text: "por WhatsApp y email, siempre que lo necesites." },
+            { badge: "RAPIDEZ REAL", title: "Tu LLC lista en 2–3 días hábiles", text: "Trabajamos con un proceso ágil, probado y bien organizado desde el primer momento. Sin esperas innecesarias ni pasos confusos. Sabes qué está pasando en cada fase y cuándo tendrás tu empresa operativa." },
+            { badge: "TRANSPARENCIA", title: "Precio claro y cerrado desde el inicio", text: "Todo está incluido desde el primer momento, sin costes ocultos ni sorpresas posteriores. Lo que ves es lo que pagas. Creemos que la confianza empieza por la claridad y la honestidad en los números." },
+            { badge: "ESPECIALISTAS", title: "Equipo con experiencia real en negocios digitales", text: "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día." },
+            { badge: "SOPORTE HUMANO", title: "Atención directa y cercana, en tu idioma", text: "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso." },
           ].map((feature, i) => (
             <motion.div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col" variants={fadeIn}>
               <div className="p-6 flex-grow">
