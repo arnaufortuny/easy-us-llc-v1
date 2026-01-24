@@ -39,10 +39,6 @@ export function HelpSection() {
                 <X className="w-4 h-4 text-primary/30" />
               </button>
               <div className="p-4 text-center">
-                <div className="flex justify-center mb-2" style={{ background: 'none', border: 'none', borderRadius: 0 }}>
-                  <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ display: 'block', background: 'none', border: 'none', borderRadius: 0 }} />
-                </div>
-                
                 <div className="space-y-1.5">
                   <h4 className="font-black text-[11px] leading-tight text-primary uppercase tracking-tight">
                     Mantenimiento LLC

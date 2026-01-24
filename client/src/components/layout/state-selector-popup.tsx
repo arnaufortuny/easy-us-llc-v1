@@ -43,10 +43,6 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
         style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}
       >
         <div className="p-4">
-          {/* LOGO SIN CONTENEDORES CIRCULARES, SOLO LA IMAGEN PNG */}
-          <div className="flex justify-center mb-3" style={{ background: 'none', border: 'none', borderRadius: 0 }}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-8 h-8 object-contain" style={{ display: 'block', background: 'none', border: 'none', borderRadius: 0 }} />
-          </div>
           <DialogHeader className="mb-3 text-center">
             <DialogTitle className="text-[11px] font-black uppercase tracking-tight text-primary leading-tight">
               Constituye tu LLC
