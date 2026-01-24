@@ -424,8 +424,8 @@ export default function Servicios() {
               { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
-              <motion.div key={i} className="p-6 bg-accent/5 rounded-none border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
-                <span className="inline-flex items-center px-4 py-2 rounded-none bg-accent text-primary font-black text-sm shadow-sm mb-4 uppercase">
+              <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4 uppercase">
                   {service.title}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
@@ -433,7 +433,7 @@ export default function Servicios() {
             ))}
           </motion.div>
           <div className="mt-8 mb-12 flex justify-center">
-            <div className="bg-accent px-8 py-3 rounded-none shadow-lg transform -rotate-1">
+            <div className="bg-accent px-8 py-3 rounded-full shadow-lg transform -rotate-1">
               <p className="text-primary font-sans font-black uppercase tracking-[0.2em] text-sm sm:text-base">
                 Incluido en tu paquete inicial
               </p>
@@ -467,18 +467,18 @@ export default function Servicios() {
               { state: "Wyoming", price: "499€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <motion.div key={i} className="border-[2px] border-accent rounded-none overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+              <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
                 <div className="p-5 sm:p-6 flex-grow text-center">
                   <div className="flex justify-between items-start mb-3 sm:mb-3">
                     <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">{item.state}</h3>
-                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 uppercase">Mantenimiento</span>
+                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-2 py-1 rounded-full uppercase">Mantenimiento</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
                     <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
                   <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black uppercase tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
-                    <div className="w-1.5 h-1.5 bg-accent" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                     Gestión integral anual
                   </div>
                   <div className="space-y-2 sm:space-y-2 text-sm sm:text-base mb-4 sm:mb-4 border-t border-accent/10 pt-4 sm:pt-4">
@@ -499,7 +499,7 @@ export default function Servicios() {
                 <div className="p-5 sm:p-6 pt-0">
                   <Button 
                     onClick={() => handleMaintenanceClick(item.state)}
-                    className="w-full bg-accent text-primary font-black text-sm rounded-none py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
+                    className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20 uppercase"
                   >
                     Contratar {item.state}
                   </Button>
