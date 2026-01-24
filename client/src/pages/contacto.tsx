@@ -148,17 +148,45 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-24 pb-8 sm:pt-32 lg:pt-40 min-h-[300px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center mb-2">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
             Contacto
           </h1>
         }
         subtitle={
-          <p className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-4 sm:mb-20 mx-auto px-2">
-            ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
-          </p>
+            <motion.div 
+              className="flex flex-col items-center"
+              initial="initial"
+              animate="animate"
+              variants={staggerContainer}
+            >
+            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
+                ¿Tienes dudas antes de constituir tu LLC o necesitas aclarar algún punto? Escríbenos y te respondemos en menos de 24h.
+            </motion.div>
+              
+              <motion.div 
+                className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
+                variants={fadeIn}
+              >
+                {[
+                  "Soporte 24h",
+                  "Consultas Fiscales",
+                  "Estructura LLC",
+                  "Banca USA",
+                  "Trato Directo",
+                  "WhatsApp & Email"
+                ].map((text, i) => (
+                  <div 
+                    key={i} 
+                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                  >
+                    {text}
+                  </div>
+                ))}
+              </motion.div>
+            </motion.div>
         }
       />
       <section className="py-8 sm:py-20 bg-background border-t border-primary/5">
