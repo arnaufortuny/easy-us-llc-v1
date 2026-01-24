@@ -1,63 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-import logoIcon from "@/assets/logo-icon.png";
-import { X } from "lucide-react";
+import { motion } from "framer-motion";
 
 export function HelpSection() {
-  const [showPopup, setShowPopup] = useState(false);
-
-  useEffect(() => {
-    // Popup inmediato
-    setShowPopup(true);
-  }, []);
-
   return (
     <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
-      <AnimatePresence>
-        {showPopup && (
-          <div className="fixed inset-0 z-[99999] flex items-center justify-center pointer-events-auto">
-            {/* FONDO TOTALMENTE TRANSPARENTE, SIN BLOQUEO NEGRO */}
-            <div 
-              className="absolute inset-0 bg-white/5 backdrop-blur-[1px]" 
-              onClick={() => setShowPopup(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: -20 }}
-              className="relative w-[210px] bg-white rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.12)] border border-accent/20 overflow-hidden"
-              style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}
-            >
-              <button 
-                onClick={() => setShowPopup(false)}
-                className="absolute top-1 right-1 p-1 hover:bg-accent/10 rounded-full transition-colors z-[100001]"
-              >
-                <X className="w-4 h-4 text-primary/30" />
-              </button>
-              <div className="p-4 text-center">
-                <div className="space-y-1.5">
-                  <h4 className="font-black text-[11px] leading-tight text-primary uppercase tracking-tight">
-                    Mantenimiento LLC
-                  </h4>
-                  <div className="pt-1">
-                    <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[10px] h-8 rounded-none shadow-lg shadow-accent/20 hover:scale-[1.02] transition-transform uppercase"
-                      onClick={() => {
-                        setShowPopup(false);
-                        window.location.href = "/servicios";
-                      }}
-                    >
-                      Ver Planes →
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
       <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
         <motion.div 
           initial={{ opacity: 0, y: 15 }}

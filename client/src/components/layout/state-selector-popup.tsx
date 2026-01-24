@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import logoIcon from "@/assets/logo-icon.png";
 
 interface StateSelectorPopupProps {
   isOpen: boolean;
@@ -37,34 +36,39 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent 
-        className="fixed sm:left-auto sm:right-8 top-1/2 -translate-y-1/2 w-[280px] rounded-none border-0 shadow-[0_30px_90px_rgba(0,0,0,0.2)] overflow-hidden p-0 z-[999999] !bg-white focus:outline-none"
-        onOpenAutoFocus={(e) => e.preventDefault()}
-      >
-        <div className="p-4">
-          <DialogHeader className="mb-3 text-center">
-            <DialogTitle className="text-[11px] font-black uppercase tracking-tight text-primary leading-tight">
-              Constituye tu LLC
+      <DialogContent className="w-[90vw] max-w-md rounded-[2rem] border-0 shadow-2xl overflow-hidden p-0 sm:w-full">
+        <div className="bg-accent h-1.5 w-full" />
+        <div className="p-6 sm:p-8 pt-5 sm:pt-6">
+          <DialogHeader className="mb-6 sm:mb-8">
+            <DialogTitle className="text-2xl sm:text-3xl font-black uppercase tracking-tight text-foreground leading-none mb-2">
+              Selecciona el Estado
             </DialogTitle>
+            <DialogDescription className="text-muted-foreground font-medium text-sm sm:text-base">
+              Elige dónde quieres constituir tu LLC para comenzar.
+            </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-1.5">
+          <div className="grid gap-3 sm:gap-4">
             {STATES.map((state) => (
               <button
                 key={state.id}
                 onClick={() => handleSelect(state.name)}
-                className="group flex items-center justify-between p-2.5 rounded-none border border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98] bg-white"
+                className={`group flex items-center justify-between p-4 sm:p-5 rounded-2xl border-2 border-border hover:border-accent hover:bg-accent/5 transition-all text-left w-full active:scale-[0.98]`}
               >
-                <div className="flex items-center">
+                <div className="flex items-center gap-3 sm:gap-4">
                   <div>
-                    <p className="font-black uppercase tracking-tight text-primary text-[10px] leading-none mb-0.5">{state.name}</p>
-                    <p className="text-accent font-black text-[8px]">{state.price}</p>
+                    <p className="font-black uppercase tracking-tight text-foreground text-base sm:text-lg leading-none mb-1">{state.name}</p>
+                    <p className="text-accent font-black text-xs sm:text-sm">{state.price}</p>
                   </div>
                 </div>
-                <ArrowRight className="w-3 h-3 text-gray-300 group-hover:text-primary transition-colors" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-foreground transition-colors translate-x-0 group-hover:translate-x-1" />
               </button>
             ))}
           </div>
+          
+          <p className="mt-6 sm:mt-8 text-[9px] sm:text-[10px] text-center text-gray-400 uppercase font-bold tracking-widest">
+            Expertos en formación de LLC
+          </p>
         </div>
       </DialogContent>
     </Dialog>
