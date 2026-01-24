@@ -22,6 +22,7 @@ const formSchema = z.object({
   ownerEmail: z.string().email("Email inválido"),
   ownerPhone: z.string().min(1, "Requerido"),
   companyName: z.string().min(1, "Requerido"),
+  companyNameOption2: z.string().optional(),
   ownerNamesAlternates: z.string().optional(),
   state: z.string().min(1, "Requerido"),
   ownerCount: z.number().default(1),
@@ -56,6 +57,7 @@ export default function LlcFormation() {
       ownerEmail: "",
       ownerPhone: "",
       companyName: "",
+      companyNameOption2: "",
       ownerNamesAlternates: "",
       state: "New Mexico",
       ownerCount: 1,
@@ -93,7 +95,7 @@ export default function LlcFormation() {
       1: ["ownerEmail"],
       2: ["ownerPhone"],
       3: ["companyName"],
-      4: ["ownerNamesAlternates"],
+      4: ["companyNameOption2", "ownerNamesAlternates"],
       5: ["state"],
       6: ["ownerCount"],
       7: ["ownerCountryResidency"],
@@ -224,15 +226,24 @@ export default function LlcFormation() {
 
             {step === 4 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Tienes nombres alternativos?</h2>
+                <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Tienes nombres alternativos? (opcional)</h2>
                 <FormDescription>Plan B, C o D por si el primero no está disponible</FormDescription>
-                <FormField control={form.control} name="ownerNamesAlternates" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombres alternativos:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Opción 2, Opción 3..." /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
+                <div className="space-y-4">
+                  <FormField control={form.control} name="companyNameOption2" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 1:</FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="OPCIÓN 2 LLC" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerNamesAlternates" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 2:</FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="OPCIÓN 3 LLC" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
@@ -285,6 +296,15 @@ export default function LlcFormation() {
                     </FormControl>
                   </FormItem>
                 )} />
+                {form.watch("ownerCount") > 1 && (
+                  <FormField control={form.control} name="ownerCount" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">8️⃣ Número de miembros:</FormLabel>
+                      <FormControl><Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" min={2} /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                )}
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
                   <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 active:scale-95 transition-all">SIGUIENTE</Button>
@@ -348,10 +368,19 @@ export default function LlcFormation() {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black uppercase text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor</FormDescription>
-                <div className="border-2 border-dashed border-gray-100 rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white">
-                  <Upload className="w-10 h-10 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
-                  <p className="font-bold text-primary text-sm">Subir archivo o arrastrar</p>
-                  <p className="text-[10px] text-gray-400 mt-2">JPG, PNG, PDF (Máx 10MB)</p>
+                <div className="space-y-4">
+                  <div className="border-2 border-dashed border-gray-100 rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white">
+                    <Upload className="w-10 h-10 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
+                    <p className="font-bold text-primary text-sm">Subir archivo o arrastrar</p>
+                    <p className="text-[10px] text-gray-400 mt-2">JPG, PNG, PDF (Máx 10MB)</p>
+                  </div>
+                  <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-black uppercase text-[10px] md:text-xs tracking-widest opacity-60">ID del documento (opcional):</FormLabel>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Número de documento" /></FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
