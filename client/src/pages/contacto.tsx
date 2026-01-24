@@ -159,19 +159,19 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="nombre" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                        <User className="w-3 h-3 text-[#6EDC8A]" /> Nombre:
+                      <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <User className="w-4 h-4 text-[#6EDC8A]" /> Nombre:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu nombre" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu nombre" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="apellido" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                        <User className="w-3 h-3 text-[#6EDC8A]" /> Apellido:
+                      <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <User className="w-4 h-4 text-[#6EDC8A]" /> Apellido:
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Tu apellido" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu apellido" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -180,28 +180,28 @@ export default function Contacto() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                        <Mail className="w-3 h-3 text-[#6EDC8A]" /> Email:
+                      <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-[#6EDC8A]" /> Email:
                       </FormLabel>
-                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="email@ejemplo.com" /></FormControl>
+                      <FormControl><Input {...field} type="email" inputMode="email" disabled={isOtpVerified} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="email@ejemplo.com" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="telefono" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                        <Phone className="w-3 h-3 text-[#6EDC8A]" /> Teléfono (opcional):
+                      <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-[#6EDC8A]" /> Teléfono (opcional):
                       </FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="+34..." /></FormControl>
-                      <FormDescription className="text-[10px] font-bold text-primary/40">Solo si prefieres WhatsApp</FormDescription>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
+                      <FormDescription className="text-xs font-bold text-primary/40 text-left">Solo si prefieres WhatsApp</FormDescription>
                     </FormItem>
                   )} />
                 </div>
 
                 <FormField control={form.control} name="subject" render={({ field }) => (
                   <FormItem className="space-y-4">
-                    <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                      <HelpCircle className="w-3 h-3 text-[#6EDC8A]" /> Motivo de tu mensaje:
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      <HelpCircle className="w-4 h-4 text-[#6EDC8A]" /> Motivo de tu mensaje:
                     </FormLabel>
                     <FormControl>
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -222,10 +222,10 @@ export default function Contacto() {
 
                 <FormField control={form.control} name="mensaje" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-xs font-bold text-primary flex items-center gap-2">
-                      <MessageCircle className="w-3 h-3 text-[#6EDC8A]" /> Tu mensaje:
+                    <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                      <MessageCircle className="w-4 h-4 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[160px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Cuéntanos tu situación con total libertad. No hace falta que uses palabras técnicas." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -234,7 +234,7 @@ export default function Contacto() {
                   <div className="absolute top-0 right-0 p-4 opacity-10">
                     <Info className="w-12 h-12 text-[#6EDC8A]" />
                   </div>
-                  <h3 className="text-primary font-bold text-sm">Nota tranquilizadora</h3>
+                  <h3 className="text-primary font-bold text-sm md:text-base">Nota tranquilizadora</h3>
                   <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
                     Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
                   </p>
@@ -251,7 +251,7 @@ export default function Contacto() {
                         <div className="flex flex-col md:flex-row gap-4 w-full">
                           <FormField control={form.control} name="otp" render={({ field }) => (
                             <FormItem className="flex-1">
-                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-xl font-bold border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
+                              <FormControl><Input {...field} className="rounded-full h-14 px-6 text-center text-2xl font-bold border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30" placeholder="Código (6 dígitos)" /></FormControl>
                               <FormMessage />
                             </FormItem>
                           )} />
