@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Mail, MessageCircle } from "lucide-react";
+import { Mail, MessageSquare } from "lucide-react";
 
 import { useState, useEffect } from "react";
 
@@ -358,7 +358,7 @@ export default function Contacto() {
               <motion.div className="space-y-6" variants={fadeIn}>
                 <div className="p-6 bg-accent/5 border-l-4 border-accent rounded-r-2xl flex items-center gap-4">
                   <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center shrink-0 shadow-sm">
-                    <MessageCircle className="w-6 h-6 text-primary" />
+                    <MessageSquare className="w-6 h-6 text-primary" />
                   </div>
                   <div>
                     <p className="font-black uppercase text-[10px] tracking-widest text-primary/50 mb-0.5">WHATSAPP</p>
