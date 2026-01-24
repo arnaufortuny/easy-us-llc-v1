@@ -195,7 +195,7 @@ export default function MaintenanceApplication() {
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       Nombre completo:
                     </FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="Tu nombre" /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -218,7 +218,7 @@ export default function MaintenanceApplication() {
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       Teléfono:
                     </FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="+34..." /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -241,7 +241,7 @@ export default function MaintenanceApplication() {
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       Email:
                     </FormLabel>
-                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -264,7 +264,7 @@ export default function MaintenanceApplication() {
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       Nombre de la LLC:
                     </FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="MI EMPRESA LLC" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -287,7 +287,7 @@ export default function MaintenanceApplication() {
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       EIN:
                     </FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="00-0000000" /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="00-0000000" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -311,7 +311,7 @@ export default function MaintenanceApplication() {
                       Estado:
                     </FormLabel>
                     <Select onValueChange={field.onChange} value={field.value || ""}>
-                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary text-base"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                      <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                       <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                     </Select>
                   </FormItem>
@@ -332,7 +332,7 @@ export default function MaintenanceApplication() {
                 <FormDescription>Tipo de negocio o producto</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-base" placeholder="A qué se dedica tu LLC..." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="A qué se dedica tu LLC..." /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
