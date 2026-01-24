@@ -306,11 +306,11 @@ export default function ApplicationWizard() {
         <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-accent/5 to-transparent -z-10" />
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="pt-32 pb-16 flex flex-col items-center justify-center text-center">
+          <div className="pt-32 pb-16 flex flex-col items-start justify-center text-left w-full">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-primary mb-6 leading-[0.9] text-center"
+              className="text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-tight text-primary mb-6 leading-[0.9] text-left"
             >
               CONSTITUYE TU <span className="text-accent">LLC</span>
             </motion.h1>
@@ -439,8 +439,8 @@ export default function ApplicationWizard() {
                                   </div>
 
                                   <div className="space-y-5 pt-6 border-t border-gray-100">
-                                    <h3 className="text-[10px] font-black uppercase tracking-[0.25em] text-primary/30 flex items-center gap-2">
-                                      <MapPin className="w-3.5 h-3.5" /> Dirección de Residencia
+                                    <h3 className="text-sm font-black uppercase tracking-tight text-primary flex items-center gap-2">
+                                      <MapPin className="w-4 h-4" /> DIRECCIÓN DE RESIDENCIA
                                     </h3>
                                     <div className="grid grid-cols-1 gap-5">
                                       <FormField
