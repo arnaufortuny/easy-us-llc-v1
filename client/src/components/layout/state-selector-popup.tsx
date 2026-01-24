@@ -38,9 +38,8 @@ export function StateSelectorPopup({ isOpen, onOpenChange }: StateSelectorPopupP
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent 
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] rounded-none border-0 shadow-[0_30px_90px_rgba(0,0,0,0.2)] overflow-hidden p-0 z-[999999] !bg-white focus:outline-none"
+        className="fixed sm:left-auto sm:right-8 top-1/2 -translate-y-1/2 w-[280px] rounded-none border-0 shadow-[0_30px_90px_rgba(0,0,0,0.2)] overflow-hidden p-0 z-[999999] !bg-white focus:outline-none"
         onOpenAutoFocus={(e) => e.preventDefault()}
-        style={{ position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', margin: 0 }}
       >
         <div className="p-4">
           <DialogHeader className="mb-3 text-center">

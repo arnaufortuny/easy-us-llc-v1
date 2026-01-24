@@ -240,7 +240,7 @@ export default function Servicios() {
             variants={staggerContainer}
           >
             {/* New Mexico */}
-            <motion.div className="border-[2px] border-accent rounded-none overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">New Mexico</h3>
@@ -280,7 +280,7 @@ export default function Servicios() {
             </motion.div>
 
             {/* Wyoming */}
-            <motion.div className="border-[2px] border-accent rounded-none overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Wyoming</h3>
@@ -320,7 +320,7 @@ export default function Servicios() {
             </motion.div>
 
             {/* Delaware */}
-            <motion.div className="border-[2px] border-accent rounded-none overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
+            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full max-w-[280px] sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex justify-between items-start mb-3 sm:mb-3">
                   <h3 className="text-xl sm:text-xl font-black text-primary uppercase tracking-tight">Delaware</h3>
@@ -556,13 +556,14 @@ export default function Servicios() {
 
       <AnimatePresence>
         {maintenanceDialogOpen && (
-          <div className="fixed inset-0 z-[999999] flex items-center justify-center pointer-events-auto">
-            <div className="absolute inset-0 bg-white/10 backdrop-blur-[2px]" onClick={() => setMaintenanceDialogOpen(false)} />
+          <div className="fixed inset-0 z-[999999] flex items-center justify-center pointer-events-auto overflow-hidden">
+            <div className="absolute inset-0 bg-black/5 backdrop-blur-[1px]" onClick={() => setMaintenanceDialogOpen(false)} />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: -20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: -20 }}
               className="relative w-[320px] bg-white rounded-none shadow-[0_30px_90px_rgba(0,0,0,0.2)] border border-accent/20 overflow-hidden"
+              style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
             >
               <button 
                 onClick={() => setMaintenanceDialogOpen(false)}
