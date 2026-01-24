@@ -24,7 +24,15 @@ export default function Terminos() {
           <li><strong>Mantenimiento Delaware:</strong> 599€/año</li>
         </ul>
 
-        <h2 className="text-2xl font-bold mb-6">2. Alcance del Servicio</h2>
+        <h2 className="text-2xl font-bold mb-6">2. Paquetes de Formación</h2>
+        <p className="mb-4 text-muted-foreground leading-relaxed">Cada paquete de formación incluye:</p>
+        <ul className="list-disc pl-6 mb-8 text-muted-foreground space-y-2">
+          <li><strong>New Mexico:</strong> Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN, BOI Report, Declaraciones año 1.</li>
+          <li><strong>Wyoming:</strong> Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN garantizado, BOI Report, Annual Report año 1, Declaraciones año 1.</li>
+          <li><strong>Delaware:</strong> Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN, BOI Report, Declaraciones año 1.</li>
+        </ul>
+
+        <h2 className="text-2xl font-bold mb-6">3. Alcance del Servicio</h2>
         <p className="mb-6 text-muted-foreground leading-relaxed">Nuestros servicios incluyen la gestión de documentos ante las autoridades estatales y federales correspondientes. No proporcionamos asesoramiento legal o contable específico.</p>
 
         <h2 className="text-2xl font-bold mb-6">3. Política de Reembolsos</h2>

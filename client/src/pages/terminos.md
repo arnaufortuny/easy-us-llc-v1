@@ -13,7 +13,13 @@ Los servicios de mantenimiento anual tienen los siguientes costes:
 - **Mantenimiento Wyoming**: 499€/año
 - **Mantenimiento Delaware**: 599€/año
 
-## 2. Alcance del Servicio
+## 2. Paquetes de Formación
+Cada paquete de formación incluye:
+- **New Mexico**: Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN, BOI Report, Declaraciones año 1.
+- **Wyoming**: Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN garantizado, BOI Report, Annual Report año 1, Declaraciones año 1.
+- **Delaware**: Tasas estatales, Agente Registrado (12 meses), Articles of Organization, Operating Agreement, EIN, BOI Report, Declaraciones año 1.
+
+## 3. Alcance del Servicio
 Nuestros servicios incluyen la gestión de documentos ante las autoridades estatales y federales correspondientes. No proporcionamos asesoramiento legal o contable específico.
 
 ## 3. Política de Reembolsos
