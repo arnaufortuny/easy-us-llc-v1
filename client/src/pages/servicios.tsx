@@ -480,7 +480,7 @@ export default function Servicios() {
               Centro de Ayuda
             </motion.h2>
           </motion.div>
-          <div className="space-y-3">
+          <div className="max-w-3xl mx-auto space-y-3">
             {[
               {
                 q: "¿Qué necesito para empezar?",
