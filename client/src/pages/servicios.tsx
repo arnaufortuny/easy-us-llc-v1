@@ -180,14 +180,14 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-background text-center overflow-x-hidden w-full relative">
+    <div className="min-h-screen font-sans bg-background flex flex-col items-center overflow-x-hidden w-full relative">
       <Navbar />
       
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary uppercase tracking-tight leading-[1.1] text-center max-w-5xl mx-auto">
             Constituimos tu LLC en Estados Unidos de <span className="text-accent">forma simple, rápida y transparente.</span>
           </h1>
         }
