@@ -23,35 +23,28 @@ export function HelpSection() {
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="fixed bottom-4 right-4 z-[200] w-[210px] sm:w-[260px] bg-white rounded-2xl shadow-2xl border border-accent/30 overflow-hidden"
+            className="fixed bottom-4 right-4 z-[200] w-[180px] sm:w-[220px] bg-white rounded-xl shadow-2xl border border-accent/40 overflow-hidden"
           >
             <button 
               onClick={() => setShowPopup(false)}
-              className="absolute top-1.5 right-1.5 p-1 hover:bg-accent/10 rounded-full transition-colors z-10"
+              className="absolute top-1 right-1 p-0.5 hover:bg-accent/10 rounded-full transition-colors z-10"
             >
-              <X className="w-3 h-3 text-primary/40" />
+              <X className="w-2.5 h-2.5 text-primary/40" />
             </button>
-            <div className="p-3 sm:p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-7 h-7 sm:w-9 sm:h-9 bg-accent/5 rounded-lg flex items-center justify-center p-1 border border-accent/10">
-                  <img src={logoIcon} alt="Easy US LLC" className="w-full h-full object-contain" />
-                </div>
-                <div className="min-w-0">
-                  <h3 className="font-black text-[10px] sm:text-xs uppercase tracking-tight leading-none text-primary truncate">Easy US LLC</h3>
-                </div>
+            <div className="p-2.5">
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <img src={logoIcon} alt="Easy US LLC" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                <h3 className="font-black text-[9px] sm:text-[10px] uppercase tracking-tight leading-none text-primary">Easy US LLC</h3>
               </div>
               
-              <div className="space-y-1.5">
-                <h4 className="font-black text-[11px] sm:text-[13px] leading-tight text-primary">
+              <div className="space-y-1">
+                <h4 className="font-black text-[10px] sm:text-[11px] leading-tight text-primary">
                   ¿Mantenimiento LLC?
                 </h4>
-                <p className="text-[9px] sm:text-[11px] text-muted-foreground leading-tight">
-                  Gestión anual completa.
-                </p>
                 <div className="pt-0.5">
                   <Link href="/servicios">
                     <Button 
-                      className="w-full bg-accent text-accent-foreground font-black text-[9px] sm:text-[10px] h-7 sm:h-8 rounded-full shadow-md shadow-accent/10 hover:scale-[1.02] transition-transform"
+                      className="w-full bg-accent text-accent-foreground font-black text-[8px] sm:text-[9px] h-6 sm:h-7 rounded-lg shadow-sm shadow-accent/10 hover:scale-[1.02] transition-transform p-0"
                       onClick={() => setShowPopup(false)}
                     >
                       Ver Planes →
