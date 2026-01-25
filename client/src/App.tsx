@@ -10,7 +10,7 @@ const Home = lazy(() => import("@/pages/home"));
 const Legal = lazy(() => import("@/pages/legal"));
 const Servicios = lazy(() => import("@/pages/servicios"));
 const Privacidad = lazy(() => import("@/pages/privacy"));
-const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
+const Reembolsos = lazy(() => import("@/pages/reembolsos"));
 const Cookies = lazy(() => import("@/pages/legal/cookies"));
 const Contacto = lazy(() => import("@/pages/contacto"));
 const FAQ = lazy(() => import("@/pages/faq"));
