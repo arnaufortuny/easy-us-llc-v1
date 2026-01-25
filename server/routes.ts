@@ -101,11 +101,17 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Invalid product" });
       }
 
+      // CRITICAL: Ensure pricing follows NM 639, WY 799, DE 999
+      let finalPrice = product.price;
+      if (product.name.includes("New Mexico")) finalPrice = 63900;
+      else if (product.name.includes("Wyoming")) finalPrice = 79900;
+      else if (product.name.includes("Delaware")) finalPrice = 99900;
+
       // Create the order
       const order = await storage.createOrder({
         userId,
         productId,
-        amount: product.price,
+        amount: finalPrice,
         status: "pending",
         stripeSessionId: "mock_session_" + Date.now(),
       });
@@ -114,11 +120,11 @@ export async function registerRoutes(
       const application = await storage.createLlcApplication({
         orderId: order.id,
         status: "draft",
-        state: "New Mexico", // Default state or extract from context
+        state: product.name.split(" ")[0], // Extract state name correctly
       });
 
       // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X
-      const statePrefix = "NM"; // Default for NM
+      const statePrefix = product.name.includes("Wyoming") ? "WY" : product.name.includes("Delaware") ? "DE" : "NM";
       const timestamp = Date.now().toString();
       const randomPart = Math.random().toString(36).substring(7).toUpperCase();
       const requestCode = `${statePrefix}-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
@@ -129,7 +135,7 @@ export async function registerRoutes(
       logActivity("Nuevo Pedido Recibido", {
         "Referencia": requestCode,
         "Producto": product.name,
-        "Importe": `${(order.amount / 100).toFixed(2)}€`,
+        "Importe": `${(finalPrice / 100).toFixed(2)}€`,
         "Usuario": userId,
         "IP": req.ip
       });
@@ -450,10 +456,16 @@ export async function registerRoutes(
       const product = await storage.getProduct(productId);
       if (!product) return res.status(400).json({ message: "Invalid product" });
 
+      // CRITICAL: Ensure pricing follows NM 349, WY 499, DE 599 for maintenance
+      let finalPrice = product.price;
+      if (state?.includes("New Mexico")) finalPrice = 34900;
+      else if (state?.includes("Wyoming")) finalPrice = 49900;
+      else if (state?.includes("Delaware")) finalPrice = 59900;
+
       const order = await storage.createOrder({
         userId,
         productId,
-        amount: product.price,
+        amount: finalPrice,
         status: "pending",
         stripeSessionId: "mock_maintenance_" + Date.now(),
       });

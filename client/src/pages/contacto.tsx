@@ -116,19 +116,54 @@ export default function Contacto() {
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen bg-background font-sans">
+      <div className="min-h-screen bg-white font-sans selection:bg-[#6EDC8A] selection:text-black">
         <Navbar />
-        <main className="pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
-          <div className="space-y-6">
-            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle2 className="w-10 h-10 text-primary" />
+        <main className="pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="space-y-8 w-full"
+          >
+            <div className="w-24 h-24 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto shadow-xl shadow-[#6EDC8A]/20">
+              <CheckCircle2 className="w-12 h-12 text-black" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold tracking-tighter text-primary">¡Mensaje recibido!</h1>
-            <p className="text-lg md:text-xl font-medium text-foreground/70 leading-relaxed">
-              Hemos recibido tu consulta. Un experto de nuestro equipo la revisará y te contactará en menos de 24-48h laborables.
-            </p>
-            <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary font-bold px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> Volver al inicio </Button>
-          </div>
+            
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-black uppercase">¡Mensaje recibido!</h1>
+              <div className="h-1.5 w-24 bg-[#6EDC8A] mx-auto rounded-full" />
+            </div>
+
+            <div className="bg-gray-50 border border-gray-100 p-8 rounded-[2.5rem] space-y-6 shadow-sm">
+              <p className="text-xl md:text-2xl font-bold text-black leading-tight">
+                Hemos recibido tu consulta correctamente. 
+              </p>
+              <p className="text-lg text-gray-600 font-medium leading-relaxed max-w-xl mx-auto">
+                Un experto de nuestro equipo revisará los detalles y te contactará personalmente en un plazo de <span className="text-black font-bold">24-48h laborables</span>.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+              <Button 
+                onClick={() => (window.location.href = "/")} 
+                className="bg-[#6EDC8A] text-black hover:bg-[#5bc979] font-black px-12 py-8 rounded-full text-xl transition-all shadow-lg active:scale-95 w-full sm:w-auto"
+              > 
+                Volver al inicio 
+              </Button>
+              <a 
+                href="https://wa.me/34614916910" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-full sm:w-auto"
+              >
+                <Button 
+                  variant="outline"
+                  className="border-2 border-black text-black hover:bg-black hover:text-white font-black px-12 py-8 rounded-full text-xl transition-all w-full shadow-lg active:scale-95"
+                > 
+                  WhatsApp Directo
+                </Button>
+              </a>
+            </div>
+          </motion.div>
         </main>
         <Footer />
       </div>
