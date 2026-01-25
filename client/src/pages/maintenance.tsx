@@ -141,7 +141,7 @@ export default function MaintenanceApplication() {
     try {
       await apiRequest("PUT", `/api/maintenance/${appId}`, { ...data, status: "submitted" });
       toast({ title: "Solicitud enviada", variant: "success" });
-      setLocation("/contacto?success=true");
+      setLocation("/contacto?success=true&type=maintenance");
     } catch {
       toast({ title: "Error al enviar", variant: "destructive" });
     }

@@ -166,7 +166,7 @@ export default function ApplicationWizard() {
     try {
       await apiRequest("PUT", `/api/llc/${appId}`, { ...data, status: "submitted" });
       toast({ title: "Solicitud enviada", variant: "success" });
-      setLocation("/contacto?success=true");
+      setLocation("/contacto?success=true&type=llc");
     } catch {
       toast({ title: "Error al enviar", variant: "destructive" });
     }
