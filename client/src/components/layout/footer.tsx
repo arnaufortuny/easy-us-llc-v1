@@ -27,7 +27,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="border-t bg-primary text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans w-full">
+    <footer className="bg-[#000000] text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans w-full">
       <div className="w-full px-5 sm:px-8">
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
