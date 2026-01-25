@@ -242,7 +242,7 @@ export default function Contacto() {
                   <div className="space-y-4 pt-4 px-4 sm:px-0">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
-                        <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary hover:bg-[#6EDC8A]/90 font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
+                        <Button type="button" onClick={sendOtp} disabled={isLoading} style={{ backgroundColor: '#6EDC8A' }} className="w-full md:w-auto text-primary hover:opacity-90 font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
                         </Button>
                       ) : (
