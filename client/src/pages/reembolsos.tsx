@@ -8,7 +8,7 @@ import { Download } from "lucide-react";
 
 export default function Refunds() {
   const handleDownload = () => {
-    window.open("/assets/politica_reembolsos.pdf", "_blank");
+    window.open("/politica_reembolsos.pdf", "_blank");
   };
 
   return (

@@ -8,7 +8,7 @@ import { Download } from "lucide-react";
 
 export default function Privacy() {
   const handleDownload = () => {
-    window.open("/assets/politica_privacidad.pdf", "_blank");
+    window.open("/politica_privacidad.pdf", "_blank");
   };
 
   return (
