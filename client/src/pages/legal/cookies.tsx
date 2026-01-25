@@ -19,12 +19,12 @@ export default function Cookies() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-brand-dark leading-[1.1]">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
             Aviso de <span className="text-brand-lime">Cookies</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8">
+          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8 text-center sm:text-left mx-auto sm:mx-0">
             Easy US LLC - Última actualización: 25 de enero de 2026
           </p>
         }
