@@ -151,7 +151,7 @@ export default function Contacto() {
           <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-0">
                   <FormField control={form.control} name="nombre" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
@@ -172,7 +172,7 @@ export default function Contacto() {
                   )} />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-4 sm:px-0">
                   <FormField control={form.control} name="email" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
@@ -193,7 +193,7 @@ export default function Contacto() {
                 </div>
 
                 <FormField control={form.control} name="subject" render={({ field }) => (
-                  <FormItem className="space-y-4">
+                  <FormItem className="space-y-4 px-4 sm:px-0">
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       <HelpCircle className="w-5 h-5 text-[#6EDC8A]" /> Motivo de tu mensaje:
                     </FormLabel>
@@ -215,7 +215,7 @@ export default function Contacto() {
                 )} />
 
                 <FormField control={form.control} name="mensaje" render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="px-4 sm:px-0">
                     <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
                       <MessageCircle className="w-5 h-5 text-[#6EDC8A]" /> Tu mensaje:
                     </FormLabel>
@@ -224,20 +224,22 @@ export default function Contacto() {
                   </FormItem>
                 )} />
 
-                <div className="bg-[#6EDC8A]/10 p-6 md:p-8 rounded-[2rem] border-2 border-[#6EDC8A]/30 space-y-4 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-4 opacity-20">
-                    <Info className="w-16 h-16 text-[#6EDC8A]" />
+                <div className="mx-4 sm:mx-0">
+                  <div className="bg-[#6EDC8A]/10 p-6 md:p-8 rounded-[2rem] border-2 border-[#6EDC8A]/30 space-y-4 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-20">
+                      <Info className="w-16 h-16 text-[#6EDC8A]" />
+                    </div>
+                    <h3 className="text-primary font-black text-sm md:text-base uppercase tracking-tight flex items-center gap-2">
+                      Nota tranquilizadora
+                    </h3>
+                    <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
+                      Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
+                    </p>
                   </div>
-                  <h3 className="text-primary font-black text-sm md:text-base uppercase tracking-tight flex items-center gap-2">
-                    Nota tranquilizadora
-                  </h3>
-                  <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
-                    Leemos personalmente todos los mensajes y respondemos lo antes posible. Si vemos que una LLC no es la mejor opción para ti, también te lo diremos.
-                  </p>
                 </div>
 
                 {!isOtpVerified && (
-                  <div className="space-y-4 pt-4">
+                  <div className="space-y-4 pt-4 px-4 sm:px-0">
                     <div className="flex flex-col md:flex-row gap-4">
                       {!isOtpSent ? (
                         <Button type="button" onClick={sendOtp} disabled={isLoading} className="w-full md:w-auto bg-[#6EDC8A] text-primary hover:bg-[#6EDC8A]/90 font-bold px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20">
@@ -261,7 +263,7 @@ export default function Contacto() {
                 )}
 
                 {isOtpVerified && (
-                  <div className="space-y-6 pt-4">
+                  <div className="space-y-6 pt-4 px-4 sm:px-0">
                     <div className="space-y-3">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
                         <FormItem className="flex items-start gap-3 p-4 rounded-[1.5rem] border border-gray-200 bg-white hover:border-[#6EDC8A]/30 cursor-pointer transition-all">
