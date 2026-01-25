@@ -145,17 +145,17 @@ export default function FAQ() {
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
           <motion.div 
-            className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
+            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">FAQ</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
