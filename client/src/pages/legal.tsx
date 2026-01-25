@@ -16,29 +16,29 @@ export default function Legal() {
       <Navbar />
       
       <HeroSection 
-        className="pt-24 sm:pt-32 lg:pt-40"
+        className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-brand-dark leading-[1.1]">
             Términos y <span className="text-brand-lime">Condiciones</span>
           </h1>
         }
         subtitle={
-          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-12 sm:mb-20">
+          <p className="text-lg sm:text-xl text-brand-dark font-medium max-w-2xl mb-8">
             Fortuny Consulting LLC - Última actualización: 25 de enero de 2026
           </p>
         }
       />
       
-      <section className="py-12 sm:py-20 bg-white">
+      <section className="py-8 sm:py-12 bg-white">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="flex justify-end mb-12">
+            <div className="flex justify-end mb-6">
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-2 h-12 px-6 font-bold"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-2 h-10 px-6 font-bold text-xs"
               >
-                <Download className="w-4 h-4" />
+                <Download className="w-3.5 h-3.5" />
                 Descargar PDF
               </Button>
             </div>
