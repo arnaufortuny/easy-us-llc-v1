@@ -119,7 +119,7 @@ export default function Contacto() {
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-2xl mx-auto">
-          <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="space-y-6">
+          <div className="space-y-6">
             <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-10 h-10 text-primary" />
             </div>
@@ -128,7 +128,7 @@ export default function Contacto() {
               Hemos recibido tu consulta. Un experto de nuestro equipo la revisará y te contactará en menos de 24-48h laborables.
             </p>
             <Button onClick={() => (window.location.href = "/")} className="bg-primary text-primary font-bold px-10 py-7 rounded-full text-lg hover:scale-105 active:scale-95 transition-all"> Volver al inicio </Button>
-          </motion.div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -139,21 +139,16 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans overflow-x-hidden">
       <Navbar />
       <main className="pt-24 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
-        <motion.div 
-          className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center"
-          initial="initial"
-          whileInView="animate"
-          viewport={{ once: true }}
-        >
-          <motion.h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
+        <div className="text-center mb-2 sm:mb-10 flex flex-col items-center justify-center">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
             <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">CONTACTO</span>
             Contactanos
-          </motion.h2>
-          <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</motion.p>
-        </motion.div>
+          </h2>
+          <p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-0.5 text-center">(Siempre listos para ayudarte)</p>
+        </div>
 
         <div className="grid grid-cols-1 gap-12 mt-12 sm:mt-16">
-          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }}>
+          <div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -288,7 +283,7 @@ export default function Contacto() {
                 )}
               </form>
             </Form>
-          </motion.div>
+          </div>
         </div>
 
         {/* Otras vías de contacto */}
