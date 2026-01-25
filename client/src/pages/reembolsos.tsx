@@ -32,13 +32,13 @@ export default function Refunds() {
       <section className="py-8 sm:py-12 bg-white">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-5xl mx-auto">
-            <div className="flex justify-end mb-6">
+            <div className="flex justify-center sm:justify-end mb-8">
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-2 h-10 px-6 font-bold text-xs"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm uppercase tracking-wider w-full sm:w-auto shadow-sm"
               >
-                <Download className="w-3.5 h-3.5" />
+                <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
               </Button>
             </div>
