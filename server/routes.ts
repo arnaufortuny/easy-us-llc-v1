@@ -123,8 +123,12 @@ export async function registerRoutes(
         state: product.name.split(" ")[0], // Extract state name correctly
       });
 
-      // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X
-      const statePrefix = product.name.includes("Wyoming") ? "WY" : product.name.includes("Delaware") ? "DE" : "NM";
+      // Generate localized request code: NM-XXXX-XXX-X, WY-XXXX-XXX-X, DE-XXXX-XXXX-X, MN-XXXX-XXXX-X
+      let statePrefix = "NM";
+      if (product.name.includes("Wyoming")) statePrefix = "WY";
+      else if (product.name.includes("Delaware")) statePrefix = "DE";
+      else if (product.name.includes("Mantenimiento") || product.name.includes("Maintenance")) statePrefix = "MN";
+      
       const timestamp = Date.now().toString();
       const randomPart = Math.random().toString(36).substring(7).toUpperCase();
       const requestCode = `${statePrefix}-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
@@ -340,6 +344,31 @@ export async function registerRoutes(
   app.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
     const { status } = req.body;
     const order = await storage.updateOrderStatus(Number(req.params.id), status);
+    
+    // Notification for status change
+    const application = await storage.getLlcApplicationByOrderId(order.id);
+    if (application && application.ownerEmail) {
+      sendEmail({
+        to: application.ownerEmail,
+        subject: `Actualización de pedido ${application.requestCode || `#${order.id}`} - Easy US LLC`,
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader("Actualización de Estado")}
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Tu pedido ha cambiado de estado</h2>
+                <p style="line-height: 1.6; font-size: 15px; color: #444;">Tu solicitud <strong>${application.requestCode || `#${order.id}`}</strong> ahora se encuentra en estado: <strong style="text-transform: uppercase;">${status}</strong>.</p>
+                <div style="margin-top: 30px; text-align: center;">
+                  <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ir a mi panel →</a>
+                </div>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          </div>
+        `,
+      }).catch(e => console.error("Update email error:", e));
+    }
+    
     res.json(order);
   });
 

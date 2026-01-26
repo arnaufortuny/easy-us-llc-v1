@@ -171,13 +171,22 @@ export default function Dashboard() {
                           <div className="p-4 bg-gray-50 rounded-xl font-bold">{user?.lastName || 'No disponible'}</div>
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                          <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Email de cuenta</label>
-                          <div className="p-4 bg-gray-50 rounded-xl font-bold">{user?.email || 'No disponible'}</div>
+                          <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Teléfono</label>
+                          <div className="p-4 bg-gray-50 rounded-xl font-bold">{user?.phone || 'No disponible'}</div>
+                        </div>
+                        <div className="space-y-2 md:col-span-2">
+                          <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">ID de Cliente</label>
+                          <div className="p-4 bg-gray-50 rounded-xl font-mono text-xs opacity-60 uppercase">{user?.id}</div>
                         </div>
                       </div>
-                      <Button className="w-full md:w-auto bg-primary text-white font-black rounded-full px-8">
-                        Guardar cambios
-                      </Button>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <Button className="bg-primary text-white font-black rounded-full px-8">
+                          Guardar cambios
+                        </Button>
+                        <Button variant="outline" className="rounded-full font-black border-2" onClick={() => window.location.href = "/api/login?prompt=login"}>
+                          Cambiar Contraseña
+                        </Button>
+                      </div>
                     </CardContent>
                   </Card>
                 </motion.div>
