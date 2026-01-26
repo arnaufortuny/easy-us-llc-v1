@@ -354,14 +354,24 @@ export async function registerRoutes(
   };
 
   app.get("/api/admin/users", isAdmin, async (req, res) => {
-    const users = await db.select().from(usersTable);
-    res.json(users);
+    try {
+      const users = await db.select().from(usersTable);
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ message: "Error al obtener usuarios" });
+    }
   });
 
   app.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
-    const userId = req.params.id;
-    await db.delete(usersTable).where(eq(usersTable.id, userId));
-    res.json({ success: true });
+    try {
+      const userId = req.params.id;
+      await db.delete(usersTable).where(eq(usersTable.id, userId));
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ message: "Error al eliminar usuario" });
+    }
   });
 
   app.patch("/api/admin/users/:id/password", isAdmin, async (req, res) => {
