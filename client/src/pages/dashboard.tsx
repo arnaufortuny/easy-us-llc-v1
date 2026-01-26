@@ -7,11 +7,13 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents';
 
@@ -48,7 +50,29 @@ function NewsletterToggle() {
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('services');
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({ phone: '', businessActivity: '' });
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (user) {
+      setProfileData({
+        phone: user.phone || '',
+        businessActivity: user.businessActivity || ''
+      });
+    }
+  }, [user]);
+
+  const updateProfile = useMutation({
+    mutationFn: async (data: { phone: string, businessActivity: string }) => {
+      await apiRequest("PATCH", "/api/user/profile", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setIsEditing(false);
+      toast({ title: "Perfil actualizado" });
+    }
+  });
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -220,24 +244,58 @@ export default function Dashboard() {
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Teléfono</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base flex items-center justify-between">
-                            <span>{user?.phone || 'No disponible'}</span>
-                            {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full uppercase font-black">Verificado</span>}
-                          </div>
+                          {isEditing ? (
+                            <Input 
+                              value={profileData.phone} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
+                              className="rounded-xl"
+                            />
+                          ) : (
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base flex items-center justify-between">
+                              <span>{user?.phone || 'No disponible'}</span>
+                              {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full uppercase font-black">Verificado</span>}
+                            </div>
+                          )}
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Actividad del Negocio</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
-                        </div>
-                        <div className="space-y-2 md:col-span-2">
-                          <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">ID de Cliente</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-mono text-[10px] md:text-xs opacity-60 uppercase break-all">{user?.id}</div>
+                          {isEditing ? (
+                            <Textarea 
+                              value={profileData.businessActivity} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, businessActivity: e.target.value }))}
+                              className="rounded-xl min-h-[100px]"
+                            />
+                          ) : (
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
+                          )}
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-                        <Button className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm">
-                          Guardar cambios
-                        </Button>
+                        {isEditing ? (
+                          <>
+                            <Button 
+                              onClick={() => updateProfile.mutate(profileData)}
+                              disabled={updateProfile.isPending}
+                              className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
+                            >
+                              Guardar Cambios
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              onClick={() => setIsEditing(false)}
+                              className="rounded-full font-black border-2 py-6 text-sm"
+                            >
+                              Cancelar
+                            </Button>
+                          </>
+                        ) : (
+                          <Button 
+                            onClick={() => setIsEditing(true)}
+                            className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
+                          >
+                            Editar Perfil
+                          </Button>
+                        )}
                         <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
                           Cambiar Contraseña
                         </Button>

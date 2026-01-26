@@ -60,6 +60,17 @@ async function upsertUser(claims: any) {
   });
 }
 
+// Helper to update specific user fields
+export async function updateUserDetails(userId: string, updates: { phone?: string, businessActivity?: string }) {
+  const user = await authStorage.getUser(userId);
+  if (!user) return;
+  await authStorage.upsertUser({
+    ...user,
+    ...updates,
+    updatedAt: new Date(),
+  });
+}
+
 export async function setupAuth(app: Express) {
   app.set("trust proxy", 1);
   app.use(getSession());

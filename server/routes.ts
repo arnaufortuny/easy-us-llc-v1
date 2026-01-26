@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import type { Server } from "http";
-import { setupAuth, registerAuthRoutes, isAuthenticated } from "./replit_integrations/auth";
+import { setupAuth, registerAuthRoutes, isAuthenticated, updateUserDetails } from "./replit_integrations/auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
@@ -54,6 +54,19 @@ export async function registerRoutes(
     });
 
   // === API Routes ===
+
+  // Profile Updates
+  app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
+    try {
+      const { phone, businessActivity } = req.body;
+      const userId = req.user.claims.sub;
+      await updateUserDetails(userId, { phone, businessActivity });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Profile update error:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  });
 
   // Products
   app.get(api.products.list.path, async (req, res) => {
