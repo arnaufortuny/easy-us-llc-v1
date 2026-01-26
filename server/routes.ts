@@ -331,7 +331,7 @@ export async function registerRoutes(
       await storage.subscribeToNewsletter(targetEmail);
       
       await sendEmail({
-        to: email,
+        to: targetEmail,
         subject: "¡Bienvenido a la Newsletter de Easy US LLC!",
         html: getNewsletterWelcomeTemplate(),
       }).catch(err => console.error("Error sending newsletter welcome email:", err));
