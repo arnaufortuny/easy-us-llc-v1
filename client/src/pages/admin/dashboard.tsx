@@ -55,6 +55,16 @@ export default function AdminDashboard() {
     }
   });
 
+  const deleteMessageMutation = useMutation({
+    mutationFn: async (id: number) => {
+      await apiRequest("PATCH", `/api/admin/messages/${id}/status`, { status: 'archived' });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+      toast({ title: "Mensaje archivado" });
+    }
+  });
+
   if (authLoading || !user?.isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -270,9 +280,22 @@ export default function AdminDashboard() {
                             {msg.status}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right px-6">
-                          <Button size="sm" variant="ghost" onClick={() => apiRequest("PATCH", `/api/admin/messages/${msg.id}/status`, { status: 'read' }).then(() => queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] }))}>
+                        <TableCell className="text-right px-6 space-x-2">
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            className="h-8 w-8 p-0 text-green-600"
+                            onClick={() => apiRequest("PATCH", `/api/admin/messages/${msg.id}/status`, { status: 'read' }).then(() => queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] }))}
+                          >
                             <CheckCircle className="w-4 h-4" />
+                          </Button>
+                          <Button 
+                            size="sm" 
+                            variant="ghost" 
+                            className="h-8 w-8 p-0 text-red-600"
+                            onClick={() => deleteMessageMutation.mutate(msg.id)}
+                          >
+                            <Trash2 className="w-4 h-4" />
                           </Button>
                         </TableCell>
                       </TableRow>
