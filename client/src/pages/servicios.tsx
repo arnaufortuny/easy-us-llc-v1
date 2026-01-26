@@ -104,7 +104,7 @@ export default function Servicios() {
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-primary  tracking-tight leading-[1.1] text-center">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-primary  tracking-tight leading-[1.1] text-center">
             Constituimos tu LLC en Estados Unidos de <span className="text-accent">forma simple, rápida y transparente.</span>
           </h1>
         }
@@ -134,7 +134,7 @@ export default function Servicios() {
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-white text-primary font-bold text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                    className="bg-white text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
                   >
                     {text}
                   </div>
@@ -153,11 +153,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-sm font-bold block mb-2 text-center">PACKS</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
               NUESTROS PACKS
             </motion.h2>
-            <motion.p className="text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Elige el plan que mejor se adapte a ti)
             </motion.p>
           </motion.div>
@@ -173,14 +173,14 @@ export default function Servicios() {
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
-                  <h3 className="text-xl sm:text-xl font-bold text-primary  tracking-tight">New Mexico</h3>
-                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full ">Popular</span>
+                  <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">New Mexico</h3>
+                  <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">Popular</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-bold text-primary">639€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">639€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-bold  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
@@ -196,7 +196,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-bold text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                 >
                   Elegir New Mexico
                 </Button>
@@ -207,7 +207,7 @@ export default function Servicios() {
                         const subject = encodeURIComponent("Mantenimiento New Mexico");
                         window.location.href = `/contacto?subject=${subject}`;
                       }}
-                      className="font-bold text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 349€
                     </button>
@@ -218,14 +218,14 @@ export default function Servicios() {
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
-                  <h3 className="text-xl sm:text-xl font-bold text-primary  tracking-tight">Wyoming</h3>
-                  <span className="bg-accent text-primary-foreground text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full ">Premium</span>
+                  <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">Wyoming</h3>
+                  <span className="bg-accent text-primary-foreground text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">Premium</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-bold text-primary">799€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">799€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-bold  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
@@ -241,7 +241,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-bold text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                 >
                   Elegir Wyoming
                 </Button>
@@ -252,7 +252,7 @@ export default function Servicios() {
                         const subject = encodeURIComponent("Mantenimiento Wyoming");
                         window.location.href = `/contacto?subject=${subject}`;
                       }}
-                      className="font-bold text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 499€
                     </button>
@@ -263,14 +263,14 @@ export default function Servicios() {
             <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
-                  <h3 className="text-xl sm:text-xl font-bold text-primary  tracking-tight">Delaware</h3>
-                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full ">Startups</span>
+                  <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">Delaware</h3>
+                  <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">Startups</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-bold text-primary">999€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">999€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
-                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-bold  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
+                <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent" />
                   Tasas estatales incluidas
                 </div>
@@ -286,7 +286,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-bold text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                 >
                   Elegir Delaware
                 </Button>
@@ -297,7 +297,7 @@ export default function Servicios() {
                         const subject = encodeURIComponent("Mantenimiento Delaware");
                         window.location.href = `/contacto?subject=${subject}`;
                       }}
-                      className="font-bold text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
+                      className="font-black text-[10px] sm:text-[9px]  tracking-widest text-primary/70 hover:text-accent transition-colors"
                     >
                       Mantenimiento Año 2: 599€
                     </button>
@@ -316,7 +316,7 @@ export default function Servicios() {
               onClick={() => {
                 window.open("https://wa.me/34624322421", "_blank");
               }}
-              className="group bg-accent text-primary font-bold text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
+              className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
             >
               Alguna duda? Hablemos →
             </Button>
@@ -333,11 +333,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-sm font-bold block mb-2 text-center">BANCOS</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
               Asistencia Bancaria
             </motion.h2>
-            <motion.p className="text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)
             </motion.p>
           </motion.div>
@@ -355,7 +355,7 @@ export default function Servicios() {
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
               <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-bold text-sm shadow-sm mb-4">
+                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {service.title}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
@@ -364,7 +364,7 @@ export default function Servicios() {
           </motion.div>
           <div className="mt-8 mb-12 flex justify-center">
             <div className="bg-accent px-8 py-3 rounded-full shadow-lg transform -rotate-1">
-              <p className="text-primary font-sans font-bold  tracking-[0.2em] text-sm sm:text-base">
+              <p className="text-primary font-sans font-black  tracking-[0.2em] text-sm sm:text-base">
                 Incluido en tu paquete inicial
               </p>
             </div>
@@ -379,11 +379,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-sm font-bold block mb-2 text-center">MANTENIMIENTO</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
               Packs Mantenimiento
             </motion.h2>
-            <motion.p className="text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que incluye tu servicio anual)</motion.p>
+            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que incluye tu servicio anual)</motion.p>
           </motion.div>
           <motion.div 
             className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12"
@@ -400,11 +400,11 @@ export default function Servicios() {
               <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none" variants={fadeIn}>
                 <div className="p-5 sm:p-6 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
-                    <h3 className="text-xl sm:text-xl font-bold text-primary  tracking-tight">{item.state}</h3>
-                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-bold px-3 py-1 rounded-full ">Mantenimiento</span>
+                    <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">{item.state}</h3>
+                    <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">Mantenimiento</span>
                   </div>
                   <div className="flex items-baseline justify-center gap-1 mb-2">
-                    <p className="text-4xl sm:text-4xl font-bold text-primary">{item.price}</p>
+                    <p className="text-4xl sm:text-4xl font-black text-primary">{item.price}</p>
                     <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año</span>
                   </div>
                   <div className="space-y-2 text-left mt-4 border-t border-accent/10 pt-4">
@@ -419,7 +419,7 @@ export default function Servicios() {
                 <div className="p-5 sm:p-6 pt-0 mt-auto">
                   <Button 
                     onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-bold text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                    className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
                   >
                     Elegir Pack {item.state}
                   </Button>
@@ -439,11 +439,11 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-sm font-bold block mb-2 text-center">GESTIÓN</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
               Proceso de Mantenimiento
             </motion.h2>
-            <motion.p className="text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
               (Cómo trabajamos para que tu LLC esté siempre al día)
             </motion.p>
           </motion.div>
@@ -456,10 +456,10 @@ export default function Servicios() {
           >
             {maintenanceProcess.map((step, i) => (
               <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-bold text-xl border-4 border-white shadow-md">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-bold text-primary  mb-3 mt-2">{step.title}</h3>
+                <h3 className="text-xl font-black text-primary  mb-3 mt-2">{step.title}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
@@ -476,8 +476,8 @@ export default function Servicios() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-sm font-bold block mb-2 text-center">AYUDA</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               Centro de Ayuda
             </motion.h2>
           </motion.div>
@@ -520,7 +520,7 @@ export default function Servicios() {
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                 >
-                  <span className="font-bold text-primary text-sm sm:text-lg leading-tight tracking-tight">
+                  <span className="font-black text-primary text-sm sm:text-lg leading-tight tracking-tight">
                     {item.q}
                   </span>
                   <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
@@ -545,12 +545,12 @@ export default function Servicios() {
               viewport={{ once: true }}
               className="text-center"
             >
-              <p className="text-primary font-bold mb-6">¿No encuentras lo que buscas?</p>
+              <p className="text-primary font-black mb-6">¿No encuentras lo que buscas?</p>
               <Button 
                 variant="outline"
                 size="lg"
                 onClick={() => setLocation("/faq")}
-                className="rounded-full border-2 border-accent text-primary font-bold px-8 hover:bg-accent hover:text-primary transition-all shadow-md active:scale-95"
+                className="rounded-full border-2 border-accent text-primary font-black px-8 hover:bg-accent hover:text-primary transition-all shadow-md active:scale-95"
               >
                 Visita nuestro FAQ →
               </Button>

@@ -194,7 +194,7 @@ export default function ApplicationWizard() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-bold  mb-4 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-black  mb-4 text-primary leading-tight text-left">
           Constituir mi <span className="text-accent">LLC</span>
         </h1>
         
@@ -202,7 +202,7 @@ export default function ApplicationWizard() {
           <div className="mb-8 flex items-center gap-2 text-sm">
             <span className="text-muted-foreground font-medium">¿Ya tienes cuenta?</span>
             <Link href="/api/login">
-              <button className="text-primary font-bold hover:underline">Inicia sesión</button>
+              <button className="text-primary font-black hover:underline">Inicia sesión</button>
             </Link>
           </div>
         )}
@@ -214,42 +214,42 @@ export default function ApplicationWizard() {
                 {/* STEP 0: Nombre Completo */}
                 {step === 0 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
                     <FormDescription>Tal y como aparece en tu documento oficial</FormDescription>
                     <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-bold py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                   </motion.div>
                 )}
 
                 {/* STEP 1: Teléfono */}
                 {step === 1 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                     </h2>
                     <FormDescription>Para comunicarnos contigo rápidamente si hace falta</FormDescription>
                     <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -257,22 +257,22 @@ export default function ApplicationWizard() {
                 {/* STEP 2: Email */}
                 {step === 2 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                     </h2>
                     <FormDescription>Aquí recibirás toda la documentación y avisos importantes</FormDescription>
                     <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Email:
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -280,21 +280,21 @@ export default function ApplicationWizard() {
                 {/* STEP 3: Fecha de Nacimiento */}
                 {step === 3 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                     </h2>
                     <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Fecha:
                         </FormLabel>
-                        <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" /></FormControl>
+                        <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -302,19 +302,19 @@ export default function ApplicationWizard() {
                 {/* STEP 4: Documento de Identidad */}
                 {step === 4 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                     </h2>
                     <div className="space-y-4">
                       <FormField control={form.control} name="ownerIdType" render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel className="font-bold  text-[10px]  text-primary">Tipo de documento:</FormLabel>
+                          <FormLabel className="font-black  text-[10px]  text-primary">Tipo de documento:</FormLabel>
                           <FormControl>
                             <div className="flex flex-col gap-3">
                               {["DNI", "Pasaporte"].map((opt) => (
                                 <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
                                   <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
-                                  <span className="font-bold text-primary text-sm md:text-base">{opt}</span>
+                                  <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                                 </label>
                               ))}
                             </div>
@@ -324,17 +324,17 @@ export default function ApplicationWizard() {
                       )} />
                       <FormField control={form.control} name="ownerIdNumber" render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                          <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                             Número del documento:
                           </FormLabel>
-                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Número DNI o Pasaporte" /></FormControl>
+                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Número DNI o Pasaporte" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -342,21 +342,21 @@ export default function ApplicationWizard() {
                 {/* STEP 5: País de Residencia */}
                 {step === 5 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                     </h2>
                     <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           País:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="España, México, Argentina..." /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="España, México, Argentina..." /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -364,22 +364,22 @@ export default function ApplicationWizard() {
                 {/* STEP 6: Dirección Completa */}
                 {step === 6 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                     </h2>
                     <FormDescription>Calle, número, ciudad, código postal y país</FormDescription>
                     <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Dirección:
                         </FormLabel>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Dirección completa..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Dirección completa..." /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -387,22 +387,22 @@ export default function ApplicationWizard() {
                 {/* STEP 7: Nombre LLC */}
                 {step === 7 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                     </h2>
                     <FormDescription>Si tienes varias opciones, pon la principal aquí</FormDescription>
                     <FormField control={form.control} name="companyName" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre deseado:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="MI EMPRESA LLC" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="MI EMPRESA LLC" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -410,19 +410,19 @@ export default function ApplicationWizard() {
                 {/* STEP 8: Actividad del Negocio */}
                 {step === 8 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                     </h2>
                     <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Mi empresa se dedicará a..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Mi empresa se dedicará a..." /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -430,13 +430,13 @@ export default function ApplicationWizard() {
                 {/* STEP 9: Categoría */}
                 {step === 9 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría de negocio
                     </h2>
                     <FormField control={form.control} name="businessCategory" render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-bold text-primary text-lg"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
                           <SelectContent>
                             {BUSINESS_CATEGORIES.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                           </SelectContent>
@@ -445,8 +445,8 @@ export default function ApplicationWizard() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -454,7 +454,7 @@ export default function ApplicationWizard() {
                 {/* STEP 10: Cuenta Bancaria */}
                 {step === 10 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas cuenta bancaria?
                     </h2>
                     <FormDescription>Te ayudamos a abrirla en bancos como Mercury o Relay</FormDescription>
@@ -465,7 +465,7 @@ export default function ApplicationWizard() {
                             {["Sí", "No", "Ya tengo una"].map((opt) => (
                               <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-gray-200 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
-                                <span className="font-bold text-primary text-sm md:text-base">{opt}</span>
+                                <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
                             ))}
                           </div>
@@ -474,8 +474,8 @@ export default function ApplicationWizard() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -483,18 +483,18 @@ export default function ApplicationWizard() {
                 {/* STEP 11: Notas */}
                 {step === 11 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageCircle className="w-6 h-6 text-accent" /> 1️⃣2️⃣ ¿Algo más que debamos saber?
                     </h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-bold text-primary placeholder:text-primary/30 text-lg" placeholder="Comentarios adicionales..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Comentarios adicionales..." /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </motion.div>
                 )}
@@ -502,24 +502,24 @@ export default function ApplicationWizard() {
                 {/* STEP 12: OTP */}
                 {step === 12 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> Verificación de Email
                     </h2>
                     {!isOtpSent ? (
                       <div className="space-y-6">
                         <p className="text-sm text-muted-foreground">Para continuar, debemos verificar tu correo electrónico: <strong>{form.getValues("ownerEmail")}</strong></p>
-                        <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-bold py-7 rounded-full text-lg shadow-lg">Enviar Código</Button>
+                        <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg">Enviar Código</Button>
                       </div>
                     ) : (
                       <div className="space-y-6">
                         <FormField control={form.control} name="otp" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="font-bold">Ingresa el código de 6 dígitos:</FormLabel>
-                            <FormControl><Input {...field} className="rounded-full h-14 text-center text-2xl tracking-[0.5em] font-bold" maxLength={6} /></FormControl>
+                            <FormLabel className="font-black">Ingresa el código de 6 dígitos:</FormLabel>
+                            <FormControl><Input {...field} className="rounded-full h-14 text-center text-2xl tracking-[0.5em] font-black" maxLength={6} /></FormControl>
                             <FormMessage />
                           </FormItem>
                         )} />
-                        <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary font-bold py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20">Verificar y Continuar</Button>
+                        <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20">Verificar y Continuar</Button>
                         <button type="button" onClick={sendOtp} className="w-full text-xs text-muted-foreground hover:underline">Reenviar código</button>
                       </div>
                     )}
@@ -530,7 +530,7 @@ export default function ApplicationWizard() {
                 {/* STEP 13: Consentimientos Finales */}
                 {(step === 13 || step === 14) && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
                     <div className="space-y-4">
@@ -554,8 +554,8 @@ export default function ApplicationWizard() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={() => setStep(11)} className="flex-1 rounded-full h-12 md:h-14 font-bold border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="submit" className="flex-1 bg-[#6EDC8A] text-primary font-bold rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Enviar Solicitud</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(11)} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="submit" className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Enviar Solicitud</Button>
                     </div>
                   </motion.div>
                 )}

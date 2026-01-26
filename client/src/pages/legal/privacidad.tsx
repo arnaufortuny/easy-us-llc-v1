@@ -10,13 +10,13 @@ export default function Privacidad() {
       <HeroSection title="Política de Privacidad" />
       <div className="container max-w-4xl mx-auto py-12 sm:py-16 px-5 sm:px-8 text-left">
         <div className="prose prose-slate max-w-none">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">1. Recopilación de Información</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">1. Recopilación de Información</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Easy US LLC recopila información personal cuando usted se registra en nuestro sitio o solicita formación de una LLC. Esto incluye su nombre, dirección de correo electrónico, número de teléfono y detalles de la empresa.</p>
 
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">2. Uso de la Información</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">2. Uso de la Información</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">La información que recopilamos se utiliza para procesar transacciones, enviar correos electrónicos periódicos y mejorar nuestro servicio de atención al cliente. Sus datos no serán vendidos ni transferidos a terceros sin su consentimiento, excepto para el cumplimiento de los servicios solicitados (como gestiones ante el IRS o Secretarios de Estado).</p>
 
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">3. Seguridad de Datos</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">3. Seguridad de Datos</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Implementamos una variedad de medidas de seguridad para mantener la seguridad de su información personal cuando realiza un pedido o ingresa, envía o accede a su información personal.</p>
         </div>
       </div>

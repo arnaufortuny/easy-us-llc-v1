@@ -18,7 +18,7 @@ export default function Legal() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold  tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black  tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
             Términos y <span className="text-brand-lime">Condiciones</span>
           </h1>
         }
@@ -36,7 +36,7 @@ export default function Legal() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-bold text-sm  tracking-wider w-full sm:w-auto shadow-sm"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm  tracking-wider w-full sm:w-auto shadow-sm"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
@@ -48,13 +48,13 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">1. Identidad del prestador del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">1. Identidad del prestador del servicio</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>Easy US LLC es un nombre comercial utilizado para la prestación de servicios administrativos y de gestión empresarial. La entidad legal titular y responsable de los servicios es:</p>
                   <div className="bg-brand-lime/5 border-2 border-brand-lime/20 rounded-2xl p-8 space-y-2 font-medium">
-                    <p className="font-bold text-brand-dark  text-xs tracking-widest opacity-50">Entidad Legal</p>
-                    <p className="font-bold text-lg text-carbon-black">Fortuny Consulting LLC</p>
+                    <p className="font-black text-brand-dark  text-xs tracking-widest opacity-50">Entidad Legal</p>
+                    <p className="font-black text-lg text-carbon-black">Fortuny Consulting LLC</p>
                     <p>Domestic Limited Liability Company</p>
                     <p>Número de registro: 0008072199</p>
                     <p>EIN: 98-1906730</p>
@@ -68,7 +68,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">2. Ámbito de actividad</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">2. Ámbito de actividad</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>Fortuny Consulting LLC, bajo la marca Easy US LLC, presta servicios administrativos, de gestión y acompañamiento empresarial, especializados en la constitución y mantenimiento de sociedades de responsabilidad limitada (LLC) en Estados Unidos, dirigidos a clientes nacionales e internacionales.</p>
@@ -79,7 +79,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">3. Servicios ofrecidos</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">3. Servicios ofrecidos</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>Easy US LLC ofrece, entre otros, los siguientes servicios administrativos:</p>
@@ -101,21 +101,21 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">4. Packs de constitución y precios</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">4. Packs de constitución y precios</h2>
                 </div>
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                     <div className="bg-white p-6 rounded-xl border-2 border-brand-lime/20 text-center">
-                      <p className="text-2xl font-bold text-brand-dark">639 €</p>
-                      <p className="text-[10px] font-bold  tracking-widest opacity-60 mt-1">Pack New Mexico</p>
+                      <p className="text-2xl font-black text-brand-dark">639 €</p>
+                      <p className="text-[10px] font-black  tracking-widest opacity-60 mt-1">Pack New Mexico</p>
                     </div>
                     <div className="bg-white p-6 rounded-xl border-2 border-brand-lime/20 text-center">
-                      <p className="text-2xl font-bold text-brand-dark">799 €</p>
-                      <p className="text-[10px] font-bold  tracking-widest opacity-60 mt-1">Pack Wyoming</p>
+                      <p className="text-2xl font-black text-brand-dark">799 €</p>
+                      <p className="text-[10px] font-black  tracking-widest opacity-60 mt-1">Pack Wyoming</p>
                     </div>
                     <div className="bg-white p-6 rounded-xl border-2 border-brand-lime/20 text-center">
-                      <p className="text-2xl font-bold text-brand-dark">999 €</p>
-                      <p className="text-[10px] font-bold  tracking-widest opacity-60 mt-1">Pack Delaware</p>
+                      <p className="text-2xl font-black text-brand-dark">999 €</p>
+                      <p className="text-[10px] font-black  tracking-widest opacity-60 mt-1">Pack Delaware</p>
                     </div>
                   </div>
                   <p className="text-sm opacity-80">Los precios indicados incluyen las tasas estatales de constitución, así como los servicios detallados en cada pack en el momento de la contratación. Los precios pueden estar sujetos a actualización, sin que ello afecte a servicios ya contratados y abonados.</p>
@@ -125,7 +125,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">5. Plazos de prestación del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">5. Plazos de prestación del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Una vez recibida toda la información y documentación requerida de forma correcta, el plazo estimado de constitución de la LLC es de 2 a 3 días hábiles, dependiendo del estado y de los organismos implicados.</p>
@@ -136,7 +136,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">6. Duración del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">6. Duración del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base">
                   <p>Los packs de constitución y mantenimiento tienen una duración de 12 meses desde la fecha de activación del servicio, salvo que se indique expresamente lo contrario. Una vez finalizado dicho periodo, el cliente podrá contratar packs de mantenimiento adicionales, cuyos términos y condiciones se regirán por lo establecido en el momento de su contratación.</p>
@@ -146,7 +146,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">7. Registered Agent</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">7. Registered Agent</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El servicio de Registered Agent se incluye durante los primeros 12 meses en los packs que así lo indiquen. Finalizado dicho periodo, el cliente será responsable de renovar este servicio, ya sea con Easy US LLC o con un proveedor de su elección.</p>
@@ -157,7 +157,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">8. Plazos ampliados y derecho de rechazo</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">8. Plazos ampliados y derecho de rechazo</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente reconoce y acepta que, si bien el plazo habitual estimado para la constitución de una LLC es de 2 a 3 días hábiles, en determinados casos el proceso puede extenderse hasta un máximo de 15 días hábiles, debido a verificaciones adicionales, requerimientos de información, cargas administrativas de los organismos competentes o cualquier circunstancia ajena al control de Easy US LLC.</p>
@@ -169,7 +169,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">9. Pagos y política de no reembolso</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">9. Pagos y política de no reembolso</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Todos los servicios ofrecidos por Easy US LLC deberán ser abonados por adelantado. El pago implica la aceptación expresa de los presentes Términos y Condiciones.</p>
@@ -181,7 +181,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">10. Bancos, fintech y terceros</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">10. Bancos, fintech y terceros</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC ofrece asistencia y acompañamiento en procesos de apertura de cuentas bancarias y plataformas financieras. No obstante, el cliente reconoce que:</p>
@@ -197,7 +197,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">11. Obligaciones del cliente</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">11. Obligaciones del cliente</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente se compromete a:</p>
@@ -214,7 +214,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">12. Uso indebido y actividades no permitidas</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">12. Uso indebido y actividades no permitidas</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Queda expresamente prohibido utilizar los servicios para actividades ilegales, no declaradas o fraudulentas. En caso de detectar indicios razonables de uso indebido, Easy US LLC se reserva el derecho de suspender inmediatamente el servicio y poner los hechos en conocimiento de las autoridades competentes, sin derecho a reembolso.</p>
@@ -224,7 +224,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">13. Limitación de responsabilidad</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">13. Limitación de responsabilidad</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>En ningún caso Easy US LLC será responsable de:</p>
@@ -241,7 +241,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">14. Ejecución inmediata del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">14. Ejecución inmediata del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente reconoce que los servicios prestados por Easy US LLC tienen carácter personalizado y de ejecución inmediata una vez confirmado el pago. Desde ese momento, se inician tareas administrativas, revisión de información y preparación de documentación.</p>
@@ -252,7 +252,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">15. Chargebacks y disputas de pago</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">15. Chargebacks y disputas de pago</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente se compromete expresamente a no iniciar chargebacks, contracargos o disputas de pago ante bancos o emisores de tarjetas una vez iniciado el servicio. La apertura de una disputa será considerada un incumplimiento grave de los presentes Términos y Condiciones.</p>
@@ -262,7 +262,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">16. Procedimiento en caso de disputa</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">16. Procedimiento en caso de disputa</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>En caso de chargeback, Easy US LLC se reserva el derecho de suspender cualquier servicio y aportar a la entidad correspondiente toda la documentación necesaria para la defensa de la operación, incluyendo registros de comunicación y evidencias del trabajo realizado.</p>
@@ -272,7 +272,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">17. Costes derivados de disputas</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">17. Costes derivados de disputas</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente será responsable de todas las comisiones, penalizaciones y costes derivados de chargebacks o disputas iniciadas sin causa justificada. Easy US LLC se reserva el derecho de reclamar dichos importes al cliente por los medios legalmente disponibles.</p>
@@ -282,7 +282,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">18. Documentación y trazabilidad del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">18. Documentación y trazabilidad del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC mantiene registros internos de los procesos, comunicaciones, formularios y documentos generados o recibidos durante la prestación del servicio, con fines administrativos, legales y de cumplimiento.</p>
@@ -293,7 +293,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">19. Actuación en nombre propio y terceros</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">19. Actuación en nombre propio y terceros</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente declara actuar en nombre propio. Easy US LLC no asume responsabilidad alguna cuando el cliente actúe en nombre de terceros sin haberlo comunicado de forma expresa y previa.</p>
@@ -304,7 +304,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">20. Bancos, fintech y terceros independientes</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">20. Bancos, fintech y terceros independientes</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC presta únicamente asistencia y acompañamiento administrativo en procesos relacionados con bancos y plataformas financieras. Las decisiones finales corresponden exclusivamente a dichas entidades.</p>
@@ -315,7 +315,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">21. Uso indebido y suspensión del servicio</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">21. Uso indebido y suspensión del servicio</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Queda prohibido el uso de los servicios para actividades ilegales, fraudulentas o contrarias a la normativa aplicable. En caso de detectar indicios razonables de uso indebido, Easy US LLC podrá suspender o cancelar el servicio de forma inmediata, sin que ello genere derecho a reembolso.</p>
@@ -325,7 +325,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">22. Obligaciones de colaboración del cliente</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">22. Obligaciones de colaboración del cliente</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente se compromete a colaborar activamente durante la prestación del servicio, facilitando la información y documentación solicitada en tiempo y forma. La falta de respuesta, retrasos injustificados o negativa a aportar información requerida podrá afectar a los plazos y al correcto desarrollo del servicio.</p>
@@ -336,7 +336,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">23. Veracidad de la información proporcionada</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">23. Veracidad de la información proporcionada</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente declara que toda la información y documentación facilitada es veraz, exacta y completa. Cualquier error o falsedad en la misma será responsabilidad exclusiva del cliente, quien asumirá las consecuencias legales o administrativas que pudieran derivarse.</p>
@@ -346,7 +346,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">24. Jurisdicción y Ley Aplicable</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">24. Jurisdicción y Ley Aplicable</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Este contrato se rige exclusivamente por las leyes del Estado de New Mexico, USA. Cualquier litigio será resuelto en los tribunales de Albuquerque, NM, renunciando el cliente a cualquier otro fuero que pudiera corresponderle.</p>
@@ -356,7 +356,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">25. Mantenimiento y renovaciones</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">25. Mantenimiento y renovaciones</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Una vez finalizado el periodo inicial de 12 meses, el cliente será responsable de renovar los servicios necesarios para el mantenimiento de su LLC, incluyendo, entre otros, Registered Agent, cumplimiento anual u otras obligaciones estatales o federales.</p>
@@ -367,7 +367,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">26. Disolución de la LLC</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">26. Disolución de la LLC</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC podrá ofrecer, previa solicitud del cliente, servicios administrativos de disolución de la LLC. Dichos servicios estarán sujetos a condiciones específicas, costes adicionales y a la información proporcionada por el cliente.</p>
@@ -378,7 +378,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">27. Confidencialidad</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">27. Confidencialidad</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC se compromete a tratar de forma confidencial la información y documentación facilitada por el cliente, utilizándola únicamente para la prestación del servicio y cumplimiento de obligaciones legales.</p>
@@ -389,7 +389,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">28. Comunicaciones electrónicas</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">28. Comunicaciones electrónicas</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El cliente acepta expresamente el uso de medios electrónicos como forma válida de comunicación. Cualquier notificación enviada al correo electrónico facilitado por el cliente se considerará válida y efectiva.</p>
@@ -400,7 +400,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">29. Modificación de los servicios y condiciones</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">29. Modificación de los servicios y condiciones</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC se reserva el derecho de modificar o actualizar sus servicios, procesos internos y los presentes Términos y Condiciones cuando sea necesario por motivos legales, operativos o comerciales.</p>
@@ -411,7 +411,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">30. Fuerza mayor</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">30. Fuerza mayor</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Easy US LLC no será responsable de retrasos o incumplimientos derivados de causas de fuerza mayor, incluyendo, entre otras, fallos técnicos, interrupciones de servicios, incidencias en organismos públicos, decisiones de terceros, conflictos, desastres naturales o situaciones fuera de su control razonable.</p>
@@ -421,7 +421,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">31. Integridad del acuerdo</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">31. Integridad del acuerdo</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Los presentes Términos y Condiciones constituyen el acuerdo completo entre Easy US LLC y el cliente, sustituyendo cualquier comunicación, acuerdo o entendimiento previo, verbal o escrito.</p>
@@ -431,7 +431,7 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">32. Legislación aplicable y jurisdicción</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">32. Legislación aplicable y jurisdicción</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Los presentes Términos y Condiciones se regirán por la legislación del Estado de New Mexico (Estados Unidos). Para cualquier controversia derivada de su interpretación o ejecución, las partes se someten a los tribunales competentes, salvo norma imperativa en contrario.</p>
@@ -441,10 +441,10 @@ export default function Legal() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">33. Aceptación final</h2>
+                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark  tracking-tighter">33. Aceptación final</h2>
                 </div>
                 <div className="bg-brand-dark text-primary rounded-2xl p-8 sm:p-12">
-                  <p className="text-sm sm:text-base leading-relaxed opacity-90 font-bold">La contratación de los servicios ofrecidos por Easy US LLC implica que el cliente declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones.</p>
+                  <p className="text-sm sm:text-base leading-relaxed opacity-90 font-black">La contratación de los servicios ofrecidos por Easy US LLC implica que el cliente declara haber leído, comprendido y aceptado íntegramente los presentes Términos y Condiciones.</p>
                 </div>
               </section>
 

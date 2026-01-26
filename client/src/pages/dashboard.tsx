@@ -114,13 +114,13 @@ export default function Dashboard() {
             className="flex flex-col md:flex-row md:items-center justify-between gap-6"
           >
             <div>
-              <p className="text-accent font-bold  tracking-widest text-[10px] md:text-sm mb-1 md:mb-2">Área de Clientes</p>
-              <h1 className="text-3xl md:text-5xl font-bold text-primary  tracking-tighter leading-tight md:leading-none">
+              <p className="text-accent font-black  tracking-widest text-[10px] md:text-sm mb-1 md:mb-2">Área de Clientes</p>
+              <h1 className="text-3xl md:text-5xl font-black text-primary  tracking-tighter leading-tight md:leading-none">
                 {user?.firstName ? `Hola, ${user.firstName}` : 'Mi Panel'}
               </h1>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent text-primary font-bold rounded-full px-6 md:px-8 py-5 md:py-6 hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
+              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-6 md:px-8 py-5 md:py-6 hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
@@ -133,7 +133,7 @@ export default function Dashboard() {
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id as Tab)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-full font-bold text-xs md:text-sm  tracking-tight transition-all whitespace-nowrap shrink-0 ${
+              className={`flex items-center gap-2 px-5 py-3 rounded-full font-black text-xs md:text-sm  tracking-tight transition-all whitespace-nowrap shrink-0 ${
                 activeTab === item.id 
                 ? 'bg-accent text-primary shadow-lg shadow-accent/20 scale-105' 
                 : 'bg-white text-muted-foreground hover:bg-gray-50'
@@ -159,20 +159,20 @@ export default function Dashboard() {
                 >
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
                     <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
-                      <p className="text-[10px] font-bold  tracking-widest text-muted-foreground mb-1">Actividad de Cuenta</p>
-                      <h4 className="text-2xl font-bold text-primary">{orders?.length || 0}</h4>
+                      <p className="text-[10px] font-black  tracking-widest text-muted-foreground mb-1">Actividad de Cuenta</p>
+                      <h4 className="text-2xl font-black text-primary">{orders?.length || 0}</h4>
                       <p className="text-xs text-muted-foreground font-medium">Servicios totales contratados</p>
                     </Card>
                     <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
-                      <p className="text-[10px] font-bold  tracking-widest text-muted-foreground mb-1">Estado Global</p>
-                      <h4 className="text-2xl font-bold text-accent ">
+                      <p className="text-[10px] font-black  tracking-widest text-muted-foreground mb-1">Estado Global</p>
+                      <h4 className="text-2xl font-black text-accent ">
                         {orders?.some(o => o.status === 'pending') ? 'Pendiente' : 'Al día'}
                       </h4>
                       <p className="text-xs text-muted-foreground font-medium">Situación de tus trámites</p>
                     </Card>
                   </div>
                   
-                  <h2 className="text-xl md:text-2xl font-bold text-primary  tracking-tight mb-6">Tus Servicios Activos</h2>
+                  <h2 className="text-xl md:text-2xl font-black text-primary  tracking-tight mb-6">Tus Servicios Activos</h2>
                   {ordersLoading ? (
                     <div className="space-y-4">
                       {[1, 2].map(i => <div key={i} className="h-32 bg-white rounded-[1.5rem] md:rounded-[2rem] animate-pulse" />)}
@@ -187,12 +187,12 @@ export default function Dashboard() {
                                 <Building2 className="w-6 h-6 md:w-7 md:h-7" />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <h3 className="text-lg md:text-xl font-bold text-primary  tracking-tight truncate">{order.product?.name || "Constitución LLC"}</h3>
+                                <h3 className="text-lg md:text-xl font-black text-primary  tracking-tight truncate">{order.product?.name || "Constitución LLC"}</h3>
                                 <p className="text-xs md:text-sm text-muted-foreground font-medium truncate">Pedido #{order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
                               </div>
                             </div>
                             <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
-                              <span className={`px-4 py-1.5 rounded-full text-[10px] font-bold  tracking-widest whitespace-nowrap ${
+                              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black  tracking-widest whitespace-nowrap ${
                                 order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
                               }`}>
                                 {order.status === 'paid' ? 'Activo' : 'Pendiente Pago'}
@@ -242,10 +242,10 @@ export default function Dashboard() {
                       <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Building2 className="w-10 h-10 text-gray-300" />
                       </div>
-                      <h3 className="text-2xl font-bold text-primary  mb-3">No tienes servicios aún</h3>
+                      <h3 className="text-2xl font-black text-primary  mb-3">No tienes servicios aún</h3>
                       <p className="text-muted-foreground mb-8 max-w-md mx-auto">Emprende hoy mismo y constituye tu empresa en Estados Unidos con Easy US LLC.</p>
                       <Link href="/servicios#pricing">
-                        <Button className="bg-accent text-primary font-bold rounded-full px-10 py-7 text-lg shadow-xl shadow-accent/20">
+                        <Button className="bg-accent text-primary font-black rounded-full px-10 py-7 text-lg shadow-xl shadow-accent/20">
                           Empezar ahora
                         </Button>
                       </Link>
@@ -263,9 +263,9 @@ export default function Dashboard() {
                   className="space-y-6"
                 >
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-primary tracking-tight">Mis Consultas y Soporte</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas y Soporte</h2>
                     <Link href="/contacto">
-                      <Button className="bg-accent text-primary font-bold rounded-full text-xs">Nueva Consulta</Button>
+                      <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
                     </Link>
                   </div>
                   
@@ -273,15 +273,15 @@ export default function Dashboard() {
                     {useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.map((msg) => (
                       <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white">
                         <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-bold text-primary">{msg.subject || 'Sin asunto'}</h4>
-                          <span className={`text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest ${
+                          <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
+                          <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
                             msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-500'
                           }`}>
                             {msg.status === 'unread' ? 'Pendiente' : 'Leído'}
                           </span>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
-                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">
+                        <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">
                           {new Date(msg.createdAt).toLocaleString()}
                         </p>
                       </Card>
@@ -289,7 +289,7 @@ export default function Dashboard() {
                     {(!useQuery<any[]>({ queryKey: ["/api/messages"] }).data || useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.length === 0) && (
                       <div className="text-center py-12 bg-white rounded-3xl">
                         <Mail className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-bold">No tienes mensajes pendientes.</p>
+                        <p className="text-muted-foreground font-black">No tienes mensajes pendientes.</p>
                       </div>
                     )}
                   </div>
@@ -306,13 +306,13 @@ export default function Dashboard() {
                 >
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm">
                     <CardHeader className="p-6 md:p-8">
-                      <CardTitle className="text-xl md:text-2xl font-bold text-primary  tracking-tight">Información Personal</CardTitle>
+                      <CardTitle className="text-xl md:text-2xl font-black text-primary  tracking-tight">Información Personal</CardTitle>
                       <CardDescription className="text-xs md:text-sm">Gestiona tus datos de contacto y preferencias.</CardDescription>
                     </CardHeader>
                     <CardContent className="p-6 md:p-8 pt-0 space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
-                          <label className="text-[10px] md:text-xs font-bold  tracking-widest text-muted-foreground">Nombre</label>
+                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Nombre</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.firstName} 
@@ -320,11 +320,11 @@ export default function Dashboard() {
                               className="rounded-xl"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
                           )}
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] md:text-xs font-bold  tracking-widest text-muted-foreground">Apellido</label>
+                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Apellido</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.lastName} 
@@ -332,11 +332,11 @@ export default function Dashboard() {
                               className="rounded-xl"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
                           )}
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                          <label className="text-[10px] md:text-xs font-bold  tracking-widest text-muted-foreground">Teléfono</label>
+                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Teléfono</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.phone} 
@@ -344,14 +344,14 @@ export default function Dashboard() {
                               className="rounded-xl"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base flex items-center justify-between">
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base flex items-center justify-between">
                               <span>{user?.phone || 'No disponible'}</span>
-                              {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full  font-bold">Verificado</span>}
+                              {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full  font-black">Verificado</span>}
                             </div>
                           )}
                         </div>
                         <div className="space-y-2 md:col-span-2">
-                          <label className="text-[10px] md:text-xs font-bold  tracking-widest text-muted-foreground">Actividad del Negocio</label>
+                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Actividad del Negocio</label>
                           {isEditing ? (
                             <Textarea 
                               value={profileData.businessActivity} 
@@ -359,7 +359,7 @@ export default function Dashboard() {
                               className="rounded-xl min-h-[100px]"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
                           )}
                         </div>
                       </div>
@@ -369,14 +369,14 @@ export default function Dashboard() {
                                 <Button 
                                   onClick={() => updateProfile.mutate(profileData)}
                                   disabled={updateProfile.isPending}
-                                  className="bg-accent text-primary font-bold rounded-full px-8 py-6 text-sm"
+                                  className="bg-accent text-primary font-black rounded-full px-8 py-6 text-sm"
                                 >
                                   Guardar Cambios
                                 </Button>
                                 <Button 
                                   variant="outline" 
                                   onClick={() => setIsEditing(false)}
-                                  className="rounded-full font-bold border-2 py-6 text-sm"
+                                  className="rounded-full font-black border-2 py-6 text-sm"
                                 >
                                   Cancelar
                                 </Button>
@@ -384,17 +384,17 @@ export default function Dashboard() {
                             ) : (
                               <Button 
                                 onClick={() => setIsEditing(true)}
-                                className="bg-accent text-primary font-bold rounded-full px-8 py-6 text-sm"
+                                className="bg-accent text-primary font-black rounded-full px-8 py-6 text-sm"
                               >
                                 Editar Perfil
                               </Button>
                             )}
-                            <Button variant="outline" className="rounded-full font-bold border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
+                            <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
                               Cambiar Contraseña
                             </Button>
                             <Button 
                               variant="destructive" 
-                              className="rounded-full font-bold py-6 text-sm"
+                              className="rounded-full font-black py-6 text-sm"
                               onClick={() => {
                                 if (confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.")) {
                                   apiRequest("DELETE", "/api/user/account").then(() => {
@@ -410,7 +410,7 @@ export default function Dashboard() {
                       <div className="pt-8 border-t border-gray-100">
                         <div className="flex items-center justify-between gap-4 p-6 bg-accent/5 rounded-[2rem] border border-accent/10">
                           <div className="space-y-1">
-                            <h4 className="text-sm font-bold  tracking-tight text-primary flex items-center gap-2">
+                            <h4 className="text-sm font-black  tracking-tight text-primary flex items-center gap-2">
                               <BellRing className="w-4 h-4 text-accent" /> Suscripción Newsletter
                             </h4>
                             <p className="text-xs text-muted-foreground font-medium">Recibe noticias, actualizaciones fiscales y consejos para tu LLC.</p>
@@ -435,13 +435,13 @@ export default function Dashboard() {
                     <div className="p-6 md:p-10 relative z-10">
                       <div className="flex justify-between items-start mb-8 md:mb-12">
                         <CreditCard className="w-10 h-10 md:w-12 md:h-12 text-accent" />
-                        <span className="text-[10px] font-bold  tracking-[0.2em] opacity-60">Suscripción Activa</span>
+                        <span className="text-[10px] font-black  tracking-[0.2em] opacity-60">Suscripción Activa</span>
                       </div>
-                      <h3 className="text-2xl md:text-3xl font-bold  tracking-tight mb-2">Métodos de Pago</h3>
+                      <h3 className="text-2xl md:text-3xl font-black  tracking-tight mb-2">Métodos de Pago</h3>
                       <p className="text-sm md:text-base text-primary/60 font-medium mb-6 md:mb-8">Gestiona tus tarjetas, facturas y suscripciones a través de Stripe.</p>
                       <div className="flex flex-wrap gap-4">
                         <a href="https://billing.stripe.com/p/login/test_6oE5mG0Y0" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                          <Button className="w-full sm:w-auto bg-accent text-primary font-bold rounded-full px-8 py-6 flex items-center justify-center gap-2 hover:bg-white transition-colors">
+                          <Button className="w-full sm:w-auto bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center justify-center gap-2 hover:bg-white transition-colors">
                             Portal Stripe <ExternalLink className="w-4 h-4" />
                           </Button>
                         </a>
@@ -450,7 +450,7 @@ export default function Dashboard() {
                     <div className="absolute -right-20 -bottom-20 w-60 h-60 md:w-80 md:h-80 bg-accent opacity-5 rounded-full" />
                   </Card>
 
-                  <h3 className="text-xl md:text-2xl font-bold text-primary  tracking-tight mt-10 md:mt-12 mb-6">Historial de Facturación</h3>
+                  <h3 className="text-xl md:text-2xl font-black text-primary  tracking-tight mt-10 md:mt-12 mb-6">Historial de Facturación</h3>
                   <div className="space-y-4">
                     {orders?.map((order: any) => (
                       <Card key={order.id} className="rounded-2xl md:rounded-3xl border-0 shadow-sm overflow-hidden group">
@@ -460,17 +460,17 @@ export default function Dashboard() {
                               <FileText className="w-5 h-5 md:w-6 md:h-6" />
                             </div>
                             <div>
-                              <p className="font-bold text-primary  text-xs md:text-sm">Factura INV-{order.id}</p>
-                              <p className="text-[10px] md:text-xs text-muted-foreground font-bold">{new Date(order.createdAt).toLocaleDateString()}</p>
+                              <p className="font-black text-primary  text-xs md:text-sm">Factura INV-{order.id}</p>
+                              <p className="text-[10px] md:text-xs text-muted-foreground font-black">{new Date(order.createdAt).toLocaleDateString()}</p>
                             </div>
                           </div>
                           <div className="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
-                            <p className="font-bold text-primary text-sm md:text-base">{(order.amount / 100).toFixed(2)}€</p>
+                            <p className="font-black text-primary text-sm md:text-base">{(order.amount / 100).toFixed(2)}€</p>
                             <div className="flex gap-2">
                               <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="rounded-full font-bold border-2 h-8 px-3 text-[10px]"
+                                className="rounded-full font-black border-2 h-8 px-3 text-[10px]"
                                 onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
                               >
                                 Factura
@@ -478,7 +478,7 @@ export default function Dashboard() {
                               <Button 
                                 variant="outline" 
                                 size="sm" 
-                                className="rounded-full font-bold border-2 h-8 px-3 text-[10px]"
+                                className="rounded-full font-black border-2 h-8 px-3 text-[10px]"
                                 onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
                               >
                                 Recibo
@@ -500,17 +500,17 @@ export default function Dashboard() {
                   exit={{ opacity: 0, x: 20 }}
                   className="space-y-6"
                 >
-                  <h2 className="text-xl md:text-2xl font-bold text-primary  tracking-tight mb-6">Centro de Documentación</h2>
+                  <h2 className="text-xl md:text-2xl font-black text-primary  tracking-tight mb-6">Centro de Documentación</h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all">
                       <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
                         <FileText className="w-7 h-7 md:w-8 md:h-8 text-primary" />
                       </div>
-                      <h3 className="font-bold text-primary  tracking-tight mb-2 text-sm md:text-base">Contrato de Servicio</h3>
+                      <h3 className="font-black text-primary  tracking-tight mb-2 text-sm md:text-base">Contrato de Servicio</h3>
                       <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Tus términos aceptados y firmados con Easy US LLC.</p>
                       <Button 
                         variant="outline" 
-                        className="rounded-full font-bold border-2 w-full text-xs py-5"
+                        className="rounded-full font-black border-2 w-full text-xs py-5"
                         onClick={() => window.open("/terminos_y_condiciones.pdf", "_blank")}
                       >
                         <Download className="w-4 h-4 mr-2" /> Descargar PDF
@@ -521,9 +521,9 @@ export default function Dashboard() {
                       <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center mb-4">
                         <Building2 className="w-7 h-7 md:w-8 md:h-8 text-gray-300" />
                       </div>
-                      <h3 className="font-bold text-primary  tracking-tight mb-2 text-sm md:text-base">Articles of Organization</h3>
+                      <h3 className="font-black text-primary  tracking-tight mb-2 text-sm md:text-base">Articles of Organization</h3>
                       <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Disponible una vez que el estado procese tu LLC.</p>
-                      <Button disabled variant="outline" className="rounded-full font-bold border-2 w-full text-xs py-5">
+                      <Button disabled variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5">
                         Pendiente...
                       </Button>
                     </Card>
@@ -536,7 +536,7 @@ export default function Dashboard() {
           {/* Sidebar Area */}
           <div className="space-y-6 md:gap-8 order-1 lg:order-2">
             <section className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-sm">
-              <h3 className="text-lg md:text-xl font-bold  tracking-tight text-primary mb-6 flex items-center gap-2">
+              <h3 className="text-lg md:text-xl font-black  tracking-tight text-primary mb-6 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-accent" /> Seguimiento
               </h3>
               <div className="space-y-5 md:space-y-6">
@@ -556,10 +556,10 @@ export default function Dashboard() {
                       {step.status === 'completed' ? <Package className="w-3 h-3" /> : null}
                     </div>
                     <div className="min-w-0">
-                      <p className={`text-xs md:text-sm font-bold  tracking-tight ${step.status === 'pending' ? 'text-gray-400' : 'text-primary'} truncate`}>
+                      <p className={`text-xs md:text-sm font-black  tracking-tight ${step.status === 'pending' ? 'text-gray-400' : 'text-primary'} truncate`}>
                         {step.title}
                       </p>
-                      <p className="text-[10px] md:text-xs font-bold text-muted-foreground">{step.date}</p>
+                      <p className="text-[10px] md:text-xs font-black text-muted-foreground">{step.date}</p>
                     </div>
                   </div>
                 ))}
@@ -567,10 +567,10 @@ export default function Dashboard() {
             </section>
 
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border-2 border-accent/20">
-              <h3 className="text-base md:text-lg font-bold  tracking-tight text-primary mb-3 md:mb-4">¿Necesitas ayuda?</h3>
+              <h3 className="text-base md:text-lg font-black  tracking-tight text-primary mb-3 md:mb-4">¿Necesitas ayuda?</h3>
               <p className="text-xs md:text-sm text-primary/70 font-medium mb-5 md:mb-6 leading-relaxed">Nuestro equipo de expertos está listo para resolver tus dudas sobre la LLC.</p>
               <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-primary font-bold rounded-full py-5 md:py-6 text-sm">
+                <Button className="w-full bg-accent text-primary font-black rounded-full py-5 md:py-6 text-sm">
                   Contactar Soporte
                 </Button>
               </a>

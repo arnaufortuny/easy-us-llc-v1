@@ -151,11 +151,11 @@ export default function FAQ() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent  tracking-widest text-xs sm:text-sm font-bold block mb-2 text-center">FAQ</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
@@ -184,7 +184,7 @@ export default function FAQ() {
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
                   <motion.div key={category.title} className="space-y-4 sm:space-y-6" variants={fadeIn}>
-                    <h2 className="text-xl sm:text-2xl font-bold text-primary  tracking-tight flex items-center gap-3 sm:gap-4">
+                    <h2 className="text-xl sm:text-2xl font-black text-primary  tracking-tight flex items-center gap-3 sm:gap-4">
                       <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-accent rounded-full shrink-0" />
                       {category.title}
                     </h2>
@@ -202,7 +202,7 @@ export default function FAQ() {
                             onClick={() => toggleItem(category.title, i)}
                             className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                           >
-                            <span className="font-bold text-primary text-sm sm:text-lg leading-tight tracking-tight">
+                            <span className="font-black text-primary text-sm sm:text-lg leading-tight tracking-tight">
                               {item.q}
                             </span>
                             <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
@@ -223,7 +223,7 @@ export default function FAQ() {
                 ))
               ) : (
                 <div className="text-center py-16 sm:py-20">
-                  <p className="text-primary font-bold text-lg sm:text-xl mb-2">No hemos encontrado nada</p>
+                  <p className="text-primary font-black text-lg sm:text-xl mb-2">No hemos encontrado nada</p>
                   <p className="text-muted-foreground text-sm sm:text-base">Prueba con otra palabra o contáctanos directamente.</p>
                 </div>
               )}

@@ -13,11 +13,11 @@ export default function NotFound() {
         <Card className="w-full max-w-md mx-auto rounded-[2rem] text-center">
           <CardContent className="pt-8 pb-8">
             <div className="text-6xl mb-4">404</div>
-            <h1 className="text-2xl font-bold font-serif text-primary mb-4">Página No Encontrada</h1>
+            <h1 className="text-2xl font-black font-serif text-primary mb-4">Página No Encontrada</h1>
             <p className="text-sm text-muted-foreground mb-6">
               La página que buscas no existe o ha sido movida.
             </p>
-            <Button asChild className="rounded-full bg-brand-lime text-brand-dark hover:bg-brand-lime/90 font-bold px-8 h-12  tracking-tight">
+            <Button asChild className="rounded-full bg-brand-lime text-brand-dark hover:bg-brand-lime/90 font-black px-8 h-12  tracking-tight">
               <Link href="/">Volver al Inicio</Link>
             </Button>
           </CardContent>

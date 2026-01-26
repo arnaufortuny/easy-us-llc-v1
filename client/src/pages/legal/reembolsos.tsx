@@ -10,16 +10,16 @@ export default function Reembolsos() {
       <HeroSection title="Política de Reembolsos" />
       <div className="container max-w-4xl mx-auto py-12 sm:py-16 px-5 sm:px-8 text-left">
         <div className="prose prose-slate max-w-none">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">1. Condiciones Generales</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">1. Condiciones Generales</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Dada la naturaleza de los servicios de formación de LLC y las tasas gubernamentales involucradas, nuestra política de reembolsos es estricta para garantizar la viabilidad del servicio.</p>
 
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">2. Tasas Estatales y Federales</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">2. Tasas Estatales y Federales</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Una vez que Easy US LLC ha iniciado el proceso de presentación ante el Secretario de Estado o el IRS, las tasas correspondientes no son reembolsables bajo ninguna circunstancia, ya que estos organismos no devuelven dichos importes.</p>
 
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">3. Cancelación antes del Inicio</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">3. Cancelación antes del Inicio</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Si decide cancelar su pedido antes de que hayamos procesado cualquier documento, podrá recibir un reembolso parcial descontando una comisión de gestión administrativa del 15% del total pagado.</p>
           
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-primary">4. Servicios de Mantenimiento</h2>
+          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">4. Servicios de Mantenimiento</h2>
           <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Los pagos anuales por servicios de mantenimiento (Annual Report, Registered Agent, etc.) no son reembolsables una vez que el servicio ha sido renovado para el periodo correspondiente.</p>
         </div>
       </div>

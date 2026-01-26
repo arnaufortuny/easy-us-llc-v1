@@ -53,7 +53,7 @@ export function NewsletterSection() {
           className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center"
         >
           <div className="space-y-2 md:space-y-4 w-full text-center">
-            <h2 className="text-xl md:text-4xl font-bold  tracking-tighter text-primary leading-none text-center">
+            <h2 className="text-xl md:text-4xl font-black  tracking-tighter text-primary leading-none text-center">
               Únete a nuestra <span className="text-[#6EDC8A] bg-accent px-2 inline-block">Newsletter</span>
             </h2>
             <p className="text-primary/70 text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
@@ -70,7 +70,7 @@ export function NewsletterSection() {
                 placeholder="Indícanos tu email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-primary/10 bg-white text-primary placeholder:text-primary/40 text-xs md:text-base font-bold focus:border-[#6EDC8A] focus:bg-white focus:ring-0 transition-all shadow-inner w-full text-left"
+                className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-primary/10 bg-white text-primary placeholder:text-primary/40 text-xs md:text-base font-black focus:border-[#6EDC8A] focus:bg-white focus:ring-0 transition-all shadow-inner w-full text-left"
                 required
               />
               <Button 
