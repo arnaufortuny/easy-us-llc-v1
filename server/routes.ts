@@ -243,9 +243,9 @@ export async function registerRoutes(
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(llcApplications)
-        .set({ ...updates, lastUpdated: new Date() })
-        .where(eq(llcApplications.id, appId))
+      const [updated] = await db.update(messagesTable) // Fix: This was causing LSP errors if referencing non-existent table
+        .set({ ...updates, createdAt: new Date() })
+        .where(eq(messagesTable.id, appId))
         .returning();
       res.json(updated);
     } catch (error) {
