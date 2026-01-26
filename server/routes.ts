@@ -194,10 +194,7 @@ export async function registerRoutes(
   // Messages API
   app.get("/api/messages", isAuthenticated, async (req: any, res) => {
     try {
-      const userMessages = await db.select()
-        .from(messagesTable)
-        .where(eq(messagesTable.userId, req.user.claims.sub))
-        .orderBy(desc(messagesTable.createdAt));
+      const userMessages = await storage.getMessagesByUserId(req.user.claims.sub);
       res.json(userMessages);
     } catch (error) {
       res.status(500).json({ message: "Error fetching messages" });
@@ -209,7 +206,7 @@ export async function registerRoutes(
       const { name, email, subject, content, requestCode } = req.body;
       const userId = req.isAuthenticated() ? req.user.claims.sub : null;
       
-      const [message] = await db.insert(messagesTable).values({
+      const message = await storage.createMessage({
         userId,
         name,
         email,
@@ -217,7 +214,7 @@ export async function registerRoutes(
         content,
         requestCode,
         type: "contact"
-      }).returning();
+      });
 
       // Send auto-reply
       sendEmail({
@@ -538,17 +535,22 @@ export async function registerRoutes(
   };
 
   app.get("/api/admin/messages", isAdmin, async (req, res) => {
-    const messages = await db.select().from(messagesTable).orderBy(desc(messagesTable.createdAt));
-    res.json(messages);
+    try {
+      const messages = await storage.getAllMessages();
+      res.json(messages);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching admin messages" });
+    }
   });
 
   app.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
-    const { status } = req.body;
-    const [message] = await db.update(messagesTable)
-      .set({ status })
-      .where(eq(messagesTable.id, Number(req.params.id)))
-      .returning();
-    res.json(message);
+    try {
+      const { status } = req.body;
+      const message = await storage.updateMessageStatus(Number(req.params.id), status);
+      res.json(message);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating message status" });
+    }
   });
 
   app.get("/api/admin/users", isAdmin, async (req, res) => {

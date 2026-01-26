@@ -43,6 +43,12 @@ export interface IStorage {
   // Admin
   getAllOrders(): Promise<(Order & { product: Product; application: LlcApplication | null; user: any })[]>;
   updateOrderStatus(orderId: number, status: string): Promise<Order>;
+
+  // Messages
+  createMessage(message: any): Promise<any>;
+  getMessagesByUserId(userId: string): Promise<any[]>;
+  getAllMessages(): Promise<any[]>;
+  updateMessageStatus(id: number, status: string): Promise<any>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -190,6 +196,30 @@ export class DatabaseStorage implements IStorage {
       .update(orders)
       .set({ status })
       .where(eq(orders.id, orderId))
+      .returning();
+    return updated;
+  }
+
+  // Messages
+  async createMessage(message: any): Promise<any> {
+    const [newMessage] = await db.insert(messagesTable).values(message).returning();
+    return newMessage;
+  }
+
+  async getMessagesByUserId(userId: string): Promise<any[]> {
+    return await db.select().from(messagesTable)
+      .where(eq(messagesTable.userId, userId))
+      .orderBy(desc(messagesTable.createdAt));
+  }
+
+  async getAllMessages(): Promise<any[]> {
+    return await db.select().from(messagesTable).orderBy(desc(messagesTable.createdAt));
+  }
+
+  async updateMessageStatus(id: number, status: string): Promise<any> {
+    const [updated] = await db.update(messagesTable)
+      .set({ status })
+      .where(eq(messagesTable.id, id))
       .returning();
     return updated;
   }
