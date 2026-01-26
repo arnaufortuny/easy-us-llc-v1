@@ -74,6 +74,20 @@ export async function registerRoutes(
     res.json(products);
   });
 
+  // Client Delete Account
+  app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      // In a real scenario, we might want to anonymize or delete all linked data
+      // For now, we delete the user record
+      await db.delete(usersTable).where(eq(usersTable.id, userId));
+      res.json({ success: true, message: "Cuenta eliminada correctamente" });
+    } catch (error) {
+      console.error("Delete account error:", error);
+      res.status(500).json({ message: "Error deleting account" });
+    }
+  });
+
   app.get(api.products.get.path, async (req, res) => {
     const product = await storage.getProduct(Number(req.params.id));
     if (!product) return res.status(404).json({ message: "Product not found" });

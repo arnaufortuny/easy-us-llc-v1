@@ -158,14 +158,25 @@ export default function AdminDashboard() {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right px-6 space-x-2">
+                          <Select 
+                            value={order.status} 
+                            onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}
+                          >
+                            <SelectTrigger className="w-[120px] h-8 rounded-full text-[10px] font-black uppercase">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pendiente</SelectItem>
+                              <SelectItem value="paid">Pagado</SelectItem>
+                              <SelectItem value="cancelled">Cancelado</SelectItem>
+                              <SelectItem value="filed">Presentado</SelectItem>
+                            </SelectContent>
+                          </Select>
                           <Button size="sm" variant="ghost" className="h-8 w-8 p-0" title="Ver Factura" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')}>
                             <FileText className="w-4 h-4" />
                           </Button>
                           <Button size="sm" variant="ghost" className="h-8 w-8 p-0" title="Ver Recibo" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>
                             <Download className="w-4 h-4" />
-                          </Button>
-                          <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-green-600" title="Marcar como pagado" onClick={() => updateStatusMutation.mutate({ id: order.id, status: 'paid' })} disabled={order.status === 'paid'}>
-                            <CheckCircle className="w-4 h-4" />
                           </Button>
                         </TableCell>
                       </TableRow>

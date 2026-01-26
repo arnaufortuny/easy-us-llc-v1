@@ -303,36 +303,49 @@ export default function Dashboard() {
                           )}
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
-                        {isEditing ? (
-                          <>
-                            <Button 
-                              onClick={() => updateProfile.mutate(profileData)}
-                              disabled={updateProfile.isPending}
-                              className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
-                            >
-                              Guardar Cambios
+                          <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
+                            {isEditing ? (
+                              <>
+                                <Button 
+                                  onClick={() => updateProfile.mutate(profileData)}
+                                  disabled={updateProfile.isPending}
+                                  className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
+                                >
+                                  Guardar Cambios
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  onClick={() => setIsEditing(false)}
+                                  className="rounded-full font-black border-2 py-6 text-sm"
+                                >
+                                  Cancelar
+                                </Button>
+                              </>
+                            ) : (
+                              <Button 
+                                onClick={() => setIsEditing(true)}
+                                className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
+                              >
+                                Editar Perfil
+                              </Button>
+                            )}
+                            <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
+                              Cambiar Contraseña
                             </Button>
                             <Button 
-                              variant="outline" 
-                              onClick={() => setIsEditing(false)}
-                              className="rounded-full font-black border-2 py-6 text-sm"
+                              variant="destructive" 
+                              className="rounded-full font-black py-6 text-sm"
+                              onClick={() => {
+                                if (confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.")) {
+                                  apiRequest("DELETE", "/api/user/account").then(() => {
+                                    window.location.href = "/";
+                                  });
+                                }
+                              }}
                             >
-                              Cancelar
+                              Eliminar Cuenta
                             </Button>
-                          </>
-                        ) : (
-                          <Button 
-                            onClick={() => setIsEditing(true)}
-                            className="bg-primary text-white font-black rounded-full px-8 py-6 text-sm"
-                          >
-                            Editar Perfil
-                          </Button>
-                        )}
-                        <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
-                          Cambiar Contraseña
-                        </Button>
-                      </div>
+                          </div>
 
                       <div className="pt-8 border-t border-gray-100">
                         <div className="flex items-center justify-between gap-4 p-6 bg-accent/5 rounded-[2rem] border border-accent/10">

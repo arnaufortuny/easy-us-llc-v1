@@ -504,6 +504,7 @@ export default function MaintenanceApplication() {
           </CardContent>
         </Card>
       </main>
+      <NewsletterSection />
       <Footer />
     </div>
   );

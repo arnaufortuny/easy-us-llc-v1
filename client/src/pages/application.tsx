@@ -564,6 +564,7 @@ export default function ApplicationWizard() {
           </CardContent>
         </Card>
       </main>
+      <NewsletterSection />
       <Footer />
     </div>
   );
