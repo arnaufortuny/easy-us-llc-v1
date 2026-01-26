@@ -17,6 +17,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertMaintenanceApplicationSchema } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 
 const formSchema = z.object({
   creationSource: z.string().min(1, "Requerido"),
@@ -38,6 +39,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function MaintenanceApplication() {
+  const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
@@ -67,6 +69,21 @@ export default function MaintenanceApplication() {
       dataProcessingConsent: false
     },
   });
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      form.reset({
+        ...form.getValues(),
+        ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+        ownerEmail: user.email || "",
+        ownerPhone: user.phone || "",
+        businessActivity: user.businessActivity || "",
+      });
+      if (user.emailVerified) {
+        setIsEmailVerified(true);
+      }
+    }
+  }, [isAuthenticated, user, form]);
 
   useEffect(() => {
     async function init() {
@@ -102,9 +119,9 @@ export default function MaintenanceApplication() {
       if (!isValid) return;
     }
 
-    if (step === 10) {
-      if (isEmailVerified) setStep(12);
-      else setStep(11);
+    if (step === 9) {
+      if (isEmailVerified) setStep(11);
+      else setStep(10);
     } else {
       setStep(s => s + 1);
     }

@@ -223,6 +223,10 @@ export default function Dashboard() {
                           <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.phone || 'No disponible'}</div>
                         </div>
                         <div className="space-y-2 md:col-span-2">
+                          <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Actividad del Negocio</label>
+                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
+                        </div>
+                        <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">ID de Cliente</label>
                           <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-mono text-[10px] md:text-xs opacity-60 uppercase break-all">{user?.id}</div>
                         </div>

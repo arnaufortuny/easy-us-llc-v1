@@ -301,6 +301,99 @@ export async function registerRoutes(
     }
   });
 
+  app.post("/api/maintenance/orders", async (req: any, res) => {
+    try {
+      const { productId, state } = req.body;
+      
+      let userId: string;
+      if (req.user?.id) {
+        userId = req.user.id;
+      } else {
+        const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+        await db.insert(usersTable).values({
+          id: guestId,
+          email: null,
+          firstName: "Guest",
+          lastName: "User",
+        });
+        userId = guestId;
+      }
+
+      const product = await storage.getProduct(productId);
+      if (!product) return res.status(400).json({ message: "Invalid product" });
+
+      const order = await storage.createOrder({
+        userId,
+        productId,
+        amount: product.price,
+        status: "pending",
+        stripeSessionId: "mock_session_maint_" + Date.now(),
+      });
+
+      const [application] = await db.insert(maintenanceApplications).values({
+        orderId: order.id,
+        status: "draft",
+        state: state || product.name.split(" ")[0],
+      }).returning();
+
+      const timestamp = Date.now().toString();
+      const randomPart = Math.random().toString(36).substring(7).toUpperCase();
+      const requestCode = `MN-${timestamp.substring(timestamp.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
+
+      await db.update(maintenanceApplications)
+        .set({ requestCode })
+        .where(eq(maintenanceApplications.id, application.id));
+
+      res.status(201).json({ ...order, application: { ...application, requestCode } });
+    } catch (err) {
+      console.error("Error creating maintenance order:", err);
+      res.status(500).json({ message: "Error creating maintenance order" });
+    }
+  });
+
+  // Maintenance App Updates
+  app.put("/api/maintenance/:id", async (req, res) => {
+    try {
+      const appId = Number(req.params.id);
+      const updates = req.body;
+      const [updated] = await db.update(maintenanceApplications)
+        .set({ ...updates, lastUpdated: new Date() })
+        .where(eq(maintenanceApplications.id, appId))
+        .returning();
+      res.json(updated);
+    } catch (err) {
+      res.status(500).json({ message: "Error updating maintenance application" });
+    }
+  });
+
+  app.post("/api/maintenance/:id/send-otp", async (req, res) => {
+    try {
+      const appId = Number(req.params.id);
+      const { email } = req.body;
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expires = new Date(Date.now() + 10 * 60 * 1000);
+      await db.update(maintenanceApplications)
+        .set({ emailOtp: otp, emailOtpExpires: expires })
+        .where(eq(maintenanceApplications.id, appId));
+      await sendEmail({ to: email, subject: "Código de verificación", html: getOtpEmailTemplate(otp) });
+      res.json({ success: true });
+    } catch (err) {
+      res.status(500).json({ success: false });
+    }
+  });
+
+  app.post("/api/maintenance/:id/verify-otp", async (req, res) => {
+    const appId = Number(req.params.id);
+    const { otp } = req.body;
+    const [app] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
+    if (app && app.emailOtp === otp && new Date() < (app.emailOtpExpires || new Date(0))) {
+      await db.update(maintenanceApplications).set({ emailVerified: true }).where(eq(maintenanceApplications.id, appId));
+      res.json({ success: true });
+    } else {
+      res.status(400).json({ message: "Código inválido" });
+    }
+  });
+
   // Newsletter
   app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
     const isSubscribed = await storage.isSubscribedToNewsletter(req.user.email);
