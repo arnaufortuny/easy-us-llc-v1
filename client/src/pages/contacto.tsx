@@ -136,7 +136,7 @@ export default function Contacto() {
             </div>
             
             <div className="space-y-4">
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-black uppercase leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold tracking-tighter text-black  leading-tight">
                 {isLLC ? "¡Solicitud de LLC Recibida!" : isMaintenance ? "¡Pack de Mantenimiento Confirmado!" : "¡Mensaje recibido!"}
               </h1>
               <div className="h-1.5 w-24 bg-[#6EDC8A] mx-auto rounded-full" />
@@ -163,7 +163,7 @@ export default function Contacto() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button 
                 onClick={() => (window.location.href = "/")} 
-                className="bg-[#6EDC8A] text-black hover:bg-[#5bc979] font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all shadow-lg active:scale-95 w-full sm:w-auto"
+                className="bg-[#6EDC8A] text-black hover:bg-[#5bc979] font-bold px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all shadow-lg active:scale-95 w-full sm:w-auto"
               > 
                 Volver al inicio 
               </Button>
@@ -175,7 +175,7 @@ export default function Contacto() {
               >
                 <Button 
                   variant="outline"
-                  className="border-2 border-black text-black hover:bg-black hover:text-white font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all w-full shadow-lg active:scale-95"
+                  className="border-2 border-black text-black hover:bg-black hover:text-primary font-bold px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all w-full shadow-lg active:scale-95"
                 > 
                   WhatsApp Directo
                 </Button>
@@ -193,11 +193,11 @@ export default function Contacto() {
       <Navbar />
       <main className="pt-20 pb-16 w-full max-w-4xl mx-auto px-4 md:px-6">
         <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
-            <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">CONTACTO</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center">
+            <span className="text-accent  tracking-widest text-xs sm:text-sm font-bold block mb-2 text-center">CONTACTO</span>
             Contactanos
           </h2>
-          <p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Siempre listos para ayudarte)</p>
+          <p className="hidden sm:block text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Siempre listos para ayudarte)</p>
         </div>
 
         <div className="grid grid-cols-1 gap-12 mt-12 sm:mt-16">
@@ -282,7 +282,7 @@ export default function Contacto() {
                     <div className="absolute top-0 right-0 p-4 opacity-20">
                       <Info className="w-16 h-16 text-[#6EDC8A]" />
                     </div>
-                    <h3 className="text-primary font-black text-sm md:text-base uppercase tracking-tight flex items-center gap-2">
+                    <h3 className="text-primary font-bold text-sm md:text-base  tracking-tight flex items-center gap-2">
                       Nota tranquilizadora
                     </h3>
                     <p className="text-sm md:text-base font-medium text-primary/80 leading-relaxed">
@@ -344,8 +344,8 @@ export default function Contacto() {
         {/* Otras vías de contacto */}
         <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center">
-              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">OTRAS VÍAS DE CONTACTO</span>
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center">
+              <span className="text-accent  tracking-widest text-xs sm:text-sm font-bold block mb-0 text-center">OTRAS VÍAS DE CONTACTO</span>
               Escríbenos, te esperamos!
             </h2>
           </div>
@@ -355,7 +355,7 @@ export default function Contacto() {
               href="https://wa.me/34614916910" 
               target="_blank" 
               rel="noopener noreferrer"
-              className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-primary/5 transition-all group"
+              className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"
             >
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform shadow-sm">
                 <svg viewBox="0 0 24 24" className="w-7 h-7 fill-[#25D366]" xmlns="http://www.w3.org/2000/svg">
@@ -369,7 +369,7 @@ export default function Contacto() {
 
             <a 
               href="mailto:info@easyusllc.com" 
-              className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-primary/5 transition-all group"
+              className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"
             >
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center text-[#6EDC8A] group-hover:scale-105 transition-transform shadow-sm">
                 <Mail className="w-7 h-7" />

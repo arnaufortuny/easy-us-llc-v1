@@ -151,11 +151,11 @@ export default function FAQ() {
             viewport={{ once: true }}
             variants={staggerContainer}
           >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary uppercase tracking-tight text-center" variants={fadeIn}>
-              <span className="text-accent uppercase tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">FAQ</span>
+            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary  tracking-tight text-center" variants={fadeIn}>
+              <span className="text-accent  tracking-widest text-xs sm:text-sm font-bold block mb-2 text-center">FAQ</span>
               Centro de Ayuda
             </motion.h2>
-            <motion.p className="hidden sm:block text-accent font-black uppercase tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
+            <motion.p className="hidden sm:block text-accent font-bold  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
           </motion.div>
 
           <div className="max-w-4xl mx-auto">
@@ -184,7 +184,7 @@ export default function FAQ() {
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
                   <motion.div key={category.title} className="space-y-4 sm:space-y-6" variants={fadeIn}>
-                    <h2 className="text-xl sm:text-2xl font-bold text-primary uppercase tracking-tight flex items-center gap-3 sm:gap-4">
+                    <h2 className="text-xl sm:text-2xl font-bold text-primary  tracking-tight flex items-center gap-3 sm:gap-4">
                       <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-accent rounded-full shrink-0" />
                       {category.title}
                     </h2>

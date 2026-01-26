@@ -68,16 +68,16 @@ export default function AdminDashboard() {
       <Navbar />
       <main className="pt-24 pb-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="mb-12">
-          <h1 className="text-4xl font-black text-primary uppercase tracking-tighter">Panel de Administración</h1>
+          <h1 className="text-4xl font-bold text-primary  tracking-tighter">Panel de Administración</h1>
           <p className="text-muted-foreground">Gestión centralizada de pedidos, clientes y facturación.</p>
         </div>
 
         <Tabs defaultValue="orders" onValueChange={setActiveTab} className="space-y-8">
           <TabsList className="bg-white p-1 rounded-full border border-gray-100 shadow-sm">
-            <TabsTrigger value="orders" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold uppercase text-xs">
+            <TabsTrigger value="orders" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold  text-xs">
               <Clock className="w-4 h-4 mr-2" /> Pedidos
             </TabsTrigger>
-            <TabsTrigger value="users" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold uppercase text-xs">
+            <TabsTrigger value="users" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-bold  text-xs">
               <Users className="w-4 h-4 mr-2" /> Usuarios
             </TabsTrigger>
           </TabsList>
@@ -86,30 +86,30 @@ export default function AdminDashboard() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Card className="rounded-3xl border-0 shadow-sm">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-bold uppercase text-muted-foreground">Ventas Totales</CardTitle>
+                  <CardTitle className="text-sm font-bold  text-muted-foreground">Ventas Totales</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-3xl font-black text-primary">
+                  <p className="text-3xl font-bold text-primary">
                     {orders?.reduce((acc, curr) => acc + curr.amount, 0).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}
                   </p>
                 </CardContent>
               </Card>
               <Card className="rounded-3xl border-0 shadow-sm">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-bold uppercase text-muted-foreground">Pedidos Pendientes</CardTitle>
+                  <CardTitle className="text-sm font-bold  text-muted-foreground">Pedidos Pendientes</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-3xl font-black text-yellow-600">
+                  <p className="text-3xl font-bold text-yellow-600">
                     {orders?.filter(o => o.status === 'pending').length}
                   </p>
                 </CardContent>
               </Card>
               <Card className="rounded-3xl border-0 shadow-sm">
                 <CardHeader className="pb-2">
-                  <CardTitle className="text-sm font-bold uppercase text-muted-foreground">Clientes Activos</CardTitle>
+                  <CardTitle className="text-sm font-bold  text-muted-foreground">Clientes Activos</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-3xl font-black text-accent">
+                  <p className="text-3xl font-bold text-accent">
                     {new Set(orders?.map(o => o.userId)).size}
                   </p>
                 </CardContent>
@@ -118,18 +118,18 @@ export default function AdminDashboard() {
 
             <Card className="rounded-3xl border-0 shadow-sm overflow-hidden">
               <CardHeader className="bg-white border-b border-gray-100 p-6">
-                <CardTitle className="text-xl font-black uppercase">Listado de Pedidos</CardTitle>
+                <CardTitle className="text-xl font-bold ">Listado de Pedidos</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-gray-100">
-                      <TableHead className="font-bold uppercase text-xs px-6">ID / Fecha</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Cliente</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Servicio</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Importe</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Estado</TableHead>
-                      <TableHead className="font-bold uppercase text-xs text-right px-6">Acciones</TableHead>
+                      <TableHead className="font-bold  text-xs px-6">ID / Fecha</TableHead>
+                      <TableHead className="font-bold  text-xs">Cliente</TableHead>
+                      <TableHead className="font-bold  text-xs">Servicio</TableHead>
+                      <TableHead className="font-bold  text-xs">Importe</TableHead>
+                      <TableHead className="font-bold  text-xs">Estado</TableHead>
+                      <TableHead className="font-bold  text-xs text-right px-6">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -144,7 +144,7 @@ export default function AdminDashboard() {
                           <p className="text-xs text-muted-foreground">{order.user?.email}</p>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className="font-bold uppercase text-[10px] tracking-widest bg-gray-50">
+                          <Badge variant="outline" className="font-bold  text-[10px] tracking-widest bg-gray-50">
                             {order.product?.name}
                           </Badge>
                         </TableCell>
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
                           {(order.amount / 100).toFixed(2)}€
                         </TableCell>
                         <TableCell>
-                          <Badge className={`font-black uppercase text-[10px] tracking-tighter ${
+                          <Badge className={`font-bold  text-[10px] tracking-tighter ${
                             order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
                           }`}>
                             {order.status}
@@ -163,7 +163,7 @@ export default function AdminDashboard() {
                             value={order.status} 
                             onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}
                           >
-                            <SelectTrigger className="w-[120px] h-8 rounded-full text-[10px] font-black uppercase">
+                            <SelectTrigger className="w-[120px] h-8 rounded-full text-[10px] font-bold ">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -190,8 +190,8 @@ export default function AdminDashboard() {
 
           <TabsContent value="users" className="space-y-8 mt-0">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-black uppercase text-primary">Gestión de Usuarios</h2>
-              <Button className="bg-primary text-white font-bold rounded-full px-6" onClick={() => toast({ title: "Próximamente", description: "La creación de usuarios estará disponible pronto." })}>
+              <h2 className="text-2xl font-bold  text-primary">Gestión de Usuarios</h2>
+              <Button className="bg-accent text-primary font-bold rounded-full px-6" onClick={() => toast({ title: "Próximamente", description: "La creación de usuarios estará disponible pronto." })}>
                 Crear Usuario
               </Button>
             </div>
@@ -201,11 +201,11 @@ export default function AdminDashboard() {
                 <Table>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-gray-100">
-                      <TableHead className="font-bold uppercase text-xs px-6">ID / Nombre</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Email</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Teléfono</TableHead>
-                      <TableHead className="font-bold uppercase text-xs">Rol</TableHead>
-                      <TableHead className="font-bold uppercase text-xs text-right px-6">Acciones</TableHead>
+                      <TableHead className="font-bold  text-xs px-6">ID / Nombre</TableHead>
+                      <TableHead className="font-bold  text-xs">Email</TableHead>
+                      <TableHead className="font-bold  text-xs">Teléfono</TableHead>
+                      <TableHead className="font-bold  text-xs">Rol</TableHead>
+                      <TableHead className="font-bold  text-xs text-right px-6">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -218,7 +218,7 @@ export default function AdminDashboard() {
                         <TableCell className="font-medium">{u.email}</TableCell>
                         <TableCell className="text-sm font-medium">{u.phone || 'N/A'}</TableCell>
                         <TableCell>
-                          <Badge className={`font-black uppercase text-[10px] ${u.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
+                          <Badge className={`font-bold  text-[10px] ${u.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
                             {u.isAdmin ? 'Admin' : 'Cliente'}
                           </Badge>
                         </TableCell>

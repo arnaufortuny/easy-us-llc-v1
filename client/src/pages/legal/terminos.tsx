@@ -19,7 +19,7 @@ export default function Terminos() {
           <Button 
             onClick={handleDownload}
             variant="outline" 
-            className="rounded-full border-primary text-primary hover:bg-primary hover:text-white transition-colors gap-2"
+            className="rounded-full border-primary text-primary hover:bg-accent hover:text-primary transition-colors gap-2"
           >
             <Download className="w-4 h-4" />
             Descargar PDF
@@ -65,15 +65,15 @@ export default function Terminos() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
               <div className="p-4 border border-soft-gray rounded-xl text-center">
                 <p className="font-bold text-primary">Pack New Mexico</p>
-                <p className="text-xl font-black text-carbon-black">639 €</p>
+                <p className="text-xl font-bold text-carbon-black">639 €</p>
               </div>
               <div className="p-4 border border-soft-gray rounded-xl text-center">
                 <p className="font-bold text-primary">Pack Wyoming</p>
-                <p className="text-xl font-black text-carbon-black">799 €</p>
+                <p className="text-xl font-bold text-carbon-black">799 €</p>
               </div>
               <div className="p-4 border border-soft-gray rounded-xl text-center">
                 <p className="font-bold text-primary">Pack Delaware</p>
-                <p className="text-xl font-black text-carbon-black">999 €</p>
+                <p className="text-xl font-bold text-carbon-black">999 €</p>
               </div>
             </div>
             <p className="text-xs text-muted-foreground italic">Los precios incluyen las tasas estatales de constitución correspondientes.</p>

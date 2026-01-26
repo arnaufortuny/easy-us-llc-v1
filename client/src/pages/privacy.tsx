@@ -18,7 +18,7 @@ export default function Privacy() {
       <HeroSection 
         className="pt-20 sm:pt-24 lg:pt-28 pb-0"
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black uppercase tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold  tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
             Política de <span className="text-brand-lime">Privacidad</span>
           </h1>
         }
@@ -36,7 +36,7 @@ export default function Privacy() {
               <Button 
                 onClick={handleDownload}
                 variant="outline" 
-                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-black text-sm uppercase tracking-wider w-full sm:w-auto shadow-sm"
+                className="rounded-full border-brand-lime text-brand-dark hover:bg-brand-lime transition-all gap-3 h-14 sm:h-12 px-10 sm:px-8 font-bold text-sm  tracking-wider w-full sm:w-auto shadow-sm"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
                 Descargar PDF
@@ -48,12 +48,12 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">1. Responsable del tratamiento</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">1. Responsable del tratamiento</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>El responsable del tratamiento de los datos personales es:</p>
                   <div className="bg-brand-lime/5 border-2 border-brand-lime/20 rounded-2xl p-8 space-y-2 font-medium">
-                    <p className="font-black text-brand-dark uppercase text-xs tracking-widest opacity-50">Entidad Legal</p>
+                    <p className="font-bold text-brand-dark  text-xs tracking-widest opacity-50">Entidad Legal</p>
                     <p className="font-bold text-lg text-carbon-black">Fortuny Consulting LLC</p>
                     <p>Nombre comercial: Easy US LLC</p>
                     <p>EIN: 98-1906730</p>
@@ -66,7 +66,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">2. Datos personales objeto de tratamiento</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">2. Datos personales objeto de tratamiento</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>Easy US LLC podrá recopilar y tratar los siguientes datos personales:</p>
@@ -86,7 +86,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">3. Finalidad del tratamiento</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">3. Finalidad del tratamiento</h2>
                 </div>
                 <div className="space-y-4 text-sm sm:text-base">
                   <p>Los datos personales serán tratados con las siguientes finalidades:</p>
@@ -103,7 +103,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">4. Base jurídica del tratamiento</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">4. Base jurídica del tratamiento</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El tratamiento se realiza sobre la base de la ejecución de un contrato, el consentimiento expreso del usuario, el cumplimiento de obligaciones legales y el interés legítimo del responsable.</p>
@@ -113,7 +113,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">5. Conservación de los datos</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">5. Conservación de los datos</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Los datos se conservarán durante el tiempo necesario para cumplir las finalidades y los plazos exigidos por la normativa legal, fiscal y administrativa.</p>
@@ -123,7 +123,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">6. Destinatarios y cesión de datos</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">6. Destinatarios y cesión de datos</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Los datos podrán ser comunicados a organismos públicos, Registered Agents, entidades bancarias y proveedores tecnológicos necesarios para la operativa del servicio.</p>
@@ -133,7 +133,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">7. Transferencias internacionales</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">7. Transferencias internacionales</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Dada la naturaleza del servicio, los datos podrán ser tratados o almacenados en Estados Unidos, garantizando siempre un nivel adecuado de protección.</p>
@@ -143,7 +143,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">8. Derechos del interesado</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">8. Derechos del interesado</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>El usuario puede ejercer sus derechos de acceso, rectificación, supresión y portabilidad mediante solicitud a <strong>info@easyusllc.com</strong>.</p>
@@ -153,7 +153,7 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">9. Seguridad y comunicaciones</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">9. Seguridad y comunicaciones</h2>
                 </div>
                 <div className="text-sm sm:text-base space-y-4">
                   <p>Adoptamos medidas técnicas razonables para proteger la información. Las comunicaciones se realizarán preferentemente por medios electrónicos.</p>
@@ -163,9 +163,9 @@ export default function Privacy() {
               <section>
                 <div className="flex items-center gap-4 mb-6">
                   <span className="w-2 h-10 bg-brand-lime rounded-full" />
-                  <h2 className="text-xl sm:text-2xl font-black text-brand-dark uppercase tracking-tighter">10. Legislación aplicable</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-brand-dark  tracking-tighter">10. Legislación aplicable</h2>
                 </div>
-                <div className="bg-brand-dark text-white rounded-2xl p-8 sm:p-12">
+                <div className="bg-brand-dark text-primary rounded-2xl p-8 sm:p-12">
                   <p className="text-sm sm:text-base leading-relaxed opacity-90">Esta política se rige por el Reglamento General de Protección de Datos (RGPD) y la normativa estadounidense correspondiente.</p>
                 </div>
               </section>

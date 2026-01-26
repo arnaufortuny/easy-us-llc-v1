@@ -194,7 +194,7 @@ export default function ApplicationWizard() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-bold  mb-4 text-primary leading-tight text-left">
           Constituir mi <span className="text-accent">LLC</span>
         </h1>
         
@@ -202,7 +202,7 @@ export default function ApplicationWizard() {
           <div className="mb-8 flex items-center gap-2 text-sm">
             <span className="text-muted-foreground font-medium">¿Ya tienes cuenta?</span>
             <Link href="/api/login">
-              <button className="text-primary font-black hover:underline">Inicia sesión</button>
+              <button className="text-primary font-bold hover:underline">Inicia sesión</button>
             </Link>
           </div>
         )}
@@ -214,7 +214,7 @@ export default function ApplicationWizard() {
                 {/* STEP 0: Nombre Completo */}
                 {step === 0 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
                     <FormDescription>Tal y como aparece en tu documento oficial</FormDescription>
@@ -234,7 +234,7 @@ export default function ApplicationWizard() {
                 {/* STEP 1: Teléfono */}
                 {step === 1 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                     </h2>
                     <FormDescription>Para comunicarnos contigo rápidamente si hace falta</FormDescription>
@@ -257,7 +257,7 @@ export default function ApplicationWizard() {
                 {/* STEP 2: Email */}
                 {step === 2 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                     </h2>
                     <FormDescription>Aquí recibirás toda la documentación y avisos importantes</FormDescription>
@@ -280,7 +280,7 @@ export default function ApplicationWizard() {
                 {/* STEP 3: Fecha de Nacimiento */}
                 {step === 3 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                     </h2>
                     <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
@@ -302,13 +302,13 @@ export default function ApplicationWizard() {
                 {/* STEP 4: Documento de Identidad */}
                 {step === 4 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                     </h2>
                     <div className="space-y-4">
                       <FormField control={form.control} name="ownerIdType" render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel className="font-bold uppercase text-[10px]  text-primary">Tipo de documento:</FormLabel>
+                          <FormLabel className="font-bold  text-[10px]  text-primary">Tipo de documento:</FormLabel>
                           <FormControl>
                             <div className="flex flex-col gap-3">
                               {["DNI", "Pasaporte"].map((opt) => (
@@ -342,7 +342,7 @@ export default function ApplicationWizard() {
                 {/* STEP 5: País de Residencia */}
                 {step === 5 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                     </h2>
                     <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
@@ -364,7 +364,7 @@ export default function ApplicationWizard() {
                 {/* STEP 6: Dirección Completa */}
                 {step === 6 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                     </h2>
                     <FormDescription>Calle, número, ciudad, código postal y país</FormDescription>
@@ -387,7 +387,7 @@ export default function ApplicationWizard() {
                 {/* STEP 7: Nombre LLC */}
                 {step === 7 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                     </h2>
                     <FormDescription>Si tienes varias opciones, pon la principal aquí</FormDescription>
@@ -410,7 +410,7 @@ export default function ApplicationWizard() {
                 {/* STEP 8: Actividad del Negocio */}
                 {step === 8 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                     </h2>
                     <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
@@ -430,7 +430,7 @@ export default function ApplicationWizard() {
                 {/* STEP 9: Categoría */}
                 {step === 9 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría de negocio
                     </h2>
                     <FormField control={form.control} name="businessCategory" render={({ field }) => (
@@ -454,7 +454,7 @@ export default function ApplicationWizard() {
                 {/* STEP 10: Cuenta Bancaria */}
                 {step === 10 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas cuenta bancaria?
                     </h2>
                     <FormDescription>Te ayudamos a abrirla en bancos como Mercury o Relay</FormDescription>
@@ -483,7 +483,7 @@ export default function ApplicationWizard() {
                 {/* STEP 11: Notas */}
                 {step === 11 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageCircle className="w-6 h-6 text-accent" /> 1️⃣2️⃣ ¿Algo más que debamos saber?
                     </h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
@@ -502,20 +502,20 @@ export default function ApplicationWizard() {
                 {/* STEP 12: OTP */}
                 {step === 12 && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> Verificación de Email
                     </h2>
                     {!isOtpSent ? (
                       <div className="space-y-6">
                         <p className="text-sm text-muted-foreground">Para continuar, debemos verificar tu correo electrónico: <strong>{form.getValues("ownerEmail")}</strong></p>
-                        <Button type="button" onClick={sendOtp} className="w-full bg-primary text-white font-bold py-7 rounded-full text-lg shadow-lg">Enviar Código</Button>
+                        <Button type="button" onClick={sendOtp} className="w-full bg-accent text-primary font-bold py-7 rounded-full text-lg shadow-lg">Enviar Código</Button>
                       </div>
                     ) : (
                       <div className="space-y-6">
                         <FormField control={form.control} name="otp" render={({ field }) => (
                           <FormItem>
                             <FormLabel className="font-bold">Ingresa el código de 6 dígitos:</FormLabel>
-                            <FormControl><Input {...field} className="rounded-full h-14 text-center text-2xl tracking-[0.5em] font-black" maxLength={6} /></FormControl>
+                            <FormControl><Input {...field} className="rounded-full h-14 text-center text-2xl tracking-[0.5em] font-bold" maxLength={6} /></FormControl>
                             <FormMessage />
                           </FormItem>
                         )} />
@@ -530,7 +530,7 @@ export default function ApplicationWizard() {
                 {/* STEP 13: Consentimientos Finales */}
                 {(step === 13 || step === 14) && (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold uppercase text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
                     <div className="space-y-4">

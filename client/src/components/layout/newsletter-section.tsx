@@ -53,8 +53,8 @@ export function NewsletterSection() {
           className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center"
         >
           <div className="space-y-2 md:space-y-4 w-full text-center">
-            <h2 className="text-xl md:text-4xl font-black uppercase tracking-tighter text-primary leading-none text-center">
-              Únete a nuestra <span className="text-[#6EDC8A] bg-primary px-2 inline-block">Newsletter</span>
+            <h2 className="text-xl md:text-4xl font-bold  tracking-tighter text-primary leading-none text-center">
+              Únete a nuestra <span className="text-[#6EDC8A] bg-accent px-2 inline-block">Newsletter</span>
             </h2>
             <p className="text-primary/70 text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
               Consejos claros sobre fiscalidad en USA.
