@@ -418,7 +418,8 @@ export async function registerRoutes(
 
       const isSubscribed = await storage.isSubscribedToNewsletter(targetEmail);
       if (isSubscribed) {
-        return res.status(400).json({ message: "Este email ya está suscrito" });
+        // Silent success for already subscribed via dashboard toggle
+        return res.json({ success: true, message: "Ya estás suscrito" });
       }
 
       await storage.subscribeToNewsletter(targetEmail);

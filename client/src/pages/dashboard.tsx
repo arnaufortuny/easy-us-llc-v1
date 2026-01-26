@@ -220,7 +220,10 @@ export default function Dashboard() {
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Teléfono</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.phone || 'No disponible'}</div>
+                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base flex items-center justify-between">
+                            <span>{user?.phone || 'No disponible'}</span>
+                            {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full uppercase font-black">Verificado</span>}
+                          </div>
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Actividad del Negocio</label>
