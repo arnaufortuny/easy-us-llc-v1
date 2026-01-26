@@ -17,7 +17,7 @@ export default function NotFound() {
             <p className="text-sm text-muted-foreground mb-6">
               La página que buscas no existe o ha sido movida.
             </p>
-            <Button asChild variant="premium" className="rounded-full px-8">
+            <Button asChild className="rounded-full bg-brand-lime text-brand-dark hover:bg-brand-lime/90 font-black px-8 h-12 uppercase tracking-tight">
               <Link href="/">Volver al Inicio</Link>
             </Button>
           </CardContent>
