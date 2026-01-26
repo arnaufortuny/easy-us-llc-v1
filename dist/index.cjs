@@ -12,11 +12,11 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc2) => {
+var __copyProps = (to, from, except, desc3) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc2 = __getOwnPropDesc(from, key)) || desc2.enumerable });
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc3 = __getOwnPropDesc(from, key)) || desc3.enumerable });
   }
   return to;
 };
@@ -53,6 +53,7 @@ var init_auth = __esm({
       lastName: (0, import_pg_core.varchar)("last_name"),
       profileImageUrl: (0, import_pg_core.varchar)("profile_image_url"),
       phone: (0, import_pg_core.varchar)("phone"),
+      businessActivity: (0, import_pg_core.text)("business_activity"),
       emailVerified: (0, import_pg_core.boolean)("email_verified").notNull().default(false),
       isAdmin: (0, import_pg_core.boolean)("is_admin").notNull().default(false),
       createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow(),
@@ -73,18 +74,19 @@ __export(schema_exports, {
   insertMaintenanceApplicationSchema: () => insertMaintenanceApplicationSchema,
   insertOrderSchema: () => insertOrderSchema,
   insertProductSchema: () => insertProductSchema,
-  llcApplications: () => llcApplications,
+  llcApplications: () => llcApplications2,
   llcApplicationsRelations: () => llcApplicationsRelations,
   maintenanceApplications: () => maintenanceApplications,
   maintenanceApplicationsRelations: () => maintenanceApplicationsRelations,
-  newsletterSubscribers: () => newsletterSubscribers2,
+  messages: () => messages,
+  newsletterSubscribers: () => newsletterSubscribers,
   orders: () => orders,
   ordersRelations: () => ordersRelations,
   products: () => products,
   sessions: () => sessions,
   users: () => users
 });
-var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications, applicationDocuments, newsletterSubscribers2, contactOtps, ordersRelations, llcApplicationsRelations, applicationDocumentsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, maintenanceApplications, insertMaintenanceApplicationSchema, insertContactOtpSchema, maintenanceApplicationsRelations;
+var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications2, applicationDocuments, newsletterSubscribers, messages, contactOtps, ordersRelations, llcApplicationsRelations, applicationDocumentsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, maintenanceApplications, insertMaintenanceApplicationSchema, insertContactOtpSchema, maintenanceApplicationsRelations;
 var init_schema = __esm({
   "shared/schema.ts"() {
     "use strict";
@@ -111,7 +113,7 @@ var init_schema = __esm({
       amount: (0, import_pg_core2.integer)("amount").notNull(),
       createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     });
-    llcApplications = (0, import_pg_core2.pgTable)("llc_applications", {
+    llcApplications2 = (0, import_pg_core2.pgTable)("llc_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
       requestCode: (0, import_pg_core2.text)("request_code").unique(),
@@ -171,7 +173,7 @@ var init_schema = __esm({
     });
     applicationDocuments = (0, import_pg_core2.pgTable)("application_documents", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
-      applicationId: (0, import_pg_core2.integer)("application_id").notNull().references(() => llcApplications.id),
+      applicationId: (0, import_pg_core2.integer)("application_id").notNull().references(() => llcApplications2.id),
       fileName: (0, import_pg_core2.text)("file_name").notNull(),
       fileType: (0, import_pg_core2.text)("file_type").notNull(),
       fileUrl: (0, import_pg_core2.text)("file_url").notNull(),
@@ -179,10 +181,24 @@ var init_schema = __esm({
       // passport, id, other
       uploadedAt: (0, import_pg_core2.timestamp)("uploaded_at").defaultNow()
     });
-    newsletterSubscribers2 = (0, import_pg_core2.pgTable)("newsletter_subscribers", {
+    newsletterSubscribers = (0, import_pg_core2.pgTable)("newsletter_subscribers", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       email: (0, import_pg_core2.text)("email").notNull().unique(),
       subscribedAt: (0, import_pg_core2.timestamp)("subscribed_at").defaultNow()
+    });
+    messages = (0, import_pg_core2.pgTable)("messages", {
+      id: (0, import_pg_core2.serial)("id").primaryKey(),
+      userId: (0, import_pg_core2.varchar)("user_id").references(() => users.id),
+      name: (0, import_pg_core2.text)("name"),
+      email: (0, import_pg_core2.text)("email").notNull(),
+      subject: (0, import_pg_core2.text)("subject"),
+      content: (0, import_pg_core2.text)("content").notNull(),
+      status: (0, import_pg_core2.text)("status").notNull().default("unread"),
+      // unread, read, archived
+      type: (0, import_pg_core2.text)("type").notNull().default("contact"),
+      // contact, support, system
+      requestCode: (0, import_pg_core2.text)("request_code"),
+      createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     });
     contactOtps = (0, import_pg_core2.pgTable)("contact_otps", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
@@ -194,18 +210,18 @@ var init_schema = __esm({
     ordersRelations = (0, import_drizzle_orm2.relations)(orders, ({ one, many }) => ({
       user: one(users, { fields: [orders.userId], references: [users.id] }),
       product: one(products, { fields: [orders.productId], references: [products.id] }),
-      application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] })
+      application: one(llcApplications2, { fields: [orders.id], references: [llcApplications2.orderId] })
     }));
-    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications, ({ one, many }) => ({
-      order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
+    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications2, ({ one, many }) => ({
+      order: one(orders, { fields: [llcApplications2.orderId], references: [orders.id] }),
       documents: many(applicationDocuments)
     }));
     applicationDocumentsRelations = (0, import_drizzle_orm2.relations)(applicationDocuments, ({ one }) => ({
-      application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] })
+      application: one(llcApplications2, { fields: [applicationDocuments.applicationId], references: [llcApplications2.id] })
     }));
     insertProductSchema = (0, import_drizzle_zod.createInsertSchema)(products).omit({ id: true });
     insertOrderSchema = (0, import_drizzle_zod.createInsertSchema)(orders).omit({ id: true, createdAt: true });
-    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications).omit({ id: true, lastUpdated: true });
+    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications2).omit({ id: true, lastUpdated: true });
     insertApplicationDocumentSchema = (0, import_drizzle_zod.createInsertSchema)(applicationDocuments).omit({ id: true, uploadedAt: true });
     maintenanceApplications = (0, import_pg_core2.pgTable)("maintenance_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
@@ -485,6 +501,15 @@ async function upsertUser(claims) {
     profileImageUrl: claims["profile_image_url"]
   });
 }
+async function updateUserDetails(userId, updates) {
+  const user = await authStorage.getUser(userId);
+  if (!user) return;
+  await authStorage.upsertUser({
+    ...user,
+    ...updates,
+    updatedAt: /* @__PURE__ */ new Date()
+  });
+}
 async function setupAuth(app2) {
   app2.set("trust proxy", 1);
   app2.use(getSession());
@@ -618,20 +643,20 @@ var DatabaseStorage = class {
   }
   // LLC Applications
   async createLlcApplication(app2) {
-    const [newApp] = await db.insert(llcApplications).values(app2).returning();
+    const [newApp] = await db.insert(llcApplications2).values(app2).returning();
     return newApp;
   }
   async getLlcApplication(id) {
-    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm4.eq)(llcApplications.id, id));
+    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
     return app2;
   }
   async getLlcApplicationByOrderId(orderId) {
-    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm4.eq)(llcApplications.orderId, orderId));
+    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.orderId, orderId));
     return app2;
   }
   async getLlcApplicationByRequestCode(code) {
     const result = await db.query.llcApplications.findFirst({
-      where: (0, import_drizzle_orm4.eq)(llcApplications.requestCode, code),
+      where: (0, import_drizzle_orm4.eq)(llcApplications2.requestCode, code),
       with: {
         documents: true
       }
@@ -639,17 +664,17 @@ var DatabaseStorage = class {
     return result;
   }
   async updateLlcApplication(id, updates) {
-    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm4.eq)(llcApplications.id, id)).returning();
+    const [updated] = await db.update(llcApplications2).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id)).returning();
     return updated;
   }
   async setLlcApplicationOtp(id, otp, expires) {
-    await db.update(llcApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm4.eq)(llcApplications.id, id));
+    await db.update(llcApplications2).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
   }
   async verifyLlcApplicationOtp(id, otp) {
-    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm4.eq)(llcApplications.id, id));
+    const [app2] = await db.select().from(llcApplications2).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
     if (!app2 || !app2.emailOtp || !app2.emailOtpExpires) return false;
     if (app2.emailOtp === otp && /* @__PURE__ */ new Date() < app2.emailOtpExpires) {
-      await db.update(llcApplications).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm4.eq)(llcApplications.id, id));
+      await db.update(llcApplications2).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm4.eq)(llcApplications2.id, id));
       return true;
     }
     return false;
@@ -669,11 +694,11 @@ var DatabaseStorage = class {
   async subscribeToNewsletter(email) {
     const subscribed = await this.isSubscribedToNewsletter(email);
     if (!subscribed) {
-      await db.insert(newsletterSubscribers2).values({ email });
+      await db.insert(newsletterSubscribers).values({ email });
     }
   }
   async isSubscribedToNewsletter(email) {
-    const [subscriber] = await db.select().from(newsletterSubscribers2).where((0, import_drizzle_orm4.eq)(newsletterSubscribers2.email, email));
+    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm4.eq)(newsletterSubscribers.email, email));
     return !!subscriber;
   }
   // Admin methods
@@ -1060,9 +1085,30 @@ async function registerRoutes(httpServer2, app2) {
     }
     res.json({ success: true });
   });
+  app2.patch("/api/user/profile", isAuthenticated, async (req, res) => {
+    try {
+      const { firstName, lastName, phone, businessActivity } = req.body;
+      const userId = req.user.claims.sub;
+      await updateUserDetails(userId, { firstName, lastName, phone, businessActivity });
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Profile update error:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  });
   app2.get(api.products.list.path, async (req, res) => {
     const products3 = await storage.getProducts();
     res.json(products3);
+  });
+  app2.delete("/api/user/account", isAuthenticated, async (req, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      await db.delete(users).where((0, import_drizzle_orm5.eq)(users.id, userId));
+      res.json({ success: true, message: "Cuenta eliminada correctamente" });
+    } catch (error) {
+      console.error("Delete account error:", error);
+      res.status(500).json({ message: "Error deleting account" });
+    }
   });
   app2.get(api.products.get.path, async (req, res) => {
     const product = await storage.getProduct(Number(req.params.id));
@@ -1142,6 +1188,54 @@ async function registerRoutes(httpServer2, app2) {
       }
       console.error("Error creating order:", err);
       return res.status(500).json({ message: "Error creating order" });
+    }
+  });
+  app2.get("/api/messages", isAuthenticated, async (req, res) => {
+    try {
+      const userMessages = await db.select().from(messages).where((0, import_drizzle_orm5.eq)(messages.userId, req.user.claims.sub)).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+      res.json(userMessages);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching messages" });
+    }
+  });
+  app2.post("/api/messages", async (req, res) => {
+    try {
+      const { name, email, subject, content, requestCode } = req.body;
+      const userId = req.isAuthenticated() ? req.user.claims.sub : null;
+      const [message] = await db.insert(messages).values({
+        userId,
+        name,
+        email,
+        subject,
+        content,
+        requestCode,
+        type: "contact"
+      }).returning();
+      sendEmail({
+        to: email,
+        subject: `Recibimos tu mensaje: ${subject || "Contacto"}`,
+        html: getAutoReplyTemplate(name || "Cliente")
+      }).catch(console.error);
+      logActivity("Nuevo Mensaje de Contacto", {
+        "Nombre": name,
+        "Email": email,
+        "Asunto": subject,
+        "Mensaje": content,
+        "Referencia": requestCode || "N/A"
+      });
+      res.status(201).json(message);
+    } catch (error) {
+      res.status(500).json({ message: "Error sending message" });
+    }
+  });
+  app2.patch("/api/llc/:id/data", isAuthenticated, async (req, res) => {
+    try {
+      const appId = Number(req.params.id);
+      const updates = req.body;
+      const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(llcApplications.id, appId)).returning();
+      res.json(updated);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating request" });
     }
   });
   app2.get(api.llc.get.path, async (req, res) => {
@@ -1339,7 +1433,7 @@ async function registerRoutes(httpServer2, app2) {
       }
       const isSubscribed = await storage.isSubscribedToNewsletter(targetEmail);
       if (isSubscribed) {
-        return res.status(400).json({ message: "Este email ya est\xE1 suscrito" });
+        return res.json({ success: true, message: "Ya est\xE1s suscrito" });
       }
       await storage.subscribeToNewsletter(targetEmail);
       await sendEmail({
@@ -1361,6 +1455,15 @@ async function registerRoutes(httpServer2, app2) {
     }
     next();
   };
+  app2.get("/api/admin/messages", isAdmin, async (req, res) => {
+    const messages2 = await db.select().from(messages).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+    res.json(messages2);
+  });
+  app2.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
+    const { status } = req.body;
+    const [message] = await db.update(messages).set({ status }).where((0, import_drizzle_orm5.eq)(messages.id, Number(req.params.id))).returning();
+    res.json(message);
+  });
   app2.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
       const users2 = await db.select().from(users);
@@ -1422,7 +1525,7 @@ async function registerRoutes(httpServer2, app2) {
     const orderId = Number(req.params.id);
     const order = await storage.getOrder(orderId);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.id && !req.user.isAdmin) {
+    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
       return res.status(403).json({ message: "No tienes permiso para ver esta factura" });
     }
     res.setHeader("Content-Type", "text/html");
@@ -1432,7 +1535,7 @@ async function registerRoutes(httpServer2, app2) {
     const orderId = Number(req.params.id);
     const order = await storage.getOrder(orderId);
     if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.user.id && !req.user.isAdmin) {
+    if (order.userId !== req.user.claims.sub && !req.user.isAdmin) {
       return res.status(403).json({ message: "Acceso denegado" });
     }
     res.setHeader("Content-Type", "text/html");
@@ -1912,6 +2015,7 @@ app.use((req, res, next) => {
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("X-XSS-Protection", "1; mode=block");
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   if (req.method === "GET") {
     const isAsset = req.path.startsWith("/assets/") || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     if (isAsset) {
