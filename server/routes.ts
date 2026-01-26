@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 
 export async function registerRoutes(
