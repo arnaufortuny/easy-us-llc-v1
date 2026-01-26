@@ -302,16 +302,33 @@ export async function registerRoutes(
   });
 
   // Newsletter
+  app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
+    const isSubscribed = await storage.isSubscribedToNewsletter(req.user.email);
+    res.json({ isSubscribed });
+  });
+
+  app.post("/api/newsletter/unsubscribe", isAuthenticated, async (req: any, res) => {
+    await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.user.email));
+    res.json({ success: true });
+  });
+
   app.post("/api/newsletter/subscribe", async (req, res) => {
     try {
-      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      const { email } = z.object({ email: z.string().email().optional() }).parse(req.body);
       
-      const isSubscribed = await storage.isSubscribedToNewsletter(email);
+      // If no email provided, try to use authenticated user's email
+      const targetEmail = email || (req.isAuthenticated() ? (req.user as any).email : null);
+      
+      if (!targetEmail) {
+        return res.status(400).json({ message: "Se requiere un email" });
+      }
+
+      const isSubscribed = await storage.isSubscribedToNewsletter(targetEmail);
       if (isSubscribed) {
         return res.status(400).json({ message: "Este email ya está suscrito" });
       }
 
-      await storage.subscribeToNewsletter(email);
+      await storage.subscribeToNewsletter(targetEmail);
       
       await sendEmail({
         to: email,

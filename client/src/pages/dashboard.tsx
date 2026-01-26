@@ -2,15 +2,48 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
-import { useQuery } from "@tanstack/react-query";
-import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink } from "lucide-react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient, apiRequest } from "@/lib/queryClient";
+import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "wouter";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents';
+
+function NewsletterToggle() {
+  const { toast } = useToast();
+  const { data: status, isLoading } = useQuery<{ isSubscribed: boolean }>({
+    queryKey: ["/api/newsletter/status"],
+  });
+
+  const mutation = useMutation({
+    mutationFn: async (subscribe: boolean) => {
+      const endpoint = subscribe ? "/api/newsletter/subscribe" : "/api/newsletter/unsubscribe";
+      // The subscribe endpoint expects { email }, unsubscribe uses auth
+      const body = subscribe ? { email: undefined } : undefined; // server uses req.user.email if available
+      await apiRequest("POST", endpoint, body);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/newsletter/status"] });
+      toast({ title: "Preferencia actualizada", description: "Tu suscripción ha sido actualizada correctamente." });
+    }
+  });
+
+  if (isLoading) return <div className="w-10 h-6 bg-gray-100 animate-pulse rounded-full" />;
+
+  return (
+    <Switch 
+      checked={status?.isSubscribed} 
+      onCheckedChange={(val) => mutation.mutate(val)}
+      disabled={mutation.isPending}
+    />
+  );
+}
 
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -201,6 +234,18 @@ export default function Dashboard() {
                         <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
                           Cambiar Contraseña
                         </Button>
+                      </div>
+
+                      <div className="pt-8 border-t border-gray-100">
+                        <div className="flex items-center justify-between gap-4 p-6 bg-accent/5 rounded-[2rem] border border-accent/10">
+                          <div className="space-y-1">
+                            <h4 className="text-sm font-black uppercase tracking-tight text-primary flex items-center gap-2">
+                              <BellRing className="w-4 h-4 text-accent" /> Suscripción Newsletter
+                            </h4>
+                            <p className="text-xs text-muted-foreground font-medium">Recibe noticias, actualizaciones fiscales y consejos para tu LLC.</p>
+                          </div>
+                          <NewsletterToggle />
+                        </div>
                       </div>
                     </CardContent>
                   </Card>
