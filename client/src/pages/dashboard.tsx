@@ -402,7 +402,11 @@ export default function Dashboard() {
                       </div>
                       <h3 className="font-black text-primary uppercase tracking-tight mb-2 text-sm md:text-base">Contrato de Servicio</h3>
                       <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Tus términos aceptados y firmados con Easy US LLC.</p>
-                      <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5">
+                      <Button 
+                        variant="outline" 
+                        className="rounded-full font-black border-2 w-full text-xs py-5"
+                        onClick={() => window.open("/terminos_y_condiciones.pdf", "_blank")}
+                      >
                         <Download className="w-4 h-4 mr-2" /> Descargar PDF
                       </Button>
                     </Card>
