@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, CheckCircle, XCircle, Clock, FileText, Mail } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Clock, FileText, Mail, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
 
@@ -139,6 +139,7 @@ export default function AdminDashboard() {
                         size="sm" 
                         variant="ghost" 
                         className="h-8 w-8 p-0"
+                        title="Ver Factura"
                         onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')}
                       >
                         <FileText className="w-4 h-4" />
@@ -146,7 +147,17 @@ export default function AdminDashboard() {
                       <Button 
                         size="sm" 
                         variant="ghost" 
+                        className="h-8 w-8 p-0"
+                        title="Ver Recibo"
+                        onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
+                      >
+                        <Download className="w-4 h-4" />
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="ghost" 
                         className="h-8 w-8 p-0 text-green-600"
+                        title="Marcar como pagado"
                         onClick={() => updateStatusMutation.mutate({ id: order.id, status: 'paid' })}
                         disabled={order.status === 'paid'}
                       >

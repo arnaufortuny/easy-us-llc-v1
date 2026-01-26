@@ -348,54 +348,153 @@ export async function registerRoutes(
     const order = await storage.getOrder(orderId);
     if (!order) return res.status(404).json({ message: "Order not found" });
     
-    // Simple HTML Invoice for now
     res.setHeader('Content-Type', 'text/html');
-    res.send(`
+    res.send(generateInvoiceHtml(order));
+  });
+
+  // Client Invoice Route
+  app.get("/api/orders/:id/invoice", isAuthenticated, async (req: any, res) => {
+    const orderId = Number(req.params.id);
+    const order = await storage.getOrder(orderId);
+    
+    if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+    if (order.userId !== req.user.id && !req.user.isAdmin) {
+      return res.status(403).json({ message: "No tienes permiso para ver esta factura" });
+    }
+    
+    res.setHeader('Content-Type', 'text/html');
+    res.send(generateInvoiceHtml(order));
+  });
+
+  // Client Receipt/Resumen Route
+  app.get("/api/orders/:id/receipt", isAuthenticated, async (req: any, res) => {
+    const orderId = Number(req.params.id);
+    const order = await storage.getOrder(orderId);
+    
+    if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+    if (order.userId !== req.user.id && !req.user.isAdmin) {
+      return res.status(403).json({ message: "Acceso denegado" });
+    }
+    
+    res.setHeader('Content-Type', 'text/html');
+    res.send(generateReceiptHtml(order));
+  });
+
+  function generateInvoiceHtml(order: any) {
+    return `
       <html>
         <head>
           <style>
-            body { font-family: Inter, sans-serif; padding: 40px; color: #1a1a1a; }
-            .header { border-bottom: 2px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; }
-            .invoice-title { font-size: 24px; font-weight: 800; text-transform: uppercase; }
-            .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
-            .table { w-full; border-collapse: collapse; }
-            .table th { text-align: left; border-bottom: 1px solid #eee; padding: 10px; font-size: 12px; text-transform: uppercase; color: #666; }
-            .table td { padding: 15px 10px; border-bottom: 1px solid #f9f9f9; }
-            .total { text-align: right; font-size: 20px; font-weight: 800; margin-top: 20px; }
+            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
+            .header { border-bottom: 4px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; tracking-tighter; margin: 0; }
+            .details { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; }
+            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; tracking-widest; }
+            .table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+            .table th { text-align: left; border-bottom: 2px solid #f0f0f0; padding: 15px 10px; font-size: 11px; text-transform: uppercase; font-weight: 900; }
+            .table td { padding: 20px 10px; border-bottom: 1px solid #f9f9f9; font-size: 14px; font-weight: 500; }
+            .total-box { background: #f9f9f9; padding: 30px; border-radius: 20px; text-align: right; margin-left: auto; width: fit-content; min-width: 250px; }
+            .total-label { font-size: 12px; font-weight: 900; text-transform: uppercase; color: #666; }
+            .total-amount { font-size: 28px; font-weight: 900; color: #000; }
+            .footer { margin-top: 80px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
           </style>
         </head>
         <body>
           <div class="header">
-            <div class="invoice-title">Factura Easy US LLC</div>
-            <p>Referencia: #${order.id}</p>
+            <div>
+              <h1 class="invoice-title">Factura Oficial</h1>
+              <p style="margin: 5px 0 0 0; font-weight: 700;">Ref: INV-${order.id}-${new Date(order.createdAt).getFullYear()}</p>
+            </div>
+            <div style="text-align: right">
+              <p style="margin: 0; font-weight: 800;">Easy US LLC</p>
+              <p style="margin: 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
+            </div>
           </div>
           <div class="details">
             <div>
-              <strong>De:</strong><br/>
-              Fortuny Consulting LLC<br/>
-              EIN: 98-1906730
+              <div class="section-title">Emisor</div>
+              <p style="margin: 0;"><strong>Fortuny Consulting LLC</strong></p>
+              <p style="margin: 0; font-size: 14px;">EIN: 98-1906730</p>
+              <p style="margin: 0; font-size: 14px;">USA / España</p>
             </div>
             <div>
-              <strong>Para:</strong><br/>
-              Cliente #${order.userId}
+              <div class="section-title">Cliente</div>
+              <p style="margin: 0;"><strong>ID Usuario: #${order.userId}</strong></p>
+              <p style="margin: 0; font-size: 14px;">Servicios de Constitución / Mantenimiento</p>
             </div>
           </div>
-          <table class="table" style="width: 100%">
+          <table class="table">
             <thead>
-              <tr><th>Concepto</th><th style="text-align: right">Importe</th></tr>
+              <tr><th>Descripción del Servicio</th><th style="text-align: right">Precio Unitario</th></tr>
             </thead>
             <tbody>
               <tr>
-                <td>Servicio de Constitución LLC / Mantenimiento</td>
+                <td>Constitución de Empresa LLC / Mantenimiento Anual</td>
                 <td style="text-align: right">${(order.amount / 100).toFixed(2)}€</td>
               </tr>
             </tbody>
           </table>
-          <div class="total">Total: ${(order.amount / 100).toFixed(2)}€</div>
+          <div class="total-box">
+            <div class="total-label">Total Facturado (EUR)</div>
+            <div class="total-amount">${(order.amount / 100).toFixed(2)}€</div>
+          </div>
+          <div class="footer">
+            Easy US LLC • Gracias por confiar en nosotros para expandir tu negocio a USA.
+          </div>
         </body>
       </html>
-    `);
-  });
+    `;
+  }
+
+  function generateReceiptHtml(order: any) {
+    return `
+      <html>
+        <head>
+          <style>
+            body { font-family: 'Inter', sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
+            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
+            .logo { width: 60px; margin-bottom: 30px; }
+            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 6px 15px; border-radius: 100px; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
+            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; tracking: -0.03em; }
+            .msg { color: #666; margin-bottom: 40px; }
+            .info-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
+            .label { font-weight: 800; color: #999; text-transform: uppercase; font-size: 11px; }
+            .val { font-weight: 700; color: #000; }
+            .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #999; }
+          </style>
+        </head>
+        <body>
+          <div class="card">
+            <div class="status">Recibo de Solicitud</div>
+            <h1>Confirmación de Pedido</h1>
+            <p class="msg">Hemos recibido correctamente tu solicitud. Tu proceso de constitución está en marcha.</p>
+            
+            <div class="info-row">
+              <span class="label">Referencia del Pedido</span>
+              <span class="val">#${order.id}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Fecha</span>
+              <span class="val">${new Date(order.createdAt).toLocaleDateString('es-ES')}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Estado del Pago</span>
+              <span class="val">${order.status === 'paid' ? 'PAGADO' : 'PENDIENTE'}</span>
+            </div>
+            <div class="info-row" style="border-bottom: 0;">
+              <span class="label">Total Importe</span>
+              <span class="val" style="font-size: 20px; color: #6EDC8A;">${(order.amount / 100).toFixed(2)}€</span>
+            </div>
+            
+            <div class="footer">
+              Conserva este recibo para tus registros.<br/>
+              Easy US LLC • Fortuny Consulting LLC
+            </div>
+          </div>
+        </body>
+      </html>
+    `;
+  }
 
   // Contact form
   app.post("/api/contact/send-otp", async (req, res) => {

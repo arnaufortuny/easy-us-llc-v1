@@ -199,14 +199,56 @@ export default function Dashboard() {
                       </div>
                       <h3 className="text-3xl font-black uppercase tracking-tight mb-2">Métodos de Pago</h3>
                       <p className="text-white/60 font-medium mb-8">Gestiona tus tarjetas, facturas y suscripciones a través de Stripe.</p>
-                      <a href="https://billing.stripe.com/p/login/test_6oE5mG0Y0" target="_blank" rel="noopener noreferrer">
-                        <Button className="bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center gap-2 hover:bg-white transition-colors">
-                          Acceder al Portal de Pago <ExternalLink className="w-4 h-4" />
-                        </Button>
-                      </a>
+                      <div className="flex flex-wrap gap-4">
+                        <a href="https://billing.stripe.com/p/login/test_6oE5mG0Y0" target="_blank" rel="noopener noreferrer">
+                          <Button className="bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center gap-2 hover:bg-white transition-colors">
+                            Portal Stripe <ExternalLink className="w-4 h-4" />
+                          </Button>
+                        </a>
+                      </div>
                     </div>
                     <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-accent opacity-5 rounded-full" />
                   </Card>
+
+                  <h3 className="text-2xl font-black text-primary uppercase tracking-tight mt-12 mb-6">Historial de Facturación</h3>
+                  <div className="space-y-4">
+                    {orders?.map((order: any) => (
+                      <Card key={order.id} className="rounded-3xl border-0 shadow-sm overflow-hidden group">
+                        <CardContent className="p-6 flex items-center justify-between">
+                          <div className="flex items-center gap-4">
+                            <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:bg-accent group-hover:text-primary transition-colors">
+                              <FileText className="w-6 h-6" />
+                            </div>
+                            <div>
+                              <p className="font-black text-primary uppercase text-sm">Factura INV-{order.id}</p>
+                              <p className="text-xs text-muted-foreground font-bold">{new Date(order.createdAt).toLocaleDateString()}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-6">
+                            <p className="font-black text-primary">{(order.amount / 100).toFixed(2)}€</p>
+                            <div className="flex gap-2">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="rounded-full font-black border-2"
+                                onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
+                              >
+                                Factura
+                              </Button>
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="rounded-full font-black border-2"
+                                onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
+                              >
+                                Recibo
+                              </Button>
+                            </div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
                 </motion.div>
               )}
 
