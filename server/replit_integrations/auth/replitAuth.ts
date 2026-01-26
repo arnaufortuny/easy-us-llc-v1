@@ -61,7 +61,7 @@ async function upsertUser(claims: any) {
 }
 
 // Helper to update specific user fields
-export async function updateUserDetails(userId: string, updates: { phone?: string, businessActivity?: string }) {
+export async function updateUserDetails(userId: string, updates: { firstName?: string, lastName?: string, phone?: string, businessActivity?: string }) {
   const user = await authStorage.getUser(userId);
   if (!user) return;
   await authStorage.upsertUser({

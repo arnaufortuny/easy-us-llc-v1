@@ -58,9 +58,9 @@ export async function registerRoutes(
   // Profile Updates
   app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
     try {
-      const { phone, businessActivity } = req.body;
+      const { firstName, lastName, phone, businessActivity } = req.body;
       const userId = req.user.claims.sub;
-      await updateUserDetails(userId, { phone, businessActivity });
+      await updateUserDetails(userId, { firstName, lastName, phone, businessActivity });
       res.json({ success: true });
     } catch (error) {
       console.error("Profile update error:", error);

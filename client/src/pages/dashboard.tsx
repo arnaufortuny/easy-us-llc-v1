@@ -51,12 +51,14 @@ export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState({ phone: '', businessActivity: '' });
+  const [profileData, setProfileData] = useState({ firstName: '', lastName: '', phone: '', businessActivity: '' });
   const { toast } = useToast();
 
   useEffect(() => {
     if (user) {
       setProfileData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
         phone: user.phone || '',
         businessActivity: user.businessActivity || ''
       });
@@ -64,7 +66,7 @@ export default function Dashboard() {
   }, [user]);
 
   const updateProfile = useMutation({
-    mutationFn: async (data: { phone: string, businessActivity: string }) => {
+    mutationFn: async (data: { firstName: string, lastName: string, phone: string, businessActivity: string }) => {
       await apiRequest("PATCH", "/api/user/profile", data);
     },
     onSuccess: () => {
@@ -236,11 +238,27 @@ export default function Dashboard() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Nombre</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
+                          {isEditing ? (
+                            <Input 
+                              value={profileData.firstName} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, firstName: e.target.value }))}
+                              className="rounded-xl"
+                            />
+                          ) : (
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
+                          )}
                         </div>
                         <div className="space-y-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Apellido</label>
-                          <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
+                          {isEditing ? (
+                            <Input 
+                              value={profileData.lastName} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, lastName: e.target.value }))}
+                              className="rounded-xl"
+                            />
+                          ) : (
+                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-bold text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
+                          )}
                         </div>
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black uppercase tracking-widest text-muted-foreground">Teléfono</label>
