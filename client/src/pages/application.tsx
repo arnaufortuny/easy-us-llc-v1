@@ -144,9 +144,9 @@ export default function ApplicationWizard() {
       if (!isValid) return;
     }
 
-    if (step === 12) {
-      if (isEmailVerified) setStep(14);
-      else setStep(13);
+    if (step === 11) {
+      if (isEmailVerified) setStep(13);
+      else setStep(12);
     } else {
       setStep(s => s + 1);
     }
@@ -193,9 +193,18 @@ export default function ApplicationWizard() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
-        <h1 className="text-3xl md:text-4xl font-black uppercase mb-8 md:mb-12 text-primary leading-tight text-left px-4 sm:px-0">
+        <h1 className="text-3xl md:text-4xl font-black uppercase mb-4 text-primary leading-tight text-left px-4 sm:px-0">
           Constituir mi <span className="text-accent">LLC</span>
         </h1>
+        
+        {!isAuthenticated && (
+          <div className="mb-8 px-4 sm:px-0 flex items-center gap-2 text-sm">
+            <span className="text-muted-foreground font-medium">¿Ya tienes cuenta?</span>
+            <Link href="/api/login">
+              <button className="text-primary font-black hover:underline">Inicia sesión</button>
+            </Link>
+          </div>
+        )}
         
         <Form {...form}>
           <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
