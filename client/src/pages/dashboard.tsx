@@ -19,7 +19,7 @@ export default function Dashboard() {
     }
   }, [isAuthenticated, authLoading]);
 
-  const { data: orders, isLoading: ordersLoading } = useQuery({
+  const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
   });
@@ -70,7 +70,7 @@ export default function Dashboard() {
                 <div className="space-y-4">
                   {[1, 2].map(i => <div key={i} className="h-32 bg-white rounded-[2rem] animate-pulse" />)}
                 </div>
-              ) : orders && orders.length > 0 ? (
+              ) : orders && Array.isArray(orders) && orders.length > 0 ? (
                 <div className="space-y-4">
                   {orders.map((order: any) => (
                     <Card key={order.id} className="rounded-[2.5rem] border-0 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
