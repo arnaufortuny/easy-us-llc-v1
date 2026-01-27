@@ -1070,78 +1070,132 @@ export async function registerRoutes(
     const requestCode = order.application?.requestCode || `ORD-${order.id}`;
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
+    const userPhone = order.user?.phone || '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
+    const invoiceNumber = `INV-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}`;
     
     return `
-      <html>
+      <!DOCTYPE html>
+      <html lang="es">
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Factura ${invoiceNumber}</title>
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
           <style>
-            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; }
-            .header { border-bottom: 4px solid #6EDC8A; padding-bottom: 20px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-            .invoice-title { font-size: 32px; font-weight: 900; text-transform: uppercase; margin: 0; }
-            .order-code { background: #6EDC8A; color: #000; padding: 8px 16px; border-radius: 100px; font-weight: 900; font-size: 14px; display: inline-block; margin-top: 10px; }
-            .details { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-            .section-title { font-size: 10px; font-weight: 900; text-transform: uppercase; color: #6EDC8A; margin-bottom: 10px; letter-spacing: 0.1em; }
-            .table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-            .table th { text-align: left; border-bottom: 2px solid #f0f0f0; padding: 15px 10px; font-size: 11px; text-transform: uppercase; font-weight: 900; }
-            .table td { padding: 20px 10px; border-bottom: 1px solid #f9f9f9; font-size: 14px; font-weight: 500; }
-            .total-box { background: #f9f9f9; padding: 30px; border-radius: 20px; text-align: right; margin-left: auto; width: fit-content; min-width: 250px; }
-            .total-label { font-size: 12px; font-weight: 900; text-transform: uppercase; color: #666; }
-            .total-amount { font-size: 28px; font-weight: 900; color: #000; }
-            .footer { margin-top: 80px; font-size: 12px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
-            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; margin-bottom: 30px; }
-            @media print { .print-btn { display: none; } }
+            @media print { 
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } 
+              .no-print { display: none !important; }
+              @page { margin: 1cm; }
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0E1215; line-height: 1.6; background: #fff; max-width: 800px; margin: 0 auto; }
+            .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; padding-bottom: 30px; border-bottom: 3px solid #6EDC8A; }
+            .logo-section h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.02em; }
+            .logo-section .subtitle { color: #6B7280; font-size: 13px; margin-top: 4px; }
+            .invoice-info { text-align: right; }
+            .invoice-badge { background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); color: #0E1215; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 13px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+            .invoice-number { font-size: 20px; font-weight: 800; color: #0E1215; }
+            .invoice-date { font-size: 13px; color: #6B7280; margin-top: 4px; }
+            .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 50px; }
+            .detail-box { background: #F7F7F5; padding: 25px; border-radius: 16px; }
+            .detail-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6EDC8A; margin-bottom: 12px; letter-spacing: 0.08em; }
+            .detail-content p { font-size: 14px; margin-bottom: 4px; }
+            .detail-content strong { font-weight: 700; }
+            .items-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
+            .items-table thead th { text-align: left; padding: 16px 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.05em; color: #6B7280; border-bottom: 2px solid #E6E9EC; }
+            .items-table thead th:last-child { text-align: right; }
+            .items-table tbody td { padding: 20px 12px; font-size: 15px; border-bottom: 1px solid #F7F7F5; }
+            .items-table tbody td:last-child { text-align: right; font-weight: 600; }
+            .totals-section { display: flex; justify-content: flex-end; margin-bottom: 50px; }
+            .totals-box { background: linear-gradient(135deg, #F7F7F5 0%, #E6E9EC 100%); padding: 30px; border-radius: 20px; min-width: 280px; }
+            .totals-row { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; }
+            .totals-row.final { border-top: 2px solid #0E1215; padding-top: 15px; margin-top: 15px; margin-bottom: 0; }
+            .totals-row.final .label { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #6B7280; }
+            .totals-row.final .amount { font-size: 28px; font-weight: 900; color: #0E1215; }
+            .footer { text-align: center; padding-top: 30px; border-top: 1px solid #E6E9EC; font-size: 12px; color: #6B7280; }
+            .footer p { margin-bottom: 4px; }
+            .print-controls { text-align: center; margin-bottom: 30px; }
+            .print-btn { background: #6EDC8A; color: #0E1215; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
+            .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 220, 138, 0.4); }
           </style>
         </head>
         <body>
-          <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
+          <div class="print-controls no-print">
+            <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
+          </div>
+          
           <div class="header">
-            <div>
-              <h1 class="invoice-title">Factura</h1>
-              <div class="order-code">${requestCode}</div>
+            <div class="logo-section">
+              <h1>Easy US LLC</h1>
+              <p class="subtitle">Servicios de Constitución Empresarial</p>
             </div>
-            <div style="text-align: right">
-              <p style="margin: 0; font-weight: 800; font-size: 18px;">Easy US LLC</p>
-              <p style="margin: 5px 0 0 0; font-size: 13px; color: #666;">Fecha: ${new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
-            </div>
-          </div>
-          <div class="details">
-            <div>
-              <div class="section-title">Emisor</div>
-              <p style="margin: 0;"><strong>EASY US LLC</strong></p>
-              <p style="margin: 5px 0 0 0; font-size: 14px;">FORTUNY CONSULTING LLC</p>
-              <p style="margin: 5px 0 0 0; font-size: 14px;">1209 Mountain Road Place Northeast</p>
-              <p style="margin: 0; font-size: 14px;">STE R</p>
-              <p style="margin: 0; font-size: 14px;">Albuquerque, NM 87110, USA</p>
-              <p style="margin: 10px 0 0 0; font-size: 14px;">info@easyusllc.com</p>
-              <p style="margin: 0; font-size: 14px;">+34 614 91 69 10</p>
-            </div>
-            <div>
-              <div class="section-title">Cliente</div>
-              <p style="margin: 0;"><strong>${userName}</strong></p>
-              <p style="margin: 0; font-size: 14px;">${userEmail}</p>
+            <div class="invoice-info">
+              <div class="invoice-badge">Factura</div>
+              <div class="invoice-number">${invoiceNumber}</div>
+              <div class="invoice-date">Fecha: ${new Date(order.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</div>
             </div>
           </div>
-          <table class="table">
+          
+          <div class="details-grid">
+            <div class="detail-box">
+              <div class="detail-label">Datos del Emisor</div>
+              <div class="detail-content">
+                <p><strong>EASY US LLC</strong></p>
+                <p>FORTUNY CONSULTING LLC</p>
+                <p>1209 Mountain Road Place NE, STE R</p>
+                <p>Albuquerque, NM 87110, USA</p>
+                <p style="margin-top: 10px;">info@easyusllc.com</p>
+                <p>+34 614 91 69 10</p>
+              </div>
+            </div>
+            <div class="detail-box">
+              <div class="detail-label">Datos del Cliente</div>
+              <div class="detail-content">
+                <p><strong>${userName}</strong></p>
+                <p>${userEmail}</p>
+                ${userPhone ? `<p>${userPhone}</p>` : ''}
+                <p style="margin-top: 10px;"><strong>Ref. Pedido:</strong> ${requestCode}</p>
+              </div>
+            </div>
+          </div>
+          
+          <table class="items-table">
             <thead>
-              <tr><th>Descripción del Servicio</th><th style="text-align: right">Precio</th></tr>
+              <tr>
+                <th>Descripción del Servicio</th>
+                <th>Importe</th>
+              </tr>
             </thead>
             <tbody>
               <tr>
-                <td>${productName}</td>
-                <td style="text-align: right">${(order.amount / 100).toFixed(2)}€</td>
+                <td><strong>${productName}</strong><br><span style="color: #6B7280; font-size: 13px;">Servicio completo de constitución empresarial en USA</span></td>
+                <td>${(order.amount / 100).toFixed(2)} €</td>
               </tr>
             </tbody>
           </table>
-          <div class="total-box">
-            <div class="total-label">Total Facturado (EUR)</div>
-            <div class="total-amount">${(order.amount / 100).toFixed(2)}€</div>
+          
+          <div class="totals-section">
+            <div class="totals-box">
+              <div class="totals-row">
+                <span>Subtotal</span>
+                <span>${(order.amount / 100).toFixed(2)} €</span>
+              </div>
+              <div class="totals-row">
+                <span>IVA (0%)</span>
+                <span>0.00 €</span>
+              </div>
+              <div class="totals-row final">
+                <span class="label">Total</span>
+                <span class="amount">${(order.amount / 100).toFixed(2)} €</span>
+              </div>
+            </div>
           </div>
+          
           <div class="footer">
-            EASY US LLC • FORTUNY CONSULTING LLC<br>
-            1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br>
-            info@easyusllc.com • +34 614 91 69 10
+            <p><strong>EASY US LLC</strong> • FORTUNY CONSULTING LLC</p>
+            <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA</p>
+            <p>info@easyusllc.com • +34 614 91 69 10 • www.easyusllc.com</p>
           </div>
         </body>
       </html>
@@ -1151,61 +1205,111 @@ export async function registerRoutes(
   function generateReceiptHtml(order: any) {
     const requestCode = order.application?.requestCode || `ORD-${order.id}`;
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
+    const userEmail = order.user?.email || '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
+    const receiptNumber = `REC-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}`;
+    const statusLabels: Record<string, string> = {
+      'paid': 'Pagado',
+      'pending': 'Pendiente',
+      'processing': 'En Proceso',
+      'completed': 'Completado'
+    };
     
     return `
-      <html>
+      <!DOCTYPE html>
+      <html lang="es">
         <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Recibo ${receiptNumber}</title>
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
           <style>
-            @media print { body { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
-            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fcfcfc; }
-            .card { background: white; max-width: 600px; margin: auto; padding: 50px; border-radius: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid #eee; }
-            .status { display: inline-block; background: #6EDC8A; color: #000; padding: 8px 20px; border-radius: 100px; font-size: 12px; font-weight: 900; text-transform: uppercase; margin-bottom: 20px; }
-            h1 { font-size: 28px; font-weight: 900; margin: 0 0 10px 0; letter-spacing: -0.03em; }
-            .order-code { font-size: 24px; font-weight: 900; color: #6EDC8A; margin-bottom: 20px; }
-            .msg { color: #666; margin-bottom: 40px; }
-            .info-row { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #f5f5f5; font-size: 14px; }
-            .label { font-weight: 800; color: #999; text-transform: uppercase; font-size: 11px; }
-            .val { font-weight: 700; color: #000; }
-            .footer { margin-top: 40px; text-align: center; font-size: 12px; color: #999; }
-            .print-btn { background: #6EDC8A; color: #000; padding: 12px 30px; border: none; border-radius: 100px; font-weight: 900; cursor: pointer; font-size: 14px; display: block; margin: 0 auto 30px; }
-            @media print { .print-btn { display: none; } }
+            @media print { 
+              body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #fff !important; } 
+              .no-print { display: none !important; }
+              .receipt-card { box-shadow: none !important; }
+              @page { margin: 1cm; }
+            }
+            * { box-sizing: border-box; margin: 0; padding: 0; }
+            body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0E1215; line-height: 1.6; background: #F7F7F5; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+            .print-controls { text-align: center; margin-bottom: 25px; }
+            .print-btn { background: #6EDC8A; color: #0E1215; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
+            .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 220, 138, 0.4); }
+            .receipt-card { background: white; max-width: 500px; width: 100%; padding: 50px; border-radius: 32px; box-shadow: 0 25px 50px rgba(0,0,0,0.08); }
+            .receipt-header { text-align: center; margin-bottom: 35px; }
+            .success-icon { width: 70px; height: 70px; background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+            .success-icon svg { width: 35px; height: 35px; color: #0E1215; }
+            .receipt-badge { background: #6EDC8A; color: #0E1215; padding: 8px 18px; border-radius: 100px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.08em; display: inline-block; margin-bottom: 15px; }
+            .receipt-title { font-size: 26px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; }
+            .receipt-number { color: #6EDC8A; font-size: 18px; font-weight: 800; }
+            .receipt-message { color: #6B7280; font-size: 14px; margin-top: 15px; padding: 0 20px; }
+            .receipt-details { background: #F7F7F5; border-radius: 20px; padding: 25px; margin-bottom: 30px; }
+            .detail-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid #E6E9EC; }
+            .detail-row:last-child { border-bottom: none; }
+            .detail-label { font-size: 12px; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.05em; }
+            .detail-value { font-size: 15px; font-weight: 600; color: #0E1215; text-align: right; }
+            .detail-value.highlight { font-size: 22px; font-weight: 900; color: #6EDC8A; }
+            .status-badge { background: #6EDC8A; color: #0E1215; padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 800; }
+            .status-badge.pending { background: #FEF3C7; color: #92400E; }
+            .receipt-footer { text-align: center; padding-top: 25px; border-top: 1px solid #E6E9EC; font-size: 12px; color: #6B7280; }
+            .receipt-footer p { margin-bottom: 4px; }
+            .receipt-footer .company { font-weight: 700; color: #0E1215; }
           </style>
         </head>
         <body>
-          <div class="card">
+          <div class="print-controls no-print">
             <button class="print-btn" onclick="window.print()">Imprimir / Descargar PDF</button>
-            <div class="status">Recibo de Solicitud</div>
-            <h1>Confirmación de Pedido</h1>
-            <div class="order-code">${requestCode}</div>
-            <p class="msg">Hemos recibido correctamente tu solicitud. Tu proceso de constitución está en marcha.</p>
-            
-            <div class="info-row">
-              <span class="label">Cliente</span>
-              <span class="val">${userName}</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Servicio</span>
-              <span class="val">${productName}</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Fecha</span>
-              <span class="val">${new Date(order.createdAt).toLocaleDateString('es-ES')}</span>
-            </div>
-            <div class="info-row">
-              <span class="label">Estado</span>
-              <span class="val">${order.status === 'paid' ? 'PAGADO' : 'PENDIENTE'}</span>
-            </div>
-            <div class="info-row" style="border-bottom: 0;">
-              <span class="label">Total</span>
-              <span class="val" style="font-size: 20px; color: #6EDC8A;">${(order.amount / 100).toFixed(2)}€</span>
+          </div>
+          
+          <div class="receipt-card">
+            <div class="receipt-header">
+              <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div class="receipt-badge">Recibo de Solicitud</div>
+              <h1 class="receipt-title">Pedido Confirmado</h1>
+              <div class="receipt-number">${receiptNumber}</div>
+              <p class="receipt-message">Hemos recibido correctamente tu solicitud. Tu proceso de constitución está en marcha.</p>
             </div>
             
-            <div class="footer">
-              Conserva este recibo para tus registros.<br/>
-              EASY US LLC • FORTUNY CONSULTING LLC<br/>
-              1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110<br/>
-              info@easyusllc.com • +34 614 91 69 10
+            <div class="receipt-details">
+              <div class="detail-row">
+                <span class="detail-label">Cliente</span>
+                <span class="detail-value">${userName}</span>
+              </div>
+              ${userEmail ? `<div class="detail-row">
+                <span class="detail-label">Email</span>
+                <span class="detail-value">${userEmail}</span>
+              </div>` : ''}
+              <div class="detail-row">
+                <span class="detail-label">Servicio</span>
+                <span class="detail-value">${productName}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Fecha</span>
+                <span class="detail-value">${new Date(order.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Referencia</span>
+                <span class="detail-value">${requestCode}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Estado</span>
+                <span class="status-badge ${order.status === 'pending' ? 'pending' : ''}">${statusLabels[order.status] || order.status}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Total</span>
+                <span class="detail-value highlight">${(order.amount / 100).toFixed(2)} €</span>
+              </div>
+            </div>
+            
+            <div class="receipt-footer">
+              <p>Conserva este recibo para tus registros.</p>
+              <p class="company">EASY US LLC • FORTUNY CONSULTING LLC</p>
+              <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110</p>
+              <p>info@easyusllc.com • +34 614 91 69 10</p>
             </div>
           </div>
         </body>

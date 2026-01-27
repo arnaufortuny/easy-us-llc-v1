@@ -265,9 +265,10 @@ export default function Register() {
                 {step === 0 && (
                   <motion.div
                     key="step-0"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -323,9 +324,10 @@ export default function Register() {
                 {step === 1 && (
                   <motion.div
                     key="step-1"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -364,9 +366,10 @@ export default function Register() {
                 {step === 2 && (
                   <motion.div
                     key="step-2"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -405,9 +408,10 @@ export default function Register() {
                 {step === 3 && (
                   <motion.div
                     key="step-3"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -455,9 +459,10 @@ export default function Register() {
                 {step === 4 && (
                   <motion.div
                     key="step-4"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -481,6 +486,7 @@ export default function Register() {
                               <Input
                                 {...field}
                                 type={showPassword ? "text" : "password"}
+                                autoComplete="new-password"
                                 className="rounded-full pr-12 border-gray-200 focus:border-accent"
                                 placeholder="Mínimo 8 caracteres"
                                 data-testid="input-password"
@@ -513,6 +519,7 @@ export default function Register() {
                             <Input
                               {...field}
                               type={showPassword ? "text" : "password"}
+                              autoComplete="new-password"
                               className="rounded-full border-gray-200 focus:border-accent"
                               placeholder="Repite tu contraseña"
                               data-testid="input-confirmPassword"
@@ -528,9 +535,10 @@ export default function Register() {
                 {step === 5 && (
                   <motion.div
                     key="step-5"
-                    initial={{ opacity: 0, x: 20 }}
+                    initial={{ opacity: 0, x: 15 }}
                     animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
+                    exit={{ opacity: 0, x: -15 }}
+                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">

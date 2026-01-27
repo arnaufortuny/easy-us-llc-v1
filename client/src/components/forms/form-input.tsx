@@ -10,6 +10,7 @@ interface FormInputProps<T extends FieldValues> {
   description?: string;
   type?: string;
   inputMode?: "text" | "email" | "tel" | "numeric" | "decimal" | "url" | "search" | "none";
+  autoComplete?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -22,6 +23,7 @@ export function FormInput<T extends FieldValues>({
   description,
   type = "text",
   inputMode,
+  autoComplete,
   disabled = false,
   className = "",
 }: FormInputProps<T>) {
@@ -40,6 +42,7 @@ export function FormInput<T extends FieldValues>({
               {...field}
               type={type}
               inputMode={inputMode}
+              autoComplete={autoComplete || (type === "password" ? "current-password" : type === "email" ? "email" : undefined)}
               disabled={disabled}
               className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"
               placeholder={placeholder}
