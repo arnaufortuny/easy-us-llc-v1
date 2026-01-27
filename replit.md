@@ -26,6 +26,13 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **System Optimization (Jan 2026):**
+  - Removed duplicate reembolsos.tsx page (consolidated to legal/reembolsos.tsx)
+  - Replaced all window.location.href with wouter navigation (setLocation/Link) for proper SPA routing
+  - Fixed server error handler to prevent unhandled rejections
+  - Cleaned up unused attached_assets files (temp PDFs, text files, images)
+  - Fixed auth-utils.ts redirect path from /api/login to /login
+  - Auth system confirmed stable with explicit session.save() and proper error handling
 - **Registration Wizard Enhancement (Jan 2026):**
   - Converted registration to 6-step wizard: name, email, phone, business activity, password, confirmation
   - Business activity selector with 8 options (E-commerce, Dropshipping, Consulting, etc.)
