@@ -73,6 +73,34 @@ export async function registerRoutes(
     }
   });
 
+  // Client Update Profile
+  app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { firstName, lastName, phone, businessActivity, address, streetType, city, province, postalCode, country } = req.body;
+      
+      await db.update(usersTable).set({
+        firstName,
+        lastName,
+        phone,
+        businessActivity,
+        address,
+        streetType,
+        city,
+        province,
+        postalCode,
+        country,
+        updatedAt: new Date()
+      }).where(eq(usersTable.id, userId));
+      
+      const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Update profile error:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+
   app.get(api.products.get.path, async (req, res) => {
     const product = await storage.getProduct(Number(req.params.id));
     if (!product) return res.status(404).json({ message: "Product not found" });

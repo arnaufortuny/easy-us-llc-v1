@@ -51,7 +51,18 @@ export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>('services');
   const [isEditing, setIsEditing] = useState(false);
-  const [profileData, setProfileData] = useState({ firstName: '', lastName: '', phone: '', businessActivity: '' });
+  const [profileData, setProfileData] = useState({ 
+    firstName: '', 
+    lastName: '', 
+    phone: '', 
+    businessActivity: '',
+    address: '',
+    streetType: '',
+    city: '',
+    province: '',
+    postalCode: '',
+    country: ''
+  });
   const { toast } = useToast();
 
   useEffect(() => {
@@ -60,13 +71,19 @@ export default function Dashboard() {
         firstName: user.firstName || '',
         lastName: user.lastName || '',
         phone: user.phone || '',
-        businessActivity: user.businessActivity || ''
+        businessActivity: user.businessActivity || '',
+        address: user.address || '',
+        streetType: user.streetType || '',
+        city: user.city || '',
+        province: user.province || '',
+        postalCode: user.postalCode || '',
+        country: user.country || ''
       });
     }
   }, [user]);
 
   const updateProfile = useMutation({
-    mutationFn: async (data: { firstName: string, lastName: string, phone: string, businessActivity: string }) => {
+    mutationFn: async (data: typeof profileData) => {
       await apiRequest("PATCH", "/api/user/profile", data);
     },
     onSuccess: () => {
@@ -383,55 +400,154 @@ export default function Dashboard() {
                     <CardContent className="p-6 md:p-8 pt-0 space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                         <div className="space-y-2">
-                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Nombre</label>
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Nombre</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.firstName} 
                               onChange={(e) => setProfileData(prev => ({ ...prev, firstName: e.target.value }))}
-                              className="rounded-xl"
+                              className="rounded-full h-14 px-6"
+                              data-testid="input-firstname"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.firstName || 'No disponible'}</div>
                           )}
                         </div>
                         <div className="space-y-2">
-                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Apellido</label>
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Apellido</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.lastName} 
                               onChange={(e) => setProfileData(prev => ({ ...prev, lastName: e.target.value }))}
-                              className="rounded-xl"
+                              className="rounded-full h-14 px-6"
+                              data-testid="input-lastname"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.lastName || 'No disponible'}</div>
                           )}
                         </div>
+                        
                         <div className="space-y-2 md:col-span-2">
-                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Teléfono</label>
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Email</label>
+                          <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base flex items-center justify-between">
+                            <span>{user?.email || 'No disponible'}</span>
+                            {user?.emailVerified ? (
+                              <span className="text-[10px] bg-green-100 text-green-700 px-3 py-1 rounded-full font-black flex items-center gap-1">
+                                <CheckCircle2 className="w-3 h-3" /> Verificado
+                              </span>
+                            ) : (
+                              <span className="text-[10px] bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full font-black flex items-center gap-1">
+                                <AlertCircle className="w-3 h-3" /> No verificado
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="space-y-2 md:col-span-2">
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Teléfono</label>
                           {isEditing ? (
                             <Input 
                               value={profileData.phone} 
                               onChange={(e) => setProfileData(prev => ({ ...prev, phone: e.target.value }))}
-                              className="rounded-xl"
+                              className="rounded-full h-14 px-6"
+                              placeholder="+34 612 345 678"
+                              data-testid="input-phone"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base flex items-center justify-between">
-                              <span>{user?.phone || 'No disponible'}</span>
-                              {user?.phone && <span className="text-[10px] bg-green-100 text-green-700 px-2 py-1 rounded-full  font-black">Verificado</span>}
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">
+                              {user?.phone || 'No proporcionado'}
                             </div>
                           )}
                         </div>
+
                         <div className="space-y-2 md:col-span-2">
-                          <label className="text-[10px] md:text-xs font-black  tracking-widest text-muted-foreground">Actividad del Negocio</label>
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Actividad del Negocio</label>
                           {isEditing ? (
                             <Textarea 
                               value={profileData.businessActivity} 
                               onChange={(e) => setProfileData(prev => ({ ...prev, businessActivity: e.target.value }))}
-                              className="rounded-xl min-h-[100px]"
+                              className="rounded-2xl min-h-[100px] p-4"
+                              placeholder="Describe la actividad principal de tu negocio..."
+                              data-testid="input-business-activity"
                             />
                           ) : (
-                            <div className="p-3 md:p-4 bg-gray-50 rounded-xl font-black text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
+                            <div className="p-4 bg-gray-50 rounded-2xl font-black text-sm md:text-base">{user?.businessActivity || 'No proporcionada'}</div>
                           )}
+                        </div>
+                      </div>
+
+                      <div className="pt-6 border-t border-gray-100">
+                        <h4 className="text-sm font-black tracking-tight text-primary mb-4">Dirección Completa</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+                          <div className="space-y-2 md:col-span-2">
+                            <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Dirección</label>
+                            {isEditing ? (
+                              <Input 
+                                value={profileData.address} 
+                                onChange={(e) => setProfileData(prev => ({ ...prev, address: e.target.value }))}
+                                className="rounded-full h-14 px-6"
+                                placeholder="Calle, número, piso..."
+                                data-testid="input-address"
+                              />
+                            ) : (
+                              <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.address || 'No proporcionada'}</div>
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Ciudad</label>
+                            {isEditing ? (
+                              <Input 
+                                value={profileData.city} 
+                                onChange={(e) => setProfileData(prev => ({ ...prev, city: e.target.value }))}
+                                className="rounded-full h-14 px-6"
+                                placeholder="Madrid"
+                                data-testid="input-city"
+                              />
+                            ) : (
+                              <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.city || 'No proporcionada'}</div>
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Provincia</label>
+                            {isEditing ? (
+                              <Input 
+                                value={profileData.province} 
+                                onChange={(e) => setProfileData(prev => ({ ...prev, province: e.target.value }))}
+                                className="rounded-full h-14 px-6"
+                                placeholder="Madrid"
+                                data-testid="input-province"
+                              />
+                            ) : (
+                              <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.province || 'No proporcionada'}</div>
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Código Postal</label>
+                            {isEditing ? (
+                              <Input 
+                                value={profileData.postalCode} 
+                                onChange={(e) => setProfileData(prev => ({ ...prev, postalCode: e.target.value }))}
+                                className="rounded-full h-14 px-6"
+                                placeholder="28001"
+                                data-testid="input-postal-code"
+                              />
+                            ) : (
+                              <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.postalCode || 'No proporcionado'}</div>
+                            )}
+                          </div>
+                          <div className="space-y-2">
+                            <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">País</label>
+                            {isEditing ? (
+                              <Input 
+                                value={profileData.country} 
+                                onChange={(e) => setProfileData(prev => ({ ...prev, country: e.target.value }))}
+                                className="rounded-full h-14 px-6"
+                                placeholder="España"
+                                data-testid="input-country"
+                              />
+                            ) : (
+                              <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">{user?.country || 'No proporcionado'}</div>
+                            )}
+                          </div>
                         </div>
                       </div>
                           <div className="flex flex-col sm:flex-row gap-3 md:gap-4">
