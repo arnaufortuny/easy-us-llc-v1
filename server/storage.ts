@@ -106,7 +106,7 @@ export class DatabaseStorage implements IStorage {
         ip_address: "system"
       });
 
-      await sendEmail({
+      sendEmail({
         to: "afortuny07@gmail.com",
         subject: `[${isMaintenance ? 'MANTENIMIENTO' : 'PEDIDO'}] Nuevo: ${invoiceNumber}`,
         html: `
@@ -125,7 +125,7 @@ export class DatabaseStorage implements IStorage {
             </div>
           </div>
         `
-      });
+      }).catch(e => console.error("Admin order notification error:", e));
     } catch (e) {
       console.error("Log error in createOrder:", e);
     }

@@ -80,6 +80,11 @@ export async function registerRoutes(
       }
     };
 
+    // Error handler wrapper for routes
+    const asyncHandler = (fn: any) => (req: any, res: any, next: any) => {
+      Promise.resolve(fn(req, res, next)).catch(next);
+    };
+
     // === Activity Tracking ===
     app.post("/api/activity/track", async (req, res) => {
       const { action, details } = req.body;
@@ -102,64 +107,59 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/orders/:id/status", isAdmin, async (req: any, res) => {
-    try {
-      const orderId = Number(req.params.id);
-      const { status } = z.object({ status: z.string() }).parse(req.body);
-      
-      const [updatedOrder] = await db.update(ordersTable)
-        .set({ status })
-        .where(eq(ordersTable.id, orderId))
-        .returning();
-      
-      const order = await storage.getOrder(orderId);
-      if (order?.user?.email) {
-        const statusLabels: Record<string, string> = {
-          pending: "Pendiente",
-          processing: "En proceso",
-          paid: "Pagado",
-          filed: "Presentado",
-          documents_ready: "Documentos listos",
-          completed: "Completado",
-          cancelled: "Cancelado"
-        };
-        const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
+  app.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req: any, res) => {
+    const orderId = Number(req.params.id);
+    const { status } = z.object({ status: z.string() }).parse(req.body);
+    
+    const [updatedOrder] = await db.update(ordersTable)
+      .set({ status })
+      .where(eq(ordersTable.id, orderId))
+      .returning();
+    
+    const order = await storage.getOrder(orderId);
+    if (order?.user?.email) {
+      const statusLabels: Record<string, string> = {
+        pending: "Pendiente",
+        processing: "En proceso",
+        paid: "Pagado",
+        filed: "Presentado",
+        documents_ready: "Documentos listos",
+        completed: "Completado",
+        cancelled: "Cancelado"
+      };
+      const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
 
-        // Create Notification in Dashboard
-        await db.insert(userNotifications).values({
-          userId: order.userId,
-          title: `Actualización de pedido: ${statusLabel}`,
-          message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
-          type: 'update',
-          isRead: false
-        });
+      // Create Notification in Dashboard
+      await db.insert(userNotifications).values({
+        userId: order.userId,
+        title: `Actualización de pedido: ${statusLabel}`,
+        message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
+        type: 'update',
+        isRead: false
+      });
 
-        // Add Order Event for Timeline
-        await db.insert(orderEvents).values({
-          orderId: order.id,
-          eventType: statusLabel,
-          description: `El estado del pedido ha sido actualizado a ${statusLabel}.`,
-          createdBy: req.session.userId
-        });
+      // Add Order Event for Timeline
+      await db.insert(orderEvents).values({
+        orderId: order.id,
+        eventType: statusLabel,
+        description: `El estado del pedido ha sido actualizado a ${statusLabel}.`,
+        createdBy: req.session.userId
+      });
 
-        sendEmail({
-          to: order.user.email,
-          subject: `Actualización de tu pedido ${order.invoiceNumber || `#${order.id}`}`,
-          html: getOrderUpdateTemplate(
-            order.user.firstName || "Cliente",
-            order.invoiceNumber || `#${order.id}`,
-            status,
-            `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu factura y recibo actualizado en tu panel de control.`,
-            order.amount
-          )
-        }).catch(console.error);
-      }
-      res.json(updatedOrder);
-    } catch (error) {
-      console.error("Update status error:", error);
-      res.status(500).json({ message: "Error updating status" });
+      sendEmail({
+        to: order.user.email,
+        subject: `Actualización de tu pedido ${order.invoiceNumber || `#${order.id}`}`,
+        html: getOrderUpdateTemplate(
+          order.user.firstName || "Cliente",
+          order.invoiceNumber || `#${order.id}`,
+          status,
+          `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu factura y recibo actualizado en tu panel de control.`,
+          order.amount
+        )
+      }).catch(console.error);
     }
-  });
+    res.json(updatedOrder);
+  }));
 
   // Admin Users
   app.get("/api/admin/users", isAdmin, async (req, res) => {
@@ -171,46 +171,38 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const updateSchema = z.object({
-        firstName: z.string().min(1).max(100).optional(),
-        lastName: z.string().min(1).max(100).optional(),
-        email: z.string().email().optional(),
-        phone: z.string().max(30).optional().nullable(),
-        isActive: z.boolean().optional(),
-        isAdmin: z.boolean().optional(),
-        accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional(),
-        internalNotes: z.string().optional()
-      });
-      const data = updateSchema.parse(req.body);
-      
-      // If status is being updated to suspended, we consider it "Desactivado"
-      const [updated] = await db.update(usersTable).set({
-        ...data,
-        updatedAt: new Date()
-      }).where(eq(usersTable.id, userId)).returning();
+  app.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const updateSchema = z.object({
+      firstName: z.string().min(1).max(100).optional(),
+      lastName: z.string().min(1).max(100).optional(),
+      email: z.string().email().optional(),
+      phone: z.string().max(30).optional().nullable(),
+      isActive: z.boolean().optional(),
+      isAdmin: z.boolean().optional(),
+      accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional(),
+      internalNotes: z.string().optional()
+    });
+    const data = updateSchema.parse(req.body);
+    
+    // If status is being updated to suspended, we consider it "Desactivado"
+    const [updated] = await db.update(usersTable).set({
+      ...data,
+      updatedAt: new Date()
+    }).where(eq(usersTable.id, userId)).returning();
 
-      // Log account changes to admin
-      if (data.accountStatus || data.isActive !== undefined) {
-        logActivity("Cambio Crítico de Cuenta", { 
-          userId, 
-          "Nuevo Estado": data.accountStatus, 
-          "Activo": data.isActive,
-          adminId: (req as any).session.userId 
-        }, req);
-      }
-
-      res.json(updated);
-    } catch (error) {
-      console.error("Error updating user:", error);
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Datos inválidos" });
-      }
-      res.status(500).json({ message: "Error al actualizar usuario" });
+    // Log account changes to admin
+    if (data.accountStatus || data.isActive !== undefined) {
+      logActivity("Cambio Crítico de Cuenta", { 
+        userId, 
+        "Nuevo Estado": data.accountStatus, 
+        "Activo": data.isActive,
+        adminId: (req as any).session.userId 
+      }, req);
     }
-  });
+
+    res.json(updated);
+  }));
 
   app.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
