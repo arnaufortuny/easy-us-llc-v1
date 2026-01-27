@@ -1,6 +1,7 @@
 import { db } from "./db";
 import {
   products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
+  maintenanceApplications, messages as messagesTable,
   type Product, type Order, type LlcApplication, type ApplicationDocument,
   insertLlcApplicationSchema, insertApplicationDocumentSchema, insertOrderSchema
 } from "@shared/schema";
@@ -28,8 +29,8 @@ export interface IStorage {
   getLlcApplicationByOrderId(orderId: number): Promise<LlcApplication | undefined>;
   getLlcApplicationByRequestCode(code: string): Promise<(LlcApplication & { documents: ApplicationDocument[] }) | undefined>;
   updateLlcApplication(id: number, updates: Partial<LlcApplication>): Promise<LlcApplication>;
-  setLlcApplicationOtp(id: number, otp: string, expires: Date): Promise<void>;
-  verifyLlcApplicationOtp(id: number, otp: string): Promise<boolean>;
+  setOtp(type: 'llc' | 'maintenance', id: number, otp: string, expires: Date): Promise<void>;
+  verifyOtp(type: 'llc' | 'maintenance', id: number, otp: string): Promise<boolean>;
 
   // Documents
   createDocument(doc: InsertApplicationDocument): Promise<ApplicationDocument>;
@@ -127,26 +128,28 @@ export class DatabaseStorage implements IStorage {
     return updated;
   }
 
-  async setLlcApplicationOtp(id: number, otp: string, expires: Date): Promise<void> {
+  async setOtp(type: 'llc' | 'maintenance', id: number, otp: string, expires: Date): Promise<void> {
+    const table = type === 'llc' ? llcApplications : maintenanceApplications;
     await db
-      .update(llcApplications)
+      .update(table)
       .set({ emailOtp: otp, emailOtpExpires: expires })
-      .where(eq(llcApplications.id, id));
+      .where(eq(table.id, id));
   }
 
-  async verifyLlcApplicationOtp(id: number, otp: string): Promise<boolean> {
+  async verifyOtp(type: 'llc' | 'maintenance', id: number, otp: string): Promise<boolean> {
+    const table = type === 'llc' ? llcApplications : maintenanceApplications;
     const [app] = await db
       .select()
-      .from(llcApplications)
-      .where(eq(llcApplications.id, id));
+      .from(table)
+      .where(eq(table.id, id));
     
     if (!app || !app.emailOtp || !app.emailOtpExpires) return false;
     
     if (app.emailOtp === otp && new Date() < app.emailOtpExpires) {
       await db
-        .update(llcApplications)
+        .update(table)
         .set({ emailVerified: true, emailOtp: null, emailOtpExpires: null })
-        .where(eq(llcApplications.id, id));
+        .where(eq(table.id, id));
       return true;
     }
     return false;

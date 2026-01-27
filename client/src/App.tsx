@@ -7,10 +7,10 @@ import { useEffect, Suspense, lazy } from "react";
 import NotFound from "@/pages/not-found";
 
 const Home = lazy(() => import("@/pages/home"));
-const Legal = lazy(() => import("@/pages/legal"));
+const Legal = lazy(() => import("@/pages/legal/terminos"));
 const Servicios = lazy(() => import("@/pages/servicios"));
-const Privacidad = lazy(() => import("@/pages/privacy"));
-const Reembolsos = lazy(() => import("@/pages/reembolsos"));
+const Privacidad = lazy(() => import("@/pages/legal/privacidad"));
+const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
 const Cookies = lazy(() => import("@/pages/legal/cookies"));
 const Contacto = lazy(() => import("@/pages/contacto"));
 const FAQ = lazy(() => import("@/pages/faq"));
@@ -48,9 +48,9 @@ function Router() {
         <Route path="/dashboard" component={Dashboard} />
         <Route path="/admin" component={AdminDashboard} />
         <Route path="/legal" component={Legal} />
-        <Route path="/privacidad" component={Privacidad} />
-        <Route path="/reembolsos" component={Reembolsos} />
-        <Route path="/cookies" component={Cookies} />
+        <Route path="/legal/privacidad" component={Privacidad} />
+        <Route path="/legal/reembolsos" component={Reembolsos} />
+        <Route path="/legal/cookies" component={Cookies} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>

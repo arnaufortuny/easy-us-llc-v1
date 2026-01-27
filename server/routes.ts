@@ -349,8 +349,9 @@ export async function registerRoutes(
   });
 
   // OTP Endpoints
-  app.post("/api/llc/:id/send-otp", async (req, res) => {
+  app.post("/api/:type(llc|maintenance)/:id/send-otp", async (req, res) => {
     try {
+      const type = req.params.type as 'llc' | 'maintenance';
       const appId = Number(req.params.id);
       const { email } = req.body;
       
@@ -359,7 +360,7 @@ export async function registerRoutes(
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
       
-      await storage.setLlcApplicationOtp(appId, otp, expires);
+      await storage.setOtp(type, appId, otp, expires);
       
       await sendEmail({
         to: email,
@@ -369,18 +370,19 @@ export async function registerRoutes(
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Error sending LLC OTP:", error);
+      console.error(`Error sending ${req.params.type} OTP:`, error);
       res.status(500).json({ message: "Error al enviar el código de verificación" });
     }
   });
 
-  app.post("/api/llc/:id/verify-otp", async (req, res) => {
+  app.post("/api/:type(llc|maintenance)/:id/verify-otp", async (req, res) => {
+    const type = req.params.type as 'llc' | 'maintenance';
     const appId = Number(req.params.id);
     const { otp } = req.body;
     
     if (!otp) return res.status(400).json({ message: "OTP is required" });
     
-    const success = await storage.verifyLlcApplicationOtp(appId, otp);
+    const success = await storage.verifyOtp(type, appId, otp);
     if (success) {
       res.json({ success: true });
     } else {
@@ -439,47 +441,6 @@ export async function registerRoutes(
   });
 
   // Maintenance App Updates
-  app.put("/api/maintenance/:id", async (req, res) => {
-    try {
-      const appId = Number(req.params.id);
-      const updates = req.body;
-      const [updated] = await db.update(maintenanceApplications)
-        .set({ ...updates, lastUpdated: new Date() })
-        .where(eq(maintenanceApplications.id, appId))
-        .returning();
-      res.json(updated);
-    } catch (err) {
-      res.status(500).json({ message: "Error updating maintenance application" });
-    }
-  });
-
-  app.post("/api/maintenance/:id/send-otp", async (req, res) => {
-    try {
-      const appId = Number(req.params.id);
-      const { email } = req.body;
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expires = new Date(Date.now() + 10 * 60 * 1000);
-      await db.update(maintenanceApplications)
-        .set({ emailOtp: otp, emailOtpExpires: expires })
-        .where(eq(maintenanceApplications.id, appId));
-      await sendEmail({ to: email, subject: "Código de verificación", html: getOtpEmailTemplate(otp) });
-      res.json({ success: true });
-    } catch (err) {
-      res.status(500).json({ success: false });
-    }
-  });
-
-  app.post("/api/maintenance/:id/verify-otp", async (req, res) => {
-    const appId = Number(req.params.id);
-    const { otp } = req.body;
-    const [app] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
-    if (app && app.emailOtp === otp && new Date() < (app.emailOtpExpires || new Date(0))) {
-      await db.update(maintenanceApplications).set({ emailVerified: true }).where(eq(maintenanceApplications.id, appId));
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ message: "Código inválido" });
-    }
-  });
 
   // Newsletter
   app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {

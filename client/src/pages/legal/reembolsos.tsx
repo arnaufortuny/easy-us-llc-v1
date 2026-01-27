@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
@@ -5,24 +6,16 @@ import { NewsletterSection } from "@/components/layout/newsletter-section";
 
 export default function Reembolsos() {
   return (
-    <div className="min-h-screen font-sans bg-white">
+    <div className="min-h-screen bg-white font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
       <Navbar />
-      <HeroSection title="Política de Reembolsos" />
-      <div className="container max-w-4xl mx-auto py-12 sm:py-16 px-5 sm:px-8 text-left">
-        <div className="prose prose-slate max-w-none">
-          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">1. Condiciones Generales</h2>
-          <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Dada la naturaleza de los servicios de formación de LLC y las tasas gubernamentales involucradas, nuestra política de reembolsos es estricta para garantizar la viabilidad del servicio.</p>
-
-          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">2. Tasas Estatales y Federales</h2>
-          <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Una vez que Easy US LLC ha iniciado el proceso de presentación ante el Secretario de Estado o el IRS, las tasas correspondientes no son reembolsables bajo ninguna circunstancia, ya que estos organismos no devuelven dichos importes.</p>
-
-          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">3. Cancelación antes del Inicio</h2>
-          <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Si decide cancelar su pedido antes de que hayamos procesado cualquier documento, podrá recibir un reembolso parcial descontando una comisión de gestión administrativa del 15% del total pagado.</p>
-          
-          <h2 className="text-xl sm:text-2xl font-black mb-4 sm:mb-6 text-primary">4. Servicios de Mantenimiento</h2>
-          <p className="mb-6 text-sm sm:text-base text-muted-foreground leading-relaxed">Los pagos anuales por servicios de mantenimiento (Annual Report, Registered Agent, etc.) no son reembolsables una vez que el servicio ha sido renovado para el periodo correspondiente.</p>
-        </div>
-      </div>
+      <HeroSection 
+        className="pt-20 sm:pt-24 lg:pt-28 pb-0"
+        title={
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black  tracking-tight text-brand-dark leading-[1.1] text-center sm:text-left">
+            Política de <span className="text-brand-lime">Reembolsos</span>
+          </h1>
+        }
+      />
       <NewsletterSection />
       <Footer />
     </div>
