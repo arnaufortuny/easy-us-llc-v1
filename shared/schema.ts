@@ -3,7 +3,7 @@ import { pgTable, text, serial, integer, boolean, timestamp, jsonb, varchar } fr
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 import { users } from "./models/auth";
-import { relations } from "drizzle-orm";
+import { relations, sql } from "drizzle-orm";
 
 export const products = pgTable("products", {
   id: serial("id").primaryKey(),
@@ -70,7 +70,6 @@ export const llcApplications = pgTable("llc_applications", {
   emailVerified: boolean("email_verified").notNull().default(false),
 });
 
-// Application documents table
 export const applicationDocuments = pgTable("application_documents", {
   id: serial("id").primaryKey(),
   applicationId: integer("application_id").notNull().references(() => llcApplications.id),
@@ -81,7 +80,6 @@ export const applicationDocuments = pgTable("application_documents", {
   uploadedAt: timestamp("uploaded_at").defaultNow(),
 });
 
-// Relations
 export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
@@ -95,9 +93,11 @@ export const messages = pgTable("messages", {
   email: text("email").notNull(),
   subject: text("subject"),
   content: text("content").notNull(),
+  encryptedContent: text("encrypted_content"),
   status: text("status").notNull().default("unread"), // unread, read, archived
   type: text("type").notNull().default("contact"), // contact, support, system
   requestCode: text("request_code"),
+  messageId: text("message_id").unique(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -122,44 +122,11 @@ export const messageReplies = pgTable("message_replies", {
   id: serial("id").primaryKey(),
   messageId: integer("message_id").notNull().references(() => messages.id),
   content: text("content").notNull(),
+  encryptedContent: text("encrypted_content"),
   isAdmin: boolean("is_admin").notNull().default(false),
   createdAt: timestamp("created_at").defaultNow(),
   createdBy: varchar("created_by").references(() => users.id),
 });
-
-export const ordersRelations = relations(orders, ({ one, many }) => ({
-  user: one(users, { fields: [orders.userId], references: [users.id] }),
-  product: one(products, { fields: [orders.productId], references: [products.id] }),
-  application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
-  events: many(orderEvents),
-}));
-
-export const orderEventsRelations = relations(orderEvents, ({ one }) => ({
-  order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] }),
-}));
-
-export const messagesRelations = relations(messages, ({ many }) => ({
-  replies: many(messageReplies),
-}));
-
-export const messageRepliesRelations = relations(messageReplies, ({ one }) => ({
-  message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] }),
-}));
-
-export const llcApplicationsRelations = relations(llcApplications, ({ one, many }) => ({
-  order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
-  documents: many(applicationDocuments),
-}));
-
-export const applicationDocumentsRelations = relations(applicationDocuments, ({ one }) => ({
-  application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] }),
-}));
-
-// Schemas
-export const insertProductSchema = createInsertSchema(products).omit({ id: true });
-export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
-export const insertLlcApplicationSchema = createInsertSchema(llcApplications).omit({ id: true, lastUpdated: true });
-export const insertApplicationDocumentSchema = createInsertSchema(applicationDocuments).omit({ id: true, uploadedAt: true });
 
 export const maintenanceApplications = pgTable("maintenance_applications", {
   id: serial("id").primaryKey(),
@@ -190,17 +157,48 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
   dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),
 });
 
-export const insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });
+export const ordersRelations = relations(orders, ({ one, many }) => ({
+  user: one(users, { fields: [orders.userId], references: [users.id] }),
+  product: one(products, { fields: [orders.productId], references: [products.id] }),
+  application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
+  events: many(orderEvents),
+}));
 
-export const insertContactOtpSchema = createInsertSchema(contactOtps).omit({ id: true });
+export const orderEventsRelations = relations(orderEvents, ({ one }) => ({
+  order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] }),
+}));
 
-export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
+export const messagesRelations = relations(messages, ({ many }) => ({
+  replies: many(messageReplies),
+}));
+
+export const messageRepliesRelations = relations(messageReplies, ({ one }) => ({
+  message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] }),
+}));
+
+export const llcApplicationsRelations = relations(llcApplications, ({ one, many }) => ({
+  order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
+  documents: many(applicationDocuments),
+}));
+
+export const applicationDocumentsRelations = relations(applicationDocuments, ({ one }) => ({
+  application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] }),
+}));
 
 export const maintenanceApplicationsRelations = relations(maintenanceApplications, ({ one }) => ({
   order: one(orders, { fields: [maintenanceApplications.orderId], references: [orders.id] }),
 }));
 
-// Types
+export const insertProductSchema = createInsertSchema(products).omit({ id: true });
+export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true });
+export const insertLlcApplicationSchema = createInsertSchema(llcApplications).omit({ id: true, lastUpdated: true });
+export const insertApplicationDocumentSchema = createInsertSchema(applicationDocuments).omit({ id: true, uploadedAt: true });
+export const insertMaintenanceApplicationSchema = createInsertSchema(maintenanceApplications).omit({ id: true, lastUpdated: true });
+export const insertContactOtpSchema = createInsertSchema(contactOtps).omit({ id: true });
+export const insertOrderEventSchema = createInsertSchema(orderEvents).omit({ id: true, createdAt: true });
+export const insertMessageReplySchema = createInsertSchema(messageReplies).omit({ id: true, createdAt: true });
+
+export type MaintenanceApplication = typeof maintenanceApplications.$inferSelect;
 export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type LlcApplication = typeof llcApplications.$inferSelect;
@@ -209,13 +207,8 @@ export type OrderEvent = typeof orderEvents.$inferSelect;
 export type Message = typeof messages.$inferSelect;
 export type MessageReply = typeof messageReplies.$inferSelect;
 
-export const insertOrderEventSchema = createInsertSchema(orderEvents).omit({ id: true, createdAt: true });
-export const insertMessageReplySchema = createInsertSchema(messageReplies).omit({ id: true, createdAt: true });
-
-// Request Types
 export type CreateOrderRequest = {
   productId: number;
 };
 export type UpdateLlcApplicationRequest = Partial<z.infer<typeof insertLlcApplicationSchema>>;
 export type CreateDocumentRequest = z.infer<typeof insertApplicationDocumentSchema>;
-

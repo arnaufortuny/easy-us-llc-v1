@@ -135,7 +135,7 @@ __export(schema_exports, {
   userNotifications: () => userNotifications,
   users: () => users
 });
-var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications, applicationDocuments, newsletterSubscribers, messages, contactOtps, orderEvents, messageReplies, ordersRelations, orderEventsRelations, messagesRelations, messageRepliesRelations, llcApplicationsRelations, applicationDocumentsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, maintenanceApplications, insertMaintenanceApplicationSchema, insertContactOtpSchema, maintenanceApplicationsRelations, insertOrderEventSchema, insertMessageReplySchema;
+var import_pg_core2, import_drizzle_zod, import_drizzle_orm2, products, orders, llcApplications, applicationDocuments, newsletterSubscribers, messages, contactOtps, orderEvents, messageReplies, maintenanceApplications, ordersRelations, orderEventsRelations, messagesRelations, messageRepliesRelations, llcApplicationsRelations, applicationDocumentsRelations, maintenanceApplicationsRelations, insertProductSchema, insertOrderSchema, insertLlcApplicationSchema, insertApplicationDocumentSchema, insertMaintenanceApplicationSchema, insertContactOtpSchema, insertOrderEventSchema, insertMessageReplySchema;
 var init_schema = __esm({
   "shared/schema.ts"() {
     "use strict";
@@ -242,11 +242,13 @@ var init_schema = __esm({
       email: (0, import_pg_core2.text)("email").notNull(),
       subject: (0, import_pg_core2.text)("subject"),
       content: (0, import_pg_core2.text)("content").notNull(),
+      encryptedContent: (0, import_pg_core2.text)("encrypted_content"),
       status: (0, import_pg_core2.text)("status").notNull().default("unread"),
       // unread, read, archived
       type: (0, import_pg_core2.text)("type").notNull().default("contact"),
       // contact, support, system
       requestCode: (0, import_pg_core2.text)("request_code"),
+      messageId: (0, import_pg_core2.text)("message_id").unique(),
       createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow()
     });
     contactOtps = (0, import_pg_core2.pgTable)("contact_otps", {
@@ -268,36 +270,11 @@ var init_schema = __esm({
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       messageId: (0, import_pg_core2.integer)("message_id").notNull().references(() => messages.id),
       content: (0, import_pg_core2.text)("content").notNull(),
+      encryptedContent: (0, import_pg_core2.text)("encrypted_content"),
       isAdmin: (0, import_pg_core2.boolean)("is_admin").notNull().default(false),
       createdAt: (0, import_pg_core2.timestamp)("created_at").defaultNow(),
       createdBy: (0, import_pg_core2.varchar)("created_by").references(() => users.id)
     });
-    ordersRelations = (0, import_drizzle_orm2.relations)(orders, ({ one, many }) => ({
-      user: one(users, { fields: [orders.userId], references: [users.id] }),
-      product: one(products, { fields: [orders.productId], references: [products.id] }),
-      application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
-      events: many(orderEvents)
-    }));
-    orderEventsRelations = (0, import_drizzle_orm2.relations)(orderEvents, ({ one }) => ({
-      order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] })
-    }));
-    messagesRelations = (0, import_drizzle_orm2.relations)(messages, ({ many }) => ({
-      replies: many(messageReplies)
-    }));
-    messageRepliesRelations = (0, import_drizzle_orm2.relations)(messageReplies, ({ one }) => ({
-      message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] })
-    }));
-    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications, ({ one, many }) => ({
-      order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
-      documents: many(applicationDocuments)
-    }));
-    applicationDocumentsRelations = (0, import_drizzle_orm2.relations)(applicationDocuments, ({ one }) => ({
-      application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] })
-    }));
-    insertProductSchema = (0, import_drizzle_zod.createInsertSchema)(products).omit({ id: true });
-    insertOrderSchema = (0, import_drizzle_zod.createInsertSchema)(orders).omit({ id: true, createdAt: true });
-    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications).omit({ id: true, lastUpdated: true });
-    insertApplicationDocumentSchema = (0, import_drizzle_zod.createInsertSchema)(applicationDocuments).omit({ id: true, uploadedAt: true });
     maintenanceApplications = (0, import_pg_core2.pgTable)("maintenance_applications", {
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       orderId: (0, import_pg_core2.integer)("order_id").notNull().references(() => orders.id),
@@ -326,11 +303,37 @@ var init_schema = __esm({
       termsConsent: (0, import_pg_core2.boolean)("terms_consent").notNull().default(false),
       dataProcessingConsent: (0, import_pg_core2.boolean)("data_processing_consent").notNull().default(false)
     });
-    insertMaintenanceApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(maintenanceApplications).omit({ id: true, lastUpdated: true });
-    insertContactOtpSchema = (0, import_drizzle_zod.createInsertSchema)(contactOtps).omit({ id: true });
+    ordersRelations = (0, import_drizzle_orm2.relations)(orders, ({ one, many }) => ({
+      user: one(users, { fields: [orders.userId], references: [users.id] }),
+      product: one(products, { fields: [orders.productId], references: [products.id] }),
+      application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
+      events: many(orderEvents)
+    }));
+    orderEventsRelations = (0, import_drizzle_orm2.relations)(orderEvents, ({ one }) => ({
+      order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] })
+    }));
+    messagesRelations = (0, import_drizzle_orm2.relations)(messages, ({ many }) => ({
+      replies: many(messageReplies)
+    }));
+    messageRepliesRelations = (0, import_drizzle_orm2.relations)(messageReplies, ({ one }) => ({
+      message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] })
+    }));
+    llcApplicationsRelations = (0, import_drizzle_orm2.relations)(llcApplications, ({ one, many }) => ({
+      order: one(orders, { fields: [llcApplications.orderId], references: [orders.id] }),
+      documents: many(applicationDocuments)
+    }));
+    applicationDocumentsRelations = (0, import_drizzle_orm2.relations)(applicationDocuments, ({ one }) => ({
+      application: one(llcApplications, { fields: [applicationDocuments.applicationId], references: [llcApplications.id] })
+    }));
     maintenanceApplicationsRelations = (0, import_drizzle_orm2.relations)(maintenanceApplications, ({ one }) => ({
       order: one(orders, { fields: [maintenanceApplications.orderId], references: [orders.id] })
     }));
+    insertProductSchema = (0, import_drizzle_zod.createInsertSchema)(products).omit({ id: true });
+    insertOrderSchema = (0, import_drizzle_zod.createInsertSchema)(orders).omit({ id: true, createdAt: true });
+    insertLlcApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(llcApplications).omit({ id: true, lastUpdated: true });
+    insertApplicationDocumentSchema = (0, import_drizzle_zod.createInsertSchema)(applicationDocuments).omit({ id: true, uploadedAt: true });
+    insertMaintenanceApplicationSchema = (0, import_drizzle_zod.createInsertSchema)(maintenanceApplications).omit({ id: true, lastUpdated: true });
+    insertContactOtpSchema = (0, import_drizzle_zod.createInsertSchema)(contactOtps).omit({ id: true });
     insertOrderEventSchema = (0, import_drizzle_zod.createInsertSchema)(orderEvents).omit({ id: true, createdAt: true });
     insertMessageReplySchema = (0, import_drizzle_zod.createInsertSchema)(messageReplies).omit({ id: true, createdAt: true });
   }
@@ -793,6 +796,39 @@ var init_auth_service = __esm({
   }
 });
 
+// server/utils/encryption.ts
+var encryption_exports = {};
+__export(encryption_exports, {
+  decrypt: () => decrypt,
+  encrypt: () => encrypt
+});
+function encrypt(text3) {
+  const iv = import_crypto2.default.randomBytes(IV_LENGTH);
+  const cipher = import_crypto2.default.createCipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
+  let encrypted = cipher.update(text3);
+  encrypted = Buffer.concat([encrypted, cipher.final()]);
+  return iv.toString("hex") + ":" + encrypted.toString("hex");
+}
+function decrypt(text3) {
+  const textParts = text3.split(":");
+  const iv = Buffer.from(textParts.shift(), "hex");
+  const encryptedText = Buffer.from(textParts.join(":"), "hex");
+  const decipher = import_crypto2.default.createDecipheriv(ALGORITHM, Buffer.from(ENCRYPTION_KEY.slice(0, 32)), iv);
+  let decrypted = decipher.update(encryptedText);
+  decrypted = Buffer.concat([decrypted, decipher.final()]);
+  return decrypted.toString();
+}
+var import_crypto2, ALGORITHM, ENCRYPTION_KEY, IV_LENGTH;
+var init_encryption = __esm({
+  "server/utils/encryption.ts"() {
+    "use strict";
+    import_crypto2 = __toESM(require("crypto"), 1);
+    ALGORITHM = "aes-256-cbc";
+    ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || "fallback_key_at_least_32_chars_long!!";
+    IV_LENGTH = 16;
+  }
+});
+
 // vite.config.ts
 var import_vite, import_plugin_react, import_path2, rootDir, vite_config_default;
 var init_vite_config = __esm({
@@ -848,19 +884,19 @@ var init_url_alphabet = __esm({
 });
 
 // node_modules/nanoid/index.js
-var import_crypto2, POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
+var import_crypto3, POOL_SIZE_MULTIPLIER, pool2, poolOffset, fillPool, nanoid;
 var init_nanoid = __esm({
   "node_modules/nanoid/index.js"() {
-    import_crypto2 = __toESM(require("crypto"), 1);
+    import_crypto3 = __toESM(require("crypto"), 1);
     init_url_alphabet();
     POOL_SIZE_MULTIPLIER = 128;
     fillPool = (bytes) => {
       if (!pool2 || pool2.length < bytes) {
         pool2 = Buffer.allocUnsafe(bytes * POOL_SIZE_MULTIPLIER);
-        import_crypto2.default.randomFillSync(pool2);
+        import_crypto3.default.randomFillSync(pool2);
         poolOffset = 0;
       } else if (poolOffset + bytes > pool2.length) {
-        import_crypto2.default.randomFillSync(pool2);
+        import_crypto3.default.randomFillSync(pool2);
         poolOffset = 0;
       }
       poolOffset += bytes;
@@ -1353,7 +1389,16 @@ var DatabaseStorage = class {
   }
   // Messages
   async createMessage(message) {
-    const [newMessage] = await db.insert(messages).values(message).returning();
+    const { encrypt: encrypt2 } = await Promise.resolve().then(() => (init_encryption(), encryption_exports));
+    const year = (/* @__PURE__ */ new Date()).getFullYear();
+    const count = await db.select({ count: sql`count(*)` }).from(messages);
+    const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, "0")}`;
+    const encryptedContent = encrypt2(message.content);
+    const [newMessage] = await db.insert(messages).values({
+      ...message,
+      messageId: msgId,
+      encryptedContent
+    }).returning();
     return newMessage;
   }
   async getMessagesByUserId(userId) {

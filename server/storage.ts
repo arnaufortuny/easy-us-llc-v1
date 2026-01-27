@@ -212,7 +212,17 @@ export class DatabaseStorage implements IStorage {
 
   // Messages
   async createMessage(message: any): Promise<any> {
-    const [newMessage] = await db.insert(messagesTable).values(message).returning();
+    const { encrypt } = await import("./utils/encryption");
+    const year = new Date().getFullYear();
+    const count = await db.select({ count: sql<number>`count(*)` }).from(messagesTable);
+    const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, '0')}`;
+    
+    const encryptedContent = encrypt(message.content);
+    const [newMessage] = await db.insert(messagesTable).values({
+      ...message,
+      messageId: msgId,
+      encryptedContent
+    }).returning();
     return newMessage;
   }
 
