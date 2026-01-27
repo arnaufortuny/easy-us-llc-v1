@@ -80,6 +80,12 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
   - Status badges displayed in admin user list
   - Newsletter section auto-hides for authenticated users
   - /api/auth/user returns all profile fields including accountStatus
+- **Admin Panel Integration (Jan 2026):**
+  - Integrated admin panel directly into client dashboard as "Administración" tab
+  - Admin tab only visible for users with isAdmin=true
+  - Removed separate /admin route - all admin functionality now within /dashboard
+  - Admin sub-tabs: Pedidos, Clientes, Newsletter, Mensajes
+  - Full admin functionality: order status management, user editing, email sending, document requests, notes
 - **Contact Form Improvements:**
   - Message ID capture and display on confirmation page
   - URL parameter support for orderId and ticket tracking

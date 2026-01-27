@@ -18,7 +18,6 @@ const ApplicationWizard = lazy(() => import("@/pages/application"));
 const MaintenancePage = lazy(() => import("@/pages/maintenance"));
 const LlcFormation = lazy(() => import("@/pages/llc-formation"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
-const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 
 const Login = lazy(() => import("@/pages/auth/login"));
 const Register = lazy(() => import("@/pages/auth/register"));
@@ -51,7 +50,6 @@ function Router() {
         <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/llc/formation" component={LlcFormation} />
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/admin" component={AdminDashboard} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/forgot-password" component={ForgotPassword} />
