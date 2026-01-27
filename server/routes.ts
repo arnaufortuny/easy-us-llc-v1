@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies } from "@shared/schema";
 import { and, eq, gt, desc } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -589,6 +589,133 @@ export async function registerRoutes(
     
     res.setHeader('Content-Type', 'text/html');
     res.send(generateReceiptHtml(order));
+  });
+
+  // Order Events Timeline
+  app.get("/api/orders/:id/events", isAuthenticated, async (req: any, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+      if (order.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
+      const events = await db.select().from(orderEvents)
+        .where(eq(orderEvents.orderId, orderId))
+        .orderBy(desc(orderEvents.createdAt));
+      
+      res.json(events);
+    } catch (error) {
+      console.error("Error fetching order events:", error);
+      res.status(500).json({ message: "Error al obtener eventos" });
+    }
+  });
+
+  // Add order event (admin only)
+  app.post("/api/admin/orders/:id/events", isAdmin, async (req: any, res) => {
+    try {
+      const orderId = Number(req.params.id);
+      const { eventType, description } = req.body;
+      
+      const [event] = await db.insert(orderEvents).values({
+        orderId,
+        eventType,
+        description,
+        createdBy: req.session.userId,
+      }).returning();
+      
+      // Get order and user info for email notification
+      const order = await storage.getOrder(orderId);
+      if (order) {
+        const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
+        if (user?.email) {
+          sendEmail({
+            to: user.email,
+            subject: "Actualización de tu pedido - Easy US LLC",
+            html: `
+              <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
+                ${getEmailHeader()}
+                <div style="padding: 30px;">
+                  <h2 style="color: #000; font-weight: 900;">Actualización de Pedido #${orderId}</h2>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                    <p style="margin: 0; font-weight: 700;">${eventType}</p>
+                    <p style="margin: 10px 0 0; color: #666;">${description}</p>
+                  </div>
+                  <p style="color: #666; font-size: 14px;">Fecha: ${new Date().toLocaleString('es-ES')}</p>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            `,
+          }).catch(e => console.error("Error sending event email:", e));
+        }
+      }
+      
+      res.json(event);
+    } catch (error) {
+      console.error("Error creating order event:", error);
+      res.status(500).json({ message: "Error al crear evento" });
+    }
+  });
+
+  // Message replies
+  app.get("/api/messages/:id/replies", isAuthenticated, async (req: any, res) => {
+    try {
+      const messageId = Number(req.params.id);
+      const replies = await db.select().from(messageReplies)
+        .where(eq(messageReplies.messageId, messageId))
+        .orderBy(messageReplies.createdAt);
+      
+      res.json(replies);
+    } catch (error) {
+      console.error("Error fetching message replies:", error);
+      res.status(500).json({ message: "Error al obtener respuestas" });
+    }
+  });
+
+  // Add reply to message
+  app.post("/api/messages/:id/reply", isAuthenticated, async (req: any, res) => {
+    try {
+      const messageId = Number(req.params.id);
+      const { content } = req.body;
+      
+      const [reply] = await db.insert(messageReplies).values({
+        messageId,
+        content,
+        isAdmin: req.session.isAdmin || false,
+        createdBy: req.session.userId,
+      }).returning();
+      
+      // Get message for email notification
+      const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
+      if (message?.email && !req.session.isAdmin) {
+        // Admin reply - notify user
+        sendEmail({
+          to: message.email,
+          subject: "Nueva respuesta a tu consulta - Easy US LLC",
+          html: `
+            <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
+              ${getEmailHeader()}
+              <div style="padding: 30px;">
+                <h2 style="color: #000; font-weight: 900;">Respuesta a tu consulta</h2>
+                <p style="color: #666;">Ticket ID: MSG-${messageId}</p>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                  <p style="margin: 0;">${content}</p>
+                </div>
+                <p style="color: #666; font-size: 14px;">Puedes responder accediendo a tu área de clientes.</p>
+              </div>
+              ${getEmailFooter()}
+            </div>
+          `,
+        }).catch(e => console.error("Error sending reply email:", e));
+      }
+      
+      res.json(reply);
+    } catch (error) {
+      console.error("Error creating reply:", error);
+      res.status(500).json({ message: "Error al crear respuesta" });
+    }
   });
 
   function generateInvoiceHtml(order: any) {

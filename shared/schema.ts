@@ -109,10 +109,41 @@ export const contactOtps = pgTable("contact_otps", {
   verified: boolean("verified").notNull().default(false),
 });
 
+export const orderEvents = pgTable("order_events", {
+  id: serial("id").primaryKey(),
+  orderId: integer("order_id").notNull().references(() => orders.id),
+  eventType: text("event_type").notNull(),
+  description: text("description").notNull(),
+  createdAt: timestamp("created_at").defaultNow(),
+  createdBy: varchar("created_by").references(() => users.id),
+});
+
+export const messageReplies = pgTable("message_replies", {
+  id: serial("id").primaryKey(),
+  messageId: integer("message_id").notNull().references(() => messages.id),
+  content: text("content").notNull(),
+  isAdmin: boolean("is_admin").notNull().default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+  createdBy: varchar("created_by").references(() => users.id),
+});
+
 export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   product: one(products, { fields: [orders.productId], references: [products.id] }),
   application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
+  events: many(orderEvents),
+}));
+
+export const orderEventsRelations = relations(orderEvents, ({ one }) => ({
+  order: one(orders, { fields: [orderEvents.orderId], references: [orders.id] }),
+}));
+
+export const messagesRelations = relations(messages, ({ many }) => ({
+  replies: many(messageReplies),
+}));
+
+export const messageRepliesRelations = relations(messageReplies, ({ one }) => ({
+  message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] }),
 }));
 
 export const llcApplicationsRelations = relations(llcApplications, ({ one, many }) => ({
@@ -174,6 +205,12 @@ export type Product = typeof products.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type LlcApplication = typeof llcApplications.$inferSelect;
 export type ApplicationDocument = typeof applicationDocuments.$inferSelect;
+export type OrderEvent = typeof orderEvents.$inferSelect;
+export type Message = typeof messages.$inferSelect;
+export type MessageReply = typeof messageReplies.$inferSelect;
+
+export const insertOrderEventSchema = createInsertSchema(orderEvents).omit({ id: true, createdAt: true });
+export const insertMessageReplySchema = createInsertSchema(messageReplies).omit({ id: true, createdAt: true });
 
 // Request Types
 export type CreateOrderRequest = {

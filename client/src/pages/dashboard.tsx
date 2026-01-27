@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useCallback } from "react";
@@ -78,13 +78,42 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
-      window.location.href = "/api/login";
+      window.location.href = "/login";
     }
   }, [isAuthenticated, authLoading]);
 
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
+  });
+
+  const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
+    queryKey: ["/api/messages"],
+    enabled: isAuthenticated,
+  });
+
+  const [selectedMessage, setSelectedMessage] = useState<any>(null);
+  const [replyContent, setReplyContent] = useState("");
+
+  const { data: selectedOrderEvents } = useQuery<any[]>({
+    queryKey: ["/api/orders", orders?.[0]?.id, "events"],
+    queryFn: async () => {
+      if (!orders?.[0]?.id) return [];
+      const res = await fetch(`/api/orders/${orders[0].id}/events`, { credentials: "include" });
+      return res.json();
+    },
+    enabled: !!orders?.[0]?.id,
+  });
+
+  const sendReplyMutation = useMutation({
+    mutationFn: async (messageId: number) => {
+      await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
+    },
+    onSuccess: () => {
+      setReplyContent("");
+      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
+      toast({ title: "Respuesta enviada", description: "Tu mensaje ha sido registrado." });
+    }
   });
 
   if (authLoading || !isAuthenticated) {
@@ -265,34 +294,80 @@ export default function Dashboard() {
                   <div className="flex justify-between items-center mb-6">
                     <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas y Soporte</h2>
                     <Link href="/contacto">
-                      <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
+                      <Button className="bg-accent text-primary font-black rounded-full text-xs" data-testid="button-new-query">Nueva Consulta</Button>
                     </Link>
                   </div>
                   
-                  <div className="space-y-4">
-                    {useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.map((msg) => (
-                      <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
-                          <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
-                            msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-500'
-                          }`}>
-                            {msg.status === 'unread' ? 'Pendiente' : 'Leído'}
-                          </span>
+                  {messagesLoading ? (
+                    <div className="space-y-4">
+                      {[1,2].map(i => <div key={i} className="h-24 bg-white rounded-2xl animate-pulse" />)}
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {messagesData?.map((msg) => (
+                        <Card 
+                          key={msg.id} 
+                          className="rounded-2xl border-0 shadow-sm p-6 bg-white hover:shadow-md transition-shadow cursor-pointer"
+                          onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
+                          data-testid={`card-message-${msg.id}`}
+                        >
+                          <div className="flex justify-between items-start mb-2">
+                            <div className="flex items-center gap-2">
+                              <MessageSquare className="w-4 h-4 text-accent" />
+                              <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-[10px] text-muted-foreground">MSG-{msg.id}</span>
+                              <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest ${
+                                msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100 text-gray-500'
+                              }`}>
+                                {msg.status === 'unread' ? 'Pendiente' : msg.status === 'read' ? 'Leído' : 'Archivado'}
+                              </span>
+                            </div>
+                          </div>
+                          <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
+                          <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">
+                            {new Date(msg.createdAt).toLocaleString('es-ES')}
+                          </p>
+                          
+                          {selectedMessage?.id === msg.id && (
+                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
+                              <div className="flex gap-2">
+                                <Textarea
+                                  value={replyContent}
+                                  onChange={(e) => setReplyContent(e.target.value)}
+                                  placeholder="Escribe tu respuesta..."
+                                  className="flex-1 rounded-xl min-h-[80px] text-sm"
+                                />
+                              </div>
+                              <Button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  sendReplyMutation.mutate(msg.id);
+                                }}
+                                disabled={!replyContent.trim() || sendReplyMutation.isPending}
+                                className="bg-accent text-primary font-black rounded-full px-6"
+                                data-testid="button-send-reply"
+                              >
+                                <Send className="w-4 h-4 mr-2" /> Enviar Respuesta
+                              </Button>
+                            </div>
+                          )}
+                        </Card>
+                      ))}
+                      {(!messagesData || messagesData.length === 0) && (
+                        <div className="text-center py-12 bg-white rounded-3xl">
+                          <Mail className="w-12 h-12 text-gray-200 mx-auto mb-4" />
+                          <p className="text-muted-foreground font-black">No tienes mensajes pendientes.</p>
+                          <Link href="/contacto">
+                            <Button className="mt-4 bg-accent text-primary font-black rounded-full">
+                              Enviar primera consulta
+                            </Button>
+                          </Link>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
-                        <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">
-                          {new Date(msg.createdAt).toLocaleString()}
-                        </p>
-                      </Card>
-                    ))}
-                    {(!useQuery<any[]>({ queryKey: ["/api/messages"] }).data || useQuery<any[]>({ queryKey: ["/api/messages"] }).data?.length === 0) && (
-                      <div className="text-center py-12 bg-white rounded-3xl">
-                        <Mail className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-                        <p className="text-muted-foreground font-black">No tienes mensajes pendientes.</p>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
               )}
 
@@ -389,7 +464,7 @@ export default function Dashboard() {
                                 Editar Perfil
                               </Button>
                             )}
-                            <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/api/login?prompt=login"}>
+                            <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/forgot-password"}>
                               Cambiar Contraseña
                             </Button>
                             <Button 
@@ -537,32 +612,69 @@ export default function Dashboard() {
           <div className="space-y-6 md:gap-8 order-1 lg:order-2">
             <section className="bg-white p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] shadow-sm">
               <h3 className="text-lg md:text-xl font-black  tracking-tight text-primary mb-6 flex items-center gap-2">
-                <Clock className="w-5 h-5 text-accent" /> Seguimiento
+                <Clock className="w-5 h-5 text-accent" /> Seguimiento del Pedido
               </h3>
               <div className="space-y-5 md:space-y-6">
-                {[
-                  { title: "Verificación de Datos", status: "completed", date: "Completado" },
-                  { title: "Preparación de Documentos", status: "current", date: "En curso" },
-                  { title: "Presentación Estatal", status: "pending", date: "Pendiente" },
-                  { title: "Obtención de EIN", status: "pending", date: "Pendiente" },
-                ].map((step, idx) => (
-                  <div key={idx} className="flex gap-4 relative">
-                    {idx < 3 && <div className="absolute left-3 top-6 w-0.5 h-8 md:h-10 bg-gray-100" />}
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 ${
-                      step.status === 'completed' ? 'bg-accent text-primary' : 
-                      step.status === 'current' ? 'bg-accent text-primary border-4 border-accent' : 
-                      'bg-gray-100 text-gray-400'
-                    }`}>
-                      {step.status === 'completed' ? <Package className="w-3 h-3" /> : null}
-                    </div>
-                    <div className="min-w-0">
-                      <p className={`text-xs md:text-sm font-black  tracking-tight ${step.status === 'pending' ? 'text-gray-400' : 'text-primary'} truncate`}>
-                        {step.title}
-                      </p>
-                      <p className="text-[10px] md:text-xs font-black text-muted-foreground">{step.date}</p>
-                    </div>
+                {orders && orders.length > 0 ? (
+                  <>
+                    {/* Dynamic events from order */}
+                    {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
+                      selectedOrderEvents.map((event: any, idx: number) => (
+                        <div key={event.id} className="flex gap-4 relative">
+                          {idx < selectedOrderEvents.length - 1 && (
+                            <div className="absolute left-3 top-6 w-0.5 h-8 md:h-10 bg-gray-100" />
+                          )}
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 bg-accent text-primary">
+                            <CheckCircle2 className="w-3 h-3" />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-xs md:text-sm font-black tracking-tight text-primary truncate">
+                              {event.eventType}
+                            </p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">
+                              {event.description}
+                            </p>
+                            <p className="text-[10px] text-muted-foreground/60">
+                              {new Date(event.createdAt).toLocaleString('es-ES', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      // Default timeline when no events yet
+                      <>
+                        {[
+                          { title: "Pedido Recibido", status: orders[0]?.status !== 'pending' ? "completed" : "current", date: orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES') : "Pendiente" },
+                          { title: "Verificación de Datos", status: orders[0]?.application?.status === 'submitted' ? "completed" : "pending", date: orders[0]?.application?.status === 'submitted' ? "Completado" : "Pendiente" },
+                          { title: "Presentación Estatal", status: orders[0]?.application?.status === 'filed' ? "completed" : "pending", date: "Pendiente" },
+                          { title: "LLC Constituida", status: "pending", date: "Pendiente" },
+                        ].map((step, idx) => (
+                          <div key={idx} className="flex gap-4 relative">
+                            {idx < 3 && <div className="absolute left-3 top-6 w-0.5 h-8 md:h-10 bg-gray-100" />}
+                            <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 ${
+                              step.status === 'completed' ? 'bg-accent text-primary' : 
+                              step.status === 'current' ? 'bg-accent/50 text-primary animate-pulse' : 
+                              'bg-gray-100 text-gray-400'
+                            }`}>
+                              {step.status === 'completed' ? <CheckCircle2 className="w-3 h-3" /> : null}
+                            </div>
+                            <div className="min-w-0">
+                              <p className={`text-xs md:text-sm font-black tracking-tight ${step.status === 'pending' ? 'text-gray-400' : 'text-primary'} truncate`}>
+                                {step.title}
+                              </p>
+                              <p className="text-[10px] md:text-xs font-black text-muted-foreground">{step.date}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <div className="text-center py-4">
+                    <AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" />
+                    <p className="text-xs text-muted-foreground">No tienes pedidos activos</p>
                   </div>
-                ))}
+                )}
               </div>
             </section>
 
