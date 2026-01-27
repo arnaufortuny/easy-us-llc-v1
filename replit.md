@@ -26,6 +26,12 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Mobile Optimization (Jan 2026):**
+  - Admin panel: Compact action buttons (w-8 h-8 on mobile, w-9 h-9 on desktop)
+  - Client management: Hide document request/note buttons on mobile (sm:flex)
+  - Orders section: Smaller status selectors and PDF buttons on mobile
+  - PDF generators: Unified button sizes with Download icon for receipts
+  - Newsletter/Messages: Responsive button sizing throughout
 - **System Optimization (Jan 2026):**
   - Updated legal pages to use browser print functionality for PDF generation (window.print())
   - Removed placeholder PDF files from client/public/ directory

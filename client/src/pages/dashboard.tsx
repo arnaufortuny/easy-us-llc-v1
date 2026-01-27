@@ -436,26 +436,28 @@ export default function Dashboard() {
                               }`}>
                                 {order.status === 'paid' ? 'Activo' : 'Pendiente Pago'}
                               </span>
-                              <div className="flex gap-2">
+                              <div className="flex gap-1 md:gap-2">
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
-                                  title="Ver Factura"
+                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                  title="Ver Factura PDF"
                                   onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
+                                  data-testid={`button-invoice-${order.id}`}
                                 >
-                                  <FileText className="w-5 h-5 md:w-6 md:h-6" />
+                                  <FileText className="w-4 h-4 md:w-5 md:h-5" />
                                 </Button>
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
-                                  title="Ver Pedido"
+                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                  title="Ver Recibo PDF"
                                   onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
+                                  data-testid={`button-receipt-${order.id}`}
                                 >
-                                  <ChevronRight className="w-5 h-5 md:w-6 md:h-6" />
+                                  <Download className="w-4 h-4 md:w-5 md:h-5" />
                                 </Button>
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
+                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
                                   title="Editar Datos"
                                   onClick={() => {
                                     const newData = prompt("¿Qué datos deseas modificar? (Nombre de empresa, actividad, etc.)");
@@ -468,7 +470,7 @@ export default function Dashboard() {
                                     }
                                   }}
                                 >
-                                  <Settings className="w-5 h-5 md:w-6 md:h-6 text-accent" />
+                                  <Settings className="w-4 h-4 md:w-5 md:h-5 text-accent" />
                                 </Button>
                               </div>
                             </div>
@@ -1205,9 +1207,9 @@ export default function Dashboard() {
                                   <p className="font-medium mt-1">{order.user?.firstName} {order.user?.lastName} - {order.user?.email}</p>
                                   <p className="text-sm text-muted-foreground">{order.product?.name} • <span className="font-black">{(order.amount / 100).toFixed(2)}€</span></p>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-1 md:gap-2 flex-wrap justify-end">
                                   <Select value={order.status} onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                    <SelectTrigger className="w-28 h-8 rounded-full text-xs font-black">
+                                    <SelectTrigger className="w-24 md:w-28 h-7 md:h-8 rounded-full text-[10px] md:text-xs font-black">
                                       <SelectValue />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -1217,8 +1219,8 @@ export default function Dashboard() {
                                       <SelectItem value="cancelled">Cancelado</SelectItem>
                                     </SelectContent>
                                   </Select>
-                                  <Button size="icon" variant="ghost" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} title="Factura">
-                                    <FileText className="w-4 h-4" />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} title="Ver Factura PDF">
+                                    <FileText className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                   </Button>
                                 </div>
                               </div>
@@ -1265,11 +1267,11 @@ export default function Dashboard() {
                                   <p className="text-sm text-muted-foreground">{u.email} • {u.phone || 'Sin teléfono'}</p>
                                   <p className="text-xs text-muted-foreground font-mono">{u.id}</p>
                                 </div>
-                                <div className="flex items-center gap-1 flex-wrap">
+                                <div className="flex items-center gap-0.5 md:gap-1 flex-wrap justify-end">
                                   <Dialog>
                                     <DialogTrigger asChild>
-                                      <Button size="icon" variant="ghost" title="Editar" onClick={() => setEditingUser({...u})}>
-                                        <Edit className="w-4 h-4" />
+                                      <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Editar" onClick={() => setEditingUser({...u})}>
+                                        <Edit className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                       </Button>
                                     </DialogTrigger>
                                     <DialogContent>
@@ -1322,22 +1324,22 @@ export default function Dashboard() {
                                       )}
                                     </DialogContent>
                                   </Dialog>
-                                  <Button size="icon" variant="ghost" title={u.isActive === false ? "Activar" : "Desactivar"} 
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title={u.isActive === false ? "Activar" : "Desactivar"} 
                                     onClick={() => updateUserMutation.mutate({ id: u.id, data: { isActive: u.isActive === false ? true : false } })}>
-                                    <Power className={`w-4 h-4 ${u.isActive === false ? 'text-green-600' : 'text-yellow-600'}`} />
+                                    <Power className={`w-3.5 h-3.5 md:w-4 md:h-4 ${u.isActive === false ? 'text-green-600' : 'text-yellow-600'}`} />
                                   </Button>
-                                  <Button size="icon" variant="ghost" title="Enviar Email" onClick={() => setEmailDialog({ open: true, user: u })}>
-                                    <Send className="w-4 h-4 text-blue-600" />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Enviar Email" onClick={() => setEmailDialog({ open: true, user: u })}>
+                                    <Send className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
                                   </Button>
-                                  <Button size="icon" variant="ghost" title="Solicitar Documento" onClick={() => setDocDialog({ open: true, user: u })}>
-                                    <FileUp className="w-4 h-4 text-orange-600" />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 hidden sm:flex" title="Solicitar Documento" onClick={() => setDocDialog({ open: true, user: u })}>
+                                    <FileUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-orange-600" />
                                   </Button>
-                                  <Button size="icon" variant="ghost" title="Enviar Nota" onClick={() => setNoteDialog({ open: true, user: u })}>
-                                    <MessageSquare className="w-4 h-4 text-purple-600" />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 hidden sm:flex" title="Enviar Nota" onClick={() => setNoteDialog({ open: true, user: u })}>
+                                    <MessageSquare className="w-3.5 h-3.5 md:w-4 md:h-4 text-purple-600" />
                                   </Button>
-                                  <Button size="icon" variant="ghost" className="text-red-600" title="Eliminar" 
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 text-red-600" title="Eliminar" 
                                     onClick={() => confirm("¿Eliminar este usuario permanentemente?") && deleteUserMutation.mutate(u.id)}>
-                                    <Trash2 className="w-4 h-4" />
+                                    <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                   </Button>
                                 </div>
                               </div>
@@ -1368,14 +1370,14 @@ export default function Dashboard() {
                                   Suscrito: {new Date(sub.subscribedAt).toLocaleDateString()}
                                 </p>
                               </div>
-                              <div className="flex items-center gap-2">
-                                <Button size="icon" variant="ghost" title="Enviar Email" 
+                              <div className="flex items-center gap-1">
+                                <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Enviar Email" 
                                   onClick={() => setEmailDialog({ open: true, user: { email: sub.email } })}>
-                                  <Send className="w-4 h-4 text-blue-600" />
+                                  <Send className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
                                 </Button>
-                                <Button size="icon" variant="ghost" className="text-red-600" 
+                                <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 text-red-600" 
                                   onClick={() => confirm("¿Eliminar suscriptor?") && deleteSubscriberMutation.mutate(sub.id)}>
-                                  <Trash2 className="w-4 h-4" />
+                                  <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                 </Button>
                               </div>
                             </div>
@@ -1411,17 +1413,17 @@ export default function Dashboard() {
                                   <p className="text-sm font-black">{msg.subject}</p>
                                   <p className="text-sm text-muted-foreground mt-1">{msg.content}</p>
                                 </div>
-                                <div className="flex items-center gap-1">
-                                  <Button size="icon" variant="ghost" className="text-green-600"
+                                <div className="flex items-center gap-0.5 md:gap-1">
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 text-green-600"
                                     onClick={() => apiRequest("PATCH", `/api/admin/messages/${msg.id}/status`, { status: 'read' }).then(() => queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] }))}>
-                                    <CheckCircle className="w-4 h-4" />
+                                    <CheckCircle className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                   </Button>
-                                  <Button size="icon" variant="ghost" title="Responder" 
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Responder" 
                                     onClick={() => setEmailDialog({ open: true, user: { email: msg.email } })}>
-                                    <Send className="w-4 h-4 text-blue-600" />
+                                    <Send className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
                                   </Button>
-                                  <Button size="icon" variant="ghost" className="text-red-600" onClick={() => deleteMessageMutation.mutate(msg.id)}>
-                                    <Trash2 className="w-4 h-4" />
+                                  <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9 text-red-600" onClick={() => deleteMessageMutation.mutate(msg.id)}>
+                                    <Trash2 className="w-3.5 h-3.5 md:w-4 md:h-4" />
                                   </Button>
                                 </div>
                               </div>
