@@ -74,11 +74,11 @@ export default function Home() {
             </motion.div>
 
             <motion.h1 
-              className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center uppercase" 
+              className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
               style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
               variants={fadeIn}
             >
-              CONSTITUIMOS TU LLC EN ESTADOS UNIDOS DE FORMA SIMPLE, RÁPIDA Y TRANSPARENTE
+              Constituimos tu LLC en Estados Unidos de forma simple, rápida y transparente
             </motion.h1>
           </motion.div>
         }
