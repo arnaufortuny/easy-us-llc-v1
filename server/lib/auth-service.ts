@@ -69,23 +69,29 @@ export async function createUser(data: {
     expiresAt,
   });
 
-  await sendEmail({
-    to: data.email,
-    subject: "Bienvenido a Easy US LLC - Verifica tu cuenta",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #0E1215;">¡Bienvenido a Easy US LLC!</h1>
-        <p>Hola ${data.firstName},</p>
-        <p>Gracias por registrarte. Tu código de verificación es:</p>
-        <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
-          ${verificationToken}
+  // Send email but don't fail registration if email fails
+  try {
+    await sendEmail({
+      to: data.email,
+      subject: "Bienvenido a Easy US LLC - Verifica tu cuenta",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">¡Bienvenido a Easy US LLC!</h1>
+          <p>Hola ${data.firstName},</p>
+          <p>Gracias por registrarte. Tu código de verificación es:</p>
+          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+            ${verificationToken}
+          </div>
+          <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
+          <p>Tu ID de cliente es: <strong>${clientId}</strong></p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
         </div>
-        <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
-        <p>Tu ID de cliente es: <strong>${clientId}</strong></p>
-        <p>Saludos,<br>El equipo de Easy US LLC</p>
-      </div>
-    `,
-  });
+      `,
+    });
+  } catch (emailError) {
+    console.error("Failed to send verification email:", emailError);
+    // Continue with registration even if email fails
+  }
 
   return { user: newUser, verificationToken };
 }
@@ -152,25 +158,30 @@ export async function createPasswordResetToken(email: string): Promise<string | 
 
   const resetLink = `${process.env.BASE_URL || 'https://easyusllc.com'}/reset-password?token=${token}`;
 
-  await sendEmail({
-    to: email,
-    subject: "Easy US LLC - Recuperar contraseña",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #0E1215;">Recuperar contraseña</h1>
-        <p>Hola ${user.firstName || ''},</p>
-        <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente botón:</p>
-        <div style="text-align: center; margin: 30px 0;">
-          <a href="${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
-            Restablecer contraseña
-          </a>
+  try {
+    await sendEmail({
+      to: email,
+      subject: "Easy US LLC - Recuperar contraseña",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">Recuperar contraseña</h1>
+          <p>Hola ${user.firstName || ''},</p>
+          <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente botón:</p>
+          <div style="text-align: center; margin: 30px 0;">
+            <a href="${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+              Restablecer contraseña
+            </a>
+          </div>
+          <p>Este enlace expira en ${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
+          <p>Si no solicitaste este cambio, ignora este email.</p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
         </div>
-        <p>Este enlace expira en ${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
-        <p>Si no solicitaste este cambio, ignora este email.</p>
-        <p>Saludos,<br>El equipo de Easy US LLC</p>
-      </div>
-    `,
-  });
+      `,
+    });
+  } catch (emailError) {
+    console.error("Failed to send password reset email:", emailError);
+    // Still return token but email wasn't sent
+  }
 
   return token;
 }
@@ -221,22 +232,27 @@ export async function resendVerificationEmail(userId: string): Promise<boolean> 
     expiresAt,
   });
 
-  await sendEmail({
-    to: user.email,
-    subject: "Easy US LLC - Código de verificación",
-    html: `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h1 style="color: #0E1215;">Código de verificación</h1>
-        <p>Hola ${user.firstName || ''},</p>
-        <p>Tu nuevo código de verificación es:</p>
-        <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
-          ${verificationToken}
+  try {
+    await sendEmail({
+      to: user.email,
+      subject: "Easy US LLC - Código de verificación",
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+          <h1 style="color: #0E1215;">Código de verificación</h1>
+          <p>Hola ${user.firstName || ''},</p>
+          <p>Tu nuevo código de verificación es:</p>
+          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
+            ${verificationToken}
+          </div>
+          <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
+          <p>Saludos,<br>El equipo de Easy US LLC</p>
         </div>
-        <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
-        <p>Saludos,<br>El equipo de Easy US LLC</p>
-      </div>
-    `,
-  });
+      `,
+    });
+  } catch (emailError) {
+    console.error("Failed to send verification email:", emailError);
+    return false;
+  }
 
   return true;
 }
