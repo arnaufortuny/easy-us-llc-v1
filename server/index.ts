@@ -10,10 +10,17 @@ const httpServer = createServer(app);
 // Absolute priority health check for Replit deployment
 // This must respond with 200 OK immediately for the root path
 app.get("/", (req, res, next) => {
-  // Always respond with 200 OK for the root path to satisfy Replit health checks
-  // This is the simplest and most reliable way to ensure deployment success
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  return res.status(200).send("OK");
+  // Check if it's a browser requesting the page via Accept header
+  const acceptHeader = req.headers["accept"] || "";
+  const isBrowser = acceptHeader.includes("text/html");
+  
+  // Replit health checks usually don't send text/html in Accept header
+  // whereas browsers always do for the initial page load.
+  if (!isBrowser || req.headers["x-replit-deployment-id"]) {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    return res.status(200).send("OK");
+  }
+  next();
 });
 
 app.get(["/health", "/healthz"], (_req, res) => {
