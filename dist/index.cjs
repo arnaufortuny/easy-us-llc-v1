@@ -364,13 +364,13 @@ function getEmailHeader(title = "Easy US LLC") {
   const protocol = "https";
   const logoUrl = `${protocol}://${domain}/logo-email.png?v=4`;
   return `
-    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 2px solid #6EDC8A;">
-      <div style="margin-bottom: 20px; display: block; width: 100%; text-align: center;">
+    <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 3px solid #6EDC8A;">
+      <div style="margin-bottom: 25px; display: block; width: 100%; text-align: center;">
         <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-          <img src="${logoUrl}" alt="Easy US LLC" width="100" height="100" style="display: inline-block; margin: 0 auto; width: 100px; height: 100px; object-fit: contain; border: 0;" />
+          <img src="${logoUrl}" alt="Easy US LLC" width="120" height="120" style="display: inline-block; margin: 0 auto; width: 120px; height: 120px; object-fit: contain; border: 0;" />
         </a>
       </div>
-      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; font-size: 24px; line-height: 1;">
+      <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 28px; line-height: 1.1;">
         ${title}
       </h1>
     </div>
@@ -401,7 +401,7 @@ function getAutoReplyTemplate(ticketId, name = "Cliente") {
           
           <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #6EDC8A; text-align: center;">
             <p style="margin: 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Referencia de Seguimiento</p>
-            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">#${ticketId}</p>
+            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">${ticketId}</p>
           </div>
 
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo de expertos revisar\xE1 tu mensaje y te responder\xE1 de forma personalizada en un plazo de <strong>24 a 48 horas h\xE1biles</strong>.</p>
@@ -1149,7 +1149,7 @@ function setupCustomAuth(app2) {
       await createPasswordResetToken(email);
       res.json({
         success: true,
-        message: "Si el email existe, recibir\xE1s instrucciones para recuperar tu contrase\xF1a"
+        message: "Si el email existe en nuestro sistema, recibir\xE1s instrucciones para restablecer tu contrase\xF1a"
       });
     } catch (error) {
       console.error("Forgot password error:", error);
@@ -1268,15 +1268,16 @@ var isAdmin = async (req, res, next) => {
 
 // server/storage.ts
 init_db();
-init_schema();
 var import_drizzle_orm5 = require("drizzle-orm");
+init_schema();
+var import_drizzle_orm6 = require("drizzle-orm");
 var DatabaseStorage = class {
   // Products
   async getProducts() {
     return await db.select().from(products).orderBy(products.price);
   }
   async getProduct(id) {
-    const [product] = await db.select().from(products).where((0, import_drizzle_orm5.eq)(products.id, id));
+    const [product] = await db.select().from(products).where((0, import_drizzle_orm6.eq)(products.id, id));
     return product;
   }
   async createProduct(product) {
@@ -1290,18 +1291,18 @@ var DatabaseStorage = class {
   }
   async getOrders(userId) {
     const results = await db.query.orders.findMany({
-      where: (0, import_drizzle_orm5.eq)(orders.userId, userId),
+      where: (0, import_drizzle_orm6.eq)(orders.userId, userId),
       with: {
         product: true,
         application: true
       },
-      orderBy: (0, import_drizzle_orm5.desc)(orders.createdAt)
+      orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
     });
     return results;
   }
   async getOrder(id) {
     const result = await db.query.orders.findFirst({
-      where: (0, import_drizzle_orm5.eq)(orders.id, id),
+      where: (0, import_drizzle_orm6.eq)(orders.id, id),
       with: {
         product: true,
         application: true,
@@ -1316,16 +1317,16 @@ var DatabaseStorage = class {
     return newApp;
   }
   async getLlcApplication(id) {
-    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm5.eq)(llcApplications.id, id));
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm6.eq)(llcApplications.id, id));
     return app2;
   }
   async getLlcApplicationByOrderId(orderId) {
-    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm5.eq)(llcApplications.orderId, orderId));
+    const [app2] = await db.select().from(llcApplications).where((0, import_drizzle_orm6.eq)(llcApplications.orderId, orderId));
     return app2;
   }
   async getLlcApplicationByRequestCode(code) {
     const result = await db.query.llcApplications.findFirst({
-      where: (0, import_drizzle_orm5.eq)(llcApplications.requestCode, code),
+      where: (0, import_drizzle_orm6.eq)(llcApplications.requestCode, code),
       with: {
         documents: true
       }
@@ -1333,19 +1334,19 @@ var DatabaseStorage = class {
     return result;
   }
   async updateLlcApplication(id, updates) {
-    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm5.eq)(llcApplications.id, id)).returning();
+    const [updated] = await db.update(llcApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(llcApplications.id, id)).returning();
     return updated;
   }
   async setOtp(type, id, otp, expires) {
     const table = type === "llc" ? llcApplications : maintenanceApplications;
-    await db.update(table).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm5.eq)(table.id, id));
+    await db.update(table).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm6.eq)(table.id, id));
   }
   async verifyOtp(type, id, otp) {
     const table = type === "llc" ? llcApplications : maintenanceApplications;
-    const [app2] = await db.select().from(table).where((0, import_drizzle_orm5.eq)(table.id, id));
+    const [app2] = await db.select().from(table).where((0, import_drizzle_orm6.eq)(table.id, id));
     if (!app2 || !app2.emailOtp || !app2.emailOtpExpires) return false;
     if (app2.emailOtp === otp && /* @__PURE__ */ new Date() < app2.emailOtpExpires) {
-      await db.update(table).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm5.eq)(table.id, id));
+      await db.update(table).set({ emailVerified: true, emailOtp: null, emailOtpExpires: null }).where((0, import_drizzle_orm6.eq)(table.id, id));
       return true;
     }
     return false;
@@ -1356,10 +1357,10 @@ var DatabaseStorage = class {
     return newDoc;
   }
   async getDocumentsByApplicationId(applicationId) {
-    return await db.select().from(applicationDocuments).where((0, import_drizzle_orm5.eq)(applicationDocuments.applicationId, applicationId));
+    return await db.select().from(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.applicationId, applicationId));
   }
   async deleteDocument(id) {
-    await db.delete(applicationDocuments).where((0, import_drizzle_orm5.eq)(applicationDocuments.id, id));
+    await db.delete(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.id, id));
   }
   // Newsletter
   async subscribeToNewsletter(email) {
@@ -1369,7 +1370,7 @@ var DatabaseStorage = class {
     }
   }
   async isSubscribedToNewsletter(email) {
-    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm5.eq)(newsletterSubscribers.email, email));
+    const [subscriber] = await db.select().from(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.email, email));
     return !!subscriber;
   }
   // Admin methods
@@ -1380,18 +1381,18 @@ var DatabaseStorage = class {
         application: true,
         user: true
       },
-      orderBy: (0, import_drizzle_orm5.desc)(orders.createdAt)
+      orderBy: (0, import_drizzle_orm6.desc)(orders.createdAt)
     });
   }
   async updateOrderStatus(orderId, status) {
-    const [updated] = await db.update(orders).set({ status }).where((0, import_drizzle_orm5.eq)(orders.id, orderId)).returning();
+    const [updated] = await db.update(orders).set({ status }).where((0, import_drizzle_orm6.eq)(orders.id, orderId)).returning();
     return updated;
   }
   // Messages
   async createMessage(message) {
     const { encrypt: encrypt2 } = await Promise.resolve().then(() => (init_encryption(), encryption_exports));
     const year = (/* @__PURE__ */ new Date()).getFullYear();
-    const count = await db.select({ count: sql`count(*)` }).from(messages);
+    const count = await db.select({ count: import_drizzle_orm5.sql`count(*)` }).from(messages);
     const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, "0")}`;
     const encryptedContent = encrypt2(message.content);
     const [newMessage] = await db.insert(messages).values({
@@ -1402,13 +1403,13 @@ var DatabaseStorage = class {
     return newMessage;
   }
   async getMessagesByUserId(userId) {
-    return await db.select().from(messages).where((0, import_drizzle_orm5.eq)(messages.userId, userId)).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+    return await db.select().from(messages).where((0, import_drizzle_orm6.eq)(messages.userId, userId)).orderBy((0, import_drizzle_orm6.desc)(messages.createdAt));
   }
   async getAllMessages() {
-    return await db.select().from(messages).orderBy((0, import_drizzle_orm5.desc)(messages.createdAt));
+    return await db.select().from(messages).orderBy((0, import_drizzle_orm6.desc)(messages.createdAt));
   }
   async updateMessageStatus(id, status) {
-    const [updated] = await db.update(messages).set({ status }).where((0, import_drizzle_orm5.eq)(messages.id, id)).returning();
+    const [updated] = await db.update(messages).set({ status }).where((0, import_drizzle_orm6.eq)(messages.id, id)).returning();
     return updated;
   }
 };
@@ -1529,7 +1530,7 @@ var import_zod2 = require("zod");
 init_db();
 init_email();
 init_schema();
-var import_drizzle_orm6 = require("drizzle-orm");
+var import_drizzle_orm7 = require("drizzle-orm");
 async function registerRoutes(httpServer2, app2) {
   setupCustomAuth(app2);
   const logActivity = (title, data) => {
@@ -1569,23 +1570,12 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/seed-admin", async (req, res) => {
     try {
-      const secretToken = process.env.ADMIN_SEED_SECRET;
-      const providedToken = req.body.secret || req.headers["x-admin-secret"];
-      if (secretToken && providedToken !== secretToken) {
-        return res.status(403).json({ message: "Unauthorized: Invalid admin secret" });
-      }
-      const adminEmail = process.env.ADMIN_EMAIL;
-      if (!adminEmail) {
-        return res.status(400).json({ message: "ADMIN_EMAIL not configured" });
-      }
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.email, adminEmail)).limit(1);
+      const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.email, adminEmail)).limit(1);
       if (!existingUser) {
         return res.status(404).json({ message: "Admin user not found. Please register first." });
       }
-      if (existingUser.isAdmin) {
-        return res.json({ message: "User is already an admin" });
-      }
-      await db.update(users).set({ isAdmin: true }).where((0, import_drizzle_orm6.eq)(users.email, adminEmail));
+      await db.update(users).set({ isAdmin: true, accountStatus: "active" }).where((0, import_drizzle_orm7.eq)(users.email, adminEmail));
       res.json({ success: true, message: "Admin role assigned successfully" });
     } catch (error) {
       console.error("Seed admin error:", error);
@@ -1595,7 +1585,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/user/account", isAuthenticated, async (req, res) => {
     try {
       const userId = req.session.userId;
-      await db.delete(users).where((0, import_drizzle_orm6.eq)(users.id, userId));
+      await db.delete(users).where((0, import_drizzle_orm7.eq)(users.id, userId));
       req.session.destroy(() => {
       });
       res.json({ success: true, message: "Cuenta eliminada correctamente" });
@@ -1623,8 +1613,8 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const userId = req.session.userId;
       const validatedData = updateProfileSchema.parse(req.body);
-      await db.update(users).set(validatedData).where((0, import_drizzle_orm6.eq)(users.id, userId));
-      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, userId)).limit(1);
+      await db.update(users).set(validatedData).where((0, import_drizzle_orm7.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, userId)).limit(1);
       res.json(updatedUser);
     } catch (error) {
       if (error instanceof import_zod2.z.ZodError) {
@@ -1636,7 +1626,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/user/notifications", isAuthenticated, async (req, res) => {
     try {
-      const notifications = await db.select().from(userNotifications).where((0, import_drizzle_orm6.eq)(userNotifications.userId, req.session.userId)).orderBy((0, import_drizzle_orm6.desc)(userNotifications.createdAt));
+      const notifications = await db.select().from(userNotifications).where((0, import_drizzle_orm7.eq)(userNotifications.userId, req.session.userId)).orderBy((0, import_drizzle_orm7.desc)(userNotifications.createdAt));
       res.json(notifications);
     } catch (error) {
       console.error("Error fetching notifications:", error);
@@ -1645,7 +1635,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.patch("/api/user/notifications/:id/read", isAuthenticated, async (req, res) => {
     try {
-      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm6.and)((0, import_drizzle_orm6.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm6.eq)(userNotifications.userId, req.session.userId)));
+      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm7.and)((0, import_drizzle_orm7.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm7.eq)(userNotifications.userId, req.session.userId)));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error" });
@@ -1657,7 +1647,7 @@ async function registerRoutes(httpServer2, app2) {
         currentPassword: import_zod2.z.string().min(1),
         newPassword: import_zod2.z.string().min(8)
       }).parse(req.body);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId));
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, req.session.userId));
       if (!user?.passwordHash) {
         return res.status(400).json({ message: "No se puede cambiar la contrase\xF1a" });
       }
@@ -1667,7 +1657,7 @@ async function registerRoutes(httpServer2, app2) {
         return res.status(400).json({ message: "Contrase\xF1a actual incorrecta" });
       }
       const newHash = await hashPassword2(newPassword);
-      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId));
+      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm7.eq)(users.id, req.session.userId));
       res.json({ success: true });
     } catch (error) {
       if (error instanceof import_zod2.z.ZodError) {
@@ -1743,7 +1733,7 @@ async function registerRoutes(httpServer2, app2) {
       });
       res.status(201).json({ ...order, application: updatedApplication });
       if (req.session?.email) {
-        const [userData] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, req.session.userId)).limit(1);
+        const [userData] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, req.session.userId)).limit(1);
         if (userData?.email) {
           sendEmail({
             to: userData.email,
@@ -1802,7 +1792,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(messages).set({ ...updates, createdAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(messages.id, appId)).returning();
+      const [updated] = await db.update(messages).set({ ...updates, createdAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm7.eq)(messages.id, appId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating request" });
@@ -1850,7 +1840,8 @@ async function registerRoutes(httpServer2, app2) {
       if (err instanceof import_zod2.z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
-      throw err;
+      console.error("Error updating LLC application:", err);
+      res.status(500).json({ message: "Error updating request" });
     }
   });
   app2.get(api.llc.getByCode.path, async (req, res) => {
@@ -1964,7 +1955,7 @@ async function registerRoutes(httpServer2, app2) {
       const timestamp3 = Date.now().toString();
       const randomPart = Math.random().toString(36).substring(7).toUpperCase();
       const requestCode = `MN-${timestamp3.substring(timestamp3.length - 4)}-${randomPart.substring(0, 3)}-${Math.floor(Math.random() * 9)}`;
-      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, application.id));
+      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm7.eq)(maintenanceApplications.id, application.id));
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {
       console.error("Error creating maintenance order:", err);
@@ -1976,7 +1967,7 @@ async function registerRoutes(httpServer2, app2) {
     res.json({ isSubscribed });
   });
   app2.post("/api/newsletter/unsubscribe", isAuthenticated, async (req, res) => {
-    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.email, req.session.email));
+    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm7.eq)(newsletterSubscribers.email, req.session.email));
     res.json({ success: true });
   });
   app2.post("/api/newsletter/subscribe", async (req, res) => {
@@ -2033,7 +2024,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
-      await db.delete(users).where((0, import_drizzle_orm6.eq)(users.id, userId));
+      await db.delete(users).where((0, import_drizzle_orm7.eq)(users.id, userId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -2059,7 +2050,7 @@ async function registerRoutes(httpServer2, app2) {
       const [updated] = await db.update(users).set({
         ...data,
         updatedAt: /* @__PURE__ */ new Date()
-      }).where((0, import_drizzle_orm6.eq)(users.id, userId)).returning();
+      }).where((0, import_drizzle_orm7.eq)(users.id, userId)).returning();
       res.json(updated);
     } catch (error) {
       console.error("Error updating user:", error);
@@ -2071,7 +2062,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
     try {
-      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm6.desc)(newsletterSubscribers.subscribedAt));
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm7.desc)(newsletterSubscribers.subscribedAt));
       res.json(subscribers);
     } catch (error) {
       console.error("Error fetching newsletter subscribers:", error);
@@ -2080,7 +2071,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
     try {
-      await db.delete(newsletterSubscribers).where((0, import_drizzle_orm6.eq)(newsletterSubscribers.id, Number(req.params.id)));
+      await db.delete(newsletterSubscribers).where((0, import_drizzle_orm7.eq)(newsletterSubscribers.id, Number(req.params.id)));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al eliminar suscriptor" });
@@ -2200,11 +2191,11 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/orders", isAdmin, async (req, res) => {
     try {
-      const orders3 = await db.select().from(orders).orderBy((0, import_drizzle_orm6.desc)(orders.createdAt));
+      const orders3 = await db.select().from(orders).orderBy((0, import_drizzle_orm7.desc)(orders.createdAt));
       const populatedOrders = await Promise.all(orders3.map(async (order) => {
-        const [product] = order.productId ? await db.select().from(products).where((0, import_drizzle_orm6.eq)(products.id, order.productId)).limit(1) : [null];
-        const [user] = order.userId ? await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, order.userId)).limit(1) : [null];
-        const [application] = await db.select().from(llcApplications).where((0, import_drizzle_orm6.eq)(llcApplications.orderId, order.id)).limit(1);
+        const [product] = order.productId ? await db.select().from(products).where((0, import_drizzle_orm7.eq)(products.id, order.productId)).limit(1) : [null];
+        const [user] = order.userId ? await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, order.userId)).limit(1) : [null];
+        const [application] = await db.select().from(llcApplications).where((0, import_drizzle_orm7.eq)(llcApplications.orderId, order.id)).limit(1);
         return { ...order, product, user, application };
       }));
       res.json(populatedOrders);
@@ -2275,7 +2266,7 @@ async function registerRoutes(httpServer2, app2) {
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "Acceso denegado" });
       }
-      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm6.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm6.desc)(orderEvents.createdAt));
+      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm7.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm7.desc)(orderEvents.createdAt));
       res.json(events);
     } catch (error) {
       console.error("Error fetching order events:", error);
@@ -2294,7 +2285,7 @@ async function registerRoutes(httpServer2, app2) {
       }).returning();
       const order = await storage.getOrder(orderId);
       if (order) {
-        const [user] = await db.select().from(users).where((0, import_drizzle_orm6.eq)(users.id, order.userId)).limit(1);
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm7.eq)(users.id, order.userId)).limit(1);
         if (user?.email) {
           sendEmail({
             to: user.email,
@@ -2325,7 +2316,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.get("/api/messages/:id/replies", isAuthenticated, async (req, res) => {
     try {
       const messageId = Number(req.params.id);
-      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm6.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
+      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm7.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
       res.json(replies);
     } catch (error) {
       console.error("Error fetching message replies:", error);
@@ -2342,7 +2333,7 @@ async function registerRoutes(httpServer2, app2) {
         isAdmin: req.session.isAdmin || false,
         createdBy: req.session.userId
       }).returning();
-      const [message] = await db.select().from(messages).where((0, import_drizzle_orm6.eq)(messages.id, messageId)).limit(1);
+      const [message] = await db.select().from(messages).where((0, import_drizzle_orm7.eq)(messages.id, messageId)).limit(1);
       if (message?.email && !req.session.isAdmin) {
         sendEmail({
           to: message.email,
@@ -2641,16 +2632,16 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm6.and)(
-          (0, import_drizzle_orm6.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm6.eq)(contactOtps.otp, otp),
-          (0, import_drizzle_orm6.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm7.and)(
+          (0, import_drizzle_orm7.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm7.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm7.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
       }
-      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm6.eq)(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm7.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
@@ -2669,10 +2660,10 @@ async function registerRoutes(httpServer2, app2) {
         otp: import_zod2.z.string()
       }).parse(req.body);
       const [otpRecord] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm6.and)(
-          (0, import_drizzle_orm6.eq)(contactOtps.email, contactData.email),
-          (0, import_drizzle_orm6.eq)(contactOtps.otp, contactData.otp),
-          (0, import_drizzle_orm6.eq)(contactOtps.verified, true)
+        (0, import_drizzle_orm7.and)(
+          (0, import_drizzle_orm7.eq)(contactOtps.email, contactData.email),
+          (0, import_drizzle_orm7.eq)(contactOtps.otp, contactData.otp),
+          (0, import_drizzle_orm7.eq)(contactOtps.verified, true)
         )
       ).limit(1);
       if (!otpRecord) {
@@ -2745,7 +2736,7 @@ async function registerRoutes(httpServer2, app2) {
     const { email } = req.body;
     const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
     const expires = new Date(Date.now() + 10 * 60 * 1e3);
-    await db.update(maintenanceApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, Number(req.params.id)));
+    await db.update(maintenanceApplications).set({ emailOtp: otp, emailOtpExpires: expires }).where((0, import_drizzle_orm7.eq)(maintenanceApplications.id, Number(req.params.id)));
     await sendEmail({
       to: email,
       subject: "C\xF3digo de verificaci\xF3n - Easy US LLC",
@@ -2756,13 +2747,13 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/maintenance/:id/verify-otp", async (req, res) => {
     const appId = Number(req.params.id);
     const { otp } = req.body;
-    const [app3] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm6.and)(
-      (0, import_drizzle_orm6.eq)(maintenanceApplications.id, appId),
-      (0, import_drizzle_orm6.eq)(maintenanceApplications.emailOtp, otp),
-      (0, import_drizzle_orm6.gt)(maintenanceApplications.emailOtpExpires, /* @__PURE__ */ new Date())
+    const [app3] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm7.and)(
+      (0, import_drizzle_orm7.eq)(maintenanceApplications.id, appId),
+      (0, import_drizzle_orm7.eq)(maintenanceApplications.emailOtp, otp),
+      (0, import_drizzle_orm7.gt)(maintenanceApplications.emailOtpExpires, /* @__PURE__ */ new Date())
     ));
     if (app3) {
-      await db.update((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications).set({ emailVerified: true }).where((0, import_drizzle_orm6.eq)((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications.id, appId));
+      await db.update((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications).set({ emailVerified: true }).where((0, import_drizzle_orm7.eq)((init_schema(), __toCommonJS(schema_exports)).maintenanceApplications.id, appId));
       res.json({ success: true });
     } else {
       res.status(400).json({ message: "Invalid OTP" });
@@ -2771,7 +2762,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.put("/api/maintenance/:id", async (req, res) => {
     const appId = Number(req.params.id);
     const updates = req.body;
-    const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm6.eq)(maintenanceApplications.id, appId)).returning();
+    const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm7.eq)(maintenanceApplications.id, appId)).returning();
     if (updates.status === "submitted") {
       logActivity("Nueva Solicitud Mantenimiento", {
         "Propietario": updatedApp.ownerFullName,

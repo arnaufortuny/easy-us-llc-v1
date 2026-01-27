@@ -225,7 +225,7 @@ export function setupCustomAuth(app: Express) {
       // Always return success to prevent email enumeration
       res.json({
         success: true,
-        message: "Si el email existe, recibirás instrucciones para recuperar tu contraseña",
+        message: "Si el email existe en nuestro sistema, recibirás instrucciones para restablecer tu contraseña",
       });
     } catch (error) {
       console.error("Forgot password error:", error);

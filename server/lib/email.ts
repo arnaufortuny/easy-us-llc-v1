@@ -45,7 +45,7 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
           
           <div style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin: 25px 0; border: 1px solid #6EDC8A; text-align: center;">
             <p style="margin: 0; font-size: 12px; color: #6B7280; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px;">Referencia de Seguimiento</p>
-            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">#${ticketId}</p>
+            <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0E1215;">${ticketId}</p>
           </div>
 
           <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo de expertos revisará tu mensaje y te responderá de forma personalizada en un plazo de <strong>24 a 48 horas hábiles</strong>.</p>

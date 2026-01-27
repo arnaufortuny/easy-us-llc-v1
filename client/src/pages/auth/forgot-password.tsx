@@ -53,9 +53,6 @@ export default function ForgotPassword() {
             animate={{ opacity: 1, scale: 1 }}
             className="w-full max-w-md text-center"
           >
-            <div className="w-16 h-16 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto mb-6">
-              <Mail className="w-8 h-8 text-primary" />
-            </div>
             <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight mb-4">
               Revisa tu <span className="text-accent">Email</span>
             </h1>
@@ -64,8 +61,8 @@ export default function ForgotPassword() {
             </p>
             <Link href="/login">
               <Button
-                variant="outline"
-                className="rounded-full px-8 font-black"
+                variant="ghost"
+                className="rounded-full px-8 font-black text-muted-foreground hover:text-primary hover:bg-transparent"
                 data-testid="button-back-to-login"
               >
                 Volver al Login

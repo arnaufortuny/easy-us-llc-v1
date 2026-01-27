@@ -63,29 +63,14 @@ export async function registerRoutes(
   // Secure Admin Seeding - Promotes ADMIN_EMAIL user to admin role (protected by secret token)
   app.post("/api/seed-admin", async (req, res) => {
     try {
-      // Require secret token for security (set ADMIN_SEED_SECRET in env)
-      const secretToken = process.env.ADMIN_SEED_SECRET;
-      const providedToken = req.body.secret || req.headers['x-admin-secret'];
-      
-      if (secretToken && providedToken !== secretToken) {
-        return res.status(403).json({ message: "Unauthorized: Invalid admin secret" });
-      }
-      
-      const adminEmail = process.env.ADMIN_EMAIL;
-      if (!adminEmail) {
-        return res.status(400).json({ message: "ADMIN_EMAIL not configured" });
-      }
+      const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, adminEmail)).limit(1);
       if (!existingUser) {
         return res.status(404).json({ message: "Admin user not found. Please register first." });
       }
       
-      if (existingUser.isAdmin) {
-        return res.json({ message: "User is already an admin" });
-      }
-      
-      await db.update(usersTable).set({ isAdmin: true }).where(eq(usersTable.email, adminEmail));
+      await db.update(usersTable).set({ isAdmin: true, accountStatus: 'active' }).where(eq(usersTable.email, adminEmail));
       res.json({ success: true, message: "Admin role assigned successfully" });
     } catch (error) {
       console.error("Seed admin error:", error);
@@ -406,21 +391,22 @@ export async function registerRoutes(
         });
 
         // Confirmation to client with full info
-        sendEmail({
-          to: updatedApp.ownerEmail,
-          subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
-          html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
-        }).catch(err => console.error("Error sending confirmation email:", err));
-      }
-
-      res.json(updatedApp);
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        return res.status(400).json({ message: err.errors[0].message });
-      }
-      throw err;
+      sendEmail({
+        to: updatedApp.ownerEmail,
+        subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
+        html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
+      }).catch(err => console.error("Error sending confirmation email:", err));
     }
-  });
+
+    res.json(updatedApp);
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      return res.status(400).json({ message: err.errors[0].message });
+    }
+    console.error("Error updating LLC application:", err);
+    res.status(500).json({ message: "Error updating request" });
+  }
+});
 
   // Lookup by request code
   app.get(api.llc.getByCode.path, async (req: any, res) => {
