@@ -438,10 +438,72 @@ export async function registerRoutes(
     }
   });
 
-  app.get(api.products.get.path, async (req, res) => {
-    const product = await storage.getProduct(Number(req.params.id));
-    if (!product) return res.status(404).json({ message: "Product not found" });
-    res.json(product);
+  // Request document from client
+  app.post("/api/admin/request-document", isAdmin, async (req, res) => {
+    try {
+      const { email, documentType, message, userId } = z.object({
+        email: z.string().email(),
+        documentType: z.string(),
+        message: z.string(),
+        userId: z.string().optional()
+      }).parse(req.body);
+
+      const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      
+      await sendEmail({
+        to: email,
+        subject: `Acción Requerida: Solicitud de Documentación (${documentType})`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            ${getEmailHeader()}
+            <div style="padding: 20px;">
+              <h2>Solicitud de Documentación</h2>
+              <p>Hola,</p>
+              <p>Nuestro equipo requiere que subas el siguiente documento: <strong>${documentType}</strong></p>
+              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
+                <p><strong>Mensaje del agente:</strong> ${message}</p>
+              </div>
+              <p>Puedes subirlo directamente accediendo a tu panel de cliente en la sección de "Documentos".</p>
+              <p>Ticket ID: <strong>${msgId}</strong></p>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+                  Acceder a mi Panel
+                </a>
+              </div>
+            </div>
+            ${getEmailFooter()}
+          </div>
+        `
+      });
+
+      if (userId) {
+        await db.insert(userNotifications).values({
+          userId,
+          title: "Acción Requerida: Subir Documento",
+          message: `Se ha solicitado el documento: ${documentType}. Revisa tu email para más detalles.`,
+          type: 'action_required',
+          isRead: false
+        });
+
+        const { encrypt } = await import("./utils/encryption");
+        await db.insert(messagesTable).values({
+          userId,
+          name: "Easy US LLC (Soporte)",
+          email: "soporte@easyusllc.com",
+          subject: `Solicitud de Documento: ${documentType}`,
+          content: message,
+          encryptedContent: encrypt(message),
+          type: "support",
+          status: "unread",
+          messageId: msgId
+        });
+      }
+
+      res.json({ success: true, messageId: msgId });
+    } catch (error) {
+      console.error("Request doc error:", error);
+      res.status(500).json({ message: "Error al solicitar documento" });
+    }
   });
 
   // Orders (Requires authentication)

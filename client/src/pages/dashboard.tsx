@@ -140,38 +140,13 @@ export default function Dashboard() {
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/orders"],
     enabled: isAuthenticated,
-    refetchInterval: 30000, // Real-time updates every 30 seconds
-  });
-
-  const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
-    queryKey: ["/api/messages"],
-    enabled: isAuthenticated,
-  });
-
-  const [selectedMessage, setSelectedMessage] = useState<any>(null);
-  const [replyContent, setReplyContent] = useState("");
-
-  const selectedOrderId = orders?.[0]?.id;
-  const { data: selectedOrderEvents } = useQuery<any[]>({
-    queryKey: ["/api/orders", selectedOrderId, "events"],
-    enabled: !!selectedOrderId,
-  });
-
-  const sendReplyMutation = useMutation({
-    mutationFn: async (messageId: number) => {
-      await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
-    },
-    onSuccess: () => {
-      setReplyContent("");
-      queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
-      toast({ title: "Respuesta enviada", description: "Tu mensaje ha sido registrado." });
-    }
+    refetchInterval: 5000,
   });
 
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
-    refetchInterval: 30000, // Real-time updates every 30 seconds
+    refetchInterval: 5000,
   });
 
   const changePasswordMutation = useMutation({
@@ -416,17 +391,45 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content Area */}
-          <Card className="rounded-[2.5rem] border-0 shadow-xl p-8 md:p-12 bg-white text-center flex flex-col items-center justify-center max-w-2xl mx-auto min-h-[400px]">
-            <h2 className="text-3xl md:text-4xl font-black text-primary tracking-tighter mb-4">¡Todo listo!</h2>
-            <p className="text-muted-foreground mb-8 text-lg">Tu solicitud ha sido procesada con éxito. Recibirás una confirmación por email en unos minutos.</p>
-            <Button 
-              size="lg"
-              onClick={() => setActiveTab('services')}
-              className="bg-accent text-primary font-black rounded-full px-12 py-7 text-lg shadow-xl shadow-accent/20 transition-all hover:scale-105 active:scale-95 no-default-hover-elevate"
-            >
-              Ir a mis servicios
-            </Button>
-          </Card>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                    {orders?.map((order) => (
+                      <Card 
+                        key={order.id} 
+                        className="rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden"
+                      >
+                        <CardHeader className="bg-primary/5 pb-4">
+                          <div className="flex justify-between items-start">
+                            <div>
+                              <p className="text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido ID: {order.application?.requestCode || order.invoiceNumber || order.id}</p>
+                              <CardTitle className="text-lg font-black text-primary">{order.product?.name}</CardTitle>
+                            </div>
+                            <Badge className="bg-accent text-primary font-black uppercase text-[10px]">
+                              {order.status}
+                            </Badge>
+                          </div>
+                        </CardHeader>
+                        <CardContent className="pt-6">
+                          {/* Real-time Order Tracker */}
+                          <div className="relative pl-6 space-y-4 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
+                            {order.events?.slice(0, 3).map((event: any, i: number) => (
+                              <div key={i} className="relative">
+                                <div className={`absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
+                                <p className={`text-xs font-black ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
+                                <p className="text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
+                              </div>
+                            ))}
+                            {!order.events?.length && (
+                              <div className="relative">
+                                <div className="absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent animate-pulse" />
+                                <p className="text-xs font-black text-primary">Pedido Recibido</p>
+                                <p className="text-[10px] text-muted-foreground">Estamos revisando tu solicitud.</p>
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
 
               {activeTab === 'notifications' && (
                 <motion.div
