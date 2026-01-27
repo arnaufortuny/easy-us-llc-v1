@@ -667,7 +667,7 @@ export default function Dashboard() {
                               {user?.accountStatus === 'active' ? 'Activa' :
                                user?.accountStatus === 'vip' ? 'VIP' :
                                user?.accountStatus === 'pending' ? 'Pendiente' :
-                               user?.accountStatus === 'suspended' ? 'Suspendida' : 'Activa'}
+                               user?.accountStatus === 'suspended' ? 'Desactivada' : 'Activa'}
                             </p>
                           </div>
                         </div>
