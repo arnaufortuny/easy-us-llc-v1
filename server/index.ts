@@ -36,6 +36,8 @@ app.use((req, res, next) => {
     if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
     }
+    // Pre-connect and hints
+    res.setHeader("X-DNS-Prefetch-Control", "on");
   }
   next();
 });
