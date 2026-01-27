@@ -10,10 +10,17 @@ const httpServer = createServer(app);
 // Health check endpoint at root (/) to ensure deployment success on Replit
 // This MUST be the first route registered to respond immediately
 app.get("/", (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.status(200).send("OK");
 });
 
 app.get("/health", (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.status(200).send("OK");
+});
+
+app.get("/healthz", (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
   res.status(200).send("OK");
 });
 

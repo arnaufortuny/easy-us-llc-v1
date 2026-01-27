@@ -37,8 +37,8 @@ export async function registerRoutes(
   // Set up Custom Auth
   setupCustomAuth(app);
 
-  // Health check endpoint for deployment
-  app.get("/healthz", (_req, res) => {
+  // Health check endpoint for deployment (already handled in index.ts for root priority)
+  app.get("/api/healthz", (_req, res) => {
     res.status(200).send("OK");
   });
 
