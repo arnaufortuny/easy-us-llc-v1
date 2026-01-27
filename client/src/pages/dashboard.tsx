@@ -215,12 +215,11 @@ export default function Dashboard() {
     }
   });
 
-  const { data: adminStats } = useQuery<{ totalSales: number }>({
-    queryKey: ["/api/admin/stats"],
+  const { data: systemStats } = useQuery<any>({
+    queryKey: ["/api/admin/system-stats"],
     enabled: !!user?.isAdmin,
+    refetchInterval: 10000,
   });
-
-  const totalSales = adminStats?.totalSales ? (adminStats.totalSales / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' }) : '0,00 €';
 
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
@@ -386,10 +385,13 @@ export default function Dashboard() {
             className="flex flex-col md:flex-row md:items-center justify-between gap-6"
           >
             <div>
-              <p className="text-accent font-black  tracking-widest text-[10px] md:text-sm mb-1 md:mb-2">Área de Clientes</p>
-              <h1 className="text-3xl md:text-5xl font-black text-primary  tracking-tighter leading-tight md:leading-none">
-                {user?.firstName ? `Hola, ${user.firstName}` : 'Mi Panel'}
+              <p className="text-accent font-black tracking-widest text-[10px] md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
+              <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter leading-tight md:leading-none">
+                Bienvenido a tu espacio personal, {user?.firstName || 'Cliente'}
               </h1>
+              <p className="text-muted-foreground font-medium mt-2">
+                Estás en tu área privada, ¡realiza tus gestiones en unos clics!
+              </p>
             </div>
             <Link href="/servicios#pricing">
               <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-6 md:px-8 py-5 md:py-6 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
@@ -422,11 +424,14 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content Area */}
-                            <div className="flex justify-between items-center">
-                              <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
-                              <div className="flex items-center gap-2">
-                                <Clock className="w-4 h-4 text-accent animate-pulse" />
-                                <span className="text-[10px] font-bold text-muted-foreground uppercase">Actualización en tiempo real</span>
+                            <div className="flex justify-between items-center mb-6">
+                              <div>
+                                <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
+                                <p className="text-xs text-muted-foreground font-medium">Gestiona tus trámites activos en tiempo real</p>
+                              </div>
+                              <div className="flex items-center gap-2 bg-accent/10 px-3 py-1.5 rounded-full border border-accent/20">
+                                <Clock className="w-3.5 h-3.5 text-accent animate-pulse" />
+                                <span className="text-[10px] font-black text-accent uppercase tracking-wider">En vivo</span>
                               </div>
                             </div>
                             

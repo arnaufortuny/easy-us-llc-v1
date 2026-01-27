@@ -38,7 +38,21 @@ export async function registerRoutes(
   setupCustomAuth(app);
 
     // Unified activity log helper
-    const logActivity = (title: string, data: any) => {
+    const logActivity = async (title: string, data: any, req?: any) => {
+      const ip = req?.ip || "unknown";
+      const userId = req?.session?.userId || null;
+      
+      try {
+        await db.insert(sql`activity_logs`).values({
+          user_id: userId,
+          action: title,
+          details: data,
+          ip_address: ip
+        });
+      } catch (e) {
+        console.error("Failed to save activity log:", e);
+      }
+
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
       }
@@ -67,7 +81,7 @@ export async function registerRoutes(
     app.post("/api/activity/track", async (req, res) => {
       const { action, details } = req.body;
       if (action === "CLICK_ELEGIR_ESTADO") {
-        logActivity("Selección de Estado", { "Detalles": details, "IP": req.ip });
+        logActivity("Selección de Estado", { "Detalles": details }, req);
       }
       res.json({ success: true });
     });
@@ -196,6 +210,31 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error deleting user:", error);
       res.status(500).json({ message: "Error al eliminar usuario" });
+    }
+  });
+
+  app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
+    try {
+      const [[{ totalSales }], [{ userCount }], [{ orderCount }], [{ visitorCount }]] = await Promise.all([
+        db.select({ totalSales: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
+        db.select({ userCount: sql<number>`count(*)` }).from(usersTable),
+        db.select({ orderCount: sql<number>`count(*)` }).from(ordersTable),
+        db.select({ visitorCount: sql<number>`count(DISTINCT ip_address)` }).from(sql`activity_logs`) // Assuming activity_logs table exists or use a fallback
+      ]);
+
+      // Calculate conversion rate
+      const conversionRate = visitorCount > 0 ? (orderCount / visitorCount) * 100 : 0;
+
+      res.json({ 
+        totalSales: Number(totalSales),
+        userCount: Number(userCount),
+        orderCount: Number(orderCount),
+        visitorCount: Number(visitorCount || 0),
+        conversionRate: Number(conversionRate.toFixed(2))
+      });
+    } catch (error) {
+      console.error("System stats error:", error);
+      res.status(500).json({ message: "Error fetching system stats" });
     }
   });
 
