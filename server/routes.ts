@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 
@@ -115,6 +115,14 @@ export async function registerRoutes(
           message: `Tu pedido ${order.application?.requestCode || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
           type: 'update',
           isRead: false
+        });
+
+        // Add Order Event for Timeline
+        await db.insert(orderEvents).values({
+          orderId: order.id,
+          eventType: statusLabel,
+          description: `El estado del pedido ha sido actualizado a ${statusLabel}.`,
+          createdBy: req.session.userId
         });
 
         sendEmail({
@@ -516,6 +524,14 @@ export async function registerRoutes(
         stripeSessionId: "mock_session_" + Date.now(),
       });
 
+      // Add Order Event for Timeline
+      await db.insert(orderEvents).values({
+        orderId: order.id,
+        eventType: "Pedido Recibido",
+        description: `Se ha registrado un nuevo pedido para ${product.name}.`,
+        createdBy: userId
+      });
+
       // Create an empty application linked to the order
       const application = await storage.createLlcApplication({
         orderId: order.id,
@@ -553,7 +569,7 @@ export async function registerRoutes(
       res.status(201).json({ ...order, application: updatedApplication });
 
       // Send welcome email if user is authenticated and has email
-      if (req.session?.email) {
+      if (req.session?.userId) {
         const [userData] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (userData?.email) {
           sendEmail({
