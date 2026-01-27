@@ -205,7 +205,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
       updates.lockUntil = new Date(Date.now() + 60 * 60 * 1000);
       updates.accountStatus = 'suspended';
       
-      const msgId = `MSG-${Math.floor(10000000 + Math.random() * 90000000)}`;
+      const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
 
       // Send lock email from Claudia
       try {
@@ -293,14 +293,14 @@ export async function createPasswordResetToken(email: string): Promise<string | 
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #0E1215;">Recuperar contraseña</h1>
-          <p>Hola \${user.firstName || ''},</p>
+          <p>Hola ${user.firstName || ''},</p>
           <p>Has solicitado restablecer tu contraseña. Haz clic en el siguiente botón:</p>
           <div style="text-align: center; margin: 30px 0;">
-            <a href="\${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+            <a href="${resetLink}" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
               Restablecer contraseña
             </a>
           </div>
-          <p>Este enlace expira en \${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
+          <p>Este enlace expira en ${PASSWORD_RESET_EXPIRY_HOURS} horas.</p>
           <p>Si no solicitaste este cambio, ignora este email.</p>
           <p>Saludos,<br>El equipo de Easy US LLC</p>
         </div>

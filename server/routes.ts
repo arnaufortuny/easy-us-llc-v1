@@ -129,7 +129,7 @@ export async function registerRoutes(
         await db.insert(userNotifications).values({
           userId: order.userId,
           title: `Actualización de pedido: ${statusLabel}`,
-          message: `Tu pedido ${order.application?.requestCode || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
+          message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
           type: 'update',
           isRead: false
         });
@@ -144,12 +144,12 @@ export async function registerRoutes(
 
         sendEmail({
           to: order.user.email,
-          subject: `Actualización de tu pedido ${order.application?.requestCode || order.invoiceNumber || `#${order.id}`}`,
+          subject: `Actualización de tu pedido ${order.invoiceNumber || `#${order.id}`}`,
           html: getOrderUpdateTemplate(
             order.user.firstName || "Cliente",
-            order.application?.requestCode || order.invoiceNumber || `#${order.id}`,
+            order.invoiceNumber || `#${order.id}`,
             status,
-            `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu recibo actualizado en tu panel de control.`,
+            `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu factura y recibo actualizado en tu panel de control.`,
             order.amount
           )
         }).catch(console.error);
@@ -283,12 +283,12 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/messages/:id/status", isAdmin, async (req, res) => {
+  app.patch("/api/admin/messages/:id/archive", isAdmin, async (req, res) => {
     try {
-      const updated = await storage.updateMessageStatus(Number(req.params.id), req.body.status);
+      const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
       res.json(updated);
     } catch (error) {
-      res.status(500).json({ message: "Error" });
+      res.status(500).json({ message: "Error al archivar mensaje" });
     }
   });
 
@@ -340,7 +340,7 @@ export async function registerRoutes(
       if (userId) {
         const { encrypt } = await import("./utils/encryption");
         const year = new Date().getFullYear();
-        // Generate 8-digit ticket ID
+        // Generate 8-digit ticket ID (purely numeric)
         const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
         const encryptedContent = encrypt(message);

@@ -73,10 +73,19 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    // Generate 8-digit numeric ID (ORD + Year + 6 random digits)
+    
+    // Check if it's a maintenance pack (Product ID for maintenance)
+    // Assuming maintenance products have 'mantenimiento' in name or specific IDs
+    // For now, let's look at the product
+    const [product] = await db.select().from(products).where(eq(products.id, order.productId)).limit(1);
+    const isMaintenance = product?.name.toLowerCase().includes("mantenimiento") || product?.name.toLowerCase().includes("maintenance");
+    
+    // Generate 8-digit numeric ID
     const year = new Date().getFullYear().toString().slice(-2);
     const random = Math.floor(100000 + Math.random() * 900000).toString();
-    const invoiceNumber = `ORD-${year}${random}`;
+    const prefix = isMaintenance ? 'MN-' : 'ORD-';
+    const invoiceNumber = `${prefix}${year}${random}`;
+    
     await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
     
     // Log for admin
@@ -88,7 +97,7 @@ export class DatabaseStorage implements IStorage {
 
       await db.insert(sql`activity_logs`).values({
         user_id: newOrder.userId,
-        action: "Nuevo Pedido Creado",
+        action: isMaintenance ? "Nuevo Mantenimiento Creado" : "Nuevo Pedido Creado",
         details: { 
           orderId: invoiceNumber, 
           user: user?.email, 
@@ -99,15 +108,15 @@ export class DatabaseStorage implements IStorage {
 
       await sendEmail({
         to: "afortuny07@gmail.com",
-        subject: `[PEDIDO] Nuevo Pedido Creado: ${invoiceNumber}`,
+        subject: `[${isMaintenance ? 'MANTENIMIENTO' : 'PEDIDO'}] Nuevo: ${invoiceNumber}`,
         html: `
           <div style="background-color: #f9f9f9; padding: 20px 0;">
             <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
               ${getEmailHeader()}
               <div style="padding: 40px;">
-                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Recibido</h2>
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo ${isMaintenance ? 'Mantenimiento' : 'Pedido'} Recibido</h2>
                 <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>ID Pedido:</strong> ${invoiceNumber}</p>
+                  <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>ID:</strong> ${invoiceNumber}</p>
                   <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Cliente:</strong> ${user?.email}</p>
                   <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> $${newOrder.amount / 100}</p>
                 </div>
@@ -276,10 +285,8 @@ export class DatabaseStorage implements IStorage {
   // Messages
   async createMessage(message: any): Promise<any> {
     const { encrypt } = await import("./utils/encryption");
-    // Generate 8-digit message ID (e.g., MSG-26012345)
-    const year = new Date().getFullYear().toString().slice(-2);
-    const random = Math.floor(100000 + Math.random() * 900000).toString();
-    const msgId = `MSG-${year}${random}`;
+    // Generate 8-digit message ID (purely numeric for tickets)
+    const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({
