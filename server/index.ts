@@ -7,19 +7,23 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
-// Health check endpoint that handles both root (/) for Replit deployment 
-// and specific paths (/health, /healthz) without blocking the frontend.
-app.get("*", (req, res, next) => {
-  const isHealthCheck = 
-    req.path === "/health" || 
-    req.path === "/healthz" || 
-    (req.path === "/" && (req.headers["user-agent"]?.includes("Replit") || req.headers["x-replit-deployment-id"]));
+// Absolute priority health check for Replit deployment
+app.get("/", (req, res, next) => {
+  // Check for Replit health check headers or user agent
+  const isDeploymentCheck = 
+    req.headers["x-replit-deployment-id"] || 
+    (req.headers["user-agent"] && req.headers["user-agent"].includes("Replit"));
 
-  if (isHealthCheck) {
+  if (isDeploymentCheck) {
     res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
     return res.status(200).send("OK");
   }
   next();
+});
+
+app.get(["/health", "/healthz"], (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.status(200).send("OK");
 });
 
 app.use(compression());
