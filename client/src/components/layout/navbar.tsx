@@ -101,12 +101,12 @@ export function Navbar() {
           <div className="absolute top-0 left-0 right-0 h-20 bg-background z-[100] border-b border-border shadow-sm" />
           <div className="flex flex-col flex-grow bg-background p-6 justify-start pt-24">
               <div className="flex flex-col gap-0.5">
-                {isAuthenticated ? (
+                {isAuthenticated && (
                   <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
-                    <p className="text-xs font-black text-accent  tracking-widest mb-2">Área Personal</p>
+                    <p className="text-xs font-black text-accent tracking-widest mb-2">Área Personal</p>
                     <button
                       onClick={() => handleNavClick("/dashboard")}
-                      className="w-full text-left py-2 text-foreground font-black text-xl  tracking-tighter flex items-center gap-2"
+                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
                     >
                       <UserIcon className="w-5 h-5" /> Mi Panel
                     </button>
@@ -117,13 +117,6 @@ export function Navbar() {
                       <LogOut className="w-4 h-4" /> Cerrar Sesión
                     </button>
                   </div>
-                ) : (
-                  <button
-                    onClick={() => (window.location.href = "/api/login")}
-                    className="text-left px-3 py-3 rounded-xl text-accent hover:bg-secondary transition-colors font-black text-xl  tracking-tighter border border-transparent hover:border-accent/20 mb-4"
-                  >
-                    Área Clientes
-                  </button>
                 )}
                 <button
                   onClick={() => handleNavClick("/")}
