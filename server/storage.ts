@@ -73,7 +73,8 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    const invoiceNumber = String(newOrder.id).padStart(6, '0');
+    // Generate 8-digit invoice number
+    const invoiceNumber = Math.floor(10000000 + Math.random() * 90000000).toString();
     await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
     return { ...newOrder, invoiceNumber };
   }
@@ -230,7 +231,8 @@ export class DatabaseStorage implements IStorage {
   // Messages
   async createMessage(message: any): Promise<any> {
     const { encrypt } = await import("./utils/encryption");
-    const msgId = `MSG-${Math.floor(10000000 + Math.random() * 90000000)}`;
+    // Generate 8-digit message ID
+    const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({

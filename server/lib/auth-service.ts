@@ -26,10 +26,8 @@ export function generateToken(): string {
 }
 
 export function generateClientId(): string {
-  const prefix = "CLI";
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-  return `${prefix}-${timestamp}-${random}`;
+  // Generate 8 random digits
+  return Math.floor(10000000 + Math.random() * 90000000).toString();
 }
 
 export async function createUser(data: {
@@ -218,7 +216,8 @@ export async function loginUser(email: string, password: string): Promise<typeof
     await db.update(users).set({ 
       loginAttempts: 0, 
       lockUntil: null,
-      accountStatus: user.accountStatus === 'suspended' ? 'active' : user.accountStatus 
+      accountStatus: user.accountStatus === 'suspended' ? 'active' : user.accountStatus,
+      updatedAt: new Date()
     }).where(eq(users.id, user.id));
   }
 

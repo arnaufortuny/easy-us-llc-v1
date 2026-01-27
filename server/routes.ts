@@ -277,9 +277,8 @@ export async function registerRoutes(
       if (userId) {
         const { encrypt } = await import("./utils/encryption");
         const year = new Date().getFullYear();
-        const count = await db.select({ count: sql<number>`count(*)` }).from(messagesTable);
-        const randomSuffix = Math.random().toString(36).substring(2, 4).toUpperCase();
-        const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, '0')}-${randomSuffix}`;
+        // Generate 8-digit ticket ID
+        const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
         
         const encryptedContent = encrypt(message);
         await db.insert(messagesTable).values({
@@ -660,7 +659,7 @@ export async function registerRoutes(
         state: product.name.split(" ")[0], // Extract state name correctly
       });
 
-      // Generate unified request code: 8 random numbers
+      // Generate unified request code: 8 random digits
       const generateRandomCode = () => {
         return Math.floor(10000000 + Math.random() * 90000000).toString();
       };
