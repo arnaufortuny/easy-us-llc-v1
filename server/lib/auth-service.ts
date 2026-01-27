@@ -1,8 +1,8 @@
 import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { db } from "../db";
-import { users, passwordResetTokens, emailVerificationTokens } from "@shared/models/auth";
-import { eq, and, gt } from "drizzle-orm";
+import { users, passwordResetTokens, emailVerificationTokens, messages as messagesTable } from "@shared/schema";
+import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail } from "./email";
 
 const SALT_ROUNDS = 12;
@@ -105,10 +105,10 @@ export async function createUser(data: {
 
 async function logActivity(title: string, data: any) {
   try {
-    const { sql } = await import("drizzle-orm");
     const { sendEmail, getEmailHeader, getEmailFooter } = await import("./email");
     
     await db.insert(sql`activity_logs`).values({
+      user_id: (data as any).userId || (data as any).clientId || null,
       action: title,
       details: data,
       ip_address: "system"
@@ -332,13 +332,20 @@ export async function resetPassword(token: string, newPassword: string): Promise
 
   const passwordHash = await hashPassword(newPassword);
 
-  await db.update(users)
-    .set({ passwordHash, updatedAt: new Date() })
-    .where(eq(users.id, tokenRecord.userId));
-
   await db.update(passwordResetTokens)
-    .set({ used: true })
+    .set({ used: true, updatedAt: new Date() })
     .where(eq(passwordResetTokens.id, tokenRecord.id));
+
+  // Also unlock account if it was suspended due to too many attempts
+  await db.update(users)
+    .set({ 
+      passwordHash, 
+      updatedAt: new Date(),
+      loginAttempts: 0,
+      lockUntil: null,
+      accountStatus: 'active' 
+    })
+    .where(eq(users.id, tokenRecord.userId));
 
   return true;
 }
