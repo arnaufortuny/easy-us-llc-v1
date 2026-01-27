@@ -85,7 +85,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/orders/:id/status", isAdmin, async (req, res) => {
+  app.patch("/api/admin/orders/:id/status", isAdmin, async (req: any, res) => {
     try {
       const orderId = Number(req.params.id);
       const { status } = z.object({ status: z.string() }).parse(req.body);
@@ -100,11 +100,22 @@ export async function registerRoutes(
         const statusLabels: Record<string, string> = {
           pending: "Pendiente",
           processing: "En proceso",
+          paid: "Pagado",
+          filed: "Presentado",
           documents_ready: "Documentos listos",
           completed: "Completado",
           cancelled: "Cancelado"
         };
         const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
+
+        // Create Notification in Dashboard
+        await db.insert(userNotifications).values({
+          userId: order.userId,
+          title: `Actualización de pedido: ${statusLabel}`,
+          message: `Tu pedido ${order.application?.requestCode || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
+          type: 'update',
+          isRead: false
+        });
 
         sendEmail({
           to: order.user.email,
@@ -161,13 +172,36 @@ export async function registerRoutes(
         .where(eq(usersTable.id, req.params.id))
         .returning();
 
-      // If status changed to suspended, send email
-      if (accountStatus === 'suspended' && oldUser?.accountStatus !== 'suspended' && updatedUser?.email) {
-        // ... (existing email logic)
+      // NOTIFICATION: Account status change
+      if (accountStatus !== oldUser?.accountStatus) {
+        const statusLabels: Record<string, string> = {
+          active: "Activa",
+          pending: "Pendiente de revisión",
+          suspended: "Suspendida",
+          vip: "VIP"
+        };
+        const statusLabel = statusLabels[accountStatus as string] || accountStatus;
+
+        await db.insert(userNotifications).values({
+          userId: updatedUser.id,
+          title: "Actualización de cuenta",
+          message: `El estado de tu cuenta ha sido actualizado a: ${statusLabel}.`,
+          type: 'info',
+          isRead: false
+        });
+
+        if (updatedUser?.email) {
+          sendEmail({
+            to: updatedUser.email,
+            subject: "Actualización en el estado de tu cuenta - Easy US LLC",
+            html: getAutoReplyTemplate(updatedUser.firstName || "Cliente", `El estado de tu cuenta ha sido actualizado a: <strong>${statusLabel}</strong>.`)
+          }).catch(console.error);
+        }
       }
 
       res.json(updatedUser);
     } catch (error) {
+      console.error("Update user error:", error);
       res.status(500).json({ message: "Error updating user" });
     }
   });
@@ -845,6 +879,7 @@ export async function registerRoutes(
     res.json({ success: true });
   });
 
+  // Newsletter Subscription
   app.post("/api/newsletter/subscribe", async (req: any, res) => {
     try {
       const { email } = z.object({ email: z.string().email().optional() }).parse(req.body);
@@ -863,6 +898,18 @@ export async function registerRoutes(
       }
 
       await storage.subscribeToNewsletter(targetEmail);
+
+      // NOTIFICATION: Newsletter subscription
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.email, targetEmail)).limit(1);
+      if (user) {
+        await db.insert(userNotifications).values({
+          userId: user.id,
+          title: "Suscripción confirmada",
+          message: "Te has suscrito correctamente a nuestra newsletter. Recibirás las últimas noticias y ofertas.",
+          type: 'info',
+          isRead: false
+        });
+      }
       
       await sendEmail({
         to: targetEmail,

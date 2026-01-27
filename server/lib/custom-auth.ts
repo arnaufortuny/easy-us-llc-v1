@@ -72,6 +72,22 @@ export function setupCustomAuth(app: Express) {
         birthDate,
       });
 
+      // NOTIFICATION: Welcome
+      await db.insert(userNotifications).values({
+        userId: user.id,
+        title: "¡Bienvenido a Easy US LLC!",
+        message: "Gracias por confiar en nosotros para crear tu empresa en EE.UU. Explora tu panel para comenzar.",
+        type: 'info',
+        isRead: false
+      });
+
+      // Send Welcome Email
+      sendEmail({
+        to: user.email!,
+        subject: "¡Bienvenido a Easy US LLC!",
+        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
+      }).catch(console.error);
+
       req.session.userId = user.id;
       req.session.email = user.email!;
       req.session.isAdmin = user.isAdmin;
