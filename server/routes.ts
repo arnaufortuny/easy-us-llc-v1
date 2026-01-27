@@ -6,7 +6,7 @@ import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountSuspendedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 
@@ -190,6 +190,27 @@ export async function registerRoutes(
       ...data,
       updatedAt: new Date()
     }).where(eq(usersTable.id, userId)).returning();
+
+    // Trigger emails if account is suspended
+    if (data.accountStatus === 'suspended') {
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (user && user.email) {
+        // 1. Send system suspension email
+        await sendEmail({
+          to: user.email,
+          subject: "Tu cuenta ha sido desactivada - Easy US LLC",
+          html: getAccountSuspendedTemplate(user.firstName || "Cliente")
+        }).catch(console.error);
+
+        // 2. Send Claudia's personal email (using internalNotes or a default message)
+        const claudiaMsg = data.internalNotes || "Tu cuenta ha sido desactivada debido a que necesitamos verificar información adicional sobre tu registro. Por favor, responde a este correo para proceder.";
+        await sendEmail({
+          to: user.email,
+          subject: "Información importante sobre tu cuenta - Claudia (Easy US LLC)",
+          html: getClaudiaMessageTemplate(user.firstName || "Cliente", claudiaMsg)
+        }).catch(console.error);
+      }
+    }
 
     // Log account changes to admin
     if (data.accountStatus || data.isActive !== undefined) {

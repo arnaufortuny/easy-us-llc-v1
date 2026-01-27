@@ -281,6 +281,51 @@ export default function Dashboard() {
     );
   }
 
+  if (user?.accountStatus === 'suspended') {
+    return (
+      <div className="min-h-screen bg-[#F7F7F5] font-sans flex flex-col">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="max-w-md w-full"
+          >
+            <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white">
+              <div className="bg-red-500 h-2 w-full" />
+              <CardContent className="p-8 md:p-12 text-center">
+                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <AlertCircle className="w-10 h-10 text-red-500" />
+                </div>
+                <h1 className="text-2xl md:text-3xl font-black text-primary tracking-tight mb-4">
+                  Tu cuenta está desactivada
+                </h1>
+                <p className="text-muted-foreground font-medium leading-relaxed mb-8">
+                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información.
+                </p>
+                <div className="space-y-3">
+                  <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
+                    <Button className="w-full bg-accent text-primary font-black rounded-full py-6 shadow-lg shadow-accent/20">
+                      Contactar Soporte
+                    </Button>
+                  </a>
+                  <Button 
+                    variant="ghost" 
+                    className="w-full font-black text-muted-foreground"
+                    onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+                  >
+                    Cerrar Sesión
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   const menuItems = [
     { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
     { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Alertas' },

@@ -34,6 +34,46 @@ export function getEmailFooter() {
   `;
 }
 
+export function getAccountSuspendedTemplate(name: string) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        ${getEmailHeader("Cuenta Desactivada")}
+        <div style="padding: 40px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin-bottom: 20px; color: #000;">Hola ${name},</h2>
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 25px;">Te informamos que tu cuenta en Easy US LLC ha sido desactivada temporalmente.</p>
+          <div style="background: #FEF2F2; padding: 20px; border-radius: 8px; margin: 25px 0; border-left: 4px solid #EF4444;">
+            <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.6;">Debido a políticas internas o falta de documentación necesaria, el acceso a tu panel ha sido restringido. Por favor, revisa el correo enviado por nuestro equipo de atención al cliente (Claudia) para conocer los pasos a seguir.</p>
+          </div>
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px; text-align: center;">Si tienes alguna duda urgente, puedes contactarnos vía WhatsApp.</p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+
+export function getClaudiaMessageTemplate(name: string, customMessage: string) {
+  return `
+    <div style="background-color: #f9f9f9; padding: 20px 0;">
+      <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+        <div style="background-color: #ffffff; padding: 40px 20px; text-align: center; border-bottom: 3px solid #6EDC8A;">
+          <h1 style="color: #0E1215; margin: 0; font-family: 'Inter', Arial, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: -1.5px; font-size: 24px;">Mensaje de Claudia - Easy US LLC</h1>
+        </div>
+        <div style="padding: 40px;">
+          <p style="line-height: 1.6; font-size: 15px; color: #444; margin-bottom: 20px;">Hola <strong>${name}</strong>,</p>
+          <div style="font-size: 15px; color: #0E1215; line-height: 1.7; white-space: pre-wrap; margin-bottom: 30px;">
+            ${customMessage}
+          </div>
+          <p style="line-height: 1.6; font-size: 14px; color: #444;">Quedo a tu disposición para cualquier consulta adicional.</p>
+          <p style="margin-top: 20px; font-weight: 800; color: #0E1215;">Atentamente,<br>Claudia<br><span style="color: #6EDC8A; font-size: 12px; text-transform: uppercase;">Atención al Cliente | Easy US LLC</span></p>
+        </div>
+        ${getEmailFooter()}
+      </div>
+    </div>
+  `;
+}
+
 export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente") {
   return `
     <div style="background-color: #f9f9f9; padding: 20px 0;">
