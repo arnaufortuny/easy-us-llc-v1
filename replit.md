@@ -26,6 +26,14 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Performance Optimization (Jan 2026):**
+  - Reduced Google Fonts from 25+ families to only Inter + DM Sans (used fonts only)
+  - Non-blocking font loading with media="print" onload pattern
+  - Faster Framer Motion animations (0.25-0.3s duration, reduced stagger)
+  - GPU acceleration utilities (.gpu-accelerated class)
+  - Reduced motion preference support (@media prefers-reduced-motion)
+  - CSS will-change optimization for hover states
+  - Image content-visibility: auto for lazy rendering
 - **Mobile Optimization (Jan 2026):**
   - Admin panel: Compact action buttons (w-8 h-8 on mobile, w-9 h-9 on desktop)
   - Client management: Hide document request/note buttons on mobile (sm:flex)
