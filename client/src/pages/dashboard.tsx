@@ -97,7 +97,7 @@ export default function Dashboard() {
 
   const selectedOrderId = orders?.[0]?.id;
   const { data: selectedOrderEvents } = useQuery<any[]>({
-    queryKey: selectedOrderId ? [`/api/orders/${selectedOrderId}/events`] : ["no-order"],
+    queryKey: ["/api/orders", selectedOrderId, "events"],
     enabled: !!selectedOrderId,
   });
 
@@ -145,7 +145,7 @@ export default function Dashboard() {
               </h1>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-6 md:px-8 py-5 md:py-6 hover:scale-105 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
+              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-6 md:px-8 py-5 md:py-6 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
@@ -225,7 +225,7 @@ export default function Dashboard() {
                               <div className="flex gap-2">
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 hover:bg-accent hover:text-primary shrink-0"
+                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
                                   title="Ver Factura"
                                   onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
                                 >
@@ -233,7 +233,7 @@ export default function Dashboard() {
                                 </Button>
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 hover:bg-accent hover:text-primary shrink-0"
+                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
                                   title="Ver Pedido"
                                   onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
                                 >
@@ -241,7 +241,7 @@ export default function Dashboard() {
                                 </Button>
                                 <Button 
                                   variant="ghost" 
-                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 hover:bg-accent hover:text-primary shrink-0"
+                                  className="rounded-full w-10 h-10 md:w-12 md:h-12 p-0 bg-gray-50 shrink-0"
                                   title="Editar Datos"
                                   onClick={() => {
                                     const newData = prompt("¿Qué datos deseas modificar? (Nombre de empresa, actividad, etc.)");
@@ -512,7 +512,7 @@ export default function Dashboard() {
                       <p className="text-sm md:text-base text-primary/60 font-medium mb-6 md:mb-8">Gestiona tus tarjetas, facturas y suscripciones a través de Stripe.</p>
                       <div className="flex flex-wrap gap-4">
                         <a href="https://billing.stripe.com/p/login/test_6oE5mG0Y0" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto">
-                          <Button className="w-full sm:w-auto bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center justify-center gap-2 hover:bg-white transition-colors">
+                          <Button className="w-full sm:w-auto bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center justify-center gap-2 transition-colors">
                             Portal Stripe <ExternalLink className="w-4 h-4" />
                           </Button>
                         </a>

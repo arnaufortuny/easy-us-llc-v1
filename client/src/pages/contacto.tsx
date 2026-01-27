@@ -207,7 +207,7 @@ export default function Contacto() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
               <Button 
                 onClick={() => (window.location.href = "/")} 
-                className="bg-[#6EDC8A] text-black hover:bg-[#5bc979] font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all shadow-lg active:scale-95 w-full sm:w-auto"
+                className="bg-[#6EDC8A] text-black font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all shadow-lg w-full sm:w-auto"
                 data-testid="button-home"
               > 
                 Volver al inicio 
@@ -220,7 +220,7 @@ export default function Contacto() {
               >
                 <Button 
                   variant="outline"
-                  className="border-2 border-black text-black hover:bg-black hover:text-primary font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all w-full shadow-lg active:scale-95"
+                  className="border-2 border-black text-black font-black px-8 sm:px-12 py-6 sm:py-8 rounded-full text-lg sm:text-xl transition-all w-full shadow-lg"
                   data-testid="button-whatsapp"
                 > 
                   WhatsApp Directo
@@ -327,7 +327,7 @@ export default function Contacto() {
                           onClick={sendOtp} 
                           disabled={isLoading} 
                           style={{ backgroundColor: '#6EDC8A' }} 
-                          className="w-full md:w-auto text-primary hover:opacity-90 font-black px-8 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20"
+                          className="w-full md:w-auto text-primary font-black px-8 h-14 rounded-full transition-all shadow-lg shadow-[#6EDC8A]/20"
                           data-testid="button-send-otp"
                         >
                           {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
@@ -351,7 +351,7 @@ export default function Contacto() {
                             type="button" 
                             onClick={verifyOtp} 
                             disabled={isLoading} 
-                            className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full active:scale-95 transition-all shadow-lg shadow-[#6EDC8A]/20"
+                            className="bg-[#6EDC8A] text-primary font-black px-12 h-14 rounded-full transition-all shadow-lg shadow-[#6EDC8A]/20"
                             data-testid="button-verify-otp"
                           >
                             {isLoading ? <Loader2 className="animate-spin" /> : "Verificar"}
@@ -379,7 +379,7 @@ export default function Contacto() {
                     <Button 
                       type="submit" 
                       disabled={isLoading} 
-                      className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl hover:scale-[1.02] active:scale-95 transition-all shadow-2xl shadow-[#6EDC8A]/20"
+                      className="w-full bg-[#6EDC8A] text-primary font-black py-8 rounded-full text-lg md:text-xl transition-all shadow-2xl shadow-[#6EDC8A]/20"
                       data-testid="button-submit"
                     >
                       {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
