@@ -261,7 +261,39 @@ export async function registerRoutes(
     }
   });
 
-  // Document Requests
+  // Document Management - Upload official docs by Admin
+  app.post("/api/admin/documents", isAdmin, async (req, res) => {
+    try {
+      const { orderId, fileName, fileUrl, documentType, applicationId } = req.body;
+      const [doc] = await db.insert(applicationDocumentsTable).values({
+        orderId,
+        applicationId,
+        fileName,
+        fileType: "application/pdf",
+        fileUrl,
+        documentType: documentType || "official_filing",
+        reviewStatus: "approved",
+        uploadedBy: (req as any).session.userId
+      }).returning();
+      
+      res.json(doc);
+    } catch (error) {
+      console.error("Upload doc error:", error);
+      res.status(500).json({ message: "Error uploading document" });
+    }
+  });
+
+  app.get("/api/user/documents", isAuthenticated, async (req: any, res) => {
+    try {
+      const docs = await db.select().from(applicationDocumentsTable)
+        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
+        .where(eq(ordersTable.userId, req.session.userId))
+        .orderBy(desc(applicationDocumentsTable.uploadedAt));
+      res.json(docs.map(d => d.application_documents));
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching documents" });
+    }
+  });
   app.post("/api/admin/send-email", isAdmin, async (req, res) => {
     try {
       const { to, subject, message, userId } = req.body;
@@ -539,20 +571,12 @@ export async function registerRoutes(
         state: product.name.split(" ")[0], // Extract state name correctly
       });
 
-      // Generate unified request code: XXXX-XXXX-XX (random as requested)
-      const generateRandomId = (prefix: string) => {
-        const part1 = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const part2 = Math.random().toString(36).substring(2, 6).toUpperCase();
-        const part3 = Math.random().toString(36).substring(2, 4).toUpperCase();
-        return `${prefix}-${part1}-${part2}-${part3}`;
+      // Generate unified request code: 8 random numbers
+      const generateRandomCode = () => {
+        return Math.floor(10000000 + Math.random() * 90000000).toString();
       };
-
-      let statePrefix = "NM";
-      if (product.name.includes("Wyoming")) statePrefix = "WY";
-      else if (product.name.includes("Delaware")) statePrefix = "DE";
-      else if (product.name.includes("Mantenimiento") || product.name.includes("Maintenance")) statePrefix = "MN";
       
-      const requestCode = generateRandomId(statePrefix);
+      const requestCode = generateRandomCode();
 
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
@@ -753,6 +777,32 @@ export async function registerRoutes(
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating document review status" });
+    }
+  });
+
+  // Admin Document Management
+  app.post("/api/admin/documents", isAdmin, async (req, res) => {
+    try {
+      const data = insertApplicationDocumentSchema.parse({
+        ...req.body,
+        uploadedBy: (req as any).session.userId,
+      });
+      const doc = await storage.createDocument(data);
+      res.json(doc);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message });
+    }
+  });
+
+  app.get("/api/user/documents", isAuthenticated, async (req, res) => {
+    try {
+      const userId = (req as any).session.userId;
+      const userOrders = await storage.getOrders(userId);
+      const orderIds = userOrders.map(o => o.id);
+      const allDocs = await storage.getDocumentsByOrderIds(orderIds);
+      res.json(allDocs);
+    } catch (error: any) {
+      res.status(500).json({ message: "Error fetching documents" });
     }
   });
 

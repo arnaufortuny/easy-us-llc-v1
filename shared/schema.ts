@@ -82,12 +82,14 @@ export const llcApplications = pgTable("llc_applications", {
 
 export const applicationDocuments = pgTable("application_documents", {
   id: serial("id").primaryKey(),
-  applicationId: integer("application_id").notNull().references(() => llcApplications.id),
+  applicationId: integer("application_id").references(() => llcApplications.id),
+  orderId: integer("order_id").references(() => orders.id),
   fileName: text("file_name").notNull(),
   fileType: text("file_type").notNull(),
   fileUrl: text("file_url").notNull(),
-  documentType: text("document_type").notNull(), // passport, id, company_docs, tax_id, other
+  documentType: text("document_type").notNull(), // passport, id, company_docs, tax_id, official_filing, other
   reviewStatus: text("review_status").notNull().default("pending"), // pending, approved, rejected, action_required
+  uploadedBy: varchar("uploaded_by").references(() => users.id),
   uploadedAt: timestamp("uploaded_at").defaultNow(),
 });
 

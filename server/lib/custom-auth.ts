@@ -63,6 +63,7 @@ export function setupCustomAuth(app: Express) {
         return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
       }
 
+      const clientId = Math.floor(10000000 + Math.random() * 90000000).toString();
       const { user } = await createUser({
         email,
         password,
@@ -70,6 +71,7 @@ export function setupCustomAuth(app: Express) {
         lastName,
         phone,
         birthDate,
+        clientId,
       });
 
       // NOTIFICATION: Welcome

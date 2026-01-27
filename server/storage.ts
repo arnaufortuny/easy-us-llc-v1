@@ -36,6 +36,7 @@ export interface IStorage {
   // Documents
   createDocument(doc: InsertApplicationDocument): Promise<ApplicationDocument>;
   getDocumentsByApplicationId(applicationId: number): Promise<ApplicationDocument[]>;
+  getDocumentsByOrderIds(orderIds: number[]): Promise<ApplicationDocument[]>;
   deleteDocument(id: number): Promise<void>;
 
   // Newsletter
@@ -182,6 +183,12 @@ export class DatabaseStorage implements IStorage {
     return await db.select().from(applicationDocuments).where(eq(applicationDocuments.applicationId, applicationId));
   }
 
+  async getDocumentsByOrderIds(orderIds: number[]): Promise<ApplicationDocument[]> {
+    const { inArray } = await import("drizzle-orm");
+    if (orderIds.length === 0) return [];
+    return await db.select().from(applicationDocuments).where(inArray(applicationDocuments.orderId, orderIds));
+  }
+
   async deleteDocument(id: number): Promise<void> {
     await db.delete(applicationDocuments).where(eq(applicationDocuments.id, id));
   }
@@ -223,10 +230,7 @@ export class DatabaseStorage implements IStorage {
   // Messages
   async createMessage(message: any): Promise<any> {
     const { encrypt } = await import("./utils/encryption");
-    const year = new Date().getFullYear();
-    const count = await db.select({ count: sql<number>`count(*)` }).from(messagesTable);
-    const randomSuffix = Math.random().toString(36).substring(2, 4).toUpperCase();
-    const msgId = `MSG-${year}-${String(Number(count[0].count) + 1).padStart(4, '0')}-${randomSuffix}`;
+    const msgId = `MSG-${Math.floor(10000000 + Math.random() * 90000000)}`;
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({

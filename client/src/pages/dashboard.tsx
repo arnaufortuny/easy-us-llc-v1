@@ -228,9 +228,24 @@ export default function Dashboard() {
     refetchInterval: 60000,
   });
 
+  const { data: userDocuments } = useQuery({
+    queryKey: ["/api/user/documents"],
+  });
+
   const { data: adminNewsletter } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
     enabled: !!user?.isAdmin,
+  });
+
+  const uploadDocMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await apiRequest("POST", "/api/admin/documents", data);
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+      toast({ title: "Documento subido", description: "El cliente ya puede verlo en su panel." });
+    }
   });
 
   const { data: adminMessages } = useQuery<any[]>({
@@ -987,44 +1002,66 @@ export default function Dashboard() {
                 </motion.div>
               )}
 
-              {activeTab === 'documents' && (
-                <motion.div
-                  key="documents"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="space-y-6"
+      {activeTab === 'documents' && (
+        <motion.div
+          key="documents"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          className="space-y-6"
+        >
+          <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight mb-6">Centro de Documentación</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Standard Documents */}
+            <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all hover-elevate">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
+                <FileText className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+              </div>
+              <h3 className="font-black text-primary tracking-tight mb-2 text-sm md:text-base">Contrato de Servicio</h3>
+              <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Tus términos aceptados y firmados con Easy US LLC.</p>
+              <Button 
+                variant="outline" 
+                className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate"
+                onClick={() => window.open("/terminos_y_condiciones.pdf", "_blank")}
+              >
+                <Download className="w-4 h-4 mr-2" /> Descargar PDF
+              </Button>
+            </Card>
+
+            {/* Dynamic Documents from API */}
+            {userDocuments?.map((doc: any) => (
+              <Card key={doc.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all hover-elevate">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
+                  <FileUp className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+                </div>
+                <h3 className="font-black text-primary tracking-tight mb-2 text-sm md:text-base">{doc.fileName}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Documento oficial subido por Easy US LLC.</p>
+                <Button 
+                  variant="outline" 
+                  className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate"
+                  onClick={() => window.open(doc.fileUrl, "_blank")}
                 >
-                  <h2 className="text-xl md:text-2xl font-black text-primary  tracking-tight mb-6">Centro de Documentación</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all">
-                      <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-                        <FileText className="w-7 h-7 md:w-8 md:h-8 text-primary" />
-                      </div>
-                      <h3 className="font-black text-primary  tracking-tight mb-2 text-sm md:text-base">Contrato de Servicio</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Tus términos aceptados y firmados con Easy US LLC.</p>
-                      <Button 
-                        variant="outline" 
-                        className="rounded-full font-black border-2 w-full text-xs py-5"
-                        onClick={() => window.open("/terminos_y_condiciones.pdf", "_blank")}
-                      >
-                        <Download className="w-4 h-4 mr-2" /> Descargar PDF
-                      </Button>
-                    </Card>
-                    
-                    <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center opacity-50 bg-gray-50/50">
-                      <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center mb-4">
-                        <Building2 className="w-7 h-7 md:w-8 md:h-8 text-gray-300" />
-                      </div>
-                      <h3 className="font-black text-primary  tracking-tight mb-2 text-sm md:text-base">Articles of Organization</h3>
-                      <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Disponible una vez que el estado procese tu LLC.</p>
-                      <Button disabled variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5">
-                        Pendiente...
-                      </Button>
-                    </Card>
-                  </div>
-                </motion.div>
-              )}
+                  <Download className="w-4 h-4 mr-2" /> Descargar {doc.fileType?.includes('pdf') ? 'PDF' : 'Doc'}
+                </Button>
+              </Card>
+            ))}
+
+            {userDocuments?.length === 0 && (
+              <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center opacity-50 bg-gray-50/50">
+                <div className="w-14 h-14 md:w-16 md:h-16 bg-white rounded-2xl flex items-center justify-center mb-4">
+                  <Building2 className="w-7 h-7 md:w-8 md:h-8 text-gray-300" />
+                </div>
+                <h3 className="font-black text-primary tracking-tight mb-2 text-sm md:text-base">Documentos Estatales</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Disponibles una vez que el estado procese tu LLC.</p>
+                <Button disabled variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5">
+                  Pendiente...
+                </Button>
+              </Card>
+            )}
+          </div>
+        </motion.div>
+      )}
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <motion.div
@@ -1125,8 +1162,66 @@ export default function Dashboard() {
                                   <p className="font-medium mt-1">{order.user?.firstName} {order.user?.lastName} - {order.user?.email}</p>
                                   <p className="text-sm text-muted-foreground">{order.product?.name} • <span className="font-black">{(order.amount / 100).toFixed(2)}€</span></p>
                                 </div>
-                                <div className="flex items-center gap-1 md:gap-2 flex-wrap justify-end">
-                                  <Select value={order.status} onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}>
+                              <div className="flex items-center gap-1 md:gap-2 flex-wrap justify-end">
+                                <Dialog>
+                                  <DialogTrigger asChild>
+                                    <Button size="icon" variant="ghost" className="w-8 h-8 md:w-9 md:h-9" title="Subir Documento Oficial">
+                                      <FileUp className="w-3.5 h-3.5 md:w-4 md:h-4 text-accent" />
+                                    </Button>
+                                  </DialogTrigger>
+                                  <DialogContent>
+                                    <DialogHeader>
+                                      <DialogTitle>Subir Documento para {order.user?.firstName}</DialogTitle>
+                                      <DialogDescription>Este documento será visible para el cliente en su "Centro de Documentación".</DialogDescription>
+                                    </DialogHeader>
+                                    <div className="space-y-4 py-4">
+                                      <div className="space-y-2">
+                                        <Label>Nombre del Documento</Label>
+                                        <Input id="docName" placeholder="Ej: Certificado de Formación" />
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label>URL del Documento (PDF)</Label>
+                                        <Input id="docUrl" placeholder="https://..." />
+                                      </div>
+                                      <div className="space-y-2">
+                                        <Label>Tipo de Documento</Label>
+                                        <Select onValueChange={(val) => (window as any).tempDocType = val}>
+                                          <SelectTrigger>
+                                            <SelectValue placeholder="Seleccionar tipo..." />
+                                          </SelectTrigger>
+                                          <SelectContent>
+                                            <SelectItem value="official_filing">Presentación Oficial</SelectItem>
+                                            <SelectItem value="company_docs">Documentos de Empresa</SelectItem>
+                                            <SelectItem value="tax_id">Tax ID / EIN</SelectItem>
+                                            <SelectItem value="other">Otro</SelectItem>
+                                          </SelectContent>
+                                        </Select>
+                                      </div>
+                                    </div>
+                                    <DialogFooter>
+                                      <Button 
+                                        onClick={() => {
+                                          const name = (document.getElementById('docName') as HTMLInputElement).value;
+                                          const url = (document.getElementById('docUrl') as HTMLInputElement).value;
+                                          const type = (window as any).tempDocType || 'other';
+                                          if (!name || !url) return toast({ title: "Error", description: "Nombre y URL son obligatorios", variant: "destructive" });
+                                          uploadDocMutation.mutate({
+                                            orderId: order.id,
+                                            fileName: name,
+                                            fileUrl: url,
+                                            fileType: 'application/pdf',
+                                            documentType: type
+                                          });
+                                        }}
+                                        disabled={uploadDocMutation.isPending}
+                                        className="bg-accent text-primary font-black"
+                                      >
+                                        {uploadDocMutation.isPending ? "Subiendo..." : "Subir Documento"}
+                                      </Button>
+                                    </DialogFooter>
+                                  </DialogContent>
+                                </Dialog>
+                                <Select value={order.status} onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}>
                                     <SelectTrigger className="w-24 md:w-28 h-7 md:h-8 rounded-full text-[10px] md:text-xs font-black">
                                       <SelectValue />
                                     </SelectTrigger>

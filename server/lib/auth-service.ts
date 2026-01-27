@@ -39,6 +39,7 @@ export async function createUser(data: {
   lastName: string;
   phone: string;
   birthDate?: string;
+  clientId: string;
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
   const existingUser = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
   if (existingUser.length > 0) {
@@ -46,11 +47,11 @@ export async function createUser(data: {
   }
 
   const passwordHash = await hashPassword(data.password);
-  const clientId = generateClientId();
   const isAdminEmail = data.email.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase();
 
   const [newUser] = await db.insert(users).values({
-    id: clientId,
+    id: data.clientId,
+    clientId: data.clientId,
     email: data.email,
     passwordHash,
     firstName: data.firstName,
@@ -58,7 +59,7 @@ export async function createUser(data: {
     phone: data.phone,
     emailVerified: false,
     isAdmin: isAdminEmail,
-    accountStatus: "pending",
+    accountStatus: "active",
   }).returning();
 
   const verificationToken = generateOtp();

@@ -13,6 +13,7 @@ export const sessions = pgTable(
 
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  clientId: varchar("client_id", { length: 8 }).unique(), // 8-digit numeric ID
   email: varchar("email").unique(),
   passwordHash: varchar("password_hash"),
   firstName: varchar("first_name"),
