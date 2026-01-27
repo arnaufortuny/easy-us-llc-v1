@@ -5,7 +5,22 @@
 @layer base {
   :root {
     content-visibility: auto;
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizeSpeed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  /* Extreme Performance: Lazy load off-screen content */
+  section, footer, .card, .container {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 500px;
+  }
+
+  /* Reduce layout shifts */
+  img {
+    aspect-ratio: auto;
+    content-visibility: auto;
   }
   
   [role="combobox"], [data-radix-select-trigger] {
