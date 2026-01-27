@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
+import { useAuth } from "@/hooks/use-auth";
 
 const formSchema = z.object({
   ownerFullName: z.string().min(1, "Requerido"),
@@ -43,6 +44,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function LlcFormation() {
+  const { user, isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
@@ -88,6 +90,22 @@ export default function LlcFormation() {
     }
     init();
   }, []);
+
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      form.reset({
+        ...form.getValues(),
+        ownerFullName: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
+        ownerEmail: user.email || "",
+        ownerPhone: user.phone || "",
+        ownerAddress: user.address || "",
+        businessActivity: user.businessActivity || "",
+      });
+      if (user.emailVerified) {
+        setIsEmailVerified(true);
+      }
+    }
+  }, [isAuthenticated, user, form]);
 
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {

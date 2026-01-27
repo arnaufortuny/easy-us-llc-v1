@@ -173,8 +173,8 @@ export default function MaintenanceApplication() {
           Pack de <span className="text-accent">Mantenimiento</span> LLC
         </h1>
         
-        <Card className="rounded-[2rem] md:rounded-[3rem] border-0 shadow-2xl overflow-hidden bg-white/80 backdrop-blur-xl">
-          <CardContent className="p-6 md:p-12">
+        <div>
+          <div className="space-y-6">
             <h2 className="text-2xl md:text-3xl font-black text-primary  mb-2 leading-tight">Solicitud de Mantenimiento</h2>
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
@@ -500,8 +500,8 @@ export default function MaintenanceApplication() {
                 )}
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </main>
       <Footer />
     </div>

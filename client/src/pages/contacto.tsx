@@ -203,7 +203,7 @@ export default function Contacto() {
               <div className="h-1.5 w-24 bg-[#6EDC8A] mx-auto rounded-full" />
             </div>
 
-            <div className="bg-gray-50 border border-gray-100 p-6 sm:p-10 rounded-[2rem] sm:rounded-[3rem] space-y-6 shadow-sm">
+            <div className="space-y-6">
               {(submittedMessageId || urlTicketId || urlOrderId) && (
                 <div className="bg-white border-2 border-[#6EDC8A] p-4 rounded-2xl inline-block">
                   <span className="text-xs font-black text-gray-500 tracking-widest uppercase">
@@ -275,8 +275,8 @@ export default function Contacto() {
         </h1>
         <p className="text-muted-foreground font-medium mb-8">Estamos aquí para ayudarte</p>
 
-        <Card className="rounded-[2rem] md:rounded-[3rem] border-0 shadow-2xl overflow-hidden bg-white/80 backdrop-blur-xl">
-          <CardContent className="p-6 md:p-12">
+        <div>
+          <div className="space-y-6">
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                 
@@ -530,8 +530,8 @@ export default function Contacto() {
                 )}
               </form>
             </Form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">
