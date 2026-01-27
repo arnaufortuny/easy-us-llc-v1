@@ -1031,18 +1031,21 @@ export default function Dashboard() {
 
             {/* Dynamic Documents from API */}
             {userDocuments?.map((doc: any) => (
-              <Card key={doc.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all hover-elevate">
-                <div className="w-14 h-14 md:w-16 md:h-16 bg-gray-50 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-white/20 transition-colors">
-                  <FileUp className="w-7 h-7 md:w-8 md:h-8 text-primary" />
+              <Card key={doc.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center group hover:bg-accent transition-all hover-elevate bg-white">
+                <div className={`w-14 h-14 md:w-16 md:h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors ${doc.documentType === 'invoice' ? 'bg-accent/20 text-accent' : 'bg-gray-50 text-primary'}`}>
+                  {doc.documentType === 'invoice' ? <Receipt className="w-7 h-7 md:w-8 md:h-8" /> : <FileUp className="w-7 h-7 md:w-8 md:h-8" />}
                 </div>
-                <h3 className="font-black text-primary tracking-tight mb-2 text-sm md:text-base">{doc.fileName}</h3>
-                <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">Documento oficial subido por Easy US LLC.</p>
+                <h3 className="font-black text-primary tracking-tight mb-2 text-sm md:text-base leading-tight">{doc.fileName}</h3>
+                <p className="text-xs md:text-sm text-muted-foreground mb-6 font-medium">
+                  {doc.documentType === 'invoice' ? 'Factura oficial de tu pedido confirmada.' : 'Documento oficial subido por Easy US LLC.'}
+                </p>
                 <Button 
                   variant="outline" 
-                  className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate bg-white hover:bg-accent/10"
+                  className={`rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate transition-all ${doc.documentType === 'invoice' ? 'border-accent text-primary hover:bg-accent hover:text-primary' : 'hover:bg-accent/10'}`}
                   onClick={() => window.open(doc.fileUrl, "_blank")}
                 >
-                  <Download className="w-4 h-4 mr-2 text-accent" /> {doc.documentType === 'invoice' ? 'Ver Factura Oficial' : `Descargar ${doc.fileType?.includes('pdf') ? 'PDF' : 'Documento'}`}
+                  <Download className={`w-4 h-4 mr-2 ${doc.documentType === 'invoice' ? '' : 'text-accent'}`} /> 
+                  {doc.documentType === 'invoice' ? 'VER FACTURA OFICIAL' : `DESCARGAR ${doc.fileType?.includes('pdf') ? 'PDF' : 'DOC'}`}
                 </Button>
               </Card>
             ))}
