@@ -56,7 +56,7 @@ export function Navbar() {
                 <button onClick={() => logout()} className="text-sm font-black text-muted-foreground hover:text-destructive transition-colors">Salir</button>
               </div>
             ) : (
-              <Link href="/api/login" className="text-base font-black text-accent hover:opacity-80 transition-opacity">Área Clientes</Link>
+              <Link href="/login" className="text-base font-black text-accent hover:opacity-80 transition-opacity">Área Clientes</Link>
             )}
           </nav>
 
@@ -71,7 +71,7 @@ export function Navbar() {
           <div className="md:hidden flex items-center gap-2 relative z-[110]">
             {!isAuthenticated && (
               <button 
-                onClick={() => (window.location.href = "/api/login")}
+                onClick={() => setLocation("/login")}
                 className="p-2 text-accent"
                 aria-label="Iniciar sesión"
                 data-testid="button-mobile-login"
