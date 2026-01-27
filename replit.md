@@ -26,6 +26,11 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Profile & Auto-fill Enhancements (Jan 2026):**
+  - Added PATCH /api/user/profile endpoint with Zod validation for profile updates
+  - Enhanced user profile with address fields (streetType, city, province, postalCode, country)
+  - Auto-fill support in application forms for logged-in users (name, email, phone, address, businessActivity)
+  - Dashboard profile section displays all fields including email verification status
 - **Client Dashboard Enhancements (Jan 2026):**
   - Dynamic order timeline fetched from orderEvents API with real-time updates
   - Enhanced messaging system with ticket IDs (MSG-{id}) and reply functionality
