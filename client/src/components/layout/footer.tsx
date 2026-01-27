@@ -3,6 +3,7 @@ import logoIcon from "@/assets/logo-icon.png";
 import relayLogo from "@assets/relay-logo.webp";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 import mercuryLogo from "@assets/mercury-logo.png";
+import { NewsletterSection } from "./newsletter-section";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -27,7 +28,9 @@ export function Footer() {
   };
 
   return (
-    <footer style={{ backgroundColor: '#000000' }} className="text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans w-full">
+    <>
+      <NewsletterSection />
+      <footer style={{ backgroundColor: '#000000' }} className="text-primary-foreground py-12 sm:py-20 overflow-hidden font-sans w-full">
       <div className="w-full px-5 sm:px-8">
         {/* Mobile: Logo centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
@@ -155,5 +158,6 @@ export function Footer() {
         </div>
       </div>
     </footer>
+    </>
   );
 }
