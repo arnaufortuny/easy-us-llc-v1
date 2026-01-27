@@ -344,8 +344,8 @@ export default function Dashboard() {
   const menuItems = [
     { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
     { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Alertas' },
-    { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Msgs' },
-    { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
+    { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Mensajes' },
+    { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Documentos' },
     { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [
@@ -439,12 +439,12 @@ export default function Dashboard() {
                                 <Building2 className="w-6 h-6 md:w-7 md:h-7" />
                               </div>
                               <div className="min-w-0 flex-1">
-                                <h3 className="text-lg md:text-xl font-black text-primary  tracking-tight truncate">{order.product?.name || "Constitución LLC"}</h3>
-                                <p className="text-xs md:text-sm text-muted-foreground font-medium truncate">Pedido #{order.application?.requestCode || order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
+                                <h3 className="text-xl font-black text-primary tracking-tight">{order.product?.name || "Constitución LLC"}</h3>
+                                <p className="text-sm text-muted-foreground font-medium">Pedido #{order.application?.requestCode || order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
                               </div>
                             </div>
-                            <div className="flex items-center justify-between md:justify-end gap-2 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
-                              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black  tracking-widest whitespace-nowrap ${
+                            <div className="flex flex-col sm:flex-row items-center justify-between md:justify-end gap-3 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
+                              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase whitespace-nowrap ${
                                 order.status === 'completed' ? 'bg-green-100 text-green-700' : 
                                 order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
                                 'bg-yellow-100 text-yellow-700'
@@ -455,30 +455,31 @@ export default function Dashboard() {
                                  order.status === 'documents_ready' ? 'Docs listos' :
                                  'Pendiente'}
                               </span>
-                              <div className="flex gap-1 md:gap-2">
+                              <div className="flex gap-2 w-full sm:w-auto justify-center">
                                 {order.isInvoiceGenerated && (
                                   <Button 
+                                    size="icon"
                                     variant="ghost" 
-                                    className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                    className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
                                     title="Ver Factura PDF"
                                     onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
-                                    data-testid={`button-invoice-${order.id}`}
                                   >
-                                    <FileText className="w-4 h-4 md:w-5 md:h-5" />
+                                    <FileText className="w-4 h-4" />
                                   </Button>
                                 )}
                                 <Button 
+                                  size="icon"
                                   variant="ghost" 
-                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                  className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
                                   title="Ver Recibo PDF"
                                   onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
-                                  data-testid={`button-receipt-${order.id}`}
                                 >
-                                  <Download className="w-4 h-4 md:w-5 md:h-5" />
+                                  <Download className="w-4 h-4" />
                                 </Button>
                                 <Button 
+                                  size="icon"
                                   variant="ghost" 
-                                  className="rounded-full w-9 h-9 md:w-11 md:h-11 p-0 bg-gray-50 shrink-0"
+                                  className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
                                   title="Editar Datos"
                                   onClick={() => {
                                     const newData = prompt("¿Qué datos deseas modificar? (Nombre de empresa, actividad, etc.)");
@@ -491,7 +492,7 @@ export default function Dashboard() {
                                     }
                                   }}
                                 >
-                                  <Settings className="w-4 h-4 md:w-5 md:h-5 text-accent" />
+                                  <Settings className="w-4 h-4" />
                                 </Button>
                               </div>
                             </div>
