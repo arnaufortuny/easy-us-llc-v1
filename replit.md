@@ -26,6 +26,12 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Form & Auth UX Improvements (Jan 2026):**
+  - FormInput component now supports autoComplete prop with smart defaults (email, password)
+  - Login page: Error handling improved with status code detection, proper Button components for toggle/links
+  - Registration form: Password fields use autoComplete="new-password" for better browser integration
+  - Password visibility toggle buttons converted to shadcn Button size="icon" variant="ghost"
+  - Forgot password link uses Button variant="link" for consistent styling
 - **Performance Optimization (Jan 2026):**
   - Reduced Google Fonts from 25+ families to only Inter + DM Sans (used fonts only)
   - Non-blocking font loading with media="print" onload pattern
