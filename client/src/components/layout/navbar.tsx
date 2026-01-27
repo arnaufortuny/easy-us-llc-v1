@@ -59,7 +59,7 @@ export function Navbar() {
               <Button 
                 onClick={() => setLocation("/login")}
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-8 flex items-center gap-2"
+                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-8 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
               >
                 <UserIcon className="w-4 h-4" /> Mi Cuenta
