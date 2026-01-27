@@ -271,6 +271,9 @@ export default function AdminDashboard() {
                         <p className="text-muted-foreground">{u.phone || 'N/A'}</p>
                       </div>
                       <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0" title="Cambiar Contraseña" onClick={() => window.open("/api/login?prompt=login", "_blank")}>
+                          <Key className="w-4 h-4" />
+                        </Button>
                         <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-600" onClick={() => confirm("¿Seguro que quieres eliminar este usuario?") && deleteUserMutation.mutate(u.id)}>
                           <Trash2 className="w-4 h-4" />
                         </Button>

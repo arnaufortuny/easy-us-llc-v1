@@ -60,9 +60,17 @@ export async function registerRoutes(
     res.json(products);
   });
 
-  // Secure Admin Seeding - Promotes ADMIN_EMAIL user to admin role
+  // Secure Admin Seeding - Promotes ADMIN_EMAIL user to admin role (protected by secret token)
   app.post("/api/seed-admin", async (req, res) => {
     try {
+      // Require secret token for security (set ADMIN_SEED_SECRET in env)
+      const secretToken = process.env.ADMIN_SEED_SECRET;
+      const providedToken = req.body.secret || req.headers['x-admin-secret'];
+      
+      if (secretToken && providedToken !== secretToken) {
+        return res.status(403).json({ message: "Unauthorized: Invalid admin secret" });
+      }
+      
       const adminEmail = process.env.ADMIN_EMAIL;
       if (!adminEmail) {
         return res.status(400).json({ message: "ADMIN_EMAIL not configured" });
