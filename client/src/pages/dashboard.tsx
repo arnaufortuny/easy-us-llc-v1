@@ -401,121 +401,17 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Main Content Area */}
-          <div className="lg:col-span-2 order-2 lg:order-1">
-            <AnimatePresence mode="wait">
-              {activeTab === 'services' && (
-                <motion.div
-                  key="services"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className="space-y-6"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-                    <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
-                      <p className="text-[10px] font-black  tracking-widest text-muted-foreground mb-1">Actividad de Cuenta</p>
-                      <h4 className="text-2xl font-black text-primary">{orders?.length || 0}</h4>
-                      <p className="text-xs text-muted-foreground font-medium">Servicios totales contratados</p>
-                    </Card>
-                          <Card className="rounded-3xl border-0 shadow-sm p-6 bg-white">
-                            <p className="text-[10px] font-black tracking-widest text-muted-foreground mb-1">Ventas Totales</p>
-                            <h4 className="text-2xl font-black text-primary">{totalSales}</h4>
-                            <p className="text-xs text-muted-foreground font-medium">Facturación real (completados)</p>
-                          </Card>
-                  </div>
-                  
-                  <h2 className="text-xl md:text-2xl font-black text-primary  tracking-tight mb-6">Tus Servicios Activos</h2>
-                  {ordersLoading ? (
-                    <div className="space-y-4">
-                      {[1, 2].map(i => <div key={i} className="h-32 bg-white rounded-[1.5rem] md:rounded-[2rem] animate-pulse" />)}
-                    </div>
-                  ) : orders && Array.isArray(orders) && orders.length > 0 ? (
-                    <div className="space-y-4">
-                      {orders.map((order: any) => (
-                        <Card key={order.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm overflow-hidden hover:shadow-md transition-shadow group">
-                          <CardContent className="p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
-                            <div className="flex items-center gap-4 md:gap-6 w-full">
-                              <div className="w-12 h-12 md:w-14 md:h-14 bg-accent/10 rounded-2xl flex items-center justify-center shrink-0 group-hover:bg-accent group-hover:text-primary transition-colors">
-                                <Building2 className="w-6 h-6 md:w-7 md:h-7" />
-                              </div>
-                              <div className="min-w-0 flex-1">
-                                <h3 className="text-xl font-black text-primary tracking-tight">{order.product?.name || "Constitución LLC"}</h3>
-                                <p className="text-sm text-muted-foreground font-medium">Pedido #{order.application?.requestCode || order.id} • {new Date(order.createdAt).toLocaleDateString()}</p>
-                              </div>
-                            </div>
-                            <div className="flex flex-col sm:flex-row items-center justify-between md:justify-end gap-3 w-full md:w-auto pt-4 md:pt-0 border-t md:border-t-0 border-gray-100">
-                              <span className={`px-4 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase whitespace-nowrap ${
-                                order.status === 'completed' ? 'bg-green-100 text-green-700' : 
-                                order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                                'bg-yellow-100 text-yellow-700'
-                              }`}>
-                                {order.status === 'completed' ? 'Completado' : 
-                                 order.status === 'cancelled' ? 'Cancelado' : 
-                                 order.status === 'processing' ? 'En proceso' :
-                                 order.status === 'documents_ready' ? 'Docs listos' :
-                                 'Pendiente'}
-                              </span>
-                              <div className="flex gap-2 w-full sm:w-auto justify-center">
-                                {order.isInvoiceGenerated && (
-                                  <Button 
-                                    size="icon"
-                                    variant="ghost" 
-                                    className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
-                                    title="Ver Factura PDF"
-                                    onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}
-                                  >
-                                    <FileText className="w-4 h-4" />
-                                  </Button>
-                                )}
-                                <Button 
-                                  size="icon"
-                                  variant="ghost" 
-                                  className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
-                                  title="Ver Recibo PDF"
-                                  onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}
-                                >
-                                  <Download className="w-4 h-4" />
-                                </Button>
-                                <Button 
-                                  size="icon"
-                                  variant="ghost" 
-                                  className="rounded-full bg-gray-50 hover:bg-accent hover:text-primary transition-all"
-                                  title="Editar Datos"
-                                  onClick={() => {
-                                    const newData = prompt("¿Qué datos deseas modificar? (Nombre de empresa, actividad, etc.)");
-                                    if (newData) {
-                                      apiRequest("PATCH", `/api/llc/${order.application?.id}/data`, { notes: newData })
-                                        .then(() => {
-                                          toast({ title: "Solicitud enviada", description: "Tus cambios han sido registrados y serán revisados." });
-                                          queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-                                        });
-                                    }
-                                  }}
-                                >
-                                  <Settings className="w-4 h-4" />
-                                </Button>
-                              </div>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="bg-white p-16 rounded-[3rem] text-center shadow-sm">
-                      <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <Building2 className="w-10 h-10 text-gray-300" />
-                      </div>
-                      <h3 className="text-2xl font-black text-primary  mb-3">No tienes servicios aún</h3>
-                      <p className="text-muted-foreground mb-8 max-w-md mx-auto">Emprende hoy mismo y constituye tu empresa en Estados Unidos con Easy US LLC.</p>
-                      <Link href="/servicios#pricing">
-                        <Button className="bg-accent text-primary font-black rounded-full px-10 py-7 text-lg shadow-xl shadow-accent/20">
-                          Empezar ahora
-                        </Button>
-                      </Link>
-                    </div>
-                  )}
-                </motion.div>
-              )}
+          <Card className="rounded-[2.5rem] border-0 shadow-xl p-8 md:p-12 bg-white text-center flex flex-col items-center justify-center max-w-2xl mx-auto min-h-[400px]">
+            <h2 className="text-3xl md:text-4xl font-black text-primary tracking-tighter mb-4">¡Todo listo!</h2>
+            <p className="text-muted-foreground mb-8 text-lg">Tu solicitud ha sido procesada con éxito. Recibirás una confirmación por email en unos minutos.</p>
+            <Button 
+              size="lg"
+              onClick={() => setActiveTab('services')}
+              className="bg-accent text-primary font-black rounded-full px-12 py-7 text-lg shadow-xl shadow-accent/20 transition-all hover:scale-105 active:scale-95 no-default-hover-elevate"
+            >
+              Ir a mis servicios
+            </Button>
+          </Card>
 
               {activeTab === 'notifications' && (
                 <motion.div
