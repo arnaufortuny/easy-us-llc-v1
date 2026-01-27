@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription } from "@/components/ui/dialog";
-import { Loader2, CheckCircle, XCircle, Clock, FileText, Mail, Download, User as UserIcon, Trash2, Key, Users, Send, FileUp, Edit, Power, Newspaper } from "lucide-react";
+import { Loader2, CheckCircle, XCircle, Clock, FileText, Mail, Download, User as UserIcon, Trash2, Key, Users, Send, FileUp, Edit, Power, Newspaper, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -28,6 +28,10 @@ export default function AdminDashboard() {
   const [emailMessage, setEmailMessage] = useState("");
   const [docType, setDocType] = useState("");
   const [docMessage, setDocMessage] = useState("");
+  const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: any | null }>({ open: false, user: null });
+  const [noteTitle, setNoteTitle] = useState("");
+  const [noteMessage, setNoteMessage] = useState("");
+  const [noteType, setNoteType] = useState("info");
 
   const { data: orders, isLoading: ordersLoading } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
@@ -113,6 +117,19 @@ export default function AdminDashboard() {
       setDocDialog({ open: false, user: null });
       setDocType("");
       setDocMessage("");
+    }
+  });
+
+  const sendNoteMutation = useMutation({
+    mutationFn: async ({ userId, email, title, message, type }: { userId: string, email: string, title: string, message: string, type: string }) => {
+      await apiRequest("POST", "/api/admin/send-note", { userId, email, title, message, type, sendEmail: true });
+    },
+    onSuccess: () => {
+      toast({ title: "Nota enviada al cliente" });
+      setNoteDialog({ open: false, user: null });
+      setNoteTitle("");
+      setNoteMessage("");
+      setNoteType("info");
     }
   });
 
@@ -349,6 +366,9 @@ export default function AdminDashboard() {
                           <Button size="icon" variant="ghost" title="Solicitar Documento" onClick={() => setDocDialog({ open: true, user: u })}>
                             <FileUp className="w-4 h-4 text-orange-600" />
                           </Button>
+                          <Button size="icon" variant="ghost" title="Enviar Nota" onClick={() => setNoteDialog({ open: true, user: u })}>
+                            <MessageSquare className="w-4 h-4 text-purple-600" />
+                          </Button>
                           <Button size="icon" variant="ghost" className="text-red-600" title="Eliminar" 
                             onClick={() => confirm("¿Eliminar este usuario permanentemente?") && deleteUserMutation.mutate(u.id)}>
                             <Trash2 className="w-4 h-4" />
@@ -511,6 +531,47 @@ export default function AdminDashboard() {
                   className="bg-accent text-primary font-black">
                   {requestDocMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <FileUp className="w-4 h-4 mr-2" />}
                   Solicitar Documento
+                </Button>
+              </DialogFooter>
+            </div>
+          </DialogContent>
+        </Dialog>
+
+        {/* Send Note Dialog */}
+        <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Enviar Nota al Cliente</DialogTitle>
+              <DialogDescription>Enviar nota a {noteDialog.user?.firstName} {noteDialog.user?.lastName} ({noteDialog.user?.email})</DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div>
+                <Label>Tipo de Nota</Label>
+                <Select value={noteType} onValueChange={setNoteType}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="info">Información</SelectItem>
+                    <SelectItem value="action_required">Acción Requerida</SelectItem>
+                    <SelectItem value="update">Actualización</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>Título</Label>
+                <Input value={noteTitle} onChange={(e) => setNoteTitle(e.target.value)} placeholder="Título de la nota" />
+              </div>
+              <div>
+                <Label>Mensaje</Label>
+                <Textarea value={noteMessage} onChange={(e) => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} />
+              </div>
+              <DialogFooter>
+                <Button onClick={() => sendNoteMutation.mutate({ userId: noteDialog.user?.id, email: noteDialog.user?.email, title: noteTitle, message: noteMessage, type: noteType })}
+                  disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending}
+                  className="bg-accent text-primary font-black">
+                  {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : <MessageSquare className="w-4 h-4 mr-2" />}
+                  Enviar Nota
                 </Button>
               </DialogFooter>
             </div>

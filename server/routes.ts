@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications } from "@shared/schema";
 import { and, eq, gt, desc } from "drizzle-orm";
 
 export async function registerRoutes(
@@ -118,6 +118,9 @@ export async function registerRoutes(
     province: z.string().optional(),
     postalCode: z.string().optional(),
     country: z.string().optional(),
+    idNumber: z.string().optional(),
+    idType: z.string().optional(),
+    birthDate: z.string().optional(),
   });
   
   app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
@@ -135,6 +138,62 @@ export async function registerRoutes(
       }
       console.error("Update profile error:", error);
       res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+
+  // User notifications
+  app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
+    try {
+      const notifications = await db.select().from(userNotifications)
+        .where(eq(userNotifications.userId, req.session.userId))
+        .orderBy(desc(userNotifications.createdAt));
+      res.json(notifications);
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      res.status(500).json({ message: "Error al obtener notificaciones" });
+    }
+  });
+
+  app.patch("/api/user/notifications/:id/read", isAuthenticated, async (req: any, res) => {
+    try {
+      await db.update(userNotifications)
+        .set({ isRead: true })
+        .where(and(eq(userNotifications.id, req.params.id), eq(userNotifications.userId, req.session.userId)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
+    }
+  });
+
+  // Change password
+  app.post("/api/user/change-password", isAuthenticated, async (req: any, res) => {
+    try {
+      const { currentPassword, newPassword } = z.object({
+        currentPassword: z.string().min(1),
+        newPassword: z.string().min(8)
+      }).parse(req.body);
+      
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
+      if (!user?.passwordHash) {
+        return res.status(400).json({ message: "No se puede cambiar la contraseña" });
+      }
+      
+      const { verifyPassword, hashPassword } = await import("./lib/auth-service");
+      const isValid = await verifyPassword(currentPassword, user.passwordHash);
+      if (!isValid) {
+        return res.status(400).json({ message: "Contraseña actual incorrecta" });
+      }
+      
+      const newHash = await hashPassword(newPassword);
+      await db.update(usersTable).set({ passwordHash: newHash, updatedAt: new Date() }).where(eq(usersTable.id, req.session.userId));
+      
+      res.json({ success: true });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Datos inválidos" });
+      }
+      console.error("Change password error:", error);
+      res.status(500).json({ message: "Error al cambiar contraseña" });
     }
   });
 
@@ -710,6 +769,60 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error requesting document:", error);
       res.status(500).json({ message: "Error al solicitar documento" });
+    }
+  });
+
+  // Admin send note/notification to user
+  app.post("/api/admin/send-note", isAdmin, async (req, res) => {
+    try {
+      const { userId, email, title, message, type, sendEmail: shouldSendEmail } = z.object({
+        userId: z.string(),
+        email: z.string().email(),
+        title: z.string().min(1).max(200),
+        message: z.string().min(1).max(5000),
+        type: z.enum(['info', 'action_required', 'update']).default('info'),
+        sendEmail: z.boolean().default(true)
+      }).parse(req.body);
+      
+      const safeTitle = escapeHtml(title);
+      const safeMessage = escapeHtml(message);
+      
+      // Create notification in database
+      await db.insert(userNotifications).values({
+        userId,
+        type,
+        title: safeTitle,
+        message: safeMessage,
+        actionUrl: '/dashboard'
+      });
+      
+      // Send email if requested
+      if (shouldSendEmail) {
+        await sendEmail({
+          to: email,
+          subject: `${safeTitle} - Easy US LLC`,
+          html: `
+            <div style="background-color: #f9f9f9; padding: 20px 0;">
+              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+                ${getEmailHeader(type === 'action_required' ? 'Acción Requerida' : 'Nueva Nota')}
+                <div style="padding: 40px;">
+                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${safeTitle}</h2>
+                  <div style="line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap;">${safeMessage}</div>
+                  <div style="margin-top: 30px; text-align: center;">
+                    <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ver en mi panel →</a>
+                  </div>
+                </div>
+                ${getEmailFooter()}
+              </div>
+            </div>
+          `,
+        });
+      }
+      
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error sending note:", error);
+      res.status(500).json({ message: "Error al enviar nota" });
     }
   });
 

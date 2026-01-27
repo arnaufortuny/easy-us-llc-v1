@@ -26,11 +26,25 @@ export const users = pgTable("users", {
   postalCode: text("postal_code"),
   country: text("country"),
   businessActivity: text("business_activity"),
+  idNumber: text("id_number"),
+  idType: text("id_type"),
+  birthDate: text("birth_date"),
   emailVerified: boolean("email_verified").notNull().default(false),
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const userNotifications = pgTable("user_notifications", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  type: text("type").notNull(),
+  title: text("title").notNull(),
+  message: text("message").notNull(),
+  isRead: boolean("is_read").notNull().default(false),
+  actionUrl: text("action_url"),
+  createdAt: timestamp("created_at").defaultNow(),
 });
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {
@@ -55,3 +69,4 @@ export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
 export type PasswordResetToken = typeof passwordResetTokens.$inferSelect;
 export type EmailVerificationToken = typeof emailVerificationTokens.$inferSelect;
+export type UserNotification = typeof userNotifications.$inferSelect;

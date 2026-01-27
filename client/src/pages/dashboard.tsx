@@ -15,7 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages';
+type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications';
 
 function NewsletterToggle() {
   const { toast } = useToast();
@@ -61,8 +61,13 @@ export default function Dashboard() {
     city: '',
     province: '',
     postalCode: '',
-    country: ''
+    country: '',
+    idNumber: '',
+    idType: '',
+    birthDate: ''
   });
+  const [passwordData, setPasswordData] = useState({ current: '', newPassword: '', confirm: '' });
+  const [showPasswordChange, setShowPasswordChange] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -77,7 +82,10 @@ export default function Dashboard() {
         city: user.city || '',
         province: user.province || '',
         postalCode: user.postalCode || '',
-        country: user.country || ''
+        country: user.country || '',
+        idNumber: user.idNumber || '',
+        idType: user.idType || '',
+        birthDate: user.birthDate || ''
       });
     }
   }, [user]);
@@ -129,6 +137,46 @@ export default function Dashboard() {
     }
   });
 
+  const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
+    queryKey: ["/api/user/notifications"],
+    enabled: isAuthenticated,
+  });
+
+  const changePasswordMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("POST", "/api/user/change-password", { 
+        currentPassword: passwordData.current, 
+        newPassword: passwordData.newPassword 
+      });
+    },
+    onSuccess: () => {
+      setPasswordData({ current: '', newPassword: '', confirm: '' });
+      setShowPasswordChange(false);
+      toast({ title: "Contraseña cambiada", description: "Tu nueva contraseña está activa." });
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo cambiar la contraseña", variant: "destructive" });
+    }
+  });
+
+  const deleteAccountMutation = useMutation({
+    mutationFn: async () => {
+      await apiRequest("DELETE", "/api/user/account");
+    },
+    onSuccess: () => {
+      window.location.href = "/";
+    }
+  });
+
+  const markNotificationRead = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
+    }
+  });
+
   if (authLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -139,6 +187,7 @@ export default function Dashboard() {
 
   const menuItems = [
     { id: 'services', label: 'Mis Servicios', icon: Package },
+    { id: 'notifications', label: 'Notificaciones', icon: BellRing },
     { id: 'messages', label: 'Mensajes', icon: Mail },
     { id: 'documents', label: 'Documentos', icon: FileText },
     { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard },
@@ -291,6 +340,65 @@ export default function Dashboard() {
                           Empezar ahora
                         </Button>
                       </Link>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+              {activeTab === 'notifications' && (
+                <motion.div
+                  key="notifications"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  className="space-y-6"
+                >
+                  <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Notificaciones</h2>
+                  
+                  {notificationsLoading ? (
+                    <div className="space-y-3">
+                      {[1, 2, 3].map(i => <div key={i} className="h-24 bg-white rounded-2xl animate-pulse" />)}
+                    </div>
+                  ) : notifications?.length === 0 ? (
+                    <Card className="rounded-2xl border-0 shadow-sm">
+                      <CardContent className="p-8 text-center">
+                        <BellRing className="w-12 h-12 mx-auto text-gray-300 mb-4" />
+                        <p className="text-muted-foreground">No tienes notificaciones</p>
+                      </CardContent>
+                    </Card>
+                  ) : (
+                    <div className="space-y-3">
+                      {notifications?.map((notif) => (
+                        <Card 
+                          key={notif.id} 
+                          className={`rounded-2xl border-0 shadow-sm cursor-pointer transition-all hover:shadow-md ${!notif.isRead ? 'bg-accent/5 border-l-4 border-l-accent' : ''}`}
+                          onClick={() => markNotificationRead.mutate(notif.id)}
+                        >
+                          <CardContent className="p-4 md:p-6">
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-2">
+                                  {notif.type === 'action_required' && (
+                                    <span className="text-[10px] bg-red-100 text-red-700 px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
+                                  )}
+                                  {notif.type === 'update' && (
+                                    <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
+                                  )}
+                                  {notif.type === 'info' && (
+                                    <span className="text-[10px] bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
+                                  )}
+                                  {!notif.isRead && (
+                                    <span className="w-2 h-2 bg-accent rounded-full" />
+                                  )}
+                                </div>
+                                <h3 className="font-black text-sm md:text-base">{notif.title}</h3>
+                                <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
+                                <p className="text-xs text-muted-foreground mt-2">{new Date(notif.createdAt).toLocaleString()}</p>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
                     </div>
                   )}
                 </motion.div>
@@ -458,6 +566,58 @@ export default function Dashboard() {
                             </div>
                           )}
                         </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Tipo de Documento</label>
+                          {isEditing ? (
+                            <select
+                              value={profileData.idType}
+                              onChange={(e) => setProfileData(prev => ({ ...prev, idType: e.target.value }))}
+                              className="w-full rounded-full h-14 px-6 bg-white border border-gray-200 font-black text-sm"
+                              data-testid="select-id-type"
+                            >
+                              <option value="">Seleccionar...</option>
+                              <option value="dni">DNI</option>
+                              <option value="nie">NIE</option>
+                              <option value="passport">Pasaporte</option>
+                            </select>
+                          ) : (
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">
+                              {user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}
+                            </div>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Número de Documento</label>
+                          {isEditing ? (
+                            <Input 
+                              value={profileData.idNumber} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, idNumber: e.target.value }))}
+                              className="rounded-full h-14 px-6"
+                              placeholder="12345678A"
+                              data-testid="input-id-number"
+                            />
+                          ) : (
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">
+                              {user?.idNumber || 'No proporcionado'}
+                            </div>
+                          )}
+                        </div>
+                        <div className="space-y-2">
+                          <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Fecha de Nacimiento</label>
+                          {isEditing ? (
+                            <Input 
+                              type="date"
+                              value={profileData.birthDate} 
+                              onChange={(e) => setProfileData(prev => ({ ...prev, birthDate: e.target.value }))}
+                              className="rounded-full h-14 px-6"
+                              data-testid="input-birth-date"
+                            />
+                          ) : (
+                            <div className="p-4 bg-gray-50 rounded-full font-black text-sm md:text-base">
+                              {user?.birthDate ? new Date(user.birthDate).toLocaleDateString() : 'No proporcionada'}
+                            </div>
+                          )}
+                        </div>
 
                         <div className="space-y-2 md:col-span-2">
                           <label className="text-[10px] md:text-xs font-black tracking-widest text-muted-foreground uppercase">Actividad del Negocio</label>
@@ -576,23 +736,78 @@ export default function Dashboard() {
                                 Editar Perfil
                               </Button>
                             )}
-                            <Button variant="outline" className="rounded-full font-black border-2 py-6 text-sm" onClick={() => window.location.href = "/forgot-password"}>
-                              Cambiar Contraseña
+                            <Button 
+                              variant="outline" 
+                              className="rounded-full font-black border-2 py-6 text-sm" 
+                              onClick={() => setShowPasswordChange(!showPasswordChange)}
+                            >
+                              {showPasswordChange ? 'Cancelar' : 'Cambiar Contraseña'}
                             </Button>
                             <Button 
                               variant="destructive" 
                               className="rounded-full font-black py-6 text-sm"
                               onClick={() => {
                                 if (confirm("¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible.")) {
-                                  apiRequest("DELETE", "/api/user/account").then(() => {
-                                    window.location.href = "/";
-                                  });
+                                  deleteAccountMutation.mutate();
                                 }
                               }}
                             >
                               Eliminar Cuenta
                             </Button>
                           </div>
+
+                          {showPasswordChange && (
+                            <div className="p-6 bg-gray-50 rounded-2xl space-y-4 mt-4">
+                              <h4 className="font-black text-sm">Cambiar Contraseña</h4>
+                              <div className="space-y-3">
+                                <Input 
+                                  type="password"
+                                  placeholder="Contraseña actual"
+                                  value={passwordData.current}
+                                  onChange={(e) => setPasswordData(prev => ({ ...prev, current: e.target.value }))}
+                                  className="rounded-full h-12 px-6"
+                                  data-testid="input-current-password"
+                                />
+                                <Input 
+                                  type="password"
+                                  placeholder="Nueva contraseña"
+                                  value={passwordData.newPassword}
+                                  onChange={(e) => setPasswordData(prev => ({ ...prev, newPassword: e.target.value }))}
+                                  className="rounded-full h-12 px-6"
+                                  data-testid="input-new-password"
+                                />
+                                <Input 
+                                  type="password"
+                                  placeholder="Confirmar nueva contraseña"
+                                  value={passwordData.confirm}
+                                  onChange={(e) => setPasswordData(prev => ({ ...prev, confirm: e.target.value }))}
+                                  className="rounded-full h-12 px-6"
+                                  data-testid="input-confirm-password"
+                                />
+                              </div>
+                              <Button 
+                                className="bg-accent text-primary font-black rounded-full w-full py-6"
+                                onClick={() => {
+                                  if (!passwordData.current) {
+                                    toast({ title: "Error", description: "Ingresa tu contraseña actual", variant: "destructive" });
+                                    return;
+                                  }
+                                  if (passwordData.newPassword !== passwordData.confirm) {
+                                    toast({ title: "Error", description: "Las contraseñas no coinciden", variant: "destructive" });
+                                    return;
+                                  }
+                                  if (passwordData.newPassword.length < 8) {
+                                    toast({ title: "Error", description: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
+                                    return;
+                                  }
+                                  changePasswordMutation.mutate();
+                                }}
+                                disabled={changePasswordMutation.isPending}
+                              >
+                                {changePasswordMutation.isPending ? 'Cambiando...' : 'Guardar Nueva Contraseña'}
+                              </Button>
+                            </div>
+                          )}
 
                       <div className="pt-8 border-t border-gray-100">
                         <div className="flex items-center justify-between gap-4 p-6 bg-accent/5 rounded-[2rem] border border-accent/10">

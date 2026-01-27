@@ -55,6 +55,10 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
   - Enhanced messaging system with ticket IDs (MSG-{id}) and reply functionality
   - Proper TanStack Query implementation with hierarchical cache keys
   - Invoice viewing and Stripe portal integration
+  - Notifications tab: Shows admin notes with read/unread status and type badges (action_required, update, info)
+  - Profile fields expanded: ID type (DNI/NIE/Passport), ID number, birth date
+  - In-line change password form within profile section
+  - Delete account functionality with confirmation dialog
 - **Contact Form Improvements:**
   - Message ID capture and display on confirmation page
   - URL parameter support for orderId and ticket tracking
