@@ -136,13 +136,65 @@ export async function loginUser(email: string, password: string): Promise<typeof
     return null;
   }
 
-  if (user.isActive === false) {
+  // Check if account is locked
+  if (user.lockUntil && user.lockUntil > new Date()) {
+    const error = new Error("Cuenta bloqueada temporalmente por demasiados intentos fallidos");
+    (error as any).locked = true;
+    throw error;
+  }
+
+  if (user.isActive === false || user.accountStatus === 'suspended') {
     return null;
   }
 
   const isValid = await verifyPassword(password, user.passwordHash);
+  
   if (!isValid) {
+    // Increment login attempts
+    const newAttempts = (user.loginAttempts || 0) + 1;
+    const updates: any = { loginAttempts: newAttempts };
+    
+    if (newAttempts >= 5) {
+      // Lock account for 1 hour and update status
+      updates.lockUntil = new Date(Date.now() + 60 * 60 * 1000);
+      updates.accountStatus = 'suspended';
+      
+      // Send lock email
+      try {
+        await sendEmail({
+          to: user.email!,
+          subject: "Seguridad Easy US LLC - Cuenta bloqueada",
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+              <h1 style="color: #0E1215;">Seguridad de tu cuenta</h1>
+              <p>Hola ${user.firstName || ''},</p>
+              <p>Tu cuenta ha sido bloqueada temporalmente tras 5 intentos fallidos de inicio de sesión.</p>
+              <p>Por seguridad, la cuenta permanecerá bloqueada durante 1 hora. Si no has sido tú, te recomendamos restablecer tu contraseña inmediatamente.</p>
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/forgot-password" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+                  Restablecer contraseña
+                </a>
+              </div>
+              <p>Saludos,<br>El equipo de Easy US LLC</p>
+            </div>
+          `
+        });
+      } catch (e) {
+        console.error("Error sending lock email:", e);
+      }
+    }
+    
+    await db.update(users).set(updates).where(eq(users.id, user.id));
     return null;
+  }
+
+  // Reset attempts on successful login
+  if (user.loginAttempts > 0 || user.lockUntil) {
+    await db.update(users).set({ 
+      loginAttempts: 0, 
+      lockUntil: null,
+      accountStatus: user.accountStatus === 'suspended' ? 'active' : user.accountStatus 
+    }).where(eq(users.id, user.id));
   }
 
   return user;

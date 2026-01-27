@@ -121,51 +121,54 @@ export function setupCustomAuth(app: Express) {
 
   // Login endpoint
   app.post("/api/auth/login", async (req, res) => {
-    try {
-      const { email, password } = req.body;
+      try {
+        const { email, password } = req.body;
 
-      if (!email || !password) {
-        return res.status(400).json({ message: "Email y contraseña son obligatorios" });
-      }
-
-      const user = await loginUser(email, password);
-
-      if (!user) {
-        return res.status(401).json({ message: "Email o contraseña incorrectos" });
-      }
-
-      if (user.accountStatus === 'suspended') {
-        return res.status(403).json({ message: "CUENTA BLOQUEADA. Contacta a nuestro servicio de atención al cliente para más información." });
-      }
-
-      req.session.userId = user.id;
-      req.session.email = user.email!;
-      req.session.isAdmin = user.isAdmin;
-
-      // Save session explicitly before responding
-      req.session.save((err) => {
-        if (err) {
-          console.error("Session save error:", err);
-          return res.status(500).json({ message: "Error al guardar la sesión" });
+        if (!email || !password) {
+          return res.status(400).json({ message: "Email y contraseña son obligatorios" });
         }
-        
-        res.json({
-          success: true,
-          user: {
-            id: user.id,
-            email: user.email,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            phone: user.phone,
-            emailVerified: user.emailVerified,
-            isAdmin: user.isAdmin,
-          },
+
+        const user = await loginUser(email, password);
+
+        if (!user) {
+          return res.status(401).json({ message: "Email o contraseña incorrectos" });
+        }
+
+        if (user.accountStatus === 'suspended') {
+          return res.status(403).json({ message: "CUENTA BLOQUEADA. Contacta a nuestro servicio de atención al cliente para más información." });
+        }
+
+        req.session.userId = user.id;
+        req.session.email = user.email!;
+        req.session.isAdmin = user.isAdmin;
+
+        // Save session explicitly before responding
+        req.session.save((err) => {
+          if (err) {
+            console.error("Session save error:", err);
+            return res.status(500).json({ message: "Error al guardar la sesión" });
+          }
+          
+          res.json({
+            success: true,
+            user: {
+              id: user.id,
+              email: user.email,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              phone: user.phone,
+              emailVerified: user.emailVerified,
+              isAdmin: user.isAdmin,
+            },
+          });
         });
-      });
-    } catch (error) {
-      console.error("Login error:", error);
-      res.status(500).json({ message: "Error al iniciar sesión" });
-    }
+      } catch (error: any) {
+        if (error.locked) {
+          return res.status(403).json({ message: error.message });
+        }
+        console.error("Login error:", error);
+        res.status(500).json({ message: "Error al iniciar sesión" });
+      }
   });
 
   // Logout endpoint

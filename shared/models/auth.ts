@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { index, jsonb, pgTable, timestamp, varchar, boolean, text } from "drizzle-orm/pg-core";
+import { index, jsonb, pgTable, timestamp, varchar, boolean, text, integer } from "drizzle-orm/pg-core";
 
 export const sessions = pgTable(
   "sessions",
@@ -34,6 +34,8 @@ export const users = pgTable("users", {
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   accountStatus: text("account_status").notNull().default("active"), // active, pending, suspended, vip
+  loginAttempts: integer("login_attempts").notNull().default(0),
+  lockUntil: timestamp("lock_until"),
   internalNotes: text("internal_notes"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
