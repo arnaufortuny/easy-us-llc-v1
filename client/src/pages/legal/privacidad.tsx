@@ -38,7 +38,7 @@ export default function Privacidad() {
                 data-testid="button-download-privacidad"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
-                Descargar PDF
+                Imprimir / PDF
               </Button>
             </div>
 

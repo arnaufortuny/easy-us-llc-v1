@@ -38,7 +38,7 @@ export default function Reembolsos() {
                 data-testid="button-download-reembolsos"
               >
                 <Download className="w-5 h-5 sm:w-4 sm:h-4" />
-                Descargar PDF
+                Imprimir / PDF
               </Button>
             </div>
 

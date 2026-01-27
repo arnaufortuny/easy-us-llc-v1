@@ -1023,9 +1023,9 @@ export default function Dashboard() {
               <Button 
                 variant="outline" 
                 className="rounded-full font-black border-2 w-full text-xs py-5 no-default-hover-elevate"
-                onClick={() => window.open("/terminos_y_condiciones.pdf", "_blank")}
+                onClick={() => window.print()}
               >
-                <Download className="w-4 h-4 mr-2" /> Descargar PDF
+                <Download className="w-4 h-4 mr-2" /> Imprimir / PDF
               </Button>
             </Card>
 
