@@ -7,6 +7,11 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
+// Health check endpoint at root to ensure deployment success
+app.get("/", (_req, res) => {
+  res.status(200).send("OK");
+});
+
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
