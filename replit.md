@@ -71,6 +71,15 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
   - Profile fields expanded: ID type (DNI/NIE/Passport), ID number, birth date
   - In-line change password form within profile section
   - Delete account functionality with confirmation dialog
+  - Real-time polling (30s intervals) for orders and notifications
+  - Client ID display (first 8 chars of user.id in uppercase)
+  - Account status indicator with color-coded badges (VIP/Pending/Suspended)
+- **Admin User Management (Jan 2026):**
+  - Added accountStatus field (active/pending/suspended/vip) to user schema
+  - Admin can update user account status via edit dialog
+  - Status badges displayed in admin user list
+  - Newsletter section auto-hides for authenticated users
+  - /api/auth/user returns all profile fields including accountStatus
 - **Contact Form Improvements:**
   - Message ID capture and display on confirmation page
   - URL parameter support for orderId and ticket tracking
