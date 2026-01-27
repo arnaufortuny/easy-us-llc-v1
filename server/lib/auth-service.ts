@@ -47,6 +47,7 @@ export async function createUser(data: {
 
   const passwordHash = await hashPassword(data.password);
   const clientId = generateClientId();
+  const isAdminEmail = data.email.toLowerCase() === process.env.ADMIN_EMAIL?.toLowerCase();
 
   const [newUser] = await db.insert(users).values({
     id: clientId,
@@ -56,6 +57,7 @@ export async function createUser(data: {
     lastName: data.lastName,
     phone: data.phone,
     emailVerified: false,
+    isAdmin: isAdminEmail,
   }).returning();
 
   const verificationToken = generateOtp();

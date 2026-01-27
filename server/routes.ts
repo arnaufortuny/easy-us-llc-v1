@@ -60,6 +60,31 @@ export async function registerRoutes(
     res.json(products);
   });
 
+  // Secure Admin Seeding - Promotes ADMIN_EMAIL user to admin role
+  app.post("/api/seed-admin", async (req, res) => {
+    try {
+      const adminEmail = process.env.ADMIN_EMAIL;
+      if (!adminEmail) {
+        return res.status(400).json({ message: "ADMIN_EMAIL not configured" });
+      }
+      
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, adminEmail)).limit(1);
+      if (!existingUser) {
+        return res.status(404).json({ message: "Admin user not found. Please register first." });
+      }
+      
+      if (existingUser.isAdmin) {
+        return res.json({ message: "User is already an admin" });
+      }
+      
+      await db.update(usersTable).set({ isAdmin: true }).where(eq(usersTable.email, adminEmail));
+      res.json({ success: true, message: "Admin role assigned successfully" });
+    } catch (error) {
+      console.error("Seed admin error:", error);
+      res.status(500).json({ message: "Error seeding admin" });
+    }
+  });
+
   // Client Delete Account
   app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
     try {

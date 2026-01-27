@@ -68,13 +68,31 @@ export function Navbar() {
             Constituye ahora tu LLC
           </Button>
 
-          <button 
-            className="md:hidden p-2 text-foreground relative z-[110]"
-            onClick={() => setIsOpen(!isOpen)}
-            aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
-          >
-            <span className="text-2xl font-black">{isOpen ? "✕" : "☰"}</span>
-          </button>
+          <div className="md:hidden flex items-center gap-2 relative z-[110]">
+            {!isAuthenticated && (
+              <button 
+                onClick={() => (window.location.href = "/api/login")}
+                className="p-2 text-accent"
+                aria-label="Iniciar sesión"
+                data-testid="button-mobile-login"
+              >
+                <UserIcon className="w-5 h-5" />
+              </button>
+            )}
+            {isAuthenticated && (
+              <Link href="/dashboard" className="p-2 text-accent" aria-label="Mi área" data-testid="link-mobile-dashboard">
+                <UserIcon className="w-5 h-5" />
+              </Link>
+            )}
+            <button 
+              className="p-2 text-foreground"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
+              data-testid="button-mobile-menu"
+            >
+              <span className="text-2xl font-black">{isOpen ? "✕" : "☰"}</span>
+            </button>
+          </div>
         </div>
       </div>
 

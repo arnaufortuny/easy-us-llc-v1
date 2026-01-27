@@ -83,15 +83,15 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="orders" onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="bg-white p-1 rounded-full border border-gray-100 shadow-sm">
-            <TabsTrigger value="orders" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black  text-xs">
-              <Clock className="w-4 h-4 mr-2" /> Pedidos
+          <TabsList className="bg-white p-1 rounded-full border border-gray-100 shadow-sm flex-wrap w-full justify-center">
+            <TabsTrigger value="orders" className="rounded-full px-4 sm:px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black text-xs">
+              <Clock className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Pedidos</span>
             </TabsTrigger>
-            <TabsTrigger value="users" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black  text-xs">
-              <Users className="w-4 h-4 mr-2" /> Usuarios
+            <TabsTrigger value="users" className="rounded-full px-4 sm:px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black text-xs">
+              <Users className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Usuarios</span>
             </TabsTrigger>
-            <TabsTrigger value="messages" className="rounded-full px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black  text-xs">
-              <Mail className="w-4 h-4 mr-2" /> Mensajes
+            <TabsTrigger value="messages" className="rounded-full px-4 sm:px-8 py-2 data-[state=active]:bg-accent data-[state=active]:text-primary font-black text-xs">
+              <Mail className="w-4 h-4 sm:mr-2" /> <span className="hidden sm:inline">Mensajes</span>
             </TabsTrigger>
           </TabsList>
 
@@ -130,19 +130,61 @@ export default function AdminDashboard() {
             </div>
 
             <Card className="rounded-3xl border-0 shadow-sm overflow-hidden">
-              <CardHeader className="bg-white border-b border-gray-100 p-6">
-                <CardTitle className="text-xl font-black ">Listado de Pedidos</CardTitle>
+              <CardHeader className="bg-white border-b border-gray-100 p-4 sm:p-6">
+                <CardTitle className="text-lg sm:text-xl font-black">Listado de Pedidos</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <Table>
+                {/* Mobile Card View */}
+                <div className="md:hidden divide-y divide-gray-100">
+                  {orders?.map((order) => (
+                    <div key={order.id} className="p-4 space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-black text-sm">#{order.id}</p>
+                          <p className="text-xs text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
+                        </div>
+                        <Badge className={`font-black text-[10px] ${
+                          order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                        }`}>
+                          {order.status}
+                        </Badge>
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{order.user?.firstName} {order.user?.lastName}</p>
+                        <p className="text-xs text-muted-foreground">{order.user?.email}</p>
+                      </div>
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <Badge variant="outline" className="font-black text-[10px] bg-gray-50">{order.product?.name}</Badge>
+                          <span className="ml-2 font-black text-sm">{(order.amount / 100).toFixed(2)}€</span>
+                        </div>
+                        <div className="flex gap-1">
+                          <Select value={order.status} onValueChange={(val) => updateStatusMutation.mutate({ id: order.id, status: val })}>
+                            <SelectTrigger className="w-24 h-8 rounded-full text-[10px] font-black">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="pending">Pendiente</SelectItem>
+                              <SelectItem value="paid">Pagado</SelectItem>
+                              <SelectItem value="cancelled">Cancelado</SelectItem>
+                              <SelectItem value="filed">Presentado</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Desktop Table View */}
+                <Table className="hidden md:table">
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-gray-100">
-                      <TableHead className="font-black  text-xs px-6">ID / Fecha</TableHead>
-                      <TableHead className="font-black  text-xs">Cliente</TableHead>
-                      <TableHead className="font-black  text-xs">Servicio</TableHead>
-                      <TableHead className="font-black  text-xs">Importe</TableHead>
-                      <TableHead className="font-black  text-xs">Estado</TableHead>
-                      <TableHead className="font-black  text-xs text-right px-6">Acciones</TableHead>
+                      <TableHead className="font-black text-xs px-6">ID / Fecha</TableHead>
+                      <TableHead className="font-black text-xs">Cliente</TableHead>
+                      <TableHead className="font-black text-xs">Servicio</TableHead>
+                      <TableHead className="font-black text-xs">Importe</TableHead>
+                      <TableHead className="font-black text-xs">Estado</TableHead>
+                      <TableHead className="font-black text-xs text-right px-6">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -202,23 +244,49 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="users" className="space-y-8 mt-0">
-            <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-black  text-primary">Gestión de Usuarios</h2>
-              <Button className="bg-accent text-primary font-black rounded-full px-6" onClick={() => toast({ title: "Próximamente", description: "La creación de usuarios estará disponible pronto." })}>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h2 className="text-xl sm:text-2xl font-black text-primary">Gestión de Usuarios</h2>
+              <Button className="bg-accent text-primary font-black rounded-full px-4 sm:px-6 text-sm" onClick={() => toast({ title: "Próximamente", description: "La creación de usuarios estará disponible pronto." })}>
                 Crear Usuario
               </Button>
             </div>
 
             <Card className="rounded-3xl border-0 shadow-sm overflow-hidden">
               <CardContent className="p-0">
-                <Table>
+                {/* Mobile Card View */}
+                <div className="md:hidden divide-y divide-gray-100">
+                  {users?.map((u) => (
+                    <div key={u.id} className="p-4 space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
+                          <p className="text-[10px] text-muted-foreground font-mono">{u.id}</p>
+                        </div>
+                        <Badge className={`font-black text-[10px] ${u.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
+                          {u.isAdmin ? 'Admin' : 'Cliente'}
+                        </Badge>
+                      </div>
+                      <div className="text-sm">
+                        <p className="font-medium">{u.email}</p>
+                        <p className="text-muted-foreground">{u.phone || 'N/A'}</p>
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-600" onClick={() => confirm("¿Seguro que quieres eliminar este usuario?") && deleteUserMutation.mutate(u.id)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Desktop Table View */}
+                <Table className="hidden md:table">
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-gray-100">
-                      <TableHead className="font-black  text-xs px-6">ID / Nombre</TableHead>
-                      <TableHead className="font-black  text-xs">Email</TableHead>
-                      <TableHead className="font-black  text-xs">Teléfono</TableHead>
-                      <TableHead className="font-black  text-xs">Rol</TableHead>
-                      <TableHead className="font-black  text-xs text-right px-6">Acciones</TableHead>
+                      <TableHead className="font-black text-xs px-6">ID / Nombre</TableHead>
+                      <TableHead className="font-black text-xs">Email</TableHead>
+                      <TableHead className="font-black text-xs">Teléfono</TableHead>
+                      <TableHead className="font-black text-xs">Rol</TableHead>
+                      <TableHead className="font-black text-xs text-right px-6">Acciones</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -231,7 +299,7 @@ export default function AdminDashboard() {
                         <TableCell className="font-medium">{u.email}</TableCell>
                         <TableCell className="text-sm font-medium">{u.phone || 'N/A'}</TableCell>
                         <TableCell>
-                          <Badge className={`font-black  text-[10px] ${u.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
+                          <Badge className={`font-black text-[10px] ${u.isAdmin ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700'}`}>
                             {u.isAdmin ? 'Admin' : 'Cliente'}
                           </Badge>
                         </TableCell>
@@ -252,11 +320,41 @@ export default function AdminDashboard() {
           </TabsContent>
           <TabsContent value="messages" className="space-y-8 mt-0">
             <Card className="rounded-3xl border-0 shadow-sm overflow-hidden">
-              <CardHeader className="bg-white border-b border-gray-100 p-6">
-                <CardTitle className="text-xl font-black">Bandeja de Entrada</CardTitle>
+              <CardHeader className="bg-white border-b border-gray-100 p-4 sm:p-6">
+                <CardTitle className="text-lg sm:text-xl font-black">Bandeja de Entrada</CardTitle>
               </CardHeader>
               <CardContent className="p-0">
-                <Table>
+                {/* Mobile Card View */}
+                <div className="md:hidden divide-y divide-gray-100">
+                  {useQuery<any[]>({ queryKey: ["/api/admin/messages"] }).data?.map((msg) => (
+                    <div key={msg.id} className="p-4 space-y-3">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-black text-sm">{msg.name || 'Cliente'}</p>
+                          <p className="text-[10px] text-muted-foreground">{new Date(msg.createdAt).toLocaleString()}</p>
+                        </div>
+                        <Badge className={`font-black text-[10px] ${msg.status === 'unread' ? 'bg-accent text-primary' : 'bg-gray-100'}`}>
+                          {msg.status}
+                        </Badge>
+                      </div>
+                      <div>
+                        <p className="font-medium text-sm">{msg.subject}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2">{msg.content}</p>
+                      </div>
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-green-600"
+                          onClick={() => apiRequest("PATCH", `/api/admin/messages/${msg.id}/status`, { status: 'read' }).then(() => queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] }))}>
+                          <CheckCircle className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="ghost" className="h-8 w-8 p-0 text-red-600" onClick={() => deleteMessageMutation.mutate(msg.id)}>
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Desktop Table View */}
+                <Table className="hidden md:table">
                   <TableHeader>
                     <TableRow className="hover:bg-transparent border-gray-100">
                       <TableHead className="font-black text-xs px-6">Fecha / Cliente</TableHead>
