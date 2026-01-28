@@ -1688,28 +1688,42 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={emailDialog.open} onOpenChange={(open) => setEmailDialog({ open, user: open ? emailDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Email</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
-                <Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Asunto" data-testid="input-email-subject" />
-                <Textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="Mensaje" rows={5} data-testid="input-email-message" />
-                <DialogFooter>
-                  <Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })} disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending} data-testid="button-send-email">
-                    Enviar
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Asunto</Label>
+                  <Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Asunto del email" className="w-full" data-testid="input-email-subject" />
+                </div>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
+                  <Textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={5} className="w-full" data-testid="input-email-message" />
+                </div>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setEmailDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
+                  <Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })} disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-email">
+                    {sendEmailMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar'}
                   </Button>
                 </DialogFooter>
               </div>
             </DialogContent>
           </Dialog>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Nota</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
-                <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título" data-testid="input-note-title" />
-                <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Mensaje" rows={4} data-testid="input-note-message" />
-                <DialogFooter>
-                  <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} data-testid="button-send-note">
-                    Enviar Nota
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Título</Label>
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título de la nota" className="w-full" data-testid="input-note-title" />
+                </div>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
+                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full" data-testid="input-note-message" />
+                </div>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
+                  <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-note">
+                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Nota'}
                   </Button>
                 </DialogFooter>
               </div>
@@ -1804,10 +1818,10 @@ export default function Dashboard() {
                     <Label className="text-xs">Notas Internas (solo admin)</Label>
                     <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} data-testid="input-edit-notes" />
                   </div>
-                  <DialogFooter>
-                    <Button variant="outline" onClick={() => setEditingUser(null)}>Cancelar</Button>
-                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} data-testid="button-save-user">
-                      {updateUserMutation.isPending ? 'Guardando...' : 'Guardar'}
+                  <DialogFooter className="flex-col sm:flex-row gap-2 mt-4">
+                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto">Cancelar</Button>
+                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto" data-testid="button-save-user">
+                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar'}
                     </Button>
                   </DialogFooter>
                 </div>
@@ -1832,20 +1846,27 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
               <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
-                <Select value={docType} onValueChange={setDocType}>
-                  <SelectTrigger className="bg-white"><SelectValue placeholder="Tipo de documento" /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
-                    <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
-                    <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
-                    <SelectItem value="other">Otro Documento</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} data-testid="input-doc-message" />
-                <DialogFooter>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Tipo de documento</Label>
+                  <Select value={docType} onValueChange={setDocType}>
+                    <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
+                      <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
+                      <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
+                      <SelectItem value="other">Otro Documento</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
+                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full" data-testid="input-doc-message" />
+                </div>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
                   <Button onClick={() => {
                     if (docDialog.user?.id && docDialog.user?.email) {
                       const docTypeLabels: Record<string, string> = {
@@ -1866,8 +1887,8 @@ export default function Dashboard() {
                       setDocType('');
                       setDocMessage('');
                     }
-                  }} disabled={!docType || sendNoteMutation.isPending} data-testid="button-request-doc">
-                    Solicitar
+                  }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-request-doc">
+                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar'}
                   </Button>
                 </DialogFooter>
               </div>
@@ -1875,25 +1896,33 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
               <DialogHeader><DialogTitle className="text-lg font-bold">Crear Factura</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
-                <Input 
-                  value={invoiceConcept} 
-                  onChange={e => setInvoiceConcept(e.target.value)} 
-                  placeholder="Concepto (ej: Servicio de consultoría)" 
-                  data-testid="input-invoice-concept"
-                />
-                <Input 
-                  type="number" 
-                  value={invoiceAmount} 
-                  onChange={e => setInvoiceAmount(e.target.value)} 
-                  placeholder="Importe en euros" 
-                  data-testid="input-invoice-amount"
-                />
-                <DialogFooter>
-                  <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })}>Cancelar</Button>
+                <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-lg">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Concepto</Label>
+                  <Input 
+                    value={invoiceConcept} 
+                    onChange={e => setInvoiceConcept(e.target.value)} 
+                    placeholder="Ej: Servicio de consultoría" 
+                    className="w-full"
+                    data-testid="input-invoice-concept"
+                  />
+                </div>
+                <div>
+                  <Label className="text-xs font-medium mb-1 block">Importe (€)</Label>
+                  <Input 
+                    type="number" 
+                    value={invoiceAmount} 
+                    onChange={e => setInvoiceAmount(e.target.value)} 
+                    placeholder="639" 
+                    className="w-full"
+                    data-testid="input-invoice-amount"
+                  />
+                </div>
+                <DialogFooter className="flex-col sm:flex-row gap-2">
+                  <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
                   <Button 
                     onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
                       userId: invoiceDialog.user.id, 
@@ -1901,6 +1930,7 @@ export default function Dashboard() {
                       amount: Math.round(parseFloat(invoiceAmount) * 100) 
                     })} 
                     disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
+                    className="w-full sm:w-auto"
                     data-testid="button-create-invoice"
                   >
                     {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
@@ -2033,9 +2063,9 @@ export default function Dashboard() {
               <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 6 caracteres" className="mt-1" data-testid="input-create-user-password" />
             </div>
           </div>
-          <DialogFooter className="mt-4 gap-2">
-            <Button variant="outline" onClick={() => setCreateUserDialog(false)} data-testid="button-cancel-create-user">Cancelar</Button>
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} data-testid="button-confirm-create-user">
+          <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
+            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto" data-testid="button-cancel-create-user">Cancelar</Button>
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto" data-testid="button-confirm-create-user">
               {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
             </Button>
           </DialogFooter>
