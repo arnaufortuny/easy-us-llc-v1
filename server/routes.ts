@@ -184,7 +184,7 @@ export async function registerRoutes(
       businessActivity: z.string().optional().nullable(),
       isActive: z.boolean().optional(),
       isAdmin: z.boolean().optional(),
-      accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional(),
+      accountStatus: z.enum(['active', 'pending', 'suspended', 'deactivated', 'vip']).optional(),
       internalNotes: z.string().optional()
     });
     const data = updateSchema.parse(req.body);
@@ -1535,32 +1535,6 @@ export async function registerRoutes(
     res.json({ success: true, message: "Instrucciones de reinicio enviadas" });
   });
 
-  // Update user info (admin)
-  app.patch("/api/admin/users/:id", isAdmin, async (req, res) => {
-    try {
-      const userId = req.params.id;
-      const updateSchema = z.object({
-        firstName: z.string().min(1).max(100).optional(),
-        lastName: z.string().min(1).max(100).optional(),
-        email: z.string().email().optional(),
-        phone: z.string().max(30).optional().nullable(),
-        isActive: z.boolean().optional(),
-        accountStatus: z.enum(['active', 'pending', 'suspended', 'vip']).optional()
-      });
-      const data = updateSchema.parse(req.body);
-      const [updated] = await db.update(usersTable).set({
-        ...data,
-        updatedAt: new Date()
-      }).where(eq(usersTable.id, userId)).returning();
-      res.json(updated);
-    } catch (error) {
-      console.error("Error updating user:", error);
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Datos inválidos" });
-      }
-      res.status(500).json({ message: "Error al actualizar usuario" });
-    }
-  });
 
   // Newsletter subscribers (admin)
   app.get("/api/admin/newsletter", isAdmin, async (req, res) => {
