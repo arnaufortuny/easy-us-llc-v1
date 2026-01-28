@@ -21,8 +21,8 @@ export const pool = new Pool({
   ssl: {
     rejectUnauthorized: false
   },
-  connectionTimeoutMillis: 500, // Reduced to 500ms for absolute fail-fast
-  idleTimeoutMillis: 5000,
-  max: 5, // Keep small to avoid blocking during resource-heavy startup
+  connectionTimeoutMillis: 10000, // 10s is safer for production startup
+  idleTimeoutMillis: 10000,
+  max: 10, // Sufficient pool size
 });
 export const db = drizzle(pool, { schema });
