@@ -26,6 +26,12 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Document & Account Management (Jan 2026):**
+  - Client document deletion: DELETE /api/user/documents/:id endpoint with ownership verification
+  - Document deletion UI: trash button visible only for active/vip accounts (canEdit permission)
+  - Account deletion restricted to active/vip accounts only
+  - All buttons follow design system (no custom hover:bg-* states)
+  - Responsive document cards with compact mobile layout
 - **Mobile UI & Admin Panel Enhancements (Jan 2026):**
   - Improved mobile dashboard: compact tabs with shorter labels, smaller gaps, responsive cards
   - Admin panel: Create new users directly (name, email, phone, password) with email verification auto-set
