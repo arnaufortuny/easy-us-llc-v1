@@ -768,22 +768,30 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={emailDialog.open} onOpenChange={(open) => setEmailDialog({ open, user: open ? emailDialog.user : null })}>
-            <DialogContent>
-              <DialogHeader><DialogTitle>Enviar Email</DialogTitle></DialogHeader>
-              <div className="space-y-4">
-                <Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Asunto" />
-                <Textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="Mensaje" rows={5} />
-                <DialogFooter><Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })} disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending}>Enviar</Button></DialogFooter>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Email</DialogTitle></DialogHeader>
+              <div className="space-y-4 pt-2">
+                <Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Asunto" data-testid="input-email-subject" />
+                <Textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="Mensaje" rows={5} data-testid="input-email-message" />
+                <DialogFooter>
+                  <Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })} disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending} data-testid="button-send-email">
+                    Enviar
+                  </Button>
+                </DialogFooter>
               </div>
             </DialogContent>
           </Dialog>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent>
-              <DialogHeader><DialogTitle>Enviar Nota</DialogTitle></DialogHeader>
-              <div className="space-y-4">
-                <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título" />
-                <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Mensaje" rows={4} />
-                <DialogFooter><Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending}>Enviar Nota</Button></DialogFooter>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Nota</DialogTitle></DialogHeader>
+              <div className="space-y-4 pt-2">
+                <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título" data-testid="input-note-title" />
+                <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Mensaje" rows={4} data-testid="input-note-message" />
+                <DialogFooter>
+                  <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} data-testid="button-send-note">
+                    Enviar Nota
+                  </Button>
+                </DialogFooter>
               </div>
             </DialogContent>
           </Dialog>
