@@ -167,6 +167,46 @@ export async function registerRoutes(
     res.json(updatedOrder);
   }));
 
+  // Delete order (admin only) - Full cascade deletion
+  app.delete("/api/admin/orders/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    
+    // Get order details before deletion for logging
+    const order = await storage.getOrder(orderId);
+    if (!order) {
+      return res.status(404).json({ message: "Pedido no encontrado" });
+    }
+    
+    // Use transaction for safe cascade deletion
+    await db.transaction(async (tx) => {
+      // Delete order events
+      await tx.delete(orderEvents).where(eq(orderEvents.orderId, orderId));
+      
+      // Delete application documents
+      await tx.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, orderId));
+      
+      // Delete user notifications related to this order
+      if (order.userId) {
+        await tx.delete(userNotifications).where(
+          and(
+            eq(userNotifications.userId, order.userId),
+            sql`${userNotifications.message} LIKE ${'%' + (order.invoiceNumber || `#${orderId}`) + '%'}`
+          )
+        );
+      }
+      
+      // Delete the LLC application if exists
+      if (order.application?.id) {
+        await tx.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, order.application.id));
+      }
+      
+      // Finally delete the order
+      await tx.delete(ordersTable).where(eq(ordersTable.id, orderId));
+    });
+    
+    res.json({ success: true, message: "Pedido eliminado correctamente" });
+  }));
+
   // Update LLC important dates with automatic calculation
   app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);

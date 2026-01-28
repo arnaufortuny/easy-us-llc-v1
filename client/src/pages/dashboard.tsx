@@ -386,6 +386,26 @@ export default function Dashboard() {
       toast({ title: "Error", description: "No se pudo eliminar el usuario", variant: "destructive" });
     }
   });
+  
+  const [deleteOrderConfirm, setDeleteOrderConfirm] = useState<{ open: boolean; order: any }>({ open: false, order: null });
+  
+  const deleteOrderMutation = useMutation({
+    mutationFn: async (orderId: number) => {
+      await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
+    },
+    onSuccess: () => {
+      // Invalidate all related queries
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+      toast({ title: "Pedido eliminado", description: "El pedido y sus datos asociados han sido eliminados." });
+      setDeleteOrderConfirm({ open: false, order: null });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo eliminar el pedido", variant: "destructive" });
+    }
+  });
 
   const createInvoiceMutation = useMutation({
     mutationFn: async ({ userId, concept, amount, currency }: { userId: string, concept: string, amount: number, currency: string }) => {
@@ -1423,10 +1443,10 @@ export default function Dashboard() {
                               </Select>
                             </div>
                             <div className="flex gap-2 flex-wrap">
-                              <Button size="sm" variant="outline" className="h-7 text-xs rounded-full" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
+                              <Button size="sm" variant="outline" className="rounded-full" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 <FileText className="w-3 h-3 mr-1" /> Ver Factura
                               </Button>
-                              <Button size="sm" variant="default" className="h-7 text-xs rounded-full bg-accent text-primary" onClick={async () => {
+                              <Button size="sm" variant="default" className="rounded-full bg-accent text-primary" onClick={async () => {
                                 try {
                                   await apiRequest("POST", `/api/admin/orders/${order.id}/generate-invoice`);
                                   toast({ title: "Factura generada", description: "La factura ha sido creada y añadida al centro de documentos del cliente." });
@@ -1436,6 +1456,9 @@ export default function Dashboard() {
                                 }
                               }} data-testid={`btn-generate-invoice-${order.id}`}>
                                 <Plus className="w-3 h-3 mr-1" /> Generar Factura
+                              </Button>
+                              <Button size="sm" variant="outline" className="rounded-full text-red-600 border-red-200" onClick={() => setDeleteOrderConfirm({ open: true, order })} data-testid={`btn-delete-order-${order.id}`}>
+                                <Trash2 className="w-3 h-3 mr-1" /> Eliminar
                               </Button>
                             </div>
                           </div>
@@ -1753,7 +1776,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={emailDialog.open} onOpenChange={(open) => setEmailDialog({ open, user: open ? emailDialog.user : null })}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-md bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Email</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1774,7 +1797,7 @@ export default function Dashboard() {
             </DialogContent>
           </Dialog>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-md bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Nota</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1796,7 +1819,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-lg mx-auto bg-white rounded-lg shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-lg bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Editar Usuario</DialogTitle></DialogHeader>
               {editingUser && (
                 <div className="space-y-4 pt-2">
@@ -1895,7 +1918,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm mx-auto bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="max-w-sm bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
@@ -1909,9 +1932,26 @@ export default function Dashboard() {
               </DialogFooter>
             </DialogContent>
           </Dialog>
+          
+          <Dialog open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
+            <DialogContent className="max-w-sm bg-white">
+              <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
+              <div className="py-4">
+                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>ORD-{deleteOrderConfirm.order?.id}</strong>?</p>
+                <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
+                <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
+              </div>
+              <DialogFooter className="flex-col sm:flex-row gap-2">
+                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full sm:w-auto">Cancelar</Button>
+                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full sm:w-auto" data-testid="button-confirm-delete-order">
+                  {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-md bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1961,7 +2001,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+            <DialogContent className="max-w-md bg-white">
               <DialogHeader><DialogTitle className="text-lg font-bold">Crear Factura</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-lg">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
@@ -2023,7 +2063,7 @@ export default function Dashboard() {
       )}
 
       <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-sm mx-auto bg-white rounded-lg shadow-2xl z-[100]">
+        <DialogContent className="max-w-sm bg-white">
           <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
@@ -2039,7 +2079,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-lg shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader><DialogTitle className="text-lg font-bold">Subir Documento</DialogTitle></DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
@@ -2117,7 +2157,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Cliente</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -2153,7 +2193,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="w-[calc(100%-2rem)] sm:w-full max-w-md mx-auto bg-white rounded-2xl shadow-2xl z-[100] max-h-[85vh] overflow-y-auto">
+        <DialogContent className="max-w-md bg-white">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Pedido</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
             <div>
