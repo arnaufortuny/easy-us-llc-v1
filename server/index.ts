@@ -8,32 +8,22 @@ const app = express();
 const httpServer = createServer(app);
 
 // ABSOLUTELY FIRST: Respond to health checks immediately.
-// No middleware, no logging, no database, no compression.
-app.get("/", (_req, res) => {
-  res.writeHead(200, {
-    'Content-Type': 'text/plain',
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Connection': 'close'
-  });
-  res.end("OK");
-});
-
-app.get("/health", (_req, res) => {
-  res.writeHead(200, {
-    'Content-Type': 'text/plain',
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Connection': 'close'
-  });
-  res.end("OK");
-});
-
-app.get("/healthz", (_req, res) => {
-  res.writeHead(200, {
-    'Content-Type': 'text/plain',
-    'Cache-Control': 'no-cache, no-store, must-revalidate',
-    'Connection': 'close'
-  });
-  res.end("OK");
+// Use raw Node.js server to intercept '/' before ANY Express logic
+httpServer.on('request', (req, res) => {
+  if (req.url === '/' || req.url === '/health' || req.url === '/healthz') {
+    const accept = req.headers['accept'] || '';
+    // If it's a health check (not seeking HTML) or from Replit
+    // We respond OK for everything on '/' unless it's explicitly a browser asking for HTML
+    if (!accept.includes('text/html') || req.headers['x-replit-deployment-id'] || (req.headers['user-agent'] && req.headers['user-agent'].includes('Replit'))) {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain',
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Connection': 'close'
+      });
+      res.end('OK');
+      return;
+    }
+  }
 });
 
 app.use(compression());
