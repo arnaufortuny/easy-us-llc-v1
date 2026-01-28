@@ -744,16 +744,24 @@ export async function registerRoutes(
 
       const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
       
+      const docTypeLabels: Record<string, string> = {
+        'passport': 'Pasaporte / Documento de Identidad',
+        'address_proof': 'Comprobante de Domicilio',
+        'tax_id': 'Identificación Fiscal',
+        'other': 'Otro Documento'
+      };
+      const docTypeLabel = docTypeLabels[documentType] || documentType;
+      
       await sendEmail({
         to: email,
-        subject: `Acción Requerida: Solicitud de Documentación (${documentType})`,
+        subject: `Acción Requerida: Solicitud de Documentación (${docTypeLabel})`,
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
             ${getEmailHeader()}
             <div style="padding: 20px;">
               <h2>Solicitud de Documentación</h2>
               <p>Hola,</p>
-              <p>Nuestro equipo requiere que subas el siguiente documento: <strong>${documentType}</strong></p>
+              <p>Nuestro equipo requiere que subas el siguiente documento: <strong>${docTypeLabel}</strong></p>
               <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
                 <p><strong>Mensaje del agente:</strong> ${message}</p>
               </div>
@@ -774,7 +782,7 @@ export async function registerRoutes(
         await db.insert(userNotifications).values({
           userId,
           title: "Acción Requerida: Subir Documento",
-          message: `Se ha solicitado el documento: ${documentType}. Revisa tu email para más detalles.`,
+          message: `Se ha solicitado el documento: ${docTypeLabel}. Revisa tu email para más detalles.`,
           type: 'action_required',
           isRead: false
         });
@@ -784,7 +792,7 @@ export async function registerRoutes(
           userId,
           name: "Easy US LLC (Soporte)",
           email: "soporte@easyusllc.com",
-          subject: `Solicitud de Documento: ${documentType}`,
+          subject: `Solicitud de Documento: ${docTypeLabel}`,
           content: message,
           encryptedContent: encrypt(message),
           type: "support",
