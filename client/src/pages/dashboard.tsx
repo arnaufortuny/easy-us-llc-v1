@@ -402,6 +402,19 @@ export default function Dashboard() {
     }
   });
 
+  const deleteDocMutation = useMutation({
+    mutationFn: async (docId: number) => {
+      await apiRequest("DELETE", `/api/user/documents/${docId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+      toast({ title: "Documento eliminado" });
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error?.message || "No se pudo eliminar el documento", variant: "destructive" });
+    }
+  });
+
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
       await apiRequest("DELETE", "/api/user/account");
@@ -836,13 +849,20 @@ export default function Dashboard() {
                     </Card>
                     
                     {userDocuments?.map((doc: any) => (
-                      <Card key={doc.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white">
-                        <FileUp className="w-12 h-12 text-accent mb-4" />
-                        <h3 className="font-black text-primary mb-2 text-sm md:text-base">{doc.fileName}</h3>
-                        <p className="text-[10px] text-muted-foreground mb-4">{new Date(doc.createdAt).toLocaleDateString()}</p>
-                        <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5" onClick={() => window.open(doc.fileUrl, "_blank")}>
-                          <Download className="w-4 h-4 mr-2" /> DESCARGAR
-                        </Button>
+                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white">
+                        <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
+                        <h3 className="font-bold text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
+                        <p className="text-[9px] md:text-[10px] text-muted-foreground mb-3">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
+                        <div className="flex gap-2 w-full">
+                          <Button variant="outline" size="sm" className="rounded-full font-bold flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
+                            <Download className="w-3 h-3 mr-1" /> Descargar
+                          </Button>
+                          {canEdit && (
+                            <Button variant="outline" size="icon" className="rounded-full text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          )}
+                        </div>
                       </Card>
                     ))}
                   </div>
@@ -1183,17 +1203,19 @@ export default function Dashboard() {
                         </div>
                       )}
                     </div>
-                    <div className="mt-8 pt-8 border-t">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <h4 className="font-black text-red-600">Eliminar Cuenta</h4>
-                          <p className="text-xs text-muted-foreground">Esta acción es irreversible. Se eliminarán todos tus datos.</p>
+                    {canEdit && (
+                      <div className="mt-8 pt-8 border-t">
+                        <div className="flex items-center justify-between gap-4">
+                          <div>
+                            <h4 className="font-black text-red-600 text-sm">Eliminar Cuenta</h4>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Esta acción es irreversible. Se eliminarán todos tus datos.</p>
+                          </div>
+                          <Button variant="outline" size="sm" className="border-red-200 text-red-600 rounded-full shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+                            <Trash2 className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" /> <span className="hidden sm:inline">Eliminar</span>
+                          </Button>
                         </div>
-                        <Button variant="outline" className="border-red-200 text-red-600 hover:bg-red-50 rounded-full" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
-                          <Trash2 className="w-4 h-4 mr-2" /> Eliminar
-                        </Button>
                       </div>
-                    </div>
+                    )}
                   </Card>
                 </motion.div>
               )}

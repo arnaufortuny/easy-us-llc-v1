@@ -302,20 +302,18 @@ export async function registerRoutes(
     
     const bcrypt = await import("bcrypt");
     const hashedPassword = await bcrypt.hash(password, 10);
-    const id = crypto.randomUUID();
     
-    await db.insert(usersTable).values({
-      id,
+    const [newUser] = await db.insert(usersTable).values({
       email,
       firstName: firstName || null,
       lastName: lastName || null,
       phone: phone || null,
-      password: hashedPassword,
-      isEmailVerified: true,
+      passwordHash: hashedPassword,
+      emailVerified: true,
       accountStatus: 'active'
-    });
+    }).returning();
     
-    res.json({ success: true, userId: id });
+    res.json({ success: true, userId: newUser.id });
   }));
 
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
@@ -357,7 +355,7 @@ export async function registerRoutes(
     await db.insert(orderEvents).values({
       orderId: order.id,
       eventType: 'order_created',
-      eventDescription: `Pedido ${invoiceNumber} creado por administrador`
+      description: `Pedido ${invoiceNumber} creado por administrador`
     });
     
     await db.insert(userNotifications).values({
@@ -506,6 +504,36 @@ export async function registerRoutes(
       res.status(500).json({ message: "Error fetching documents" });
     }
   });
+
+  app.delete("/api/user/documents/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const docId = parseInt(req.params.id);
+      
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user || user.accountStatus === 'pending') {
+        return res.status(403).json({ message: "No puedes eliminar documentos mientras tu cuenta está en revisión" });
+      }
+      
+      const docs = await db.select().from(applicationDocumentsTable)
+        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
+        .where(and(
+          eq(applicationDocumentsTable.id, docId),
+          eq(ordersTable.userId, userId)
+        ));
+      
+      if (!docs.length) {
+        return res.status(404).json({ message: "Documento no encontrado" });
+      }
+      
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting document:", error);
+      res.status(500).json({ message: "Error al eliminar documento" });
+    }
+  });
+
   app.post("/api/admin/send-email", isAdmin, async (req, res) => {
     try {
       const { to, subject, message, userId } = req.body;
@@ -1284,15 +1312,18 @@ export async function registerRoutes(
 </html>`;
 
     // Store as document for user
-    await db.insert(applicationDocumentsTable).values({
-      userId,
-      fileName: `Factura ${invoiceNumber} - ${concept}`,
-      fileType: "text/html",
-      fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
-      documentType: "invoice",
-      reviewStatus: "approved",
-      uploadedBy: req.session.userId
-    });
+    const [userOrder] = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
+    if (userOrder) {
+      await db.insert(applicationDocumentsTable).values({
+        orderId: userOrder.id,
+        fileName: `Factura ${invoiceNumber} - ${concept}`,
+        fileType: "text/html",
+        fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
+        documentType: "invoice",
+        reviewStatus: "approved",
+        uploadedBy: req.session.userId
+      });
+    }
 
     res.json({ success: true, invoiceNumber });
   }));
