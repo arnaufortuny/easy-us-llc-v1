@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-// Add SSL mode to connection string if not present to resolve warnings
+// Add SSL mode to connection string if not present to resolve warnings and improve stability
 const connectionString = process.env.DATABASE_URL!;
 const finalUrl = !connectionString.includes("sslmode=") 
   ? `${connectionString}${connectionString.includes("?") ? "&" : "?"}sslmode=require`
@@ -20,6 +20,7 @@ export const pool = new Pool({
   connectionString: finalUrl,
   ssl: {
     rejectUnauthorized: false
-  }
+  },
+  connectionTimeoutMillis: 5000, // Short timeout to avoid blocking server start
 });
 export const db = drizzle(pool, { schema });
