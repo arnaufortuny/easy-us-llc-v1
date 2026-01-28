@@ -91,8 +91,6 @@ export default function Dashboard() {
     idType: '',
     birthDate: ''
   });
-  const [passwordData, setPasswordData] = useState({ current: '', newPassword: '', confirm: '' });
-  const [showPasswordChange, setShowPasswordChange] = useState(false);
   const { toast } = useToast();
   
   // Only allow profile editing for active and VIP accounts
@@ -120,6 +118,10 @@ export default function Dashboard() {
   const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
   const [uploadDocType, setUploadDocType] = useState("passport");
   const [uploadNotes, setUploadNotes] = useState("");
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
     if (user) {
@@ -201,23 +203,6 @@ export default function Dashboard() {
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
     refetchInterval: 15000,
-  });
-
-  const changePasswordMutation = useMutation({
-    mutationFn: async () => {
-      await apiRequest("POST", "/api/user/change-password", { 
-        currentPassword: passwordData.current, 
-        newPassword: passwordData.newPassword 
-      });
-    },
-    onSuccess: () => {
-      setPasswordData({ current: '', newPassword: '', confirm: '' });
-      setShowPasswordChange(false);
-      toast({ title: "Contraseña cambiada", description: "Tu nueva contraseña está activa." });
-    },
-    onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo cambiar la contraseña", variant: "destructive" });
-    }
   });
 
   const markNotificationRead = useMutation({
@@ -331,6 +316,22 @@ export default function Dashboard() {
     },
     onError: () => {
       toast({ title: "Error", description: "No se pudo eliminar la cuenta", variant: "destructive" });
+    }
+  });
+
+  const changePasswordMutation = useMutation({
+    mutationFn: async (data: { currentPassword: string; newPassword: string }) => {
+      await apiRequest("POST", "/api/user/change-password", data);
+    },
+    onSuccess: () => {
+      toast({ title: "Contraseña actualizada", description: "Tu contraseña ha sido cambiada correctamente." });
+      setShowPasswordForm(false);
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo cambiar la contraseña", variant: "destructive" });
     }
   });
 
@@ -910,6 +911,49 @@ export default function Dashboard() {
                         </div>
                         <NewsletterToggle />
                       </div>
+                    </div>
+                    <div className="mt-8 pt-8 border-t">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="font-black text-primary">Cambiar Contraseña</h4>
+                          <p className="text-xs text-muted-foreground">Actualiza tu contraseña de acceso.</p>
+                        </div>
+                        {!showPasswordForm && (
+                          <Button variant="outline" className="rounded-full" onClick={() => setShowPasswordForm(true)} data-testid="button-show-password-form">
+                            Cambiar
+                          </Button>
+                        )}
+                      </div>
+                      {showPasswordForm && (
+                        <div className="space-y-3 p-4 bg-gray-50 rounded-xl">
+                          <div className="space-y-1">
+                            <Label className="text-xs">Contraseña actual</Label>
+                            <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="••••••••" data-testid="input-current-password" />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Nueva contraseña</Label>
+                            <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Mínimo 8 caracteres" data-testid="input-new-password" />
+                          </div>
+                          <div className="space-y-1">
+                            <Label className="text-xs">Confirmar nueva contraseña</Label>
+                            <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repite la contraseña" data-testid="input-confirm-password" />
+                          </div>
+                          {newPassword && confirmPassword && newPassword !== confirmPassword && (
+                            <p className="text-xs text-red-500">Las contraseñas no coinciden</p>
+                          )}
+                          <div className="flex gap-2 pt-2">
+                            <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
+                            <Button 
+                              className="bg-accent text-primary font-black rounded-full flex-1"
+                              onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword })}
+                              disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || changePasswordMutation.isPending}
+                              data-testid="button-save-password"
+                            >
+                              {changePasswordMutation.isPending ? 'Guardando...' : 'Guardar'}
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">
