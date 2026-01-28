@@ -1256,7 +1256,7 @@ export default function Dashboard() {
                     {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
                         <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab}</span>
-                        <span className="sm:hidden">{tab === 'dashboard' ? <BarChart3 className="w-3 h-3" /> : tab === 'calendar' ? 'Cal' : tab === 'orders' ? 'Ord' : tab === 'users' ? 'Cli' : tab === 'newsletter' ? 'News' : 'Msg'}</span>
+                        <span className="sm:hidden flex items-center justify-center">{tab === 'dashboard' ? <BarChart3 className="w-5 h-5" /> : tab === 'calendar' ? <Calendar className="w-5 h-5" /> : tab === 'orders' ? <Package className="w-5 h-5" /> : tab === 'users' ? <Users className="w-5 h-5" /> : tab === 'newsletter' ? <Mail className="w-5 h-5" /> : <MessageSquare className="w-5 h-5" />}</span>
                       </Button>
                     ))}
                   </div>
@@ -1689,7 +1689,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={emailDialog.open} onOpenChange={(open) => setEmailDialog({ open, user: open ? emailDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Email</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1710,7 +1710,7 @@ export default function Dashboard() {
             </DialogContent>
           </Dialog>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Nota</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1732,7 +1732,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-lg w-[95vw] bg-white rounded-lg shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-lg w-auto sm:w-[95vw] m-auto sm:m-0 bg-white rounded-lg shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle className="text-lg font-bold">Editar Usuario</DialogTitle></DialogHeader>
               {editingUser && (
                 <div className="space-y-4 pt-2">
@@ -1831,7 +1831,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-sm w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-lg shadow-2xl z-[100]">
               <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
@@ -1847,7 +1847,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
@@ -1897,7 +1897,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-2xl shadow-2xl z-[100]">
+            <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
               <DialogHeader><DialogTitle className="text-lg font-bold">Crear Factura</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
                 <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-lg">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
@@ -1944,7 +1944,7 @@ export default function Dashboard() {
       )}
 
       <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-sm w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+        <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-sm w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-lg shadow-2xl z-[100]">
           <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
@@ -1960,7 +1960,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+        <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[90vw] m-auto sm:m-0 bg-white rounded-lg shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle className="text-lg font-bold">Subir Documento</DialogTitle></DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
@@ -2038,7 +2038,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[95vw] bg-white rounded-2xl shadow-2xl z-[100]">
+        <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[95vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Cliente</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -2074,7 +2074,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[95vw] bg-white rounded-2xl shadow-2xl z-[100]">
+        <DialogContent className="fixed inset-4 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 max-w-md w-auto sm:w-[95vw] m-auto sm:m-0 bg-white rounded-2xl shadow-2xl z-[100] max-h-[90vh] overflow-y-auto">
           <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Pedido</DialogTitle></DialogHeader>
           <div className="space-y-3 pt-2">
             <div>
