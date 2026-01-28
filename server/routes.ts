@@ -10,6 +10,27 @@ import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
+import puppeteer from "puppeteer";
+
+// Helper function to generate PDF from HTML
+async function generatePdfFromHtml(html: string): Promise<Buffer> {
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
+  try {
+    const page = await browser.newPage();
+    await page.setContent(html, { waitUntil: 'networkidle0' });
+    const pdf = await page.pdf({
+      format: 'A4',
+      printBackground: true,
+      margin: { top: '20mm', right: '20mm', bottom: '20mm', left: '20mm' }
+    });
+    return Buffer.from(pdf);
+  } finally {
+    await browser.close();
+  }
+}
 
 export async function registerRoutes(
   httpServer: Server,
@@ -1203,8 +1224,8 @@ export async function registerRoutes(
       const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
       const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0');
 
-      // Invoice Template
-      res.send(`
+      // Invoice Template HTML (for PDF generation)
+      const invoiceHtml = `
         <!DOCTYPE html>
         <html lang="es">
           <head>
@@ -1231,15 +1252,9 @@ export async function registerRoutes(
               .total-box p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
               .total-box h2 { margin: 5px 0 0; font-size: 2rem; font-weight: 900; color: #6EDC8A; }
               .footer { margin-top: 100px; text-align: center; border-top: 1px solid #E6E9EC; padding-top: 30px; color: #6B7280; font-size: 0.8rem; }
-              .btn-print { background: #6EDC8A; color: #0E1215; border: none; padding: 12px 25px; border-radius: 30px; font-weight: 900; cursor: pointer; font-size: 0.9rem; margin-bottom: 30px; transition: transform 0.2s; }
-              .btn-print:hover { transform: scale(1.05); }
-              @media print { .no-print { display: none; } body { padding: 0; } .total-box { background: #eee !important; color: #000 !important; border: 2px solid #000; } .total-box h2 { color: #000 !important; } }
             </style>
           </head>
           <body>
-            <div class="no-print">
-              <button class="btn-print" onclick="window.print()">DESCARGAR / IMPRIMIR FACTURA</button>
-            </div>
             <div class="header">
               <div class="logo-container">
                 <h1>EASY US LLC</h1>
@@ -1300,7 +1315,14 @@ export async function registerRoutes(
             </div>
           </body>
         </html>
-      `);
+      `;
+
+      // Generate PDF
+      const pdfBuffer = await generatePdfFromHtml(invoiceHtml);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="Factura-${invoiceNumber}.pdf"`);
+      res.send(pdfBuffer);
     } catch (error) {
       console.error("Invoice Error:", error);
       res.status(500).send("Error al generar factura");
@@ -2170,23 +2192,32 @@ export async function registerRoutes(
     res.send(generateInvoiceHtml(order));
   });
 
-  // Client Receipt/Resumen Route
+  // Client Receipt/Resumen Route (PDF)
   app.get("/api/orders/:id/receipt", isAuthenticated, async (req: any, res) => {
-    const orderId = Number(req.params.id);
-    const order = await storage.getOrder(orderId);
-    
-    if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
-    if (order.userId !== req.session.userId && !req.session.isAdmin) {
-      return res.status(403).json({ message: "Acceso denegado" });
+    try {
+      const orderId = Number(req.params.id);
+      const order = await storage.getOrder(orderId);
+      
+      if (!order) return res.status(404).json({ message: "Pedido no encontrado" });
+      if (order.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
+      // Get application requestCode (LLC or Maintenance)
+      const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
+      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+      
+      const receiptHtml = generateReceiptHtml(order, requestCode);
+      const pdfBuffer = await generatePdfFromHtml(receiptHtml);
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `inline; filename="Recibo-${requestCode}.pdf"`);
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error("Receipt Error:", error);
+      res.status(500).send("Error al generar recibo");
     }
-    
-    // Get application requestCode (LLC or Maintenance)
-    const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
-    const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
-    const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
-    
-    res.setHeader('Content-Type', 'text/html');
-    res.send(generateReceiptHtml(order, requestCode));
   });
 
   // Order Events Timeline

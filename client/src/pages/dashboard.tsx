@@ -1559,6 +1559,7 @@ export default function Dashboard() {
                         {adminOrders?.map((order: any) => {
                           const app = order.application;
                           if (!app) return null;
+                          const fiscalOrderCode = app?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
                           return (
                             <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
@@ -1566,7 +1567,7 @@ export default function Dashboard() {
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
                                   <p className="text-xs md:text-sm text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
                                 </div>
-                                <Badge variant="outline" className="text-xs w-fit">{orderCode}</Badge>
+                                <Badge variant="outline" className="text-xs w-fit">{fiscalOrderCode}</Badge>
                               </div>
                               {/* Fechas - Grid compacto en móvil */}
                               <div className="grid grid-cols-2 gap-2 md:gap-4">
