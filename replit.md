@@ -26,6 +26,16 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Email System Enhancement (Jan 2026):**
+  - Eliminated duplicate welcome emails (now only sent on registration, not order creation)
+  - All prices converted to euros (€) across all email templates
+  - Professional metadata system: EmailMetadata interface with clientId, date, reference, IP tracking
+  - Modern email design: gradients, shadows, Inter font stack, rounded corners
+  - SVG icons replace emojis for professional appearance (lock icon for OTP, checkmark for confirmations)
+  - Enhanced OTP template with purpose parameter for context-specific messages
+  - Welcome email now includes client ID for tracking
+  - Email header improvements: logo with cache control, metadata table, gradient backgrounds
+  - Footer improvements: button-style CTAs for WhatsApp and dashboard access
 - **System Optimization & Hardening (Jan 2026):**
   - Fixed activity_logs references (table no longer exists) - now uses email-only logging
   - Optimized query polling intervals: orders 30s, messages/notifications 60s with staleTime
