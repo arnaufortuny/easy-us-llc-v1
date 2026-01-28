@@ -10,7 +10,7 @@ if (!process.env.DATABASE_URL) {
   );
 }
 
-// Optimized connection string processing
+// Optimized connection string processing with simplified pool
 let connectionString = process.env.DATABASE_URL!;
 if (!connectionString.includes("sslmode=")) {
   connectionString += (connectionString.includes("?") ? "&" : "?") + "sslmode=require";
@@ -21,8 +21,8 @@ export const pool = new Pool({
   ssl: {
     rejectUnauthorized: false
   },
-  connectionTimeoutMillis: 2000, // Fail extremely fast
-  idleTimeoutMillis: 10000,
-  max: 10,
+  connectionTimeoutMillis: 1000, // 1 second timeout to fail immediately if blocked
+  idleTimeoutMillis: 5000,
+  max: 5, // Minimum pool size for speed
 });
 export const db = drizzle(pool, { schema });

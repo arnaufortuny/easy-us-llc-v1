@@ -7,22 +7,26 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
-// ABSOLUTELY FIRST: Respond to health checks immediately.
-// Use raw Node.js server to intercept '/' before ANY Express logic
+// ABSOLUTELY FIRST: Respond to health checks immediately at the Node.js layer.
+// This bypasses ALL Express middleware, logic, and routing.
 httpServer.on('request', (req, res) => {
-  if (req.url === '/' || req.url === '/health' || req.url === '/healthz') {
+  // Catch ANY request to '/' or '/health' or '/healthz'
+  const url = req.url || '/';
+  if (url === '/' || url === '/health' || url === '/healthz') {
+    // If it's a browser asking for HTML, we skip and let Express handle it later
     const accept = req.headers['accept'] || '';
-    // If it's a health check (not seeking HTML) or from Replit
-    // We respond OK for everything on '/' unless it's explicitly a browser asking for HTML
-    if (!accept.includes('text/html') || req.headers['x-replit-deployment-id'] || (req.headers['user-agent'] && req.headers['user-agent'].includes('Replit'))) {
-      res.writeHead(200, {
-        'Content-Type': 'text/plain',
-        'Cache-Control': 'no-cache, no-store, must-revalidate',
-        'Connection': 'close'
-      });
-      res.end('OK');
-      return;
+    if (accept.includes('text/html') && !req.headers['x-replit-deployment-id']) {
+      return; 
     }
+
+    // Otherwise, respond IMMEDIATELY with 200 OK.
+    // This is for Replit health checks and deployment bots.
+    res.writeHead(200, {
+      'Content-Type': 'text/plain',
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      'Connection': 'close'
+    });
+    res.end('OK');
   }
 });
 
