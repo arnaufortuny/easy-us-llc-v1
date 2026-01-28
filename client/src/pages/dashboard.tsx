@@ -603,7 +603,7 @@ export default function Dashboard() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
-          <div className="lg:col-span-2 space-y-4 md:space-y-6 order-2 lg:order-1">
+          <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1">
             <AnimatePresence mode="wait">
               {activeTab === 'services' && (
                 <motion.div
@@ -1435,18 +1435,8 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {adminUsers?.map(u => (
-                          <div key={u.id} className="p-3 md:p-4 space-y-2">
+                          <div key={u.id} className="p-3 md:p-4 space-y-3">
                             <div className="flex flex-col gap-2">
-                              <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
-                                <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="active">Activo</SelectItem>
-                                  <SelectItem value="pending">Revisión</SelectItem>
-                                  <SelectItem value="suspended">Suspendido (Temporal)</SelectItem>
-                                  <SelectItem value="deactivated">Desactivado (Permanente)</SelectItem>
-                                  <SelectItem value="vip">VIP</SelectItem>
-                                </SelectContent>
-                              </Select>
                               <div className="flex items-center gap-2 flex-wrap">
                                 <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
                                 <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'deactivated' ? 'bg-gray-200 text-gray-600' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
@@ -1460,8 +1450,21 @@ export default function Dashboard() {
                                 {u.businessActivity && <span className="mr-2">• {u.businessActivity}</span>}
                                 {u.city && <span>• {u.city}</span>}
                               </p>
+                              <div className="w-full">
+                                <Label className="text-[10px] text-muted-foreground mb-1 block">Estado de cuenta</Label>
+                                <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
+                                  <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="active">Activo</SelectItem>
+                                    <SelectItem value="pending">Revisión</SelectItem>
+                                    <SelectItem value="suspended">Suspendido (Temporal)</SelectItem>
+                                    <SelectItem value="deactivated">Desactivado (Permanente)</SelectItem>
+                                    <SelectItem value="vip">VIP</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </div>
                             </div>
-                            <div className="flex flex-wrap gap-1">
+                            <div className="flex flex-wrap gap-1 justify-center md:justify-start">
                               <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
                                 <Edit className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Editar</span>
                               </Button>
@@ -1642,7 +1645,7 @@ export default function Dashboard() {
                           </AnimatePresence>
           </div>
 
-          <div className="space-y-6 md:gap-8 order-1 lg:order-2">
+          <div className="space-y-6 md:gap-8 order-2 lg:order-2">
             <section className="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm">
               <h3 className="text-lg md:text-xl font-black tracking-tight text-primary mb-6 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-accent" /> Seguimiento
@@ -1718,7 +1721,7 @@ export default function Dashboard() {
               <DialogHeader><DialogTitle className="text-lg font-bold">Editar Usuario</DialogTitle></DialogHeader>
               {editingUser && (
                 <div className="space-y-4 pt-2">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs">Nombre</Label>
                       <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} data-testid="input-edit-firstname" />
@@ -1736,11 +1739,11 @@ export default function Dashboard() {
                     <Label className="text-xs">Teléfono</Label>
                     <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} data-testid="input-edit-phone" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger className="bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                         <SelectContent>
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
@@ -1777,7 +1780,7 @@ export default function Dashboard() {
                     <Label className="text-xs">Dirección</Label>
                     <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" data-testid="input-edit-address" />
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs">Ciudad</Label>
                       <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} data-testid="input-edit-city" />
@@ -1787,7 +1790,7 @@ export default function Dashboard() {
                       <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} data-testid="input-edit-postal" />
                     </div>
                   </div>
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs">Provincia</Label>
                       <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} data-testid="input-edit-province" />
