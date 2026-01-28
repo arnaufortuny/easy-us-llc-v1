@@ -555,8 +555,7 @@ export default function Dashboard() {
                       {notifications?.map((notif) => (
                         <Card 
                           key={notif.id} 
-                          className={`rounded-2xl border-0 shadow-sm cursor-pointer transition-all hover:shadow-md ${!notif.isRead ? 'bg-accent/5 border-l-4 border-l-accent' : ''}`}
-                          onClick={() => markNotificationRead.mutate(notif.id)}
+                          className={`rounded-2xl border-0 shadow-sm transition-all hover:shadow-md ${!notif.isRead ? 'bg-accent/5 border-l-4 border-l-accent' : ''}`}
                         >
                           <CardContent className="p-4 md:p-6">
                             <div className="flex items-start justify-between gap-4">
@@ -575,7 +574,22 @@ export default function Dashboard() {
                                 </div>
                                 <h3 className="font-black text-sm md:text-base">{notif.title}</h3>
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
+                                {notif.type === 'action_required' && (
+                                  <Button 
+                                    className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4"
+                                    onClick={() => {
+                                      markNotificationRead.mutate(notif.id);
+                                      setActiveTab('documents');
+                                    }}
+                                    data-testid={`button-complete-action-${notif.id}`}
+                                  >
+                                    Completar
+                                  </Button>
+                                )}
                               </div>
+                              {!notif.isRead && (
+                                <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0 mt-2" />
+                              )}
                             </div>
                           </CardContent>
                         </Card>
