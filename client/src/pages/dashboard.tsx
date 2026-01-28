@@ -327,15 +327,15 @@ export default function Dashboard() {
   }
 
   const menuItems = [
-    { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
-    { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Alertas' },
-    { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Mensajes' },
-    { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Documentos' },
-    { id: 'payments', label: 'Pagos y Facturas', icon: CreditCard, mobileLabel: 'Pagos' },
-    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
+    { id: 'services', label: 'Servicios', icon: Package, mobileLabel: 'Servicios' },
+    { id: 'notifications', label: 'Alertas', icon: BellRing, mobileLabel: 'Alertas' },
+    { id: 'messages', label: 'Mensajes', icon: Mail, mobileLabel: 'Msgs' },
+    { id: 'documents', label: 'Docs', icon: FileText, mobileLabel: 'Docs' },
+    { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
+    { id: 'profile', label: 'Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [
-      { id: 'admin', label: 'Administración', icon: Shield, mobileLabel: 'Admin' },
-      { id: 'logs', label: 'Logs Sistema', icon: FileText, mobileLabel: 'Logs' }
+      { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' },
+      { id: 'logs', label: 'Logs', icon: FileText, mobileLabel: 'Logs' }
     ] : []),
   ];
 
