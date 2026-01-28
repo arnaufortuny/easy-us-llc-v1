@@ -123,11 +123,18 @@ export async function registerRoutes(
       };
       const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
 
+      // If order completed, upgrade user to VIP status
+      if (status === 'completed' && order.userId) {
+        await db.update(usersTable)
+          .set({ accountStatus: 'vip' })
+          .where(eq(usersTable.id, order.userId));
+      }
+
       // Create Notification in Dashboard
       await db.insert(userNotifications).values({
         userId: order.userId,
         title: `Actualización de pedido: ${statusLabel}`,
-        message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.`,
+        message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
         type: 'update',
         isRead: false
       });
