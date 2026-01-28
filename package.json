@@ -62,6 +62,7 @@
     "escape-html": "^1.0.3",
     "express": "^4.21.2",
     "express-session": "^1.19.0",
+    "framer-motion": "^12.29.2",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.562.0",
     "memoizee": "^0.4.17",
