@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response, NextFunction } from "express";
 import { db } from "./db";
-import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountSuspendedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
+import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 
@@ -72,32 +72,8 @@ export async function registerRoutes(
     res.status(200).send("OK");
   });
 
-    // Unified activity log helper (lightweight - email only, no DB table)
-    const logActivity = async (title: string, data: any, req?: any) => {
-      const ip = req?.ip || "unknown";
-      
-      // Email notification to admin for all logs
-      sendEmail({
-        to: "afortuny07@gmail.com",
-        subject: `[LOG] ${title}`,
-        html: `
-          <div style="background-color: #f9f9f9; padding: 20px 0;">
-            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-              ${getEmailHeader()}
-              <div style="padding: 40px;">
-                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
-                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                  ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
-                </div>
-                <p style="font-size: 12px; color: #999;">IP: ${ip}</p>
-                <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-              </div>
-              ${getEmailFooter()}
-            </div>
-          </div>
-        `,
-      }).catch(() => {});
-
+    // Unified activity log helper (console only - no email spam)
+    const logActivity = async (title: string, data: any, _req?: any) => {
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
       }
@@ -1452,8 +1428,8 @@ export async function registerRoutes(
     try {
       if (req.session?.userId) {
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
-        if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'suspended')) {
-          return res.status(403).json({ message: "Tu cuenta está en revisión o suspendida. No puedes realizar nuevos pedidos en este momento." });
+        if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
+          return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
       }
       const { productId } = api.orders.create.input.parse(req.body);

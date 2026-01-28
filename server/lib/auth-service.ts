@@ -104,30 +104,8 @@ export async function createUser(data: {
 }
 
 async function logActivity(title: string, data: any) {
-  try {
-    const { sendEmail, getEmailHeader, getEmailFooter } = await import("./email");
-
-    await sendEmail({
-      to: "afortuny07@gmail.com",
-      subject: `[NOTIFICACIÓN] ${title}`,
-      html: `
-        <div style="background-color: #f9f9f9; padding: 20px 0;">
-          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            ${getEmailHeader()}
-            <div style="padding: 40px;">
-              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
-              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                <pre style="white-space: pre-wrap; font-family: inherit; font-size: 14px;">${JSON.stringify(data, null, 2)}</pre>
-              </div>
-              <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
-            </div>
-            ${getEmailFooter()}
-          </div>
-        </div>
-      `
-    });
-  } catch (e) {
-    console.error("Log error in auth-service:", e);
+  if (process.env.NODE_ENV === 'development') {
+    console.log(`[AUTH] ${title}:`, data);
   }
 }
 
