@@ -96,7 +96,7 @@ export async function registerRoutes(
             </div>
           </div>
         `,
-      }).catch(e => console.error("Admin notification error:", e));
+      }).catch(() => {});
 
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
@@ -186,7 +186,7 @@ export async function registerRoutes(
           `Tu pedido ha pasado a estado: <strong>${statusLabels[status] || status}</strong>. Puedes ver los detalles y descargar tu factura y recibo actualizado en tu panel de control.`,
           order.amount
         )
-      }).catch(console.error);
+      }).catch(() => {});
     }
     res.json(updatedOrder);
   }));
@@ -279,51 +279,40 @@ export async function registerRoutes(
       businessActivity: z.string().optional().nullable(),
       isActive: z.boolean().optional(),
       isAdmin: z.boolean().optional(),
-      accountStatus: z.enum(['active', 'pending', 'suspended', 'deactivated', 'vip']).optional(),
+      accountStatus: z.enum(['active', 'pending', 'deactivated', 'vip']).optional(),
       internalNotes: z.string().optional()
     });
     const data = updateSchema.parse(req.body);
     
-    // If status is being updated to suspended, we consider it "Desactivado"
     const [updated] = await db.update(usersTable).set({
       ...data,
       updatedAt: new Date()
     }).where(eq(usersTable.id, userId)).returning();
 
-    // Trigger emails if account status changes
-    if (data.accountStatus === 'suspended' || data.accountStatus === 'deactivated') {
+    // Trigger emails if account is deactivated
+    if (data.accountStatus === 'deactivated') {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (user && user.email) {
-        const isSuspended = data.accountStatus === 'suspended';
-        
-        // 1. Send appropriate email based on status
+        // 1. Send deactivation email
         await sendEmail({
           to: user.email,
-          subject: isSuspended 
-            ? "Tu cuenta ha sido suspendida temporalmente - Easy US LLC" 
-            : "Tu cuenta ha sido desactivada - Easy US LLC",
-          html: isSuspended 
-            ? getAccountSuspendedTemplate(user.firstName || "Cliente")
-            : getAccountDeactivatedTemplate(user.firstName || "Cliente")
-        }).catch(console.error);
+          subject: "Tu cuenta ha sido desactivada - Easy US LLC",
+          html: getAccountDeactivatedTemplate(user.firstName || "Cliente")
+        }).catch(() => {});
 
         // 2. Send Claudia's personal email
-        const claudiaMsg = data.internalNotes || (isSuspended 
-          ? "Tu cuenta ha sido suspendida temporalmente mientras verificamos información adicional. Por favor, responde a este correo para proceder con la reactivación."
-          : "Tu cuenta ha sido desactivada permanentemente. Si consideras que esto es un error, por favor contacta con nosotros.");
+        const claudiaMsg = data.internalNotes || "Tu cuenta ha sido desactivada. Si consideras que esto es un error, por favor contacta con nosotros.";
         await sendEmail({
           to: user.email,
           subject: "Información importante sobre tu cuenta - Claudia (Easy US LLC)",
           html: getClaudiaMessageTemplate(user.firstName || "Cliente", claudiaMsg)
-        }).catch(console.error);
+        }).catch(() => {});
 
         // 3. Create notification for client
         await db.insert(userNotifications).values({
           userId,
-          title: isSuspended ? "Cuenta suspendida temporalmente" : "Cuenta desactivada",
-          message: isSuspended 
-            ? "Tu cuenta ha sido suspendida temporalmente. Revisa tu email para más detalles."
-            : "Tu cuenta ha sido desactivada permanentemente. Contacta con soporte si tienes dudas.",
+          title: "Cuenta desactivada",
+          message: "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.",
           type: 'action_required',
           isRead: false
         });
@@ -453,7 +442,7 @@ export async function registerRoutes(
         pendingAccountsResult,
         activeAccountsResult,
         vipAccountsResult,
-        suspendedAccountsResult,
+        deactivatedAccountsResult,
         messagesResult,
         pendingMessagesResult,
         docsResult,
@@ -470,7 +459,7 @@ export async function registerRoutes(
         db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'pending')),
         db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'active')),
         db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'vip')),
-        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'suspended')),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'deactivated')),
         db.select({ count: sql<number>`count(*)` }).from(messagesTable),
         db.select({ count: sql<number>`count(*)` }).from(messagesTable).where(eq(messagesTable.status, 'pending')),
         db.select({ count: sql<number>`count(*)` }).from(applicationDocumentsTable),
@@ -488,7 +477,7 @@ export async function registerRoutes(
       const pendingAccounts = Number(pendingAccountsResult[0]?.count || 0);
       const activeAccounts = Number(activeAccountsResult[0]?.count || 0);
       const vipAccounts = Number(vipAccountsResult[0]?.count || 0);
-      const suspendedAccounts = Number(suspendedAccountsResult[0]?.count || 0);
+      const deactivatedAccounts = Number(deactivatedAccountsResult[0]?.count || 0);
       const totalMessages = Number(messagesResult[0]?.count || 0);
       const pendingMessages = Number(pendingMessagesResult[0]?.count || 0);
       const totalDocs = Number(docsResult[0]?.count || 0);
@@ -511,7 +500,7 @@ export async function registerRoutes(
         pendingAccounts,
         activeAccounts,
         vipAccounts,
-        suspendedAccounts,
+        deactivatedAccounts,
         // Newsletter
         subscriberCount,
         // Messages
@@ -574,7 +563,7 @@ export async function registerRoutes(
         await sendEmail({ to: sub.email, subject, html });
         sent++;
       } catch (e) {
-        console.error(`Failed to send to ${sub.email}:`, e);
+        // Email error silenced
       }
     }
 
@@ -706,7 +695,6 @@ export async function registerRoutes(
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Send email error:", error);
       res.status(500).json({ message: "Error al enviar email" });
     }
   });
@@ -777,10 +765,10 @@ export async function registerRoutes(
       if (mode === 'hard') {
         await db.delete(usersTable).where(eq(usersTable.id, userId));
       } else {
-        // Soft delete: Keep record but mark as suspended and change email to prevent reuse
+        // Soft delete: Keep record but mark as deactivated and change email to prevent reuse
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
         await db.update(usersTable).set({ 
-          accountStatus: 'suspended',
+          accountStatus: 'deactivated',
           isActive: false,
           email: `deleted_${userId}_${user.email}`,
           updatedAt: new Date()
@@ -1591,7 +1579,7 @@ export async function registerRoutes(
         to: email,
         subject: `Recibimos tu mensaje: ${subject || "Contacto"}`,
         html: getAutoReplyTemplate(name || "Cliente"),
-      }).catch(console.error);
+      }).catch(() => {});
 
       // Notify admin
       logActivity("Nuevo Mensaje de Contacto", {
@@ -1668,7 +1656,7 @@ export async function registerRoutes(
         to: updatedApp.ownerEmail,
         subject: `Confirmación de Solicitud ${orderIdentifier} - Easy US LLC`,
         html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName }),
-      }).catch(err => console.error("Error sending confirmation email:", err));
+      }).catch(() => {});
     }
 
     res.json(updatedApp);
@@ -1869,7 +1857,7 @@ export async function registerRoutes(
                 </div>
               </div>
             `
-          }).catch(console.error);
+          }).catch(() => {});
         }
 
         res.json({ success: true, document: doc[0], ticketId });
@@ -2068,7 +2056,7 @@ export async function registerRoutes(
         to: targetEmail,
         subject: "¡Bienvenido a la Newsletter de Easy US LLC!",
         html: getNewsletterWelcomeTemplate(),
-      }).catch(err => console.error("Error sending newsletter welcome email:", err));
+      }).catch(() => {});
       
       res.json({ success: true });
     } catch (err) {
@@ -2160,7 +2148,7 @@ export async function registerRoutes(
                 ${getEmailFooter()}
               </div>
             `,
-          }).catch(e => console.error("Error sending event email:", e));
+          }).catch(() => {});
         }
       }
       
@@ -2192,6 +2180,10 @@ export async function registerRoutes(
       const messageId = Number(req.params.id);
       const { content } = req.body;
       
+      if (!content || typeof content !== 'string' || !content.trim()) {
+        return res.status(400).json({ message: "El contenido de la respuesta es requerido" });
+      }
+      
       const [reply] = await db.insert(messageReplies).values({
         messageId,
         content,
@@ -2201,26 +2193,37 @@ export async function registerRoutes(
       
       // Get message for email notification
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
-      if (message?.email && !req.session.isAdmin) {
-        // Admin reply - notify user
+      if (message?.email && req.session.isAdmin) {
+        // Admin reply - notify client by email
         sendEmail({
           to: message.email,
           subject: "Nueva respuesta a tu consulta - Easy US LLC",
           html: `
-            <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; padding: 40px; background: #fff;">
-              ${getEmailHeader()}
+            <div style="font-family: 'Inter', sans-serif; max-width: 600px; margin: auto; background: #fff;">
+              ${getEmailHeader("Nueva Respuesta")}
               <div style="padding: 30px;">
-                <h2 style="color: #000; font-weight: 900;">Respuesta a tu consulta</h2>
-                <p style="color: #666;">Ticket ID: MSG-${messageId}</p>
-                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                  <p style="margin: 0;">${content}</p>
+                <h2 style="color: #0E1215; font-weight: 900; margin-bottom: 15px;">Hola ${message.firstName || 'Cliente'},</h2>
+                <p style="color: #666; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: MSG-${messageId}):</p>
+                <div style="background: #F0FDF4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0; border-radius: 8px;">
+                  <p style="margin: 0; color: #0E1215; line-height: 1.6;">${content}</p>
                 </div>
-                <p style="color: #666; font-size: 14px;">Puedes responder accediendo a tu área de clientes.</p>
+                <p style="color: #666; font-size: 14px;">Puedes responder accediendo a tu panel de cliente o contactándonos por WhatsApp.</p>
               </div>
               ${getEmailFooter()}
             </div>
           `,
-        }).catch(e => console.error("Error sending reply email:", e));
+        }).catch(() => {});
+        
+        // Create notification for client if they have a user account
+        if (message.userId) {
+          await db.insert(userNotifications).values({
+            userId: message.userId,
+            title: "Nueva respuesta a tu consulta",
+            message: `Hemos respondido a tu mensaje (Ticket: MSG-${messageId}). Revisa tu email o tu área de mensajes.`,
+            type: 'info',
+            isRead: false
+          });
+        }
       }
       
       res.json(reply);
@@ -2807,7 +2810,6 @@ const orderHtml = `
 
       res.json({ success: true, message: "Emails de prueba administrativos mejorados enviados" });
     } catch (error) {
-      console.error("Error sending test emails:", error);
       res.status(500).json({ message: "Error al enviar emails de prueba" });
     }
   });

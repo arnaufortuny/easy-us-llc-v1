@@ -206,8 +206,10 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       setReplyContent("");
+      setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
-      toast({ title: "Respuesta enviada", description: "Tu mensaje ha sido registrado." });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+      toast({ title: "Respuesta enviada", description: user?.isAdmin ? "El cliente recibirá una notificación por email." : "Tu mensaje ha sido registrado." });
     }
   });
 
@@ -255,7 +257,7 @@ export default function Dashboard() {
     pendingAccounts: number;
     activeAccounts: number;
     vipAccounts: number;
-    suspendedAccounts: number;
+    deactivatedAccounts: number;
     subscriberCount: number;
     totalMessages: number;
     pendingMessages: number;
@@ -498,7 +500,7 @@ export default function Dashboard() {
     );
   }
 
-  if (user?.accountStatus === 'suspended') {
+  if (user?.accountStatus === 'deactivated') {
     return (
       <div className="min-h-screen bg-[#F7F7F5] font-sans flex flex-col">
         <Navbar />
@@ -515,10 +517,10 @@ export default function Dashboard() {
                   <AlertCircle className="w-10 h-10 text-red-500" />
                 </div>
                 <h1 className="text-2xl md:text-3xl font-black text-primary tracking-tight mb-4">
-                  Tu cuenta está desactivada
+                  Tu cuenta ha sido desactivada
                 </h1>
                 <p className="text-muted-foreground font-medium leading-relaxed mb-8">
-                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información.
+                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información. No puedes enviar formularios ni solicitudes mientras tu cuenta esté desactivada.
                 </p>
                 <div className="space-y-3">
                   <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
@@ -1021,13 +1023,11 @@ export default function Dashboard() {
                       )}
                     </div>
                     {!canEdit && (
-                      <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : user?.accountStatus === 'suspended' ? 'bg-yellow-50 border border-yellow-200' : 'bg-red-50 border border-red-200'}`}>
-                        <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : user?.accountStatus === 'suspended' ? 'text-yellow-700' : 'text-red-700'}`}>
+                      <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : 'bg-red-50 border border-red-200'}`}>
+                        <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : 'text-red-700'}`}>
                           {user?.accountStatus === 'pending' 
                             ? 'Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.' 
-                            : user?.accountStatus === 'suspended' 
-                            ? 'Tu cuenta está suspendida temporalmente. Contacta con soporte para más información.'
-                            : 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil.'}
+                            : 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil ni enviar solicitudes.'}
                         </p>
                       </div>
                     )}
@@ -1039,8 +1039,8 @@ export default function Dashboard() {
                         </div>
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>
-                          <p className={`text-lg font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'suspended' ? 'text-red-600' : user?.accountStatus === 'deactivated' ? 'text-gray-500' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
-                            {user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'deactivated' ? 'Desactivado' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}
+                          <p className={`text-lg font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
+                            {user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'En revisión' : user?.accountStatus === 'deactivated' ? 'Desactivada' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}
                           </p>
                         </div>
                       </div>
@@ -1351,9 +1351,9 @@ export default function Dashboard() {
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-red-50 to-white">
                             <div className="flex items-center gap-1">
                               <UserX className="w-3 h-3 text-red-500" />
-                              <p className="text-[10px] md:text-xs text-muted-foreground">Suspendidos</p>
+                              <p className="text-[10px] md:text-xs text-muted-foreground">Desactivadas</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-red-500" data-testid="stat-suspended-users">{adminStats?.suspendedAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-red-500" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -1442,8 +1442,8 @@ export default function Dashboard() {
                             <div className="flex flex-col gap-2">
                               <div className="flex items-center gap-2 flex-wrap">
                                 <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'deactivated' ? 'bg-gray-200 text-gray-600' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                  {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'deactivated' ? 'DESACTIVADO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
+                                <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'deactivated' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                  {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'EN REVISIÓN' : u.accountStatus === 'deactivated' ? 'DESACTIVADA' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
                                 </Badge>
                                 {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
                               </div>
@@ -1458,10 +1458,9 @@ export default function Dashboard() {
                                 <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
                                   <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="active">Activo</SelectItem>
-                                    <SelectItem value="pending">Revisión</SelectItem>
-                                    <SelectItem value="suspended">Suspendido (Temporal)</SelectItem>
-                                    <SelectItem value="deactivated">Desactivado (Permanente)</SelectItem>
+                                    <SelectItem value="active">Verificado</SelectItem>
+                                    <SelectItem value="pending">En revisión</SelectItem>
+                                    <SelectItem value="deactivated">Desactivada</SelectItem>
                                     <SelectItem value="vip">VIP</SelectItem>
                                   </SelectContent>
                                 </Select>
@@ -1623,17 +1622,63 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {adminMessages?.map((msg: any) => (
-                          <div key={msg.id} className="p-4 space-y-2">
+                          <div 
+                            key={msg.id} 
+                            className="p-4 space-y-2 hover:bg-accent/5 cursor-pointer transition-colors"
+                            onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
+                            data-testid={`inbox-message-${msg.id}`}
+                          >
                             <div className="flex justify-between items-start">
                               <div>
                                 <p className="font-black text-sm">{msg.firstName} {msg.lastName}</p>
                                 <p className="text-xs text-muted-foreground">{msg.email} {msg.phone && `• ${msg.phone}`}</p>
                               </div>
-                              <Badge variant="secondary" className="text-[10px]">{msg.status || 'pending'}</Badge>
+                              <div className="flex items-center gap-2">
+                                <Badge variant="outline" className="text-[10px]">MSG-{msg.id}</Badge>
+                                <Badge variant="secondary" className="text-[10px]">{msg.status || 'pendiente'}</Badge>
+                              </div>
                             </div>
                             <p className="text-xs font-medium">{msg.subject}</p>
                             <p className="text-xs text-muted-foreground">{msg.message}</p>
+                            
+                            {msg.replies && msg.replies.length > 0 && (
+                              <div className="pl-4 border-l-2 border-accent/30 space-y-2 mt-3">
+                                {msg.replies.map((reply: any) => (
+                                  <div key={reply.id} className="text-xs">
+                                    <span className={`font-semibold ${reply.isAdmin ? 'text-accent' : 'text-muted-foreground'}`}>
+                                      {reply.isAdmin ? 'Admin' : 'Cliente'}:
+                                    </span>
+                                    <span className="ml-2">{reply.content}</span>
+                                    <span className="text-[10px] text-muted-foreground ml-2">
+                                      {reply.createdAt && new Date(reply.createdAt).toLocaleString('es-ES')}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
                             <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString('es-ES') : ''}</p>
+                            
+                            {selectedMessage?.id === msg.id && (
+                              <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
+                                <Textarea 
+                                  value={replyContent} 
+                                  onChange={(e) => setReplyContent(e.target.value)} 
+                                  placeholder="Escribe tu respuesta al cliente..." 
+                                  className="rounded-xl min-h-[80px] text-sm"
+                                  data-testid="input-admin-reply"
+                                />
+                                <Button 
+                                  onClick={() => sendReplyMutation.mutate(msg.id)} 
+                                  disabled={!replyContent.trim() || sendReplyMutation.isPending} 
+                                  className="bg-accent text-primary font-black rounded-full px-6"
+                                  data-testid="button-send-admin-reply"
+                                >
+                                  {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
+                                  Enviar respuesta
+                                </Button>
+                              </div>
+                            )}
                           </div>
                         ))}
                         {(!adminMessages || adminMessages.length === 0) && (

@@ -10,7 +10,7 @@ export interface EmailMetadata {
 export function getEmailHeader(title: string = "Easy US LLC", metadata?: EmailMetadata) {
   const domain = "easyusllc.com";
   const protocol = 'https';
-  const logoUrl = `${protocol}://${domain}/logo-email.png?v=5`;
+  const logoUrl = `${protocol}://${domain}/logo-icon.png`;
   const now = metadata?.date || new Date();
   const dateStr = now.toLocaleDateString('es-ES', { timeZone: 'Europe/Madrid', day: '2-digit', month: '2-digit', year: 'numeric' });
   const timeStr = now.toLocaleTimeString('es-ES', { timeZone: 'Europe/Madrid', hour: '2-digit', minute: '2-digit' });
@@ -152,7 +152,7 @@ export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
             <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block;" />
+              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" width="60" height="60" style="display: block;" />
             </div>
             <h2 style="font-size: 20px; font-weight: 900; margin: 0; color: #0E1215;">Verificación de Seguridad</h2>
           </div>
@@ -216,7 +216,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
         <div style="padding: 40px;">
           <div style="text-align: center; margin-bottom: 25px;">
             <div style="display: inline-block; margin-bottom: 15px;">
-              <img src="https://easyusllc.com/logo-email.png?v=5" alt="Easy US LLC" width="60" height="60" style="display: block;" />
+              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" width="60" height="60" style="display: block;" />
             </div>
             <h2 style="font-size: 22px; font-weight: 900; margin: 0; color: #0E1215;">¡Gracias, ${name}!</h2>
           </div>
@@ -525,7 +525,7 @@ const transporter = nodemailer.createTransport({
 
 export async function sendEmail({ to, subject, html }: { to: string; subject: string; html: string }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn("[Email] Credentials missing - email not sent");
+    return;
     return;
   }
 
@@ -536,12 +536,8 @@ export async function sendEmail({ to, subject, html }: { to: string; subject: st
       subject,
       html,
     });
-    console.log("[Email] Sent to %s: %s", to, info.messageId);
     return info;
   } catch (error: any) {
-    const code = error?.responseCode || error?.code || 'UNKNOWN';
-    const recipient = error?.rejected?.[0] || to;
-    console.warn(`[Email] Failed (${code}) to ${recipient}: ${error?.response || error?.message || 'Unknown error'}`);
     return null;
   }
 }

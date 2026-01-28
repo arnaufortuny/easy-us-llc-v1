@@ -113,7 +113,7 @@ export class DatabaseStorage implements IStorage {
             </div>
           </div>
         `
-      }).catch(e => console.error("Admin order notification error:", e));
+      }).catch(() => {});
     } catch (e) {
       console.error("Log error in createOrder:", e);
     }

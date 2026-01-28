@@ -97,7 +97,7 @@ export async function createUser(data: {
     });
 
   } catch (emailError) {
-    console.error("Failed to send verification email:", emailError);
+    // Email error silenced
   }
 
   return { user: newUser, verificationToken };
@@ -178,11 +178,11 @@ export async function loginUser(email: string, password: string): Promise<typeof
     throw error;
   }
 
-  if (user.isActive === false || user.accountStatus === 'suspended') {
-    const error = new Error("CUENTA BLOQUEADA TEMPORALMENTE. Por su seguridad su cuenta ha sido temporalmente desactivada, porfavor contacte con nuestro equipo o revise su email para desbloquear su cuenta.");
+  if (user.isActive === false || user.accountStatus === 'deactivated') {
+    const error = new Error("Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.");
     (error as any).locked = true;
     (error as any).status = 403;
-    logActivity("Intento de Login en Cuenta Bloqueada", { userId: user.id, email: user.email });
+    logActivity("Intento de Login en Cuenta Desactivada", { userId: user.id, email: user.email });
     throw error;
   }
 
@@ -194,9 +194,8 @@ export async function loginUser(email: string, password: string): Promise<typeof
     const updates: any = { loginAttempts: newAttempts };
     
     if (newAttempts >= 5) {
-      // Lock account for 1 hour and update status
+      // Lock account for 1 hour (temporary lock, not deactivation)
       updates.lockUntil = new Date(Date.now() + 60 * 60 * 1000);
-      updates.accountStatus = 'suspended';
       
       const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
 
@@ -253,7 +252,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
     await db.update(users).set({ 
       loginAttempts: 0, 
       lockUntil: null,
-      accountStatus: user.accountStatus === 'suspended' ? 'active' : user.accountStatus,
+      accountStatus: user.accountStatus,
       updatedAt: new Date()
     }).where(eq(users.id, user.id));
   }
@@ -300,7 +299,7 @@ export async function createPasswordResetToken(email: string): Promise<string | 
       `,
     });
   } catch (emailError) {
-    console.error("Failed to send password reset email:", emailError);
+    // Email error silenced
   }
 
   return token;
@@ -377,7 +376,7 @@ export async function resendVerificationEmail(userId: string): Promise<boolean> 
       `,
     });
   } catch (emailError) {
-    console.error("Failed to send verification email:", emailError);
+    // Email error silenced
     return false;
   }
 

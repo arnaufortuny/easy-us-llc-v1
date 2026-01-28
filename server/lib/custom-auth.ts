@@ -96,7 +96,7 @@ export function setupCustomAuth(app: Express) {
         to: user.email!,
         subject: "¡Bienvenido a Easy US LLC!",
         html: getWelcomeEmailTemplate(user.firstName || "Cliente", clientId)
-      }).catch(console.error);
+      }).catch(() => {});
 
       req.session.userId = user.id;
       req.session.email = user.email!;
@@ -142,8 +142,8 @@ export function setupCustomAuth(app: Express) {
           return res.status(401).json({ message: "Email o contraseña incorrectos" });
         }
 
-        if (user.accountStatus === 'suspended') {
-          return res.status(403).json({ message: "CUENTA DESACTIVADA. Contacta a nuestro servicio de atención al cliente para más información." });
+        if (user.accountStatus === 'deactivated') {
+          return res.status(403).json({ message: "Tu cuenta ha sido desactivada. Contacta a nuestro servicio de atención al cliente para más información." });
         }
 
         req.session.userId = user.id;
@@ -217,7 +217,7 @@ export function setupCustomAuth(app: Express) {
 
       res.json({ success: true, message: "Email verificado correctamente" });
     } catch (error) {
-      console.error("Verify email error:", error);
+      // Email error silenced
       res.status(500).json({ message: "Error al verificar el email" });
     }
   });
