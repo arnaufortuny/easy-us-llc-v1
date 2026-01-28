@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -53,6 +53,8 @@ export default function LlcFormation() {
   const [appId, setAppId] = useState<number | null>(null);
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [acceptedInfo, setAcceptedInfo] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<FormValues>({
@@ -440,7 +442,7 @@ export default function LlcFormation() {
             {step === 10 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ Documento de identidad</h2>
-                <FormDescription>DNI o pasaporte en vigor</FormDescription>
+                <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
                   <div className="border-2 border-dashed border-gray-100 rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white">
                     <Upload className="w-10 h-10 md:w-12 md:h-12 text-gray-300 mx-auto mb-4" />
@@ -454,6 +456,19 @@ export default function LlcFormation() {
                       <FormMessage />
                     </FormItem>
                   )} />
+                  <label className="flex items-center gap-3 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all">
+                    <Checkbox 
+                      checked={form.getValues("idDocumentUrl") === "PENDIENTE"}
+                      onCheckedChange={(checked) => {
+                        if (checked) {
+                          form.setValue("idDocumentUrl", "PENDIENTE");
+                        } else {
+                          form.setValue("idDocumentUrl", "");
+                        }
+                      }}
+                    />
+                    <span className="text-xs md:text-sm font-medium text-primary">Prefiero proporcionarlo más tarde</span>
+                  </label>
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100 active:scale-95 transition-all">ATRÁS</Button>
@@ -599,19 +614,25 @@ export default function LlcFormation() {
                   <h3 className="text-[10px] font-black  text-primary tracking-widest opacity-60">✅ Consentimientos</h3>
                   <div className="space-y-3">
                     <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                      <Checkbox required className="mt-1" />
-                      <span className="text-xs md:text-sm font-black text-primary leading-tight">Confirmo que la información es correcta y autorizo a Easy US LLC.</span>
+                      <Checkbox checked={acceptedInfo} onCheckedChange={(checked) => setAcceptedInfo(!!checked)} className="mt-1" />
+                      <span className="text-xs md:text-sm font-black text-primary leading-tight">Confirmo que la información es correcta y autorizo a Easy US LLC a procesar mi solicitud.</span>
                     </label>
                     <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                      <Checkbox required className="mt-1" />
-                      <span className="text-xs md:text-sm font-black text-primary leading-tight">Acepto los términos del servicio y el tratamiento de mis datos.</span>
+                      <Checkbox checked={acceptedTerms} onCheckedChange={(checked) => setAcceptedTerms(!!checked)} className="mt-1" />
+                      <span className="text-xs md:text-sm font-black text-primary leading-tight">
+                        Acepto los <Link href="/legal/terminos" className="text-accent underline" target="_blank">Términos y Condiciones</Link> de Easy US LLC y el tratamiento de mis datos.
+                      </span>
                     </label>
                   </div>
                 </div>
 
                 <div className="flex flex-col gap-4 pt-4">
-                  <Button type="submit" className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl  tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20">
-                    🚀 Ir al Pago
+                  <Button 
+                    type="submit" 
+                    disabled={!acceptedInfo || !acceptedTerms}
+                    className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    🚀 Enviar Solicitud
                   </Button>
                   <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-black  text-[10px] tracking-widest">Empezar de nuevo</Button>
                 </div>
