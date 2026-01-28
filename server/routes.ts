@@ -1967,10 +1967,16 @@ export async function registerRoutes(
       const product = await storage.getProduct(productId);
       if (!product) return res.status(400).json({ message: "Invalid product" });
 
+      // State-specific pricing for maintenance: NM 349€, WY 499€, DE 599€
+      let finalPrice = product.price;
+      if (state?.includes("New Mexico")) finalPrice = 34900;
+      else if (state?.includes("Wyoming")) finalPrice = 49900;
+      else if (state?.includes("Delaware")) finalPrice = 59900;
+
       const order = await storage.createOrder({
         userId,
         productId,
-        amount: product.price,
+        amount: finalPrice,
         status: "pending",
         stripeSessionId: "mock_session_maint_" + Date.now(),
       });
@@ -2008,6 +2014,37 @@ export async function registerRoutes(
   });
 
   // Maintenance App Updates
+  app.put("/api/maintenance/:id", async (req, res) => {
+    try {
+      const appId = Number(req.params.id);
+      const updates = req.body;
+      
+      const [updatedApp] = await db.update(maintenanceApplications)
+        .set({ ...updates, lastUpdated: new Date() })
+        .where(eq(maintenanceApplications.id, appId))
+        .returning();
+      
+      if (!updatedApp) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      
+      if (updates.status === "submitted") {
+        logActivity("Nueva Solicitud Mantenimiento", {
+          "Propietario": updatedApp.ownerFullName,
+          "LLC": updatedApp.companyName,
+          "EIN": updatedApp.ein,
+          "Estado": updatedApp.state,
+          "Email": updatedApp.ownerEmail,
+          "Disolver": updatedApp.wantsDissolve || "No",
+          "Servicios": updatedApp.expectedServices
+        });
+      }
+      
+      res.json(updatedApp);
+    } catch (error) {
+      res.status(500).json({ message: "Error al actualizar la solicitud" });
+    }
+  });
 
   // Newsletter
   app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
@@ -2607,128 +2644,7 @@ export async function registerRoutes(
     }
   });
 
-  // Maintenance Orders (second route - keeping for legacy support)
-  app.post("/api/maintenance/orders-legacy", async (req: any, res) => {
-    try {
-      const { productId, state } = req.body;
-      let userId: string;
-      
-      if (req.session?.userId) {
-        userId = req.session.userId;
-      } else {
-        const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        await db.insert(usersTable).values({
-          id: guestId,
-          email: null,
-          firstName: "Guest",
-          lastName: "User",
-        });
-        userId = guestId;
-      }
-
-      const product = await storage.getProduct(productId);
-      if (!product) return res.status(400).json({ message: "Invalid product" });
-
-      // CRITICAL: Ensure pricing follows NM 349, WY 499, DE 599 for maintenance
-      let finalPrice = product.price;
-      if (state?.includes("New Mexico")) finalPrice = 34900;
-      else if (state?.includes("Wyoming")) finalPrice = 49900;
-      else if (state?.includes("Delaware")) finalPrice = 59900;
-
-      const order = await storage.createOrder({
-        userId,
-        productId,
-        amount: finalPrice,
-        status: "pending",
-        stripeSessionId: "mock_maintenance_" + Date.now(),
-      });
-
-      const maintenanceResults = await db.insert(maintenanceApplications).values({
-        orderId: order.id,
-        status: "draft",
-        state: state || "New Mexico",
-      }).returning();
-      const application = maintenanceResults[0];
-
-      // NOTIFICATION: New maintenance order
-      if (userId && !userId.startsWith('guest_')) {
-        await db.insert(userNotifications).values({
-          userId,
-          title: "Nuevo pedido de mantenimiento",
-          message: `Tu pedido de mantenimiento anual ha sido registrado. Te mantendremos informado del progreso.`,
-          type: 'info',
-          isRead: false
-        });
-      }
-
-      res.status(201).json({ ...order, application });
-    } catch (err) {
-      console.error("Error creating maintenance order:", err);
-      res.status(500).json({ message: "Error" });
-    }
-  });
-
-  app.post("/api/maintenance/:id/send-otp", async (req, res) => {
-    const { email } = req.body;
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expires = new Date(Date.now() + 10 * 60 * 1000);
-    
-    await db.update(maintenanceApplications)
-      .set({ emailOtp: otp, emailOtpExpires: expires })
-      .where(eq(maintenanceApplications.id, Number(req.params.id)));
-    
-    await sendEmail({
-      to: email,
-      subject: "Código de verificación - Easy US LLC",
-      html: getOtpEmailTemplate(otp),
-    });
-    res.json({ success: true });
-  });
-
-  app.post("/api/maintenance/:id/verify-otp", async (req, res) => {
-    const appId = Number(req.params.id);
-    const { otp } = req.body;
-    
-    const [app] = await db.select().from(maintenanceApplications)
-      .where(and(
-        eq(maintenanceApplications.id, appId),
-        eq(maintenanceApplications.emailOtp, otp),
-        gt(maintenanceApplications.emailOtpExpires, new Date())
-      ));
-    
-    if (app) {
-      await db.update(require("@shared/schema").maintenanceApplications)
-        .set({ emailVerified: true })
-        .where(eq(require("@shared/schema").maintenanceApplications.id, appId));
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ message: "Invalid OTP" });
-    }
-  });
-
-  app.put("/api/maintenance/:id", async (req, res) => {
-    const appId = Number(req.params.id);
-    const updates = req.body;
-    
-    const [updatedApp] = await db.update(maintenanceApplications)
-      .set({ ...updates, lastUpdated: new Date() })
-      .where(eq(maintenanceApplications.id, appId))
-      .returning();
-    
-    if (updates.status === "submitted") {
-      logActivity("Nueva Solicitud Mantenimiento", {
-        "Propietario": updatedApp.ownerFullName,
-        "LLC": updatedApp.companyName,
-        "EIN": updatedApp.ein,
-        "Estado": updatedApp.state,
-        "Email": updatedApp.ownerEmail,
-        "Disolver": updatedApp.wantsDissolve || "No",
-        "Servicios": updatedApp.expectedServices
-      });
-    }
-    res.json(updatedApp);
-  });
-
+  
   // Seed Data
   await seedDatabase();
 
