@@ -513,8 +513,9 @@ export async function registerRoutes(
   // Admin Note/Notification system
   app.post("/api/admin/send-note", isAdmin, async (req, res) => {
     try {
-      const { userId, title, message, type, sendEmail: shouldSendEmail } = z.object({
+      const { userId, email, title, message, type, sendEmail: shouldSendEmail } = z.object({
         userId: z.string(),
+        email: z.string().email().optional(),
         title: z.string(),
         message: z.string(),
         type: z.enum(['update', 'info', 'action_required']),
@@ -1573,60 +1574,6 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error requesting document:", error);
       res.status(500).json({ message: "Error al solicitar documento" });
-    }
-  });
-
-  // Admin send note/notification to user
-  app.post("/api/admin/send-note", isAdmin, async (req, res) => {
-    try {
-      const { userId, email, title, message, type, sendEmail: shouldSendEmail } = z.object({
-        userId: z.string(),
-        email: z.string().email(),
-        title: z.string().min(1).max(200),
-        message: z.string().min(1).max(5000),
-        type: z.enum(['info', 'action_required', 'update']).default('info'),
-        sendEmail: z.boolean().default(true)
-      }).parse(req.body);
-      
-      const safeTitle = escapeHtml(title);
-      const safeMessage = escapeHtml(message);
-      
-      // Create notification in database
-      await db.insert(userNotifications).values({
-        userId,
-        type,
-        title: safeTitle,
-        message: safeMessage,
-        actionUrl: '/dashboard'
-      });
-      
-      // Send email if requested
-      if (shouldSendEmail) {
-        await sendEmail({
-          to: email,
-          subject: `${safeTitle} - Easy US LLC`,
-          html: `
-            <div style="background-color: #f9f9f9; padding: 20px 0;">
-              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                ${getEmailHeader(type === 'action_required' ? 'Acción Requerida' : 'Nueva Nota')}
-                <div style="padding: 40px;">
-                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${safeTitle}</h2>
-                  <div style="line-height: 1.6; font-size: 15px; color: #444; white-space: pre-wrap;">${safeMessage}</div>
-                  <div style="margin-top: 30px; text-align: center;">
-                    <a href="https://easyusllc.com/dashboard" style="background-color: #6EDC8A; color: #000; padding: 12px 25px; text-decoration: none; border-radius: 100px; font-weight: 900; font-size: 13px; text-transform: uppercase;">Ver en mi panel →</a>
-                  </div>
-                </div>
-                ${getEmailFooter()}
-              </div>
-            </div>
-          `,
-        });
-      }
-      
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Error sending note:", error);
-      res.status(500).json({ message: "Error al enviar nota" });
     }
   });
 

@@ -633,19 +633,7 @@ export default function Dashboard() {
 
               {activeTab === 'payments' && (
                 <motion.div key="payments" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
-                  <Card className="rounded-[1.5rem] md:rounded-[2.5rem] bg-accent text-primary border-0 shadow-xl overflow-hidden relative">
-                    <div className="p-6 md:p-10 relative z-10">
-                      <CreditCard className="w-12 h-12 text-accent mb-4" />
-                      <h3 className="text-2xl md:text-3xl font-black tracking-tight mb-2">Métodos de Pago</h3>
-                      <p className="text-sm text-primary/60 mb-6">Gestiona tus tarjetas y facturas en Stripe.</p>
-                      <a href="https://billing.stripe.com/p/login/test_6oE5mG0Y0" target="_blank" rel="noopener noreferrer">
-                        <Button className="bg-accent text-primary font-black rounded-full px-8 py-6 flex items-center justify-center gap-2">
-                          Portal Stripe <ExternalLink className="w-4 h-4" />
-                        </Button>
-                      </a>
-                    </div>
-                  </Card>
-                  <h3 className="text-xl font-black text-primary mt-10 mb-6">Historial</h3>
+                  <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
                     {orders?.map((order: any) => (
                       <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
@@ -678,7 +666,7 @@ export default function Dashboard() {
                         </div>
                         <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
                           <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>
-                          <p className="text-lg font-black">{user?.accountStatus}</p>
+                          <p className="text-lg font-black">{user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'Pendiente' : user?.accountStatus === 'suspended' ? 'Suspendido' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}</p>
                         </div>
                       </div>
                       <div className="grid grid-cols-2 gap-4">
@@ -757,7 +745,7 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
                                   <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'suspended' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                    {u.accountStatus?.toUpperCase() || 'ACTIVE'}
+                                    {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'PENDIENTE' : u.accountStatus === 'suspended' ? 'SUSPENDIDO' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
                                   </Badge>
                                   {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
                                 </div>
