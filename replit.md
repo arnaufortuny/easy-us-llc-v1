@@ -26,6 +26,15 @@ Easy US LLC is a business formation service for Spanish-speaking entrepreneurs l
 - `server/`: Express backend with Drizzle storage.
 
 ## Recent Changes
+- **Mobile UI & Admin Panel Enhancements (Jan 2026):**
+  - Improved mobile dashboard: compact tabs with shorter labels, smaller gaps, responsive cards
+  - Admin panel: Create new users directly (name, email, phone, password) with email verification auto-set
+  - Admin panel: Create new orders directly with client selector, state selection, and amount
+  - Unique invoice number generation using timestamp+random suffix (concurrency-safe)
+  - State validation in order creation (only New Mexico, Wyoming, Delaware)
+  - Amount validation (must be positive number)
+  - All new interactive elements have data-testid attributes for testing
+  - Order creation generates timeline event and client notification automatically
 - **Profile & Form Auto-fill Enhancement (Jan 2026):**
   - Forms (LLC, Maintenance) auto-fill AND skip completed fields: name, email, phone, full address, country, birth date, business activity
   - Smart step navigation: authenticated users jump directly to first empty required field
