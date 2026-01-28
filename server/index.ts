@@ -10,21 +10,30 @@ const httpServer = createServer(app);
 // ABSOLUTELY FIRST: Respond to health checks immediately.
 // No middleware, no logging, no database, no compression.
 app.get("/", (_req, res) => {
-  res.setHeader("Content-Type", "text/plain");
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  return res.status(200).send("OK");
+  res.writeHead(200, {
+    'Content-Type': 'text/plain',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Connection': 'close'
+  });
+  res.end("OK");
 });
 
 app.get("/health", (_req, res) => {
-  res.setHeader("Content-Type", "text/plain");
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  return res.status(200).send("OK");
+  res.writeHead(200, {
+    'Content-Type': 'text/plain',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Connection': 'close'
+  });
+  res.end("OK");
 });
 
 app.get("/healthz", (_req, res) => {
-  res.setHeader("Content-Type", "text/plain");
-  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  return res.status(200).send("OK");
+  res.writeHead(200, {
+    'Content-Type': 'text/plain',
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Connection': 'close'
+  });
+  res.end("OK");
 });
 
 app.use(compression());
