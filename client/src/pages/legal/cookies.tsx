@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,10 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { Download } from "lucide-react";
 
 export default function Cookies() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleDownload = () => {
     window.print();
   };

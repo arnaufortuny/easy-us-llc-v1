@@ -111,6 +111,9 @@ export default function Dashboard() {
   const [noteTitle, setNoteTitle] = useState("");
   const [noteMessage, setNoteMessage] = useState("");
   const [noteType, setNoteType] = useState("info");
+  const [invoiceDialog, setInvoiceDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [invoiceConcept, setInvoiceConcept] = useState("");
+  const [invoiceAmount, setInvoiceAmount] = useState("");
   const [adminSubTab, setAdminSubTab] = useState("orders");
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
@@ -227,6 +230,33 @@ export default function Dashboard() {
     refetchInterval: 60000,
   });
 
+  const { data: adminNewsletterSubs } = useQuery<any[]>({
+    queryKey: ["/api/admin/newsletter"],
+    enabled: !!user?.isAdmin,
+  });
+
+  const { data: adminMessages } = useQuery<any[]>({
+    queryKey: ["/api/admin/messages"],
+    enabled: !!user?.isAdmin,
+  });
+
+  const [broadcastSubject, setBroadcastSubject] = useState("");
+  const [broadcastMessage, setBroadcastMessage] = useState("");
+
+  const broadcastMutation = useMutation({
+    mutationFn: async ({ subject, message }: { subject: string, message: string }) => {
+      await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
+    },
+    onSuccess: () => {
+      toast({ title: "Emails enviados", description: "Se ha enviado a todos los suscriptores del newsletter" });
+      setBroadcastSubject("");
+      setBroadcastMessage("");
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudieron enviar los emails", variant: "destructive" });
+    }
+  });
+
   const { data: userDocuments } = useQuery<any[]>({
     queryKey: ["/api/user/documents"],
     enabled: isAuthenticated,
@@ -318,6 +348,21 @@ export default function Dashboard() {
     },
     onError: () => {
       toast({ title: "Error", description: "No se pudo eliminar el usuario", variant: "destructive" });
+    }
+  });
+
+  const createInvoiceMutation = useMutation({
+    mutationFn: async ({ userId, concept, amount }: { userId: string, concept: string, amount: number }) => {
+      await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount });
+    },
+    onSuccess: () => {
+      toast({ title: "Factura creada", description: "La factura se ha añadido al centro de documentos del cliente" });
+      setInvoiceDialog({ open: false, user: null });
+      setInvoiceConcept("");
+      setInvoiceAmount("");
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo crear la factura", variant: "destructive" });
     }
   });
 
@@ -1135,7 +1180,7 @@ export default function Dashboard() {
                                 <p className="text-xs text-muted-foreground">{order.product?.name} • {(order.amount / 100).toFixed(2)}€</p>
                               </div>
                               <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                <SelectTrigger className="w-32 h-8 rounded-full text-xs bg-white"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-full md:w-32 h-9 rounded-full text-xs bg-white border"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="pending">Pendiente</SelectItem>
                                   <SelectItem value="paid">Pagado</SelectItem>
@@ -1172,7 +1217,7 @@ export default function Dashboard() {
                           <div key={u.id} className="p-3 md:p-4 space-y-2">
                             <div className="flex flex-col gap-2">
                               <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
-                                <SelectTrigger className="w-full md:w-28 h-8 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="active">Activo</SelectItem>
                                   <SelectItem value="pending">Revisión</SelectItem>
@@ -1207,6 +1252,9 @@ export default function Dashboard() {
                               </Button>
                               <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
                                 <FileUp className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Docs</span>
+                              </Button>
+                              <Button size="icon" variant="outline" className="h-8 w-8 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
+                                <FileText className="w-3 h-3" /><span className="hidden md:inline ml-1 text-[10px]">Factura</span>
                               </Button>
                               <Button size="sm" variant="outline" className="h-7 text-[10px] rounded-full text-red-600 hover:bg-red-50" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
                                 <Trash2 className="w-3 h-3 mr-1" /> Eliminar
@@ -1292,6 +1340,77 @@ export default function Dashboard() {
                           <div className="text-center py-8 text-muted-foreground text-sm">
                             No hay pedidos con LLCs para gestionar
                           </div>
+                        )}
+                      </div>
+                    </Card>
+                  )}
+                  {adminSubTab === 'newsletter' && (
+                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                      <div className="space-y-6">
+                        <div className="bg-accent/10 p-4 rounded-xl">
+                          <h4 className="font-black text-sm mb-3">Enviar a todos los suscriptores ({adminNewsletterSubs?.length || 0})</h4>
+                          <div className="space-y-3">
+                            <Input 
+                              value={broadcastSubject} 
+                              onChange={e => setBroadcastSubject(e.target.value)} 
+                              placeholder="Asunto del email" 
+                              className="bg-white"
+                              data-testid="input-broadcast-subject"
+                            />
+                            <Textarea 
+                              value={broadcastMessage} 
+                              onChange={e => setBroadcastMessage(e.target.value)} 
+                              placeholder="Contenido del mensaje" 
+                              rows={4}
+                              className="bg-white"
+                              data-testid="input-broadcast-message"
+                            />
+                            <Button 
+                              onClick={() => broadcastMutation.mutate({ subject: broadcastSubject, message: broadcastMessage })}
+                              disabled={!broadcastSubject || !broadcastMessage || broadcastMutation.isPending}
+                              className="w-full rounded-full"
+                              data-testid="button-send-broadcast"
+                            >
+                              {broadcastMutation.isPending ? 'Enviando...' : `Enviar a ${adminNewsletterSubs?.length || 0} suscriptores`}
+                            </Button>
+                          </div>
+                        </div>
+                        <div>
+                          <h4 className="font-black text-sm mb-3">Lista de Suscriptores</h4>
+                          <div className="divide-y max-h-80 overflow-y-auto">
+                            {adminNewsletterSubs?.map((sub: any) => (
+                              <div key={sub.id} className="py-2 flex justify-between items-center">
+                                <span className="text-sm">{sub.email}</span>
+                                <span className="text-[10px] text-muted-foreground">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
+                              </div>
+                            ))}
+                            {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
+                              <p className="text-sm text-muted-foreground py-4 text-center">No hay suscriptores</p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  )}
+                  {adminSubTab === 'inbox' && (
+                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                      <div className="divide-y">
+                        {adminMessages?.map((msg: any) => (
+                          <div key={msg.id} className="p-4 space-y-2">
+                            <div className="flex justify-between items-start">
+                              <div>
+                                <p className="font-black text-sm">{msg.firstName} {msg.lastName}</p>
+                                <p className="text-xs text-muted-foreground">{msg.email} {msg.phone && `• ${msg.phone}`}</p>
+                              </div>
+                              <Badge variant="secondary" className="text-[10px]">{msg.status || 'pending'}</Badge>
+                            </div>
+                            <p className="text-xs font-medium">{msg.subject}</p>
+                            <p className="text-xs text-muted-foreground">{msg.message}</p>
+                            <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString('es-ES') : ''}</p>
+                          </div>
+                        ))}
+                        {(!adminMessages || adminMessages.length === 0) && (
+                          <div className="text-center py-8 text-muted-foreground text-sm">No hay mensajes</div>
                         )}
                       </div>
                     </Card>
@@ -1518,6 +1637,42 @@ export default function Dashboard() {
                     }
                   }} disabled={!docType || sendNoteMutation.isPending} data-testid="button-request-doc">
                     Solicitar
+                  </Button>
+                </DialogFooter>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
+            <DialogContent className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 max-w-md w-[90vw] bg-white rounded-lg shadow-2xl z-[100]">
+              <DialogHeader><DialogTitle className="text-lg font-bold">Crear Factura</DialogTitle></DialogHeader>
+              <div className="space-y-4 pt-2">
+                <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
+                <Input 
+                  value={invoiceConcept} 
+                  onChange={e => setInvoiceConcept(e.target.value)} 
+                  placeholder="Concepto (ej: Servicio de consultoría)" 
+                  data-testid="input-invoice-concept"
+                />
+                <Input 
+                  type="number" 
+                  value={invoiceAmount} 
+                  onChange={e => setInvoiceAmount(e.target.value)} 
+                  placeholder="Importe en euros" 
+                  data-testid="input-invoice-amount"
+                />
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })}>Cancelar</Button>
+                  <Button 
+                    onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
+                      userId: invoiceDialog.user.id, 
+                      concept: invoiceConcept, 
+                      amount: Math.round(parseFloat(invoiceAmount) * 100) 
+                    })} 
+                    disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
+                    data-testid="button-create-invoice"
+                  >
+                    {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
                   </Button>
                 </DialogFooter>
               </div>

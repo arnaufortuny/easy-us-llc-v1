@@ -328,6 +328,39 @@ export async function registerRoutes(
     }
   });
 
+  // Broadcast to all newsletter subscribers
+  app.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { subject, message } = z.object({
+      subject: z.string().min(1),
+      message: z.string().min(1)
+    }).parse(req.body);
+
+    const subscribers = await db.select().from(newsletterSubscribers);
+    
+    const html = `
+      <div style="font-family: Inter, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background: #f7f7f5;">
+        <div style="background: white; padding: 32px; border-radius: 16px;">
+          <h1 style="font-size: 24px; font-weight: 900; color: #0E1215; margin: 0 0 24px 0;">${subject}</h1>
+          <div style="font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</div>
+          <hr style="border: none; border-top: 1px solid #E6E9EC; margin: 32px 0;" />
+          <p style="font-size: 12px; color: #6B7280; margin: 0;">Easy US LLC - Formación de empresas en USA</p>
+        </div>
+      </div>
+    `;
+
+    let sent = 0;
+    for (const sub of subscribers) {
+      try {
+        await sendEmail({ to: sub.email, subject, html });
+        sent++;
+      } catch (e) {
+        console.error(`Failed to send to ${sub.email}:`, e);
+      }
+    }
+
+    res.json({ success: true, sent, total: subscribers.length });
+  }));
+
   // Admin Messages
   app.get("/api/admin/messages", isAdmin, async (req, res) => {
     try {
@@ -1060,6 +1093,116 @@ export async function registerRoutes(
       res.status(500).json({ message: "Error generating invoice" });
     }
   });
+
+  // Create standalone invoice for user (not tied to order)
+  app.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { userId, concept, amount } = z.object({
+      userId: z.string(),
+      concept: z.string().min(1),
+      amount: z.number().min(1)
+    }).parse(req.body);
+
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const invoiceNumber = `INV-${new Date().getFullYear()}-${Date.now().toString().slice(-6)}`;
+    
+    // Generate invoice HTML
+    const invoiceHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Factura ${invoiceNumber}</title>
+  <style>
+    body { font-family: 'Inter', Arial, sans-serif; margin: 0; padding: 40px; color: #0E1215; }
+    .header { display: flex; justify-content: space-between; margin-bottom: 40px; }
+    .logo { font-size: 24px; font-weight: 900; color: #0E1215; }
+    .logo span { color: #6EDC8A; }
+    .invoice-title { font-size: 32px; font-weight: 900; text-align: right; }
+    .invoice-number { font-size: 14px; color: #6B7280; text-align: right; }
+    .details { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .section-title { font-size: 12px; color: #6B7280; text-transform: uppercase; margin-bottom: 8px; }
+    .section-content { font-size: 14px; line-height: 1.6; }
+    .items { margin: 40px 0; }
+    .items-header { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 12px 0; border-bottom: 2px solid #0E1215; font-weight: 700; font-size: 12px; text-transform: uppercase; }
+    .items-row { display: grid; grid-template-columns: 3fr 1fr 1fr; padding: 16px 0; border-bottom: 1px solid #E6E9EC; font-size: 14px; }
+    .total-section { text-align: right; margin-top: 24px; }
+    .total-row { font-size: 14px; margin-bottom: 8px; }
+    .total-final { font-size: 24px; font-weight: 900; color: #0E1215; }
+    .footer { margin-top: 60px; padding-top: 20px; border-top: 1px solid #E6E9EC; font-size: 11px; color: #6B7280; text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div>
+      <div class="logo">EASY<span>US</span></div>
+      <p style="font-size: 11px; color: #6B7280;">Fortuny Consulting LLC</p>
+    </div>
+    <div>
+      <div class="invoice-title">FACTURA</div>
+      <div class="invoice-number">${invoiceNumber}</div>
+      <div class="invoice-number">${new Date().toLocaleDateString('es-ES')}</div>
+    </div>
+  </div>
+  <div class="details">
+    <div>
+      <div class="section-title">Facturado a</div>
+      <div class="section-content">
+        <strong>${user.firstName} ${user.lastName}</strong><br>
+        ${user.email}<br>
+        ${user.phone || ''}
+      </div>
+    </div>
+    <div>
+      <div class="section-title">Emitido por</div>
+      <div class="section-content">
+        <strong>Fortuny Consulting LLC</strong><br>
+        1209 Mountain Road Pl NE Ste R<br>
+        Albuquerque, NM 87110
+      </div>
+    </div>
+  </div>
+  <div class="items">
+    <div class="items-header">
+      <span>Concepto</span>
+      <span style="text-align:right;">Cantidad</span>
+      <span style="text-align:right;">Importe</span>
+    </div>
+    <div class="items-row">
+      <span>${concept}</span>
+      <span style="text-align:right;">1</span>
+      <span style="text-align:right;">${(amount / 100).toFixed(2)} €</span>
+    </div>
+  </div>
+  <div class="total-section">
+    <div class="total-row">Subtotal: ${(amount / 100).toFixed(2)} €</div>
+    <div class="total-row">IVA (0%): 0.00 €</div>
+    <div class="total-final">Total: ${(amount / 100).toFixed(2)} €</div>
+  </div>
+  <div class="footer">
+    <p>Fortuny Consulting LLC - EIN: 99-1877254</p>
+    <p>1209 Mountain Road Pl NE Ste R, Albuquerque, NM 87110, USA</p>
+    <p>info@easyusllc.com | www.easyusllc.com</p>
+  </div>
+</body>
+</html>`;
+
+    // Store as document for user
+    await db.insert(applicationDocumentsTable).values({
+      userId,
+      fileName: `Factura ${invoiceNumber} - ${concept}`,
+      fileType: "text/html",
+      fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
+      documentType: "invoice",
+      reviewStatus: "approved",
+      uploadedBy: req.session.userId
+    });
+
+    res.json({ success: true, invoiceNumber });
+  }));
 
   app.post(api.orders.create.path, async (req: any, res) => {
     try {
