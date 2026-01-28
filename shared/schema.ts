@@ -190,6 +190,7 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
   user: one(users, { fields: [orders.userId], references: [users.id] }),
   product: one(products, { fields: [orders.productId], references: [products.id] }),
   application: one(llcApplications, { fields: [orders.id], references: [llcApplications.orderId] }),
+  maintenanceApplication: one(maintenanceApplications, { fields: [orders.id], references: [maintenanceApplications.orderId] }),
   events: many(orderEvents),
 }));
 
