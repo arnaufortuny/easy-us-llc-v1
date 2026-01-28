@@ -1614,21 +1614,28 @@ export default function Dashboard() {
                 <Select value={docType} onValueChange={setDocType}>
                   <SelectTrigger className="bg-white"><SelectValue placeholder="Tipo de documento" /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="passport">Pasaporte / ID</SelectItem>
-                    <SelectItem value="address_proof">Comprobante de Domicilio</SelectItem>
-                    <SelectItem value="tax_id">Identificación Fiscal</SelectItem>
-                    <SelectItem value="other">Otro</SelectItem>
+                    <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
+                    <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
+                    <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
+                    <SelectItem value="other">Otro Documento</SelectItem>
                   </SelectContent>
                 </Select>
                 <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} data-testid="input-doc-message" />
                 <DialogFooter>
                   <Button onClick={() => {
                     if (docDialog.user?.id && docDialog.user?.email) {
+                      const docTypeLabels: Record<string, string> = {
+                        passport: 'Pasaporte / Documento de Identidad',
+                        address_proof: 'Prueba de Domicilio',
+                        tax_id: 'Identificación Fiscal (NIF/CIF)',
+                        other: 'Documento Adicional'
+                      };
+                      const docLabel = docTypeLabels[docType] || docType;
                       sendNoteMutation.mutate({ 
                         userId: docDialog.user.id, 
                         email: docDialog.user.email, 
-                        title: `Solicitud de Documento: ${docType}`, 
-                        message: docMessage || `Por favor, sube tu ${docType} a tu panel de cliente.`, 
+                        title: `Solicitud de Documento: ${docLabel}`, 
+                        message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
                         type: 'action_required' 
                       });
                       setDocDialog({ open: false, user: null });
@@ -1718,9 +1725,9 @@ export default function Dashboard() {
                 </SelectTrigger>
                 <SelectContent className="bg-white z-[9999]" side="bottom" align="start" sideOffset={4}>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
-                  <SelectItem value="address_proof">Comprobante de Domicilio</SelectItem>
-                  <SelectItem value="tax_id">Identificación Fiscal</SelectItem>
-                  <SelectItem value="other">Otro</SelectItem>
+                  <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
+                  <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
+                  <SelectItem value="other">Otro Documento</SelectItem>
                 </SelectContent>
               </Select>
             </div>
