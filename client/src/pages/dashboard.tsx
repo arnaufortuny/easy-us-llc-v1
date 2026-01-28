@@ -4,7 +4,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -114,7 +114,7 @@ export default function Dashboard() {
   const [invoiceDialog, setInvoiceDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [invoiceConcept, setInvoiceConcept] = useState("");
   const [invoiceAmount, setInvoiceAmount] = useState("");
-  const [adminSubTab, setAdminSubTab] = useState("orders");
+  const [adminSubTab, setAdminSubTab] = useState("dashboard");
   const [createUserDialog, setCreateUserDialog] = useState(false);
   const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
   const [createOrderDialog, setCreateOrderDialog] = useState(false);
@@ -241,6 +241,31 @@ export default function Dashboard() {
   const { data: adminNewsletterSubs } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
     enabled: !!user?.isAdmin,
+  });
+
+  const { data: adminStats } = useQuery<{
+    totalSales: number;
+    pendingSales: number;
+    orderCount: number;
+    pendingOrders: number;
+    completedOrders: number;
+    processingOrders: number;
+    userCount: number;
+    pendingAccounts: number;
+    activeAccounts: number;
+    vipAccounts: number;
+    suspendedAccounts: number;
+    subscriberCount: number;
+    totalMessages: number;
+    pendingMessages: number;
+    totalDocs: number;
+    pendingDocs: number;
+    conversionRate: number;
+  }>({
+    queryKey: ["/api/admin/system-stats"],
+    enabled: !!user?.isAdmin,
+    refetchInterval: 10000,
+    staleTime: 5000,
   });
 
   const { data: adminMessages } = useQuery<any[]>({
@@ -1226,11 +1251,11 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && user?.isAdmin && (
                 <motion.div key="admin" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {['orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
-                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-xs font-black capitalize" data-testid={`button-admin-tab-${tab}`}>
-                        <span className="hidden sm:inline">{tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab}</span>
-                        <span className="sm:hidden">{tab === 'calendar' ? 'Cal' : tab === 'orders' ? 'Ord' : tab === 'users' ? 'Cli' : tab === 'newsletter' ? 'News' : 'Msg'}</span>
+                  <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
+                    {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
+                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
+                        <span className="hidden sm:inline">{tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab}</span>
+                        <span className="sm:hidden">{tab === 'dashboard' ? <BarChart3 className="w-3 h-3" /> : tab === 'calendar' ? 'Cal' : tab === 'orders' ? 'Ord' : tab === 'users' ? 'Cli' : tab === 'newsletter' ? 'News' : 'Msg'}</span>
                       </Button>
                     ))}
                   </div>
@@ -1246,6 +1271,124 @@ export default function Dashboard() {
                       <span className="sm:hidden">Pedido</span>
                     </Button>
                   </div>
+                  
+                  {adminSubTab === 'dashboard' && (
+                    <div className="space-y-4 md:space-y-6" data-testid="admin-dashboard-metrics">
+                      {/* Ventas */}
+                      <div data-testid="section-sales">
+                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-sales"><DollarSign className="w-4 h-4 text-accent" /> Ventas</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Total Ventas</p>
+                            <p className="text-lg md:text-2xl font-black text-green-600" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-yellow-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Pendiente Cobro</p>
+                            <p className="text-lg md:text-2xl font-black text-yellow-600" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Pedidos Totales</p>
+                            <p className="text-lg md:text-2xl font-black" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Conversión</p>
+                            <p className="text-lg md:text-2xl font-black text-accent" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
+                          </Card>
+                        </div>
+                      </div>
+
+                      {/* Estado Pedidos */}
+                      <div data-testid="section-orders">
+                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-orders"><Package className="w-4 h-4 text-accent" /> Estado de Pedidos</h3>
+                        <div className="grid grid-cols-3 gap-2 md:gap-3">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Pendientes</p>
+                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">En Proceso</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-500" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Completados</p>
+                            <p className="text-xl md:text-3xl font-black text-green-500" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
+                          </Card>
+                        </div>
+                      </div>
+
+                      {/* Usuarios */}
+                      <div data-testid="section-crm">
+                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-crm"><Users className="w-4 h-4 text-accent" /> Clientes (CRM)</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Total Usuarios</p>
+                            <p className="text-xl md:text-3xl font-black" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white">
+                            <div className="flex items-center gap-1">
+                              <UserCheck className="w-3 h-3 text-green-500" />
+                              <p className="text-[10px] md:text-xs text-muted-foreground">Activos</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-green-500" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-yellow-50 to-white">
+                            <div className="flex items-center gap-1">
+                              <Star className="w-3 h-3 text-yellow-500" />
+                              <p className="text-[10px] md:text-xs text-muted-foreground">VIP</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-yellow-500" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
+                            <div className="flex items-center gap-1">
+                              <Eye className="w-3 h-3 text-orange-500" />
+                              <p className="text-[10px] md:text-xs text-muted-foreground">En Revisión</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-red-50 to-white">
+                            <div className="flex items-center gap-1">
+                              <UserX className="w-3 h-3 text-red-500" />
+                              <p className="text-[10px] md:text-xs text-muted-foreground">Suspendidos</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-red-500" data-testid="stat-suspended-users">{adminStats?.suspendedAccounts || 0}</p>
+                          </Card>
+                        </div>
+                      </div>
+
+                      {/* Comunicaciones y Documentos */}
+                      <div data-testid="section-communications">
+                        <h3 className="text-sm font-bold mb-3 flex items-center gap-2" data-testid="heading-communications"><MessageSquare className="w-4 h-4 text-accent" /> Comunicaciones</h3>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Suscriptores Newsletter</p>
+                            <p className="text-xl md:text-3xl font-black text-accent" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Totales</p>
+                            <p className="text-xl md:text-3xl font-black" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-orange-50 to-white">
+                            <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Pendientes</p>
+                            <p className="text-xl md:text-3xl font-black text-orange-500" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
+                          </Card>
+                          <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white">
+                            <div className="flex items-center gap-1">
+                              <FileCheck className="w-3 h-3 text-blue-500" />
+                              <p className="text-[10px] md:text-xs text-muted-foreground">Docs Pendientes</p>
+                            </div>
+                            <p className="text-xl md:text-3xl font-black text-blue-500" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
+                          </Card>
+                        </div>
+                      </div>
+
+                      {/* Actualización en tiempo real */}
+                      <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground pt-2">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
+                        <span>Actualización en tiempo real cada 10 segundos</span>
+                      </div>
+                    </div>
+                  )}
+                  
                   {adminSubTab === 'orders' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">

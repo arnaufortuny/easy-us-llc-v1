@@ -371,22 +371,87 @@ export async function registerRoutes(
 
   app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
     try {
-      // Get core metrics
-      const [salesResult] = await db.select({ totalSales: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'completed'));
-      const [userResult] = await db.select({ count: sql<number>`count(*)` }).from(usersTable);
-      const [orderResult] = await db.select({ count: sql<number>`count(*)` }).from(ordersTable);
-      
-      const totalSales = Number(salesResult?.totalSales || 0);
-      const userCount = Number(userResult?.count || 0);
-      const orderCount = Number(orderResult?.count || 0);
+      // Core metrics - parallel queries for performance
+      const [
+        salesResult,
+        pendingSalesResult,
+        userResult,
+        orderResult,
+        pendingOrdersResult,
+        completedOrdersResult,
+        processingOrdersResult,
+        subscriberResult,
+        pendingAccountsResult,
+        activeAccountsResult,
+        vipAccountsResult,
+        suspendedAccountsResult,
+        messagesResult,
+        pendingMessagesResult,
+        docsResult,
+        pendingDocsResult
+      ] = await Promise.all([
+        db.select({ total: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
+        db.select({ total: sql<number>`COALESCE(sum(amount), 0)` }).from(ordersTable).where(eq(ordersTable.status, 'pending')),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable),
+        db.select({ count: sql<number>`count(*)` }).from(ordersTable),
+        db.select({ count: sql<number>`count(*)` }).from(ordersTable).where(eq(ordersTable.status, 'pending')),
+        db.select({ count: sql<number>`count(*)` }).from(ordersTable).where(eq(ordersTable.status, 'completed')),
+        db.select({ count: sql<number>`count(*)` }).from(ordersTable).where(eq(ordersTable.status, 'processing')),
+        db.select({ count: sql<number>`count(*)` }).from(newsletterSubscribers),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'pending')),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'active')),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'vip')),
+        db.select({ count: sql<number>`count(*)` }).from(usersTable).where(eq(usersTable.accountStatus, 'suspended')),
+        db.select({ count: sql<number>`count(*)` }).from(messagesTable),
+        db.select({ count: sql<number>`count(*)` }).from(messagesTable).where(eq(messagesTable.status, 'pending')),
+        db.select({ count: sql<number>`count(*)` }).from(applicationDocumentsTable),
+        db.select({ count: sql<number>`count(*)` }).from(applicationDocumentsTable).where(eq(applicationDocumentsTable.reviewStatus, 'pending'))
+      ]);
 
-      // Conversion rate based on users who placed orders
+      const totalSales = Number(salesResult[0]?.total || 0);
+      const pendingSales = Number(pendingSalesResult[0]?.total || 0);
+      const userCount = Number(userResult[0]?.count || 0);
+      const orderCount = Number(orderResult[0]?.count || 0);
+      const pendingOrders = Number(pendingOrdersResult[0]?.count || 0);
+      const completedOrders = Number(completedOrdersResult[0]?.count || 0);
+      const processingOrders = Number(processingOrdersResult[0]?.count || 0);
+      const subscriberCount = Number(subscriberResult[0]?.count || 0);
+      const pendingAccounts = Number(pendingAccountsResult[0]?.count || 0);
+      const activeAccounts = Number(activeAccountsResult[0]?.count || 0);
+      const vipAccounts = Number(vipAccountsResult[0]?.count || 0);
+      const suspendedAccounts = Number(suspendedAccountsResult[0]?.count || 0);
+      const totalMessages = Number(messagesResult[0]?.count || 0);
+      const pendingMessages = Number(pendingMessagesResult[0]?.count || 0);
+      const totalDocs = Number(docsResult[0]?.count || 0);
+      const pendingDocs = Number(pendingDocsResult[0]?.count || 0);
+
+      // Conversion rate
       const conversionRate = userCount > 0 ? (orderCount / userCount) * 100 : 0;
 
       res.json({ 
+        // Sales
         totalSales,
-        userCount,
+        pendingSales,
+        // Orders
         orderCount,
+        pendingOrders,
+        completedOrders,
+        processingOrders,
+        // Users
+        userCount,
+        pendingAccounts,
+        activeAccounts,
+        vipAccounts,
+        suspendedAccounts,
+        // Newsletter
+        subscriberCount,
+        // Messages
+        totalMessages,
+        pendingMessages,
+        // Documents
+        totalDocs,
+        pendingDocs,
+        // Metrics
         conversionRate: Number(conversionRate.toFixed(2))
       });
     } catch (error) {
