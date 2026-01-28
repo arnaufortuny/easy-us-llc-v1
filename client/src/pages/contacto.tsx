@@ -75,7 +75,10 @@ export default function Contacto() {
         telefono: user.phone || "",
       });
       if (user.emailVerified) {
-        setIsOtpVerified(true);, [isAuthenticated, user, form]);
+        setIsOtpVerified(true);
+      }
+    }
+  }, [isAuthenticated, user, form]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -103,7 +106,9 @@ export default function Contacto() {
       if (isOtpVerified) setStep(7);
       else setStep(6);
     } else {
-      setStep(s => s + 1);;
+      setStep(s => s + 1);
+    }
+  };
 
   const prevStep = () => {
     if (step > 0) setStep(s => s - 1);
@@ -123,7 +128,9 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
-      setIsLoading(false);;
+      setIsLoading(false);
+    }
+  };
 
   const verifyOtp = async () => {
     const email = form.getValues("email");
@@ -137,7 +144,9 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Código incorrecto", variant: "destructive" });
     } finally {
-      setIsLoading(false);;
+      setIsLoading(false);
+    }
+  };
 
   const onSubmit = async (values: FormValues) => {
     if (!isOtpVerified) {
@@ -161,7 +170,9 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el mensaje", variant: "destructive" });
     } finally {
-      setIsLoading(false);;
+      setIsLoading(false);
+    }
+  };
 
   const params = new URLSearchParams(window.location.search);
   const isUrlSubmitted = params.get("success") === "true";
@@ -271,7 +282,7 @@ export default function Contacto() {
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                 
                 {step === 0 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
@@ -290,7 +301,7 @@ export default function Contacto() {
                 )}
 
                 {step === 1 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 2️⃣ ¿Y tu apellido?
                     </h2>
@@ -311,7 +322,7 @@ export default function Contacto() {
                 )}
 
                 {step === 2 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Tu email
                     </h2>
@@ -333,7 +344,7 @@ export default function Contacto() {
                 )}
 
                 {step === 3 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 4️⃣ Teléfono (opcional)
                     </h2>
@@ -355,7 +366,7 @@ export default function Contacto() {
                 )}
 
                 {step === 4 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <HelpCircle className="w-6 h-6 text-accent" /> 5️⃣ ¿En qué podemos ayudarte?
                     </h2>
@@ -383,7 +394,7 @@ export default function Contacto() {
                 )}
 
                 {step === 5 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageSquare className="w-6 h-6 text-accent" /> 6️⃣ Cuéntanos más
                     </h2>
@@ -413,7 +424,7 @@ export default function Contacto() {
                 )}
 
                 {step === 6 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 7️⃣ Verifica tu email
                     </h2>
@@ -469,7 +480,7 @@ export default function Contacto() {
                 )}
 
                 {step === 7 && (
-                  <div}} className="space-y-6 text-left">
+                  <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CheckCircle2 className="w-6 h-6 text-accent" /> Confirmar y enviar
                     </h2>

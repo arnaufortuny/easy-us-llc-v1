@@ -165,11 +165,7 @@ export default function Register() {
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-          <div 
-           }
-           }
-            className="w-full max-w-md"
-          >
+          <div className="w-full max-w-md">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle2 className="w-8 h-8 text-primary" />
@@ -265,9 +261,6 @@ export default function Register() {
                 {step === 0 && (
                   <div
                     key="step-0"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >
@@ -324,9 +317,6 @@ export default function Register() {
                 {step === 1 && (
                   <div
                     key="step-1"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >
@@ -366,9 +356,6 @@ export default function Register() {
                 {step === 2 && (
                   <div
                     key="step-2"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >
@@ -408,9 +395,6 @@ export default function Register() {
                 {step === 3 && (
                   <div
                     key="step-3"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >
@@ -459,9 +443,6 @@ export default function Register() {
                 {step === 4 && (
                   <div
                     key="step-4"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >
@@ -535,9 +516,6 @@ export default function Register() {
                 {step === 5 && (
                   <div
                     key="step-5"
-                   }
-                   }
-                   }
                    
                     className="space-y-6"
                   >

@@ -242,7 +242,7 @@ export default function MaintenanceApplication() {
                 
                 {/* STEP 0: Ya tienes LLC? */}
                 {step === 0 && (
-                  <div key="step-0"}}} className="space-y-6 text-left">
+                  <div key="step-0" className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣ ¿Ya tienes una LLC creada?
                     </h2>
@@ -268,7 +268,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 1: Nombre Completo */}
                 {step === 1 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-[#6EDC8A]" /> 2️⃣ Nombre completo
                     </h2>
@@ -291,7 +291,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 2: Teléfono */}
                 {step === 2 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-[#6EDC8A]" /> 3️⃣ Teléfono de contacto
                     </h2>
@@ -314,7 +314,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 3: Email */}
                 {step === 3 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-[#6EDC8A]" /> 4️⃣ Email
                     </h2>
@@ -337,7 +337,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 4: Nombre Legal LLC */}
                 {step === 4 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-[#6EDC8A]" /> 5️⃣ Nombre legal de la LLC
                     </h2>
@@ -360,7 +360,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 5: EIN */}
                 {step === 5 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-[#6EDC8A]" /> 6️⃣ EIN
                     </h2>
@@ -383,7 +383,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 6: Estado de constitución */}
                 {step === 6 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 7️⃣ Estado de constitución
                     </h2>
@@ -408,7 +408,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 7: Actividad */}
                 {step === 7 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-[#6EDC8A]" /> 8️⃣ Actividad
                     </h2>
@@ -428,7 +428,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 8: Servicios */}
                 {step === 8 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <CheckSquare className="w-6 h-6 text-[#6EDC8A]" /> 9️⃣ ¿Qué necesitas gestionar?
                     </h2>
@@ -464,7 +464,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 9: Disolver? */}
                 {step === 9 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Trash2 className="w-6 h-6 text-[#6EDC8A]" /> 1️⃣0️⃣ ¿Deseas disolver tu LLC?
                     </h2>
@@ -493,7 +493,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 10: OTP */}
                 {step === 10 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-[#6EDC8A]" /> Verificación de Email
                     </h2>
@@ -521,7 +521,7 @@ export default function MaintenanceApplication() {
 
                 {/* STEP 11: Autorización y Consentimiento */}
                 {(step === 11 || step === 12) && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>

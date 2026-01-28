@@ -20,12 +20,6 @@ const loginSchema = z.object({
 
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-const fadeIn = {
-  initial: { opacity: 0, y: 10 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }
-};
-
 export default function Login() {
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
@@ -81,12 +75,7 @@ export default function Login() {
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
       <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div 
-          className="w-full max-w-md"
-          initial="initial"
-          animate="animate"
-          variants={fadeIn}
-        >
+        <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
               Iniciar <span className="text-accent">Sesión</span>
@@ -95,11 +84,7 @@ export default function Login() {
           </div>
 
           {loginError && (
-            <div 
-             }
-             }
-              className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center"
-            >
+            <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center">
               <p className="text-destructive font-medium text-sm">{loginError}</p>
             </div>
           )}

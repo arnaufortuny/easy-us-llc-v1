@@ -265,7 +265,7 @@ export default function ApplicationWizard() {
                 
                 {/* STEP 0: Nombre Completo */}
                 {step === 0 && (
-                  <div key="step-0"}}} className="space-y-6 text-left">
+                  <div key="step-0" className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
@@ -285,7 +285,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 1: Teléfono */}
                 {step === 1 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                     </h2>
@@ -308,7 +308,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 2: Email */}
                 {step === 2 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                     </h2>
@@ -331,7 +331,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 3: Fecha de Nacimiento */}
                 {step === 3 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                     </h2>
@@ -353,7 +353,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 4: Documento de Identidad */}
                 {step === 4 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                     </h2>
@@ -393,7 +393,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 5: País de Residencia */}
                 {step === 5 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                     </h2>
@@ -415,7 +415,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 6: Dirección Completa */}
                 {step === 6 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                     </h2>
@@ -438,7 +438,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 7: Nombre LLC */}
                 {step === 7 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                     </h2>
@@ -461,7 +461,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 8: Actividad del Negocio */}
                 {step === 8 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                     </h2>
@@ -481,7 +481,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 9: Categoría */}
                 {step === 9 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría de negocio
                     </h2>
@@ -505,7 +505,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 10: Cuenta Bancaria */}
                 {step === 10 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas cuenta bancaria?
                     </h2>
@@ -534,7 +534,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 11: Notas */}
                 {step === 11 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageCircle className="w-6 h-6 text-accent" /> 1️⃣2️⃣ ¿Algo más que debamos saber?
                     </h2>
@@ -553,7 +553,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 12: OTP */}
                 {step === 12 && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> Verificación de Email
                     </h2>
@@ -581,7 +581,7 @@ export default function ApplicationWizard() {
 
                 {/* STEP 13: Consentimientos Finales */}
                 {(step === 13 || step === 14) && (
-                  <div key={"step-" + step}}}} className="space-y-6 text-left">
+                  <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
