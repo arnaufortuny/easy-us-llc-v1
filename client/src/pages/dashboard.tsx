@@ -751,7 +751,7 @@ export default function Dashboard() {
                     </Card>
                   ) : (
                     <div className="space-y-3">
-                      {notifications?.map((notif) => (
+                      {notifications?.map((notif: any) => (
                         <Card 
                           key={notif.id} 
                           className={`rounded-2xl border-0 shadow-sm transition-all hover:shadow-md ${!notif.isRead ? 'bg-accent/5 border-l-4 border-l-accent' : ''}`}
@@ -759,7 +759,10 @@ export default function Dashboard() {
                           <CardContent className="p-4 md:p-6">
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-2">
+                                <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                  {notif.orderCode && (
+                                    <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-black">Pedido: {notif.orderCode}</span>
+                                  )}
                                   {notif.type === 'action_required' && (
                                     <span className="text-[10px] bg-red-100 text-red-700 px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
                                   )}

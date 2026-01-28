@@ -44,6 +44,8 @@ export const users = pgTable("users", {
 export const userNotifications = pgTable("user_notifications", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  orderId: integer("order_id"),
+  orderCode: text("order_code"),
   type: text("type").notNull(),
   title: text("title").notNull(),
   message: text("message").notNull(),

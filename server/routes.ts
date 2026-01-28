@@ -157,10 +157,13 @@ export async function registerRoutes(
       }
 
       // Create Notification in Dashboard
+      const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
       await db.insert(userNotifications).values({
         userId: order.userId,
+        orderId: order.id,
+        orderCode,
         title: `Actualización de pedido: ${statusLabel}`,
-        message: `Tu pedido ${order.invoiceNumber || `#${order.id}`} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
+        message: `Tu pedido ${orderCode} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
         type: 'update',
         isRead: false
       });
@@ -455,6 +458,8 @@ export async function registerRoutes(
     
     await db.insert(userNotifications).values({
       userId,
+      orderId: order.id,
+      orderCode: invoiceNumber,
       title: 'Nuevo pedido registrado',
       message: `Se ha registrado el pedido ${invoiceNumber} para ${product.name}`,
       type: 'info',
@@ -1549,23 +1554,25 @@ export async function registerRoutes(
         createdBy: userId
       });
 
-      // NOTIFICATION: New order created
-      if (userId && !userId.startsWith('guest_')) {
-        await db.insert(userNotifications).values({
-          userId,
-          title: "Nuevo pedido registrado",
-          message: `Tu pedido de ${product.name} ha sido registrado correctamente. Te mantendremos informado del progreso.`,
-          type: 'info',
-          isRead: false
-        });
-      }
-
       // Create an empty application linked to the order
       const application = await storage.createLlcApplication({
         orderId: order.id,
         status: "draft",
         state: product.name.split(" ")[0], // Extract state name correctly
       });
+
+      // NOTIFICATION: New order created (after application so we have requestCode)
+      if (userId && !userId.startsWith('guest_')) {
+        await db.insert(userNotifications).values({
+          userId,
+          orderId: order.id,
+          orderCode: application.requestCode || order.invoiceNumber,
+          title: "Nuevo pedido registrado",
+          message: `Tu pedido de ${product.name} ha sido registrado correctamente. Te mantendremos informado del progreso.`,
+          type: 'info',
+          isRead: false
+        });
+      }
 
       // Generate unified request code: 8 random digits
       const generateRandomCode = () => {
@@ -2042,8 +2049,10 @@ export async function registerRoutes(
       if (userId && !userId.startsWith('guest_')) {
         await db.insert(userNotifications).values({
           userId,
+          orderId: order.id,
+          orderCode: requestCode,
           title: "Nuevo pedido de mantenimiento",
-          message: `Tu pedido de mantenimiento anual ha sido registrado. Te mantendremos informado del progreso.`,
+          message: `Tu pedido de mantenimiento anual (${requestCode}) ha sido registrado. Te mantendremos informado del progreso.`,
           type: 'info',
           isRead: false
         });
