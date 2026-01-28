@@ -7,26 +7,24 @@ import compression from "compression";
 const app = express();
 const httpServer = createServer(app);
 
-// Absolute priority health check for Replit deployment
-// This must respond with 200 OK immediately for the root path
-app.get("/", (req, res, next) => {
-  // Check for Replit health check headers or non-browser request
-  const accept = req.headers["accept"] || "";
-  const isReplit = !!(req.headers["x-replit-deployment-id"] || 
-                    (req.headers["user-agent"] && req.headers["user-agent"].includes("Replit")));
-  
-  if (isReplit || !accept.includes("text/html")) {
-    res.setHeader("Content-Type", "text/plain");
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    return res.status(200).send("OK");
-  }
-  next();
-});
-
-app.get(["/health", "/healthz"], (_req, res) => {
+// ABSOLUTELY FIRST: Respond to health checks immediately.
+// No middleware, no logging, no database, no compression.
+app.get("/", (_req, res) => {
   res.setHeader("Content-Type", "text/plain");
   res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-  res.status(200).send("OK");
+  return res.status(200).send("OK");
+});
+
+app.get("/health", (_req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  return res.status(200).send("OK");
+});
+
+app.get("/healthz", (_req, res) => {
+  res.setHeader("Content-Type", "text/plain");
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  return res.status(200).send("OK");
 });
 
 app.use(compression());
