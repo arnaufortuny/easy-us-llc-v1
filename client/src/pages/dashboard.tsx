@@ -856,31 +856,40 @@ export default function Dashboard() {
                     </Card>
                   )}
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 flex flex-col items-center text-center bg-white border-2 border-dashed border-gray-200">
-                      <label className="cursor-pointer w-full">
-                        <input 
-                          type="file" 
-                          className="hidden" 
-                          accept=".pdf,.jpg,.jpeg,.png"
-                          onChange={(e) => {
-                            const file = e.target.files?.[0];
-                            if (file) {
-                              setUploadDialog({ open: true, file });
-                              setUploadDocType("passport");
-                              setUploadNotes("");
-                            }
-                          }}
-                          data-testid="input-upload-new-document"
-                        />
-                        <FileUp className="w-12 h-12 text-gray-400 mb-4 mx-auto" />
-                        <h3 className="font-black text-gray-600 mb-2 text-sm md:text-base">Subir Documento</h3>
-                        <p className="text-[10px] text-muted-foreground mb-4">PDF, JPG o PNG (máx. 10MB)</p>
-                        <Button variant="outline" className="rounded-full font-black border-2 w-full text-xs py-5" asChild>
-                          <span><FileUp className="w-4 h-4 mr-2" /> SELECCIONAR ARCHIVO</span>
+                  {/* Botón prominente de subir archivo para móvil */}
+                  <Card className="rounded-2xl border-2 border-dashed border-accent/50 bg-accent/5 p-4 md:p-6 mb-4">
+                    <label className="cursor-pointer w-full block">
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept=".pdf,.jpg,.jpeg,.png"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setUploadDialog({ open: true, file });
+                            setUploadDocType("passport");
+                            setUploadNotes("");
+                          }
+                        }}
+                        data-testid="input-upload-new-document"
+                      />
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0">
+                          <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-black text-primary text-base md:text-lg">Subir Documento</h3>
+                          <p className="text-xs md:text-sm text-muted-foreground">PDF, JPG o PNG (máx. 10MB)</p>
+                        </div>
+                        <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0">
+                          <FileUp className="w-5 h-5 md:mr-2" />
+                          <span className="hidden md:inline">SUBIR</span>
                         </Button>
-                      </label>
-                    </Card>
+                      </div>
+                    </label>
+                  </Card>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
                     {userDocuments?.map((doc: any) => (
                       <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white">
@@ -1466,24 +1475,31 @@ export default function Dashboard() {
                                 </Select>
                               </div>
                             </div>
-                            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                <Edit className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Editar</span>
+                            {/* Acciones de admin - Grid responsivo para mejor visibilidad móvil */}
+                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 w-full md:w-auto">
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                <Edit className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Editar</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
-                                <Mail className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Email</span>
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
+                                <Mail className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Email</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                <MessageSquare className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Nota</span>
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                <MessageSquare className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Nota</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                <FileUp className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Docs</span>
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                <FileUp className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Docs</span>
                               </Button>
-                              <Button size="icon" variant="outline" className="h-10 w-10 md:h-7 md:w-auto md:px-2 rounded-full" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
-                                <FileText className="w-4 h-4 md:w-3 md:h-3" /><span className="hidden md:inline ml-1 text-[10px]">Factura</span>
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
+                                <FileText className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Factura</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="h-10 md:h-7 text-[10px] rounded-full text-red-600" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
-                                <Trash2 className="w-4 h-4 md:w-3 md:h-3 mr-1" /> Eliminar
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1 text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
+                                <Trash2 className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Eliminar</span>
                               </Button>
                             </div>
                           </div>
@@ -1492,67 +1508,68 @@ export default function Dashboard() {
                     </Card>
                   )}
                   {adminSubTab === 'calendar' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-4 overflow-hidden">
-                      <h4 className="font-black text-sm mb-4 flex items-center gap-2"><Calendar className="w-4 h-4 text-accent" /> Gestión de Fechas Fiscales</h4>
-                      <div className="space-y-4">
+                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
+                      <h4 className="font-black text-base md:text-lg mb-4 md:mb-6 flex items-center gap-2">
+                        <div className="w-10 h-10 md:w-8 md:h-8 rounded-xl bg-accent/20 flex items-center justify-center">
+                          <Calendar className="w-5 h-5 md:w-4 md:h-4 text-accent" />
+                        </div>
+                        <span>Gestión de Fechas Fiscales</span>
+                      </h4>
+                      <div className="space-y-4 md:space-y-6">
                         {adminOrders?.map((order: any) => {
                           const app = order.application;
                           if (!app) return null;
                           return (
-                            <div key={order.id} className="border rounded-xl p-4 bg-gray-50">
-                              <div className="flex items-center justify-between mb-3">
+                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50">
+                              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
-                                  <p className="font-black text-sm">{app.companyName || 'LLC pendiente'}</p>
-                                  <p className="text-[10px] text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
+                                  <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
+                                  <p className="text-xs md:text-sm text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
                                 </div>
-                                <Badge variant="outline" className="text-[10px]">ORD-{order.id}</Badge>
+                                <Badge variant="outline" className="text-xs w-fit">ORD-{order.id}</Badge>
                               </div>
-                              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                <div>
-                                  <Label className="text-[10px] text-muted-foreground">Creación LLC</Label>
+                              {/* Fechas - Stack vertical en móvil, grid en desktop */}
+                              <div className="space-y-3 md:space-y-0 md:grid md:grid-cols-2 md:gap-4">
+                                <div className="bg-white p-3 rounded-xl border">
+                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Creación LLC</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 text-xs" 
                                     defaultValue={app.llcCreatedDate ? new Date(app.llcCreatedDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'llcCreatedDate', value: e.target.value })}
                                     data-testid={`input-llc-created-${app.id}`}
                                   />
                                 </div>
-                                <div>
-                                  <Label className="text-[10px] text-muted-foreground">Renovación Agente</Label>
+                                <div className="bg-white p-3 rounded-xl border">
+                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Renovación Agente</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 text-xs" 
                                     defaultValue={app.agentRenewalDate ? new Date(app.agentRenewalDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'agentRenewalDate', value: e.target.value })}
                                     data-testid={`input-agent-renewal-${app.id}`}
                                   />
                                 </div>
-                                <div>
-                                  <Label className="text-[10px] text-muted-foreground">IRS 1120</Label>
+                                <div className="bg-white p-3 rounded-xl border">
+                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">IRS 1120</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 text-xs" 
                                     defaultValue={app.irs1120DueDate ? new Date(app.irs1120DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs1120DueDate', value: e.target.value })}
                                     data-testid={`input-irs1120-${app.id}`}
                                   />
                                 </div>
-                                <div>
-                                  <Label className="text-[10px] text-muted-foreground">IRS 5472</Label>
+                                <div className="bg-white p-3 rounded-xl border">
+                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">IRS 5472</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 text-xs" 
                                     defaultValue={app.irs5472DueDate ? new Date(app.irs5472DueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'irs5472DueDate', value: e.target.value })}
                                     data-testid={`input-irs5472-${app.id}`}
                                   />
                                 </div>
-                                <div className="md:col-span-2">
-                                  <Label className="text-[10px] text-muted-foreground">Reporte Anual</Label>
+                                <div className="bg-white p-3 rounded-xl border md:col-span-2">
+                                  <Label className="text-xs font-bold text-muted-foreground mb-2 block">Reporte Anual</Label>
                                   <Input 
                                     type="date" 
-                                    className="h-8 text-xs" 
                                     defaultValue={app.annualReportDueDate ? new Date(app.annualReportDueDate).toISOString().split('T')[0] : ''}
                                     onChange={e => updateLlcDatesMutation.mutate({ appId: app.id, field: 'annualReportDueDate', value: e.target.value })}
                                     data-testid={`input-annual-report-${app.id}`}
