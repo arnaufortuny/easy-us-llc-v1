@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 interface StepProgressProps {
   currentStep: number;
   totalSteps: number;
@@ -20,11 +18,9 @@ export function StepProgress({ currentStep, totalSteps, className = "" }: StepPr
         </span>
       </div>
       <div className="h-2 bg-secondary rounded-full overflow-hidden">
-        <motion.div
+        <div
           className="h-full bg-accent rounded-full"
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          style={{ width: `${progress}%` }}
         />
       </div>
     </div>

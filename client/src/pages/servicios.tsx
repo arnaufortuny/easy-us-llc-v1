@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
 import type { Product } from "@shared/schema";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
@@ -11,19 +11,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const fadeIn = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }
-};
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.04
-    }
-  }
-};
 
 export default function Servicios() {
   const [, setLocation] = useLocation();
@@ -108,19 +96,15 @@ export default function Servicios() {
           </h1>
         }
         subtitle={
-            <motion.div 
+            <div 
               className="flex flex-col items-center"
-              initial="initial"
-              animate="animate"
-              variants={staggerContainer}
             >
-            <motion.div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2" variants={fadeIn}>
+            <div className="text-[13px] sm:text-xl lg:text-2xl text-primary font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2">
                 Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.
-            </motion.div>
+            </div>
               
-              <motion.div 
+              <div 
                 className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
-                variants={fadeIn}
               >
                 {[
                   "Tu LLC en 2 días",
@@ -138,38 +122,26 @@ export default function Servicios() {
                     {text}
                   </div>
                 ))}
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
         }
       />
 
       <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
-          <motion.div 
-            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
               NUESTROS PACKS
-            </motion.h2>
-            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            </h2>
+            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Elige el plan que mejor se adapte a ti)
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
           
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0">
             {/* New Mexico */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">New Mexico</h3>
@@ -210,10 +182,10 @@ export default function Servicios() {
                       Mantenimiento Año 2: 349€
                     </Button>
                   </div>
-            </motion.div>
+            </div>
 
             {/* Wyoming */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">Wyoming</h3>
@@ -254,10 +226,10 @@ export default function Servicios() {
                       Mantenimiento Año 2: 499€
                     </Button>
                   </div>
-            </motion.div>
+            </div>
 
             {/* Delaware */}
-            <motion.div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none" variants={fadeIn}>
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-5 sm:p-6 flex-grow text-center">
                 <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                   <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">Delaware</h3>
@@ -298,16 +270,10 @@ export default function Servicios() {
                       Mantenimiento Año 2: 599€
                     </Button>
                   </div>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
           
-          <motion.div 
-            className="mt-12 sm:mt-16 flex justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={fadeIn}
-          >
+          <div className="mt-12 sm:mt-16 flex justify-center">
             <Button 
               onClick={() => {
                 window.open("https://wa.me/34624322421", "_blank");
@@ -316,48 +282,36 @@ export default function Servicios() {
             >
               Alguna duda? Hablemos →
             </Button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="bancos">
         <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
               Asistencia Bancaria
-            </motion.h2>
-            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            </h2>
+            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)
-            </motion.p>
-          </motion.div>
-          <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+            </p>
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {[
               { title: "Mercury", desc: "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC." },
               { title: "Relay", desc: "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa." },
               { title: "Estrategia bancaria", desc: "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar." },
               { title: "Acompañamiento continuo", desc: "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta." },
             ].map((service, i) => (
-              <motion.div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center" variants={fadeIn}>
+              <div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center">
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {service.title}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{service.desc}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
           <div className="mt-8 mb-12 flex justify-center">
             <div className="bg-accent px-8 py-3 rounded-full shadow-lg transform -rotate-1">
               <p className="text-primary font-sans font-black  tracking-[0.2em] text-sm sm:text-base">
@@ -368,32 +322,20 @@ export default function Servicios() {
 
           <div className="border-t border-primary/5 w-full max-w-7xl mx-auto mb-12" />
 
-          <motion.div 
-            className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
               Packs Mantenimiento
-            </motion.h2>
-            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Lo que incluye tu servicio anual)</motion.p>
-          </motion.div>
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+            </h2>
+            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que incluye tu servicio anual)</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
               { state: "New Mexico", price: "349€", annual: true },
               { state: "Wyoming", price: "499€", annual: true },
               { state: "Delaware", price: "599€", annual: true }
             ].map((item, i) => (
-              <motion.div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none" variants={fadeIn}>
+              <div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
                 <div className="p-5 sm:p-6 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-4 sm:mb-4 gap-2">
                     <h3 className="text-xl sm:text-xl font-black text-primary  tracking-tight">{item.state}</h3>
@@ -420,63 +362,45 @@ export default function Servicios() {
                     Elegir Pack {item.state}
                   </Button>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-12 sm:py-20 bg-white border-t border-accent/5" id="proceso">
         <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
               Proceso de Mantenimiento
-            </motion.h2>
-            <motion.p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>
+            </h2>
+            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Cómo trabajamos para que tu LLC esté siempre al día)
-            </motion.p>
-          </motion.div>
-          <motion.div 
-            className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {maintenanceProcess.map((step, i) => (
-              <motion.div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center" variants={fadeIn}>
+              <div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
                   {i + 1}
                 </div>
                 <h3 className="text-xl font-black text-primary  mb-3 mt-2">{step.title}</h3>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{step.desc}</p>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
 
       <section className="py-12 sm:py-20 bg-accent/5 border-t border-primary/5" id="faq">
         <div className="w-full px-5 sm:px-8">
-          <motion.div 
-            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
               Centro de Ayuda
-            </motion.h2>
-          </motion.div>
+            </h2>
+          </div>
           <div className="max-w-3xl mx-auto space-y-3">
             {[
               {
@@ -535,10 +459,7 @@ export default function Servicios() {
           </div>
 
           <div className="w-full mt-12 sm:mt-20 flex flex-col items-center">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+            <div
               className="text-center"
             >
               <p className="text-primary font-black mb-6">¿No encuentras lo que buscas?</p>
@@ -550,7 +471,7 @@ export default function Servicios() {
               >
                 Visita nuestro FAQ →
               </Button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

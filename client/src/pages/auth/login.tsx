@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff } from "lucide-react";
-import { motion } from "framer-motion";
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -81,7 +81,7 @@ export default function Login() {
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
       <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <motion.div 
+        <div 
           className="w-full max-w-md"
           initial="initial"
           animate="animate"
@@ -95,13 +95,13 @@ export default function Login() {
           </div>
 
           {loginError && (
-            <motion.div 
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
+            <div 
+             }
+             }
               className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center"
             >
               <p className="text-destructive font-medium text-sm">{loginError}</p>
-            </motion.div>
+            </div>
           )}
 
           <div>
@@ -179,7 +179,7 @@ export default function Login() {
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
       </main>
       <Footer />
     </div>

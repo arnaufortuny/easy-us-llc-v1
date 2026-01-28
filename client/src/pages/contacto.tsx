@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion } from "framer-motion";
+
 import { Loader2, CheckCircle2, Info, Mail, User, Phone, MessageSquare, HelpCircle, ShieldCheck } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -75,10 +75,7 @@ export default function Contacto() {
         telefono: user.phone || "",
       });
       if (user.emailVerified) {
-        setIsOtpVerified(true);
-      }
-    }
-  }, [isAuthenticated, user, form]);
+        setIsOtpVerified(true);, [isAuthenticated, user, form]);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -106,9 +103,7 @@ export default function Contacto() {
       if (isOtpVerified) setStep(7);
       else setStep(6);
     } else {
-      setStep(s => s + 1);
-    }
-  };
+      setStep(s => s + 1);;
 
   const prevStep = () => {
     if (step > 0) setStep(s => s - 1);
@@ -128,9 +123,7 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(false);;
 
   const verifyOtp = async () => {
     const email = form.getValues("email");
@@ -144,9 +137,7 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Código incorrecto", variant: "destructive" });
     } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(false);;
 
   const onSubmit = async (values: FormValues) => {
     if (!isOtpVerified) {
@@ -170,9 +161,7 @@ export default function Contacto() {
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el mensaje", variant: "destructive" });
     } finally {
-      setIsLoading(false);
-    }
-  };
+      setIsLoading(false);;
 
   const params = new URLSearchParams(window.location.search);
   const isUrlSubmitted = params.get("success") === "true";
@@ -188,9 +177,7 @@ export default function Contacto() {
       <div className="min-h-screen bg-white font-sans selection:bg-[#6EDC8A] selection:text-black">
         <Navbar />
         <main className="pt-24 sm:pt-32 pb-16 px-4 flex flex-col items-center justify-center text-center max-w-4xl mx-auto">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div 
             className="space-y-8 w-full"
           >
             <div className="w-20 h-20 sm:w-24 sm:h-24 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto shadow-xl shadow-[#6EDC8A]/20">
@@ -262,7 +249,7 @@ export default function Contacto() {
                 </Button>
               </a>
             </div>
-          </motion.div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -284,7 +271,7 @@ export default function Contacto() {
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                 
                 {step === 0 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
@@ -299,11 +286,11 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-0">Siguiente</Button>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 1 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 2️⃣ ¿Y tu apellido?
                     </h2>
@@ -320,11 +307,11 @@ export default function Contacto() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-1">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 2 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Tu email
                     </h2>
@@ -342,11 +329,11 @@ export default function Contacto() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-2">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 3 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 4️⃣ Teléfono (opcional)
                     </h2>
@@ -364,11 +351,11 @@ export default function Contacto() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-3">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 4 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <HelpCircle className="w-6 h-6 text-accent" /> 5️⃣ ¿En qué podemos ayudarte?
                     </h2>
@@ -392,11 +379,11 @@ export default function Contacto() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-4">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 5 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageSquare className="w-6 h-6 text-accent" /> 6️⃣ Cuéntanos más
                     </h2>
@@ -422,11 +409,11 @@ export default function Contacto() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-[#6EDC8A] text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-5">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 6 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 7️⃣ Verifica tu email
                     </h2>
@@ -478,11 +465,11 @@ export default function Contacto() {
                     )}
                     
                     <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-14 font-black border-gray-200 active:scale-95 transition-all mt-4">Atrás</Button>
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 7 && (
-                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6 text-left">
+                  <div}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CheckCircle2 className="w-6 h-6 text-accent" /> Confirmar y enviar
                     </h2>
@@ -529,7 +516,7 @@ export default function Contacto() {
                         {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
                       </Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
               </form>
             </Form>

@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -525,9 +525,9 @@ export default function Dashboard() {
       <div className="min-h-screen bg-[#F7F7F5] font-sans flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center p-4">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div 
+           }
+           }
             className="max-w-md w-full"
           >
             <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white">
@@ -558,7 +558,7 @@ export default function Dashboard() {
                 </div>
               </CardContent>
             </Card>
-          </motion.div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -583,9 +583,9 @@ export default function Dashboard() {
       <Navbar />
       <main className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-8">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+          <div 
+           }
+           }
             className="flex flex-col md:flex-row md:items-center justify-between gap-4"
           >
             <div>
@@ -602,7 +602,7 @@ export default function Dashboard() {
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
-          </motion.div>
+          </div>
         </header>
 
         <div className="flex overflow-x-auto pb-3 mb-6 gap-1.5 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-2 md:pb-4 md:mb-8">
@@ -628,13 +628,13 @@ export default function Dashboard() {
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
           <div className="lg:col-span-2 space-y-4 md:space-y-6 order-1">
-            <AnimatePresence mode="wait">
+            
               {activeTab === 'services' && (
-                <motion.div
+                <div
                   key="services"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                 }
+                 }
+                 }
                   className="space-y-6"
                 >
                   <div className="mb-4 md:mb-6">
@@ -706,15 +706,15 @@ export default function Dashboard() {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'notifications' && (
-                <motion.div
+                <div
                   key="notifications"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                 }
+                 }
+                 }
                   className="space-y-6"
                 >
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Notificaciones</h2>
@@ -776,15 +776,15 @@ export default function Dashboard() {
                       ))}
                     </div>
                   )}
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'messages' && (
-                <motion.div
+                <div
                   key="messages"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
+                 }
+                 }
+                 }
                   className="space-y-6"
                 >
                   <div className="flex justify-between items-center mb-6">
@@ -823,11 +823,11 @@ export default function Dashboard() {
                       ))
                     )}
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'documents' && (
-                <motion.div key="documents" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                <div key="documents"}}} className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight mb-6">Centro de Documentación</h2>
                   
                   {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && (
@@ -929,11 +929,11 @@ export default function Dashboard() {
                       </Card>
                     ))}
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'payments' && (
-                <motion.div key="payments" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                <div key="payments"}}} className="space-y-6">
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
@@ -957,11 +957,11 @@ export default function Dashboard() {
                       ))
                     )}
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'calendar' && (
-                <motion.div key="calendar" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                <div key="calendar"}}} className="space-y-6">
                   <div className="mb-6">
                     <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Calendario Fiscal</h2>
                     <p className="text-xs text-muted-foreground font-medium">Fechas importantes de tu LLC</p>
@@ -1039,11 +1039,11 @@ export default function Dashboard() {
                       </Link>
                     </Card>
                   )}
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'profile' && (
-                <motion.div key="profile" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                <div key="profile"}}} className="space-y-6">
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="text-xl font-black">Información Personal</h3>
@@ -1278,11 +1278,11 @@ export default function Dashboard() {
                       </div>
                     )}
                   </Card>
-                </motion.div>
+                </div>
               )}
 
               {activeTab === 'admin' && user?.isAdmin && (
-                <motion.div key="admin" initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }} className="space-y-6">
+                <div key="admin"}}} className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
                     {['dashboard', 'orders', 'users', 'calendar', 'newsletter', 'inbox'].map(tab => (
                       <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
@@ -1727,10 +1727,10 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
-                </motion.div>
+                </div>
               )}
 
-                          </AnimatePresence>
+                          
           </div>
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">

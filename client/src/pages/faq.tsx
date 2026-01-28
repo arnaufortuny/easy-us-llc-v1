@@ -2,22 +2,10 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
-import { motion } from "framer-motion";
+
 import { useState } from "react";
 
-const fadeIn = {
-  initial: { opacity: 0, y: 12 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }
-};
 
-const staggerContainer = {
-  animate: {
-    transition: {
-      staggerChildren: 0.04
-    }
-  }
-};
 
 const faqCategories = [
   {
@@ -143,19 +131,13 @@ export default function FAQ() {
 
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-white">
         <div className="container max-w-7xl mx-auto px-5 sm:px-8">
-          <motion.div 
-            className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center"
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <motion.h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center" variants={fadeIn}>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
               <span className="text-accent  tracking-widest text-xs sm:text-sm font-black block mb-2 text-center">FAQ</span>
               Centro de Ayuda
-            </motion.h2>
-            <motion.p className="hidden sm:block text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center" variants={fadeIn}>(Todo lo que necesitas saber)</motion.p>
-          </motion.div>
+            </h2>
+            <p className="hidden sm:block text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Todo lo que necesitas saber)</p>
+          </div>
 
           <div className="max-w-4xl mx-auto">
             <div className="mb-4 sm:mb-12 relative">
@@ -173,16 +155,10 @@ export default function FAQ() {
               </div>
             </div>
 
-            <motion.div 
-              className="space-y-8 sm:space-y-12"
-              initial="initial"
-              whileInView="animate"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-            >
+            <div className="space-y-8 sm:space-y-12">
               {filteredCategories.length > 0 ? (
                 filteredCategories.map((category) => (
-                  <motion.div key={category.title} className="space-y-4 sm:space-y-6" variants={fadeIn}>
+                  <div key={category.title} className="space-y-4 sm:space-y-6">
                     <h2 className="text-xl sm:text-2xl font-black text-primary  tracking-tight flex items-center gap-3 sm:gap-4">
                       <span className="w-1.5 sm:w-2 h-8 sm:h-10 bg-accent rounded-full shrink-0" />
                       {category.title}
@@ -218,7 +194,7 @@ export default function FAQ() {
                         </div>
                       ))}
                     </div>
-                  </motion.div>
+                  </div>
                 ))
               ) : (
                 <div className="text-center py-16 sm:py-20">
@@ -226,7 +202,7 @@ export default function FAQ() {
                   <p className="text-muted-foreground text-sm sm:text-base">Prueba con otra palabra o contáctanos directamente.</p>
                 </div>
               )}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

@@ -3,7 +3,7 @@ import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { Check, ShieldCheck, Mail, Building2, Loader2, MessageCircle, Info, Upload, CreditCard, Calendar, User, Phone, Globe, MapPin, Briefcase, HelpCircle } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -262,10 +262,10 @@ export default function ApplicationWizard() {
           <div className="space-y-6">
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-                <AnimatePresence mode="wait">
+                
                 {/* STEP 0: Nombre Completo */}
                 {step === 0 && (
-                  <motion.div key="step-0" initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key="step-0"}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <User className="w-6 h-6 text-accent" /> 1️⃣ ¿Cómo te llamas?
                     </h2>
@@ -280,12 +280,12 @@ export default function ApplicationWizard() {
                       </FormItem>
                     )} />
                     <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 1: Teléfono */}
                 {step === 1 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Phone className="w-6 h-6 text-accent" /> 2️⃣ Teléfono de contacto
                     </h2>
@@ -303,12 +303,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 2: Email */}
                 {step === 2 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> 3️⃣ Email
                     </h2>
@@ -326,12 +326,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 3: Fecha de Nacimiento */}
                 {step === 3 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Calendar className="w-6 h-6 text-accent" /> 4️⃣ Fecha de nacimiento
                     </h2>
@@ -348,12 +348,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 4: Documento de Identidad */}
                 {step === 4 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> 5️⃣ Documento de identidad
                     </h2>
@@ -388,12 +388,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 5: País de Residencia */}
                 {step === 5 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Globe className="w-6 h-6 text-accent" /> 6️⃣ País de residencia
                     </h2>
@@ -410,12 +410,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 6: Dirección Completa */}
                 {step === 6 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MapPin className="w-6 h-6 text-accent" /> 7️⃣ Dirección completa
                     </h2>
@@ -433,12 +433,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 7: Nombre LLC */}
                 {step === 7 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Building2 className="w-6 h-6 text-accent" /> 8️⃣ Nombre deseado para la LLC
                     </h2>
@@ -456,12 +456,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 8: Actividad del Negocio */}
                 {step === 8 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 9️⃣ Actividad del negocio
                     </h2>
@@ -476,12 +476,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 9: Categoría */}
                 {step === 9 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Briefcase className="w-6 h-6 text-accent" /> 🔟 Categoría de negocio
                     </h2>
@@ -500,12 +500,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 10: Cuenta Bancaria */}
                 {step === 10 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <CreditCard className="w-6 h-6 text-accent" /> 1️⃣1️⃣ ¿Necesitas cuenta bancaria?
                     </h2>
@@ -529,12 +529,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 11: Notas */}
                 {step === 11 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <MessageCircle className="w-6 h-6 text-accent" /> 1️⃣2️⃣ ¿Algo más que debamos saber?
                     </h2>
@@ -548,12 +548,12 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 12: OTP */}
                 {step === 12 && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <Mail className="w-6 h-6 text-accent" /> Verificación de Email
                     </h2>
@@ -576,12 +576,12 @@ export default function ApplicationWizard() {
                       </div>
                     )}
                     <Button type="button" variant="link" onClick={() => setStep(11)} className="w-full">Atrás</Button>
-                  </motion.div>
+                  </div>
                 )}
 
                 {/* STEP 13: Consentimientos Finales */}
                 {(step === 13 || step === 14) && (
-                  <motion.div key={"step-" + step} initial={{ opacity: 0, x: direction === "forward" ? 20 : -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction === "forward" ? -20 : 20 }} transition={{ duration: 0.2 }} className="space-y-6 text-left">
+                  <div key={"step-" + step}}}} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       <ShieldCheck className="w-6 h-6 text-accent" /> Último paso: Confirmación
                     </h2>
@@ -609,9 +609,9 @@ export default function ApplicationWizard() {
                       <Button type="button" variant="outline" onClick={() => setStep(11)} className="flex-1 rounded-full h-12 md:h-14 font-black border-gray-200 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button type="submit" className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Enviar Solicitud</Button>
                     </div>
-                  </motion.div>
+                  </div>
                 )}
-                </AnimatePresence>
+                
               </form>
             </Form>
           </div>

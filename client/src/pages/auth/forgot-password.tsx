@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
 import { Loader2, Eye, EyeOff, CheckCircle2, ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -118,9 +118,9 @@ export default function ForgotPassword() {
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div 
+           }
+           }
             className="w-full max-w-md text-center"
           >
             <div className="w-16 h-16 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto mb-6">
@@ -137,7 +137,7 @@ export default function ForgotPassword() {
                 Iniciar Sesión
               </Button>
             </Link>
-          </motion.div>
+          </div>
         </main>
         <Footer />
       </div>

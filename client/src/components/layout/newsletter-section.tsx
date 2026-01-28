@@ -3,7 +3,7 @@ import { Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { motion } from "framer-motion";
+
 import { useAuth } from "@/hooks/use-auth";
 
 export function NewsletterSection() {
@@ -53,12 +53,7 @@ export function NewsletterSection() {
       <div className="absolute inset-0 opacity-[0.05] pointer-events-none bg-[url('/hero-bg.png')] bg-repeat" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center"
-        >
+        <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
           <div className="space-y-2 md:space-y-4 w-full text-center">
             <h2 className="text-xl md:text-4xl font-black tracking-tighter text-black leading-none text-center">
               Únete a nuestra <span className="text-black bg-accent px-2 inline-block">Newsletter</span>
@@ -95,7 +90,7 @@ export function NewsletterSection() {
               </Button>
             </div>
           </form>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

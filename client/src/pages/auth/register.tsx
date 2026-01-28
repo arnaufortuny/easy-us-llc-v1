@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff, CheckCircle2, User, Mail, Phone, Briefcase, Lock, ArrowLeft, ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -165,9 +165,9 @@ export default function Register() {
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+          <div 
+           }
+           }
             className="w-full max-w-md"
           >
             <div className="text-center mb-8">
@@ -229,7 +229,7 @@ export default function Register() {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
         </main>
         <Footer />
       </div>
@@ -261,14 +261,14 @@ export default function Register() {
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <AnimatePresence mode="wait">
+              
                 {step === 0 && (
-                  <motion.div
+                  <div
                     key="step-0"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -318,16 +318,16 @@ export default function Register() {
                         </FormItem>
                       )}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 1 && (
-                  <motion.div
+                  <div
                     key="step-1"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -360,16 +360,16 @@ export default function Register() {
                         </FormItem>
                       )}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 2 && (
-                  <motion.div
+                  <div
                     key="step-2"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -402,16 +402,16 @@ export default function Register() {
                         </FormItem>
                       )}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 3 && (
-                  <motion.div
+                  <div
                     key="step-3"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -453,16 +453,16 @@ export default function Register() {
                         </FormItem>
                       )}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 4 && (
-                  <motion.div
+                  <div
                     key="step-4"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -529,16 +529,16 @@ export default function Register() {
                         </FormItem>
                       )}
                     />
-                  </motion.div>
+                  </div>
                 )}
 
                 {step === 5 && (
-                  <motion.div
+                  <div
                     key="step-5"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+                   }
+                   }
+                   }
+                   
                     className="space-y-6"
                   >
                     <div className="flex items-center gap-3 mb-4">
@@ -582,9 +582,9 @@ export default function Register() {
                         <span className="text-accent underline cursor-pointer">Política de Privacidad</span>
                       </Link>
                     </p>
-                  </motion.div>
+                  </div>
                 )}
-              </AnimatePresence>
+              
 
               <div className="flex gap-3 pt-4">
                 {step > 0 && (
