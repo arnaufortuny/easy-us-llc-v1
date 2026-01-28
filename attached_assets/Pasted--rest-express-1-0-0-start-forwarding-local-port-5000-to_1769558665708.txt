@@ -1,0 +1,31 @@
+> rest-express@1.0.0 start
+forwarding local port 5000 to external port 80 (mapped as 1104)
+> NODE_ENV=production node dist/index.cjs
+metasidecar: loaded enterprise status from environment is_enterprise=false
+starting up user application
+(node:42) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+
+
+12:00:14 AM [express] serving on port 5000
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+(Use `node --trace-warnings ...` to show where the warning was created)
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+To prepare for this change:
+> NODE_ENV=production node dist/index.cjs
+(node:42) Warning: SECURITY WARNING: The SSL modes 'prefer', 'require', and 'verify-ca' are treated as aliases for 'verify-full'.
+starting up user application
+
+- If you want the current behavior, explicitly use 'sslmode=verify-full'
+To prepare for this change:
+forwarding local port 5000 to external port 80 (mapped as 1104)
+(Use `node --trace-warnings ...` to show where the warning was created)
+> rest-express@1.0.0 start
+In the next major version (pg-connection-string v3.0.0 and pg v9.0.0), these modes will adopt standard libpq semantics, which have weaker security guarantees.
+See https://www.postgresql.org/docs/current/libpq-ssl.html for libpq SSL mode definitions.
+12:01:43 AM [express] serving on port 5000
+metasidecar: loaded enterprise status from environment is_enterprise=false
+
+- If you want libpq compatibility now, use 'uselibpqcompat=true&sslmode=require'
+2026-01-28T00:02:17Z error: The deployment is failing health checks. This can happen if the application isn't responding, responds with an error, or doesn't respond in time. Health checks are sent to the / endpoint by default and must respond as soon as possible. Make sure that the / endpoint is implemented and returns a 200 status code in a timely manner. Avoid doing expensive or long running operations on the / endpoint, prefer deferring them to a different route. Check the logs for more information.
