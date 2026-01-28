@@ -1346,11 +1346,14 @@ export async function registerRoutes(
 
   // Create standalone invoice for user (not tied to order)
   app.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
-    const { userId, concept, amount } = z.object({
+    const { userId, concept, amount, currency } = z.object({
       userId: z.string(),
       concept: z.string().min(1),
-      amount: z.number().min(1)
+      amount: z.number().min(1),
+      currency: z.enum(["EUR", "USD"]).default("EUR")
     }).parse(req.body);
+    
+    const currencySymbol = currency === "USD" ? "$" : "€";
 
     const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
     if (!user) {
@@ -1424,13 +1427,13 @@ export async function registerRoutes(
     <div class="items-row">
       <span>${concept}</span>
       <span style="text-align:right;">1</span>
-      <span style="text-align:right;">${(amount / 100).toFixed(2)} €</span>
+      <span style="text-align:right;">${(amount / 100).toFixed(2)} ${currencySymbol}</span>
     </div>
   </div>
   <div class="total-section">
-    <div class="total-row">Subtotal: ${(amount / 100).toFixed(2)} €</div>
-    <div class="total-row">IVA (0%): 0.00 €</div>
-    <div class="total-final">Total: ${(amount / 100).toFixed(2)} €</div>
+    <div class="total-row">Subtotal: ${(amount / 100).toFixed(2)} ${currencySymbol}</div>
+    <div class="total-row">IVA (0%): 0.00 ${currencySymbol}</div>
+    <div class="total-final">Total: ${(amount / 100).toFixed(2)} ${currencySymbol}</div>
   </div>
   <div class="footer">
     <p>Fortuny Consulting LLC - EIN: 99-1877254</p>
