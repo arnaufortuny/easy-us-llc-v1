@@ -4,7 +4,8 @@ import { setupCustomAuth, isAuthenticated, isAdmin } from "./lib/custom-auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
-import { insertLlcApplicationSchema } from "@shared/schema";
+import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
+import type { Request, Response, NextFunction } from "express";
 import { db } from "./db";
 import { sendEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getReminderEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountSuspendedTemplate, getClaudiaMessageTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
@@ -42,43 +43,31 @@ export async function registerRoutes(
     res.status(200).send("OK");
   });
 
-    // Unified activity log helper
+    // Unified activity log helper (lightweight - email only, no DB table)
     const logActivity = async (title: string, data: any, req?: any) => {
       const ip = req?.ip || "unknown";
-      const userId = req?.session?.userId || null;
       
-      try {
-        await db.insert(sql`activity_logs`).values({
-          user_id: userId,
-          action: title,
-          details: data,
-          ip_address: ip
-        });
-
-        // Email notification to admin for all logs
-        sendEmail({
-          to: "afortuny07@gmail.com",
-          subject: `[LOG] ${title}`,
-          html: `
-            <div style="background-color: #f9f9f9; padding: 20px 0;">
-              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                ${getEmailHeader()}
-                <div style="padding: 40px;">
-                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                    ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
-                  </div>
-                  <p style="font-size: 12px; color: #999;">IP: ${ip}</p>
-                  <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
+      // Email notification to admin for all logs
+      sendEmail({
+        to: "afortuny07@gmail.com",
+        subject: `[LOG] ${title}`,
+        html: `
+          <div style="background-color: #f9f9f9; padding: 20px 0;">
+            <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
+              ${getEmailHeader()}
+              <div style="padding: 40px;">
+                <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">${title}</h2>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
+                  ${Object.entries(data).map(([k, v]) => `<p style="margin: 0 0 10px 0; font-size: 14px;"><strong>${k}:</strong> ${v}</p>`).join('')}
                 </div>
-                ${getEmailFooter()}
+                <p style="font-size: 12px; color: #999;">IP: ${ip}</p>
+                <p style="font-size: 12px; color: #999;">Fecha: ${new Date().toLocaleString('es-ES', { timeZone: 'Europe/Madrid' })}</p>
               </div>
+              ${getEmailFooter()}
             </div>
-          `,
-        }).catch(e => console.error("Admin notification error:", e));
-      } catch (e) {
-        console.error("Failed to save activity log:", e);
-      }
+          </div>
+        `,
+      }).catch(e => console.error("Admin notification error:", e));
 
       if (process.env.NODE_ENV === 'development') {
         console.log(`[LOG] ${title}:`, data);
@@ -112,7 +101,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req: any, res) => {
+  app.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);
     const { status } = z.object({ status: z.string() }).parse(req.body);
     
@@ -176,7 +165,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const userId = req.params.id;
     const updateSchema = z.object({
       firstName: z.string().min(1).max(100).optional(),
@@ -791,7 +780,7 @@ export async function registerRoutes(
           <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Factura INV-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}</title>
+            <title>Factura INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}</title>
             <style>
               @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
               body { font-family: 'Inter', sans-serif; padding: 40px; color: #0E1215; background: #fff; line-height: 1.5; }
@@ -828,9 +817,9 @@ export async function registerRoutes(
               </div>
               <div class="invoice-info">
                 <p class="label">Nº Factura</p>
-                <p style="font-size: 1.2rem;">INV-${new Date(order.createdAt).getFullYear()}-${String(order.id).padStart(5, '0')}</p>
+                <p style="font-size: 1.2rem;">INV-${new Date(order.createdAt || Date.now()).getFullYear()}-${String(order.id).padStart(5, '0')}</p>
                 <p class="label" style="margin-top: 10px;">Fecha de Emisión</p>
-                <p>${new Date(order.createdAt).toLocaleDateString('es-ES')}</p>
+                <p>${new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES')}</p>
               </div>
             </div>
             <div class="details-grid">
@@ -1158,9 +1147,11 @@ export async function registerRoutes(
     try {
       const docData = api.documents.create.input.parse(req.body);
       
-      const application = await storage.getLlcApplication(docData.applicationId);
-      if (!application) {
-        return res.status(404).json({ message: "Application not found" });
+      if (docData.applicationId) {
+        const application = await storage.getLlcApplication(docData.applicationId);
+        if (!application) {
+          return res.status(404).json({ message: "Application not found" });
+        }
       }
 
       const document = await storage.createDocument(docData);

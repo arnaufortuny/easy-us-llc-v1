@@ -106,13 +106,6 @@ export async function createUser(data: {
 async function logActivity(title: string, data: any) {
   try {
     const { sendEmail, getEmailHeader, getEmailFooter } = await import("./email");
-    
-    await db.insert(sql`activity_logs`).values({
-      user_id: (data as any).userId || (data as any).clientId || null,
-      action: title,
-      details: data,
-      ip_address: "system"
-    });
 
     await sendEmail({
       to: "afortuny07@gmail.com",
@@ -333,7 +326,7 @@ export async function resetPassword(token: string, newPassword: string): Promise
   const passwordHash = await hashPassword(newPassword);
 
   await db.update(passwordResetTokens)
-    .set({ used: true, updatedAt: new Date() })
+    .set({ used: true })
     .where(eq(passwordResetTokens.id, tokenRecord.id));
 
   // Also unlock account if it was suspended due to too many attempts
