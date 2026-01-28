@@ -701,8 +701,6 @@ export async function registerRoutes(
   });
 
   // Request OTP for password change
-  const passwordChangeOtps = new Map<string, { otp: string; expires: Date }>();
-  
   app.post("/api/user/request-password-otp", isAuthenticated, async (req: any, res) => {
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
@@ -711,7 +709,16 @@ export async function registerRoutes(
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      passwordChangeOtps.set(req.session.userId, { otp, expires: new Date(Date.now() + 10 * 60 * 1000) }); // 10 min
+      const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 min
+      
+      // Store OTP in database
+      await db.insert(contactOtps).values({
+        email: user.email,
+        otp,
+        otpType: "password_change",
+        expiresAt: expires,
+        verified: false
+      });
       
       await sendEmail({
         to: user.email,
@@ -749,17 +756,27 @@ export async function registerRoutes(
         otp: z.string().length(6)
       }).parse(req.body);
       
-      // Verify OTP
-      const storedOtp = passwordChangeOtps.get(req.session.userId);
-      if (!storedOtp || storedOtp.otp !== otp || storedOtp.expires < new Date()) {
-        return res.status(400).json({ message: "Código de verificación inválido o expirado" });
-      }
-      passwordChangeOtps.delete(req.session.userId);
-      
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
-      if (!user?.passwordHash) {
+      if (!user?.email || !user?.passwordHash) {
         return res.status(400).json({ message: "No se puede cambiar la contraseña" });
       }
+      
+      // Verify OTP from database
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(and(
+          eq(contactOtps.email, user.email),
+          eq(contactOtps.otp, otp),
+          eq(contactOtps.otpType, "password_change"),
+          gt(contactOtps.expiresAt, new Date())
+        ));
+      
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Código de verificación inválido o expirado" });
+      }
+      
+      // Delete used OTP
+      await db.delete(contactOtps).where(eq(contactOtps.id, otpRecord.id));
       
       const { verifyPassword, hashPassword } = await import("./lib/auth-service");
       const isValid = await verifyPassword(currentPassword, user.passwordHash);

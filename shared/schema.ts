@@ -118,6 +118,7 @@ export const contactOtps = pgTable("contact_otps", {
   id: serial("id").primaryKey(),
   email: text("email").notNull(),
   otp: text("otp").notNull(),
+  otpType: text("otp_type").notNull().default("contact"), // contact, password_change
   expiresAt: timestamp("expires_at").notNull(),
   verified: boolean("verified").notNull().default(false),
 });
