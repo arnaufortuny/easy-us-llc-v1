@@ -157,6 +157,11 @@ export default function Dashboard() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordOtp, setPasswordOtp] = useState("");
   const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
+  const [paymentLinkDialog, setPaymentLinkDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [paymentLinkUrl, setPaymentLinkUrl] = useState("");
+  const [paymentLinkAmount, setPaymentLinkAmount] = useState("");
+  const [paymentLinkMessage, setPaymentLinkMessage] = useState("");
+  const [isSendingPaymentLink, setIsSendingPaymentLink] = useState(false);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
@@ -1592,6 +1597,10 @@ export default function Dashboard() {
                                 <FileText className="w-3.5 h-3.5" />
                                 <span className="text-[9px] md:text-[10px]">Factura</span>
                               </Button>
+                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1 text-accent border-accent/30" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
+                                <CreditCard className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Pago</span>
+                              </Button>
                               <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1 text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
                                 <Trash2 className="w-3.5 h-3.5" />
                                 <span className="text-[9px] md:text-[10px]">Eliminar</span>
@@ -2703,6 +2712,97 @@ export default function Dashboard() {
               </Button>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={paymentLinkDialog.open} onOpenChange={(open) => {
+        setPaymentLinkDialog({ open, user: open ? paymentLinkDialog.user : null });
+        if (!open) {
+          setPaymentLinkUrl("");
+          setPaymentLinkAmount("");
+          setPaymentLinkMessage("");
+        }
+      }}>
+        <DialogContent className="rounded-2xl mx-4 sm:mx-auto max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black">Enviar Link de Pago</DialogTitle>
+            <DialogDescription>
+              Envía un enlace de pago a {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 py-4">
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Link de pago (URL)</Label>
+              <Input
+                value={paymentLinkUrl}
+                onChange={(e) => setPaymentLinkUrl(e.target.value)}
+                placeholder="https://..."
+                className="rounded-full border-gray-200 focus:border-accent"
+                data-testid="input-payment-link-url"
+              />
+            </div>
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Importe</Label>
+              <Input
+                value={paymentLinkAmount}
+                onChange={(e) => setPaymentLinkAmount(e.target.value)}
+                placeholder="Ej: 739€"
+                className="rounded-full border-gray-200 focus:border-accent"
+                data-testid="input-payment-link-amount"
+              />
+            </div>
+            <div>
+              <Label className="text-sm font-black text-primary block mb-2">Mensaje (opcional)</Label>
+              <Textarea
+                value={paymentLinkMessage}
+                onChange={(e) => setPaymentLinkMessage(e.target.value)}
+                placeholder="Mensaje adicional para el cliente..."
+                className="rounded-xl border-gray-200 focus:border-accent resize-none"
+                rows={3}
+                data-testid="input-payment-link-message"
+              />
+            </div>
+          </div>
+          <DialogFooter className="flex-col sm:flex-row gap-3">
+            <Button
+              variant="outline"
+              onClick={() => setPaymentLinkDialog({ open: false, user: null })}
+              className="w-full sm:w-auto rounded-full"
+            >
+              Cancelar
+            </Button>
+            <Button
+              onClick={async () => {
+                if (!paymentLinkUrl || !paymentLinkAmount) {
+                  toast({ title: "Completa todos los campos requeridos", variant: "destructive" });
+                  return;
+                }
+                setIsSendingPaymentLink(true);
+                try {
+                  await apiRequest("POST", "/api/admin/send-payment-link", {
+                    userId: paymentLinkDialog.user?.id,
+                    paymentLink: paymentLinkUrl,
+                    amount: paymentLinkAmount,
+                    message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
+                  });
+                  toast({ title: "Link de pago enviado", description: `Se ha enviado el link a ${paymentLinkDialog.user?.email}` });
+                  setPaymentLinkDialog({ open: false, user: null });
+                  setPaymentLinkUrl("");
+                  setPaymentLinkAmount("");
+                  setPaymentLinkMessage("");
+                } catch (err: any) {
+                  toast({ title: "Error", description: err.message || "No se pudo enviar el link", variant: "destructive" });
+                } finally {
+                  setIsSendingPaymentLink(false);
+                }
+              }}
+              disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
+              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+              data-testid="button-send-payment-link"
+            >
+              {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
