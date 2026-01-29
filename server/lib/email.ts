@@ -495,7 +495,7 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
   }
 
   // TEST MODE: All emails go to afortuny for testing
-  const testEmail = "afortuny@easyusllc.com";
+  const testEmail = "afortuny07@gmail.com";
   const originalTo = to;
 
   try {
