@@ -37,6 +37,7 @@ export async function createUser(data: {
   lastName: string;
   phone: string;
   birthDate?: string;
+  businessActivity?: string;
   clientId: string;
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
   const existingUser = await db.select().from(users).where(eq(users.email, data.email)).limit(1);
@@ -55,6 +56,7 @@ export async function createUser(data: {
     firstName: data.firstName,
     lastName: data.lastName,
     phone: data.phone,
+    businessActivity: data.businessActivity || null,
     emailVerified: false,
     isAdmin: isAdminEmail,
     accountStatus: "active",

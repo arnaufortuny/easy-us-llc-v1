@@ -62,7 +62,7 @@ export function setupCustomAuth(app: Express) {
   // Register endpoint
   app.post("/api/auth/register", async (req, res) => {
     try {
-      const { email, password, firstName, lastName, phone, birthDate } = req.body;
+      const { email, password, firstName, lastName, phone, birthDate, businessActivity } = req.body;
 
       if (!email || !password || !firstName || !lastName || !phone) {
         return res.status(400).json({ message: "Todos los campos son obligatorios" });
@@ -80,6 +80,7 @@ export function setupCustomAuth(app: Express) {
         lastName,
         phone,
         birthDate,
+        businessActivity,
         clientId,
       });
 
