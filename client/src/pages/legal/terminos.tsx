@@ -15,7 +15,7 @@ export default function Terminos() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
+    <div className="min-h-screen bg-background font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
       <Navbar />
       
       <HeroSection 
@@ -32,7 +32,7 @@ export default function Terminos() {
         }
       />
       
-      <section className="py-8 sm:py-12 bg-white">
+      <section className="py-8 sm:py-12 bg-background">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-center sm:justify-end mb-8">
@@ -104,15 +104,15 @@ export default function Terminos() {
                 </h2>
                 <div className="space-y-8">
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
-                    <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
+                    <div className="bg-background dark:bg-card p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
                       <p className="text-3xl font-black text-brand-dark">739 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack New Mexico</p>
                     </div>
-                    <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
+                    <div className="bg-background dark:bg-card p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
                       <p className="text-3xl font-black text-brand-dark">899 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Wyoming</p>
                     </div>
-                    <div className="bg-white p-8 rounded-2xl border-2 border-brand-lime/20 text-center shadow-sm">
+                    <div className="bg-background dark:bg-card p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
                       <p className="text-3xl font-black text-brand-dark">1199 €</p>
                       <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Delaware</p>
                     </div>

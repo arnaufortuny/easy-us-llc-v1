@@ -247,7 +247,7 @@ export default function Register() {
               <div
                 key={i}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  i === step ? "w-8 bg-[#6EDC8A]" : i < step ? "w-2 bg-[#6EDC8A]" : "w-2 bg-gray-200"
+                  i === step ? "w-8 bg-accent" : i < step ? "w-2 bg-accent" : "w-2 bg-muted"
                 }`}
               />
             ))}

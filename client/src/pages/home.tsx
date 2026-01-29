@@ -31,7 +31,7 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen font-sans text-left bg-white overflow-x-hidden w-full relative">
+    <div className="min-h-screen font-sans text-left bg-background overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-16 sm:pt-8 min-h-[400px] sm:min-h-[70vh] w-full"
@@ -39,7 +39,7 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             <div className="mb-4 sm:hidden flex justify-center mt-6">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-background dark:bg-card px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -69,7 +69,7 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-background dark:bg-card px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -83,25 +83,25 @@ export default function Home() {
             </div>
 
             <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Tu LLC en 2 días
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Pack Todo Incluido
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Sin IVA
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Precios Transparentes
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Trato Cercano
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Apertura Cuenta Mercury & Relay
               </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+              <span className="inline-flex items-center px-4 py-2 rounded-full bg-background dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
                 Tarjeta Física de Crédito y Débito
               </span>
             </div>

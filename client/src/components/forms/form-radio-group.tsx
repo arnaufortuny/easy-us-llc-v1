@@ -45,8 +45,8 @@ export function FormRadioGroup<T extends FieldValues>({
                   key={opt}
                   className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${
                     field.value === opt
-                      ? "border-[#6EDC8A] bg-[#6EDC8A]/5"
-                      : "border-gray-200 bg-white hover:border-[#6EDC8A]/50"
+                      ? "border-accent bg-accent/5"
+                      : "border-border bg-background dark:bg-card hover:border-accent/50"
                   }`}
                 >
                   <input
@@ -58,11 +58,11 @@ export function FormRadioGroup<T extends FieldValues>({
                   />
                   <div
                     className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                      field.value === opt ? "border-[#6EDC8A]" : "border-gray-200"
+                      field.value === opt ? "border-accent" : "border-gray-200"
                     }`}
                   >
                     {field.value === opt && (
-                      <div className="w-2 h-2 rounded-full bg-[#6EDC8A]" />
+                      <div className="w-2 h-2 rounded-full bg-accent" />
                     )}
                   </div>
                   <span className="font-black text-xs md:text-sm text-primary tracking-tight">

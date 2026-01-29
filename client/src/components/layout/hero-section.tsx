@@ -16,7 +16,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 bg-white flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 bg-background flex flex-col items-center justify-center text-center ${className}`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">
@@ -25,7 +25,7 @@ export function HeroSection({
           </div>
           <div className="max-w-4xl flex flex-col items-center justify-center">
             {subtitle && (
-              <div className="text-xs sm:text-xl lg:text-2xl text-brand-dark mb-4 sm:mb-8 leading-relaxed font-medium text-center">
+              <div className="text-xs sm:text-xl lg:text-2xl text-foreground mb-4 sm:mb-8 leading-relaxed font-medium text-center">
                 {subtitle}
               </div>
             )}

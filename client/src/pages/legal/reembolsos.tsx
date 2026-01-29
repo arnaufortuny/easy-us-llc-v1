@@ -15,7 +15,7 @@ export default function Reembolsos() {
   };
 
   return (
-    <div className="min-h-screen bg-white font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
+    <div className="min-h-screen bg-background font-sans text-left selection:bg-brand-lime selection:text-brand-dark">
       <Navbar />
       
       <HeroSection 
@@ -32,7 +32,7 @@ export default function Reembolsos() {
         }
       />
       
-      <section className="py-8 sm:py-12 bg-white">
+      <section className="py-8 sm:py-12 bg-background">
         <div className="container max-w-7xl mx-auto px-4 sm:px-8">
           <div className="max-w-5xl mx-auto">
             <div className="flex justify-center sm:justify-end mb-8">

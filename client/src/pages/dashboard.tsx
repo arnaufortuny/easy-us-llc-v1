@@ -563,11 +563,11 @@ export default function Dashboard() {
 
   if (user?.accountStatus === 'deactivated') {
     return (
-      <div className="min-h-screen bg-[#F7F7F5] font-sans flex flex-col">
+      <div className="min-h-screen bg-muted font-sans flex flex-col">
         <Navbar />
         <main className="flex-1 flex items-center justify-center p-4">
           <div className="max-w-md w-full">
-            <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white">
+            <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-background dark:bg-card">
               <div className="bg-red-500 h-2 w-full" />
               <CardContent className="p-8 md:p-12 text-center">
                 <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -616,7 +616,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F7F5] font-sans">
+    <div className="min-h-screen bg-muted font-sans">
       <Navbar />
       <main className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-8">
@@ -648,7 +648,7 @@ export default function Dashboard() {
               className={`flex items-center gap-1.5 md:gap-2 rounded-full font-bold text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
                 activeTab === item.id 
                 ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
-                : 'bg-white text-muted-foreground border-0'
+                : 'bg-background dark:bg-card text-muted-foreground border-0'
               }`}
               data-testid={`button-tab-${item.id}`}
             >
@@ -670,7 +670,7 @@ export default function Dashboard() {
                   </div>
                   
                   {(!orders || orders.length === 0) ? (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white p-8 text-center">
+                    <Card className="rounded-2xl border-0 shadow-sm bg-background dark:bg-card p-8 text-center">
                       <div className="flex flex-col items-center gap-4">
                         <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
                           <Package className="w-8 h-8 text-accent" />
@@ -689,7 +689,7 @@ export default function Dashboard() {
                   ) : (
                     <div className="grid grid-cols-1 gap-3 md:gap-4">
                       {orders.map((order) => (
-                        <Card key={order.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white overflow-hidden">
+                        <Card key={order.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-background dark:bg-card overflow-hidden">
                           <CardHeader className="bg-primary/5 pb-3 md:pb-4 p-3 md:p-6">
                             <div className="flex justify-between items-start gap-2">
                               <div className="min-w-0 flex-1">
@@ -764,7 +764,7 @@ export default function Dashboard() {
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Notificaciones</h2>
                   {notificationsLoading ? (
                     <div className="space-y-3">
-                      {[1, 2, 3].map(i => <div key={i} className="h-24 bg-white rounded-2xl animate-pulse" />)}
+                      {[1, 2, 3].map(i => <div key={i} className="h-24 bg-muted rounded-2xl animate-pulse" />)}
                     </div>
                   ) : notifications?.length === 0 ? (
                     <Card className="rounded-2xl border-0 shadow-sm">
@@ -836,14 +836,14 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white text-center">
+                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-background dark:bg-card text-center">
                         <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                         <p className="text-muted-foreground font-medium">Todavía no hay mensajes</p>
                         <p className="text-sm text-muted-foreground mt-2">Tus conversaciones con soporte aparecerán aquí</p>
                       </Card>
                     ) : (
                       messagesData.map((msg) => (
-                        <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
+                        <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-background dark:bg-card hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex items-center gap-2">
                               <MessageSquare className="w-4 h-4 text-accent" />
@@ -953,7 +953,7 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
                     {userDocuments?.map((doc: any) => (
-                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white">
+                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-background dark:bg-card">
                         <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
                         <h3 className="font-bold text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
                         <p className="text-[9px] md:text-[10px] text-muted-foreground mb-3">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
@@ -978,14 +978,14 @@ export default function Dashboard() {
                   <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white text-center">
+                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-background dark:bg-card text-center">
                         <CreditCard className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                         <p className="text-muted-foreground font-medium">Todavía no has contratado ningún servicio</p>
                         <p className="text-sm text-muted-foreground mt-2">Tus facturas y recibos aparecerán aquí</p>
                       </Card>
                     ) : (
                       orders.map((order: any) => (
-                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
+                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-background dark:bg-card">
                           <div>
                             <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
@@ -1024,7 +1024,7 @@ export default function Dashboard() {
                         ];
                         const hasDates = dates.some(d => d.date);
                         return (
-                          <Card key={order.id} className={`rounded-2xl border-0 shadow-sm bg-white overflow-hidden ${isCancelled ? 'opacity-60' : ''}`}>
+                          <Card key={order.id} className={`rounded-2xl border-0 shadow-sm bg-card overflow-hidden ${isCancelled ? 'opacity-60' : ''}`}>
                             <CardHeader className="pb-2 border-b bg-gray-50">
                               <CardTitle className="text-base font-black flex items-center gap-2">
                                 <Building2 className="w-4 h-4 text-accent" />
@@ -1085,7 +1085,7 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="rounded-[2rem] border-0 shadow-sm p-8 bg-white text-center">
+                    <Card className="rounded-[2rem] border-0 shadow-sm p-8 bg-background dark:bg-card text-center">
                       <Calendar className="w-12 h-12 mx-auto text-gray-300 mb-4" />
                       <h3 className="text-lg font-black text-primary mb-2">Sin fechas programadas</h3>
                       <p className="text-sm text-muted-foreground mb-4">Contrata tu primera LLC para ver las fechas importantes</p>
@@ -1101,7 +1101,7 @@ export default function Dashboard() {
 
               {activeTab === 'profile' && (
                 <div key="profile" className="space-y-6">
-                  <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white">
+                  <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-background dark:bg-card">
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="text-xl font-black">Información Personal</h3>
                       {canEdit && (
@@ -1171,7 +1171,7 @@ export default function Dashboard() {
                           <Label>Tipo de Documento</Label>
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
-                              <SelectTrigger className="bg-white" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                              <SelectTrigger className="bg-background dark:bg-card" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
@@ -1193,7 +1193,7 @@ export default function Dashboard() {
                         <Label>Actividad de Negocio</Label>
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger className="bg-white" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                            <SelectTrigger className="bg-background dark:bg-card" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -1214,7 +1214,7 @@ export default function Dashboard() {
                             <Label>Tipo de Vía</Label>
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger className="bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                <SelectTrigger className="bg-background dark:bg-card"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
@@ -1518,7 +1518,7 @@ export default function Dashboard() {
                                 {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}
                               </div>
                               <Select value={order.status} onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}>
-                                <SelectTrigger className="w-28 h-9 rounded-full text-xs bg-white border"><SelectValue /></SelectTrigger>
+                                <SelectTrigger className="w-28 h-9 rounded-full text-xs bg-background dark:bg-card border"><SelectValue /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="pending">Pendiente</SelectItem>
                                   <SelectItem value="paid">Pagado</SelectItem>
@@ -1569,7 +1569,7 @@ export default function Dashboard() {
                               <div className="w-full">
                                 <Label className="text-[10px] text-muted-foreground mb-1 block">Estado de cuenta</Label>
                                 <Select value={u.accountStatus || 'active'} onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}>
-                                  <SelectTrigger className="w-full h-9 rounded-full text-xs bg-white border shadow-sm"><SelectValue /></SelectTrigger>
+                                  <SelectTrigger className="w-full h-9 rounded-full text-xs bg-background dark:bg-card border shadow-sm"><SelectValue /></SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="active">Verificado</SelectItem>
                                     <SelectItem value="pending">En revisión</SelectItem>
@@ -1635,7 +1635,7 @@ export default function Dashboard() {
                               </div>
                               {/* Fechas - Grid compacto en móvil */}
                               <div className="grid grid-cols-2 gap-2 md:gap-4">
-                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-background dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Creación LLC</Label>
                                   <Input 
                                     type="date" 
@@ -1645,7 +1645,7 @@ export default function Dashboard() {
                                     data-testid={`input-llc-created-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-background dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Renovación Agente</Label>
                                   <Input 
                                     type="date" 
@@ -1655,7 +1655,7 @@ export default function Dashboard() {
                                     data-testid={`input-agent-renewal-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-background dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 1120</Label>
                                   <Input 
                                     type="date" 
@@ -1665,7 +1665,7 @@ export default function Dashboard() {
                                     data-testid={`input-irs1120-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-background dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 5472</Label>
                                   <Input 
                                     type="date" 
@@ -1675,7 +1675,7 @@ export default function Dashboard() {
                                     data-testid={`input-irs5472-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
+                                <div className="bg-background dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Reporte Anual</Label>
                                   <Input 
                                     type="date" 
@@ -1707,7 +1707,7 @@ export default function Dashboard() {
                               value={broadcastSubject} 
                               onChange={e => setBroadcastSubject(e.target.value)} 
                               placeholder="Asunto del email" 
-                              className="bg-white"
+                              className="bg-background dark:bg-card"
                               data-testid="input-broadcast-subject"
                             />
                             <Textarea 
@@ -1715,7 +1715,7 @@ export default function Dashboard() {
                               onChange={e => setBroadcastMessage(e.target.value)} 
                               placeholder="Contenido del mensaje" 
                               rows={4}
-                              className="bg-white"
+                              className="bg-background dark:bg-card"
                               data-testid="input-broadcast-message"
                             />
                             <Button 
@@ -1922,7 +1922,7 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
-            <section className="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm">
+            <section className="bg-background dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm">
               <h3 className="text-lg md:text-xl font-black tracking-tight text-primary mb-6 flex items-center gap-2">
                 <Clock className="w-5 h-5 text-accent" /> Seguimiento
               </h3>
@@ -1971,7 +1971,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Enviar Mensaje al Cliente</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</DialogDescription>
@@ -1996,7 +1996,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="max-w-lg bg-white rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+            <DialogContent className="max-w-lg bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Editar Usuario</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
@@ -2025,7 +2025,7 @@ export default function Dashboard() {
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                         <SelectContent className="rounded-xl">
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
@@ -2045,7 +2045,7 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger className="bg-white rounded-full h-11 border-gray-200" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectTrigger className="bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                       <SelectContent className="rounded-xl">
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -2098,7 +2098,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-sm bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
@@ -2114,7 +2114,7 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-sm bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
@@ -2131,7 +2131,7 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-sm bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Generar Factura</DialogTitle>
               </DialogHeader>
@@ -2152,7 +2152,7 @@ export default function Dashboard() {
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
                   <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
-                    <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
+                    <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
                     <SelectContent className="rounded-xl">
                       <SelectItem value="EUR">EUR (€)</SelectItem>
                       <SelectItem value="USD">USD ($)</SelectItem>
@@ -2192,7 +2192,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Solicitar Documentos</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</DialogDescription>
@@ -2201,7 +2201,7 @@ export default function Dashboard() {
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
                   <Select value={docType} onValueChange={setDocType}>
-                    <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
+                    <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
                     <SelectContent className="rounded-xl">
                       <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                       <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
@@ -2244,7 +2244,7 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+            <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader>
                 <DialogTitle className="text-xl font-black text-primary">Crear Factura</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
@@ -2276,10 +2276,10 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Moneda</Label>
                     <Select value={invoiceCurrency} onValueChange={setInvoiceCurrency}>
-                      <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-invoice-currency">
+                      <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-invoice-currency">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white z-[9999] rounded-xl">
+                      <SelectContent className="bg-background dark:bg-card z-[9999] rounded-xl">
                         <SelectItem value="EUR">EUR</SelectItem>
                         <SelectItem value="USD">USD</SelectItem>
                       </SelectContent>
@@ -2309,7 +2309,7 @@ export default function Dashboard() {
       )}
 
       <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="max-w-sm bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
           <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
@@ -2325,7 +2325,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Subir Documento</DialogTitle>
           </DialogHeader>
@@ -2342,10 +2342,10 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
               <Select value={uploadDocType} onValueChange={setUploadDocType}>
-                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-upload-doc-type">
+                <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999] rounded-xl" side="bottom" align="start" sideOffset={4}>
+                <SelectContent className="bg-background dark:bg-card z-[9999] rounded-xl" side="bottom" align="start" sideOffset={4}>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                   <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                   <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2406,7 +2406,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Cliente</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</DialogDescription>
@@ -2445,7 +2445,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+        <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Pedido</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</DialogDescription>
@@ -2454,10 +2454,10 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Cliente</Label>
               <Select value={newOrderData.userId} onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}>
-                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-order-user">
+                <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-order-user">
                   <SelectValue placeholder="Seleccionar cliente..." />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999] rounded-xl">
+                <SelectContent className="bg-background dark:bg-card z-[9999] rounded-xl">
                   {adminUsers?.map((u: any) => (
                     <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
                   ))}
@@ -2467,10 +2467,10 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
               <Select value={newOrderData.state} onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}>
-                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-order-state">
+                <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-order-state">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999] rounded-xl">
+                <SelectContent className="bg-background dark:bg-card z-[9999] rounded-xl">
                   <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
                   <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
                   <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
@@ -2492,7 +2492,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-md bg-background dark:bg-card rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl font-black text-primary">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
@@ -2519,10 +2519,10 @@ export default function Dashboard() {
                   value={newDiscountCode.discountType} 
                   onValueChange={(val: 'percentage' | 'fixed') => setNewDiscountCode(p => ({ ...p, discountType: val }))}
                 >
-                  <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-discount-type">
+                  <SelectTrigger className="w-full bg-background dark:bg-card rounded-full h-11 border-gray-200" data-testid="select-discount-type">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white z-[9999] rounded-xl">
+                  <SelectContent className="bg-background dark:bg-card z-[9999] rounded-xl">
                     <SelectItem value="percentage">Porcentaje (%)</SelectItem>
                     <SelectItem value="fixed">Fijo (centimos)</SelectItem>
                   </SelectContent>

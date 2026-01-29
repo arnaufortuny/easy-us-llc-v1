@@ -427,11 +427,11 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-owner-name" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-owner-name" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-step">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-next-step">Siguiente</Button>
                   </div>
                 )}
 
@@ -446,13 +446,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-phone" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-phone" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base" data-testid="button-prev">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base" data-testid="button-next">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base" data-testid="button-prev">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base" data-testid="button-next">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -468,13 +468,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Email:
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-email" /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-email" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} disabled={isCheckingEmail} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} disabled={isCheckingEmail} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">
                         {isCheckingEmail ? <Loader2 className="animate-spin" /> : "Siguiente"}
                       </Button>
                     </div>
@@ -494,7 +494,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary">Contraseña:</FormLabel>
                         <div className="relative">
                           <FormControl>
-                            <Input {...field} type={showPassword ? "text" : "password"} className="rounded-full h-14 px-6 pr-12 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-password" />
+                            <Input {...field} type={showPassword ? "text" : "password"} className="rounded-full h-14 px-6 pr-12 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-password" />
                           </FormControl>
                           <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                             {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -503,7 +503,7 @@ export default function ApplicationWizard() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={handleLogin} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-login">
+                    <Button type="button" onClick={handleLogin} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all" data-testid="button-login">
                       Iniciar Sesión y Continuar
                     </Button>
                     <Link href="/forgot-password" className="block text-center text-sm text-muted-foreground hover:underline">
@@ -525,13 +525,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Fecha:
                         </FormLabel>
-                        <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-birthdate" /></FormControl>
+                        <FormControl><Input {...field} type="date" className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-birthdate" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -548,7 +548,7 @@ export default function ApplicationWizard() {
                           <FormControl>
                             <div className="flex flex-col gap-3">
                               {["DNI", "Pasaporte"].map((opt) => (
-                                <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                                <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                   <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                   <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                                 </label>
@@ -563,14 +563,14 @@ export default function ApplicationWizard() {
                           <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                             Número del documento:
                           </FormLabel>
-                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-id-number" /></FormControl>
+                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-id-number" /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -585,13 +585,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           País:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-country" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-country" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -607,13 +607,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Dirección:
                         </FormLabel>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-address" /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-address" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -629,13 +629,13 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre deseado:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-company-name" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-company-name" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -648,13 +648,13 @@ export default function ApplicationWizard() {
                     <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-business-activity" /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-business-activity" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -667,7 +667,7 @@ export default function ApplicationWizard() {
                     <FormField control={form.control} name="businessCategory" render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-black/20 focus:ring-[#6EDC8A] font-black text-primary text-lg" data-testid="select-category"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border focus:ring-[#6EDC8A] font-black text-primary text-lg" data-testid="select-category"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
                           <SelectContent>
                             {BUSINESS_CATEGORIES.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                           </SelectContent>
@@ -676,8 +676,8 @@ export default function ApplicationWizard() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -693,7 +693,7 @@ export default function ApplicationWizard() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["Sí", "No", "Ya tengo una"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-black/20 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                 <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
@@ -704,8 +704,8 @@ export default function ApplicationWizard() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -717,13 +717,13 @@ export default function ApplicationWizard() {
                     </h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-notes" /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-notes" /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -747,7 +747,7 @@ export default function ApplicationWizard() {
                             <FormMessage />
                           </FormItem>
                         )} />
-                        <Button type="button" onClick={verifyOtp} className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20" data-testid="button-verify-otp">Verificar y Continuar</Button>
+                        <Button type="button" onClick={verifyOtp} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20" data-testid="button-verify-otp">Verificar y Continuar</Button>
                         <button type="button" onClick={sendOtp} className="w-full text-xs text-muted-foreground hover:underline">Reenviar código</button>
                       </div>
                     )}
@@ -768,7 +768,7 @@ export default function ApplicationWizard() {
                             <FormLabel className="text-sm md:text-base font-black text-primary">Crea una contraseña para tu cuenta (mínimo 8 caracteres):</FormLabel>
                             <div className="relative">
                               <FormControl>
-                                <Input {...field} type={showPassword ? "text" : "password"} className="rounded-full h-14 px-6 pr-12 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-new-password" />
+                                <Input {...field} type={showPassword ? "text" : "password"} className="rounded-full h-14 px-6 pr-12 border-border focus:border-accent transition-all font-black text-primary text-lg" data-testid="input-new-password" />
                               </FormControl>
                               <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground">
                                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
@@ -788,7 +788,7 @@ export default function ApplicationWizard() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="rounded-full h-11 px-4 border-black/20 focus:border-[#6EDC8A] uppercase" 
+                                className="rounded-full h-11 px-4 border-border focus:border-accent uppercase" 
                                 onChange={(e) => {
                                   field.onChange(e.target.value.toUpperCase());
                                   setDiscountInfo(null);
@@ -803,7 +803,7 @@ export default function ApplicationWizard() {
                           variant="outline" 
                           onClick={() => validateDiscountCode(form.getValues("discountCode") || "")}
                           disabled={isValidatingDiscount || !form.getValues("discountCode")}
-                          className="rounded-full h-11 px-6 font-black border-black/20"
+                          className="rounded-full h-11 px-6 font-black border-border"
                           data-testid="button-validate-discount"
                         >
                           {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
@@ -830,14 +830,14 @@ export default function ApplicationWizard() {
                         <FormItem className="space-y-3">
                           <FormControl>
                             <div className="flex flex-col gap-3">
-                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-black/20 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all">
+                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value="transfer" checked={field.value === "transfer"} className="w-5 h-5 mt-1 accent-[#6EDC8A]" />
                                 <div>
                                   <span className="font-black text-primary text-sm md:text-base block">Transferencia bancaria</span>
                                   <span className="text-xs text-muted-foreground">Fortuny Consulting LLC - Cuenta: 141432778929495 - Routing: 121145433 - Column N.A.</span>
                                 </div>
                               </label>
-                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-black/20 bg-white hover:border-[#6EDC8A] cursor-pointer transition-all">
+                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value="link" checked={field.value === "link"} className="w-5 h-5 mt-1 accent-[#6EDC8A]" />
                                 <div>
                                   <span className="font-black text-primary text-sm md:text-base block">Enlace de pago</span>
@@ -872,8 +872,8 @@ export default function ApplicationWizard() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={() => setStep(11)} className="flex-1 rounded-full h-12 md:h-14 font-black border-black/20 active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="submit" disabled={isSubmitting} className="flex-1 bg-[#6EDC8A] text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base" data-testid="button-submit">
+                      <Button type="button" variant="outline" onClick={() => setStep(11)} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="submit" disabled={isSubmitting} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base" data-testid="button-submit">
                         {isSubmitting ? <Loader2 className="animate-spin" /> : "Enviar Solicitud"}
                       </Button>
                     </div>

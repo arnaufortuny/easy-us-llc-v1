@@ -121,7 +121,7 @@ export default function ForgotPassword() {
         <Navbar />
         <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
           <div className="w-full max-w-md text-center">
-            <div className="w-16 h-16 bg-[#6EDC8A] rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-8 h-8 text-primary" />
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight mb-4">
@@ -131,7 +131,7 @@ export default function ForgotPassword() {
               Tu contraseña ha sido restablecida correctamente.
             </p>
             <Link href="/login">
-              <Button className="rounded-full px-8 font-black bg-[#6EDC8A] text-primary" data-testid="button-go-to-login">
+              <Button className="rounded-full px-8 font-black bg-accent text-primary" data-testid="button-go-to-login">
                 Iniciar Sesión
               </Button>
             </Link>
@@ -171,7 +171,7 @@ export default function ForgotPassword() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
+                  className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all"
                   data-testid="button-send-otp"
                 >
                   {isLoading ? <Loader2 className="animate-spin" /> : "Enviar Código"}
@@ -203,7 +203,7 @@ export default function ForgotPassword() {
               <Button
                 onClick={handleVerifyOtp}
                 disabled={isLoading || otp.length !== 6}
-                className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
+                className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all"
                 data-testid="button-verify-otp"
               >
                 {isLoading ? <Loader2 className="animate-spin" /> : "Verificar Código"}
@@ -256,7 +256,7 @@ export default function ForgotPassword() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-[#6EDC8A] text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all"
+                  className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-accent/20 active:scale-95 transition-all"
                   data-testid="button-reset-password"
                 >
                   {isLoading ? <Loader2 className="animate-spin" /> : "Restablecer Contraseña"}
