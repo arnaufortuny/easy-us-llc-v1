@@ -30,8 +30,6 @@ export interface IStorage {
   getLlcApplicationByOrderId(orderId: number): Promise<LlcApplication | undefined>;
   getLlcApplicationByRequestCode(code: string): Promise<(LlcApplication & { documents: ApplicationDocument[] }) | undefined>;
   updateLlcApplication(id: number, updates: Partial<LlcApplication>): Promise<LlcApplication>;
-  setOtp(type: 'llc' | 'maintenance', id: number, otp: string, expires: Date): Promise<void>;
-  verifyOtp(type: 'llc' | 'maintenance', id: number, otp: string): Promise<boolean>;
 
   // Documents
   createDocument(doc: InsertApplicationDocument): Promise<ApplicationDocument>;
@@ -160,33 +158,6 @@ export class DatabaseStorage implements IStorage {
       .where(eq(llcApplications.id, id))
       .returning();
     return updated;
-  }
-
-  async setOtp(type: 'llc' | 'maintenance', id: number, otp: string, expires: Date): Promise<void> {
-    const table = type === 'llc' ? llcApplications : maintenanceApplications;
-    await db
-      .update(table)
-      .set({ emailOtp: otp, emailOtpExpires: expires })
-      .where(eq(table.id, id));
-  }
-
-  async verifyOtp(type: 'llc' | 'maintenance', id: number, otp: string): Promise<boolean> {
-    const table = type === 'llc' ? llcApplications : maintenanceApplications;
-    const [app] = await db
-      .select()
-      .from(table)
-      .where(eq(table.id, id));
-    
-    if (!app || !app.emailOtp || !app.emailOtpExpires) return false;
-    
-    if (app.emailOtp === otp && new Date() < app.emailOtpExpires) {
-      await db
-        .update(table)
-        .set({ emailVerified: true, emailOtp: null, emailOtpExpires: null })
-        .where(eq(table.id, id));
-      return true;
-    }
-    return false;
   }
 
   // Documents

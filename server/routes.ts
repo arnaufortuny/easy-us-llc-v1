@@ -2,6 +2,7 @@ import type { Express } from "express";
 import type { Server } from "http";
 import { setupCustomAuth, isAuthenticated, isAdmin } from "./lib/custom-auth";
 import { storage } from "./storage";
+import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
@@ -2109,48 +2110,6 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Payment error:", error);
       res.status(500).json({ message: "Payment processing failed" });
-    }
-  });
-
-  // OTP Endpoints
-  app.post("/api/:type(llc|maintenance)/:id/send-otp", async (req, res) => {
-    try {
-      const type = req.params.type as 'llc' | 'maintenance';
-      const appId = Number(req.params.id);
-      const { email } = req.body;
-      
-      if (!email) return res.status(400).json({ message: "Email is required" });
-      
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
-      
-      await storage.setOtp(type, appId, otp, expires);
-      
-      await sendEmail({
-        to: email,
-        subject: "Código de verificación - Easy US LLC",
-        html: getOtpEmailTemplate(otp),
-      });
-      
-      res.json({ success: true });
-    } catch (error) {
-      console.error(`Error sending ${req.params.type} OTP:`, error);
-      res.status(500).json({ message: "Error al enviar el código de verificación" });
-    }
-  });
-
-  app.post("/api/:type(llc|maintenance)/:id/verify-otp", async (req, res) => {
-    const type = req.params.type as 'llc' | 'maintenance';
-    const appId = Number(req.params.id);
-    const { otp } = req.body;
-    
-    if (!otp) return res.status(400).json({ message: "OTP is required" });
-    
-    const success = await storage.verifyOtp(type, appId, otp);
-    if (success) {
-      res.json({ success: true });
-    } else {
-      res.status(400).json({ message: "Código inválido o caducado" });
     }
   });
 

@@ -35,7 +35,6 @@ const formSchema = z.object({
   businessActivity: z.string().min(1, "Requerido"),
   expectedServices: z.string().min(1, "Requerido"),
   wantsDissolve: z.string().min(1, "Requerido"),
-  otp: z.string().optional(),
   password: z.string().min(8, "Mínimo 8 caracteres").optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
@@ -54,8 +53,6 @@ export default function MaintenanceApplication() {
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const { toast } = useToast();
 
   const params = new URLSearchParams(window.location.search);
@@ -74,7 +71,6 @@ export default function MaintenanceApplication() {
       businessActivity: "",
       expectedServices: "",
       wantsDissolve: "No",
-      otp: "",
       password: "",
       confirmPassword: "",
       paymentMethod: "transfer",
@@ -102,7 +98,6 @@ export default function MaintenanceApplication() {
     businessActivity: "",
     expectedServices: "",
     wantsDissolve: "No",
-    otp: "",
     authorizedManagement: false,
     termsConsent: false,
     dataProcessingConsent: false
@@ -129,10 +124,6 @@ export default function MaintenanceApplication() {
         ownerPhone,
         businessActivity,
       });
-      
-      if (user.emailVerified) {
-        setIsEmailVerified(true);
-      }
       
       // Skip to first empty required field (step 0 is creationSource, always needs input)
       // Steps: 0=creationSource, 1=name, 2=phone, 3=email, 4=companyName, 5=ein, 6=state, 7=businessActivity
@@ -209,29 +200,6 @@ export default function MaintenanceApplication() {
 
   const prevStep = () => {
     if (step > 0) setStep(s => s - 1);
-  };
-
-  const sendOtp = async () => {
-    const email = form.getValues("ownerEmail");
-    try {
-      await apiRequest("POST", `/api/maintenance/${appId}/send-otp`, { email });
-      setIsOtpSent(true);
-      toast({ title: "Código enviado" });
-    } catch {
-      toast({ title: "Error", variant: "destructive" });
-    }
-  };
-
-  const verifyOtp = async () => {
-    const otp = form.getValues("otp");
-    try {
-      await apiRequest("POST", `/api/maintenance/${appId}/verify-otp`, { otp });
-      setIsEmailVerified(true);
-      toast({ title: "Email verificado", variant: "success" });
-      setStep(11); // Final confirmation step (steps 0-11 for total 12 steps)
-    } catch {
-      toast({ title: "Código incorrecto", variant: "destructive" });
-    }
   };
 
   const onSubmit = async (data: FormValues) => {

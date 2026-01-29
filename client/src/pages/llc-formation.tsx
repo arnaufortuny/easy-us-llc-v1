@@ -45,7 +45,6 @@ const formSchema = z.object({
   wantsMaintenancePack: z.string().min(1, "Requerido"),
   notes: z.string().optional(),
   idDocumentUrl: z.string().optional(),
-  otp: z.string().optional(),
   password: z.string().min(8, "Mínimo 8 caracteres").optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
@@ -61,8 +60,6 @@ export default function LlcFormation() {
   const [location, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
-  const [isOtpSent, setIsOtpSent] = useState(false);
-  const [isEmailVerified, setIsEmailVerified] = useState(false);
   const [acceptedInfo, setAcceptedInfo] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -94,7 +91,6 @@ export default function LlcFormation() {
       wantsMaintenancePack: "",
       notes: "",
       idDocumentUrl: "",
-      otp: "",
       password: "",
       confirmPassword: "",
       paymentMethod: "transfer",
@@ -127,8 +123,7 @@ export default function LlcFormation() {
     wantsBoiReport: "",
     wantsMaintenancePack: "",
     notes: "",
-    idDocumentUrl: "",
-    otp: ""
+    idDocumentUrl: ""
   };
 
   const { clearDraft } = useFormDraft({
@@ -148,7 +143,6 @@ export default function LlcFormation() {
             const appData = await res.json();
             setAppId(Number(editAppId));
             setIsEditMode(true);
-            setIsEmailVerified(true); // Skip email verification for edit mode
             
             // Populate form with existing data
             form.reset({
@@ -170,8 +164,7 @@ export default function LlcFormation() {
               wantsBoiReport: appData.wantsBoiReport || "",
               wantsMaintenancePack: appData.wantsMaintenancePack || "",
               notes: appData.notes || "",
-              idDocumentUrl: appData.idDocumentUrl || "",
-              otp: ""
+              idDocumentUrl: appData.idDocumentUrl || ""
             });
             toast({ title: "Datos cargados", description: "Puedes modificar los datos de tu solicitud" });
             return;
@@ -211,10 +204,6 @@ export default function LlcFormation() {
         ownerBirthDate,
         businessActivity,
       });
-      
-      if (user.emailVerified) {
-        setIsEmailVerified(true);
-      }
       
       // Skip to first empty required field
       const fieldsToCheck = [
