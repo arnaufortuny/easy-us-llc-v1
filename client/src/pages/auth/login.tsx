@@ -78,9 +78,9 @@ export default function Login() {
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
             <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
-              Iniciar <span className="text-accent">Sesión</span>
+              Iniciar <span className="text-accent">sesión</span>
             </h1>
-            <p className="text-muted-foreground mt-2">Accede a tu área de cliente</p>
+            <p className="text-muted-foreground mt-2">Qué bien verte de nuevo. Accede a tu área de cliente</p>
           </div>
 
           {loginError && (
@@ -96,7 +96,7 @@ export default function Login() {
                   <FormInput
                     control={form.control}
                     name="email"
-                    label="Email"
+                    label="Correo electrónico"
                     type="email"
                     inputMode="email"
                   />
@@ -127,7 +127,7 @@ export default function Login() {
                 <div className="text-right">
                   <Link href="/forgot-password">
                     <Button variant="link" className="text-accent p-0 h-auto" data-testid="link-forgot-password">
-                      ¿Olvidaste tu contraseña?
+                      ¿No recuerdas tu contraseña? Te ayudamos a recuperarla
                     </Button>
                   </Link>
                 </div>
@@ -142,10 +142,10 @@ export default function Login() {
                   {isLoading ? (
                     <>
                       <Loader2 className="animate-spin mr-2 w-5 h-5" />
-                      Iniciando sesión...
+                      Entrando...
                     </>
                   ) : (
-                    "Iniciar Sesión"
+                    "Entrar a mi cuenta"
                   )}
                 </Button>
               </form>
@@ -153,10 +153,10 @@ export default function Login() {
 
             <div className="mt-8 pt-6 border-t border-border text-center">
               <p className="text-muted-foreground text-sm">
-                ¿No tienes cuenta?{" "}
+                ¿Primera vez por aquí?{" "}
                 <Link href="/register">
                   <span className="font-black text-primary hover:text-accent transition-colors cursor-pointer" data-testid="link-register">
-                    Regístrate gratis
+                    Crea tu cuenta gratis en un minuto
                   </span>
                 </Link>
               </p>
