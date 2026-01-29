@@ -2,7 +2,6 @@ import type { Express } from "express";
 import type { Server } from "http";
 import { setupCustomAuth, isAuthenticated, isAdmin } from "./lib/custom-auth";
 import { storage } from "./storage";
-import { api } from "@shared/routes";
 import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
