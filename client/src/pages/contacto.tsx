@@ -268,10 +268,10 @@ export default function Contacto() {
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
-        <h1 className="text-3xl md:text-4xl font-black mb-4 text-primary leading-tight text-left">
+        <h1 className="text-3xl md:text-4xl font-black mb-4 text-primary leading-tight text-center">
           <span className="text-accent">Contáctanos</span>
         </h1>
-        <p className="text-muted-foreground font-medium mb-8">Estamos aquí para ayudarte</p>
+        <p className="text-muted-foreground font-medium mb-8 text-center">Estamos aquí para ayudarte</p>
 
         <div>
           <div className="space-y-6">

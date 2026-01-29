@@ -1591,7 +1591,7 @@ export async function registerRoutes(
 
       // Generate unified request code: STATE-8digits (e.g., NM-12345678)
       const { generateUniqueOrderCode } = await import("./lib/id-generator");
-      const appState = body.state || 'New Mexico';
+      const appState = product.name.split(" ")[0] || 'New Mexico';
       const requestCode = await generateUniqueOrderCode(appState);
 
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
@@ -2465,7 +2465,7 @@ export async function registerRoutes(
       // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
-      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber;
+      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || '';
       
       const receiptHtml = generateReceiptHtml(order, requestCode);
       const pdfBuffer = await generatePdfFromHtml(receiptHtml);
