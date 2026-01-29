@@ -20,7 +20,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
 
-const TOTAL_STEPS = 19;
+const TOTAL_STEPS = 21;
 
 const formSchema = z.object({
   ownerFullName: z.string().min(1, "Requerido"),
@@ -46,6 +46,12 @@ const formSchema = z.object({
   notes: z.string().optional(),
   idDocumentUrl: z.string().optional(),
   otp: z.string().optional(),
+  password: z.string().min(8, "Mínimo 8 caracteres").optional(),
+  confirmPassword: z.string().optional(),
+  paymentMethod: z.string().optional(),
+}).refine((data) => !data.password || data.password === data.confirmPassword, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -88,7 +94,10 @@ export default function LlcFormation() {
       wantsMaintenancePack: "",
       notes: "",
       idDocumentUrl: "",
-      otp: ""
+      otp: "",
+      password: "",
+      confirmPassword: "",
+      paymentMethod: "transfer",
     },
   });
 
@@ -253,12 +262,23 @@ export default function LlcFormation() {
       const isValid = await form.trigger(fieldsToValidate);
       if (!isValid) return;
     }
-
-    if (step === 18) {
-      // Logic for OTP or Final Submission
-    } else {
-      setStep(s => s + 1);
+    
+    // Validate password step (step 18) for non-authenticated users
+    if (step === 18 && !isAuthenticated) {
+      const password = form.getValues("password");
+      const confirmPassword = form.getValues("confirmPassword");
+      if (!password || password.length < 8) {
+        toast({ title: "La contraseña debe tener al menos 8 caracteres", variant: "destructive" });
+        return;
+      }
+      if (password !== confirmPassword) {
+        toast({ title: "Las contraseñas no coinciden", variant: "destructive" });
+        return;
+      }
     }
+
+    // All steps advance normally
+    setStep(s => s + 1);
   };
 
   const prevStep = () => {
@@ -274,6 +294,28 @@ export default function LlcFormation() {
         clearDraft();
         setLocation("/dashboard");
         return;
+      }
+      
+      // If not authenticated and password provided, create account first
+      if (!isAuthenticated && data.password) {
+        try {
+          const res = await apiRequest("POST", "/api/llc/claim-order", {
+            applicationId: appId,
+            email: data.ownerEmail,
+            password: data.password,
+            ownerFullName: data.ownerFullName,
+            paymentMethod: data.paymentMethod
+          });
+          if (!res.ok) {
+            const errorData = await res.json();
+            toast({ title: "Error", description: errorData.message, variant: "destructive" });
+            return;
+          }
+          toast({ title: "Cuenta creada", description: "Tu cuenta ha sido creada exitosamente." });
+        } catch (err) {
+          toast({ title: "Error al crear cuenta", variant: "destructive" });
+          return;
+        }
       }
       
       // Normal flow: submit and proceed to payment
@@ -762,18 +804,115 @@ export default function LlcFormation() {
 
             {step === 18 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
+                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
+                <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Elige una contraseña segura.</p>
+                
+                {!isAuthenticated && (
+                  <div className="space-y-4">
+                    <FormField control={form.control} name="password" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="password" placeholder="Mínimo 8 caracteres" className="rounded-full p-6 border-gray-100 focus:border-accent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="confirmPassword" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
+                        <FormControl>
+                          <Input {...field} type="password" placeholder="Repite la contraseña" className="rounded-full p-6 border-gray-100 focus:border-accent" />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
+                  </div>
+                )}
+                
+                {isAuthenticated && (
+                  <div className="bg-green-50 border border-green-200 rounded-2xl p-6 text-center">
+                    <Check className="w-8 h-8 text-green-600 mx-auto mb-2" />
+                    <p className="text-sm font-black text-green-700">Ya tienes cuenta activa</p>
+                    <p className="text-xs text-green-600">Continúa con el siguiente paso</p>
+                  </div>
+                )}
+                
+                <div className="flex gap-3 pt-4">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100">ATRÁS</Button>
+                  <Button 
+                    type="button" 
+                    onClick={nextStep} 
+                    disabled={!isAuthenticated && (!form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
+                    className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
+                  >
+                    SIGUIENTE
+                  </Button>
+                </div>
+              </div>
+            )}
+
+            {step === 19 && (
+              <div key={"step-" + step} className="space-y-8 text-left">
+                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
+                <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago de tu LLC.</p>
+                
+                <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
+                  <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">Total a pagar</p>
+                  <p className="text-3xl font-black">399.00 €</p>
+                  <p className="text-[10px] opacity-80">Incluye tasas estatales de {form.getValues("state")}</p>
+                </div>
+                
+                <FormField control={form.control} name="paymentMethod" render={({ field }) => (
+                  <FormControl>
+                    <div className="flex flex-col gap-4">
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                        <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent mt-1" />
+                        <div className="flex-1">
+                          <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
+                          <div className="bg-gray-50 rounded-xl p-4 text-xs space-y-1">
+                            <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
+                            <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
+                            <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>
+                            <p><span className="opacity-60">Banco:</span> <span className="font-bold">Column N.A.</span></p>
+                            <p className="opacity-60 text-[10px] pt-2">1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p>
+                            <p className="pt-2 text-accent font-bold">Concepto: Tu número de pedido</p>
+                          </div>
+                        </div>
+                      </label>
+                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-gray-100 bg-white hover:border-accent/50'}`}>
+                        <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-accent mt-1" />
+                        <div className="flex-1">
+                          <span className="font-black text-primary text-sm block mb-1">Link de Pago</span>
+                          <p className="text-xs text-muted-foreground">Recibirás un enlace de pago seguro por email para completar la transacción.</p>
+                        </div>
+                      </label>
+                    </div>
+                  </FormControl>
+                )} />
+                
+                <div className="flex gap-3 pt-4">
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-gray-100">ATRÁS</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">SIGUIENTE</Button>
+                </div>
+              </div>
+            )}
+
+            {step === 20 && (
+              <div key={"step-" + step} className="space-y-8 text-left">
+                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
                     <p className="flex justify-between md:block"><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Email:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">LLC:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
                     <p className="flex justify-between md:block"><span className="opacity-50">Estado:</span> <span className="font-black">{form.getValues("state")}</span></p>
+                    <p className="flex justify-between md:block"><span className="opacity-50">Pago:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? 'Transferencia Bancaria' : 'Link de Pago'}</span></p>
                   </div>
                 </div>
 
                 <div className="space-y-4">
-                  <h3 className="text-[10px] font-black  text-primary tracking-widest opacity-60">✅ Consentimientos</h3>
+                  <h3 className="text-[10px] font-black text-primary tracking-widest opacity-60">Consentimientos</h3>
                   <div className="space-y-3">
                     <label className="flex items-start gap-4 p-4 rounded-[2rem] border border-gray-100 bg-white hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                       <Checkbox checked={acceptedInfo} onCheckedChange={(checked) => setAcceptedInfo(!!checked)} className="mt-1" />
@@ -794,30 +933,10 @@ export default function LlcFormation() {
                     disabled={!acceptedInfo || !acceptedTerms}
                     className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    🚀 Enviar Solicitud
+                    Enviar Solicitud
                   </Button>
-                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-black  text-[10px] tracking-widest">Empezar de nuevo</Button>
+                  <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-black text-[10px] tracking-widest">Empezar de nuevo</Button>
                 </div>
-              </div>
-            )}
-
-            {step === 20 && (
-              <div key={"step-" + step} className="space-y-8 text-center">
-                <div className="w-16 h-16 md:w-20 md:h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <CreditCard className="w-8 h-8 md:w-10 md:h-10 text-accent" />
-                </div>
-                <h2 className="text-2xl md:text-3xl font-black  text-primary leading-tight">Casi listo</h2>
-                <p className="text-xs md:text-sm text-gray-500 max-w-xs mx-auto">Necesitamos formalizar el pago para empezar el proceso legal de constitución.</p>
-                
-                <div className="bg-accent text-primary p-8 rounded-[2rem] max-w-xs mx-auto my-8">
-                  <p className=" text-[10px] font-black tracking-widest opacity-50 mb-2">Total a pagar</p>
-                  <p className="text-4xl md:text-5xl font-black mb-4">399.00 €</p>
-                  <p className="text-[10px] md:text-xs opacity-80 italic">Incluye tasas estatales de {form.getValues("state")}</p>
-                </div>
-
-                <Button onClick={handlePayment} className="w-full max-w-xs bg-accent text-primary font-black py-7 rounded-full text-lg  tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-lg shadow-accent/20">
-                  Pagar con Stripe
-                </Button>
               </div>
             )}
             

@@ -40,3 +40,14 @@ The architecture includes:
 - **Step Progress Indicator:** Visual component showing "Paso X de Y" with animated progress bar in all form wizards.
 - **Form Draft Auto-save:** Hook that automatically saves form progress to localStorage with 1-second debounce, restores drafts when form is pristine.
 - **Direction-aware Transitions:** AnimatePresence-based step transitions that animate based on navigation direction (forward/backward).
+
+## Order & Account System (January 2026)
+- **Mandatory Account Creation:** LLC and maintenance orders require user account with password (min 8 characters).
+- **Auto-verified Accounts:** New accounts created during order process are automatically verified (emailVerified: true).
+- **Welcome Email:** New users receive welcome email with client ID after account creation.
+- **Payment Methods:** Two options available:
+  - Bank transfer to Fortuny Consulting LLC (Account: 141432778929495, Routing: 121145433, Column N.A.)
+  - Payment link delivered via email
+- **Claim Order Endpoints:** `/api/llc/claim-order` and `/api/maintenance/claim-order` associate guest orders with newly created accounts.
+- **Form Steps:** LLC form has 21 steps, maintenance form has 12 steps (includes password and payment method selection).
+- **Contact Form:** Does NOT require account creation.

@@ -1226,7 +1226,7 @@ export async function registerRoutes(
 
       // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0');
 
       // Invoice Template HTML (for PDF generation)
@@ -1498,32 +1498,65 @@ export async function registerRoutes(
 
   app.post(api.orders.create.path, async (req: any, res) => {
     try {
+      const { productId, email, password, ownerFullName, paymentMethod } = req.body;
+      
+      // Parse productId
+      const parsedInput = api.orders.create.input.parse({ productId });
+      
+      let userId: string;
+      let isNewUser = false;
+      
       if (req.session?.userId) {
+        // User already authenticated
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
           return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
-        // Check if email is verified before allowing order creation
-        if (currentUser && !currentUser.emailVerified) {
-          return res.status(403).json({ message: "Debes verificar tu email antes de realizar un pedido. Por favor revisa tu bandeja de entrada." });
-        }
-      }
-      const { productId } = api.orders.create.input.parse(req.body);
-      
-      let userId: string;
-      
-      if (req.session?.userId) {
         userId = req.session.userId;
       } else {
-        // Create a guest user record
-        const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        await db.insert(usersTable).values({
-          id: guestId,
-          email: null,
-          firstName: "Guest",
-          lastName: "User",
-        });
-        userId = guestId;
+        // Require email and password for new users
+        if (!email || !password) {
+          return res.status(400).json({ message: "Se requiere email y contraseña para realizar un pedido." });
+        }
+        
+        if (password.length < 8) {
+          return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+        }
+        
+        // Check if email already exists
+        const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+        if (existingUser) {
+          return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        }
+        
+        // Create new user with verified email and password
+        const { hashPassword, generateClientId } = await import("./lib/auth-service");
+        const passwordHash = await hashPassword(password);
+        const clientId = await generateClientId();
+        const nameParts = ownerFullName?.split(' ') || ['Cliente'];
+        
+        const [newUser] = await db.insert(usersTable).values({
+          email,
+          passwordHash,
+          clientId,
+          firstName: nameParts[0] || 'Cliente',
+          lastName: nameParts.slice(1).join(' ') || '',
+          emailVerified: true,
+          accountStatus: 'active',
+        }).returning();
+        
+        userId = newUser.id;
+        isNewUser = true;
+        
+        // Set session for the new user
+        req.session.userId = userId;
+        
+        // Send welcome email
+        sendEmail({
+          to: email,
+          subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
+          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+        }).catch(console.error);
       }
 
       const product = await storage.getProduct(productId);
@@ -1655,6 +1688,132 @@ export async function registerRoutes(
       res.status(201).json(message);
     } catch (error) {
       res.status(500).json({ message: "Error sending message" });
+    }
+  });
+
+  // Claim order endpoint - creates account and associates with existing order
+  app.post("/api/llc/claim-order", async (req: any, res) => {
+    try {
+      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      
+      if (!applicationId || !email || !password) {
+        return res.status(400).json({ message: "Se requiere email y contraseña." });
+      }
+      
+      if (password.length < 8) {
+        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+      }
+      
+      // Check if email already exists
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      if (existingUser) {
+        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+      }
+      
+      // Get the application to find the order
+      const application = await storage.getLlcApplication(applicationId);
+      if (!application) {
+        return res.status(404).json({ message: "Solicitud no encontrada." });
+      }
+      
+      // Create new user with verified email
+      const { hashPassword, generateClientId } = await import("./lib/auth-service");
+      const passwordHash = await hashPassword(password);
+      const clientId = await generateClientId();
+      const nameParts = ownerFullName?.split(' ') || ['Cliente'];
+      
+      const [newUser] = await db.insert(usersTable).values({
+        email,
+        passwordHash,
+        clientId,
+        firstName: nameParts[0] || 'Cliente',
+        lastName: nameParts.slice(1).join(' ') || '',
+        emailVerified: true,
+        accountStatus: 'active',
+      }).returning();
+      
+      // Update the order to associate with the new user
+      await db.update(ordersTable)
+        .set({ userId: newUser.id })
+        .where(eq(ordersTable.id, application.orderId));
+      
+      // Set session for the new user
+      req.session.userId = newUser.id;
+      
+      // Send welcome email
+      sendEmail({
+        to: email,
+        subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
+        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+      }).catch(console.error);
+      
+      res.json({ success: true, userId: newUser.id });
+    } catch (error) {
+      console.error("Error claiming order:", error);
+      res.status(500).json({ message: "Error al crear la cuenta." });
+    }
+  });
+
+  // Claim maintenance order endpoint
+  app.post("/api/maintenance/claim-order", async (req: any, res) => {
+    try {
+      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      
+      if (!applicationId || !email || !password) {
+        return res.status(400).json({ message: "Se requiere email y contraseña." });
+      }
+      
+      if (password.length < 8) {
+        return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+      }
+      
+      // Check if email already exists
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      if (existingUser) {
+        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+      }
+      
+      // Get the maintenance application to find the order
+      const [application] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, applicationId)).limit(1);
+      if (!application) {
+        return res.status(404).json({ message: "Solicitud no encontrada." });
+      }
+      
+      // Create new user with verified email
+      const { hashPassword, generateClientId } = await import("./lib/auth-service");
+      const passwordHash = await hashPassword(password);
+      const clientId = await generateClientId();
+      const nameParts = ownerFullName?.split(' ') || ['Cliente'];
+      
+      const [newUser] = await db.insert(usersTable).values({
+        email,
+        passwordHash,
+        clientId,
+        firstName: nameParts[0] || 'Cliente',
+        lastName: nameParts.slice(1).join(' ') || '',
+        emailVerified: true,
+        accountStatus: 'active',
+      }).returning();
+      
+      // Update the order to associate with the new user
+      await db.update(ordersTable)
+        .set({ userId: newUser.id })
+        .where(eq(ordersTable.id, application.orderId));
+      
+      // Set session for the new user
+      req.session.userId = newUser.id;
+      
+      // Send welcome email
+      sendEmail({
+        to: email,
+        subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
+        html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+      }).catch(console.error);
+      
+      res.json({ success: true, userId: newUser.id });
+    } catch (error) {
+      console.error("Error claiming maintenance order:", error);
+      res.status(500).json({ message: "Error al crear la cuenta." });
     }
   });
 
@@ -1998,20 +2157,55 @@ export async function registerRoutes(
 
   app.post("/api/maintenance/orders", async (req: any, res) => {
     try {
-      const { productId, state } = req.body;
+      const { productId, state, email, password, ownerFullName, paymentMethod } = req.body;
       
       let userId: string;
+      let isNewUser = false;
+      
       if (req.session?.userId) {
+        const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+        if (currentUser && (currentUser.accountStatus === 'pending' || currentUser.accountStatus === 'deactivated')) {
+          return res.status(403).json({ message: "Tu cuenta está en revisión o desactivada. No puedes realizar nuevos pedidos en este momento." });
+        }
         userId = req.session.userId;
       } else {
-        const guestId = `guest_${Date.now()}_${Math.random().toString(36).substring(7)}`;
-        await db.insert(usersTable).values({
-          id: guestId,
-          email: null,
-          firstName: "Guest",
-          lastName: "User",
-        });
-        userId = guestId;
+        if (!email || !password) {
+          return res.status(400).json({ message: "Se requiere email y contraseña para realizar un pedido." });
+        }
+        
+        if (password.length < 8) {
+          return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres." });
+        }
+        
+        const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+        if (existingUser) {
+          return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        }
+        
+        const { hashPassword, generateClientId } = await import("./lib/auth-service");
+        const passwordHash = await hashPassword(password);
+        const clientId = await generateClientId();
+        const nameParts = ownerFullName?.split(' ') || ['Cliente'];
+        
+        const [newUser] = await db.insert(usersTable).values({
+          email,
+          passwordHash,
+          clientId,
+          firstName: nameParts[0] || 'Cliente',
+          lastName: nameParts.slice(1).join(' ') || '',
+          emailVerified: true,
+          accountStatus: 'active',
+        }).returning();
+        
+        userId = newUser.id;
+        isNewUser = true;
+        req.session.userId = userId;
+        
+        sendEmail({
+          to: email,
+          subject: "Bienvenido a Easy US LLC - Tu cuenta está verificada",
+          html: getWelcomeEmailTemplate(nameParts[0] || 'Cliente', clientId)
+        }).catch(console.error);
       }
 
       const product = await storage.getProduct(productId);
@@ -2214,7 +2408,7 @@ export async function registerRoutes(
       
       // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
       
       const receiptHtml = generateReceiptHtml(order, requestCode);

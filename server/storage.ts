@@ -114,12 +114,13 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  async getOrder(id: number): Promise<(Order & { product?: Product; application?: LlcApplication; user?: any }) | undefined> {
+  async getOrder(id: number): Promise<(Order & { product?: Product; application?: LlcApplication; maintenanceApplication?: any; user?: any }) | undefined> {
     const result = await db.query.orders.findFirst({
       where: eq(orders.id, id),
       with: {
         product: true,
         application: true,
+        maintenanceApplication: true,
         user: true,
       },
     });
