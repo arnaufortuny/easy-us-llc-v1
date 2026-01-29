@@ -45,6 +45,6 @@ build = ["npm", "run", "build"]
 [userenv.shared]
 SMTP_HOST = "smtp.ionos.es"
 SMTP_PORT = "587"
-SMTP_USER = "info@easyusllc.com"
-SMTP_PASS = "Afhe982947For*"
+SMTP_USER = "no-reply@usllcnow.com"
+SMTP_PASS = "nowlus098344fgbh671"
 ADMIN_EMAIL = "afortuny07@gmail.com"
