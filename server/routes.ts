@@ -694,52 +694,6 @@ export async function registerRoutes(
     }
   });
 
-  app.post("/api/admin/send-email", isAdmin, async (req, res) => {
-    try {
-      const { to, subject, message, userId } = req.body;
-      
-      // Send the actual email
-      await sendEmail({ 
-        to, 
-        subject: subject || "Comunicación de Easy US LLC", 
-        html: getNoteReceivedTemplate("Cliente", message, subject) 
-      });
-      
-      // Create a ticket/message in the system
-      if (userId) {
-        const { encrypt } = await import("./utils/encryption");
-        const year = new Date().getFullYear();
-        // Generate 8-digit ticket ID (purely numeric)
-        const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
-        
-        const encryptedContent = encrypt(message);
-        await db.insert(messagesTable).values({
-          userId,
-          name: "Soporte Easy US",
-          email: "info@easyusllc.com",
-          subject: subject || "Comunicación Administrativa",
-          content: message,
-          encryptedContent,
-          type: "support",
-          status: "read",
-          messageId: msgId
-        });
-        
-        // Also add a notification
-        await db.insert(userNotifications).values({
-          userId,
-          title: subject || "Nueva comunicación",
-          message: "Has recibido una nueva comunicación oficial vía email.",
-          type: 'info',
-          isRead: false
-        });
-      }
-      
-      res.json({ success: true });
-    } catch (error) {
-      res.status(500).json({ message: "Error al enviar email" });
-    }
-  });
 
   // Client document upload
   app.post("/api/documents/upload", isAuthenticated, async (req: any, res) => {
@@ -860,23 +814,20 @@ export async function registerRoutes(
     }
   });
 
-  // User notifications
-  // Admin Note/Notification system
+  // User notifications - Unified Note + Email System
   app.post("/api/admin/send-note", isAdmin, async (req, res) => {
     try {
-      const { userId, email, title, message, type, sendEmail: shouldSendEmail } = z.object({
+      const { userId, title, message, type } = z.object({
         userId: z.string(),
-        email: z.string().email().optional(),
-        title: z.string(),
-        message: z.string(),
-        type: z.enum(['update', 'info', 'action_required']),
-        sendEmail: z.boolean().default(true)
+        title: z.string().min(1, "Título requerido"),
+        message: z.string().min(1, "Mensaje requerido"),
+        type: z.enum(['update', 'info', 'action_required'])
       }).parse(req.body);
 
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-      // Create Notification
+      // Create Notification in system
       await db.insert(userNotifications).values({
         userId,
         title,
@@ -885,22 +836,23 @@ export async function registerRoutes(
         isRead: false
       });
 
-      if (shouldSendEmail && user.email) {
+      // Always send email notification
+      if (user.email) {
         await sendEmail({
           to: user.email,
-          subject: `Notificación de Easy US LLC: ${title}`,
+          subject: `Easy US LLC: ${title}`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               ${getEmailHeader()}
-              <div style="padding: 20px;">
-                <h2 style="color: #0E1215;">${title}</h2>
-                <p>Hola ${user.firstName || 'Cliente'},</p>
-                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 20px 0;">
-                  <p>${message}</p>
+              <div style="padding: 30px;">
+                <h2 style="color: #0E1215; margin-bottom: 20px;">${title}</h2>
+                <p style="font-size: 15px; color: #444;">Hola ${user.firstName || 'Cliente'},</p>
+                <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
+                  <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</p>
                 </div>
-                <p>Puedes ver más detalles accediendo a tu panel de cliente.</p>
+                <p style="font-size: 14px; color: #666;">Puedes ver más detalles accediendo a tu panel de cliente.</p>
                 <div style="text-align: center; margin: 30px 0;">
-                  <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
+                  <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/dashboard" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold; display: inline-block;">
                     Ver en mi Panel
                   </a>
                 </div>
@@ -911,8 +863,9 @@ export async function registerRoutes(
         });
       }
 
-      res.json({ success: true });
+      res.json({ success: true, emailSent: !!user.email });
     } catch (error) {
+      console.error("Error sending note:", error);
       res.status(500).json({ message: "Error al enviar nota" });
     }
   });

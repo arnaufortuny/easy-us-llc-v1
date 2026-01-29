@@ -111,14 +111,11 @@ export default function Dashboard() {
   const canEdit = user?.accountStatus === 'active' || user?.accountStatus === 'vip';
     
   const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
-  const [emailDialog, setEmailDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [paymentDialog, setPaymentDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [paymentLink, setPaymentLink] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
   const [paymentMessage, setPaymentMessage] = useState("");
   const [docDialog, setDocDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [emailSubject, setEmailSubject] = useState("");
-  const [emailMessage, setEmailMessage] = useState("");
   const [docType, setDocType] = useState("");
   const [docMessage, setDocMessage] = useState("");
   const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
@@ -348,24 +345,12 @@ export default function Dashboard() {
     }
   });
 
-  const sendEmailMutation = useMutation({
-    mutationFn: async ({ to, subject, message }: { to: string, subject: string, message: string }) => {
-      await apiRequest("POST", "/api/admin/send-email", { to, subject, message });
-    },
-    onSuccess: () => {
-      toast({ title: "Email enviado" });
-      setEmailDialog({ open: false, user: null });
-      setEmailSubject("");
-      setEmailMessage("");
-    }
-  });
-
   const sendNoteMutation = useMutation({
-    mutationFn: async ({ userId, email, title, message, type }: { userId: string, email: string, title: string, message: string, type: string }) => {
-      await apiRequest("POST", "/api/admin/send-note", { userId, email, title, message, type, sendEmail: true });
+    mutationFn: async ({ userId, title, message, type }: { userId: string, title: string, message: string, type: string }) => {
+      await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
     },
     onSuccess: () => {
-      toast({ title: "Nota enviada al cliente" });
+      toast({ title: "Nota enviada", description: "El cliente recibirá notificación y email" });
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
       setNoteMessage("");
@@ -1535,18 +1520,14 @@ export default function Dashboard() {
                               </div>
                             </div>
                             {/* Acciones de admin - Grid responsivo para mejor visibilidad móvil */}
-                            <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 w-full md:w-auto">
+                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 w-full md:w-auto">
                               <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
                                 <Edit className="w-3.5 h-3.5" />
                                 <span className="text-[9px] md:text-[10px]">Editar</span>
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setEmailDialog({ open: true, user: u })} data-testid={`button-email-user-${u.id}`}>
-                                <Mail className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Email</span>
-                              </Button>
                               <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                <MessageSquare className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Nota</span>
+                                <Mail className="w-3.5 h-3.5" />
+                                <span className="text-[9px] md:text-[10px]">Mensaje</span>
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
                                 <FileUp className="w-3.5 h-3.5" />
@@ -1824,34 +1805,14 @@ export default function Dashboard() {
 
       {user?.isAdmin && (
         <>
-          <Dialog open={emailDialog.open} onOpenChange={(open) => setEmailDialog({ open, user: open ? emailDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Email</DialogTitle></DialogHeader>
-              <div className="space-y-4 pt-2">
-                <div>
-                  <Label className="text-xs font-medium mb-1 block">Asunto</Label>
-                  <Input value={emailSubject} onChange={e => setEmailSubject(e.target.value)} placeholder="Asunto del email" className="w-full" data-testid="input-email-subject" />
-                </div>
-                <div>
-                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
-                  <Textarea value={emailMessage} onChange={e => setEmailMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={5} className="w-full" data-testid="input-email-message" />
-                </div>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button variant="outline" onClick={() => setEmailDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
-                  <Button onClick={() => emailDialog.user?.email && sendEmailMutation.mutate({ to: emailDialog.user.email, subject: emailSubject, message: emailMessage })} disabled={!emailSubject || !emailMessage || sendEmailMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-email">
-                    {sendEmailMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar'}
-                  </Button>
-                </DialogFooter>
-              </div>
-            </DialogContent>
-          </Dialog>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
             <DialogContent className="max-w-md bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Nota</DialogTitle></DialogHeader>
+              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Mensaje al Cliente</DialogTitle></DialogHeader>
               <div className="space-y-4 pt-2">
+                <p className="text-xs text-muted-foreground">El cliente recibirá una notificación en su panel y un email.</p>
                 <div>
                   <Label className="text-xs font-medium mb-1 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título de la nota" className="w-full" data-testid="input-note-title" />
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full" data-testid="input-note-title" />
                 </div>
                 <div>
                   <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
@@ -1859,8 +1820,8 @@ export default function Dashboard() {
                 </div>
                 <DialogFooter className="flex-col sm:flex-row gap-2">
                   <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
-                  <Button onClick={() => noteDialog.user?.id && noteDialog.user?.email && sendNoteMutation.mutate({ userId: noteDialog.user.id, email: noteDialog.user.email, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-note">
-                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Nota'}
+                  <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-note">
+                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar'}
                   </Button>
                 </DialogFooter>
               </div>
@@ -2090,7 +2051,6 @@ export default function Dashboard() {
                       const docLabel = docTypeLabels[docType] || docType;
                       sendNoteMutation.mutate({ 
                         userId: docDialog.user.id, 
-                        email: docDialog.user.email, 
                         title: `Solicitud de Documento: ${docLabel}`, 
                         message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
                         type: 'action_required' 
