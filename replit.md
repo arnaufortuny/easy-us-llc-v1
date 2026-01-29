@@ -118,5 +118,3 @@ The architecture includes:
 - **Email Notifications:** Auto-reply sent to user, admin notification via logActivity
 - **Reply System:** Full threaded reply support via `/api/messages/:id/reply` endpoint
 - **Dashboard Integration:** Users see their message history in the Messages tab
-- **ID Generator Module:** Centralized at `server/lib/id-generator.ts` with uniqueness verification
-- **Removed Formats:** ORD-XXXXX, NM-XXXX-ABC-X, MN-XXXX-XXX-X, MSG-X, DOC-X, TK-X
