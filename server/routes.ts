@@ -9,9 +9,11 @@ import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
-import { and, eq, gt, desc, sql } from "drizzle-orm";
+import { and, eq, gt, desc, sql, isNotNull } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
 import { generateInvoicePdf, generateReceiptPdf } from "./lib/pdf-generator";
+import { setupOAuth } from "./oauth";
+import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -68,6 +70,28 @@ export async function registerRoutes(
 
   // Set up Custom Auth
   setupCustomAuth(app);
+
+  // Set up OAuth (Google & Apple)
+  setupOAuth(app);
+
+  // Schedule compliance reminder checks every hour
+  setInterval(async () => {
+    try {
+      await checkAndSendReminders();
+    } catch (e) {
+      console.error("Compliance reminder check error:", e);
+    }
+  }, 3600000);
+
+  // Run initial reminder check on startup (after 30 seconds to allow DB to be ready)
+  setTimeout(async () => {
+    try {
+      await checkAndSendReminders();
+      console.log("Initial compliance reminder check completed");
+    } catch (e) {
+      console.error("Initial compliance reminder check error:", e);
+    }
+  }, 30000);
 
   // Health check endpoint for deployment with database verification
   app.get("/api/healthz", async (_req, res) => {
@@ -165,6 +189,13 @@ export async function registerRoutes(
           name: order.user.firstName || "Cliente",
           orderNumber: orderCode
         }).catch(() => {});
+      }
+
+      // Auto-calculate compliance deadlines when order is filed
+      if (status === 'filed' && order.application) {
+        const formationDate = new Date();
+        const state = order.application.state || "new_mexico";
+        await updateApplicationDeadlines(order.application.id, formationDate, state);
       }
 
       // Create Notification in Dashboard
@@ -984,6 +1015,63 @@ export async function registerRoutes(
       }
       console.error("Update profile error:", error);
       res.status(500).json({ message: "Error updating profile" });
+    }
+  });
+
+  // User Compliance Deadlines - Calendar API
+  app.get("/api/user/deadlines", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      
+      // Get all user orders with applications
+      const userOrders = await db.select({
+        order: ordersTable,
+        application: llcApplicationsTable,
+      })
+      .from(ordersTable)
+      .leftJoin(llcApplicationsTable, eq(ordersTable.id, llcApplicationsTable.orderId))
+      .where(eq(ordersTable.userId, userId));
+
+      const applications = userOrders
+        .filter(o => o.application)
+        .map(o => o.application);
+
+      const deadlines = getUpcomingDeadlinesForUser(applications);
+      res.json(deadlines);
+    } catch (error) {
+      console.error("Error fetching deadlines:", error);
+      res.status(500).json({ message: "Error al obtener fechas de cumplimiento" });
+    }
+  });
+
+  // Admin: Set formation date for an application (triggers auto-calculation)
+  app.post("/api/admin/applications/:id/set-formation-date", isAdmin, async (req, res) => {
+    try {
+      const applicationId = parseInt(req.params.id);
+      const { formationDate, state } = z.object({
+        formationDate: z.string(),
+        state: z.string().optional()
+      }).parse(req.body);
+
+      const [app] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.id, applicationId)).limit(1);
+      if (!app) {
+        return res.status(404).json({ message: "Aplicación no encontrada" });
+      }
+
+      const deadlines = await updateApplicationDeadlines(
+        applicationId, 
+        new Date(formationDate), 
+        state || app.state || "new_mexico"
+      );
+
+      res.json({ 
+        success: true, 
+        message: "Fechas de cumplimiento calculadas exitosamente",
+        deadlines 
+      });
+    } catch (error) {
+      console.error("Error setting formation date:", error);
+      res.status(500).json({ message: "Error al establecer fecha de constitución" });
     }
   });
 

@@ -37,6 +37,8 @@ export const users = pgTable("users", {
   loginAttempts: integer("login_attempts").notNull().default(0),
   lockUntil: timestamp("lock_until"),
   internalNotes: text("internal_notes"),
+  googleId: varchar("google_id"),
+  appleId: varchar("apple_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
