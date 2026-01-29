@@ -99,4 +99,24 @@ The architecture includes:
 - **Invoices:** Use the order's requestCode (e.g., NM-12345678)
 - **Payments:** Use the order's requestCode
 - **ID Generator Module:** Centralized at `server/lib/id-generator.ts` with uniqueness verification
+
+## Form & Input Improvements (January 2026)
+- **No Placeholders Policy:** All input fields across authentication, registration, and forms use labels only - no placeholder text
+- **OTP Fields:** Numeric input mode with 6-digit max length, centered text display
+- **Input Styling:** Consistent border-black/20 for form fields, rounded-full buttons, h-11/h-14 heights
+- **Confirmation Pages:** Compact mobile-optimized layout with prominent order/ticket number display
+- **Request Code Display:** Order numbers (NM/WY/DE-XXXXXXXX format) shown immediately after form submission
+
+## Performance Optimizations (January 2026)
+- **Lazy Loading:** All routes use React.lazy() with Suspense for code splitting
+- **Route Prefetching:** Custom hook in navbar prefetches routes on hover/focus
+- **Fast Spinner:** Minimal loading state with accent-colored spinning circle
+- **Hot Module Replacement:** Vite HMR for instant development updates
+
+## Message System (January 2026)
+- **User Association:** Messages from authenticated users are automatically linked to their account
+- **Email Notifications:** Auto-reply sent to user, admin notification via logActivity
+- **Reply System:** Full threaded reply support via `/api/messages/:id/reply` endpoint
+- **Dashboard Integration:** Users see their message history in the Messages tab
+- **ID Generator Module:** Centralized at `server/lib/id-generator.ts` with uniqueness verification
 - **Removed Formats:** ORD-XXXXX, NM-XXXX-ABC-X, MN-XXXX-XXX-X, MSG-X, DOC-X, TK-X
