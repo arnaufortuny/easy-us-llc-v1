@@ -170,7 +170,7 @@ export default function FAQ() {
                           className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
                             openItems[category.title] === i 
                               ? "border-accent bg-accent/[0.03]" 
-                              : "border-primary/5 hover:border-accent/30 bg-background dark:bg-card"
+                              : "border-primary/5 hover:border-accent/30 bg-white dark:bg-zinc-900"
                           }`}
                         >
                           <button

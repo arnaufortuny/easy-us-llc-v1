@@ -117,7 +117,7 @@ export default function Servicios() {
                 ].map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-background dark:bg-card text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                    className="bg-white dark:bg-zinc-900 text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
                   >
                     {text}
                   </div>
@@ -381,7 +381,7 @@ export default function Servicios() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {maintenanceProcess.map((step, i) => (
-              <div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-background dark:bg-card border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center">
+              <div key={i} className="relative p-6 sm:p-8 rounded-3xl bg-white dark:bg-zinc-900 border border-accent/20 shadow-lg hover:shadow-xl transition-all group flex flex-col items-center text-center">
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-10 h-10 bg-accent text-primary rounded-full flex items-center justify-center font-black text-xl border-4 border-white shadow-md">
                   {i + 1}
                 </div>
@@ -433,7 +433,7 @@ export default function Servicios() {
                 className={`group transition-all duration-200 border-2 rounded-xl sm:rounded-2xl overflow-hidden ${
                   openFaq === i 
                     ? "border-accent bg-accent/[0.03]" 
-                    : "border-primary/5 hover:border-accent/30 bg-background dark:bg-card"
+                    : "border-primary/5 hover:border-accent/30 bg-white dark:bg-zinc-900"
                 }`}
               >
                 <button

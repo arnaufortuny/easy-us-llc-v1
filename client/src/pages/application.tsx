@@ -548,7 +548,7 @@ export default function ApplicationWizard() {
                           <FormControl>
                             <div className="flex flex-col gap-3">
                               {["DNI", "Pasaporte"].map((opt) => (
-                                <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                                <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                   <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                   <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                                 </label>
@@ -667,7 +667,7 @@ export default function ApplicationWizard() {
                     <FormField control={form.control} name="businessCategory" render={({ field }) => (
                       <FormItem>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border focus:ring-[#6EDC8A] font-black text-primary text-lg" data-testid="select-category"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg" data-testid="select-category"><SelectValue placeholder="Seleccionar categoría" /></SelectTrigger></FormControl>
                           <SelectContent>
                             {BUSINESS_CATEGORIES.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
                           </SelectContent>
@@ -693,7 +693,7 @@ export default function ApplicationWizard() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["Sí", "No", "Ya tengo una"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                 <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
@@ -830,14 +830,14 @@ export default function ApplicationWizard() {
                         <FormItem className="space-y-3">
                           <FormControl>
                             <div className="flex flex-col gap-3">
-                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all">
+                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value="transfer" checked={field.value === "transfer"} className="w-5 h-5 mt-1 accent-[#6EDC8A]" />
                                 <div>
                                   <span className="font-black text-primary text-sm md:text-base block">Transferencia bancaria</span>
                                   <span className="text-xs text-muted-foreground">Fortuny Consulting LLC - Cuenta: 141432778929495 - Routing: 121145433 - Column N.A.</span>
                                 </div>
                               </label>
-                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all">
+                              <label className="flex items-start gap-3 p-4 rounded-2xl border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value="link" checked={field.value === "link"} className="w-5 h-5 mt-1 accent-[#6EDC8A]" />
                                 <div>
                                   <span className="font-black text-primary text-sm md:text-base block">Enlace de pago</span>

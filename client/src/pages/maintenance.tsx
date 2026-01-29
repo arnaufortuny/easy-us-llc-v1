@@ -433,7 +433,7 @@ export default function MaintenanceApplication() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["Sí", "No (en ese caso, te orientamos primero)"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                 <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
@@ -575,7 +575,7 @@ export default function MaintenanceApplication() {
                           Estado:
                         </FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                           <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                         </Select>
                       </FormItem>
@@ -619,7 +619,7 @@ export default function MaintenanceApplication() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["Recordatorios y cumplimiento anual", "Presentación de documentos obligatorios", "Soporte durante el año", "Revisión general de la situación de la LLC"].map(opt => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <Checkbox 
                                   checked={field.value?.split(", ").includes(opt)}
                                   onCheckedChange={(checked) => {
@@ -655,7 +655,7 @@ export default function MaintenanceApplication() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["No", "Sí, quiero disolver mi LLC", "Quiero que me expliquéis primero el proceso"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-background dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
                                 <span className="font-black text-primary text-sm md:text-base">{opt}</span>
                               </label>
@@ -819,7 +819,7 @@ export default function MaintenanceApplication() {
                       <p className="text-[10px] opacity-80">Mantenimiento Anual</p>
                     </div>
 
-                    <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-background dark:bg-card mb-6">
+                    <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-zinc-900 mb-6">
                       <label className="font-black text-primary text-sm block">Código de descuento</label>
                       <div className="flex gap-2">
                         <FormField control={form.control} name="discountCode" render={({ field }) => (
@@ -860,7 +860,7 @@ export default function MaintenanceApplication() {
                     <FormField control={form.control} name="paymentMethod" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-4">
-                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-background dark:bg-card hover:border-accent/50'}`}>
+                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
                               <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
@@ -874,7 +874,7 @@ export default function MaintenanceApplication() {
                               </div>
                             </div>
                           </label>
-                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-background dark:bg-card hover:border-accent/50'}`}>
+                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
                               <span className="font-black text-primary text-sm block mb-1">Link de Pago</span>
