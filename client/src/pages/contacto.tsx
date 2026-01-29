@@ -331,7 +331,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Email:</FormLabel>
                         <FormControl>
-                          <Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" data-testid="input-email" />
+                          <Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-email" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -353,7 +353,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Teléfono:</FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  data-testid="input-telefono" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -403,7 +403,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Tu mensaje:</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-2xl min-h-[150px] px-6 py-4 border-gray-200 focus:border-[#6EDC8A] transition-all font-medium text-primary placeholder:text-primary/30 text-base" placeholder="Cuéntanos cómo podemos ayudarte..." data-testid="input-mensaje" />
+                          <Textarea {...field} className="rounded-2xl min-h-[150px] px-6 py-4 border-gray-200 focus:border-[#6EDC8A] transition-all font-medium text-primary placeholder:text-primary/30 text-base"  data-testid="input-mensaje" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -452,7 +452,7 @@ export default function Contacto() {
                               <Input 
                                 {...field} 
                                 className="rounded-full h-14 px-6 text-center text-2xl font-black border-gray-200 focus:border-[#6EDC8A] text-primary placeholder:text-primary/30 tracking-[0.5em]" 
-                                placeholder="000000" 
+                                 
                                 maxLength={6}
                                 data-testid="input-otp"
                               />

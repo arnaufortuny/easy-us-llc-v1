@@ -352,7 +352,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -375,7 +375,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -398,7 +398,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Email:
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -421,7 +421,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre de la LLC:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="MI EMPRESA LLC" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -444,7 +444,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           EIN:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="00-0000000" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -489,7 +489,7 @@ export default function MaintenanceApplication() {
                     <FormDescription>Tipo de negocio o producto</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="A qué se dedica tu LLC..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -608,8 +608,7 @@ export default function MaintenanceApplication() {
                                     type="text" 
                                     value={otpCode}
                                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                    placeholder="Ingresa el código de 6 dígitos"
-                                    className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A] text-center text-xl tracking-[0.5em] font-mono"
+                                                                        className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A] text-center text-xl tracking-[0.5em] font-mono"
                                     maxLength={6}
                                     data-testid="input-otp-code"
                                   />
@@ -650,7 +649,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password" placeholder="Mínimo 8 caracteres" className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A]" data-testid="input-password" />
+                                  <Input {...field} type="password"  className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A]" data-testid="input-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -659,7 +658,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password" placeholder="Repite la contraseña" className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A]" data-testid="input-confirm-password" />
+                                  <Input {...field} type="password"  className="rounded-full p-6 border-gray-200 focus:border-[#6EDC8A]" data-testid="input-confirm-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>

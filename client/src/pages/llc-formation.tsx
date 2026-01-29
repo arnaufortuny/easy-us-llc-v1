@@ -495,7 +495,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre completo:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Tu nombre" /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -510,7 +510,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="email@ejemplo.com" /></FormControl>
+                    <FormControl><Input {...field} type="email" className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -528,7 +528,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Teléfono:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="+34..." /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -546,7 +546,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre deseado:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="MI EMPRESA LLC" /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -565,14 +565,14 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="companyNameOption2" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 1:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="OPCIÓN 2 LLC" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerNamesAlternates" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 2:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="OPCIÓN 3 LLC" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -651,7 +651,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerCountryResidency" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">País:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="España, México, Argentina..." /></FormControl>
+                    <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -669,7 +669,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Dirección completa:</FormLabel>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Ej: Calle Mayor 15, 2ºB&#10;28001 Madrid&#10;España" /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -710,7 +710,7 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">ID del documento (opcional):</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent" placeholder="Número de documento" /></FormControl>
+                      <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-100 focus:border-accent"  /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -741,7 +741,7 @@ export default function LlcFormation() {
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Mi empresa se dedicará a..." /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -844,7 +844,7 @@ export default function LlcFormation() {
                     <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣9️⃣ ¿Algo más que debamos saber?</h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent" placeholder="Dudas, contexto, situaciones especiales..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-100 focus:border-accent"  /></FormControl>
                       </FormItem>
                     )} />
                   </>
@@ -896,8 +896,7 @@ export default function LlcFormation() {
                                 type="text" 
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                placeholder="Ingresa el código de 6 dígitos"
-                                className="rounded-full p-6 border-gray-100 focus:border-accent text-center text-xl tracking-[0.5em] font-mono"
+                                                                className="rounded-full p-6 border-gray-100 focus:border-accent text-center text-xl tracking-[0.5em] font-mono"
                                 maxLength={6}
                                 data-testid="input-otp-code"
                               />
@@ -938,7 +937,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" placeholder="Mínimo 8 caracteres" className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-password" />
+                              <Input {...field} type="password"  className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -947,7 +946,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" placeholder="Repite la contraseña" className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-confirm-password" />
+                              <Input {...field} type="password"  className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-confirm-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>

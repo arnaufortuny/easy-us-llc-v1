@@ -275,7 +275,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu nombre" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -295,7 +295,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="+34..." /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -318,7 +318,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Email:
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="email@ejemplo.com" /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -379,7 +379,7 @@ export default function ApplicationWizard() {
                           <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                             Número del documento:
                           </FormLabel>
-                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Número DNI o Pasaporte" /></FormControl>
+                          <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                           <FormMessage />
                         </FormItem>
                       )} />
@@ -402,7 +402,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           País:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="España, México, Argentina..." /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -425,7 +425,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Dirección:
                         </FormLabel>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Dirección completa..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -448,7 +448,7 @@ export default function ApplicationWizard() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre deseado:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="MI EMPRESA LLC" /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -468,7 +468,7 @@ export default function ApplicationWizard() {
                     <FormDescription>Explícanos brevemente a qué se dedicará tu empresa, con tus propias palabras</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Mi empresa se dedicará a..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -540,7 +540,7 @@ export default function ApplicationWizard() {
                     </h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Comentarios adicionales..." /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
