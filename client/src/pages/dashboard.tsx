@@ -1985,20 +1985,20 @@ export default function Dashboard() {
                   />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Divisa</Label>
+                  <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
                   <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
-                    <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
-                    <SelectContent>
+                    <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
+                    <SelectContent className="rounded-xl">
                       <SelectItem value="EUR">EUR (€)</SelectItem>
                       <SelectItem value="USD">USD ($)</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-2 pt-4">
-                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto">Cancelar</Button>
+              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
+                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
                 <Button 
-                  className="w-full sm:w-auto bg-accent text-primary"
+                  className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
                   disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0}
                   onClick={async () => {
                     try {
@@ -2027,14 +2027,17 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Solicitar Documentos</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-black text-primary">Solicitar Documentos</DialogTitle>
+                <DialogDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</DialogDescription>
+              </DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Tipo de documento</Label>
+                  <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
                   <Select value={docType} onValueChange={setDocType}>
-                    <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
-                    <SelectContent>
+                    <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
+                    <SelectContent className="rounded-xl">
                       <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                       <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                       <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2043,110 +2046,113 @@ export default function Dashboard() {
                   </Select>
                 </div>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
-                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full" data-testid="input-doc-message" />
+                  <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
+                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-doc-message" />
                 </div>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
-                  <Button onClick={() => {
-                    if (docDialog.user?.id && docDialog.user?.email) {
-                      const docTypeLabels: Record<string, string> = {
-                        passport: 'Pasaporte / Documento de Identidad',
-                        address_proof: 'Prueba de Domicilio',
-                        tax_id: 'Identificación Fiscal (NIF/CIF)',
-                        other: 'Documento Adicional'
-                      };
-                      const docLabel = docTypeLabels[docType] || docType;
-                      sendNoteMutation.mutate({ 
-                        userId: docDialog.user.id, 
-                        title: `Solicitud de Documento: ${docLabel}`, 
-                        message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
-                        type: 'action_required' 
-                      });
-                      setDocDialog({ open: false, user: null });
-                      setDocType('');
-                      setDocMessage('');
-                    }
-                  }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-request-doc">
-                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar'}
-                  </Button>
-                </DialogFooter>
               </div>
+              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
+                <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                <Button onClick={() => {
+                  if (docDialog.user?.id && docDialog.user?.email) {
+                    const docTypeLabels: Record<string, string> = {
+                      passport: 'Pasaporte / Documento de Identidad',
+                      address_proof: 'Prueba de Domicilio',
+                      tax_id: 'Identificación Fiscal (NIF/CIF)',
+                      other: 'Documento Adicional'
+                    };
+                    const docLabel = docTypeLabels[docType] || docType;
+                    sendNoteMutation.mutate({ 
+                      userId: docDialog.user.id, 
+                      title: `Solicitud de Documento: ${docLabel}`, 
+                      message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
+                      type: 'action_required' 
+                    });
+                    setDocDialog({ open: false, user: null });
+                    setDocType('');
+                    setDocMessage('');
+                  }
+                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-request-doc">
+                  {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
 
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Crear Factura</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-black text-primary">Crear Factura</DialogTitle>
+                <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
+              </DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-lg">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
+                <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Concepto</Label>
+                  <Label className="text-sm font-black text-primary mb-2 block">Concepto</Label>
                   <Input 
                     value={invoiceConcept} 
                     onChange={e => setInvoiceConcept(e.target.value)} 
                     placeholder="Ej: Servicio de consultoría" 
-                    className="w-full"
+                    className="w-full rounded-full border-gray-200 focus:border-accent h-11"
                     data-testid="input-invoice-concept"
                   />
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-3 gap-3">
                   <div className="col-span-2">
-                    <Label className="text-xs font-medium mb-1 block">Importe</Label>
+                    <Label className="text-sm font-black text-primary mb-2 block">Importe</Label>
                     <Input 
                       type="number" 
                       value={invoiceAmount} 
                       onChange={e => setInvoiceAmount(e.target.value)} 
                       placeholder="739" 
-                      className="w-full"
+                      className="w-full rounded-full border-gray-200 focus:border-accent h-11"
                       data-testid="input-invoice-amount"
                     />
                   </div>
                   <div>
-                    <Label className="text-xs font-medium mb-1 block">Moneda</Label>
+                    <Label className="text-sm font-black text-primary mb-2 block">Moneda</Label>
                     <Select value={invoiceCurrency} onValueChange={setInvoiceCurrency}>
-                      <SelectTrigger className="w-full bg-white" data-testid="select-invoice-currency">
+                      <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-invoice-currency">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white z-[9999]">
+                      <SelectContent className="bg-white z-[9999] rounded-xl">
                         <SelectItem value="EUR">EUR</SelectItem>
                         <SelectItem value="USD">USD</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
-                  <Button 
-                    onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
-                      userId: invoiceDialog.user.id, 
-                      concept: invoiceConcept, 
-                      amount: Math.round(parseFloat(invoiceAmount) * 100),
-                      currency: invoiceCurrency
-                    })} 
-                    disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                    className="w-full sm:w-auto"
-                    data-testid="button-create-invoice"
-                  >
-                    {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
-                  </Button>
-                </DialogFooter>
               </div>
+              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
+                <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                <Button 
+                  onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
+                    userId: invoiceDialog.user.id, 
+                    concept: invoiceConcept, 
+                    amount: Math.round(parseFloat(invoiceAmount) * 100),
+                    currency: invoiceCurrency
+                  })} 
+                  disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
+                  className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+                  data-testid="button-create-invoice"
+                >
+                  {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
         </>
       )}
 
       <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="max-w-sm bg-white">
-          <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
+        <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+          <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
             <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer. Todos tus datos serán eliminados.</p>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)}>Cancelar</Button>
-            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} data-testid="button-confirm-delete-account">
+          <DialogFooter className="flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} className="rounded-full font-black" data-testid="button-confirm-delete-account">
               {deleteOwnAccountMutation.isPending ? 'Eliminando...' : 'Eliminar Mi Cuenta'}
             </Button>
           </DialogFooter>
@@ -2154,8 +2160,10 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="max-w-md bg-white">
-          <DialogHeader><DialogTitle className="text-lg font-bold">Subir Documento</DialogTitle></DialogHeader>
+        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-primary">Subir Documento</DialogTitle>
+          </DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
               <div className="p-3 bg-gray-50 rounded-lg flex items-center gap-3">
@@ -2167,12 +2175,12 @@ export default function Dashboard() {
               </div>
             )}
             <div>
-              <Label className="text-sm font-medium mb-2 block">Tipo de documento</Label>
+              <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
               <Select value={uploadDocType} onValueChange={setUploadDocType}>
-                <SelectTrigger className="w-full bg-white" data-testid="select-upload-doc-type">
+                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999]" side="bottom" align="start" sideOffset={4}>
+                <SelectContent className="bg-white z-[9999] rounded-xl" side="bottom" align="start" sideOffset={4}>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                   <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                   <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2182,19 +2190,19 @@ export default function Dashboard() {
             </div>
             {uploadDocType === "other" && (
               <div>
-                <Label className="text-sm font-medium mb-2 block">Descripción del documento</Label>
+                <Label className="text-sm font-black text-primary mb-2 block">Descripción del documento</Label>
                 <Textarea 
                   value={uploadNotes} 
                   onChange={(e) => setUploadNotes(e.target.value)} 
                   placeholder="Describe el tipo de documento que estás subiendo..."
-                  className="min-h-[80px]"
+                  className="min-h-[80px] rounded-xl border-gray-200 focus:border-accent"
                   data-testid="input-upload-notes"
                 />
               </div>
             )}
           </div>
-          <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setUploadDialog({ open: false, file: null })}>Cancelar</Button>
+          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setUploadDialog({ open: false, file: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
             <Button 
               onClick={async () => {
                 if (!uploadDialog.file) return;
@@ -2223,6 +2231,7 @@ export default function Dashboard() {
                 }
               }}
               disabled={uploadDocType === 'other' && !uploadNotes.trim()}
+              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
               data-testid="button-confirm-upload"
             >
               Subir Documento
