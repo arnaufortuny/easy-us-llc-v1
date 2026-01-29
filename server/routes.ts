@@ -1514,7 +1514,7 @@ export async function registerRoutes(
         }
         userId = req.session.userId;
       } else {
-        // Require email and password for new users
+        // Require email, password and OTP verification for new users
         if (!email || !password) {
           return res.status(400).json({ message: "Se requiere email y contraseña para realizar un pedido." });
         }
@@ -1527,6 +1527,24 @@ export async function registerRoutes(
         const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
         if (existingUser) {
           return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+        }
+        
+        // Verify that email has been verified via OTP
+        const [otpRecord] = await db.select()
+          .from(contactOtps)
+          .where(
+            and(
+              eq(contactOtps.email, email),
+              eq(contactOtps.otpType, "account_verification"),
+              eq(contactOtps.verified, true),
+              gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000)) // Allow 30 min window after verification
+            )
+          )
+          .orderBy(sql`${contactOtps.expiresAt} DESC`)
+          .limit(1);
+        
+        if (!otpRecord) {
+          return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
         }
         
         // Create new user with verified email and password
@@ -1710,6 +1728,24 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
       }
       
+      // Verify that email has been verified via OTP
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, email),
+            eq(contactOtps.otpType, "account_verification"),
+            eq(contactOtps.verified, true),
+            gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000))
+          )
+        )
+        .orderBy(sql`${contactOtps.expiresAt} DESC`)
+        .limit(1);
+      
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
+      }
+      
       // Get the application to find the order
       const application = await storage.getLlcApplication(applicationId);
       if (!application) {
@@ -1771,6 +1807,24 @@ export async function registerRoutes(
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
         return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+      }
+      
+      // Verify that email has been verified via OTP
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, email),
+            eq(contactOtps.otpType, "account_verification"),
+            eq(contactOtps.verified, true),
+            gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000))
+          )
+        )
+        .orderBy(sql`${contactOtps.expiresAt} DESC`)
+        .limit(1);
+      
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
       }
       
       // Get the maintenance application to find the order
@@ -2893,7 +2947,167 @@ export async function registerRoutes(
     }
   });
 
+  // =============================================
+  // OTP endpoints for registration and password reset
+  // =============================================
   
+  // Send OTP for account registration (email verification before creating account)
+  app.post("/api/register/send-otp", async (req, res) => {
+    try {
+      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      
+      // Check if email is already registered
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      if (existingUser) {
+        return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
+      }
+      
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+
+      await db.insert(contactOtps).values({
+        email,
+        otp,
+        otpType: "account_verification",
+        expiresAt,
+      });
+
+      await sendEmail({
+        to: email,
+        subject: "Código de verificación - Easy US LLC",
+        html: getOtpEmailTemplate(otp, "verificar tu email y crear tu cuenta"),
+      });
+
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error sending registration OTP:", err);
+      res.status(400).json({ message: "Error al enviar el código de verificación." });
+    }
+  });
+
+  // Verify OTP for account registration
+  app.post("/api/register/verify-otp", async (req, res) => {
+    try {
+      const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
+      
+      const [record] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, email),
+            eq(contactOtps.otp, otp),
+            eq(contactOtps.otpType, "account_verification"),
+            gt(contactOtps.expiresAt, new Date())
+          )
+        )
+        .limit(1);
+
+      if (!record) {
+        return res.status(400).json({ message: "Código inválido o caducado" });
+      }
+
+      await db.update(contactOtps)
+        .set({ verified: true })
+        .where(eq(contactOtps.id, record.id));
+
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error verifying registration OTP:", err);
+      res.status(400).json({ message: "Error al verificar el código" });
+    }
+  });
+
+  // Send OTP for password reset (forgot password)
+  app.post("/api/password-reset/send-otp", async (req, res) => {
+    try {
+      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      
+      // Check if user exists (but don't reveal this to prevent enumeration)
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      
+      // Always return success to prevent email enumeration attacks
+      if (!existingUser) {
+        return res.json({ success: true });
+      }
+      
+      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
+
+      await db.insert(contactOtps).values({
+        email,
+        otp,
+        otpType: "password_reset",
+        expiresAt,
+      });
+
+      await sendEmail({
+        to: email,
+        subject: "Recuperar contraseña - Easy US LLC",
+        html: getOtpEmailTemplate(otp, "restablecer tu contraseña"),
+      });
+
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error sending password reset OTP:", err);
+      res.status(400).json({ message: "Error al enviar el código de verificación." });
+    }
+  });
+
+  // Verify OTP and reset password
+  app.post("/api/password-reset/confirm", async (req, res) => {
+    try {
+      const { email, otp, newPassword } = z.object({ 
+        email: z.string().email(), 
+        otp: z.string(),
+        newPassword: z.string().min(8, "La contraseña debe tener al menos 8 caracteres")
+      }).parse(req.body);
+      
+      const [record] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, email),
+            eq(contactOtps.otp, otp),
+            eq(contactOtps.otpType, "password_reset"),
+            gt(contactOtps.expiresAt, new Date()),
+            eq(contactOtps.verified, false)
+          )
+        )
+        .limit(1);
+
+      if (!record) {
+        return res.status(400).json({ message: "Código inválido o caducado" });
+      }
+
+      // Find the user
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      if (!user) {
+        return res.status(400).json({ message: "Usuario no encontrado" });
+      }
+
+      // Hash new password and update
+      const { hashPassword } = await import("./lib/auth-service");
+      const passwordHash = await hashPassword(newPassword);
+      
+      await db.update(usersTable)
+        .set({ passwordHash, updatedAt: new Date() })
+        .where(eq(usersTable.id, user.id));
+
+      // Mark OTP as used
+      await db.update(contactOtps)
+        .set({ verified: true })
+        .where(eq(contactOtps.id, record.id));
+
+      res.json({ success: true, message: "Contraseña actualizada correctamente" });
+    } catch (err: any) {
+      console.error("Error resetting password:", err);
+      if (err.errors) {
+        return res.status(400).json({ message: err.errors[0]?.message || "Error al restablecer la contraseña" });
+      }
+      res.status(400).json({ message: "Error al restablecer la contraseña" });
+    }
+  });
+
   // Seed Data
   await seedDatabase();
 

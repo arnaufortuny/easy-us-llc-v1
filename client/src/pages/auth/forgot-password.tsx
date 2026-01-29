@@ -52,10 +52,15 @@ export default function ForgotPassword() {
   const handleSendOtp = async (data: EmailFormValues) => {
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/auth/forgot-password", data);
-      setEmail(data.email);
-      setStep('otp');
-      toast({ title: "Código enviado", description: "Revisa tu email para obtener el código de verificación" });
+      const res = await apiRequest("POST", "/api/password-reset/send-otp", data);
+      if (res.ok) {
+        setEmail(data.email);
+        setStep('otp');
+        toast({ title: "Código enviado", description: "Revisa tu email para obtener el código de verificación" });
+      } else {
+        const result = await res.json();
+        toast({ title: "Error", description: result.message || "No se pudo enviar el código", variant: "destructive" });
+      }
     } catch (err) {
       toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
     } finally {
@@ -68,31 +73,24 @@ export default function ForgotPassword() {
       toast({ title: "Error", description: "Ingresa el código de 6 dígitos", variant: "destructive" });
       return;
     }
-    setIsLoading(true);
-    try {
-      const res = await apiRequest("POST", "/api/auth/verify-reset-otp", { email, otp });
-      const result = await res.json();
-      if (result.success) {
-        setStep('password');
-      }
-    } catch (err: any) {
-      toast({ title: "Error", description: err.message || "Código inválido o expirado", variant: "destructive" });
-    } finally {
-      setIsLoading(false);
-    }
+    // For password reset, we go directly to the password step
+    // The actual verification happens when they submit the new password
+    setStep('password');
   };
 
   const handleResetPassword = async (data: ResetFormValues) => {
     setIsLoading(true);
     try {
-      const res = await apiRequest("POST", "/api/auth/reset-password", {
+      const res = await apiRequest("POST", "/api/password-reset/confirm", {
         email,
         otp,
-        password: data.password,
+        newPassword: data.password,
       });
       const result = await res.json();
-      if (result.success) {
+      if (res.ok && result.success) {
         setStep('success');
+      } else {
+        toast({ title: "Error", description: result.message || "Código inválido o expirado", variant: "destructive" });
       }
     } catch (err: any) {
       toast({ title: "Error", description: err.message || "No se pudo restablecer la contraseña", variant: "destructive" });
@@ -104,8 +102,12 @@ export default function ForgotPassword() {
   const handleResendOtp = async () => {
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/auth/forgot-password", { email });
-      toast({ title: "Código reenviado", description: "Revisa tu email" });
+      const res = await apiRequest("POST", "/api/password-reset/send-otp", { email });
+      if (res.ok) {
+        toast({ title: "Código reenviado", description: "Revisa tu email" });
+      } else {
+        toast({ title: "Error", description: "No se pudo reenviar el código", variant: "destructive" });
+      }
     } catch (err) {
       toast({ title: "Error", description: "No se pudo reenviar el código", variant: "destructive" });
     } finally {

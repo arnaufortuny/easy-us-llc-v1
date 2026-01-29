@@ -65,6 +65,13 @@ export default function LlcFormation() {
   const [isEditMode, setIsEditMode] = useState(false);
   const { toast } = useToast();
   
+  // OTP verification states
+  const [otpCode, setOtpCode] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
+  const [isOtpVerified, setIsOtpVerified] = useState(false);
+  const [isSendingOtp, setIsSendingOtp] = useState(false);
+  const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  
   // Check for edit parameter in URL
   const urlParams = new URLSearchParams(window.location.search);
   const editAppId = urlParams.get('edit');
@@ -223,6 +230,64 @@ export default function LlcFormation() {
       setStep(3);
     }
   }, [isAuthenticated, user, form]);
+
+  // Reset OTP state when email changes
+  const watchedEmail = form.watch("ownerEmail");
+  useEffect(() => {
+    setIsOtpSent(false);
+    setIsOtpVerified(false);
+    setOtpCode("");
+  }, [watchedEmail]);
+
+  // Send OTP for email verification
+  const sendOtp = async () => {
+    const email = form.getValues("ownerEmail");
+    if (!email) {
+      toast({ title: "Ingresa tu email primero", variant: "destructive" });
+      return;
+    }
+    
+    setIsSendingOtp(true);
+    try {
+      const res = await apiRequest("POST", "/api/register/send-otp", { email });
+      if (res.ok) {
+        setIsOtpSent(true);
+        toast({ title: "Código enviado", description: "Revisa tu bandeja de entrada" });
+      } else {
+        const data = await res.json();
+        toast({ title: "Error", description: data.message, variant: "destructive" });
+      }
+    } catch (error) {
+      toast({ title: "Error al enviar el código", variant: "destructive" });
+    } finally {
+      setIsSendingOtp(false);
+    }
+  };
+
+  // Verify OTP
+  const verifyOtp = async () => {
+    const email = form.getValues("ownerEmail");
+    if (!otpCode || otpCode.length !== 6) {
+      toast({ title: "Ingresa el código de 6 dígitos", variant: "destructive" });
+      return;
+    }
+    
+    setIsVerifyingOtp(true);
+    try {
+      const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
+      if (res.ok) {
+        setIsOtpVerified(true);
+        toast({ title: "Email verificado", description: "Ahora crea tu contraseña" });
+      } else {
+        const data = await res.json();
+        toast({ title: "Error", description: data.message, variant: "destructive" });
+      }
+    } catch (error) {
+      toast({ title: "Código inválido o expirado", variant: "destructive" });
+    } finally {
+      setIsVerifyingOtp(false);
+    }
+  };
 
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
@@ -794,28 +859,101 @@ export default function LlcFormation() {
             {step === 18 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
-                <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Elige una contraseña segura.</p>
+                <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
                 
                 {!isAuthenticated && (
-                  <div className="space-y-4">
-                    <FormField control={form.control} name="password" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="password" placeholder="Mínimo 8 caracteres" className="rounded-full p-6 border-gray-100 focus:border-accent" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-                    <FormField control={form.control} name="confirmPassword" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="password" placeholder="Repite la contraseña" className="rounded-full p-6 border-gray-100 focus:border-accent" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
+                  <div className="space-y-6">
+                    {/* Step 1: Email verification with OTP */}
+                    {!isOtpVerified && (
+                      <div className="space-y-4">
+                        <div className="bg-gray-50 rounded-2xl p-5">
+                          <p className="text-xs font-black text-primary tracking-widest mb-2">TU EMAIL</p>
+                          <p className="text-lg font-bold text-primary">{form.getValues("ownerEmail")}</p>
+                        </div>
+                        
+                        {!isOtpSent ? (
+                          <Button 
+                            type="button" 
+                            onClick={sendOtp}
+                            disabled={isSendingOtp}
+                            className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20"
+                            data-testid="button-send-otp"
+                          >
+                            {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <Mail className="w-5 h-5 mr-2" />}
+                            {isSendingOtp ? "Enviando..." : "Enviar código de verificación"}
+                          </Button>
+                        ) : (
+                          <div className="space-y-4">
+                            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
+                              <Mail className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                              <p className="text-sm font-bold text-green-700">Código enviado a tu email</p>
+                              <p className="text-xs text-green-600">Revisa tu bandeja de entrada (y spam)</p>
+                            </div>
+                            
+                            <div>
+                              <label className="text-xs font-black text-primary tracking-widest block mb-2">Código de verificación</label>
+                              <Input 
+                                type="text" 
+                                value={otpCode}
+                                onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
+                                placeholder="Ingresa el código de 6 dígitos"
+                                className="rounded-full p-6 border-gray-100 focus:border-accent text-center text-xl tracking-[0.5em] font-mono"
+                                maxLength={6}
+                                data-testid="input-otp-code"
+                              />
+                            </div>
+                            
+                            <Button 
+                              type="button" 
+                              onClick={verifyOtp}
+                              disabled={isVerifyingOtp || otpCode.length !== 6}
+                              className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
+                              data-testid="button-verify-otp"
+                            >
+                              {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : <ShieldCheck className="w-5 h-5 mr-2" />}
+                              {isVerifyingOtp ? "Verificando..." : "Verificar código"}
+                            </Button>
+                            
+                            <button 
+                              type="button"
+                              onClick={() => { setIsOtpSent(false); setOtpCode(""); }}
+                              className="text-xs text-accent underline w-full text-center"
+                            >
+                              Reenviar código
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    
+                    {/* Step 2: Password creation (only after OTP verified) */}
+                    {isOtpVerified && (
+                      <div className="space-y-4">
+                        <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center mb-4">
+                          <Check className="w-6 h-6 text-green-600 mx-auto mb-2" />
+                          <p className="text-sm font-bold text-green-700">Email verificado</p>
+                        </div>
+                        
+                        <FormField control={form.control} name="password" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="password" placeholder="Mínimo 8 caracteres" className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-password" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="confirmPassword" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
+                            <FormControl>
+                              <Input {...field} type="password" placeholder="Repite la contraseña" className="rounded-full p-6 border-gray-100 focus:border-accent" data-testid="input-confirm-password" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                      </div>
+                    )}
                   </div>
                 )}
                 
@@ -832,8 +970,9 @@ export default function LlcFormation() {
                   <Button 
                     type="button" 
                     onClick={nextStep} 
-                    disabled={!isAuthenticated && (!form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
+                    disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
                     className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
+                    data-testid="button-next-step-18"
                   >
                     SIGUIENTE
                   </Button>
