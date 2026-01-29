@@ -3095,8 +3095,8 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Código de verificación - Easy US LLC",
-        html: getOtpEmailTemplate(otp),
+        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        html: getOtpEmailTemplate(otp, "Cliente"),
       });
 
       res.json({ success: true });
@@ -3234,8 +3234,8 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Código de verificación - Easy US LLC",
-        html: getOtpEmailTemplate(otp, "verificar tu email y crear tu cuenta"),
+        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        html: getOtpEmailTemplate(otp, "Cliente"),
       });
 
       res.json({ success: true });
@@ -3302,8 +3302,8 @@ export async function registerRoutes(
 
       await sendEmail({
         to: email,
-        subject: "Recuperar contraseña - Easy US LLC",
-        html: getOtpEmailTemplate(otp, "restablecer tu contraseña"),
+        subject: "Tu código de verificación 🔐 | Easy US LLC",
+        html: getOtpEmailTemplate(otp, existingUser?.firstName || "Cliente"),
       });
 
       res.json({ success: true });
@@ -3437,14 +3437,13 @@ const orderHtml = `
 
       // Send improved admin templates
       await Promise.all([
-        sendEmail({ to: email, subject: "TEST: OTP Verificación de Identidad", html: getOtpEmailTemplate(otp) }),
+        sendEmail({ to: email, subject: "TEST: Tu código de verificación 🔐", html: getOtpEmailTemplate(otp, name) }),
         sendEmail({ to: email, subject: "TEST: Log de Actividad (Admin)", html: activityHtml }),
         sendEmail({ to: email, subject: "TEST: Nueva Solicitud LLC (Admin)", html: orderHtml }),
         sendEmail({ to: email, subject: "TEST: Confirmación de Pedido (Cliente)", html: getConfirmationEmailTemplate(name, requestCode, { companyName: "Mi Nueva Empresa LLC" }) }),
         sendEmail({ to: email, subject: "TEST: Bienvenido a Easy US LLC", html: getWelcomeEmailTemplate(name) }),
         sendEmail({ to: email, subject: "TEST: Newsletter Bienvenida", html: getNewsletterWelcomeTemplate() }),
         sendEmail({ to: email, subject: "TEST: Confirmación de Mensaje (Auto-reply)", html: getAutoReplyTemplate(ticketId, name) }),
-        sendEmail({ to: email, subject: "TEST: OTP Mensaje de Contacto", html: getOtpEmailTemplate(otp) }),
       ]);
 
       res.json({ success: true, message: "Emails de prueba administrativos mejorados enviados" });

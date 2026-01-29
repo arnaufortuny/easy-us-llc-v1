@@ -123,24 +123,53 @@ export function getAutoReplyTemplate(ticketId: string, name: string = "Cliente")
   `;
 }
 
-export function getOtpEmailTemplate(otp: string, purpose: string = "verificar tu email") {
+export function getOtpEmailTemplate(otp: string, name: string = "Cliente") {
+  const domain = "easyusllc.com";
   return `
-    <div style="background-color: #F7F7F5; padding: 20px 0;">
-      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 12px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 4px 20px rgba(0,0,0,0.06);">
-        ${getEmailHeader("Código de Verificación")}
-        <div style="padding: 40px;">
-          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px; text-align: center;">Usa el siguiente código para ${purpose}:</p>
+    <div style="background-color: #F7F7F5; padding: 30px 15px;">
+      <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; max-width: 600px; margin: auto; border-radius: 16px; overflow: hidden; color: #0E1215; background-color: #ffffff; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+        
+        <!-- Header con logo -->
+        <div style="background: linear-gradient(180deg, #ffffff 0%, #F0FDF4 100%); padding: 40px 20px 30px; text-align: center; border-bottom: 4px solid #6EDC8A;">
+          <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
+            <img src="https://${domain}/logo-email.png" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 14px; box-shadow: 0 4px 12px rgba(110,220,138,0.3);" />
+          </a>
+        </div>
+        
+        <!-- Contenido principal -->
+        <div style="padding: 40px 35px;">
+          <h2 style="font-size: 20px; font-weight: 800; margin: 0 0 20px 0; color: #0E1215;">Hola ${name} <span style="font-size: 22px;">👋</span></h2>
           
-          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 12px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-            <p style="margin: 0; font-size: 36px; font-weight: 900; color: #0E1215; letter-spacing: 10px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 10px;">Gracias por continuar con tu proceso en Easy US LLC.</p>
+          <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">Para garantizar la seguridad de tu cuenta, utiliza el siguiente código de verificación:</p>
+          
+          <!-- Código OTP -->
+          <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
+            <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">🔐 Tu código OTP:</p>
+            <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0E1215; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
           </div>
 
-          <div style="text-align: center;">
-            <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin: 0;">Este código es válido por <strong>10 minutos</strong>.</p>
-            <p style="line-height: 1.6; font-size: 12px; color: #9CA3AF; margin-top: 10px;">Si no solicitaste este código, ignora este mensaje.</p>
+          <!-- Información importante -->
+          <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 12px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
+            <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">📌 Importante:</p>
+            <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
+              <li style="margin-bottom: 6px;">Este código es personal y confidencial</li>
+              <li style="margin-bottom: 6px;">Tiene una validez limitada a <strong>15 minutos</strong> por motivos de seguridad</li>
+              <li>No lo compartas con nadie</li>
+            </ul>
           </div>
+
+          <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">Si no has solicitado este código, puedes ignorar este mensaje con total tranquilidad.</p>
+          
+          <p style="line-height: 1.6; font-size: 14px; color: #444; margin-top: 25px;">¿Necesitas ayuda? <strong>Responde a este correo</strong></p>
         </div>
-        ${getEmailFooter()}
+        
+        <!-- Footer -->
+        <div style="background-color: #0E1215; padding: 30px 20px; text-align: center; color: #F7F7F5;">
+          <p style="margin: 0 0 5px 0; font-weight: 700; color: #6EDC8A; font-size: 13px;">Easy US LLC</p>
+          <p style="margin: 0; font-size: 11px; color: #9CA3AF; line-height: 1.6;">1209 Mountain Road Place Northeast<br>STE R<br>Albuquerque, NM 87110</p>
+          <p style="margin-top: 15px; font-size: 10px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
+        </div>
       </div>
     </div>
   `;
