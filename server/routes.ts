@@ -734,21 +734,22 @@ export async function registerRoutes(
     res.json(products);
   });
 
-  // Secure Admin Seeding - Promotes ADMIN_EMAIL user to admin role (protected by secret token)
-  app.post("/api/seed-admin", async (req, res) => {
+  // Protected admin seeding - requires existing admin authentication
+  app.post("/api/seed-admin", isAdmin, async (req, res) => {
     try {
-      const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+      const { email } = req.body;
+      const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, adminEmail)).limit(1);
       if (!existingUser) {
-        return res.status(404).json({ message: "Admin user not found. Please register first." });
+        return res.status(404).json({ message: "Usuario no encontrado." });
       }
       
       await db.update(usersTable).set({ isAdmin: true, accountStatus: 'active' }).where(eq(usersTable.email, adminEmail));
-      res.json({ success: true, message: "Admin role assigned successfully" });
+      res.json({ success: true, message: "Rol de administrador asignado correctamente" });
     } catch (error) {
       console.error("Seed admin error:", error);
-      res.status(500).json({ message: "Error seeding admin" });
+      res.status(500).json({ message: "Error al asignar rol de administrador" });
     }
   });
 
@@ -1848,18 +1849,18 @@ export async function registerRoutes(
     }
   });
 
-  // Client Update Request Data
+  // Client Update LLC Application Data
   app.patch("/api/llc/:id/data", isAuthenticated, async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(messagesTable) // Fix: This was causing LSP errors if referencing non-existent table
-        .set({ ...updates, createdAt: new Date() })
-        .where(eq(messagesTable.id, appId))
+      const [updated] = await db.update(llcApplicationsTable)
+        .set({ ...updates, updatedAt: new Date() })
+        .where(eq(llcApplicationsTable.id, appId))
         .returning();
       res.json(updated);
     } catch (error) {
-      res.status(500).json({ message: "Error updating request" });
+      res.status(500).json({ message: "Error updating application" });
     }
   });
   app.get(api.llc.get.path, async (req: any, res) => {
@@ -3157,9 +3158,9 @@ export async function registerRoutes(
   await seedDatabase();
 
   // === Test Email Route ===
-  app.post("/api/admin/test-emails", async (req, res) => {
+  app.post("/api/admin/test-emails", isAdmin, async (req, res) => {
     const { email } = req.body;
-    if (!email) return res.status(400).json({ message: "Email is required" });
+    if (!email) return res.status(400).json({ message: "Email requerido" });
 
     try {
       const ticketId = "12345678";
