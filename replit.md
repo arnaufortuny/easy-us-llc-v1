@@ -52,9 +52,15 @@ The architecture includes:
 - **Form Steps:** LLC form has 21 steps, maintenance form has 12 steps (includes password and payment method selection).
 - **Contact Form:** Does NOT require account creation.
 
+## OTP Verification System (January 2026)
+- **Email OTP Verification:** LLC and maintenance orders REQUIRE email OTP verification before account creation.
+- **OTP Endpoints:** `/api/register/send-otp` and `/api/register/verify-otp` handle account verification.
+- **Password Reset OTP:** `/api/password-reset/send-otp` and `/api/password-reset/confirm` handle password recovery.
+- **OTP Security:** 6-digit codes with 10-minute expiration, verified records valid for 30-minute window.
+- **Email Change Detection:** OTP state resets automatically when user changes email to prevent verification bypass.
+- **Backend Enforcement:** All account creation endpoints verify OTP record in contactOtps table (otpType="account_verification", verified=true).
+- **Contact Form:** Uses separate OTP system (otpType="contact") for verification.
+
 ## Code Optimization (January 2026)
-- **Legacy OTP Removal:** Removed legacy OTP email verification from LLC and maintenance forms (now uses password-based account creation).
-- **Contact OTP Preserved:** Contact form still uses OTP verification (separate system via contactOtps table).
-- **Unused Code Cleanup:** Removed unused state variables (isOtpSent, isEmailVerified), unused form fields (otp), and unused storage functions (setOtp, verifyOtp).
-- **Backend Cleanup:** Removed deprecated OTP endpoints for LLC/maintenance applications (/api/:type(llc|maintenance)/:id/send-otp and verify-otp).
-- **Form Schema Optimization:** Cleaned up form schemas to only include required fields for the new password-based account flow.
+- **Unused Code Cleanup:** Removed deprecated OTP endpoints for LLC/maintenance applications.
+- **Form Schema Optimization:** Cleaned up form schemas to only include required fields for the account flow.
