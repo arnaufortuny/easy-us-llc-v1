@@ -71,22 +71,7 @@ export class DatabaseStorage implements IStorage {
   // Orders
   async createOrder(order: InsertOrder): Promise<Order> {
     const [newOrder] = await db.insert(orders).values(order).returning();
-    
-    // Check if it's a maintenance pack (Product ID for maintenance)
-    // Assuming maintenance products have 'mantenimiento' in name or specific IDs
-    // For now, let's look at the product
-    const [product] = await db.select().from(products).where(eq(products.id, order.productId)).limit(1);
-    const isMaintenance = product?.name.toLowerCase().includes("mantenimiento") || product?.name.toLowerCase().includes("maintenance");
-    
-    // Generate 8-digit numeric ID
-    const year = new Date().getFullYear().toString().slice(-2);
-    const random = Math.floor(100000 + Math.random() * 900000).toString();
-    const prefix = isMaintenance ? 'MN-' : 'ORD-';
-    const invoiceNumber = `${prefix}${year}${random}`;
-    
-    await db.update(orders).set({ invoiceNumber }).where(eq(orders.id, newOrder.id));
-
-    return { ...newOrder, invoiceNumber };
+    return newOrder;
   }
 
   async getOrders(userId?: string): Promise<any[]> {

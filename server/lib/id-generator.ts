@@ -116,12 +116,9 @@ export function generateDocumentId(): string {
   return generate8DigitId();
 }
 
-export function formatOrderDisplay(requestCode: string | null | undefined, orderId?: number): string {
+export function formatOrderDisplay(requestCode: string | null | undefined): string {
   if (requestCode) {
     return requestCode;
-  }
-  if (orderId) {
-    return `ORD-${orderId.toString().padStart(8, '0')}`;
   }
   return 'N/A';
 }

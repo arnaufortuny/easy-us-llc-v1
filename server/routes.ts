@@ -828,13 +828,9 @@ export async function registerRoutes(
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-      // Generate unique ticket ID (TK-XXXXXXXX format)
-      const generateTicketId = () => {
-        const timestamp = Date.now().toString(36).toUpperCase();
-        const random = Math.random().toString(36).substring(2, 6).toUpperCase();
-        return `TK-${timestamp}${random}`;
-      };
-      const ticketId = generateTicketId();
+      // Generate unique ticket ID (8-digit numeric format)
+      const { generateUniqueTicketId } = await import("./lib/id-generator");
+      const ticketId = await generateUniqueTicketId();
 
       // Create Notification in system with ticketId
       await db.insert(userNotifications).values({
@@ -1193,7 +1189,7 @@ export async function registerRoutes(
       // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
-      const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || 'ORD-' + String(order.id).padStart(5, '0');
+      const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber;
 
       // Invoice Template HTML (for PDF generation)
       const invoiceHtml = `
@@ -1320,7 +1316,9 @@ export async function registerRoutes(
         .returning();
 
       // Automatically make invoice available in documentation center
-      const displayInvoiceNumber = order.invoiceNumber || `ORD-${String(orderId).padStart(5, '0')}`;
+      const [llcAppInv] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
+      const [maintAppInv] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
+      const displayInvoiceNumber = llcAppInv?.requestCode || maintAppInv?.requestCode || order.invoiceNumber;
       
       // Check if invoice already exists to avoid duplicates
       const existingDoc = await db.select().from(applicationDocumentsTable)
@@ -2091,8 +2089,9 @@ export async function registerRoutes(
         const filePath = path.join(uploadDir, safeFileName);
         await fs.writeFile(filePath, fileBuffer);
         
-        // Generate ticket ID for this document upload
-        const ticketId = `DOC-${Math.floor(10000000 + Math.random() * 90000000)}`;
+        // Generate ticket ID for this document upload (8-digit format)
+        const { generateUniqueMessageId } = await import("./lib/id-generator");
+        const ticketId = await generateUniqueMessageId();
         
         // Translate document type for display
         const docTypeLabelsUpload: Record<string, string> = {
@@ -2466,7 +2465,7 @@ export async function registerRoutes(
       // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
-      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+      const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber;
       
       const receiptHtml = generateReceiptHtml(order, requestCode);
       const pdfBuffer = await generatePdfFromHtml(receiptHtml);
@@ -2623,11 +2622,11 @@ export async function registerRoutes(
   });
 
   function generateInvoiceHtml(order: any) {
-    const requestCode = order.application?.requestCode || `ORD-${order.id}`;
+    const requestCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber;
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const userPhone = order.user?.phone || '';
-    const userClientId = order.user?.clientId || order.user?.id?.slice(0, 8).toUpperCase() || '';
+    const userClientId = order.user?.clientId || '';
     const userAddress = order.user ? [
       order.user.streetType,
       order.user.address,
@@ -2638,7 +2637,7 @@ export async function registerRoutes(
     ].filter(Boolean).join(', ') : '';
     const userIdNumber = order.user?.idNumber ? `${order.user.idType?.toUpperCase() || 'ID'}: ${order.user.idNumber}` : '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
-    const invoiceNumber = order.invoiceNumber || `ORD-${String(order.id).padStart(5, '0')}`;
+    const invoiceNumber = requestCode || order.invoiceNumber;
     
     return `
       <!DOCTYPE html>
@@ -2773,7 +2772,7 @@ export async function registerRoutes(
   }
 
   function generateReceiptHtml(order: any, requestCode?: string) {
-    const receiptNumber = requestCode || order.application?.requestCode || `ORD-${order.id}`;
+    const receiptNumber = requestCode || order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber;
     const userName = order.user ? `${order.user.firstName || ''} ${order.user.lastName || ''}`.trim() : 'Cliente';
     const userEmail = order.user?.email || '';
     const productName = order.product?.name || 'Servicio de Constitución LLC';
@@ -3165,7 +3164,7 @@ export async function registerRoutes(
       const ticketId = "12345678";
       const otp = "888999";
       const name = "Cliente de Prueba";
-      const requestCode = "NM-9999-ABC-0";
+      const requestCode = "NM-12345678";
 
       // Improved Admin Activity Notification (Elegir Estado)
       const activityHtml = `
