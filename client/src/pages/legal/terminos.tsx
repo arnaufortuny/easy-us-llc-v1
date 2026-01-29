@@ -63,7 +63,7 @@ export default function Terminos() {
                     <p><strong>Domicilio social:</strong> 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, Estados Unidos</p>
                   </div>
                   <p>Fortuny Consulting LLC opera bajo el nombre comercial Easy US LLC para la prestación de servicios a clientes de todo el mundo.</p>
-                  <p>Correo electrónico de contacto: info@easyusllc.com | Teléfono de contacto: +34 614 916 910</p>
+                  <p>Correo electrónico de contacto: hola@easyusllc.com | Teléfono de contacto: +34 614 916 910</p>
                 </div>
               </section>
 

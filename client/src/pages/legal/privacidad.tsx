@@ -62,7 +62,7 @@ export default function Privacidad() {
                     <p>EIN: 98-1906730</p>
                     <p><strong>Domicilio social:</strong> 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, Estados Unidos</p>
                   </div>
-                  <p>Correo electrónico: info@easyusllc.com | Teléfono: +34 614 916 910</p>
+                  <p>Correo electrónico: hola@easyusllc.com | Teléfono: +34 614 916 910</p>
                 </div>
               </section>
 
@@ -142,7 +142,7 @@ export default function Privacidad() {
                   <span className="text-brand-lime mr-4">08</span> Derechos del interesado
                 </h2>
                 <div className="text-base sm:text-lg space-y-4">
-                  <p>El usuario puede ejercer sus derechos de acceso, rectificación, supresión y portabilidad mediante solicitud a <strong>info@easyusllc.com</strong>.</p>
+                  <p>El usuario puede ejercer sus derechos de acceso, rectificación, supresión y portabilidad mediante solicitud a <strong>hola@easyusllc.com</strong>.</p>
                 </div>
               </section>
 
