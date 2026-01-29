@@ -71,7 +71,9 @@ export function getOtpEmailTemplate(otp: string, name: string = "Cliente") {
 // 2. Bienvenida - Cuenta creada
 export function getWelcomeEmailTemplate(name: string = "Cliente") {
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Gracias por registrarte en Easy US LLC.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Gracias por registrarte en Easy US LLC.</p>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu panel podrás gestionar solicitudes, documentación y el estado de tus servicios en todo momento.</p>
     
