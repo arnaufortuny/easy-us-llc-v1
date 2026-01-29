@@ -167,7 +167,6 @@ export default function ForgotPassword() {
                   label="Email"
                   type="email"
                   inputMode="email"
-                  placeholder="tu@email.com"
                 />
                 <Button
                   type="submit"
@@ -239,7 +238,6 @@ export default function ForgotPassword() {
                     name="password"
                     label="Nueva Contraseña"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Mínimo 8 caracteres"
                   />
                   <button
                     type="button"
@@ -254,7 +252,6 @@ export default function ForgotPassword() {
                   name="confirmPassword"
                   label="Confirmar Contraseña"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Repite tu contraseña"
                 />
                 <Button
                   type="submit"

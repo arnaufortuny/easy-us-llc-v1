@@ -99,7 +99,6 @@ export default function Login() {
                     label="Email"
                     type="email"
                     inputMode="email"
-                    placeholder="tu@email.com"
                   />
                 </div>
 
@@ -110,7 +109,6 @@ export default function Login() {
                       name="password"
                       label="Contraseña"
                       type={showPassword ? "text" : "password"}
-                      placeholder="Tu contraseña"
                     />
                     <Button
                       type="button"
