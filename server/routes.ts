@@ -7,7 +7,7 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
@@ -1996,73 +1996,42 @@ export async function registerRoutes(
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
         
-        // Email notification to admin about completed order with ALL fields
+        // Email notification to admin about completed order
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const paymentMethodLabel = updatedApp.paymentMethod === 'transfer' ? 'Transferencia Bancaria' : updatedApp.paymentMethod === 'link' ? 'Link de Pago' : 'No especificado';
         
         sendEmail({
           to: adminEmail,
           subject: `[PEDIDO REALIZADO] ${orderIdentifier} - ${updatedApp.companyName}`,
-          html: `
-            <div style="background-color: #f9f9f9; padding: 20px 0;">
-              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                ${getEmailHeader()}
-                <div style="padding: 40px;">
-                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido LLC Completado</h2>
-                  
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información del Propietario</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${updatedApp.ownerEmail || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Fecha de nacimiento:</strong> ${updatedApp.ownerBirthDate || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Tipo de documento:</strong> ${updatedApp.ownerIdType || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Número de documento:</strong> ${updatedApp.ownerIdNumber || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Dirección:</strong> ${updatedApp.ownerStreetType || ''} ${updatedApp.ownerAddress || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Ciudad:</strong> ${updatedApp.ownerCity || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Provincia:</strong> ${updatedApp.ownerProvince || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Código Postal:</strong> ${updatedApp.ownerPostalCode || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>País:</strong> ${updatedApp.ownerCountry || 'N/A'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información de la Empresa</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre de la empresa:</strong> ${updatedApp.companyName || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre alternativo:</strong> ${updatedApp.companyNameOption2 || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Designador:</strong> ${updatedApp.designator || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado de registro:</strong> ${updatedApp.state || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Actividad comercial:</strong> ${updatedApp.businessActivity || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Descripción:</strong> ${updatedApp.companyDescription || 'N/A'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Servicios Adicionales</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Venderá online:</strong> ${updatedApp.isSellingOnline || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Cuenta bancaria:</strong> ${updatedApp.needsBankAccount || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Pasarela de pago:</strong> ${updatedApp.willUseStripe || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Informe BOI:</strong> ${updatedApp.wantsBoiReport || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Pack Mantenimiento:</strong> ${updatedApp.wantsMaintenancePack || 'N/A'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Pago</h3>
-                  <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Importe:</strong> ${orderAmount}€</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Método de pago:</strong> ${paymentMethodLabel}</p>
-                  </div>
-
-                  ${updatedApp.notes ? `
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Notas del Cliente</h3>
-                  <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0; font-size: 13px;">${updatedApp.notes}</p>
-                  </div>
-                  ` : ''}
-                </div>
-                ${getEmailFooter()}
-              </div>
-            </div>
-          `
+          html: getAdminLLCOrderTemplate({
+            orderIdentifier,
+            amount: orderAmount,
+            paymentMethod: paymentMethodLabel,
+            ownerFullName: updatedApp.ownerFullName || undefined,
+            ownerEmail: updatedApp.ownerEmail || undefined,
+            ownerPhone: updatedApp.ownerPhone || undefined,
+            ownerBirthDate: updatedApp.ownerBirthDate || undefined,
+            ownerIdType: updatedApp.ownerIdType || undefined,
+            ownerIdNumber: updatedApp.ownerIdNumber || undefined,
+            ownerAddress: `${updatedApp.ownerStreetType || ''} ${updatedApp.ownerAddress || ''}`.trim() || undefined,
+            ownerCity: updatedApp.ownerCity || undefined,
+            ownerProvince: updatedApp.ownerProvince || undefined,
+            ownerPostalCode: updatedApp.ownerPostalCode || undefined,
+            ownerCountry: updatedApp.ownerCountry || undefined,
+            companyName: updatedApp.companyName || undefined,
+            companyNameOption2: updatedApp.companyNameOption2 || undefined,
+            designator: updatedApp.designator || undefined,
+            state: updatedApp.state || undefined,
+            businessCategory: updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory || undefined,
+            businessActivity: updatedApp.businessActivity || undefined,
+            companyDescription: updatedApp.companyDescription || undefined,
+            isSellingOnline: updatedApp.isSellingOnline || undefined,
+            needsBankAccount: updatedApp.needsBankAccount || undefined,
+            willUseStripe: updatedApp.willUseStripe || undefined,
+            wantsBoiReport: updatedApp.wantsBoiReport || undefined,
+            wantsMaintenancePack: updatedApp.wantsMaintenancePack || undefined,
+            notes: updatedApp.notes || undefined
+          })
         }).catch(() => {});
 
         // Confirmation to client with full info
@@ -2433,63 +2402,32 @@ export async function registerRoutes(
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
         
-        // Email notification to admin about completed maintenance order with ALL fields
+        // Email notification to admin about completed maintenance order
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const maintPaymentMethodLabel = updatedApp.paymentMethod === 'transfer' ? 'Transferencia Bancaria' : updatedApp.paymentMethod === 'link' ? 'Link de Pago' : 'No especificado';
         
         sendEmail({
           to: adminEmail,
           subject: `[PEDIDO REALIZADO] ${orderIdentifier} - Mantenimiento ${updatedApp.companyName}`,
-          html: `
-            <div style="background-color: #f9f9f9; padding: 20px 0;">
-              <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-                ${getEmailHeader()}
-                <div style="padding: 40px;">
-                  <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Mantenimiento Completado</h2>
-                  
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información del Propietario</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${updatedApp.ownerEmail || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'N/A'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información de la Empresa</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre de la empresa:</strong> ${updatedApp.companyName || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>EIN:</strong> ${updatedApp.ein || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado de registro:</strong> ${updatedApp.state || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Creado con:</strong> ${updatedApp.creationSource || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Año de creación:</strong> ${updatedApp.creationYear || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Cuenta bancaria:</strong> ${updatedApp.bankAccount || 'N/A'}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Pasarela de pago:</strong> ${updatedApp.paymentGateway || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Actividad comercial:</strong> ${updatedApp.businessActivity || 'N/A'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Servicios Solicitados</h3>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Servicios esperados:</strong> ${updatedApp.expectedServices || 'N/A'}</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Disolver empresa:</strong> ${updatedApp.wantsDissolve || 'No'}</p>
-                  </div>
-
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Pago</h3>
-                  <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
-                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Importe:</strong> ${orderAmount}€</p>
-                    <p style="margin: 0; font-size: 13px;"><strong>Método de pago:</strong> ${maintPaymentMethodLabel}</p>
-                  </div>
-
-                  ${updatedApp.notes ? `
-                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Notas del Cliente</h3>
-                  <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 15px; margin: 10px 0;">
-                    <p style="margin: 0; font-size: 13px;">${updatedApp.notes}</p>
-                  </div>
-                  ` : ''}
-                </div>
-                ${getEmailFooter()}
-              </div>
-            </div>
-          `
+          html: getAdminMaintenanceOrderTemplate({
+            orderIdentifier,
+            amount: orderAmount,
+            paymentMethod: maintPaymentMethodLabel,
+            ownerFullName: updatedApp.ownerFullName || undefined,
+            ownerEmail: updatedApp.ownerEmail || undefined,
+            ownerPhone: updatedApp.ownerPhone || undefined,
+            companyName: updatedApp.companyName || undefined,
+            ein: updatedApp.ein || undefined,
+            state: updatedApp.state || undefined,
+            creationSource: updatedApp.creationSource || undefined,
+            creationYear: updatedApp.creationYear || undefined,
+            bankAccount: updatedApp.bankAccount || undefined,
+            paymentGateway: updatedApp.paymentGateway || undefined,
+            businessActivity: updatedApp.businessActivity || undefined,
+            expectedServices: updatedApp.expectedServices || undefined,
+            wantsDissolve: updatedApp.wantsDissolve || undefined,
+            notes: updatedApp.notes || undefined
+          })
         }).catch(() => {});
         
         // Confirmation to client

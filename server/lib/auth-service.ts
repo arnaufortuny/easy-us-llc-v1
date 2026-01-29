@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { db } from "../db";
 import { users, passwordResetTokens, emailVerificationTokens, messages as messagesTable } from "@shared/schema";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { sendEmail } from "./email";
+import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
 
 const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
@@ -90,19 +90,7 @@ export async function createUser(data: {
     await sendEmail({
       to: data.email,
       subject: "Bienvenido a Easy US LLC - Verifica tu cuenta",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #0E1215;">¡Bienvenido a Easy US LLC!</h1>
-          <p>Hola ${data.firstName},</p>
-          <p>Gracias por registrarte. Tu código de verificación es:</p>
-          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
-            ${verificationToken}
-          </div>
-          <p>Este código expira en ${OTP_EXPIRY_MINUTES} minutos.</p>
-          <p>Tu ID de cliente es: <strong>${data.clientId}</strong></p>
-          <p>Saludos,<br>El equipo de Easy US LLC</p>
-        </div>
-      `,
+      html: getRegistrationOtpTemplate(data.firstName, verificationToken, data.clientId, OTP_EXPIRY_MINUTES)
     });
 
     // Email notification to admin about new registration
@@ -110,21 +98,7 @@ export async function createUser(data: {
     await sendEmail({
       to: adminEmail,
       subject: `[NUEVA CUENTA] ${data.firstName} ${data.lastName}`,
-      html: `
-        <div style="background-color: #f9f9f9; padding: 20px 0;">
-          <div style="font-family: 'Inter', Arial, sans-serif; max-width: 600px; margin: auto; border-radius: 8px; overflow: hidden; color: #1a1a1a; background-color: #ffffff; border: 1px solid #e5e5e5;">
-            <div style="padding: 40px;">
-              <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nueva Cuenta Creada</h2>
-              <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Cliente ID:</strong> ${data.clientId}</p>
-                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Nombre:</strong> ${data.firstName} ${data.lastName}</p>
-                <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${data.email}</p>
-                ${data.phone ? `<p style="margin: 0; font-size: 14px;"><strong>Teléfono:</strong> ${data.phone}</p>` : ''}
-              </div>
-            </div>
-          </div>
-        </div>
-      `
+      html: getAdminNewRegistrationTemplate(data.clientId, data.firstName, data.lastName, data.email, data.phone)
     }).catch(() => {});
 
   } catch (emailError) {
@@ -208,31 +182,12 @@ export async function loginUser(email: string, password: string): Promise<typeof
       
       const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-      // Send lock email from Claudia
+      // Send lock email
       try {
         await sendEmail({
           to: user.email!,
-          subject: "Seguridad Easy US LLC - Cuenta Desactivada Temporalmente",
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <h1 style="color: #0E1215;">Seguridad de tu cuenta</h1>
-              <p>Hola ${user.firstName || ''},</p>
-              <p>Soy <strong>Claudia, Agente de Seguridad</strong> de Easy US LLC.</p>
-              <p>Por su seguridad, su cuenta ha sido temporalmente desactivada tras detectar múltiples intentos de acceso fallidos.</p>
-              <p>Para desbloquear su cuenta y verificar su identidad, necesitamos que nos envíe lo siguiente respondiendo a este correo o a través de nuestro soporte:</p>
-              <ul>
-                <li>Imagen del DNI/Pasaporte de alta resolución (ambas caras).</li>
-                <li>Su fecha de nacimiento confirmada.</li>
-              </ul>
-              <p>Su Ticket ID de referencia es: <strong>${msgId}</strong></p>
-              <div style="text-align: center; margin: 30px 0;">
-                <a href="${process.env.BASE_URL || 'https://easyusllc.com'}/forgot-password" style="background: #6EDC8A; color: #0E1215; padding: 15px 30px; text-decoration: none; border-radius: 30px; font-weight: bold;">
-                  Restablecer contraseña
-                </a>
-              </div>
-              <p>Saludos,<br>Claudia<br>Seguridad Easy US LLC</p>
-            </div>
-          `
+          subject: "Seguridad Easy US LLC - Cuenta Bloqueada Temporalmente",
+          html: getAccountLockedTemplate(user.firstName || 'Cliente', msgId)
         });
 
         // Add to messages for admin visibility
@@ -382,18 +337,7 @@ export async function resendVerificationEmail(userId: string): Promise<boolean> 
     await sendEmail({
       to: user.email,
       subject: "Easy US LLC - Código de verificación",
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h1 style="color: #0E1215;">Código de verificación</h1>
-          <p>Hola \${user.firstName || ''},</p>
-          <p>Tu nuevo código de verificación es:</p>
-          <div style="background: #6EDC8A; color: #0E1215; font-size: 32px; font-weight: bold; padding: 20px; text-align: center; border-radius: 10px; margin: 20px 0;">
-            \${verificationToken}
-          </div>
-          <p>Este código expira en \${OTP_EXPIRY_MINUTES} minutos.</p>
-          <p>Saludos,<br>El equipo de Easy US LLC</p>
-        </div>
-      `,
+      html: getOtpEmailTemplate(verificationToken, user.firstName || 'Cliente')
     });
   } catch (emailError) {
     // Email error silenced
