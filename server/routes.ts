@@ -2996,6 +2996,22 @@ export async function registerRoutes(
   // OTP endpoints for registration and password reset
   // =============================================
   
+  // Check if email already exists (for form flow to detect existing users)
+  app.post("/api/auth/check-email", async (req, res) => {
+    try {
+      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      
+      res.json({ 
+        exists: !!existingUser,
+        firstName: existingUser?.firstName || null
+      });
+    } catch (err) {
+      res.status(400).json({ message: "Email inválido" });
+    }
+  });
+  
   // Send OTP for account registration (email verification before creating account)
   app.post("/api/register/send-otp", async (req, res) => {
     try {
