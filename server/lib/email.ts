@@ -500,7 +500,7 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
 
   try {
     const info = await transporter.sendMail({
-      from: `"Easy US LLC" <no-reply@easyusllc.com>`,
+      from: `"Easy US LLC" <${process.env.SMTP_USER || 'no-reply@usllcnow.com'}>`,
       replyTo: replyTo || "hola@easyusllc.com",
       to: testEmail,
       subject: `[TEST - Para: ${originalTo}] ${subject}`,
