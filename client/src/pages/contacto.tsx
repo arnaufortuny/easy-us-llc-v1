@@ -209,7 +209,7 @@ export default function Contacto() {
                     {urlOrderId ? "Número de Pedido" : "Número de Ticket"}
                   </span>
                   <p className="text-2xl font-black text-black">
-                    {urlOrderId || `MSG-${submittedMessageId || urlTicketId}`}
+                    {urlOrderId || submittedMessageId || urlTicketId}
                   </p>
                 </div>
               )}
@@ -224,7 +224,7 @@ export default function Contacto() {
                 </p>
                 {(submittedMessageId || urlTicketId) && !urlOrderId && (
                   <p className="text-sm sm:text-base bg-white p-4 rounded-2xl border border-gray-100">
-                    Guarda tu número de ticket <span className="font-black text-black">MSG-{submittedMessageId || urlTicketId}</span> para hacer seguimiento de tu consulta en el panel de cliente.
+                    Guarda tu número de ticket <span className="font-black text-black">{submittedMessageId || urlTicketId}</span> para hacer seguimiento de tu consulta en el panel de cliente.
                   </p>
                 )}
                 {(isLLC || isMaintenance) && (

@@ -2591,7 +2591,7 @@ export async function registerRoutes(
               ${getEmailHeader("Nueva Respuesta")}
               <div style="padding: 30px;">
                 <h2 style="color: #0E1215; font-weight: 900; margin-bottom: 15px;">Hola ${message.name?.split(' ')[0] || 'Cliente'},</h2>
-                <p style="color: #666; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: MSG-${messageId}):</p>
+                <p style="color: #666; margin-bottom: 20px;">Hemos respondido a tu consulta (Ticket: ${message.messageId || messageId}):</p>
                 <div style="background: #F0FDF4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0; border-radius: 8px;">
                   <p style="margin: 0; color: #0E1215; line-height: 1.6;">${content}</p>
                 </div>
@@ -2607,7 +2607,7 @@ export async function registerRoutes(
           await db.insert(userNotifications).values({
             userId: message.userId,
             title: "Nueva respuesta a tu consulta",
-            message: `Hemos respondido a tu mensaje (Ticket: MSG-${messageId}). Revisa tu email o tu área de mensajes.`,
+            message: `Hemos respondido a tu mensaje (Ticket: ${message.messageId || messageId}). Revisa tu email o tu área de mensajes.`,
             type: 'info',
             isRead: false
           });
@@ -2965,11 +2965,12 @@ export async function registerRoutes(
       }
 
       const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-      const ticketId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      const { generateUniqueMessageId } = await import("./lib/id-generator");
+      const ticketId = await generateUniqueMessageId();
       
       // Notification to admin
       logActivity("Acción Contacto", {
-        "ID Ticket": `#${ticketId}`,
+        "ID Ticket": ticketId,
         "Nombre": `${contactData.nombre} ${contactData.apellido}`,
         "Email": contactData.email,
         "Teléfono": contactData.telefono || "No proporcionado",

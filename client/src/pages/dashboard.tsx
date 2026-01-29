@@ -810,7 +810,7 @@ export default function Dashboard() {
                               <MessageSquare className="w-4 h-4 text-accent" />
                               <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
                             </div>
-                            <span className="text-[10px] text-muted-foreground">MSG-{msg.id}</span>
+                            <span className="text-[10px] text-muted-foreground">{msg.messageId || msg.id}</span>
                           </div>
                           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
                           {selectedMessage?.id === msg.id && (
@@ -948,7 +948,7 @@ export default function Dashboard() {
                       orders.map((order: any) => (
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white">
                           <div>
-                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `ORD-${order.id}`}</p>
+                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">
@@ -1430,7 +1430,7 @@ export default function Dashboard() {
                         {adminOrders?.map(order => {
                           const app = order.application || order.maintenanceApplication;
                           const isMaintenance = !!order.maintenanceApplication && !order.application;
-                          const orderCode = app?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+                          const orderCode = app?.requestCode || order.invoiceNumber;
                           const appStatus = app?.status;
                           const isFormComplete = appStatus === 'submitted';
                           
@@ -1559,7 +1559,7 @@ export default function Dashboard() {
                         {adminOrders?.map((order: any) => {
                           const app = order.application;
                           if (!app) return null;
-                          const fiscalOrderCode = app?.requestCode || order.invoiceNumber || `ORD-${order.id}`;
+                          const fiscalOrderCode = app?.requestCode || order.invoiceNumber;
                           return (
                             <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
@@ -1697,7 +1697,7 @@ export default function Dashboard() {
                                 <p className="text-xs text-muted-foreground">{msg.email} {msg.phone && `• ${msg.phone}`}</p>
                               </div>
                               <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="text-[10px]">MSG-{msg.id}</Badge>
+                                <Badge variant="outline" className="text-[10px]">{msg.messageId || msg.id}</Badge>
                                 <Badge variant="secondary" className="text-[10px]">{msg.status || 'pendiente'}</Badge>
                               </div>
                             </div>
@@ -1952,7 +1952,7 @@ export default function Dashboard() {
             <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
               <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
               <div className="py-4">
-                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>ORD-{deleteOrderConfirm.order?.id}</strong>?</p>
+                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
                 <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
                 <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
               </div>
@@ -1971,7 +1971,7 @@ export default function Dashboard() {
                 <DialogTitle className="text-xl font-black text-primary">Generar Factura</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber || `ORD-${generateInvoiceDialog.order?.id}`}</strong></p>
+                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</strong></p>
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Importe</Label>
                   <Input 
