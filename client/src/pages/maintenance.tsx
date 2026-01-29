@@ -38,6 +38,7 @@ const formSchema = z.object({
   password: z.string().min(8, "Mínimo 8 caracteres").optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
+  discountCode: z.string().optional(),
   authorizedManagement: z.boolean().refine(val => val === true, "Debes autorizar"),
   termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
   dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
@@ -62,6 +63,8 @@ export default function MaintenanceApplication() {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  const [discountInfo, setDiscountInfo] = useState<{ valid: boolean; discountAmount: number; message?: string } | null>(null);
+  const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
 
   const params = new URLSearchParams(window.location.search);
   const stateFromUrl = params.get("state") || "New Mexico";
@@ -82,6 +85,7 @@ export default function MaintenanceApplication() {
       password: "",
       confirmPassword: "",
       paymentMethod: "transfer",
+      discountCode: "",
       authorizedManagement: false,
       termsConsent: false,
       dataProcessingConsent: false
@@ -172,6 +176,30 @@ export default function MaintenanceApplication() {
       return false;
     } finally {
       setIsCheckingEmail(false);
+    }
+  };
+
+  const maintenancePrice = 53900; // 539€ in cents
+
+  const validateDiscountCode = async (code: string) => {
+    if (!code.trim()) {
+      setDiscountInfo(null);
+      return;
+    }
+    setIsValidatingDiscount(true);
+    try {
+      const res = await apiRequest("POST", "/api/discount-codes/validate", { code: code.trim(), orderAmount: maintenancePrice });
+      const data = await res.json();
+      setDiscountInfo(data);
+      if (data.valid) {
+        toast({ title: "Código aplicado", description: `Descuento de ${(data.discountAmount / 100).toFixed(2)}€` });
+      } else {
+        toast({ title: "Código inválido", description: data.message, variant: "destructive" });
+      }
+    } catch {
+      setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar" });
+    } finally {
+      setIsValidatingDiscount(false);
     }
   };
 
@@ -312,7 +340,12 @@ export default function MaintenanceApplication() {
       const state = data.state || stateFromUrl;
       
       if (isAuthenticated) {
-        const res = await apiRequest("POST", "/api/maintenance/orders", { productId, state });
+        const orderPayload: any = { productId, state };
+        if (discountInfo?.valid && data.discountCode) {
+          orderPayload.discountCode = data.discountCode;
+          orderPayload.discountAmount = discountInfo.discountAmount;
+        }
+        const res = await apiRequest("POST", "/api/maintenance/orders", orderPayload);
         if (!res.ok) {
           const error = await res.json();
           throw new Error(error.message || "Error al crear pedido");
@@ -335,14 +368,19 @@ export default function MaintenanceApplication() {
           return;
         }
         
-        const res = await apiRequest("POST", "/api/maintenance/orders", {
+        const orderPayload: any = {
           productId,
           state,
           email: data.ownerEmail,
           password: data.password,
           ownerFullName: data.ownerFullName,
           paymentMethod: data.paymentMethod || "transfer"
-        });
+        };
+        if (discountInfo?.valid && data.discountCode) {
+          orderPayload.discountCode = data.discountCode;
+          orderPayload.discountAmount = discountInfo.discountAmount;
+        }
+        const res = await apiRequest("POST", "/api/maintenance/orders", orderPayload);
         
         if (!res.ok) {
           const error = await res.json();
@@ -770,8 +808,53 @@ export default function MaintenanceApplication() {
                     
                     <div className="bg-[#6EDC8A] text-primary p-6 rounded-[2rem] text-center mb-6">
                       <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">Total a pagar</p>
-                      <p className="text-3xl font-black">299.00 €</p>
+                      <p className="text-3xl font-black">
+                        {discountInfo?.valid 
+                          ? `${((maintenancePrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
+                          : `${(maintenancePrice / 100).toFixed(2)} €`}
+                      </p>
+                      {discountInfo?.valid && (
+                        <p className="text-xs line-through opacity-60">{(maintenancePrice / 100).toFixed(2)} €</p>
+                      )}
                       <p className="text-[10px] opacity-80">Mantenimiento Anual</p>
+                    </div>
+
+                    <div className="space-y-3 p-5 rounded-2xl border-2 border-black/10 bg-white mb-6">
+                      <label className="font-black text-primary text-sm block">Código de descuento</label>
+                      <div className="flex gap-2">
+                        <FormField control={form.control} name="discountCode" render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormControl>
+                              <Input 
+                                {...field} 
+                                className="rounded-full h-11 px-4 border-black/20 focus:border-[#6EDC8A] uppercase" 
+                                onChange={(e) => {
+                                  field.onChange(e.target.value.toUpperCase());
+                                  setDiscountInfo(null);
+                                }}
+                                data-testid="input-discount-code" 
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )} />
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => validateDiscountCode(form.getValues("discountCode") || "")}
+                          disabled={isValidatingDiscount || !form.getValues("discountCode")}
+                          className="rounded-full h-11 px-6 font-black border-black/20"
+                          data-testid="button-validate-discount"
+                        >
+                          {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
+                        </Button>
+                      </div>
+                      {discountInfo && (
+                        <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          {discountInfo.valid 
+                            ? `Descuento aplicado: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
+                            : discountInfo.message}
+                        </div>
+                      )}
                     </div>
                     
                     <FormField control={form.control} name="paymentMethod" render={({ field }) => (

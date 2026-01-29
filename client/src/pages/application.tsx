@@ -59,6 +59,7 @@ const formSchema = z.object({
   otp: z.string().optional(),
   password: z.string().optional(),
   paymentMethod: z.string().optional(),
+  discountCode: z.string().optional(),
   dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
   termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
 });
@@ -77,6 +78,8 @@ export default function ApplicationWizard() {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCheckingEmail, setIsCheckingEmail] = useState(false);
+  const [discountInfo, setDiscountInfo] = useState<{ valid: boolean; discountAmount: number; message?: string } | null>(null);
+  const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   const { toast } = useToast();
 
   const params = new URLSearchParams(window.location.search);
@@ -101,6 +104,7 @@ export default function ApplicationWizard() {
       otp: "",
       password: "",
       paymentMethod: "transfer",
+      discountCode: "",
       dataProcessingConsent: false,
       termsConsent: false
     },
@@ -180,6 +184,33 @@ export default function ApplicationWizard() {
       return false;
     } finally {
       setIsCheckingEmail(false);
+    }
+  };
+
+  const getOrderAmount = () => {
+    const priceMap: Record<string, number> = { "New Mexico": 73900, "Wyoming": 89900, "Delaware": 119900 };
+    return priceMap[stateFromUrl] || 73900;
+  };
+
+  const validateDiscountCode = async (code: string) => {
+    if (!code.trim()) {
+      setDiscountInfo(null);
+      return;
+    }
+    setIsValidatingDiscount(true);
+    try {
+      const res = await apiRequest("POST", "/api/discount-codes/validate", { code: code.trim(), orderAmount: getOrderAmount() });
+      const data = await res.json();
+      setDiscountInfo(data);
+      if (data.valid) {
+        toast({ title: "Código aplicado", description: `Descuento de ${(data.discountAmount / 100).toFixed(2)}€` });
+      } else {
+        toast({ title: "Código inválido", description: data.message, variant: "destructive" });
+      }
+    } catch {
+      setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar" });
+    } finally {
+      setIsValidatingDiscount(false);
     }
   };
 
@@ -295,7 +326,12 @@ export default function ApplicationWizard() {
       const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;
       
       if (isAuthenticated) {
-        const res = await apiRequest("POST", "/api/orders", { productId });
+        const orderPayload: any = { productId };
+        if (discountInfo?.valid && data.discountCode) {
+          orderPayload.discountCode = data.discountCode;
+          orderPayload.discountAmount = discountInfo.discountAmount;
+        }
+        const res = await apiRequest("POST", "/api/orders", orderPayload);
         if (!res.ok) {
           const error = await res.json();
           throw new Error(error.message || "Error al crear pedido");
@@ -319,13 +355,18 @@ export default function ApplicationWizard() {
           return;
         }
         
-        const res = await apiRequest("POST", "/api/orders", {
+        const orderPayload: any = {
           productId,
           email: data.ownerEmail,
           password: data.password,
           ownerFullName: data.ownerFullName,
           paymentMethod: data.paymentMethod || "transfer"
-        });
+        };
+        if (discountInfo?.valid && data.discountCode) {
+          orderPayload.discountCode = data.discountCode;
+          orderPayload.discountAmount = discountInfo.discountAmount;
+        }
+        const res = await apiRequest("POST", "/api/orders", orderPayload);
         
         if (!res.ok) {
           const error = await res.json();
@@ -738,6 +779,50 @@ export default function ApplicationWizard() {
                         )} />
                       </div>
                     )}
+
+                    <div className="space-y-4 p-4 bg-gray-50 rounded-2xl">
+                      <h3 className="font-black text-primary">Código de descuento:</h3>
+                      <div className="flex gap-2">
+                        <FormField control={form.control} name="discountCode" render={({ field }) => (
+                          <FormItem className="flex-1">
+                            <FormControl>
+                              <Input 
+                                {...field} 
+                                className="rounded-full h-11 px-4 border-black/20 focus:border-[#6EDC8A] uppercase" 
+                                onChange={(e) => {
+                                  field.onChange(e.target.value.toUpperCase());
+                                  setDiscountInfo(null);
+                                }}
+                                data-testid="input-discount-code" 
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )} />
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => validateDiscountCode(form.getValues("discountCode") || "")}
+                          disabled={isValidatingDiscount || !form.getValues("discountCode")}
+                          className="rounded-full h-11 px-6 font-black border-black/20"
+                          data-testid="button-validate-discount"
+                        >
+                          {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
+                        </Button>
+                      </div>
+                      {discountInfo && (
+                        <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                          {discountInfo.valid 
+                            ? `Descuento aplicado: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
+                            : discountInfo.message}
+                        </div>
+                      )}
+                      {discountInfo?.valid && (
+                        <div className="flex justify-between text-sm font-semibold pt-2 border-t">
+                          <span>Total con descuento:</span>
+                          <span className="text-[#6EDC8A] font-black">{((getOrderAmount() - discountInfo.discountAmount) / 100).toFixed(2)}€</span>
+                        </div>
+                      )}
+                    </div>
 
                     <div className="space-y-4 p-4 bg-gray-50 rounded-2xl">
                       <h3 className="font-black text-primary">Método de pago:</h3>

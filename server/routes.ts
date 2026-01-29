@@ -1599,7 +1599,7 @@ export async function registerRoutes(
 
   app.post(api.orders.create.path, async (req: any, res) => {
     try {
-      const { productId, email, password, ownerFullName, paymentMethod } = req.body;
+      const { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       // Parse productId
       const parsedInput = api.orders.create.input.parse({ productId });
@@ -1689,11 +1689,30 @@ export async function registerRoutes(
       else if (product.name.includes("Wyoming")) finalPrice = 89900;
       else if (product.name.includes("Delaware")) finalPrice = 119900;
 
+      // Calculate final amount with discount
+      let originalAmount = finalPrice;
+      let appliedDiscountAmount = 0;
+      let appliedDiscountCode: string | null = null;
+      
+      if (discountCode && discountAmount) {
+        appliedDiscountCode = discountCode;
+        appliedDiscountAmount = discountAmount;
+        finalPrice = Math.max(0, finalPrice - discountAmount);
+        
+        // Increment used count for the discount code
+        await db.update(discountCodes)
+          .set({ usedCount: sql`${discountCodes.usedCount} + 1` })
+          .where(eq(discountCodes.code, discountCode.toUpperCase()));
+      }
+
       // Create the order
       const order = await storage.createOrder({
         userId,
         productId,
         amount: finalPrice,
+        originalAmount: appliedDiscountCode ? originalAmount : null,
+        discountCode: appliedDiscountCode,
+        discountAmount: appliedDiscountAmount || null,
         status: "pending",
         stripeSessionId: "mock_session_" + Date.now(),
       });
@@ -2320,7 +2339,7 @@ export async function registerRoutes(
 
   app.post("/api/maintenance/orders", async (req: any, res) => {
     try {
-      const { productId, state, email, password, ownerFullName, paymentMethod } = req.body;
+      const { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       let userId: string;
       let isNewUser = false;
@@ -2380,10 +2399,29 @@ export async function registerRoutes(
       else if (state?.includes("Wyoming")) finalPrice = 69900;
       else if (state?.includes("Delaware")) finalPrice = 89900;
 
+      // Calculate final amount with discount
+      let originalAmount = finalPrice;
+      let appliedDiscountAmount = 0;
+      let appliedDiscountCode: string | null = null;
+      
+      if (discountCode && discountAmount) {
+        appliedDiscountCode = discountCode;
+        appliedDiscountAmount = discountAmount;
+        finalPrice = Math.max(0, finalPrice - discountAmount);
+        
+        // Increment used count for the discount code
+        await db.update(discountCodes)
+          .set({ usedCount: sql`${discountCodes.usedCount} + 1` })
+          .where(eq(discountCodes.code, discountCode.toUpperCase()));
+      }
+
       const order = await storage.createOrder({
         userId,
         productId,
         amount: finalPrice,
+        originalAmount: appliedDiscountCode ? originalAmount : null,
+        discountCode: appliedDiscountCode,
+        discountAmount: appliedDiscountAmount || null,
         status: "pending",
         stripeSessionId: "mock_session_maint_" + Date.now(),
       });
