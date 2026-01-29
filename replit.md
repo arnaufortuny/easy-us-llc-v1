@@ -126,3 +126,14 @@ The architecture includes:
 - **Email Notifications:** Auto-reply sent to user, admin notification via logActivity
 - **Reply System:** Full threaded reply support via `/api/messages/:id/reply` endpoint
 - **Dashboard Integration:** Users see their message history in the Messages tab
+
+## Email Templates & Subjects (January 2026)
+- **Professional Format:** All emails use simplified design without emojis
+- **10 Active Templates:** OTP, Welcome, Account Under Review, Confirmation, Auto-reply, Order Update, Order Completed, New Message Reply, Account Deactivated, Newsletter
+- **Subject Line Format:** Clear and professional without emojis:
+  - OTP: "Tu código de verificación | Easy US LLC"
+  - Welcome: "Bienvenido a Easy US LLC - Acceso a tu panel"
+  - Confirmation: "Solicitud recibida - Referencia [CODE]"
+  - Auto-reply: "Hemos recibido tu mensaje - Ticket #[ID]"
+  - Newsletter: "Confirmación de suscripción a Easy US LLC"
+- **Removed:** getClaudiaMessageTemplate (deprecated)
