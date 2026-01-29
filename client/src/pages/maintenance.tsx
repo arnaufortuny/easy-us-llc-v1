@@ -443,7 +443,7 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black py-7 rounded-full text-lg shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
                   </div>
                 )}
 
@@ -459,13 +459,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -482,13 +482,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -505,13 +505,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Email:
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -528,13 +528,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           Nombre de la LLC:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -551,13 +551,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
                           EIN:
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-14 px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -575,14 +575,14 @@ export default function MaintenanceApplication() {
                           Estado:
                         </FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-14 px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                           <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                         </Select>
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -601,8 +601,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -637,8 +637,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -666,8 +666,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -784,12 +784,12 @@ export default function MaintenanceApplication() {
                     )}
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border">Atrás</Button>
                       <Button 
                         type="button" 
                         onClick={nextStep} 
                         disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
-                        className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 disabled:opacity-50"
+                        className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 disabled:opacity-50"
                         data-testid="button-next-step-10"
                       >
                         Siguiente
@@ -886,8 +886,8 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border">Atrás</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20">Siguiente</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border">Atrás</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20">Siguiente</Button>
                     </div>
                   </div>
                 )}
@@ -934,11 +934,11 @@ export default function MaintenanceApplication() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 md:h-14 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-10 md:h-12 font-black border-border active:scale-95 transition-all text-sm md:text-base">Atrás</Button>
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base disabled:opacity-50"
+                        className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all text-sm md:text-base disabled:opacity-50"
                       >
                         {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                         {isSubmitting ? "Enviando..." : "Enviar Solicitud"}
@@ -998,7 +998,7 @@ export default function MaintenanceApplication() {
                           setStep(3);
                           form.setValue("ownerEmail", "");
                         }}
-                        className="flex-1 rounded-full h-12 md:h-14 font-black border-border"
+                        className="flex-1 rounded-full h-10 md:h-12 font-black border-border"
                       >
                         Usar otro email
                       </Button>
@@ -1006,7 +1006,7 @@ export default function MaintenanceApplication() {
                         type="button"
                         onClick={handleLogin}
                         disabled={isCheckingEmail}
-                        className="flex-1 bg-accent text-primary font-black rounded-full h-12 md:h-14 shadow-lg shadow-[#6EDC8A]/20"
+                        className="flex-1 bg-accent text-primary font-black rounded-full h-10 md:h-12 shadow-lg shadow-[#6EDC8A]/20"
                         data-testid="button-login-submit"
                       >
                         {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}

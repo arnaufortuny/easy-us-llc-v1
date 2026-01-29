@@ -74,60 +74,56 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
-              Iniciar <span className="text-accent">sesión</span>
+      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+        <div className="w-full max-w-sm md:max-w-md">
+          <div className="text-center mb-6 md:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
+              Iniciar <span className="text-accent">sesion</span>
             </h1>
-            <p className="text-muted-foreground mt-2">Qué bien verte de nuevo. Accede a tu área de cliente</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">Accede a tu area de cliente</p>
           </div>
 
           {loginError && (
-            <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center">
-              <p className="text-destructive font-medium text-sm">{loginError}</p>
+            <div className="mb-4 md:mb-6 p-3 md:p-4 bg-destructive/10 border border-destructive/20 rounded-xl text-center">
+              <p className="text-destructive font-medium text-xs md:text-sm">{loginError}</p>
             </div>
           )}
 
-          <div>
+          <div className="bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                <div className="space-y-1">
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
+                <FormInput
+                  control={form.control}
+                  name="email"
+                  label="Email"
+                  type="email"
+                  inputMode="email"
+                />
+
+                <div className="relative">
                   <FormInput
                     control={form.control}
-                    name="email"
-                    label="Correo electrónico"
-                    type="email"
-                    inputMode="email"
+                    name="password"
+                    label="Contrasena"
+                    type={showPassword ? "text" : "password"}
                   />
-                </div>
-
-                <div className="space-y-1">
-                  <div className="relative">
-                    <FormInput
-                      control={form.control}
-                      name="password"
-                      label="Contraseña"
-                      type={showPassword ? "text" : "password"}
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
-                      data-testid="button-toggle-password"
-                    >
-                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-                    </Button>
-                  </div>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                    aria-label={showPassword ? "Ocultar" : "Mostrar"}
+                    data-testid="button-toggle-password"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </Button>
                 </div>
 
                 <div className="text-center">
                   <Link href="/forgot-password">
-                    <Button variant="link" className="text-accent p-0 h-auto" data-testid="link-forgot-password">
-                      ¿No recuerdas tu contraseña? Te ayudamos a recuperarla
+                    <Button variant="link" className="text-accent p-0 h-auto text-xs md:text-sm" data-testid="link-forgot-password">
+                      Recuperar contrasena
                     </Button>
                   </Link>
                 </div>
@@ -135,28 +131,27 @@ export default function Login() {
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  size="lg"
-                  className="w-full bg-accent text-primary font-black rounded-full text-lg shadow-lg shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                   data-testid="button-login"
                 >
                   {isLoading ? (
                     <>
-                      <Loader2 className="animate-spin mr-2 w-5 h-5" />
+                      <Loader2 className="animate-spin mr-2 w-4 h-4" />
                       Entrando...
                     </>
                   ) : (
-                    "Entrar a mi cuenta"
+                    "Entrar"
                   )}
                 </Button>
               </form>
             </Form>
 
-            <div className="mt-8 pt-6 border-t border-border text-center">
-              <p className="text-muted-foreground text-sm">
-                ¿Primera vez por aquí?{" "}
+            <div className="mt-6 pt-5 border-t border-border text-center">
+              <p className="text-muted-foreground text-xs md:text-sm">
+                ¿No tienes cuenta?{" "}
                 <Link href="/register">
                   <span className="font-black text-primary hover:text-accent transition-colors cursor-pointer" data-testid="link-register">
-                    Crea tu cuenta gratis en un minuto
+                    Registrate
                   </span>
                 </Link>
               </p>

@@ -581,7 +581,7 @@ export default function Dashboard() {
                 </p>
                 <div className="space-y-3">
                   <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
-                    <Button className="w-full bg-accent text-primary font-black rounded-full py-6 shadow-lg shadow-accent/20">
+                    <Button className="w-full bg-accent text-primary font-black rounded-full h-11 md:h-12 shadow-lg shadow-accent/20">
                       Contactar Soporte
                     </Button>
                   </a>
@@ -631,7 +631,7 @@ export default function Dashboard() {
               </p>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-6 md:px-8 py-5 md:py-6 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
+              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-5 md:px-8 h-10 md:h-12 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>

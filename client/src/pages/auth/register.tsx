@@ -233,21 +233,21 @@ export default function Register() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center">
-        <div className="w-full max-w-md">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl sm:text-4xl font-black text-primary tracking-tight">
+      <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center">
+        <div className="w-full max-w-sm md:max-w-md">
+          <div className="text-center mb-5 md:mb-8">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
               Crear <span className="text-accent">cuenta</span>
             </h1>
-            <p className="text-muted-foreground mt-2">Empecemos. En menos de un minuto tendrás tu cuenta lista</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">Registro rapido</p>
           </div>
 
-          <div className="flex justify-center gap-2 mb-8">
+          <div className="flex justify-center gap-1.5 md:gap-2 mb-5 md:mb-8">
             {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
               <div
                 key={i}
-                className={`h-2 rounded-full transition-all duration-300 ${
-                  i === step ? "w-8 bg-accent" : i < step ? "w-2 bg-accent" : "w-2 bg-muted"
+                className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                  i === step ? "w-6 md:w-8 bg-accent" : i < step ? "w-1.5 md:w-2 bg-accent" : "w-1.5 md:w-2 bg-muted"
                 }`}
               />
             ))}
