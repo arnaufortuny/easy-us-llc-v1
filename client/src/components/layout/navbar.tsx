@@ -129,7 +129,7 @@ export function Navbar() {
 
       {isOpen && (
         <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
-          <div className="flex flex-col flex-grow bg-background p-6 justify-start items-stretch overflow-y-auto">
+          <div className="flex flex-col bg-background p-6 justify-start items-stretch overflow-y-auto max-h-[calc(100vh-5rem)]">
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 {isAuthenticated && (
                   <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
