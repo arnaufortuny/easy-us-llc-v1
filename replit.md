@@ -150,3 +150,16 @@ The architecture includes:
   - Message Reply: "Nueva respuesta a tu consulta - Ticket #[ID]"
 - **Automatic Status Emails:** Emails sent automatically when admin changes account status (VIP, active, deactivated)
 - **All emails use centralized templates** - No more inline HTML in routes.ts
+
+## Admin Features (January 2026)
+- **Payment Link Sending:** Admin can send payment links to users directly from dashboard with custom URL, amount, and message
+- **User Management:** Full CRUD for users with status changes (active, VIP, deactivated)
+- **Order Management:** Track and update LLC and maintenance orders
+- **Document Requests:** Request documents from users with email notifications
+- **Invoice Generation:** Create and send invoices to users
+
+## Validation Messages (January 2026)
+- **Unified Spanish Messages:** All required field validations use "Este campo es obligatorio"
+- **Email Validation:** Uses "Email inválido"
+- **Password Validation:** Uses "Mínimo 8 caracteres"
+- **Consent Validation:** Uses "Debes aceptar" / "Debes autorizar"
