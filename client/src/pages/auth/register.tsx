@@ -12,6 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
+import { SocialLogin } from "@/components/auth/social-login";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, "Este campo es obligatorio"),
@@ -261,9 +262,12 @@ export default function Register() {
                     key="step-0"
                     className="space-y-6"
                   >
+                    <div className="mb-6">
+                      <SocialLogin mode="login" />
+                    </div>
                     <div className="mb-4">
                       <h2 className="text-xl font-black text-primary">¿Cómo te llamas?</h2>
-                      <p className="text-sm text-muted-foreground">Queremos llamarte por tu nombre</p>
+                      <p className="text-sm text-muted-foreground">O registrate con tu email</p>
                     </div>
 
                     <FormField

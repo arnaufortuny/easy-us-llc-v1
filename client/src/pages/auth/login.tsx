@@ -12,6 +12,7 @@ import { Form } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
+import { SocialLogin } from "@/components/auth/social-login";
 
 const loginSchema = z.object({
   email: z.string().email("Introduce un email válido"),
@@ -145,6 +146,10 @@ export default function Login() {
                 </Button>
               </form>
             </Form>
+
+            <div className="mt-6 pt-5 border-t border-border">
+              <SocialLogin mode="login" />
+            </div>
 
             <div className="mt-6 pt-5 border-t border-border text-center">
               <p className="text-muted-foreground text-xs md:text-sm">

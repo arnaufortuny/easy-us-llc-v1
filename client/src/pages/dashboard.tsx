@@ -1,4 +1,3 @@
-
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -17,6 +16,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { SocialLogin } from "@/components/auth/social-login";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
 
@@ -1336,6 +1336,20 @@ export default function Dashboard() {
                           )}
                         </div>
                       )}
+                    </div>
+                    <div className="mt-8 pt-8 border-t">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h4 className="font-black text-primary">Cuentas Conectadas</h4>
+                          <p className="text-xs text-muted-foreground">Vincula tus cuentas sociales para iniciar sesion mas rapido.</p>
+                        </div>
+                      </div>
+                      <SocialLogin 
+                        mode="connect" 
+                        googleConnected={!!(user as any)?.googleId}
+                        appleConnected={!!(user as any)?.appleId}
+                        onSuccess={() => queryClient.refetchQueries({ queryKey: ["/api/auth/user"] })}
+                      />
                     </div>
                     {canEdit && (
                       <div className="mt-8 pt-8 border-t">
