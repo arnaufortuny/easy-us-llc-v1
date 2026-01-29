@@ -64,3 +64,14 @@ The architecture includes:
 ## Code Optimization (January 2026)
 - **Unused Code Cleanup:** Removed deprecated OTP endpoints for LLC/maintenance applications.
 - **Form Schema Optimization:** Cleaned up form schemas to only include required fields for the account flow.
+- **Route Security:** All admin endpoints protected with `isAdmin` middleware including `/api/seed-admin` and `/api/admin/test-emails`.
+- **API Routes:** 64+ unique endpoints with no duplicates, organized by resource (admin, user, orders, messages, etc.).
+- **Payment Method Persistence:** Both LLC and maintenance claim-order endpoints now properly save the selected payment method.
+- **LLC Data Updates:** Fixed `/api/llc/:id/data` endpoint to correctly update LLC applications instead of messages table.
+
+## API Route Organization
+- **Admin Routes:** `/api/admin/*` - All protected with `isAdmin` middleware
+- **User Routes:** `/api/user/*` - Protected with `isAuthenticated` middleware
+- **Public Routes:** Health check, products, newsletter subscribe, contact, OTP verification
+- **Order Routes:** `/api/orders/*`, `/api/llc/*`, `/api/maintenance/*`
+- **Document Routes:** `/api/documents/*`, `/api/user/documents/*`
