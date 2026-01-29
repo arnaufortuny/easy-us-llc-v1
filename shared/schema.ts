@@ -65,6 +65,7 @@ export const llcApplications = pgTable("llc_applications", {
   willUseStripe: text("will_use_stripe"), // Stripe, PayPal, Both, Other, Not yet
   wantsBoiReport: text("wants_boi_report"), // Yes, No, Info
   wantsMaintenancePack: text("wants_maintenance_pack"), // Yes, No, Info
+  paymentMethod: text("payment_method"), // transfer, link
   paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
   notes: text("notes"),
   state: text("state"),
@@ -181,6 +182,7 @@ export const maintenanceApplications = pgTable("maintenance_applications", {
   emailVerified: boolean("email_verified").notNull().default(false),
   notes: text("notes"),
   wantsDissolve: text("wants_dissolve"),
+  paymentMethod: text("payment_method"), // transfer, link
   authorizedManagement: boolean("authorized_management").notNull().default(false),
   termsConsent: boolean("terms_consent").notNull().default(false),
   dataProcessingConsent: boolean("data_processing_consent").notNull().default(false),

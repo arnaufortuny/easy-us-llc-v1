@@ -46,6 +46,7 @@ export const userNotifications = pgTable("user_notifications", {
   userId: varchar("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
   orderId: integer("order_id"),
   orderCode: text("order_code"),
+  ticketId: text("ticket_id").unique(),
   type: text("type").notNull(),
   title: text("title").notNull(),
   message: text("message").notNull(),
@@ -55,6 +56,7 @@ export const userNotifications = pgTable("user_notifications", {
 }, (table) => [
   index("user_notifications_user_id_idx").on(table.userId),
   index("user_notifications_is_read_idx").on(table.isRead),
+  index("user_notifications_ticket_id_idx").on(table.ticketId),
 ]);
 
 export const passwordResetTokens = pgTable("password_reset_tokens", {

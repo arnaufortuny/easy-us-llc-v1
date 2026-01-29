@@ -827,24 +827,36 @@ export async function registerRoutes(
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
 
-      // Create Notification in system
+      // Generate unique ticket ID (TK-XXXXXXXX format)
+      const generateTicketId = () => {
+        const timestamp = Date.now().toString(36).toUpperCase();
+        const random = Math.random().toString(36).substring(2, 6).toUpperCase();
+        return `TK-${timestamp}${random}`;
+      };
+      const ticketId = generateTicketId();
+
+      // Create Notification in system with ticketId
       await db.insert(userNotifications).values({
         userId,
         title,
         message,
         type,
+        ticketId,
         isRead: false
       });
 
-      // Always send email notification
+      // Always send email notification with ticket reference
       if (user.email) {
         await sendEmail({
           to: user.email,
-          subject: `Easy US LLC: ${title}`,
+          subject: `Easy US LLC: ${title} [${ticketId}]`,
           html: `
             <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
               ${getEmailHeader()}
               <div style="padding: 30px;">
+                <div style="text-align: right; margin-bottom: 10px;">
+                  <span style="font-size: 12px; color: #888; background: #f4f4f4; padding: 4px 10px; border-radius: 4px;">Ticket: ${ticketId}</span>
+                </div>
                 <h2 style="color: #0E1215; margin-bottom: 20px;">${title}</h2>
                 <p style="font-size: 15px; color: #444;">Hola ${user.firstName || 'Cliente'},</p>
                 <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 25px 0; border-radius: 0 8px 8px 0;">
@@ -863,7 +875,7 @@ export async function registerRoutes(
         });
       }
 
-      res.json({ success: true, emailSent: !!user.email });
+      res.json({ success: true, emailSent: !!user.email, ticketId });
     } catch (error) {
       console.error("Error sending note:", error);
       res.status(500).json({ message: "Error al enviar nota" });
@@ -1726,6 +1738,11 @@ export async function registerRoutes(
         .set({ userId: newUser.id })
         .where(eq(ordersTable.id, application.orderId));
       
+      // Update LLC application with paymentMethod if provided
+      if (paymentMethod) {
+        await storage.updateLlcApplication(applicationId, { paymentMethod });
+      }
+      
       // Set session for the new user
       req.session.userId = newUser.id;
       
@@ -1807,6 +1824,13 @@ export async function registerRoutes(
         .set({ userId: newUser.id })
         .where(eq(ordersTable.id, application.orderId));
       
+      // Update maintenance application with paymentMethod if provided
+      if (paymentMethod) {
+        await db.update(maintenanceApplications)
+          .set({ paymentMethod })
+          .where(eq(maintenanceApplications.id, applicationId));
+      }
+      
       // Set session for the new user
       req.session.userId = newUser.id;
       
@@ -1869,8 +1893,10 @@ export async function registerRoutes(
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
         
-        // Email notification to admin about completed order
+        // Email notification to admin about completed order with ALL fields
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        const paymentMethodLabel = updatedApp.paymentMethod === 'transfer' ? 'Transferencia Bancaria' : updatedApp.paymentMethod === 'link' ? 'Link de Pago' : 'No especificado';
+        
         sendEmail({
           to: adminEmail,
           subject: `[PEDIDO REALIZADO] ${orderIdentifier} - ${updatedApp.companyName}`,
@@ -1880,18 +1906,55 @@ export async function registerRoutes(
                 ${getEmailHeader()}
                 <div style="padding: 40px;">
                   <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido LLC Completado</h2>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Propietario:</strong> ${updatedApp.ownerFullName}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'No proporcionado'}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>DNI/Pasaporte:</strong> ${updatedApp.ownerIdNumber || 'No proporcionado'}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Empresa:</strong> ${updatedApp.companyName}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> ${updatedApp.state}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> ${orderAmount}€</p>
-                    ${updatedApp.notes ? `<p style="margin: 0; font-size: 14px;"><strong>Notas:</strong> ${updatedApp.notes}</p>` : ''}
+                  
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información del Propietario</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${updatedApp.ownerEmail || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Fecha de nacimiento:</strong> ${updatedApp.ownerBirthDate || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Tipo de documento:</strong> ${updatedApp.ownerIdType || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Número de documento:</strong> ${updatedApp.ownerIdNumber || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Dirección:</strong> ${updatedApp.ownerStreetType || ''} ${updatedApp.ownerAddress || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Ciudad:</strong> ${updatedApp.ownerCity || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Provincia:</strong> ${updatedApp.ownerProvince || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Código Postal:</strong> ${updatedApp.ownerPostalCode || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>País:</strong> ${updatedApp.ownerCountry || 'N/A'}</p>
                   </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información de la Empresa</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre de la empresa:</strong> ${updatedApp.companyName || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre alternativo:</strong> ${updatedApp.companyNameOption2 || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Designador:</strong> ${updatedApp.designator || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado de registro:</strong> ${updatedApp.state || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Categoría:</strong> ${updatedApp.businessCategory === "Otra (especificar)" ? updatedApp.businessCategoryOther : updatedApp.businessCategory || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Actividad comercial:</strong> ${updatedApp.businessActivity || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Descripción:</strong> ${updatedApp.companyDescription || 'N/A'}</p>
+                  </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Servicios Adicionales</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Venderá online:</strong> ${updatedApp.isSellingOnline || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Cuenta bancaria:</strong> ${updatedApp.needsBankAccount || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Pasarela de pago:</strong> ${updatedApp.willUseStripe || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Informe BOI:</strong> ${updatedApp.wantsBoiReport || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Pack Mantenimiento:</strong> ${updatedApp.wantsMaintenancePack || 'N/A'}</p>
+                  </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Pago</h3>
+                  <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Importe:</strong> ${orderAmount}€</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Método de pago:</strong> ${paymentMethodLabel}</p>
+                  </div>
+
+                  ${updatedApp.notes ? `
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Notas del Cliente</h3>
+                  <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0; font-size: 13px;">${updatedApp.notes}</p>
+                  </div>
+                  ` : ''}
                 </div>
                 ${getEmailFooter()}
               </div>
@@ -2246,8 +2309,10 @@ export async function registerRoutes(
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : 'N/A';
         
-        // Email notification to admin about completed maintenance order
+        // Email notification to admin about completed maintenance order with ALL fields
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+        const maintPaymentMethodLabel = updatedApp.paymentMethod === 'transfer' ? 'Transferencia Bancaria' : updatedApp.paymentMethod === 'link' ? 'Link de Pago' : 'No especificado';
+        
         sendEmail({
           to: adminEmail,
           subject: `[PEDIDO REALIZADO] ${orderIdentifier} - Mantenimiento ${updatedApp.companyName}`,
@@ -2257,18 +2322,45 @@ export async function registerRoutes(
                 ${getEmailHeader()}
                 <div style="padding: 40px;">
                   <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 20px; color: #000;">Nuevo Pedido Mantenimiento Completado</h2>
-                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 20px; margin: 20px 0;">
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Propietario:</strong> ${updatedApp.ownerFullName}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${updatedApp.ownerEmail}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'No proporcionado'}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Empresa:</strong> ${updatedApp.companyName}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>EIN:</strong> ${updatedApp.ein || 'No proporcionado'}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Estado:</strong> ${updatedApp.state}</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Monto:</strong> ${orderAmount}€</p>
-                    <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Disolver:</strong> ${updatedApp.wantsDissolve || 'No'}</p>
-                    <p style="margin: 0; font-size: 14px;"><strong>Servicios:</strong> ${updatedApp.expectedServices || 'No especificados'}</p>
+                  
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información del Propietario</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre completo:</strong> ${updatedApp.ownerFullName || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${updatedApp.ownerEmail || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Teléfono:</strong> ${updatedApp.ownerPhone || 'N/A'}</p>
                   </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Información de la Empresa</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre de la empresa:</strong> ${updatedApp.companyName || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>EIN:</strong> ${updatedApp.ein || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado de registro:</strong> ${updatedApp.state || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Creado con:</strong> ${updatedApp.creationSource || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Año de creación:</strong> ${updatedApp.creationYear || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Cuenta bancaria:</strong> ${updatedApp.bankAccount || 'N/A'}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Pasarela de pago:</strong> ${updatedApp.paymentGateway || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Actividad comercial:</strong> ${updatedApp.businessActivity || 'N/A'}</p>
+                  </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Servicios Solicitados</h3>
+                  <div style="background: #f4f4f4; border-left: 4px solid #6EDC8A; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Servicios esperados:</strong> ${updatedApp.expectedServices || 'N/A'}</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Disolver empresa:</strong> ${updatedApp.wantsDissolve || 'No'}</p>
+                  </div>
+
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Pago</h3>
+                  <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Referencia:</strong> ${orderIdentifier}</p>
+                    <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Importe:</strong> ${orderAmount}€</p>
+                    <p style="margin: 0; font-size: 13px;"><strong>Método de pago:</strong> ${maintPaymentMethodLabel}</p>
+                  </div>
+
+                  ${updatedApp.notes ? `
+                  <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #6EDC8A; padding-bottom: 5px;">Notas del Cliente</h3>
+                  <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 15px; margin: 10px 0;">
+                    <p style="margin: 0; font-size: 13px;">${updatedApp.notes}</p>
+                  </div>
+                  ` : ''}
                 </div>
                 ${getEmailFooter()}
               </div>
