@@ -7,6 +7,7 @@ import { users } from "@shared/models/auth";
 import { userNotifications, messages as messagesTable } from "@shared/schema";
 import { eq, sql } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
+import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
   createUser,
   loginUser,
@@ -97,7 +98,7 @@ export function setupCustomAuth(app: Express) {
       sendEmail({
         to: user.email!,
         subject: "¡Bienvenido a Easy US LLC!",
-        html: getWelcomeEmailTemplate(user.firstName || "Cliente", clientId)
+        html: getWelcomeEmailTemplate(user.firstName || "Cliente")
       }).catch(() => {});
 
       req.session.userId = user.id;
@@ -129,9 +130,17 @@ export function setupCustomAuth(app: Express) {
     }
   });
 
-  // Login endpoint
+  // Login endpoint with rate limiting
   app.post("/api/auth/login", async (req, res) => {
       try {
+        const ip = getClientIp(req);
+        const rateCheck = checkRateLimit('login', ip);
+        if (!rateCheck.allowed) {
+          return res.status(429).json({ 
+            message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+          });
+        }
+
         const { email, password } = req.body;
 
         if (!email || !password) {
@@ -141,6 +150,7 @@ export function setupCustomAuth(app: Express) {
         const user = await loginUser(email, password);
 
         if (!user) {
+          logAudit({ action: 'user_login', ip, details: { email, success: false } });
           return res.status(401).json({ message: "Email o contraseña incorrectos" });
         }
 
@@ -159,6 +169,7 @@ export function setupCustomAuth(app: Express) {
             return res.status(500).json({ message: "Error al guardar la sesión" });
           }
           
+          logAudit({ action: 'user_login', userId: user.id, ip, details: { email, success: true } });
           res.json({
             success: true,
             user: {
@@ -174,6 +185,7 @@ export function setupCustomAuth(app: Express) {
         });
       } catch (error: any) {
         if (error.locked) {
+          logAudit({ action: 'account_locked', ip: getClientIp(req), details: { reason: 'too_many_attempts' } });
           return res.status(403).json({ message: error.message });
         }
         console.error("Login error:", error);

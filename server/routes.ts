@@ -11,6 +11,7 @@ import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEma
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import puppeteer from "puppeteer";
+import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
 
 // Helper function to generate PDF from HTML
 async function generatePdfFromHtml(html: string): Promise<Buffer> {
@@ -88,9 +89,23 @@ export async function registerRoutes(
   // Set up Custom Auth
   setupCustomAuth(app);
 
-  // Health check endpoint for deployment (already handled in index.ts for root priority)
-  app.get("/api/healthz", (_req, res) => {
-    res.status(200).send("OK");
+  // Health check endpoint for deployment with database verification
+  app.get("/api/healthz", async (_req, res) => {
+    try {
+      const health = await getSystemHealth();
+      if (health.status === 'unhealthy') {
+        return res.status(503).json(health);
+      }
+      res.status(200).json(health);
+    } catch (error) {
+      res.status(503).json({ status: 'unhealthy', error: 'Health check failed' });
+    }
+  });
+
+  // Admin endpoint for audit logs
+  app.get("/api/admin/audit-logs", isAdmin, async (_req, res) => {
+    const logs = getRecentAuditLogs(500);
+    res.json(logs);
   });
 
     // Unified activity log helper (console only - no email spam)
@@ -135,6 +150,14 @@ export async function registerRoutes(
       .set({ status })
       .where(eq(ordersTable.id, orderId))
       .returning();
+    
+    // Audit log for order status change
+    logAudit({ 
+      action: 'order_status_change', 
+      userId: req.session?.userId, 
+      targetId: String(orderId),
+      details: { newStatus: status } 
+    });
     
     const order = await storage.getOrder(orderId);
     if (order?.user?.email) {
@@ -335,6 +358,14 @@ export async function registerRoutes(
       ...data,
       updatedAt: new Date()
     }).where(eq(usersTable.id, userId)).returning();
+
+    // Audit log for user update
+    logAudit({ 
+      action: 'admin_user_update', 
+      userId: req.session?.userId, 
+      targetId: userId,
+      details: { changes: Object.keys(data) } 
+    });
 
     // Trigger emails based on account status change
     if (data.accountStatus) {
@@ -2938,6 +2969,14 @@ export async function registerRoutes(
   // Contact form
   app.post("/api/contact/send-otp", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('contact', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ 
+          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+        });
+      }
+
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
       const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 mins
@@ -3003,6 +3042,15 @@ export async function registerRoutes(
         otp: z.string(),
       }).parse(req.body);
 
+      // Sanitize user input
+      const sanitizedData = {
+        nombre: sanitizeHtml(contactData.nombre),
+        apellido: sanitizeHtml(contactData.apellido),
+        subject: sanitizeHtml(contactData.subject),
+        mensaje: sanitizeHtml(contactData.mensaje),
+        telefono: contactData.telefono ? sanitizeHtml(contactData.telefono) : undefined,
+      };
+
       const [otpRecord] = await db.select()
         .from(contactOtps)
         .where(
@@ -3018,27 +3066,28 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Email no verificado" });
       }
 
-      const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+      const clientIp = getClientIp(req);
       const { generateUniqueMessageId } = await import("./lib/id-generator");
       const ticketId = await generateUniqueMessageId();
       
-      // Notification to admin
+      // Notification to admin with sanitized data
       logActivity("Acción Contacto", {
         "ID Ticket": ticketId,
-        "Nombre": `${contactData.nombre} ${contactData.apellido}`,
+        "Nombre": `${sanitizedData.nombre} ${sanitizedData.apellido}`,
         "Email": contactData.email,
-        "Teléfono": contactData.telefono || "No proporcionado",
-        "Asunto": contactData.subject,
-        "Mensaje": contactData.mensaje,
+        "Teléfono": sanitizedData.telefono || "No proporcionado",
+        "Asunto": sanitizedData.subject,
+        "Mensaje": sanitizedData.mensaje,
         "IP": clientIp
       });
 
       await sendEmail({
         to: contactData.email,
         subject: `Hemos recibido tu mensaje - Ticket #${ticketId}`,
-        html: getAutoReplyTemplate(ticketId, contactData.nombre),
+        html: getAutoReplyTemplate(ticketId, sanitizedData.nombre),
       });
 
+      logAudit({ action: 'order_created', ip: clientIp, details: { ticketId, type: 'contact' } });
       res.json({ success: true, ticketId });
     } catch (err) {
       console.error("Error processing contact form:", err);
@@ -3069,6 +3118,14 @@ export async function registerRoutes(
   // Send OTP for account registration (email verification before creating account)
   app.post("/api/register/send-otp", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('register', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ 
+          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+        });
+      }
+
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
       // Check if email is already registered
@@ -3093,6 +3150,7 @@ export async function registerRoutes(
         html: getOtpEmailTemplate(otp, "Cliente"),
       });
 
+      logAudit({ action: 'user_register', ip, details: { email, step: 'otp_sent' } });
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending registration OTP:", err);
@@ -3135,6 +3193,14 @@ export async function registerRoutes(
   // Send OTP for password reset (forgot password)
   app.post("/api/password-reset/send-otp", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('passwordReset', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ 
+          message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.` 
+        });
+      }
+
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
       // Check if user exists (but don't reveal this to prevent enumeration)
@@ -3161,6 +3227,7 @@ export async function registerRoutes(
         html: getOtpEmailTemplate(otp, existingUser?.firstName || "Cliente"),
       });
 
+      logAudit({ action: 'password_reset', ip, details: { email } });
       res.json({ success: true });
     } catch (err) {
       console.error("Error sending password reset OTP:", err);
