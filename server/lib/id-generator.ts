@@ -1,0 +1,127 @@
+import { db } from "../db";
+import { users, llcApplications, maintenanceApplications, messages, userNotifications, applicationDocuments } from "@shared/schema";
+import { eq } from "drizzle-orm";
+
+export function generate8DigitId(): string {
+  return Math.floor(10000000 + Math.random() * 90000000).toString();
+}
+
+export async function generateUniqueClientId(): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const clientId = generate8DigitId();
+    const existing = await db.select({ id: users.id }).from(users).where(eq(users.clientId, clientId)).limit(1);
+    if (existing.length === 0) {
+      return clientId;
+    }
+    attempts++;
+  }
+  
+  return Date.now().toString().slice(-8);
+}
+
+export function generateOrderCode(state: string): string {
+  const statePrefix = getStatePrefix(state);
+  const digits = generate8DigitId();
+  return `${statePrefix}-${digits}`;
+}
+
+export function getStatePrefix(state: string): string {
+  const stateMap: Record<string, string> = {
+    'New Mexico': 'NM',
+    'new mexico': 'NM',
+    'nm': 'NM',
+    'Wyoming': 'WY',
+    'wyoming': 'WY',
+    'wy': 'WY',
+    'Delaware': 'DE',
+    'delaware': 'DE',
+    'de': 'DE',
+  };
+  return stateMap[state] || stateMap[state.toLowerCase()] || 'US';
+}
+
+export async function generateUniqueOrderCode(state: string): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const code = generateOrderCode(state);
+    
+    const existingLlc = await db.select({ id: llcApplications.id })
+      .from(llcApplications)
+      .where(eq(llcApplications.requestCode, code))
+      .limit(1);
+    
+    const existingMaint = await db.select({ id: maintenanceApplications.id })
+      .from(maintenanceApplications)
+      .where(eq(maintenanceApplications.requestCode, code))
+      .limit(1);
+    
+    if (existingLlc.length === 0 && existingMaint.length === 0) {
+      return code;
+    }
+    attempts++;
+  }
+  
+  const timestamp = Date.now().toString().slice(-8);
+  return `${getStatePrefix(state)}-${timestamp}`;
+}
+
+export async function generateUniqueTicketId(): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const ticketId = generate8DigitId();
+    
+    const existingNotif = await db.select({ id: userNotifications.id })
+      .from(userNotifications)
+      .where(eq(userNotifications.ticketId, ticketId))
+      .limit(1);
+    
+    if (existingNotif.length === 0) {
+      return ticketId;
+    }
+    attempts++;
+  }
+  
+  return Date.now().toString().slice(-8);
+}
+
+export async function generateUniqueMessageId(): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const messageId = generate8DigitId();
+    
+    const existing = await db.select({ id: messages.id })
+      .from(messages)
+      .where(eq(messages.messageId, messageId))
+      .limit(1);
+    
+    if (existing.length === 0) {
+      return messageId;
+    }
+    attempts++;
+  }
+  
+  return Date.now().toString().slice(-8);
+}
+
+export function generateDocumentId(): string {
+  return generate8DigitId();
+}
+
+export function formatOrderDisplay(requestCode: string | null | undefined, orderId?: number): string {
+  if (requestCode) {
+    return requestCode;
+  }
+  if (orderId) {
+    return `ORD-${orderId.toString().padStart(8, '0')}`;
+  }
+  return 'N/A';
+}
