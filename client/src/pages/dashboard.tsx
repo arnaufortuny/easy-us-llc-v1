@@ -1806,57 +1806,62 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="max-w-md bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Enviar Mensaje al Cliente</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-black text-primary">Enviar Mensaje al Cliente</DialogTitle>
+                <DialogDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</DialogDescription>
+              </DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-xs text-muted-foreground">El cliente recibirá una notificación en su panel y un email.</p>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full" data-testid="input-note-title" />
+                  <Label className="text-sm font-black text-primary mb-2 block">Título</Label>
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-note-title" />
                 </div>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Mensaje</Label>
-                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full" data-testid="input-note-message" />
+                  <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
+                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-note-message" />
                 </div>
-                <DialogFooter className="flex-col sm:flex-row gap-2">
-                  <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto">Cancelar</Button>
-                  <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto" data-testid="button-send-note">
-                    {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar'}
-                  </Button>
-                </DialogFooter>
               </div>
+              <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
+                <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-send-note">
+                  {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
+                </Button>
+              </DialogFooter>
             </DialogContent>
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="max-w-lg bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Editar Usuario</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-lg bg-white rounded-2xl mx-4 sm:mx-auto max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-black text-primary">Editar Usuario</DialogTitle>
+                <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
+              </DialogHeader>
               {editingUser && (
                 <div className="space-y-4 pt-2">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs">Nombre</Label>
-                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} data-testid="input-edit-firstname" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
+                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-firstname" />
                     </div>
                     <div>
-                      <Label className="text-xs">Apellidos</Label>
-                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} data-testid="input-edit-lastname" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
+                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-lastname" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-xs">Email</Label>
-                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} data-testid="input-edit-email" />
+                    <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
+                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-email" />
                   </div>
                   <div>
-                    <Label className="text-xs">Teléfono</Label>
-                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} data-testid="input-edit-phone" />
+                    <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
+                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-phone" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs">Tipo ID</Label>
+                      <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger className="w-full bg-white"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
-                        <SelectContent>
+                        <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectContent className="rounded-xl">
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
                           <SelectItem value="passport">Pasaporte</SelectItem>
@@ -1864,19 +1869,19 @@ export default function Dashboard() {
                       </Select>
                     </div>
                     <div>
-                      <Label className="text-xs">Número ID</Label>
-                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} data-testid="input-edit-idnumber" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Número ID</Label>
+                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-idnumber" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-xs">Fecha Nacimiento</Label>
-                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} data-testid="input-edit-birthdate" />
+                    <Label className="text-sm font-black text-primary mb-2 block">Fecha Nacimiento</Label>
+                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-birthdate" />
                   </div>
                   <div>
-                    <Label className="text-xs">Actividad de Negocio</Label>
+                    <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger className="bg-white" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
-                      <SelectContent>
+                      <SelectTrigger className="bg-white rounded-full h-11 border-gray-200" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectContent className="rounded-xl">
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
                         <SelectItem value="consulting">Consultoría</SelectItem>
@@ -1889,37 +1894,37 @@ export default function Dashboard() {
                     </Select>
                   </div>
                   <div>
-                    <Label className="text-xs">Dirección</Label>
-                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" data-testid="input-edit-address" />
+                    <Label className="text-sm font-black text-primary mb-2 block">Dirección</Label>
+                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-address" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs">Ciudad</Label>
-                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} data-testid="input-edit-city" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Ciudad</Label>
+                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-city" />
                     </div>
                     <div>
-                      <Label className="text-xs">Código Postal</Label>
-                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} data-testid="input-edit-postal" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Código Postal</Label>
+                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-postal" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-xs">Provincia</Label>
-                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} data-testid="input-edit-province" />
+                      <Label className="text-sm font-black text-primary mb-2 block">Provincia</Label>
+                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-province" />
                     </div>
                     <div>
-                      <Label className="text-xs">País</Label>
-                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} data-testid="input-edit-country" />
+                      <Label className="text-sm font-black text-primary mb-2 block">País</Label>
+                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-country" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-xs">Notas Internas (solo admin)</Label>
-                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} data-testid="input-edit-notes" />
+                    <Label className="text-sm font-black text-primary mb-2 block">Notas Internas (solo admin)</Label>
+                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 focus:border-accent" data-testid="input-edit-notes" />
                   </div>
-                  <DialogFooter className="flex-col sm:flex-row gap-2 mt-4">
-                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto">Cancelar</Button>
-                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto" data-testid="button-save-user">
-                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar'}
+                  <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
+                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-save-user">
+                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
                     </Button>
                   </DialogFooter>
                 </div>
@@ -1928,15 +1933,15 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="max-w-sm bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
                 <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
               </div>
-              <DialogFooter>
-                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })}>Cancelar</Button>
-                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} data-testid="button-confirm-delete">
+              <DialogFooter className="flex-col sm:flex-row gap-3">
+                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="rounded-full font-black" data-testid="button-confirm-delete">
                   {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
                 </Button>
               </DialogFooter>
@@ -1944,16 +1949,16 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <DialogContent className="max-w-sm bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>ORD-{deleteOrderConfirm.order?.id}</strong>?</p>
                 <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
                 <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-2">
-                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full sm:w-auto">Cancelar</Button>
-                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full sm:w-auto" data-testid="button-confirm-delete-order">
+              <DialogFooter className="flex-col sm:flex-row gap-3">
+                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full sm:w-auto rounded-full font-black" data-testid="button-confirm-delete-order">
                   {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
                 </Button>
               </DialogFooter>
@@ -1961,17 +1966,20 @@ export default function Dashboard() {
           </Dialog>
           
           <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <DialogContent className="max-w-sm bg-white">
-              <DialogHeader><DialogTitle className="text-lg font-bold">Generar Factura</DialogTitle></DialogHeader>
+            <DialogContent className="max-w-sm bg-white rounded-2xl mx-4 sm:mx-auto">
+              <DialogHeader>
+                <DialogTitle className="text-xl font-black text-primary">Generar Factura</DialogTitle>
+              </DialogHeader>
               <div className="space-y-4 pt-2">
                 <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber || `ORD-${generateInvoiceDialog.order?.id}`}</strong></p>
                 <div>
-                  <Label className="text-xs font-medium mb-1 block">Importe</Label>
+                  <Label className="text-sm font-black text-primary mb-2 block">Importe</Label>
                   <Input 
                     type="number" 
                     step="0.01" 
                     value={orderInvoiceAmount} 
-                    onChange={e => setOrderInvoiceAmount(e.target.value)} 
+                    onChange={e => setOrderInvoiceAmount(e.target.value)}
+                    className="rounded-full border-gray-200 focus:border-accent h-11" 
                     placeholder="739.00"
                     data-testid="input-invoice-amount"
                   />
@@ -2224,35 +2232,38 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="max-w-md bg-white">
-          <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Cliente</DialogTitle></DialogHeader>
-          <div className="space-y-3 pt-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Cliente</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs font-medium">Nombre</Label>
-                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="mt-1" data-testid="input-create-user-firstname" />
+                <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
+                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-firstname" />
               </div>
               <div>
-                <Label className="text-xs font-medium">Apellidos</Label>
-                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="mt-1" data-testid="input-create-user-lastname" />
+                <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
+                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-lastname" />
               </div>
             </div>
             <div>
-              <Label className="text-xs font-medium">Email</Label>
-              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="mt-1" data-testid="input-create-user-email" />
+              <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
+              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-email" />
             </div>
             <div>
-              <Label className="text-xs font-medium">Teléfono</Label>
-              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="mt-1" data-testid="input-create-user-phone" />
+              <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
+              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-phone" />
             </div>
             <div>
-              <Label className="text-xs font-medium">Contraseña</Label>
-              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 6 caracteres" className="mt-1" data-testid="input-create-user-password" />
+              <Label className="text-sm font-black text-primary mb-2 block">Contraseña</Label>
+              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-password" />
             </div>
           </div>
-          <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
-            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto" data-testid="button-cancel-create-user">Cancelar</Button>
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto" data-testid="button-confirm-create-user">
+          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-user">Cancelar</Button>
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-confirm-create-user">
               {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
             </Button>
           </DialogFooter>
@@ -2260,16 +2271,19 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="max-w-md bg-white">
-          <DialogHeader><DialogTitle className="text-lg font-bold">Crear Nuevo Pedido</DialogTitle></DialogHeader>
-          <div className="space-y-3 pt-2">
+        <DialogContent className="max-w-md bg-white rounded-2xl mx-4 sm:mx-auto">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Pedido</DialogTitle>
+            <DialogDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-4 pt-2">
             <div>
-              <Label className="text-xs font-medium">Cliente</Label>
+              <Label className="text-sm font-black text-primary mb-2 block">Cliente</Label>
               <Select value={newOrderData.userId} onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}>
-                <SelectTrigger className="w-full mt-1 bg-white" data-testid="select-order-user">
+                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-order-user">
                   <SelectValue placeholder="Seleccionar cliente..." />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999]">
+                <SelectContent className="bg-white z-[9999] rounded-xl">
                   {adminUsers?.map((u: any) => (
                     <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
                   ))}
@@ -2277,12 +2291,12 @@ export default function Dashboard() {
               </Select>
             </div>
             <div>
-              <Label className="text-xs font-medium">Estado (LLC)</Label>
+              <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
               <Select value={newOrderData.state} onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}>
-                <SelectTrigger className="w-full mt-1 bg-white" data-testid="select-order-state">
+                <SelectTrigger className="w-full bg-white rounded-full h-11 border-gray-200" data-testid="select-order-state">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white z-[9999]">
+                <SelectContent className="bg-white z-[9999] rounded-xl">
                   <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
                   <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
                   <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
@@ -2290,13 +2304,13 @@ export default function Dashboard() {
               </Select>
             </div>
             <div>
-              <Label className="text-xs font-medium">Importe (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="mt-1" data-testid="input-order-amount" />
+              <Label className="text-sm font-black text-primary mb-2 block">Importe (€)</Label>
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-order-amount" />
             </div>
           </div>
-          <DialogFooter className="mt-4 flex-col sm:flex-row gap-2">
-            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto" data-testid="button-cancel-create-order">Cancelar</Button>
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto" data-testid="button-confirm-create-order">
+          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
+            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-order">Cancelar</Button>
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
           </DialogFooter>
