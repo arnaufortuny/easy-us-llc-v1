@@ -17,6 +17,7 @@ The architecture includes:
   - **System emails:** no-reply@easyusllc.com (OTP, welcome, confirmations, order updates)
   - **Support/replies:** hola@easyusllc.com (reply-to for all emails)
   - **Trustpilot reviews:** trustpilot@easyusllc.com (sent when order marked completed)
+  - **Admin notifications:** arnau@easyusllc.com (receives system notifications)
   - **Test mode active:** All emails redirect to afortuny07@gmail.com with original recipient in subject.
 - **Authentication:** Robust authentication system with OTP verification, session management, and secure password handling.
 - **Form Management:** Multi-step wizard patterns for LLC, maintenance, and contact forms with auto-fill capabilities for authenticated users.
