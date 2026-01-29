@@ -19,7 +19,10 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Admin Panel:** Integrated into the client dashboard for privileged users, offering full control over orders, users, and messages.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, `content-visibility: auto` for images, non-blocking font loading, and route prefetching. PWA support is also implemented for an app-like experience.
 - **Security:** Enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), secure API endpoints with validation, HTML sanitization, and audit logging. A centralized security module manages these functions.
-- **Internationalization:** Primary focus on Spanish language support.
+- **Internationalization (i18n):** Full bilingual support (Spanish/English) via react-i18next. Translation files in `client/src/locales/`. Language toggle in navbar with automatic detection.
+- **Dark Mode:** Complete dark/light theme system with ThemeProvider hook (`client/src/hooks/use-theme.tsx`). Theme persisted in localStorage. CSS variables defined in `index.css` for seamless switching.
+- **PDF Generation:** Optimized PDF generation using PDFKit (replacing puppeteer). Invoice and receipt generation via `server/lib/pdf-generator.ts`. Lower memory footprint, faster generation.
+- **Testing:** Automated test suite with Vitest (22+ tests). Run with `npm run test`. Tests cover validation, i18n, theme, and PDF generation.
 - **Responsiveness:** Fully responsive design across all components, optimized for mobile devices.
 - **Unified ID System:** Utilizes unique 8-digit numeric or alphanumeric IDs for clients, orders (e.g., NM-12345678), tickets, documents, invoices, and payments, managed by a centralized ID generator.
 - **Validation Messages:** Standardized Spanish messages for all input validations.

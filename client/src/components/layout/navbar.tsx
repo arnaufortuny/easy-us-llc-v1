@@ -5,12 +5,16 @@ import { Menu, X, User as UserIcon, LogOut } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { useAuth } from "@/hooks/use-auth";
 import { usePrefetch } from "@/hooks/use-prefetch";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
+import { LanguageToggle } from "@/components/ui/language-toggle";
+import { useTranslation } from "react-i18next";
 
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const { prefetchOnHover, cancelPrefetch } = usePrefetch();
+  const { t } = useTranslation();
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -47,17 +51,21 @@ export function Navbar() {
           </Link>
           
           <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Inicio</button>
-            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Qué hacemos</button>
-            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Planes y precios</button>
-            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Preguntas frecuentes</button>
-            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">Habla con nosotros</button>
+            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.home")}</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.services")}</button>
+            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.pricing")}</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.faq")}</button>
+            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.contact")}</button>
+            <div className="flex items-center gap-1 border-l pl-4 border-border">
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
             {isAuthenticated ? (
               <div className="flex items-center gap-4 border-l pl-6 border-border">
                 <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">
-                  <UserIcon className="w-4 h-4" /> Mi Cuenta
+                  <UserIcon className="w-4 h-4" /> {t("nav.login")}
                 </Link>
-                <button onClick={() => logout()} className="text-sm font-black text-muted-foreground hover:text-destructive transition-colors">Salir</button>
+                <button onClick={() => logout()} className="text-sm font-black text-muted-foreground hover:text-destructive transition-colors">{t("common.close")}</button>
               </div>
             ) : (
               <Button 
@@ -66,7 +74,7 @@ export function Navbar() {
                 className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-8 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
               >
-                <UserIcon className="w-4 h-4" /> Mi Cuenta
+                <UserIcon className="w-4 h-4" /> {t("nav.login")}
               </Button>
             )}
           </nav>
@@ -76,7 +84,7 @@ export function Navbar() {
             className="hidden md:inline-flex bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
             variant="default"
           >
-            Constituye ahora tu LLC
+            {t("nav.register")}
           </Button>
 
           <div className="md:hidden flex items-center gap-2 relative z-[110]">

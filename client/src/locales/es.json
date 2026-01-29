@@ -1,0 +1,207 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "back": "Volver",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "submit": "Enviar",
+    "search": "Buscar",
+    "close": "Cerrar",
+    "yes": "Sí",
+    "no": "No",
+    "error": "Error",
+    "success": "Éxito",
+    "required": "Este campo es obligatorio",
+    "optional": "Opcional"
+  },
+  "nav": {
+    "home": "Inicio",
+    "services": "Qué hacemos",
+    "pricing": "Planes y precios",
+    "faq": "Preguntas frecuentes",
+    "contact": "Habla con nosotros",
+    "login": "Mi Cuenta",
+    "register": "Constituye ahora tu LLC",
+    "dashboard": "Panel de control"
+  },
+  "hero": {
+    "title": "OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL",
+    "subtitle": "CON UNA LLC AMERICANA",
+    "description": "Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional.",
+    "cta": "Tu LLC en 2 días",
+    "features": {
+      "fast": "Tu LLC en 2 días",
+      "complete": "Pack Todo Incluido",
+      "noVat": "Sin IVA",
+      "transparent": "Precios Transparentes",
+      "close": "Trato Cercano",
+      "bank": "Apertura Cuenta Mercury & Relay",
+      "card": "Tarjeta Física de Crédito y Débito"
+    }
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "llc": {
+      "title": "Formación de LLC",
+      "description": "Constituye tu LLC americana de forma rápida y sencilla"
+    },
+    "maintenance": {
+      "title": "Mantenimiento Anual",
+      "description": "Mantén tu LLC en regla con nuestro servicio de mantenimiento"
+    }
+  },
+  "pricing": {
+    "title": "Planes y Precios",
+    "newMexico": {
+      "title": "New Mexico",
+      "price": "739",
+      "popular": "Más Popular"
+    },
+    "wyoming": {
+      "title": "Wyoming",
+      "price": "899"
+    },
+    "delaware": {
+      "title": "Delaware",
+      "price": "1.199"
+    },
+    "features": {
+      "formation": "Formación LLC completa",
+      "ein": "Obtención EIN",
+      "agent": "Agente registrado 1 año",
+      "bank": "Asistencia apertura bancaria",
+      "support": "Soporte prioritario"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Iniciar Sesión",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "submit": "Acceder",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "noAccount": "¿No tienes cuenta?",
+      "register": "Regístrate"
+    },
+    "register": {
+      "title": "Crear Cuenta",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "login": "Inicia sesión"
+    },
+    "forgotPassword": {
+      "title": "Recuperar Contraseña",
+      "description": "Introduce tu correo electrónico y te enviaremos instrucciones",
+      "submit": "Enviar instrucciones"
+    }
+  },
+  "application": {
+    "title": "Solicitud de LLC",
+    "steps": {
+      "personal": "Datos Personales",
+      "identity": "Identificación",
+      "company": "Datos Empresa",
+      "business": "Actividad",
+      "banking": "Cuenta Bancaria",
+      "verification": "Verificación",
+      "payment": "Pago",
+      "confirmation": "Confirmación"
+    },
+    "fields": {
+      "fullName": "Nombre completo",
+      "email": "Correo electrónico",
+      "phone": "Teléfono",
+      "birthDate": "Fecha de nacimiento",
+      "idType": "Tipo de documento",
+      "idNumber": "Número de documento",
+      "country": "País de residencia",
+      "address": "Dirección completa",
+      "companyName": "Nombre de la empresa",
+      "businessActivity": "Actividad del negocio",
+      "businessCategory": "Categoría del negocio"
+    },
+    "validation": {
+      "required": "Este campo es obligatorio",
+      "invalidEmail": "Email inválido",
+      "invalidPhone": "Teléfono inválido",
+      "minLength": "Mínimo {{min}} caracteres",
+      "maxLength": "Máximo {{max}} caracteres"
+    }
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "Bienvenido, {{name}}",
+    "orders": {
+      "title": "Mis Pedidos",
+      "empty": "No tienes pedidos aún",
+      "status": {
+        "pending": "Pendiente",
+        "processing": "En proceso",
+        "paid": "Pagado",
+        "filed": "Presentado",
+        "documents_ready": "Documentos listos",
+        "completed": "Completado",
+        "cancelled": "Cancelado"
+      }
+    },
+    "documents": {
+      "title": "Mis Documentos",
+      "upload": "Subir documento",
+      "download": "Descargar"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "empty": "No tienes notificaciones"
+    }
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes alguna pregunta?",
+    "description": "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos lo antes posible.",
+    "form": {
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "submit": "Enviar mensaje"
+    },
+    "success": "Mensaje enviado correctamente",
+    "error": "Error al enviar el mensaje"
+  },
+  "faq": {
+    "title": "Preguntas Frecuentes",
+    "subtitle": "Encuentra respuestas a las preguntas más comunes"
+  },
+  "footer": {
+    "legal": "Legal",
+    "terms": "Términos y Condiciones",
+    "privacy": "Política de Privacidad",
+    "refunds": "Política de Reembolsos",
+    "cookies": "Política de Cookies",
+    "contact": "Contacto",
+    "copyright": "© {{year}} Easy US LLC. Todos los derechos reservados."
+  },
+  "theme": {
+    "light": "Modo claro",
+    "dark": "Modo oscuro",
+    "system": "Sistema"
+  },
+  "errors": {
+    "generic": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+    "network": "Error de conexión. Verifica tu conexión a internet.",
+    "unauthorized": "No tienes permiso para realizar esta acción.",
+    "notFound": "El recurso solicitado no existe.",
+    "validation": "Por favor, revisa los campos del formulario."
+  }
+}

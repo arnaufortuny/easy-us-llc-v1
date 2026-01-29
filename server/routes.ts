@@ -10,28 +10,8 @@ import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
-import puppeteer from "puppeteer";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
-
-// Helper function to generate PDF from HTML
-async function generatePdfFromHtml(html: string): Promise<Buffer> {
-  const browser = await puppeteer.launch({
-    headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
-  });
-  try {
-    const page = await browser.newPage();
-    await page.setContent(html, { waitUntil: 'networkidle0' });
-    const pdf = await page.pdf({
-      format: 'A4',
-      printBackground: true,
-      margin: { top: '20mm', right: '20mm', bottom: '20mm', left: '20mm' }
-    });
-    return Buffer.from(pdf);
-  } finally {
-    await browser.close();
-  }
-}
+import { generateInvoicePdf, generateReceiptPdf } from "./lib/pdf-generator";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -1309,101 +1289,20 @@ export async function registerRoutes(
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber;
 
-      // Invoice Template HTML (for PDF generation)
-      const invoiceHtml = `
-        <!DOCTYPE html>
-        <html lang="es">
-          <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Factura ${invoiceNumber}</title>
-            <style>
-              @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
-              body { font-family: 'Inter', sans-serif; padding: 40px; color: #0E1215; background: #fff; line-height: 1.5; }
-              .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 4px solid #6EDC8A; padding-bottom: 30px; margin-bottom: 40px; }
-              .logo-container h1 { margin: 0; font-size: 2.5rem; font-weight: 900; letter-spacing: -0.05em; color: #0E1215; }
-              .logo-container p { margin: 5px 0 0; font-weight: 700; color: #6B7280; font-size: 0.9rem; }
-              .invoice-info { text-align: right; }
-              .invoice-info p { margin: 2px 0; font-weight: 700; }
-              .invoice-info .label { color: #6B7280; font-size: 0.8rem; text-transform: uppercase; }
-              .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-bottom: 50px; }
-              .details-box h3 { font-size: 0.8rem; text-transform: uppercase; color: #6B7280; margin-bottom: 10px; border-bottom: 1px solid #E6E9EC; padding-bottom: 5px; }
-              .details-box p { margin: 0; font-weight: 700; font-size: 1.1rem; }
-              .table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
-              .table th { text-align: left; padding: 15px; background: #F7F7F5; font-size: 0.8rem; text-transform: uppercase; color: #6B7280; }
-              .table td { padding: 20px 15px; border-bottom: 1px solid #E6E9EC; font-weight: 700; }
-              .total-section { display: flex; justify-content: flex-end; }
-              .total-box { background: #0E1215; color: #fff; padding: 30px; border-radius: 20px; min-width: 250px; text-align: right; }
-              .total-box p { margin: 0; font-size: 0.9rem; opacity: 0.8; }
-              .total-box h2 { margin: 5px 0 0; font-size: 2rem; font-weight: 900; color: #6EDC8A; }
-              .footer { margin-top: 100px; text-align: center; border-top: 1px solid #E6E9EC; padding-top: 30px; color: #6B7280; font-size: 0.8rem; }
-            </style>
-          </head>
-          <body>
-            <div class="header">
-              <div class="logo-container">
-                <h1>EASY US LLC</h1>
-                <p>FORTUNY CONSULTING LLC</p>
-              </div>
-              <div class="invoice-info">
-                <p class="label">Nº Factura</p>
-                <p style="font-size: 1.2rem;">${invoiceNumber}</p>
-                <p class="label" style="margin-top: 10px;">Fecha de Emisión</p>
-                <p>${new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES')}</p>
-              </div>
-            </div>
-            <div class="details-grid">
-              <div class="details-box">
-                <h3>Emisor</h3>
-                <p>FORTUNY CONSULTING LLC</p>
-                <p style="font-size: 0.9rem; font-weight: 400; color: #6B7280; margin-top: 5px;">Servicios de Consultoría y Formación de Empresas en EE.UU.</p>
-              </div>
-              <div class="details-box">
-                <h3>Cliente</h3>
-                <p>${order.user?.firstName} ${order.user?.lastName}</p>
-                <p style="font-size: 0.85rem; font-weight: 600; color: #6B7280;">ID: ${order.user?.clientId || order.user?.id?.slice(0, 8).toUpperCase() || ''}</p>
-                ${order.user?.idNumber ? `<p style="font-size: 0.85rem; font-weight: 400; color: #6B7280;">${order.user?.idType?.toUpperCase() || 'ID'}: ${order.user?.idNumber}</p>` : ''}
-                <p style="font-size: 0.9rem; font-weight: 400; color: #6B7280; margin-top: 5px;">${order.user?.email}</p>
-                ${order.user?.phone ? `<p style="font-size: 0.9rem; font-weight: 400; color: #6B7280;">${order.user?.phone}</p>` : ''}
-              </div>
-            </div>
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Concepto / Descripción del Servicio</th>
-                  <th>Estado</th>
-                  <th style="text-align: right;">Precio Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>${order.product?.name}</td>
-                  <td>
-                    <span style="background: #6EDC8A; color: #0E1215; padding: 4px 12px; border-radius: 10px; font-size: 0.7rem; text-transform: uppercase;">
-                      ${order.status === 'paid' ? 'Pagado' : order.status}
-                    </span>
-                  </td>
-                  <td style="text-align: right; font-size: 1.2rem;">${(order.amount / 100).toFixed(2)} ${order.currency || 'EUR'}</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="total-section">
-              <div class="total-box">
-                <p>TOTAL FACTURADO</p>
-                <h2>${(order.amount / 100).toFixed(2)} ${order.currency || 'EUR'}</h2>
-              </div>
-            </div>
-            <div class="footer">
-              <p>Este documento es un comprobante oficial de pago emitido por Easy US LLC (Fortuny Consulting LLC).</p>
-              <p>Para cualquier duda técnica, por favor contacte con soporte@easyusllc.com</p>
-              <p style="margin-top: 10px; font-weight: 700;">© ${new Date().getFullYear()} Easy US LLC. Todos los derechos reservados.</p>
-            </div>
-          </body>
-        </html>
-      `;
-
-      // Generate PDF
-      const pdfBuffer = await generatePdfFromHtml(invoiceHtml);
+      // Generate PDF using lightweight PDFKit
+      const pdfBuffer = await generateInvoicePdf({
+        invoiceNumber: invoiceNumber || `INV-${orderId}`,
+        date: new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES'),
+        customerName: `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
+        customerEmail: order.user?.email || '',
+        productName: order.product?.name || 'Servicio LLC',
+        amount: order.amount,
+        currency: order.currency || 'EUR',
+        status: order.status,
+        originalAmount: order.originalAmount || undefined,
+        discountAmount: order.discountAmount || undefined,
+        discountCode: order.discountCode || undefined
+      });
       
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `inline; filename="Factura-${invoiceNumber}.pdf"`);
@@ -2561,8 +2460,16 @@ export async function registerRoutes(
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || '';
       
-      const receiptHtml = generateReceiptHtml(order, requestCode);
-      const pdfBuffer = await generatePdfFromHtml(receiptHtml);
+      // Generate PDF using lightweight PDFKit
+      const pdfBuffer = await generateReceiptPdf({
+        requestCode: requestCode || `REC-${orderId}`,
+        date: new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES'),
+        customerName: `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
+        productName: order.product?.name || 'Servicio LLC',
+        amount: order.amount,
+        currency: order.currency || 'EUR',
+        status: order.status
+      });
       
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `inline; filename="Recibo-${requestCode}.pdf"`);
