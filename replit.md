@@ -51,3 +51,10 @@ The architecture includes:
 - **Claim Order Endpoints:** `/api/llc/claim-order` and `/api/maintenance/claim-order` associate guest orders with newly created accounts.
 - **Form Steps:** LLC form has 21 steps, maintenance form has 12 steps (includes password and payment method selection).
 - **Contact Form:** Does NOT require account creation.
+
+## Code Optimization (January 2026)
+- **Legacy OTP Removal:** Removed legacy OTP email verification from LLC and maintenance forms (now uses password-based account creation).
+- **Contact OTP Preserved:** Contact form still uses OTP verification (separate system via contactOtps table).
+- **Unused Code Cleanup:** Removed unused state variables (isOtpSent, isEmailVerified), unused form fields (otp), and unused storage functions (setOtp, verifyOtp).
+- **Backend Cleanup:** Removed deprecated OTP endpoints for LLC/maintenance applications (/api/:type(llc|maintenance)/:id/send-otp and verify-otp).
+- **Form Schema Optimization:** Cleaned up form schemas to only include required fields for the new password-based account flow.
