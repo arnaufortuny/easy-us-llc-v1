@@ -124,7 +124,7 @@ export default function Login() {
                   </div>
                 </div>
 
-                <div className="text-right">
+                <div className="text-center">
                   <Link href="/forgot-password">
                     <Button variant="link" className="text-accent p-0 h-auto" data-testid="link-forgot-password">
                       ¿No recuerdas tu contraseña? Te ayudamos a recuperarla
