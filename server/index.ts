@@ -40,11 +40,20 @@ app.use((req, res, next) => {
   // Performance Headers
   if (req.method === 'GET') {
     const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
+    const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
+    const isSeoFile = req.path === '/robots.txt' || req.path === '/sitemap.xml';
+    
     if (isAsset) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
       res.setHeader('Vary', 'Accept-Encoding');
+    } else if (isStaticFile) {
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (isSeoFile) {
+      res.setHeader('Cache-Control', 'public, max-age=86400');
     }
+    
     res.setHeader("X-DNS-Prefetch-Control", "on");
+    res.setHeader("Link", "</logo-icon.png>; rel=preload; as=image");
   }
   
   // Prevent caching of API responses
