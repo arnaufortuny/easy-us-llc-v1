@@ -306,7 +306,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-black text-primary">Apellido:</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg" placeholder="Tu apellido" data-testid="input-apellido" />
+                          <Input {...field} className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg" data-testid="input-apellido" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>

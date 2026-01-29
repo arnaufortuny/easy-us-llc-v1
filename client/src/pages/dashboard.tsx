@@ -1223,15 +1223,15 @@ export default function Dashboard() {
                             <>
                               <div className="space-y-1">
                                 <Label className="text-xs">Contraseña actual</Label>
-                                <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} placeholder="••••••••" data-testid="input-current-password" />
+                                <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} data-testid="input-current-password" />
                               </div>
                               <div className="space-y-1">
                                 <Label className="text-xs">Nueva contraseña</Label>
-                                <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} placeholder="Mínimo 8 caracteres" data-testid="input-new-password" />
+                                <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} data-testid="input-new-password" />
                               </div>
                               <div className="space-y-1">
                                 <Label className="text-xs">Confirmar nueva contraseña</Label>
-                                <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} placeholder="Repite la contraseña" data-testid="input-confirm-password" />
+                                <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} data-testid="input-confirm-password" />
                               </div>
                               {newPassword && confirmPassword && newPassword !== confirmPassword && (
                                 <p className="text-xs text-red-500">Las contraseñas no coinciden</p>
@@ -1261,8 +1261,9 @@ export default function Dashboard() {
                                   type="text" 
                                   value={passwordOtp} 
                                   onChange={e => setPasswordOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                                  placeholder="000000" 
                                   className="text-center text-2xl tracking-[0.5em] font-mono"
+                                  maxLength={6}
+                                  inputMode="numeric"
                                   data-testid="input-password-otp" 
                                 />
                               </div>

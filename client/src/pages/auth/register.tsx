@@ -183,7 +183,6 @@ export default function Register() {
                   value={verificationCode}
                   onChange={(e) => setVerificationCode(e.target.value.replace(/\D/g, ""))}
                   className="rounded-full text-center text-2xl font-black border-gray-200 focus:border-accent tracking-[0.5em]"
-                  placeholder="000000"
                   maxLength={6}
                   inputMode="numeric"
                   autoComplete="one-time-code"
@@ -284,7 +283,6 @@ export default function Register() {
                             <Input
                               {...field}
                               className="rounded-full border-gray-200 focus:border-accent"
-                              placeholder="Tu nombre"
                               data-testid="input-firstName"
                             />
                           </FormControl>
@@ -303,7 +301,6 @@ export default function Register() {
                             <Input
                               {...field}
                               className="rounded-full border-gray-200 focus:border-accent"
-                              placeholder="Tu apellido"
                               data-testid="input-lastName"
                             />
                           </FormControl>
@@ -342,8 +339,7 @@ export default function Register() {
                               type="email"
                               inputMode="email"
                               className="rounded-full border-gray-200 focus:border-accent"
-                              placeholder="tu@email.com"
-                              data-testid="input-email"
+                                                            data-testid="input-email"
                             />
                           </FormControl>
                           <FormMessage />
@@ -381,8 +377,7 @@ export default function Register() {
                               type="tel"
                               inputMode="tel"
                               className="rounded-full border-gray-200 focus:border-accent"
-                              placeholder="+34 600 000 000"
-                              data-testid="input-phone"
+                                                            data-testid="input-phone"
                             />
                           </FormControl>
                           <FormMessage />
@@ -469,8 +464,7 @@ export default function Register() {
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
                                 className="rounded-full pr-12 border-gray-200 focus:border-accent"
-                                placeholder="Mínimo 8 caracteres"
-                                data-testid="input-password"
+                                                                data-testid="input-password"
                               />
                               <Button
                                 type="button"
@@ -502,8 +496,7 @@ export default function Register() {
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
                               className="rounded-full border-gray-200 focus:border-accent"
-                              placeholder="Repite tu contraseña"
-                              data-testid="input-confirmPassword"
+                                                            data-testid="input-confirmPassword"
                             />
                           </FormControl>
                           <FormMessage />
