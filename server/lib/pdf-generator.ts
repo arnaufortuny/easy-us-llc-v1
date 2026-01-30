@@ -1,4 +1,22 @@
 import PDFDocument from 'pdfkit';
+import path from 'path';
+import fs from 'fs';
+
+// Logo path - try multiple locations
+const getLogoPath = (): string | null => {
+  const possiblePaths = [
+    path.join(process.cwd(), 'client/public/logo-icon.png'),
+    path.join(process.cwd(), 'dist/public/logo-icon.png'),
+    path.join(__dirname, '../../client/public/logo-icon.png'),
+  ];
+  
+  for (const logoPath of possiblePaths) {
+    if (fs.existsSync(logoPath)) {
+      return logoPath;
+    }
+  }
+  return null;
+};
 
 interface InvoiceData {
   invoiceNumber: string;
@@ -45,22 +63,41 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // Header
-      doc.rect(0, 0, 595, 80).fill(BRAND_DARK);
-      doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
-        .text('Easy US LLC', 50, 30);
-      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
-        .text('Tu socio para formar LLC en USA', 50, 55);
+      // Header with logo
+      doc.rect(0, 0, 595, 90).fill(BRAND_DARK);
+      
+      // Try to add logo
+      const logoPath = getLogoPath();
+      if (logoPath) {
+        try {
+          doc.image(logoPath, 50, 15, { width: 55, height: 55 });
+          doc.font('Helvetica-Bold').fontSize(22).fillColor('#FFFFFF')
+            .text('Easy US LLC', 115, 28);
+          doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+            .text('Tu socio para formar LLC en USA', 115, 52);
+        } catch {
+          // Fallback to text-only header
+          doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
+            .text('Easy US LLC', 50, 30);
+          doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+            .text('Tu socio para formar LLC en USA', 50, 55);
+        }
+      } else {
+        doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
+          .text('Easy US LLC', 50, 30);
+        doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+          .text('Tu socio para formar LLC en USA', 50, 55);
+      }
 
       // Invoice title
       doc.moveDown(3);
       doc.font('Helvetica-Bold').fontSize(28).fillColor(BRAND_DARK)
-        .text('FACTURA', 50, 120, { align: 'center' });
+        .text('FACTURA', 50, 130, { align: 'center' });
       
       // Invoice number badge
-      doc.rect(220, 155, 155, 30).fill(BRAND_GREEN);
+      doc.rect(220, 165, 155, 30).fill(BRAND_GREEN);
       doc.font('Helvetica-Bold').fontSize(12).fillColor(BRAND_DARK)
-        .text(data.invoiceNumber, 220, 163, { width: 155, align: 'center' });
+        .text(data.invoiceNumber, 220, 173, { width: 155, align: 'center' });
 
       // Invoice details
       doc.moveDown(4);
@@ -166,12 +203,30 @@ export function generateReceiptPdf(data: ReceiptData): Promise<Buffer> {
       doc.on('end', () => resolve(Buffer.concat(chunks)));
       doc.on('error', reject);
 
-      // Header
-      doc.rect(0, 0, 595, 80).fill(BRAND_DARK);
-      doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
-        .text('Easy US LLC', 50, 30);
-      doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
-        .text('Recibo de Servicio', 50, 55);
+      // Header with logo
+      doc.rect(0, 0, 595, 90).fill(BRAND_DARK);
+      
+      // Try to add logo
+      const logoPath = getLogoPath();
+      if (logoPath) {
+        try {
+          doc.image(logoPath, 50, 15, { width: 55, height: 55 });
+          doc.font('Helvetica-Bold').fontSize(22).fillColor('#FFFFFF')
+            .text('Easy US LLC', 115, 28);
+          doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+            .text('Recibo de Servicio', 115, 52);
+        } catch {
+          doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
+            .text('Easy US LLC', 50, 30);
+          doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+            .text('Recibo de Servicio', 50, 55);
+        }
+      } else {
+        doc.font('Helvetica-Bold').fontSize(24).fillColor('#FFFFFF')
+          .text('Easy US LLC', 50, 30);
+        doc.font('Helvetica').fontSize(10).fillColor('#9CA3AF')
+          .text('Recibo de Servicio', 50, 55);
+      }
 
       // Receipt title
       doc.moveDown(3);
