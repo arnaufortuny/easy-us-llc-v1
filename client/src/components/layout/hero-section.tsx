@@ -16,8 +16,18 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 bg-background flex flex-col items-center justify-center text-center ${className}`}
+      className={`relative overflow-hidden pt-8 pb-6 sm:pt-16 sm:pb-16 lg:pt-20 lg:pb-20 flex flex-col items-center justify-center text-center ${className}`}
+      style={{
+        background: 'linear-gradient(180deg, rgba(110, 220, 138, 0.08) 0%, rgba(110, 220, 138, 0.02) 60%, transparent 100%)'
+      }}
     >
+      {/* Soft radial gradient overlay for depth */}
+      <div 
+        className="absolute inset-0 pointer-events-none dark:opacity-60"
+        style={{
+          background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(110, 220, 138, 0.12) 0%, transparent 70%)'
+        }}
+      />
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">
           <div className="w-full mb-0 sm:mb-6 flex flex-col items-center justify-center">
