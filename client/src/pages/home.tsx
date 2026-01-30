@@ -54,7 +54,7 @@ export default function Home() {
 
             <h1 
               className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
-              style={{ fontSize: 'clamp(34px, 10vw, 76px)', lineHeight: '0.85' }}
+              style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
             >
               OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL<br />
               <span className="text-accent">CON UNA LLC AMERICANA</span>
