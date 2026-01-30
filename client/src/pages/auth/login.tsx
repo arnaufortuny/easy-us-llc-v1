@@ -78,7 +78,7 @@ export default function Login() {
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-center w-full">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
               <span className="text-foreground">Iniciar</span> <span className="text-accent">sesión</span>
             </h1>
             <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">Accede a tu espacio personal y gestiona tu LLC con total tranquilidad</p>
