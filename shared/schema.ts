@@ -63,11 +63,11 @@ export const llcApplications = pgTable("llc_applications", {
   ownerCount: integer("owner_count").default(1),
   ownerCountryResidency: text("owner_country_residency"),
   idDocumentUrl: text("id_document_url"),
-  isSellingOnline: text("is_selling_online"), // Yes, No, Not sure
-  needsBankAccount: text("needs_bank_account"), // Mercury, Relay, No, Yes
-  willUseStripe: text("will_use_stripe"), // Stripe, PayPal, Both, Other, Not yet
-  wantsBoiReport: text("wants_boi_report"), // Yes, No, Info
-  wantsMaintenancePack: text("wants_maintenance_pack"), // Yes, No, Info
+  isSellingOnline: text("is_selling_online"), // Servicios, Productos físicos, Aún no lo tengo definido
+  needsBankAccount: text("needs_bank_account"), // Sí, cuenta en USD (Mercury), Sí, cuenta en USD (Relay), Sí, cuenta en EUR (SEPA), Sí, en otra entidad, Aún no lo necesito
+  willUseStripe: text("will_use_stripe"), // Stripe, Revolut Business, Ambas, Otra plataforma, No lo necesito por ahora
+  wantsBoiReport: text("wants_boi_report").default("Yes"), // Included automatically
+  wantsMaintenancePack: text("wants_maintenance_pack").default("No"), // Offered later
   paymentMethod: text("payment_method"), // transfer, link
   paymentStatus: text("payment_status").notNull().default("unpaid"), // unpaid, paid
   notes: text("notes"),
