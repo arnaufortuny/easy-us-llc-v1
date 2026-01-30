@@ -1,6 +1,11 @@
 import PDFDocument from 'pdfkit';
 import path from 'path';
 import fs from 'fs';
+import { fileURLToPath } from 'url';
+
+// ES Module compatible __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Logo path - try multiple locations
 const getLogoPath = (): string | null => {
