@@ -841,15 +841,46 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
-                  <div className="border-2 border-dashed border-border rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white dark:bg-zinc-900">
-                    <span className="text-3xl md:text-4xl text-gray-300 mx-auto mb-4 block">📄</span>
-                    <p className="font-black text-primary text-sm">Subir archivo o arrastrar</p>
-                    <p className="text-[10px] text-gray-400 mt-2">JPG, PNG, PDF (Máx 10MB)</p>
-                  </div>
                   <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">ID del documento (opcional):</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
+                      <FormControl>
+                        <div className="space-y-4">
+                          <label 
+                            className="border-2 border-dashed border-border rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white dark:bg-zinc-900 block"
+                          >
+                            <input 
+                              type="file" 
+                              accept=".jpg,.jpeg,.png,.pdf"
+                              className="hidden"
+                              data-testid="input-file-identity"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  if (file.size > 10 * 1024 * 1024) {
+                                    toast({ title: "Error", description: "El archivo no puede superar 10MB", variant: "destructive" });
+                                    return;
+                                  }
+                                  field.onChange(file.name);
+                                  toast({ title: "Archivo seleccionado", description: `${file.name} - Se guardará con tu solicitud` });
+                                }
+                              }}
+                            />
+                            {field.value && field.value !== "PENDIENTE" ? (
+                              <>
+                                <Check className="w-10 h-10 text-accent mx-auto mb-3" />
+                                <p className="font-black text-accent text-sm">Documento cargado</p>
+                                <p className="text-xs text-muted-foreground mt-1 truncate max-w-[200px] mx-auto">{field.value}</p>
+                              </>
+                            ) : (
+                              <>
+                                <svg className="w-10 h-10 text-muted-foreground mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
+                                <p className="font-black text-foreground text-sm">Subir archivo o arrastrar</p>
+                                <p className="text-[10px] text-muted-foreground mt-2">JPG, PNG, PDF (Máx 10MB)</p>
+                              </>
+                            )}
+                          </label>
+                        </div>
+                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -864,7 +895,7 @@ export default function LlcFormation() {
                         }
                       }}
                     />
-                    <span className="text-xs md:text-sm font-medium text-primary">Prefiero proporcionarlo más tarde</span>
+                    <span className="text-xs md:text-sm font-medium text-foreground">Prefiero proporcionarlo más tarde</span>
                   </label>
                 </div>
                 <div className="flex gap-3">

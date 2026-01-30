@@ -11,6 +11,28 @@
     scroll-behavior: smooth;
   }
 
+  /* Prevent zoom on input focus for iOS */
+  @supports (-webkit-touch-callout: none) {
+    input, textarea, select {
+      font-size: 16px !important;
+    }
+  }
+
+  /* Prevent auto-zoom on mobile devices */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  input[type="url"],
+  textarea,
+  select {
+    font-size: 16px !important;
+    touch-action: manipulation;
+    -webkit-text-size-adjust: 100%;
+  }
+
   /* Extreme Performance: Lazy load off-screen content */
   section, .card, .container {
     content-visibility: auto;

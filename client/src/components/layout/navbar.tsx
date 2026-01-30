@@ -153,25 +153,8 @@ export function Navbar() {
 
       {isOpen && (
         <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
-          <div className="flex flex-col bg-background p-6 justify-start items-stretch overflow-y-auto overscroll-contain" style={{ maxHeight: 'calc(100dvh - 5rem)' }}>
+          <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
-                {isAuthenticated && (
-                  <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20">
-                    <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.personalArea")}</p>
-                    <button
-                      onClick={() => handleNavClick("/dashboard")}
-                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
-                    >
-                      <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
-                    </button>
-                    <button
-                      onClick={() => logout()}
-                      className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
-                    >
-                      <LogOut className="w-4 h-4" /> {t("mobile.logout")}
-                    </button>
-                  </div>
-                )}
                 <button
                   onClick={() => handleNavClick("/")}
                   className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
@@ -248,6 +231,23 @@ export function Navbar() {
                 </a>
               </div>
             </div>
+            {isAuthenticated && (
+              <div className="mt-auto px-3 py-4 bg-accent/5 rounded-2xl border border-accent/20 shrink-0">
+                <p className="text-sm font-black text-accent tracking-tighter mb-2" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.personalArea")}</p>
+                <button
+                  onClick={() => handleNavClick("/dashboard")}
+                  className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center gap-2"
+                >
+                  <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
+                </button>
+                <button
+                  onClick={() => logout()}
+                  className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
+                >
+                  <LogOut className="w-4 h-4" /> {t("mobile.logout")}
+                </button>
+              </div>
+            )}
           </div>
         </div>
       )}
