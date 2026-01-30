@@ -42,9 +42,10 @@ export function FormInput<T extends FieldValues>({
               {...field}
               type={type}
               inputMode={inputMode}
+              placeholder={placeholder}
               autoComplete={autoComplete || (type === "password" ? "current-password" : type === "email" ? "email" : undefined)}
               disabled={disabled}
-              className="rounded-full h-11 md:h-12 px-5 border-border focus:border-accent transition-all font-medium text-foreground text-sm md:text-base"
+              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-sm md:text-base placeholder:text-muted-foreground"
             />
           </FormControl>
           <FormMessage />
