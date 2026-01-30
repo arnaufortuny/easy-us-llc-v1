@@ -78,10 +78,10 @@ export default function Login() {
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
-              Iniciar <span className="text-accent">sesion</span>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight">
+              Inicia <span className="text-accent">sesión</span>
             </h1>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base">Accede a tu area de cliente</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base">Accede a tu espacio personal y gestiona tu LLC con total tranquilidad</p>
           </div>
 
           {loginError && (
@@ -97,6 +97,7 @@ export default function Login() {
                   control={form.control}
                   name="email"
                   label="Email"
+                  placeholder="Tu correo electrónico"
                   type="email"
                   inputMode="email"
                 />
@@ -106,6 +107,7 @@ export default function Login() {
                     control={form.control}
                     name="password"
                     label="Contraseña"
+                    placeholder="Tu contraseña segura"
                     type={showPassword ? "text" : "password"}
                   />
                   <Button
@@ -123,16 +125,17 @@ export default function Login() {
 
                 <div className="text-center">
                   <Link href="/forgot-password">
-                    <Button variant="link" className="text-accent p-0 h-auto text-xs md:text-sm" data-testid="link-forgot-password">
-                      Recuperar contrasena
-                    </Button>
+                    <div className="text-accent hover:underline cursor-pointer" data-testid="link-forgot-password">
+                      <p className="text-xs md:text-sm font-bold">¿Has olvidado tu contraseña?</p>
+                      <p className="text-[10px] md:text-xs text-muted-foreground">Recupérala fácilmente</p>
+                    </div>
                   </Link>
                 </div>
 
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-accent text-primary font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
+                  className="w-full bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                   data-testid="button-login"
                 >
                   {isLoading ? (
@@ -141,7 +144,7 @@ export default function Login() {
                       Entrando...
                     </>
                   ) : (
-                    "Entrar"
+                    "Entrar a mi cuenta"
                   )}
                 </Button>
               </form>
@@ -152,14 +155,12 @@ export default function Login() {
             </div>
 
             <div className="mt-6 pt-5 border-t border-border text-center">
-              <p className="text-muted-foreground text-xs md:text-sm">
-                ¿No tienes cuenta?{" "}
-                <Link href="/register">
-                  <span className="font-black text-primary hover:text-accent transition-colors cursor-pointer" data-testid="link-register">
-                    Registrate
-                  </span>
-                </Link>
-              </p>
+              <Link href="/register">
+                <div className="hover:underline cursor-pointer" data-testid="link-register">
+                  <p className="text-foreground text-xs md:text-sm font-bold">¿Todavía no tienes cuenta?</p>
+                  <p className="text-accent text-[10px] md:text-xs">Crea tu cuenta gratis en unos segundos</p>
+                </div>
+              </Link>
             </div>
           </div>
         </div>

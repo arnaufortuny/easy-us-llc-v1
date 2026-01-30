@@ -101,8 +101,8 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected }: Soci
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-border" />
         </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">O continuar con</span>
+        <div className="relative flex justify-center text-xs">
+          <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— o continúa de forma rápida —</span>
         </div>
       </div>
 
