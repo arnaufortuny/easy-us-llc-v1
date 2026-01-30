@@ -195,9 +195,8 @@ export default function LlcFormation() {
           }
         }
         // Order creation is now deferred to the final submit step
-      } catch (err) {
+      } catch {
         // Silent fail - order will be created on submit
-        console.log("Init completed");
       }
     }
     init();
