@@ -1898,7 +1898,7 @@ export async function registerRoutes(
   // Claim order endpoint - creates account and associates with existing order
   app.post("/api/llc/claim-order", async (req: any, res) => {
     try {
-      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Se requiere email y contraseña." });
@@ -1963,9 +1963,18 @@ export async function registerRoutes(
         accountStatus: 'active',
       }).returning();
       
-      // Update the order to associate with the new user
+      // Update the order to associate with the new user and apply discount
+      const orderUpdate: any = { userId: newUser.id };
+      if (discountCode && discountAmount) {
+        orderUpdate.discountCode = discountCode;
+        orderUpdate.discountAmount = discountAmount;
+        // Increment discount code usage
+        await db.update(discountCodes)
+          .set({ usedCount: sql`${discountCodes.usedCount} + 1` })
+          .where(eq(discountCodes.code, discountCode));
+      }
       await db.update(ordersTable)
-        .set({ userId: newUser.id })
+        .set(orderUpdate)
         .where(eq(ordersTable.id, application.orderId));
       
       // Update LLC application with paymentMethod if provided
@@ -1993,7 +2002,7 @@ export async function registerRoutes(
   // Claim maintenance order endpoint
   app.post("/api/maintenance/claim-order", async (req: any, res) => {
     try {
-      const { applicationId, email, password, ownerFullName, paymentMethod } = req.body;
+      const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Se requiere email y contraseña." });
@@ -2049,9 +2058,18 @@ export async function registerRoutes(
         accountStatus: 'active',
       }).returning();
       
-      // Update the order to associate with the new user
+      // Update the order to associate with the new user and apply discount
+      const orderUpdate: any = { userId: newUser.id };
+      if (discountCode && discountAmount) {
+        orderUpdate.discountCode = discountCode;
+        orderUpdate.discountAmount = discountAmount;
+        // Increment discount code usage
+        await db.update(discountCodes)
+          .set({ usedCount: sql`${discountCodes.usedCount} + 1` })
+          .where(eq(discountCodes.code, discountCode));
+      }
       await db.update(ordersTable)
-        .set({ userId: newUser.id })
+        .set(orderUpdate)
         .where(eq(ordersTable.id, application.orderId));
       
       // Update maintenance application with paymentMethod if provided
