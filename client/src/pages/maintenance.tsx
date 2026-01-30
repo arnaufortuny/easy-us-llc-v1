@@ -435,9 +435,17 @@ export default function MaintenanceApplication() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["Sí", "No (en ese caso, te orientamos primero)"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
-                                <span className="font-black text-primary text-sm md:text-base">{opt}</span>
+                              <label 
+                                key={opt} 
+                                onClick={() => field.onChange(opt)}
+                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                  field.value === opt 
+                                    ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                    : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                                }`}
+                              >
+                                <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                                {field.value === opt && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
                               </label>
                             ))}
                           </div>
@@ -445,7 +453,7 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-[#6EDC8A]/20 active:scale-95 transition-all">Siguiente</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Siguiente</Button>
                   </div>
                 )}
 
@@ -657,9 +665,17 @@ export default function MaintenanceApplication() {
                         <FormControl>
                           <div className="flex flex-col gap-3">
                             {["No", "Sí, quiero disolver mi LLC", "Quiero que me expliquéis primero el proceso"].map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-4 rounded-full border border-border bg-white dark:bg-zinc-900 hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
-                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-5 h-5 accent-[#6EDC8A]" />
-                                <span className="font-black text-primary text-sm md:text-base">{opt}</span>
+                              <label 
+                                key={opt} 
+                                onClick={() => field.onChange(opt)}
+                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                  field.value === opt 
+                                    ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                    : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                                }`}
+                              >
+                                <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                                {field.value === opt && <Check className="w-5 h-5 text-accent flex-shrink-0" />}
                               </label>
                             ))}
                           </div>

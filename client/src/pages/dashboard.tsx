@@ -1212,7 +1212,7 @@ export default function Dashboard() {
                           <Label>Tipo de Documento</Label>
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
-                              <SelectTrigger className="bg-white dark:bg-zinc-900" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                              <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
@@ -1234,7 +1234,7 @@ export default function Dashboard() {
                         <Label>Actividad de Negocio</Label>
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger className="bg-white dark:bg-zinc-900" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                            <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -1255,7 +1255,7 @@ export default function Dashboard() {
                             <Label>Tipo de Vía</Label>
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger className="bg-white dark:bg-zinc-900"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
@@ -2072,7 +2072,7 @@ export default function Dashboard() {
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
-                        <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                        <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
                         <SelectContent className="rounded-xl">
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
@@ -2092,7 +2092,7 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
-                      <SelectTrigger className="bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                      <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
                       <SelectContent className="rounded-xl">
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -2199,7 +2199,7 @@ export default function Dashboard() {
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
                   <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
-                    <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
+                    <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
                     <SelectContent className="rounded-xl">
                       <SelectItem value="EUR">EUR (€)</SelectItem>
                       <SelectItem value="USD">USD ($)</SelectItem>
@@ -2248,7 +2248,7 @@ export default function Dashboard() {
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
                   <Select value={docType} onValueChange={setDocType}>
-                    <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
+                    <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
                     <SelectContent className="rounded-xl">
                       <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                       <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
@@ -2323,7 +2323,7 @@ export default function Dashboard() {
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Moneda</Label>
                     <Select value={invoiceCurrency} onValueChange={setInvoiceCurrency}>
-                      <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-invoice-currency">
+                      <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-invoice-currency">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
@@ -2389,7 +2389,7 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
               <Select value={uploadDocType} onValueChange={setUploadDocType}>
-                <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-upload-doc-type">
+                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl" side="bottom" align="start" sideOffset={4}>
@@ -2501,7 +2501,7 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Cliente</Label>
               <Select value={newOrderData.userId} onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}>
-                <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-order-user">
+                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-user">
                   <SelectValue placeholder="Seleccionar cliente..." />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
@@ -2514,7 +2514,7 @@ export default function Dashboard() {
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
               <Select value={newOrderData.state} onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}>
-                <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-order-state">
+                <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-state">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
@@ -2566,7 +2566,7 @@ export default function Dashboard() {
                   value={newDiscountCode.discountType} 
                   onValueChange={(val: 'percentage' | 'fixed') => setNewDiscountCode(p => ({ ...p, discountType: val }))}
                 >
-                  <SelectTrigger className="w-full bg-white dark:bg-zinc-900 rounded-full h-11 border-gray-200" data-testid="select-discount-type">
+                  <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-discount-type">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
