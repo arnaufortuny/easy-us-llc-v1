@@ -15,7 +15,6 @@ const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
 const Cookies = lazy(() => import("@/pages/legal/cookies"));
 const Contacto = lazy(() => import("@/pages/contacto"));
 const FAQ = lazy(() => import("@/pages/faq"));
-const ApplicationWizard = lazy(() => import("@/pages/application"));
 const MaintenancePage = lazy(() => import("@/pages/maintenance"));
 const LlcFormation = lazy(() => import("@/pages/llc-formation"));
 const Dashboard = lazy(() => import("@/pages/dashboard"));
@@ -47,14 +46,15 @@ function Router() {
         <Route path="/precios" component={Servicios} />
         <Route path="/faq" component={FAQ} />
         <Route path="/contacto" component={Contacto} />
-        <Route path="/application" component={ApplicationWizard} />
-        <Route path="/maintenance" component={MaintenancePage} />
+                <Route path="/maintenance" component={MaintenancePage} />
         <Route path="/llc/formation" component={LlcFormation} />
         <Route path="/dashboard" component={Dashboard} />
+        <Route path="/auth/login" component={Login} />
+        <Route path="/auth/register" component={Register} />
+        <Route path="/auth/forgot-password" component={ForgotPassword} />
+        <Route path="/auth/reset-password" component={ForgotPassword} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
-        <Route path="/forgot-password" component={ForgotPassword} />
-        <Route path="/reset-password" component={ForgotPassword} />
         <Route path="/legal/terminos" component={Legal} />
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />
