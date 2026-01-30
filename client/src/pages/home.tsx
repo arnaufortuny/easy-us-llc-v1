@@ -120,11 +120,13 @@ export default function Home() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-background" id="servicios">
+      <section className="py-8 sm:py-14 bg-background relative" id="servicios">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              SERVICIOS
+            </span>
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              <span className="text-accent tracking-widest text-base font-black block mb-2 text-center">SERVICIOS</span>
               Constitución<br className="sm:hidden" /> de LLC
             </h2>
             <p className="text-accent font-black tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Lo que hacemos por ti)</p>
@@ -150,11 +152,13 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-background py-8 sm:py-24" id="ventajas">
+      <section className="bg-background py-8 sm:py-24 relative" id="ventajas">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
+          <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              VENTAJAS
+            </span>
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              <span className="text-accent tracking-widest text-base font-black block mb-2 text-center">VENTAJAS</span>
               Ventajas<br className="sm:hidden" /> fiscales
             </h2>
             <p className="text-accent font-black tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
@@ -209,11 +213,13 @@ export default function Home() {
 
 function PorQueEasyUSLLC() {
   return (
-    <section className="py-8 sm:py-14 bg-background">
+    <section className="py-8 sm:py-14 bg-background relative">
       <div className="w-full px-5 sm:px-8">
-        <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
+        <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+          <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+            VALORES
+          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-            <span className="text-accent tracking-widest text-sm font-black block mb-2 text-center">VALORES</span>
             ¿Por qué Easy US LLC?
           </h2>
           <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">

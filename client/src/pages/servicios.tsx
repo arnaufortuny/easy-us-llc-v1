@@ -125,12 +125,14 @@ export default function Servicios() {
 
       <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="pricing">
         <div className="w-full px-4 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
-              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">PACKS</span>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              PACKS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
               NUESTROS PACKS
             </h2>
-            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Elige el plan que mejor se adapte a ti)
             </p>
           </div>
@@ -282,14 +284,16 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="bancos">
+      <section className="py-12 sm:py-20 bg-background border-t border-primary/5 relative" id="bancos">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
-              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">BANCOS</span>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              BANCOS
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
               Asistencia Bancaria
             </h2>
-            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)
             </p>
           </div>
@@ -318,12 +322,14 @@ export default function Servicios() {
 
           <div className="border-t border-primary/5 w-full max-w-7xl mx-auto mb-12" />
 
-          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
-              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">MANTENIMIENTO</span>
+          <div className="text-center mb-6 sm:mb-10 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              MANTENIMIENTO
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
               Packs Mantenimiento
             </h2>
-            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que incluye tu servicio anual)</p>
+            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">(Lo que incluye tu servicio anual)</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
@@ -364,14 +370,16 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background border-t border-accent/5" id="proceso">
+      <section className="py-12 sm:py-20 bg-background border-t border-accent/5 relative" id="proceso">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
-              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">GESTIÓN</span>
+          <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              GESTIÓN
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
               Proceso de Mantenimiento
             </h2>
-            <p className="text-accent font-black  tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
+            <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
               (Cómo trabajamos para que tu LLC esté siempre al día)
             </p>
           </div>
@@ -389,11 +397,13 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background" id="faq">
+      <section className="py-12 sm:py-20 bg-background relative" id="faq">
         <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-primary  tracking-tight text-center">
-              <span className="text-accent  tracking-widest text-sm font-black block mb-2 text-center">AYUDA</span>
+          <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
+            <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
+              AYUDA
+            </span>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
               Centro de Ayuda
             </h2>
           </div>
