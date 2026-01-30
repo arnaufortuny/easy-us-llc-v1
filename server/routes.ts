@@ -11,7 +11,7 @@ import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEma
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
-import { generateInvoicePdf, generateReceiptPdf } from "./lib/pdf-generator";
+import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders, updateApplicationDeadlines, getUpcomingDeadlinesForUser } from "./calendar-service";
 
@@ -249,6 +249,40 @@ export async function registerRoutes(
         )
       }).catch(() => {});
     }
+    res.json(updatedOrder);
+  }));
+
+  // Update payment link on order (admin only)
+  app.patch("/api/admin/orders/:id/payment-link", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    const { paymentLink, paymentStatus, paymentDueDate } = z.object({
+      paymentLink: z.string().url().optional().nullable(),
+      paymentStatus: z.enum(['pending', 'paid', 'overdue', 'cancelled']).optional(),
+      paymentDueDate: z.string().optional().nullable()
+    }).parse(req.body);
+
+    const updateData: Record<string, unknown> = {};
+    if (paymentLink !== undefined) updateData.paymentLink = paymentLink;
+    if (paymentStatus) updateData.paymentStatus = paymentStatus;
+    if (paymentDueDate !== undefined) updateData.paymentDueDate = paymentDueDate ? new Date(paymentDueDate) : null;
+    if (paymentStatus === 'paid') updateData.paidAt = new Date();
+
+    const [updatedOrder] = await db.update(ordersTable)
+      .set(updateData)
+      .where(eq(ordersTable.id, orderId))
+      .returning();
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: "Pedido no encontrado" });
+    }
+
+    logAudit({
+      action: 'payment_link_update',
+      userId: req.session?.userId,
+      targetId: String(orderId),
+      details: { paymentLink, paymentStatus }
+    });
+
     res.json(updatedOrder);
   }));
 
@@ -1403,26 +1437,37 @@ export async function registerRoutes(
         return res.status(403).json({ message: "No autorizado" });
       }
 
-      // Get application requestCode (LLC or Maintenance)
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
-      const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber;
 
-      // Generate PDF using lightweight PDFKit
-      const pdfBuffer = await generateInvoicePdf({
-        invoiceNumber: invoiceNumber || `INV-${orderId}`,
-        date: new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES'),
-        customerName: `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
-        customerEmail: order.user?.email || '',
-        productName: order.product?.name || 'Servicio LLC',
-        amount: order.amount,
-        currency: order.currency || 'EUR',
-        status: order.status,
-        originalAmount: order.originalAmount || undefined,
-        discountAmount: order.discountAmount || undefined,
-        discountCode: order.discountCode || undefined
+      const pdfBuffer = await generateOrderInvoice({
+        order: {
+          id: order.id,
+          invoiceNumber: order.invoiceNumber,
+          amount: order.amount,
+          originalAmount: order.originalAmount,
+          discountCode: order.discountCode,
+          discountAmount: order.discountAmount,
+          currency: order.currency || 'EUR',
+          status: order.status,
+          createdAt: order.createdAt
+        },
+        product: {
+          name: order.product?.name || 'Servicio LLC',
+          description: order.product?.description || '',
+          features: order.product?.features as string[] || []
+        },
+        user: {
+          firstName: order.user?.firstName,
+          lastName: order.user?.lastName,
+          email: order.user?.email || ''
+        },
+        application: llcApp || null,
+        maintenanceApplication: maintApp || null,
+        paymentLink: order.paymentLink || undefined
       });
       
+      const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `INV-${orderId}`;
       res.setHeader('Content-Type', 'application/pdf');
       res.setHeader('Content-Disposition', `inline; filename="Factura-${invoiceNumber}.pdf"`);
       res.send(pdfBuffer);
@@ -2593,23 +2638,27 @@ export async function registerRoutes(
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || '';
       
-      // Generate PDF using lightweight PDFKit with maintenance/LLC details
-      const pdfBuffer = await generateReceiptPdf({
-        requestCode: requestCode || `REC-${orderId}`,
-        date: new Date(order.createdAt || Date.now()).toLocaleDateString('es-ES'),
-        customerName: llcApp?.ownerFullName || maintApp?.ownerFullName || `${order.user?.firstName || ''} ${order.user?.lastName || ''}`.trim() || 'Cliente',
-        productName: order.product?.name || (maintApp ? 'Mantenimiento LLC' : 'Formación LLC'),
-        amount: order.amount,
-        currency: order.currency || 'EUR',
-        status: order.status,
-        companyName: llcApp?.companyName || maintApp?.companyName || undefined,
-        state: llcApp?.state || maintApp?.state || undefined,
-        ein: maintApp?.ein || undefined,
-        creationYear: maintApp?.creationYear || undefined,
-        bankAccount: maintApp?.bankAccount || undefined,
-        paymentGateway: maintApp?.paymentGateway || undefined,
-        notes: maintApp?.notes || undefined,
-        isMaintenance: !!maintApp
+      const pdfBuffer = await generateOrderReceipt({
+        order: {
+          id: order.id,
+          invoiceNumber: order.invoiceNumber,
+          amount: order.amount,
+          currency: order.currency || 'EUR',
+          status: order.status,
+          createdAt: order.createdAt
+        },
+        product: {
+          name: order.product?.name || (maintApp ? 'Mantenimiento LLC' : 'Formación LLC'),
+          description: order.product?.description || '',
+          features: order.product?.features as string[] || []
+        },
+        user: {
+          firstName: order.user?.firstName,
+          lastName: order.user?.lastName,
+          email: order.user?.email || ''
+        },
+        application: llcApp || null,
+        maintenanceApplication: maintApp || null
       });
       
       res.setHeader('Content-Type', 'application/pdf');

@@ -26,6 +26,10 @@ export const orders = pgTable("orders", {
   currency: varchar("currency", { length: 3 }).notNull().default("EUR"), // USD or EUR
   isInvoiceGenerated: boolean("is_invoice_generated").notNull().default(false),
   invoiceNumber: text("invoice_number"),
+  paymentLink: text("payment_link"), // admin-set payment link URL
+  paymentStatus: text("payment_status").default("pending"), // pending, paid, overdue, cancelled
+  paymentDueDate: timestamp("payment_due_date"),
+  paidAt: timestamp("paid_at"),
   createdAt: timestamp("created_at").defaultNow(),
 }, (table) => ({
   userIdIdx: index("orders_user_id_idx").on(table.userId),

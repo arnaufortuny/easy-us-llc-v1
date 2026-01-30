@@ -110,6 +110,7 @@ export type AuditAction =
   | 'order_status_change'
   | 'order_completed'
   | 'payment_received'
+  | 'payment_link_update'
   | 'admin_user_update'
   | 'admin_order_update'
   | 'admin_send_email'
