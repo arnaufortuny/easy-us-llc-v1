@@ -43,7 +43,6 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/servicios" component={Servicios} />
-        <Route path="/precios" component={Servicios} />
         <Route path="/faq" component={FAQ} />
         <Route path="/contacto" component={Contacto} />
                 <Route path="/maintenance" component={MaintenancePage} />
@@ -52,7 +51,6 @@ function Router() {
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/register" component={Register} />
         <Route path="/auth/forgot-password" component={ForgotPassword} />
-        <Route path="/auth/reset-password" component={ForgotPassword} />
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/legal/terminos" component={Legal} />
