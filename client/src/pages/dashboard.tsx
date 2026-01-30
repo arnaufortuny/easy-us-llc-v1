@@ -746,7 +746,7 @@ export default function Dashboard() {
                                   onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
                                   data-testid={`button-modify-order-${order.id}`}
                                 >
-                                  MODIFICAR DATOS
+                                  Modificar datos
                                 </Button>
                               </div>
                             )}
@@ -1142,12 +1142,13 @@ export default function Dashboard() {
               {activeTab === 'profile' && (
                 <div key="profile" className="space-y-6">
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900">
-                    <div className="flex justify-between items-center mb-6">
-                      <h3 className="text-xl font-black">Información Personal</h3>
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-xl font-black">Perfil Personal</h3>
                       {canEdit && (
                         <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
                       )}
                     </div>
+                    <p className="text-sm text-muted-foreground mb-6">Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.</p>
                     {!canEdit && (
                       <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : 'bg-red-50 border border-red-200'}`}>
                         <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : 'text-red-700'}`}>
@@ -1172,12 +1173,12 @@ export default function Dashboard() {
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <Label>Nombre</Label>
-                          {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.firstName || '-'}</div>}
+                          <Label className="text-xs font-bold text-muted-foreground">Nombre</Label>
+                          {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} placeholder="Tu nombre real" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.firstName || '-'}</div>}
                         </div>
                         <div className="space-y-1">
-                          <Label>Apellido</Label>
-                          {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.lastName || '-'}</div>}
+                          <Label className="text-xs font-bold text-muted-foreground">Apellidos</Label>
+                          {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} placeholder="Tal y como aparecen en tu documento" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.lastName || '-'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
@@ -1203,15 +1204,15 @@ export default function Dashboard() {
                         )}
                       </div>
                       <div className="space-y-1">
-                        <Label>Teléfono</Label>
-                        {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
+                        <Label className="text-xs font-bold text-muted-foreground">Teléfono</Label>
+                        {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder="Para contactarte si es necesario" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <Label>Tipo de Documento</Label>
+                          <Label className="text-xs font-bold text-muted-foreground">Tipo de documento</Label>
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
-                              <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                              <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="DNI · NIE · Pasaporte" /></SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
@@ -1221,19 +1222,19 @@ export default function Dashboard() {
                           ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
                         </div>
                         <div className="space-y-1">
-                          <Label>Número de Documento</Label>
-                          {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
+                          <Label className="text-xs font-bold text-muted-foreground">Número de documento</Label>
+                          {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Documento de identificación" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
-                        <Label>Fecha de Nacimiento</Label>
+                        <Label className="text-xs font-bold text-muted-foreground">Fecha de nacimiento</Label>
                         {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
                       </div>
                       <div className="space-y-1">
-                        <Label>Actividad de Negocio</Label>
+                        <Label className="text-xs font-bold text-muted-foreground">Actividad profesional</Label>
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
-                            <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
+                            <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
                             <SelectContent>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
@@ -1247,14 +1248,14 @@ export default function Dashboard() {
                           </Select>
                         ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
                       </div>
-                      <div className="pt-4 border-t">
-                        <h4 className="font-bold text-sm mb-3">Dirección</h4>
+                      <div className="pt-4 border-t border-border">
+                        <h4 className="font-bold text-sm mb-3">Dirección de residencia</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="space-y-1">
-                            <Label>Tipo de Vía</Label>
+                            <Label className="text-xs font-bold text-muted-foreground">Tipo de vía</Label>
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
-                                <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
+                                <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
                                 <SelectContent>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
@@ -1265,30 +1266,35 @@ export default function Dashboard() {
                             ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.streetType || '-'}</div>}
                           </div>
                           <div className="space-y-1">
-                            <Label>Dirección</Label>
-                            {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.address || '-'}</div>}
+                            <Label className="text-xs font-bold text-muted-foreground">Dirección</Label>
+                            {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.address || '-'}</div>}
                           </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4">
                           <div className="space-y-1">
-                            <Label>Ciudad</Label>
-                            {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.city || '-'}</div>}
+                            <Label className="text-xs font-bold text-muted-foreground">Ciudad</Label>
+                            {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} placeholder="Ciudad de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.city || '-'}</div>}
                           </div>
                           <div className="space-y-1">
-                            <Label>Provincia</Label>
-                            {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.province || '-'}</div>}
+                            <Label className="text-xs font-bold text-muted-foreground">Provincia</Label>
+                            {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} placeholder="Provincia o región" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.province || '-'}</div>}
                           </div>
                           <div className="space-y-1">
-                            <Label>C.P.</Label>
-                            {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                            <Label className="text-xs font-bold text-muted-foreground">C.P.</Label>
+                            {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} placeholder="Código postal" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
                           </div>
                           <div className="space-y-1">
-                            <Label>País</Label>
-                            {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.country || '-'}</div>}
+                            <Label className="text-xs font-bold text-muted-foreground">País</Label>
+                            {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} placeholder="País de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.country || '-'}</div>}
                           </div>
                         </div>
                       </div>
-                      {isEditing && canEdit && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 mt-4 transition-all" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
+                      {isEditing && canEdit && (
+                        <div className="mt-6 space-y-3">
+                          <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar cambios</Button>
+                          <p className="text-xs text-center text-muted-foreground">Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.</p>
+                        </div>
+                      )}
                     </div>
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">

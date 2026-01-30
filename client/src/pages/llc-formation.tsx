@@ -498,7 +498,7 @@ export default function LlcFormation() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">CONTINUAR</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Continuar</Button>
                 
                 {!isAuthenticated && (
                   <div className="space-y-4 pt-4">
@@ -543,8 +543,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -561,8 +561,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -579,8 +579,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -606,8 +606,8 @@ export default function LlcFormation() {
                   )} />
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -639,58 +639,34 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
 
             {step === 6 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ ¿Quién será el propietario?</h2>
-                <FormDescription>Esto es importante a nivel fiscal</FormDescription>
-                <FormField control={form.control} name="ownerCount" render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <div className="flex flex-col gap-3">
-                        <label 
-                          onClick={() => field.onChange(1)}
-                          className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                            field.value === 1 
-                              ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                              : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
-                          }`}
-                        >
-                          <span className="font-bold text-foreground text-sm md:text-base">Solo yo</span>
-                          {field.value === 1 && <Check className="w-5 h-5 text-accent" />}
-                        </label>
-                        <label 
-                          onClick={() => field.onChange(2)}
-                          className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                            field.value > 1 
-                              ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                              : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
-                          }`}
-                        >
-                          <span className="font-bold text-foreground text-sm md:text-base">Varios socios</span>
-                          {field.value > 1 && <Check className="w-5 h-5 text-accent" />}
-                        </label>
-                      </div>
-                    </FormControl>
-                  </FormItem>
-                )} />
-                {form.watch("ownerCount") > 1 && (
-                  <FormField control={form.control} name="ownerCount" render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">8️⃣ Número de miembros:</FormLabel>
-                      <FormControl><Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" min={2} /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )} />
-                )}
+                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ Propietario único</h2>
+                <FormDescription>Tu LLC tendrá un único propietario al 100%</FormDescription>
+                <div className="flex items-center justify-between gap-3 p-4 rounded-full border-2 border-accent bg-accent/10 dark:bg-accent/20">
+                  <span className="font-bold text-foreground text-sm md:text-base">Único propietario (100%)</span>
+                  <Check className="w-5 h-5 text-accent" />
+                </div>
+                <div className="bg-muted/50 dark:bg-zinc-800/50 p-4 rounded-2xl border border-border">
+                  <p className="text-sm text-muted-foreground">
+                    <strong className="text-foreground">¿Necesitas varios socios?</strong><br />
+                    Contáctanos para LLCs con dos o más propietarios.
+                  </p>
+                  <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="inline-block mt-3">
+                    <Button type="button" variant="outline" size="sm" className="rounded-full font-bold text-xs">
+                      Consultar por WhatsApp
+                    </Button>
+                  </a>
+                </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -706,8 +682,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -724,8 +700,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -741,8 +717,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -779,8 +755,8 @@ export default function LlcFormation() {
                   </label>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -796,8 +772,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -940,8 +916,8 @@ export default function LlcFormation() {
                   </>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
@@ -1055,7 +1031,7 @@ export default function LlcFormation() {
                 )}
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">ATRÁS</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">Volver</Button>
                   <Button 
                     type="button" 
                     onClick={nextStep} 
@@ -1109,8 +1085,8 @@ export default function LlcFormation() {
                 )} />
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">ATRÁS</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">CONTINUAR</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">Continuar</Button>
                 </div>
               </div>
             )}
