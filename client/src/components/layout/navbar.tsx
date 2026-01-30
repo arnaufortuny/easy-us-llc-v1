@@ -50,40 +50,29 @@ export function Navbar() {
             <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
           </Link>
           
-          <nav className="hidden md:flex items-center gap-3 lg:gap-5">
-            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.home")}</button>
-            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.services")}</button>
-            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.pricing")}</button>
-            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.faq")}</button>
+          <nav className="hidden md:flex items-center gap-2 lg:gap-3 bg-accent/10 dark:bg-accent/20 rounded-full px-2 lg:px-3 py-1.5 border border-accent/30">
+            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.home")}</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.services")}</button>
+            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.pricing")}</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1">{t("nav.faq")}</button>
             <Button 
               onClick={() => handleNavClick("/contacto")} 
               onMouseEnter={() => prefetchOnHover("/contacto")} 
               onMouseLeave={cancelPrefetch}
-              className="bg-accent text-accent-foreground font-black text-xs lg:text-sm border-0 rounded-full h-9 lg:h-10 px-4 lg:px-5 hover:scale-105 transition-all active:scale-95 whitespace-nowrap"
+              className="bg-accent text-accent-foreground font-black text-xs lg:text-sm border-0 rounded-full h-8 lg:h-9 px-3 lg:px-4 hover:scale-105 transition-all active:scale-95 whitespace-nowrap"
               variant="default"
             >
               {t("nav.contact")}
             </Button>
-            <div className="flex items-center gap-1">
-              <ThemeToggle />
-              <LanguageToggle />
-            </div>
           </nav>
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
-            <Button 
-              onClick={() => setLocation("/llc/formation")} 
-              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-6 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
-              variant="default"
-            >
-              {t("nav.register")}
-            </Button>
             {isAuthenticated ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <Link href="/dashboard">
                   <Button 
                     variant="outline"
-                    className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
+                    className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                     data-testid="button-desktop-dashboard"
                   >
                     <UserIcon className="w-4 h-4" /> {t("nav.login")}
@@ -103,15 +92,32 @@ export function Navbar() {
               <Button 
                 onClick={() => setLocation("/auth/login")}
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
+                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
               >
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
               </Button>
             )}
+            <Button 
+              onClick={() => setLocation("/llc/formation")} 
+              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-5 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
+              variant="default"
+            >
+              {t("nav.register")}
+            </Button>
+            <div className="flex items-center gap-1">
+              <ThemeToggle />
+              <LanguageToggle />
+            </div>
           </div>
 
-          <div className="md:hidden flex items-center gap-2 relative z-[110]">
+          <div className="md:hidden flex items-center gap-1.5 relative z-[110]">
+            {isOpen && (
+              <div className="flex items-center gap-1">
+                <ThemeToggle />
+                <LanguageToggle />
+              </div>
+            )}
             <div className="flex items-center justify-center">
               {!isAuthenticated && (
                 <button 
@@ -198,13 +204,6 @@ export function Navbar() {
                   <p className="text-sm text-muted-foreground mt-1 text-left">{t("mobile.accountDescription")}</p>
                 </div>
               )}
-              <div className="mt-6 px-3 flex items-center justify-between gap-4 py-4 bg-secondary/50 rounded-xl border border-border">
-                <span className="text-sm font-bold text-muted-foreground">{t("theme.title") || "Preferencias"}</span>
-                <div className="flex items-center gap-2">
-                  <ThemeToggle />
-                  <LanguageToggle />
-                </div>
-              </div>
               <div className="mt-4 px-3 flex flex-col gap-3">
                 <Button 
                   onClick={() => {
