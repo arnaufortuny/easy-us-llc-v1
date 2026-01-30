@@ -565,28 +565,29 @@ export default function Dashboard() {
     return (
       <div className="min-h-screen bg-muted font-sans flex flex-col">
         <Navbar />
-        <main className="flex-1 flex items-center justify-center p-4">
+        <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
           <div className="max-w-md w-full">
-            <Card className="rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-zinc-900">
+            <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-zinc-900">
               <div className="bg-red-500 h-2 w-full" />
-              <CardContent className="p-8 md:p-12 text-center">
-                <div className="w-20 h-20 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <AlertCircle className="w-10 h-10 text-red-500" />
+              <CardContent className="p-6 sm:p-8 md:p-12 text-center">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-50 dark:bg-red-950/30 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <span className="text-2xl sm:text-3xl font-black text-red-500">!</span>
                 </div>
-                <h1 className="text-2xl md:text-3xl font-black text-primary tracking-tight mb-4">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
                   Tu cuenta ha sido desactivada
                 </h1>
-                <p className="text-muted-foreground font-medium leading-relaxed mb-8">
-                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información. No puedes enviar formularios ni solicitudes mientras tu cuenta esté desactivada.
+                <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6 sm:mb-8">
+                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información.
                 </p>
                 <div className="space-y-3">
-                  <p className="text-sm text-red-600 font-medium">
-                    Tu cuenta está suspendida. No puedes realizar acciones ni contactar hasta que se resuelva tu situación.
+                  <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 font-medium bg-red-50 dark:bg-red-950/30 p-3 rounded-xl">
+                    No puedes realizar acciones ni contactar hasta que se resuelva tu situación.
                   </p>
                   <Button 
-                    variant="ghost" 
-                    className="w-full font-black text-muted-foreground"
+                    variant="outline" 
+                    className="w-full font-black text-foreground h-12 rounded-full border-2"
                     onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+                    data-testid="button-logout"
                   >
                     Cerrar Sesión
                   </Button>
