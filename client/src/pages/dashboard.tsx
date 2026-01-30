@@ -738,7 +738,7 @@ export default function Dashboard() {
                               )}
                             </div>
                             {order.status === 'pending' && order.application && (
-                              <div className="mt-6 pt-4 border-t border-gray-50 flex gap-2">
+                              <div className="mt-6 pt-4 border-t border-gray-100 dark:border-zinc-700 flex gap-2">
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
@@ -1182,7 +1182,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-1">
                         <Label>Email</Label>
-                        <div className="p-3 bg-gray-50 rounded-lg flex justify-between items-center text-sm">
+                        <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg flex justify-between items-center text-sm">
                           <span>{user?.email}</span>
                           {user?.emailVerified ? (
                             <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -1218,7 +1218,7 @@ export default function Dashboard() {
                                 <SelectItem value="passport">Pasaporte</SelectItem>
                               </SelectContent>
                             </Select>
-                          ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
+                          ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
                         </div>
                         <div className="space-y-1">
                           <Label>Número de Documento</Label>
@@ -1245,7 +1245,7 @@ export default function Dashboard() {
                               <SelectItem value="other">Otra</SelectItem>
                             </SelectContent>
                           </Select>
-                        ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
+                        ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
                       </div>
                       <div className="pt-4 border-t">
                         <h4 className="font-bold text-sm mb-3">Dirección</h4>
@@ -1262,7 +1262,7 @@ export default function Dashboard() {
                                   <SelectItem value="plaza">Plaza</SelectItem>
                                 </SelectContent>
                               </Select>
-                            ) : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.streetType || '-'}</div>}
+                            ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.streetType || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>Dirección</Label>
@@ -1312,7 +1312,7 @@ export default function Dashboard() {
                         )}
                       </div>
                       {showPasswordForm && (
-                        <div className="space-y-3 p-4 bg-gray-50 rounded-xl">
+                        <div className="space-y-3 p-4 bg-gray-50 dark:bg-zinc-800 rounded-xl">
                           {passwordStep === 'form' && (
                             <>
                               <div className="space-y-1">
@@ -1671,7 +1671,7 @@ export default function Dashboard() {
                           if (!app) return null;
                           const fiscalOrderCode = app?.requestCode || order.invoiceNumber;
                           return (
-                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50">
+                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-zinc-800/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
@@ -2296,7 +2296,7 @@ export default function Dashboard() {
                 <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground bg-gray-50 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
+                <p className="text-sm text-muted-foreground bg-gray-50 dark:bg-zinc-800 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Concepto</Label>
                   <Input 
@@ -2377,7 +2377,7 @@ export default function Dashboard() {
           </DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
-              <div className="p-3 bg-gray-50 rounded-lg flex items-center gap-3">
+              <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg flex items-center gap-3">
                 <FileUp className="w-8 h-8 text-accent" />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-sm truncate">{uploadDialog.file.name}</p>

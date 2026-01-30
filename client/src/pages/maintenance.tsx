@@ -841,7 +841,7 @@ export default function MaintenanceApplication() {
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-next-step-10"
                       >
-                        Siguiente
+                        Continuar
                       </Button>
                     </div>
                   </div>

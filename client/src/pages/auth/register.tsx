@@ -490,16 +490,16 @@ export default function Register() {
                       <p className="text-sm text-muted-foreground">Revisa tus datos antes de continuar</p>
                     </div>
 
-                    <div className="space-y-4 p-4 bg-gray-50 rounded-2xl">
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                    <div className="space-y-4 p-4 bg-gray-50 dark:bg-zinc-800 rounded-2xl">
+                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
                         <span className="text-sm text-muted-foreground">Nombre</span>
                         <span className="font-medium text-primary">{form.getValues("firstName")} {form.getValues("lastName")}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
                         <span className="text-sm text-muted-foreground">Email</span>
                         <span className="font-medium text-primary">{form.getValues("email")}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-200">
+                      <div className="flex justify-between items-center py-2 border-b border-gray-200 dark:border-zinc-700">
                         <span className="text-sm text-muted-foreground">Teléfono</span>
                         <span className="font-medium text-primary">{form.getValues("phone")}</span>
                       </div>
@@ -536,7 +536,7 @@ export default function Register() {
                     data-testid="button-prev"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Atrás
+                    Volver
                   </Button>
                 )}
 
