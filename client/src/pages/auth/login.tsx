@@ -124,7 +124,7 @@ export default function Login() {
                 </div>
 
                 <div className="text-center">
-                  <Link href="/forgot-password">
+                  <Link href="/auth/forgot-password">
                     <div className="text-accent hover:underline cursor-pointer" data-testid="link-forgot-password">
                       <p className="text-xs md:text-sm font-bold">¿Has olvidado tu contraseña?</p>
                       <p className="text-[10px] md:text-xs text-muted-foreground">Recupérala fácilmente</p>
