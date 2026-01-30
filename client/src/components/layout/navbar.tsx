@@ -104,11 +104,11 @@ export function Navbar() {
           </div>
 
           <div className="md:hidden flex items-center gap-2 relative z-[110]">
-            <div className="w-9 h-9 flex items-center justify-center">
+            <div className="flex items-center justify-center">
               {!isAuthenticated && (
                 <button 
                   onClick={() => setLocation("/login")}
-                  className="p-2 text-accent"
+                  className="w-10 h-10 rounded-full border-2 border-accent text-accent flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors"
                   aria-label="Iniciar sesión"
                   data-testid="button-mobile-login"
                 >
@@ -116,7 +116,7 @@ export function Navbar() {
                 </button>
               )}
               {isAuthenticated && (
-                <Link href="/dashboard" className="p-2 text-accent" aria-label="Mi área" data-testid="link-mobile-dashboard">
+                <Link href="/dashboard" className="w-10 h-10 rounded-full border-2 border-accent text-accent flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors" aria-label="Mi área" data-testid="link-mobile-dashboard">
                   <UserIcon className="w-5 h-5" />
                 </Link>
               )}

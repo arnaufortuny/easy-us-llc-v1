@@ -184,13 +184,27 @@
     "subtitle": "Find answers to the most common questions"
   },
   "footer": {
+    "description": "Your LLC in the United States, created and managed with professional standards, hassle-free and with continuous support.",
+    "links": "Links",
+    "home": "Home",
+    "services": "Our Services",
+    "pricing": "Pricing",
+    "faq": "FAQ",
     "legal": "Legal",
     "terms": "Terms and Conditions",
+    "termsShort": "Terms",
     "privacy": "Privacy Policy",
+    "privacyShort": "Privacy",
     "refunds": "Refund Policy",
+    "refundsShort": "Refunds",
     "cookies": "Cookie Policy",
-    "contact": "Contact",
-    "copyright": "© {{year}} Easy US LLC. All rights reserved."
+    "cookiesShort": "Cookies",
+    "contact": "Contact Us",
+    "location": "New Mexico, USA",
+    "partners": "Partners",
+    "disclaimer": "Easy US LLC is not a law firm or tax advisor and cannot provide legal or tax advice. We are specialists in LLC administrative processing and offer general guidance based on our experience. The information on our website, as well as that shared via email, WhatsApp and other communication channels, is for informational and educational purposes only and does not constitute legal or tax advice. For specific legal or tax decisions, consult qualified professionals in your jurisdiction.",
+    "copyright": "© {{year}} Easy US LLC. All rights reserved.",
+    "delivery": "Delivery: 2-3 business days"
   },
   "theme": {
     "title": "Preferences",
