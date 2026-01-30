@@ -51,6 +51,7 @@ const formSchema = z.object({
   password: z.string().min(8, "Mínimo 8 caracteres").optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
+  discountCode: z.string().optional(),
 }).refine((data) => !data.password || data.password === data.confirmPassword, {
   message: "Las contraseñas no coinciden",
   path: ["confirmPassword"],
@@ -74,6 +75,10 @@ export default function LlcFormation() {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [isSendingOtp, setIsSendingOtp] = useState(false);
   const [isVerifyingOtp, setIsVerifyingOtp] = useState(false);
+  
+  // Discount code states
+  const [discountInfo, setDiscountInfo] = useState<{ valid: boolean; discountAmount: number; message?: string } | null>(null);
+  const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
   
   // Check for edit and state parameters in URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -109,6 +114,7 @@ export default function LlcFormation() {
       password: "",
       confirmPassword: "",
       paymentMethod: "transfer",
+      discountCode: "",
     },
   });
 
@@ -150,6 +156,38 @@ export default function LlcFormation() {
     debounceMs: 1000,
     defaultValues: formDefaults,
   });
+
+  const formationPriceMap: Record<string, number> = {
+    "New Mexico": 73900,
+    "Wyoming": 89900,
+    "Delaware": 119900
+  };
+  const selectedState = form.watch("state");
+  const formationPrice = formationPriceMap[selectedState] || 73900;
+
+  const validateDiscountCode = async (code: string) => {
+    if (!code.trim()) {
+      setDiscountInfo(null);
+      return;
+    }
+    setIsValidatingDiscount(true);
+    try {
+      const res = await apiRequest("POST", "/api/discount-codes/validate", { 
+        code: code.toUpperCase(), 
+        orderAmount: formationPrice 
+      });
+      const data = await res.json();
+      if (data.valid) {
+        setDiscountInfo({ valid: true, discountAmount: data.discountAmount });
+      } else {
+        setDiscountInfo({ valid: false, discountAmount: 0, message: data.message || "Código no válido" });
+      }
+    } catch (error) {
+      setDiscountInfo({ valid: false, discountAmount: 0, message: "Error al validar el código" });
+    } finally {
+      setIsValidatingDiscount(false);
+    }
+  };
 
   useEffect(() => {
     async function init() {
@@ -386,13 +424,18 @@ export default function LlcFormation() {
       // If not authenticated and password provided, create account first
       if (!isAuthenticated && data.password) {
         try {
-          const res = await apiRequest("POST", "/api/llc/claim-order", {
+          const orderPayload: any = {
             applicationId: appId,
             email: data.ownerEmail,
             password: data.password,
             ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(),
             paymentMethod: data.paymentMethod
-          });
+          };
+          if (discountInfo?.valid && data.discountCode) {
+            orderPayload.discountCode = data.discountCode;
+            orderPayload.discountAmount = discountInfo.discountAmount;
+          }
+          const res = await apiRequest("POST", "/api/llc/claim-order", orderPayload);
           if (!res.ok) {
             const errorData = await res.json();
             toast({ title: "Ha habido un problema", description: errorData.message, variant: "destructive" });
@@ -406,7 +449,11 @@ export default function LlcFormation() {
       }
       
       // Normal flow: submit and proceed to payment - combine names for API
-      const submitData = { ...data, ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(), status: "submitted" };
+      const submitData: any = { ...data, ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(), status: "submitted" };
+      if (discountInfo?.valid && data.discountCode) {
+        submitData.discountCode = data.discountCode;
+        submitData.discountAmount = discountInfo.discountAmount;
+      }
       await apiRequest("PUT", `/api/llc/${appId}`, submitData);
       
       // Update user profile with form data if authenticated
@@ -1116,8 +1163,53 @@ export default function LlcFormation() {
                 
                 <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
                   <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">Total a pagar</p>
-                  <p className="text-3xl font-black">399.00 €</p>
+                  <p className="text-3xl font-black">
+                    {discountInfo?.valid 
+                      ? `${((formationPrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
+                      : `${(formationPrice / 100).toFixed(2)} €`}
+                  </p>
+                  {discountInfo?.valid && (
+                    <p className="text-xs line-through opacity-60">{(formationPrice / 100).toFixed(2)} €</p>
+                  )}
                   <p className="text-[10px] opacity-80">Incluye tasas estatales de {form.getValues("state")}</p>
+                </div>
+
+                <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-zinc-900 mb-6">
+                  <label className="font-bold text-foreground text-sm block">Código de descuento</label>
+                  <div className="flex gap-2">
+                    <FormField control={form.control} name="discountCode" render={({ field }) => (
+                      <FormItem className="flex-1">
+                        <FormControl>
+                          <Input 
+                            {...field} 
+                            className="rounded-full h-11 px-4 border-border focus:border-accent uppercase" 
+                            onChange={(e) => {
+                              field.onChange(e.target.value.toUpperCase());
+                              setDiscountInfo(null);
+                            }}
+                            data-testid="input-discount-code" 
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )} />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => validateDiscountCode(form.getValues("discountCode") || "")}
+                      disabled={isValidatingDiscount || !form.getValues("discountCode")}
+                      className="rounded-full h-11 px-6 font-black border-border"
+                      data-testid="button-validate-discount"
+                    >
+                      {isValidatingDiscount ? <Loader2 className="w-4 h-4 animate-spin" /> : "Aplicar"}
+                    </Button>
+                  </div>
+                  {discountInfo && (
+                    <div className={`text-sm p-3 rounded-xl ${discountInfo.valid ? 'bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400' : 'bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400'}`}>
+                      {discountInfo.valid 
+                        ? `Descuento aplicado: -${(discountInfo.discountAmount / 100).toFixed(2)}€` 
+                        : discountInfo.message}
+                    </div>
+                  )}
                 </div>
                 
                 <FormField control={form.control} name="paymentMethod" render={({ field }) => (
