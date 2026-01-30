@@ -436,11 +436,11 @@ export default function MaintenanceApplication() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
-        <h1 className="text-3xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
+      <main className="pt-20 md:pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
+        <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
           Cuidamos tu <span className="text-accent">LLC</span>
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base mb-6 text-center">
+        <p className="text-muted-foreground text-sm md:text-base mb-4 md:mb-6 text-center">
           Nos encargamos del mantenimiento para que tú te centres en tu negocio.
         </p>
         
@@ -453,7 +453,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 0: Ya tienes LLC? */}
                 {step === 0 && (
                   <div key="step-0" className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       1️⃣ ¿Ya tienes una LLC creada?
                     </h2>
                     <FormDescription>Para saber desde dónde partimos</FormDescription>
@@ -516,13 +516,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 1: Nombre Completo */}
                 {step === 1 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       2️⃣ Nombre completo
                     </h2>
                     <FormDescription>El de los documentos oficiales</FormDescription>
                     <FormField control={form.control} name="ownerFullName" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           Nombre completo:
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
@@ -539,13 +539,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 2: Teléfono */}
                 {step === 2 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       3️⃣ Teléfono de contacto
                     </h2>
                     <FormDescription>Para avisos importantes y comunicación rápida</FormDescription>
                     <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           Teléfono:
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
@@ -562,13 +562,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 3: Email */}
                 {step === 3 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       4️⃣ Email
                     </h2>
                     <FormDescription>Aquí recibirás recordatorios y documentación</FormDescription>
                     <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           Email:
                         </FormLabel>
                         <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
@@ -585,13 +585,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 4: Nombre Legal LLC */}
                 {step === 4 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       5️⃣ Nombre legal de la LLC
                     </h2>
                     <FormDescription>Tal y como figura en los documentos oficiales</FormDescription>
                     <FormField control={form.control} name="companyName" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           Nombre de la LLC:
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
@@ -608,13 +608,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 5: EIN */}
                 {step === 5 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       6️⃣ EIN
                     </h2>
                     <FormDescription>El número fiscal de tu empresa en EE. UU.</FormDescription>
                     <FormField control={form.control} name="ein" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary flex items-center gap-2">
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           EIN:
                         </FormLabel>
                         <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"  /></FormControl>
@@ -631,16 +631,16 @@ export default function MaintenanceApplication() {
                 {/* STEP 6: Estado de constitución y detalles de la LLC */}
                 {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
                       7️⃣ Detalles de tu LLC
                     </h2>
                     <FormDescription>Información sobre la constitución y situación actual</FormDescription>
                     
                     <FormField control={form.control} name="state" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary">Estado de constitución</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Estado de constitución</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-black text-primary text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
+                          <FormControl><SelectTrigger className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-bold text-foreground text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
                           <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
                         </Select>
                       </FormItem>
@@ -648,7 +648,7 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="creationYear" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary">Año de creación</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Año de creación</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" />
                         </FormControl>
@@ -658,7 +658,7 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="bankAccount" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary">Cuenta bancaria USA (opcional)</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Cuenta bancaria USA (opcional)</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
                           <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona si tienes cuenta" /></SelectTrigger></FormControl>
                           <SelectContent>
@@ -673,7 +673,7 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="paymentGateway" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-black text-primary">Pasarela de pagos (opcional)</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Pasarela de pagos (opcional)</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value || ""}>
                           <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona pasarela" /></SelectTrigger></FormControl>
                           <SelectContent>
@@ -697,13 +697,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 7: Actividad */}
                 {step === 7 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
                       8️⃣ Actividad
                     </h2>
                     <FormDescription>Tipo de negocio o producto</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-black text-primary placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -717,7 +717,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 8: Servicios */}
                 {step === 8 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       9️⃣ ¿Qué necesitas gestionar?
                     </h2>
                     <FormDescription>Marca lo que aplique</FormDescription>
@@ -753,7 +753,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 9: Disolver? */}
                 {step === 9 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
                       1️⃣0️⃣ ¿Deseas disolver tu LLC?
                     </h2>
                     <FormDescription>Si necesitas cerrar la empresa de forma correcta y ordenada</FormDescription>
@@ -790,7 +790,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 10: Crear Cuenta */}
                 {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       Crea tu cuenta
                     </h2>
                     <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
@@ -825,7 +825,7 @@ export default function MaintenanceApplication() {
                                 </div>
                                 
                                 <div>
-                                  <label className="text-xs font-black text-primary tracking-widest block mb-2">Código de verificación</label>
+                                  <label className="text-xs font-bold text-foreground tracking-widest block mb-2">Código de verificación</label>
                                   <Input 
                                     type="text" 
                                     value={otpCode}
@@ -869,7 +869,7 @@ export default function MaintenanceApplication() {
                             
                             <FormField control={form.control} name="password" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-black text-primary tracking-widest">Contraseña</FormLabel>
+                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">Contraseña</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-password" />
                                 </FormControl>
@@ -878,7 +878,7 @@ export default function MaintenanceApplication() {
                             )} />
                             <FormField control={form.control} name="confirmPassword" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-black text-primary tracking-widest">Confirmar Contraseña</FormLabel>
+                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">Confirmar Contraseña</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent" data-testid="input-confirm-password" />
                                 </FormControl>
@@ -916,7 +916,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 11: Método de Pago */}
                 {step === 11 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight">
                       1️⃣1️⃣ Método de Pago
                     </h2>
                     <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago del servicio de mantenimiento.</p>
@@ -935,7 +935,7 @@ export default function MaintenanceApplication() {
                     </div>
 
                     <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-zinc-900 mb-6">
-                      <label className="font-black text-primary text-sm block">Código de descuento</label>
+                      <label className="font-bold text-foreground text-sm block">Código de descuento</label>
                       <div className="flex gap-2">
                         <FormField control={form.control} name="discountCode" render={({ field }) => (
                           <FormItem className="flex-1">
@@ -978,7 +978,7 @@ export default function MaintenanceApplication() {
                           <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
-                              <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
+                              <span className="font-bold text-foreground text-sm block mb-2">Transferencia Bancaria</span>
                               <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-xs space-y-1">
                                 <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
                                 <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
@@ -992,7 +992,7 @@ export default function MaintenanceApplication() {
                           <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-zinc-900 hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
-                              <span className="font-black text-primary text-sm block mb-1">Link de Pago</span>
+                              <span className="font-bold text-foreground text-sm block mb-1">Link de Pago</span>
                               <p className="text-xs text-muted-foreground">Recibirás un enlace de pago seguro por email para completar la transacción.</p>
                             </div>
                           </label>
@@ -1010,7 +1010,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 12: Autorización y Consentimiento */}
                 {step === 12 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       Último paso: Confirmación
                     </h2>
                     <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
@@ -1024,7 +1024,7 @@ export default function MaintenanceApplication() {
                     
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm font-black text-primary">Notas adicionales (opcional)</FormLabel>
+                        <FormLabel className="text-sm font-bold text-foreground">Notas adicionales (opcional)</FormLabel>
                         <FormControl>
                           <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
                         </FormControl>
@@ -1077,12 +1077,12 @@ export default function MaintenanceApplication() {
                 {/* STEP 20: Login para usuarios existentes */}
                 {step === 20 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
                       Inicia sesión
                     </h2>
                     
                     <div className="bg-accent/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
-                                            <p className="text-sm font-black text-primary mb-1">
+                                            <p className="text-sm font-bold text-foreground mb-1">
                         ¡Hola{existingUserName ? `, ${existingUserName}` : ""}!
                       </p>
                       <p className="text-xs text-muted-foreground">

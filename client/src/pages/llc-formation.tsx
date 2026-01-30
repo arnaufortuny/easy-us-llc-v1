@@ -496,7 +496,7 @@ export default function LlcFormation() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
+      <main className="pt-20 md:pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
         {isEditMode && (
           <div className="bg-accent/10 border border-accent/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
@@ -524,11 +524,11 @@ export default function LlcFormation() {
           </div>
         )}
         
-        <h1 className="text-3xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
+        <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
           {isEditMode ? "Modificar datos de " : "Constituir mi "}
           <span className="text-accent">LLC</span>
         </h1>
-        <p className="text-muted-foreground text-sm md:text-base mb-6 text-center">
+        <p className="text-muted-foreground text-sm md:text-base mb-4 md:mb-6 text-center">
           Constituye tu LLC online en unos clics. Te guiamos paso a paso y nos encargamos de todo.
         </p>
         
@@ -539,7 +539,7 @@ export default function LlcFormation() {
             
             {step === 0 && (
               <div key="step-0" className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Donde constituimos tu LLC?</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Donde constituimos tu LLC?</h2>
                 <FormDescription>Elige el estado donde se registrará tu empresa</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
@@ -580,19 +580,19 @@ export default function LlcFormation() {
 
             {step === 1 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
                 <FormDescription>El nombre real, el que pondremos en los documentos oficiales</FormDescription>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerLastName" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Apellidos:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Apellidos:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -636,11 +636,11 @@ export default function LlcFormation() {
 
             {step === 2 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">3️⃣ Email de contacto</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">3️⃣ Email de contacto</h2>
                 <FormDescription>Aquí te enviaremos los avances y documentos de tu LLC</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Email:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">Email:</FormLabel>
                     <FormControl><Input {...field} type="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -654,11 +654,11 @@ export default function LlcFormation() {
 
             {step === 3 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">4️⃣ WhatsApp (muy recomendado)</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">4️⃣ WhatsApp (muy recomendado)</h2>
                 <FormDescription>Para dudas rápidas y avisos importantes</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Teléfono:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">Teléfono:</FormLabel>
                     <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -672,11 +672,11 @@ export default function LlcFormation() {
 
             {step === 4 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Cómo quieres que se llame tu LLC?</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Cómo quieres que se llame tu LLC?</h2>
                 <FormDescription>Si no estás 100% seguro, no pasa nada. Lo revisamos contigo</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre deseado:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre deseado:</FormLabel>
                     <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -690,19 +690,19 @@ export default function LlcFormation() {
 
             {step === 5 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">6️⃣ ¿Tienes nombres alternativos? (opcional)</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ ¿Tienes nombres alternativos? (opcional)</h2>
                 <FormDescription>Plan B, C o D por si el primero no está disponible</FormDescription>
                 <div className="space-y-4">
                   <FormField control={form.control} name="companyNameOption2" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 1:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre alternativo 1:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerNamesAlternates" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Nombre alternativo 2:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre alternativo 2:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -717,7 +717,7 @@ export default function LlcFormation() {
 
             {step === 6 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">7️⃣ Propietario único</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">7️⃣ Propietario único</h2>
                 <FormDescription>Tu LLC tendrá un único propietario al 100%</FormDescription>
                 <div className="flex items-center justify-between gap-3 p-4 rounded-full border-2 border-accent bg-accent/10 dark:bg-accent/20">
                   <span className="font-bold text-foreground text-sm md:text-base">Único propietario (100%)</span>
@@ -743,13 +743,13 @@ export default function LlcFormation() {
 
             {step === 7 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">8️⃣ Dirección completa</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">8️⃣ Dirección completa</h2>
                 <FormDescription>Tu dirección de residencia habitual</FormDescription>
                 
                 <div className="grid grid-cols-3 gap-3">
                   <FormField control={form.control} name="ownerStreetType" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Tipo de vía:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Tipo de vía:</FormLabel>
                       <FormControl>
                         <Select value={field.value || ""} onValueChange={field.onChange}>
                           <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base">
@@ -771,7 +771,7 @@ export default function LlcFormation() {
                   )} />
                   <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                     <FormItem className="col-span-2">
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Dirección y número:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Dirección y número:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -781,14 +781,14 @@ export default function LlcFormation() {
                 <div className="grid grid-cols-2 gap-3">
                   <FormField control={form.control} name="ownerCity" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Ciudad:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Ciudad:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerProvince" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Provincia:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Provincia:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -798,14 +798,14 @@ export default function LlcFormation() {
                 <div className="grid grid-cols-2 gap-3">
                   <FormField control={form.control} name="ownerPostalCode" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">Código postal:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Código postal:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerCountry" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-black text-[10px] md:text-xs tracking-widest opacity-60">País:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">País:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -821,7 +821,7 @@ export default function LlcFormation() {
 
             {step === 8 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">9️⃣ Fecha de nacimiento</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ Fecha de nacimiento</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Fecha:</FormLabel>
@@ -838,7 +838,7 @@ export default function LlcFormation() {
 
             {step === 9 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">🔟 Documento de identidad</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 Documento de identidad</h2>
                 <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
                 <div className="space-y-4">
                   <div className="border-2 border-dashed border-border rounded-[2rem] p-8 md:p-12 text-center hover:border-accent transition-colors cursor-pointer bg-white dark:bg-zinc-900">
@@ -876,7 +876,7 @@ export default function LlcFormation() {
 
             {step === 10 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ ¿A qué se dedicará tu LLC?</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ ¿A qué se dedicará tu LLC?</h2>
                 <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
@@ -895,7 +895,7 @@ export default function LlcFormation() {
               <div key={"step-" + step} className="space-y-6 text-left">
                 {step === 11 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ ¿Vas a vender online?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ ¿Vas a vender online?</h2>
                     <FormField control={form.control} name="isSellingOnline" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -920,7 +920,7 @@ export default function LlcFormation() {
                 )}
                 {step === 12 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Necesitas cuenta bancaria?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Necesitas cuenta bancaria?</h2>
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -945,7 +945,7 @@ export default function LlcFormation() {
                 )}
                 {step === 13 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Usarás Stripe u otra?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Usarás Stripe u otra?</h2>
                     <FormField control={form.control} name="willUseStripe" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -970,7 +970,7 @@ export default function LlcFormation() {
                 )}
                 {step === 14 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Algo más que debamos saber?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Algo más que debamos saber?</h2>
                     <FormDescription>El reporte BOI está incluido en tu formación (es obligatorio por ley)</FormDescription>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
@@ -988,7 +988,7 @@ export default function LlcFormation() {
 
             {step === 15 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
                 <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
                 
                 {!isAuthenticated && (
@@ -1111,7 +1111,7 @@ export default function LlcFormation() {
 
             {step === 16 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
                 <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago de tu LLC.</p>
                 
                 <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
@@ -1157,7 +1157,7 @@ export default function LlcFormation() {
 
             {step === 17 && (
               <div key={"step-" + step} className="space-y-8 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs md:text-sm">
                     <p className="flex justify-between md:block"><span className="opacity-50">Nombre:</span> <span className="font-black">{form.getValues("ownerFirstName")} {form.getValues("ownerLastName")}</span></p>
