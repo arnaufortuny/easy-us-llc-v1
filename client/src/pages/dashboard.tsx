@@ -1582,18 +1582,18 @@ export default function Dashboard() {
                               </Select>
                             </div>
                             <div className="flex gap-2 flex-wrap">
-                              <Button size="sm" variant="outline" className="rounded-full" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
-                                <FileText className="w-3 h-3 mr-1" /> Ver Factura
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
+                                Ver Factura
                               </Button>
-                              <Button size="sm" variant="default" className="rounded-full bg-accent text-primary" onClick={() => {
+                              <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => {
                                 setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
                                 setOrderInvoiceCurrency("EUR");
                                 setGenerateInvoiceDialog({ open: true, order });
                               }} data-testid={`btn-generate-invoice-${order.id}`}>
-                                <Plus className="w-3 h-3 mr-1" /> Generar Factura
+                                Generar Factura
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full text-red-600 border-red-200" onClick={() => setDeleteOrderConfirm({ open: true, order })} data-testid={`btn-delete-order-${order.id}`}>
-                                <Trash2 className="w-3 h-3 mr-1" /> Eliminar
+                              <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteOrderConfirm({ open: true, order })} data-testid={`btn-delete-order-${order.id}`}>
+                                Eliminar
                               </Button>
                             </div>
                           </div>
@@ -1633,31 +1633,24 @@ export default function Dashboard() {
                                 </Select>
                               </div>
                             </div>
-                            {/* Acciones de admin - Grid responsivo para mejor visibilidad móvil */}
-                            <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 w-full md:w-auto">
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                <Edit className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Editar</span>
+                            <div className="flex flex-wrap gap-2">
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
+                                Editar
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                <Mail className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Mensaje</span>
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
+                                Mensaje
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                <FileUp className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Docs</span>
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
+                                Docs
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
-                                <FileText className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Factura</span>
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
+                                Factura
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1 text-accent border-accent/30" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
-                                <CreditCard className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Pago</span>
+                              <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
+                                Pago
                               </Button>
-                              <Button size="sm" variant="outline" className="rounded-full flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-1 text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
-                                <Trash2 className="w-3.5 h-3.5" />
-                                <span className="text-[9px] md:text-[10px]">Eliminar</span>
+                              <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
+                                Eliminar
                               </Button>
                             </div>
                           </div>

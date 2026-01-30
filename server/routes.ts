@@ -1773,11 +1773,12 @@ export async function registerRoutes(
         type: "contact"
       });
 
-      // Send auto-reply
+      // Send auto-reply with ticket ID
+      const ticketId = message.messageId || String(message.id);
       sendEmail({
         to: email,
-        subject: `Recibimos tu mensaje: ${subject || "Contacto"}`,
-        html: getAutoReplyTemplate(name || "Cliente"),
+        subject: `Recibimos tu mensaje - Ticket #${ticketId}`,
+        html: getAutoReplyTemplate(ticketId, name || "Cliente"),
       }).catch(() => {});
 
       // Notify admin
