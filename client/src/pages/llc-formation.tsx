@@ -543,7 +543,10 @@ export default function LlcFormation() {
                         ].map(opt => (
                           <label 
                             key={opt.name} 
-                            onClick={() => field.onChange(opt.name)}
+                            onClick={() => {
+                              field.onChange(opt.name);
+                              setStep(1);
+                            }}
                             className={`flex items-center justify-between gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all active:scale-[0.98] ${
                               field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
@@ -1090,15 +1093,15 @@ export default function LlcFormation() {
                 )}
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">Volver</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
                   <Button 
                     type="button" 
                     onClick={nextStep} 
                     disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
-                    className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
+                    className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                     data-testid="button-next-step-18"
                   >
-                    SIGUIENTE
+                    Continuar
                   </Button>
                 </div>
               </div>
@@ -1144,8 +1147,8 @@ export default function LlcFormation() {
                 )} />
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-14 font-black border-border">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-2 bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
                 </div>
               </div>
             )}
