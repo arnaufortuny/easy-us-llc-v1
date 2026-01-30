@@ -308,23 +308,23 @@ export default function LlcFormation() {
   };
 
   const nextStep = async () => {
-    const stepsValidation: Record<number, (keyof FormValues)[]> = {
-      0: ["ownerFullName"],
-      1: ["ownerEmail"],
-      2: ["ownerPhone"],
-      3: ["companyName"],
-      4: ["companyNameOption2", "ownerNamesAlternates"],
-      5: ["state"],
-      6: ["ownerCount"],
-      7: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
-      8: ["ownerBirthDate"],
-      9: ["idDocumentUrl"],
-      10: ["businessActivity"],
-      11: ["isSellingOnline"],
-      12: ["needsBankAccount"],
-      13: ["willUseStripe"],
-      14: ["notes"],
-    };
+  const stepsValidation: Record<number, (keyof FormValues)[]> = {
+    0: ["ownerFullName"],
+    1: ["ownerEmail"],
+    2: ["ownerPhone"],
+    3: ["companyName"],
+    4: ["companyNameOption2", "ownerNamesAlternates"],
+    5: ["state"],
+    6: ["ownerCount"],
+    7: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
+    8: ["ownerBirthDate"],
+    9: ["idDocumentUrl"],
+    10: ["businessActivity"],
+    11: ["isSellingOnline"],
+    12: ["needsBankAccount"],
+    13: ["willUseStripe"],
+    14: ["notes"],
+  };
 
     const fieldsToValidate = stepsValidation[step];
     if (fieldsToValidate) {
