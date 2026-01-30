@@ -610,11 +610,11 @@ export default function Dashboard() {
   const menuItems = [
     { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
     { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
-    { id: 'messages', label: 'Habla con nosotros', icon: Mail, mobileLabel: 'Ayuda' },
+    { id: 'messages', label: '¿Necesitas ayuda?', icon: Mail, mobileLabel: 'Ayuda' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas' },
-    { id: 'profile', label: 'MI CUENTA', icon: UserIcon, mobileLabel: 'Perfil' },
+    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
     ] : []),
@@ -834,21 +834,21 @@ export default function Dashboard() {
               {activeTab === 'messages' && (
                 <div key="messages" className="space-y-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Habla con nosotros</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas y Soporte</h2>
                     <Link href="/contacto">
                       <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
                     </Link>
                   </div>
                   <div className="space-y-4">
                     {(!messagesData || messagesData.length === 0) ? (
-                      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
+                      <Card className="rounded-2xl border-0 shadow-sm p-8 bg-white dark:bg-zinc-900 text-center">
                         <MessageSquare className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                         <p className="text-muted-foreground font-medium">Todavía no hay mensajes</p>
                         <p className="text-sm text-muted-foreground mt-2">Tus conversaciones con soporte aparecerán aquí</p>
                       </Card>
                     ) : (
                       messagesData.map((msg) => (
-                        <Card key={msg.id} className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
+                        <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex items-center gap-2">
                               <MessageSquare className="w-4 h-4 text-accent" />
