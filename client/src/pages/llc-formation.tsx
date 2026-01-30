@@ -20,7 +20,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
 
-const TOTAL_STEPS = 20;
+const TOTAL_STEPS = 18; // Reduced: removed BOI and maintenance steps (now mandatory)
 
 const formSchema = z.object({
   ownerFullName: z.string().min(1, "Este campo es obligatorio"),
@@ -104,8 +104,8 @@ export default function LlcFormation() {
       isSellingOnline: "",
       needsBankAccount: "",
       willUseStripe: "",
-      wantsBoiReport: "",
-      wantsMaintenancePack: "",
+      wantsBoiReport: "Sí", // BOI is mandatory - always included
+      wantsMaintenancePack: "No", // Default to No, can be offered separately
       notes: "",
       idDocumentUrl: "",
       password: "",
@@ -141,8 +141,8 @@ export default function LlcFormation() {
     isSellingOnline: "",
     needsBankAccount: "",
     willUseStripe: "",
-    wantsBoiReport: "",
-    wantsMaintenancePack: "",
+    wantsBoiReport: "Sí", // BOI is mandatory
+    wantsMaintenancePack: "No", // Default to No
     notes: "",
     idDocumentUrl: ""
   };
@@ -186,8 +186,8 @@ export default function LlcFormation() {
               isSellingOnline: appData.isSellingOnline || "",
               needsBankAccount: appData.needsBankAccount || "",
               willUseStripe: appData.willUseStripe || "",
-              wantsBoiReport: appData.wantsBoiReport || "",
-              wantsMaintenancePack: appData.wantsMaintenancePack || "",
+              wantsBoiReport: appData.wantsBoiReport || "Sí", // BOI is mandatory
+              wantsMaintenancePack: appData.wantsMaintenancePack || "No", // Default to No
               notes: appData.notes || "",
               idDocumentUrl: appData.idDocumentUrl || ""
             });
@@ -336,9 +336,7 @@ export default function LlcFormation() {
       11: ["isSellingOnline"],
       12: ["needsBankAccount"],
       13: ["willUseStripe"],
-      14: ["wantsBoiReport"],
-      15: ["wantsMaintenancePack"],
-      16: ["notes"],
+      14: ["notes"], // Removed BOI and Maintenance steps (now mandatory)
     };
 
     const fieldsToValidate = stepsValidation[step];
@@ -347,8 +345,8 @@ export default function LlcFormation() {
       if (!isValid) return;
     }
     
-    // Validate password step (step 17) for non-authenticated users
-    if (step === 17 && !isAuthenticated) {
+    // Validate password step (step 15) for non-authenticated users
+    if (step === 15 && !isAuthenticated) {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
@@ -537,18 +535,28 @@ export default function LlcFormation() {
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-col gap-3">
-                        {["New Mexico", "Wyoming", "Delaware"].map(opt => (
+                        {[
+                          { name: "New Mexico", price: "739€", desc: "Más económico, sin impuestos estatales" },
+                          { name: "Wyoming", price: "899€", desc: "Máxima privacidad y protección" },
+                          { name: "Delaware", price: "1199€", desc: "Prestigio internacional, ideal inversores" }
+                        ].map(opt => (
                           <label 
-                            key={opt} 
-                            onClick={() => field.onChange(opt)}
-                            className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                              field.value === opt 
+                            key={opt.name} 
+                            onClick={() => field.onChange(opt.name)}
+                            className={`flex items-center justify-between gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                              field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                 : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
                             }`}
                           >
-                            <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                            {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            <div className="flex flex-col">
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt.name}</span>
+                              <span className="text-xs text-muted-foreground">{opt.desc}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="font-black text-accent text-lg">{opt.price}</span>
+                              {field.value === opt.name && <Check className="w-5 h-5 text-accent" />}
+                            </div>
                           </label>
                         ))}
                       </div>
@@ -864,7 +872,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step >= 11 && step <= 16 && (
+            {step >= 11 && step <= 14 && (
               <div key={"step-" + step} className="space-y-6 text-left">
                 {step === 11 && (
                   <>
@@ -943,60 +951,11 @@ export default function LlcFormation() {
                 )}
                 {step === 14 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Quieres el reporte BOI?</h2>
-                    <FormField control={form.control} name="wantsBoiReport" render={({ field }) => (
-                      <FormControl>
-                        <div className="flex flex-col gap-3">
-                          {["Sí", "No", "Quiero que me expliquéis esto"].map(opt => (
-                            <label 
-                              key={opt} 
-                              onClick={() => field.onChange(opt)}
-                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                                field.value === opt 
-                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
-                              }`}
-                            >
-                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
-                            </label>
-                          ))}
-                        </div>
-                      </FormControl>
-                    )} />
-                  </>
-                )}
-                {step === 15 && (
-                  <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣6️⃣ ¿Quieres Mantenimiento?</h2>
-                    <FormField control={form.control} name="wantsMaintenancePack" render={({ field }) => (
-                      <FormControl>
-                        <div className="flex flex-col gap-3">
-                          {["Sí", "No", "Quiero info"].map(opt => (
-                            <label 
-                              key={opt} 
-                              onClick={() => field.onChange(opt)}
-                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
-                                field.value === opt 
-                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
-                              }`}
-                            >
-                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
-                            </label>
-                          ))}
-                        </div>
-                      </FormControl>
-                    )} />
-                  </>
-                )}
-                {step === 16 && (
-                  <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣7️⃣ ¿Algo más que debamos saber?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Algo más que debamos saber?</h2>
+                    <FormDescription>El reporte BOI está incluido en tu formación (es obligatorio por ley)</FormDescription>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
+                        <FormControl><Textarea {...field} placeholder="Notas adicionales, preguntas o comentarios..." className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent" /></FormControl>
                       </FormItem>
                     )} />
                   </>
@@ -1008,7 +967,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 17 && (
+            {step === 15 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Crea tu cuenta</h2>
                 <p className="text-sm text-muted-foreground">Para gestionar tu pedido necesitas una cuenta. Primero verifica tu email.</p>
@@ -1131,7 +1090,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 18 && (
+            {step === 16 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Método de Pago</h2>
                 <p className="text-sm text-muted-foreground">Selecciona cómo deseas realizar el pago de tu LLC.</p>
@@ -1177,7 +1136,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 19 && (
+            {step === 17 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">Revisión Final</h2>
                 <div className="bg-accent/5 p-6 md:p-8 rounded-[2rem] border border-accent/20 space-y-4">
