@@ -1574,7 +1574,7 @@ export async function registerRoutes(
   <div class="footer">
     <p>Fortuny Consulting LLC - EIN: 99-1877254</p>
     <p>1209 Mountain Road Pl NE Ste R, Albuquerque, NM 87110, USA</p>
-    <p>info@easyusllc.com | www.easyusllc.com</p>
+    <p>hola@easyusllc.com | www.easyusllc.com</p>
   </div>
 </body>
 </html>`;
@@ -2828,7 +2828,7 @@ export async function registerRoutes(
                 <p>FORTUNY CONSULTING LLC</p>
                 <p>1209 Mountain Road Place NE, STE R</p>
                 <p>Albuquerque, NM 87110, USA</p>
-                <p style="margin-top: 10px;">info@easyusllc.com</p>
+                <p style="margin-top: 10px;">hola@easyusllc.com</p>
                 <p>+34 614 91 69 10</p>
               </div>
             </div>
@@ -2887,7 +2887,7 @@ export async function registerRoutes(
           <div class="footer">
             <p><strong>EASY US LLC</strong> • FORTUNY CONSULTING LLC</p>
             <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA</p>
-            <p>info@easyusllc.com • +34 614 91 69 10 • www.easyusllc.com</p>
+            <p>hola@easyusllc.com • +34 614 91 69 10 • www.easyusllc.com</p>
           </div>
         </body>
       </html>
@@ -3006,7 +3006,7 @@ export async function registerRoutes(
               <p>Conserva este recibo para tus registros.</p>
               <p class="company">EASY US LLC • FORTUNY CONSULTING LLC</p>
               <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110</p>
-              <p>info@easyusllc.com • +34 614 91 69 10</p>
+              <p>hola@easyusllc.com • +34 614 91 69 10</p>
             </div>
           </div>
         </body>
