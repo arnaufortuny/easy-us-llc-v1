@@ -320,6 +320,15 @@ export default function MaintenanceApplication() {
       if (!isValid) return;
     }
     
+    if (step === 0 && form.getValues("creationSource")?.includes("No")) {
+      toast({ 
+        title: "Te orientamos primero", 
+        description: "Como aún no tienes una LLC, te guiaremos en el proceso de creación." 
+      });
+      setLocation("/llc/formation");
+      return;
+    }
+    
     if (step === 3 && !isAuthenticated) {
       const email = form.getValues("ownerEmail");
       const exists = await checkEmailExists(email);
