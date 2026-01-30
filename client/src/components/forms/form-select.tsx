@@ -31,13 +31,13 @@ export function FormSelect<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-sm md:text-base font-black text-primary">
+          <FormLabel className="text-xs md:text-sm font-bold text-foreground">
             {label}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <Select onValueChange={field.onChange} value={field.value || ""}>
             <FormControl>
-              <SelectTrigger className="rounded-full h-14 px-6 border-gray-200 focus:ring-[#6EDC8A] font-black text-primary text-lg">
+              <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base">
                 <SelectValue placeholder={placeholder} />
               </SelectTrigger>
             </FormControl>

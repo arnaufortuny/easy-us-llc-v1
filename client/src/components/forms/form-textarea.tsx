@@ -27,14 +27,14 @@ export function FormTextarea<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-sm md:text-base font-black text-primary">
+          <FormLabel className="text-xs md:text-sm font-bold text-foreground">
             {label}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
             <Textarea
               {...field}
-              className={`rounded-[1.5rem] p-6 border-gray-200 focus:border-[#6EDC8A] transition-all font-black text-primary placeholder:text-primary/30 text-lg`}
+              className="rounded-2xl p-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground placeholder:text-muted-foreground text-base"
               style={{ minHeight }}
               placeholder={placeholder}
             />
