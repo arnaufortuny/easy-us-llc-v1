@@ -140,7 +140,7 @@ export default function FAQ() {
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="mb-4 sm:mb-12 relative">
+            <div className="mb-8 sm:mb-12 relative">
               <input
                 type="text"
                 placeholder="Busca tu duda..."
