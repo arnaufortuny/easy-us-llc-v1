@@ -23,12 +23,14 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Dark Mode:** Complete dark/light theme system with ThemeProvider hook (`client/src/hooks/use-theme.tsx`). Theme persisted in localStorage. CSS variables defined in `index.css` for seamless switching. Optimized dark mode palette using softer gray-blue tones (hsl(220 15% 10%)) for better eye comfort. All components use semantic color tokens (bg-background, bg-card, bg-muted, text-foreground, border-border) ensuring proper adaptation in both modes without breaking light mode design. Theme toggle uses white background with text abbreviations (ES/EN) and Check icon for selected state.
 - **PDF Generation:** Optimized PDF generation using PDFKit (replacing puppeteer). Invoice and receipt generation via `server/lib/pdf-generator.ts`. Lower memory footprint, faster generation.
 - **Testing:** Automated test suite with Vitest (22+ tests). Run with `npm run test`. Tests cover validation, i18n, theme, and PDF generation.
+- **SEO Optimization:** Maximum SEO with targeted keywords (tu LLC, Limited Liability Company, fiscalidad, optimización impuestos, tax). Structured data (JSON-LD) with Organization, Service offers (6 total: 3 formation + 3 maintenance), FAQPage, LocalBusiness, and BreadcrumbList schemas. Optimized meta tags, Open Graph, Twitter cards. Favicon configured for search engines. Sitemap.xml and robots.txt properly configured.
 - **Responsiveness:** Fully responsive design across all components, optimized for mobile devices.
 - **Unified ID System:** Utilizes unique 8-digit numeric or alphanumeric IDs for clients, orders (e.g., NM-12345678), tickets, documents, invoices, and payments, managed by a centralized ID generator.
 - **Validation Messages:** Standardized Spanish messages for all input validations.
 
 **Feature Specifications:**
 - **Order & Account System:** Mandatory account creation for LLC and maintenance orders, auto-verified accounts, welcome emails, and flexible payment options (bank transfer or payment link). Existing user detection prompts for login to continue orders.
+- **Pricing (January 2026):** Formation: New Mexico 739€, Wyoming 899€, Delaware 1199€. Maintenance: New Mexico 539€, Wyoming 699€, Delaware 899€. All prices include state fees and first year services.
 - **OTP Verification System:** Email OTP verification is required for account creation and password resets, with 6-digit codes valid for 10 minutes, and state reset on email changes.
 - **Messaging System:** Automatically links messages from authenticated users, sends email notifications to users and admins, supports threaded replies, and integrates message history into the user dashboard.
 - **Admin Features:** Includes payment link generation, full CRUD operations for users and orders, document request management, and invoice generation.
