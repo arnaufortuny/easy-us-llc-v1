@@ -12,9 +12,14 @@
   }
 
   /* Extreme Performance: Lazy load off-screen content */
-  section, footer, .card, .container {
+  section, .card, .container {
     content-visibility: auto;
     contain-intrinsic-size: 1px 500px;
+  }
+  
+  /* Footer must always render - critical for mobile visibility */
+  footer {
+    content-visibility: visible !important;
   }
 
   /* Reduce layout shifts */
