@@ -25,6 +25,26 @@ export async function registerRoutes(
   const MAX_REQUESTS = 100;
   const CLEANUP_INTERVAL = 300000; // Clean up every 5 minutes
   
+  // In-memory cache for admin stats (reduces database load)
+  interface CacheEntry<T> {
+    data: T;
+    timestamp: number;
+  }
+  const statsCache = new Map<string, CacheEntry<any>>();
+  const STATS_CACHE_TTL = 30000; // 30 seconds TTL for stats
+  
+  function getCachedData<T>(key: string): T | null {
+    const entry = statsCache.get(key);
+    if (entry && Date.now() - entry.timestamp < STATS_CACHE_TTL) {
+      return entry.data as T;
+    }
+    return null;
+  }
+  
+  function setCachedData<T>(key: string, data: T): void {
+    statsCache.set(key, { data, timestamp: Date.now() });
+  }
+  
   // Periodic cleanup of stale IPs to prevent memory leak
   setInterval(() => {
     const now = Date.now();
@@ -537,6 +557,12 @@ export async function registerRoutes(
 
   app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
     try {
+      // Check cache first
+      const cached = getCachedData<any>('system-stats');
+      if (cached) {
+        return res.json(cached);
+      }
+      
       // Core metrics - parallel queries for performance
       const [
         salesResult,
@@ -594,7 +620,7 @@ export async function registerRoutes(
       // Conversion rate
       const conversionRate = userCount > 0 ? (orderCount / userCount) * 100 : 0;
 
-      res.json({ 
+      const statsData = { 
         // Sales
         totalSales,
         pendingSales,
@@ -619,7 +645,12 @@ export async function registerRoutes(
         pendingDocs,
         // Metrics
         conversionRate: Number(conversionRate.toFixed(2))
-      });
+      };
+      
+      // Cache the result for 30 seconds
+      setCachedData('system-stats', statsData);
+      
+      res.json(statsData);
     } catch (error) {
       console.error("System stats error:", error);
       res.status(500).json({ message: "Error fetching system stats" });

@@ -651,6 +651,101 @@ const transporter = nodemailer.createTransport({
   maxMessages: 100,
 });
 
+// ============== EMAIL QUEUE SYSTEM ==============
+interface EmailJob {
+  id: string;
+  to: string;
+  subject: string;
+  html: string;
+  replyTo?: string;
+  retries: number;
+  maxRetries: number;
+  createdAt: number;
+}
+
+const emailQueue: EmailJob[] = [];
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 5000; // 5 seconds
+const QUEUE_PROCESS_INTERVAL = 1000; // Process every second
+let isProcessingQueue = false;
+
+function generateEmailId(): string {
+  return `email_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+
+async function processEmailQueue() {
+  if (isProcessingQueue || emailQueue.length === 0) return;
+  
+  isProcessingQueue = true;
+  
+  try {
+    const job = emailQueue[0];
+    if (!job) {
+      isProcessingQueue = false;
+      return;
+    }
+    
+    const testEmail = "afortuny07@gmail.com";
+    const originalTo = job.to;
+    
+    try {
+      await transporter.sendMail({
+        from: `"Easy US LLC" <no-reply@easyusllc.com>`,
+        replyTo: job.replyTo || "hola@easyusllc.com",
+        to: testEmail,
+        subject: `[TEST - Para: ${originalTo}] ${job.subject}`,
+        html: job.html,
+      });
+      
+      // Success - remove from queue
+      emailQueue.shift();
+    } catch (error: any) {
+      job.retries++;
+      
+      if (job.retries >= job.maxRetries) {
+        // Max retries reached - remove and log
+        emailQueue.shift();
+        console.error(`Email failed after ${job.maxRetries} retries:`, job.id);
+      } else {
+        // Move to end of queue for retry
+        emailQueue.shift();
+        emailQueue.push(job);
+      }
+    }
+  } finally {
+    isProcessingQueue = false;
+  }
+}
+
+// Start queue processor
+setInterval(processEmailQueue, QUEUE_PROCESS_INTERVAL);
+
+// Queue an email for sending
+export function queueEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }): string {
+  const job: EmailJob = {
+    id: generateEmailId(),
+    to,
+    subject,
+    html,
+    replyTo,
+    retries: 0,
+    maxRetries: MAX_RETRIES,
+    createdAt: Date.now()
+  };
+  
+  emailQueue.push(job);
+  return job.id;
+}
+
+// Get queue status
+export function getEmailQueueStatus() {
+  return {
+    pending: emailQueue.length,
+    isProcessing: isProcessingQueue
+  };
+}
+
+// Direct send for critical emails (bypasses queue)
 export async function sendEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }) {
   if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     return;
@@ -669,6 +764,8 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     });
     return info;
   } catch (error: any) {
+    // On failure, queue for retry
+    queueEmail({ to, subject, html, replyTo });
     return null;
   }
 }
