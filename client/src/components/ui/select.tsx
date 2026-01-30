@@ -75,22 +75,22 @@ const SelectContent = React.forwardRef<
     <SelectPrimitive.Content
       ref={ref}
       className={cn(
-        "relative z-[9999] max-h-[min(280px,50vh)] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 overscroll-contain touch-pan-y",
+        "relative z-[9999] max-h-[min(320px,60vh)] min-w-[12rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 overscroll-contain touch-pan-y -webkit-overflow-scrolling-touch",
         position === "popper" &&
           "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
         className
       )}
       position={position}
-      side={side || "top"}
+      side={side || "bottom"}
       align="start"
-      sideOffset={4}
+      sideOffset={8}
       avoidCollisions={true}
       {...props}
     >
       <SelectScrollUpButton />
       <SelectPrimitive.Viewport
         className={cn(
-          "p-1",
+          "p-1.5",
           position === "popper" &&
             "w-full min-w-[var(--radix-select-trigger-width)]"
         )}
@@ -122,14 +122,14 @@ const SelectItem = React.forwardRef<
   <SelectPrimitive.Item
     ref={ref}
     className={cn(
-      "relative flex w-full cursor-default select-none items-center rounded-md py-3 md:py-2 pl-10 pr-3 text-base md:text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 touch-manipulation",
+      "relative flex w-full cursor-default select-none items-center rounded-lg py-3.5 md:py-2.5 pl-10 pr-4 text-base md:text-sm outline-none focus:bg-accent/10 focus:text-foreground data-[highlighted]:bg-accent/10 data-[highlighted]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 touch-manipulation active:bg-accent/20 transition-colors",
       className
     )}
     {...props}
   >
-    <span className="absolute left-3 flex h-4 w-4 items-center justify-center">
+    <span className="absolute left-3 flex h-5 w-5 items-center justify-center">
       <SelectPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Check className="h-4 w-4 text-accent" />
       </SelectPrimitive.ItemIndicator>
     </span>
 

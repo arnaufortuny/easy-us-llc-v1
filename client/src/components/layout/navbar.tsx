@@ -16,9 +16,20 @@ export function Navbar() {
   const { prefetchOnHover, cancelPrefetch } = usePrefetch();
   const { t } = useTranslation();
 
+  const resetScrollLock = () => {
+    const scrollY = document.body.style.top;
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY) * -1);
+    }
+  };
+
   const scrollToSection = (id: string) => {
     setIsOpen(false);
-    document.body.style.overflow = '';
+    resetScrollLock();
     if (location === '/servicios') {
       const element = document.getElementById(id);
       if (element) {
@@ -37,7 +48,7 @@ export function Navbar() {
 
   const handleNavClick = (href: string) => {
     setIsOpen(false);
-    document.body.style.overflow = '';
+    resetScrollLock();
     window.scrollTo(0, 0);
     setLocation(href);
   };
@@ -46,7 +57,7 @@ export function Navbar() {
     <header className="sticky top-0 z-[100] bg-background border-b border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-5 sm:px-8">
         <div className="flex items-center justify-between w-full">
-          <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); document.body.style.overflow = ''; window.scrollTo(0, 0); }}>
+          <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); resetScrollLock(); window.scrollTo(0, 0); }}>
             <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
           </Link>
           
@@ -118,34 +129,21 @@ export function Navbar() {
                 <LanguageToggle />
               </div>
             )}
-            <div className="flex items-center justify-center">
-              {!isAuthenticated && (
+            {/* Fixed width container to prevent layout shift */}
+            <div className="w-10 h-10 flex items-center justify-center shrink-0">
+              <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
                 <Button 
-                  onClick={() => setLocation("/auth/login")}
                   variant="outline"
                   size="icon"
                   className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
-                  aria-label="Iniciar sesión"
-                  data-testid="button-mobile-login"
+                  aria-label={isAuthenticated ? "Mi área" : "Iniciar sesión"}
+                  data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
                 >
                   <UserIcon className="w-4 h-4" />
                 </Button>
-              )}
-              {isAuthenticated && (
-                <Link href="/dashboard">
-                  <Button 
-                    variant="outline"
-                    size="icon"
-                    className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-900"
-                    aria-label="Mi área"
-                    data-testid="link-mobile-dashboard"
-                  >
-                    <UserIcon className="w-4 h-4" />
-                  </Button>
-                </Link>
-              )}
+              </Link>
             </div>
-            <div className="w-9 h-9 flex items-center justify-center">
+            <div className="w-10 h-10 flex items-center justify-center shrink-0">
               <button 
                 className="p-2 text-foreground"
                 onClick={() => {
@@ -153,8 +151,16 @@ export function Navbar() {
                   setIsOpen(newIsOpen);
                   if (newIsOpen) {
                     document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                    document.body.style.top = `-${window.scrollY}px`;
                   } else {
+                    const scrollY = document.body.style.top;
                     document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                    document.body.style.top = '';
+                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
                   }
                 }}
                 aria-label={isOpen ? "Cerrar menú" : "Abrir menú"}
@@ -250,7 +256,7 @@ export function Navbar() {
                   <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
                 </button>
                 <button
-                  onClick={() => logout()}
+                  onClick={() => { resetScrollLock(); logout(); }}
                   className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
                 >
                   <LogOut className="w-4 h-4" /> {t("mobile.logout")}
