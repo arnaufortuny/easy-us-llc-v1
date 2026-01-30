@@ -33,7 +33,7 @@ export function FormInput<T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem className={className}>
-          <FormLabel className="text-sm md:text-base font-black text-primary">
+          <FormLabel className="text-xs md:text-sm font-bold text-foreground">
             {label}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
@@ -44,7 +44,7 @@ export function FormInput<T extends FieldValues>({
               inputMode={inputMode}
               autoComplete={autoComplete || (type === "password" ? "current-password" : type === "email" ? "email" : undefined)}
               disabled={disabled}
-              className="rounded-full h-14 px-6 border-black/20 focus:border-[#6EDC8A] transition-all font-black text-primary text-lg"
+              className="rounded-full h-11 md:h-12 px-5 border-border focus:border-accent transition-all font-medium text-foreground text-sm md:text-base"
             />
           </FormControl>
           <FormMessage />

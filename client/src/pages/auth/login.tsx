@@ -105,7 +105,7 @@ export default function Login() {
                   <FormInput
                     control={form.control}
                     name="password"
-                    label="Contrasena"
+                    label="Contraseña"
                     type={showPassword ? "text" : "password"}
                   />
                   <Button
@@ -113,7 +113,7 @@ export default function Login() {
                     variant="ghost"
                     size="icon"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                    className="absolute right-3 bottom-[6px] h-8 w-8 text-muted-foreground hover:text-foreground"
                     aria-label={showPassword ? "Ocultar" : "Mostrar"}
                     data-testid="button-toggle-password"
                   >
