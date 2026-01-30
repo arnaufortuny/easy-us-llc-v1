@@ -956,9 +956,9 @@ export default function LlcFormation() {
                     {/* Step 1: Email verification with OTP */}
                     {!isOtpVerified && (
                       <div className="space-y-4">
-                        <div className="bg-gray-50 rounded-2xl p-5">
-                          <p className="text-xs font-black text-primary tracking-widest mb-2">TU EMAIL</p>
-                          <p className="text-lg font-bold text-primary">{form.getValues("ownerEmail")}</p>
+                        <div className="bg-gray-50 dark:bg-zinc-800 rounded-2xl p-5">
+                          <p className="text-xs font-black text-foreground tracking-widest mb-2">TU EMAIL</p>
+                          <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                         </div>
                         
                         {!isOtpSent ? (
@@ -1087,7 +1087,7 @@ export default function LlcFormation() {
                         <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent mt-1" />
                         <div className="flex-1">
                           <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
-                          <div className="bg-gray-50 rounded-xl p-4 text-xs space-y-1">
+                          <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-xs space-y-1">
                             <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
                             <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
                             <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>

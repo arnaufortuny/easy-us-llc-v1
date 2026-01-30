@@ -734,9 +734,9 @@ export default function MaintenanceApplication() {
                         {/* Step 1: Email verification with OTP */}
                         {!isOtpVerified && (
                           <div className="space-y-4">
-                            <div className="bg-gray-50 rounded-2xl p-5">
-                              <p className="text-xs font-black text-primary tracking-widest mb-2">TU EMAIL</p>
-                              <p className="text-lg font-bold text-primary">{form.getValues("ownerEmail")}</p>
+                            <div className="bg-gray-50 dark:bg-zinc-800 rounded-2xl p-5">
+                              <p className="text-xs font-black text-foreground tracking-widest mb-2">TU EMAIL</p>
+                              <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                             </div>
                             
                             {!isOtpSent ? (
@@ -913,7 +913,7 @@ export default function MaintenanceApplication() {
                             <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
                               <span className="font-black text-primary text-sm block mb-2">Transferencia Bancaria</span>
-                              <div className="bg-gray-50 rounded-xl p-4 text-xs space-y-1">
+                              <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-4 text-xs space-y-1">
                                 <p><span className="opacity-60">Beneficiario:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
                                 <p><span className="opacity-60">Número de cuenta:</span> <span className="font-bold font-mono">141432778929495</span></p>
                                 <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>
@@ -955,7 +955,7 @@ export default function MaintenanceApplication() {
                     </div>
                     <div className="space-y-4">
                       <FormField control={form.control} name="authorizedManagement" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">Autorizo a Easy US LLC a gestionar administrativamente mi LLC ante los organismos competentes.</FormLabel>
@@ -964,7 +964,7 @@ export default function MaintenanceApplication() {
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">Acepto el tratamiento de mis datos personales según la política de privacidad.</FormLabel>
@@ -973,7 +973,7 @@ export default function MaintenanceApplication() {
                         </FormItem>
                       )} />
                       <FormField control={form.control} name="termsConsent" render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50">
+                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-gray-50 dark:bg-zinc-800">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
                             <FormLabel className="text-xs md:text-sm font-medium">He leído y acepto los Términos y Condiciones de Easy US LLC.</FormLabel>
@@ -1012,13 +1012,13 @@ export default function MaintenanceApplication() {
                       </p>
                     </div>
 
-                    <div className="bg-gray-50 rounded-2xl p-5">
-                      <p className="text-xs font-black text-primary tracking-widest mb-2">TU EMAIL</p>
-                      <p className="text-lg font-bold text-primary">{form.getValues("ownerEmail")}</p>
+                    <div className="bg-gray-50 dark:bg-zinc-800 rounded-2xl p-5">
+                      <p className="text-xs font-black text-foreground tracking-widest mb-2">TU EMAIL</p>
+                      <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-black text-primary tracking-widest block">Contraseña</label>
+                      <label className="text-xs font-black text-foreground tracking-widest block">Contraseña</label>
                       <div className="relative">
                         <Input
                           type={showPassword ? "text" : "password"}
