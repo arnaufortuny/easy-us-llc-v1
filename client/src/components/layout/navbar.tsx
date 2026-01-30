@@ -50,22 +50,30 @@ export function Navbar() {
             <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" />
           </Link>
           
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8">
-            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.home")}</button>
-            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.services")}</button>
-            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.pricing")}</button>
-            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.faq")}</button>
-            <button onClick={() => handleNavClick("/contacto")} onMouseEnter={() => prefetchOnHover("/contacto")} onMouseLeave={cancelPrefetch} className="text-base font-black text-foreground hover:text-accent transition-colors">{t("nav.contact")}</button>
-            <div className="flex items-center gap-1 border-l pl-4 border-border">
+          <nav className="hidden md:flex items-center gap-3 lg:gap-5">
+            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.home")}</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.services")}</button>
+            <button onClick={() => scrollToSection("pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.pricing")}</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-black text-foreground hover:text-accent transition-colors whitespace-nowrap">{t("nav.faq")}</button>
+            <Button 
+              onClick={() => handleNavClick("/contacto")} 
+              onMouseEnter={() => prefetchOnHover("/contacto")} 
+              onMouseLeave={cancelPrefetch}
+              className="bg-accent text-accent-foreground font-black text-xs lg:text-sm border-0 rounded-full h-9 lg:h-10 px-4 lg:px-5 hover:scale-105 transition-all active:scale-95 whitespace-nowrap"
+              variant="default"
+            >
+              {t("nav.contact")}
+            </Button>
+            <div className="flex items-center gap-1">
               <ThemeToggle />
               <LanguageToggle />
             </div>
           </nav>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <Button 
               onClick={() => setLocation("/servicios#pricing")} 
-              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
+              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-6 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
               variant="default"
             >
               {t("nav.register")}
