@@ -39,7 +39,7 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             <div className="mb-4 sm:hidden flex justify-center mt-6">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-zinc-700 px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-5 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -69,7 +69,7 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-zinc-700 px-6 py-3 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -120,7 +120,7 @@ export default function Home() {
         }
       />
 
-      <section className="py-8 sm:py-14 bg-background border-t border-foreground/5" id="servicios">
+      <section className="py-8 sm:py-14 bg-background" id="servicios">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
@@ -150,7 +150,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-background py-8 sm:py-24 border-t border-foreground/5" id="ventajas">
+      <section className="bg-background py-8 sm:py-24" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center">
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
@@ -185,8 +185,7 @@ export default function Home() {
       <PorQueEasyUSLLC />
 
       <div className="w-full">
-        <div className="border-t border-primary/5 w-full" />
-      </div>
+              </div>
 
       <section className="py-20 bg-background">
         <div className="w-full px-5 sm:px-8 text-center">
@@ -210,7 +209,7 @@ export default function Home() {
 
 function PorQueEasyUSLLC() {
   return (
-    <section className="py-8 sm:py-14 bg-background border-t border-foreground/5">
+    <section className="py-8 sm:py-14 bg-background">
       <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">

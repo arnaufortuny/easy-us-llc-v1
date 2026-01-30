@@ -3,7 +3,7 @@ import { Link } from "wouter";
 
 export function HelpSection() {
   return (
-    <section className="bg-background py-8 md:py-20 border-t border-accent/10 w-full flex justify-center items-center font-sans">
+    <section className="bg-background py-8 md:py-20 w-full flex justify-center items-center font-sans">
       <div className="container max-w-4xl mx-auto px-5 relative z-10 flex flex-col items-center justify-center">
         <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
           <div className="space-y-2 md:space-y-4 w-full text-center">
