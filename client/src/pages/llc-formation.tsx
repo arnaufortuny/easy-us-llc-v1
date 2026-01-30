@@ -371,10 +371,14 @@ export default function LlcFormation() {
 
     // All steps advance normally
     setStep(s => s + 1);
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const prevStep = () => {
-    if (step > 0) setStep(s => s - 1);
+    if (step > 0) {
+      setStep(s => s - 1);
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   };
 
   const onSubmit = async (data: FormValues) => {
