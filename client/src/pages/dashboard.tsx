@@ -1980,7 +1980,27 @@ export default function Dashboard() {
               </h3>
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
-                  selectedOrderEvents && selectedOrderEvents.length > 0 ? (
+                  <>
+                    <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-3 mb-4">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">Pedido: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
+                          <p className="text-sm font-black text-primary truncate">
+                            {orders[0]?.maintenanceApplication 
+                              ? `Mantenimiento ${orders[0]?.maintenanceApplication?.state || ''}`
+                              : orders[0]?.application?.companyName 
+                                ? `${orders[0]?.application?.companyName} LLC`
+                                : orders[0]?.product?.name || 'LLC'}
+                          </p>
+                          <p className="text-[10px] text-muted-foreground">{orders[0]?.application?.state || orders[0]?.maintenanceApplication?.state || ''}</p>
+                        </div>
+                        <Badge className={`${getOrderStatusLabel(orders[0]?.status).className} font-bold text-[9px] shrink-0`}>
+                          {getOrderStatusLabel(orders[0]?.status).label}
+                        </Badge>
+                      </div>
+                      <p className="text-[9px] text-muted-foreground mt-2">Creado: {orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</p>
+                    </div>
+                    {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
                     selectedOrderEvents.map((event: any, idx: number) => (
                       <div key={event.id} className="flex gap-4 relative">
                         {idx < selectedOrderEvents.length - 1 && <div className="absolute left-3 top-6 w-0.5 h-8 bg-gray-100" />}
@@ -1998,12 +2018,13 @@ export default function Dashboard() {
                         </div>
                       </div>
                     ))
-                  ) : (
-                    <div className="space-y-4">
-                      <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center"><CheckCircle2 className="w-3 h-3" /></div><p className="text-xs font-black">Pedido Recibido</p></div>
-                      <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-gray-100" /><p className="text-xs text-gray-400">Verificación de Datos</p></div>
-                    </div>
-                  )
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center"><CheckCircle2 className="w-3 h-3" /></div><p className="text-xs font-black">Pedido Recibido</p></div>
+                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-gray-100" /><p className="text-xs text-gray-400">Verificación de Datos</p></div>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay pedidos activos</p></div>
                 )}
