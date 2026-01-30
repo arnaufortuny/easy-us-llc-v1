@@ -718,15 +718,12 @@ async function processEmailQueue() {
       return;
     }
     
-    const testEmail = "afortuny07@gmail.com";
-    const originalTo = job.to;
-    
     try {
       await transporter.sendMail({
         from: `"Easy US LLC" <no-reply@easyusllc.com>`,
         replyTo: job.replyTo || "hola@easyusllc.com",
-        to: testEmail,
-        subject: `[TEST - Para: ${originalTo}] ${job.subject}`,
+        to: job.to,
+        subject: job.subject,
         html: job.html,
       });
       
@@ -795,15 +792,12 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     return;
   }
 
-  const testEmail = "afortuny07@gmail.com";
-  const originalTo = to;
-
   try {
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@easyusllc.com",
-      to: testEmail,
-      subject: `[TEST - Para: ${originalTo}] ${subject}`,
+      to: to,
+      subject: subject,
       html,
     });
     return info;
@@ -819,19 +813,16 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
     return;
   }
 
-  const testEmail = "afortuny07@gmail.com";
-  const originalTo = to;
   const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "easyusllc.com+62fb280c0a@invite.trustpilot.com";
-
   const html = getOrderCompletedTemplate(name, orderNumber);
 
   try {
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: "hola@easyusllc.com",
-      to: testEmail,
+      to: to,
       bcc: trustpilotBcc,
-      subject: `[TEST - Para: ${originalTo}] Pedido completado - Documentación disponible`,
+      subject: `Pedido completado - Documentación disponible`,
       html,
     });
     return info;
