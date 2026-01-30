@@ -102,8 +102,8 @@ export default function LlcFormation() {
       isSellingOnline: "",
       needsBankAccount: "",
       willUseStripe: "",
-      wantsBoiReport: "Yes",
-      wantsMaintenancePack: "No",
+      wantsBoiReport: "",
+      wantsMaintenancePack: "",
       notes: "",
       idDocumentUrl: "",
       password: "",
@@ -139,8 +139,8 @@ export default function LlcFormation() {
     isSellingOnline: "",
     needsBankAccount: "",
     willUseStripe: "",
-    wantsBoiReport: "Yes",
-    wantsMaintenancePack: "No",
+    wantsBoiReport: "",
+    wantsMaintenancePack: "",
     notes: "",
     idDocumentUrl: ""
   };
@@ -308,23 +308,25 @@ export default function LlcFormation() {
   };
 
   const nextStep = async () => {
-  const stepsValidation: Record<number, (keyof FormValues)[]> = {
-    0: ["ownerFullName"],
-    1: ["ownerEmail"],
-    2: ["ownerPhone"],
-    3: ["companyName"],
-    4: ["companyNameOption2", "ownerNamesAlternates"],
-    5: ["state"],
-    6: ["ownerCount"],
-    7: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
-    8: ["ownerBirthDate"],
-    9: ["idDocumentUrl"],
-    10: ["businessActivity"],
-    11: ["isSellingOnline"],
-    12: ["needsBankAccount"],
-    13: ["willUseStripe"],
-    14: ["notes"],
-  };
+    const stepsValidation: Record<number, (keyof FormValues)[]> = {
+      0: ["ownerFullName"],
+      1: ["ownerEmail"],
+      2: ["ownerPhone"],
+      3: ["companyName"],
+      4: ["companyNameOption2", "ownerNamesAlternates"],
+      5: ["state"],
+      6: ["ownerCount"],
+      7: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
+      8: ["ownerBirthDate"],
+      9: ["idDocumentUrl"],
+      10: ["businessActivity"],
+      11: ["isSellingOnline"],
+      12: ["needsBankAccount"],
+      13: ["willUseStripe"],
+      14: ["wantsBoiReport"],
+      15: ["wantsMaintenancePack"],
+      16: ["notes"],
+    };
 
     const fieldsToValidate = stepsValidation[step];
     if (fieldsToValidate) {
@@ -332,15 +334,6 @@ export default function LlcFormation() {
       if (!isValid) return;
     }
     
-    // Step mapping for post-logic cleanup
-    if (step === 14) {
-      // Set automatic fields before proceeding to auth/payment
-      form.setValue("wantsBoiReport", "Yes");
-      form.setValue("wantsMaintenancePack", "No");
-      setStep(17); // Skip to account creation
-      return;
-    }
-
     // Validate password step (step 17) for non-authenticated users
     if (step === 17 && !isAuthenticated) {
       const password = form.getValues("password");
@@ -857,104 +850,136 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step >= 11 && step <= 14 && (
+            {step >= 11 && step <= 16 && (
               <div key={"step-" + step} className="space-y-6 text-left">
                 {step === 11 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ Modelo de venta</h2>
-                    <FormDescription>¿Vas a vender servicios o productos físicos con tu LLC?</FormDescription>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Vas a vender online?</h2>
                     <FormField control={form.control} name="isSellingOnline" render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormControl>
-                          <div className="grid grid-cols-1 gap-3">
-                            {["Servicios", "Productos físicos", "Aún no lo tengo definido"].map((option) => (
-                              <Button
-                                key={option}
-                                type="button"
-                                variant={field.value === option ? "default" : "outline"}
-                                className={`h-14 rounded-2xl text-base font-bold justify-start px-6 ${field.value === option ? "bg-accent text-primary border-accent" : "border-2"}`}
-                                onClick={() => field.onChange(option)}
-                              >
-                                <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${field.value === option ? "border-primary bg-primary" : "border-muted-foreground"}`}>
-                                  {field.value === option && <Check className="w-3 h-3 text-accent" />}
-                                </div>
-                                {option}
-                              </Button>
-                            ))}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <FormControl>
+                        <div className="flex flex-col gap-3">
+                          {["Sí", "No", "Aún no lo sé"].map(opt => (
+                            <label 
+                              key={opt} 
+                              onClick={() => field.onChange(opt)}
+                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                field.value === opt 
+                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                              }`}
+                            >
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            </label>
+                          ))}
+                        </div>
+                      </FormControl>
                     )} />
                   </>
                 )}
                 {step === 12 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ Cuenta bancaria</h2>
-                    <FormDescription>¿Necesitas que te ayudemos con la apertura de una cuenta bancaria?</FormDescription>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Necesitas cuenta bancaria?</h2>
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormControl>
-                          <div className="grid grid-cols-1 gap-3">
-                            {[
-                              { value: "Sí, cuenta en USD (Mercury)", label: "Sí, cuenta en USD (Mercury)" },
-                              { value: "Sí, cuenta en USD (Relay)", label: "Sí, cuenta en USD (Relay)" },
-                              { value: "Sí, cuenta en EUR (SEPA)", label: "Sí, cuenta en EUR (SEPA)" },
-                              { value: "Sí, en otra entidad", label: "Sí, en otra entidad" },
-                              { value: "Aún no lo necesito", label: "Aún no lo necesito" }
-                            ].map((option) => (
-                              <Button
-                                key={option.value}
-                                type="button"
-                                variant={field.value === option.value ? "default" : "outline"}
-                                className={`h-14 rounded-2xl text-base font-bold justify-start px-6 ${field.value === option.value ? "bg-accent text-primary border-accent" : "border-2"}`}
-                                onClick={() => field.onChange(option.value)}
-                              >
-                                <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${field.value === option.value ? "border-primary bg-primary" : "border-muted-foreground"}`}>
-                                  {field.value === option.value && <Check className="w-3 h-3 text-accent" />}
-                                </div>
-                                {option.label}
-                              </Button>
-                            ))}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <FormControl>
+                        <div className="flex flex-col gap-3">
+                          {["Sí, Mercury", "Sí, Relay", "Aún no", "Ya tengo cuenta"].map(opt => (
+                            <label 
+                              key={opt} 
+                              onClick={() => field.onChange(opt)}
+                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                field.value === opt 
+                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                              }`}
+                            >
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            </label>
+                          ))}
+                        </div>
+                      </FormControl>
                     )} />
                   </>
                 )}
                 {step === 13 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ Pasarelas de pago</h2>
-                    <FormDescription>¿Cómo tienes previsto cobrar a tus clientes?</FormDescription>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣5️⃣ ¿Usarás Stripe u otra?</h2>
                     <FormField control={form.control} name="willUseStripe" render={({ field }) => (
-                      <FormItem className="space-y-3">
-                        <FormControl>
-                          <div className="grid grid-cols-1 gap-3">
-                            {["Stripe", "Revolut Business", "Ambas", "Otra plataforma", "No lo necesito por ahora"].map((option) => (
-                              <Button
-                                key={option}
-                                type="button"
-                                variant={field.value === option ? "default" : "outline"}
-                                className={`h-14 rounded-2xl text-base font-bold justify-start px-6 ${field.value === option ? "bg-accent text-primary border-accent" : "border-2"}`}
-                                onClick={() => field.onChange(option)}
-                              >
-                                <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center ${field.value === option ? "border-primary bg-primary" : "border-muted-foreground"}`}>
-                                  {field.value === option && <Check className="w-3 h-3 text-accent" />}
-                                </div>
-                                {option}
-                              </Button>
-                            ))}
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+                      <FormControl>
+                        <div className="flex flex-col gap-3">
+                          {["Stripe", "PayPal", "Ambas", "Otra", "No todavía"].map(opt => (
+                            <label 
+                              key={opt} 
+                              onClick={() => field.onChange(opt)}
+                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                field.value === opt 
+                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                              }`}
+                            >
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            </label>
+                          ))}
+                        </div>
+                      </FormControl>
                     )} />
                   </>
                 )}
                 {step === 14 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣6️⃣ ¿Algo más que debamos saber?</h2>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣6️⃣ ¿Quieres el reporte BOI?</h2>
+                    <FormField control={form.control} name="wantsBoiReport" render={({ field }) => (
+                      <FormControl>
+                        <div className="flex flex-col gap-3">
+                          {["Sí", "No", "Quiero que me expliquéis esto"].map(opt => (
+                            <label 
+                              key={opt} 
+                              onClick={() => field.onChange(opt)}
+                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                field.value === opt 
+                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                              }`}
+                            >
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            </label>
+                          ))}
+                        </div>
+                      </FormControl>
+                    )} />
+                  </>
+                )}
+                {step === 15 && (
+                  <>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣7️⃣ ¿Quieres Mantenimiento?</h2>
+                    <FormField control={form.control} name="wantsMaintenancePack" render={({ field }) => (
+                      <FormControl>
+                        <div className="flex flex-col gap-3">
+                          {["Sí", "No", "Quiero info"].map(opt => (
+                            <label 
+                              key={opt} 
+                              onClick={() => field.onChange(opt)}
+                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                field.value === opt 
+                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
+                                  : 'border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent/50'
+                              }`}
+                            >
+                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
+                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
+                            </label>
+                          ))}
+                        </div>
+                      </FormControl>
+                    )} />
+                  </>
+                )}
+                {step === 16 && (
+                  <>
+                    <h2 className="text-xl md:text-2xl font-black  text-primary border-b border-accent/20 pb-2 leading-tight">1️⃣8️⃣ ¿Algo más que debamos saber?</h2>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
                         <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>

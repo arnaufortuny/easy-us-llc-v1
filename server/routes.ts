@@ -73,6 +73,8 @@ export async function registerRoutes(
 
   // Set up Google OAuth
   setupOAuth(app);
+
+  // Schedule compliance reminder checks every hour
   setInterval(async () => {
     try {
       await checkAndSendReminders();

@@ -166,10 +166,6 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
           <td style="padding: 8px 0; color: #6B7280;">Estado actual:</td>
           <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">En revisión</td>
         </tr>
-        <tr>
-          <td style="padding: 8px 0; color: #6B7280;">Reporte BOI:</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">Incluido</td>
-        </tr>
       </table>
     </div>
     
