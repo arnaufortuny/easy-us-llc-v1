@@ -281,6 +281,9 @@ export default function Contacto() {
           <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">HABLEMOS / CONTACTO</span>
           <span className="text-foreground">Cuéntanos tu caso</span>
         </h1>
+        <p className="text-muted-foreground font-medium mb-8 text-center max-w-lg mx-auto text-sm sm:text-base">
+          Estamos aquí para ayudarte. Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.
+        </p>
 
         <div>
           <div className="space-y-6">
@@ -548,7 +551,7 @@ export default function Contacto() {
                           </FormControl>
                           <div>
                             <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
-                              Acepto los <a href="/legal/terminos" className="text-accent hover:underline">términos y condiciones</a>
+                              Acepto los <Link href="/legal/terminos" className="text-accent underline hover:text-accent/80 font-bold">términos y condiciones</Link>
                             </FormLabel>
                             <p className="text-xs text-muted-foreground mt-1">Puedes revisarlos cuando quieras</p>
                           </div>
