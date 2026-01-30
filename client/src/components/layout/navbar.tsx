@@ -60,32 +60,48 @@ export function Navbar() {
               <ThemeToggle />
               <LanguageToggle />
             </div>
+          </nav>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Button 
+              onClick={() => setLocation("/servicios#pricing")} 
+              className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
+              variant="default"
+            >
+              {t("nav.register")}
+            </Button>
             {isAuthenticated ? (
-              <div className="flex items-center gap-4 border-l pl-6 border-border">
-                <Link href="/dashboard" className="text-base font-black text-foreground hover:text-accent transition-colors flex items-center gap-2">
-                  <UserIcon className="w-4 h-4" /> {t("nav.login")}
+              <div className="flex items-center gap-3">
+                <Link href="/dashboard">
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
+                    data-testid="button-desktop-dashboard"
+                  >
+                    <UserIcon className="w-4 h-4" /> {t("nav.login")}
+                  </Button>
                 </Link>
-                <button onClick={() => logout()} className="text-sm font-black text-muted-foreground hover:text-destructive transition-colors">{t("common.close")}</button>
+                <Button 
+                  onClick={() => logout()} 
+                  variant="ghost"
+                  size="icon"
+                  className="rounded-full text-muted-foreground hover:text-destructive"
+                  data-testid="button-desktop-logout"
+                >
+                  <LogOut className="w-4 h-4" />
+                </Button>
               </div>
             ) : (
               <Button 
                 onClick={() => setLocation("/login")}
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-8 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
+                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-12 px-6 flex items-center gap-2 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/10"
                 data-testid="button-desktop-login"
               >
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
               </Button>
             )}
-          </nav>
-
-          <Button 
-            onClick={() => setLocation("/servicios#pricing")} 
-            className="hidden md:inline-flex bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-12 px-8 hover:scale-105 transition-all shadow-lg active:scale-95 shadow-accent/20"
-            variant="default"
-          >
-            {t("nav.register")}
-          </Button>
+          </div>
 
           <div className="md:hidden flex items-center gap-2 relative z-[110]">
             <div className="w-9 h-9 flex items-center justify-center">
