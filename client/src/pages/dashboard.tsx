@@ -581,7 +581,7 @@ export default function Dashboard() {
                 </p>
                 <div className="space-y-3">
                   <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer" className="block">
-                    <Button className="w-full bg-accent text-primary font-black rounded-full h-11 md:h-12 shadow-lg shadow-accent/20">
+                    <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">
                       Contactar Soporte
                     </Button>
                   </a>
@@ -631,7 +631,7 @@ export default function Dashboard() {
               </p>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent text-primary font-black rounded-full px-5 md:px-8 h-10 md:h-12 transition-all shadow-xl shadow-primary/20 flex items-center justify-center gap-2 text-sm md:text-base">
+              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-black font-bold rounded-full px-8 h-12 transition-all flex items-center justify-center gap-2">
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
@@ -1131,7 +1131,7 @@ export default function Dashboard() {
                       <h3 className="text-base md:text-lg font-black text-primary mb-2">Sin fechas programadas</h3>
                       <p className="text-xs md:text-sm text-muted-foreground mb-4">Contrata tu primera LLC para ver las fechas importantes</p>
                       <Link href="/servicios#pricing">
-                        <Button className="bg-accent text-primary font-black rounded-full h-10 md:h-11 text-sm">
+                        <Button className="bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">
                           <PlusCircle className="w-4 h-4 mr-2" /> Comenzar
                         </Button>
                       </Link>
@@ -1174,11 +1174,11 @@ export default function Dashboard() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
                           <Label>Nombre</Label>
-                          {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.firstName || '-'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.firstName || '-'}</div>}
                         </div>
                         <div className="space-y-1">
                           <Label>Apellido</Label>
-                          {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.lastName || '-'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.lastName || '-'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
@@ -1205,7 +1205,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-1">
                         <Label>Teléfono</Label>
-                        {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} data-testid="input-phone" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
+                        {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
@@ -1223,12 +1223,12 @@ export default function Dashboard() {
                         </div>
                         <div className="space-y-1">
                           <Label>Número de Documento</Label>
-                          {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
+                          {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Ej: 12345678A" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
                         </div>
                       </div>
                       <div className="space-y-1">
                         <Label>Fecha de Nacimiento</Label>
-                        {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
+                        {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
                       </div>
                       <div className="space-y-1">
                         <Label>Actividad de Negocio</Label>
@@ -1267,29 +1267,29 @@ export default function Dashboard() {
                           </div>
                           <div className="space-y-1">
                             <Label>Dirección</Label>
-                            {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.address || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Nombre de la calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.address || '-'}</div>}
                           </div>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4">
                           <div className="space-y-1">
                             <Label>Ciudad</Label>
-                            {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.city || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.city || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>Provincia</Label>
-                            {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.province || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.province || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>C.P.</Label>
-                            {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
                           </div>
                           <div className="space-y-1">
                             <Label>País</Label>
-                            {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} /> : <div className="p-3 bg-gray-50 rounded-lg text-sm">{user?.country || '-'}</div>}
+                            {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.country || '-'}</div>}
                           </div>
                         </div>
                       </div>
-                      {isEditing && canEdit && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent text-primary font-black rounded-full mt-4" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
+                      {isEditing && canEdit && <Button onClick={() => { updateProfile.mutate(profileData); setIsEditing(false); }} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 mt-4 transition-all" disabled={updateProfile.isPending} data-testid="button-save-profile">Guardar Cambios</Button>}
                     </div>
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">
@@ -2026,7 +2026,7 @@ export default function Dashboard() {
               <div className="space-y-4 pt-2">
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-note-title" />
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-note-title" />
                 </div>
                 <div>
                   <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
@@ -2053,20 +2053,20 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
-                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-firstname" />
+                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-firstname" />
                     </div>
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
-                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-lastname" />
+                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-lastname" />
                     </div>
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
-                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-email" />
+                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-email" />
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
-                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-phone" />
+                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-phone" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -2082,12 +2082,12 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Número ID</Label>
-                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-idnumber" />
+                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-idnumber" />
                     </div>
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Fecha Nacimiento</Label>
-                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-birthdate" />
+                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-birthdate" />
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
@@ -2107,26 +2107,26 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-sm font-black text-primary mb-2 block">Dirección</Label>
-                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-address" />
+                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-address" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Ciudad</Label>
-                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-city" />
+                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-city" />
                     </div>
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Código Postal</Label>
-                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-postal" />
+                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-postal" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Provincia</Label>
-                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-province" />
+                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-province" />
                     </div>
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">País</Label>
-                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-edit-country" />
+                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-country" />
                     </div>
                   </div>
                   <div>
@@ -2191,7 +2191,7 @@ export default function Dashboard() {
                     step="0.01" 
                     value={orderInvoiceAmount} 
                     onChange={e => setOrderInvoiceAmount(e.target.value)}
-                    className="rounded-full border-gray-200 focus:border-accent h-11" 
+                    className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                     placeholder="739.00"
                     data-testid="input-invoice-amount"
                   />
@@ -2304,7 +2304,7 @@ export default function Dashboard() {
                     value={invoiceConcept} 
                     onChange={e => setInvoiceConcept(e.target.value)} 
                     placeholder="Ej: Servicio de consultoría" 
-                    className="w-full rounded-full border-gray-200 focus:border-accent h-11"
+                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
                     data-testid="input-invoice-concept"
                   />
                 </div>
@@ -2316,7 +2316,7 @@ export default function Dashboard() {
                       value={invoiceAmount} 
                       onChange={e => setInvoiceAmount(e.target.value)} 
                       placeholder="739" 
-                      className="w-full rounded-full border-gray-200 focus:border-accent h-11"
+                      className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
                       data-testid="input-invoice-amount"
                     />
                   </div>
@@ -2462,24 +2462,24 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
-                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-firstname" />
+                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-firstname" />
               </div>
               <div>
                 <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
-                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-lastname" />
+                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-lastname" />
               </div>
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
-              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-email" />
+              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-email" />
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
-              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-phone" />
+              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-phone" />
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Contraseña</Label>
-              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-create-user-password" />
+              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-password" />
             </div>
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
@@ -2526,7 +2526,7 @@ export default function Dashboard() {
             </div>
             <div>
               <Label className="text-sm font-black text-primary mb-2 block">Importe (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full border-gray-200 focus:border-accent h-11" data-testid="input-order-amount" />
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-order-amount" />
             </div>
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
@@ -2554,7 +2554,7 @@ export default function Dashboard() {
               <Input 
                 value={newDiscountCode.code} 
                 onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                className="rounded-full border-gray-200 focus:border-accent h-11 uppercase" 
+                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base uppercase" 
                 disabled={!!discountCodeDialog.code}
                 data-testid="input-discount-code" 
               />
@@ -2583,7 +2583,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.discountValue} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                   data-testid="input-discount-value" 
                 />
               </div>
@@ -2595,7 +2595,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.minOrderAmount} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                   data-testid="input-discount-min-amount" 
                 />
               </div>
@@ -2605,7 +2605,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.maxUses} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                   data-testid="input-discount-max-uses" 
                 />
               </div>
@@ -2617,7 +2617,7 @@ export default function Dashboard() {
                   type="date" 
                   value={newDiscountCode.validFrom} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                   data-testid="input-discount-valid-from" 
                 />
               </div>
@@ -2627,7 +2627,7 @@ export default function Dashboard() {
                   type="date" 
                   value={newDiscountCode.validUntil} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                  className="rounded-full border-gray-200 focus:border-accent h-11" 
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
                   data-testid="input-discount-valid-until" 
                 />
               </div>
