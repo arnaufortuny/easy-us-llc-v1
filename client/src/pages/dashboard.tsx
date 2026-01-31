@@ -208,7 +208,11 @@ export default function Dashboard() {
       if (!canEdit) {
         throw new Error("No puedes modificar tus datos en el estado actual de tu cuenta.");
       }
-      await apiRequest("PATCH", "/api/user/profile", data);
+      const res = await apiRequest("PATCH", "/api/user/profile", data);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error al guardar");
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
@@ -372,7 +376,8 @@ export default function Dashboard() {
 
   const broadcastMutation = useMutation({
     mutationFn: async ({ subject, message }: { subject: string, message: string }) => {
-      await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
+      const res = await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
+      if (!res.ok) throw new Error("Error al enviar");
     },
     onSuccess: () => {
       toast({ title: "Emails enviados", description: "Se ha enviado a todos los suscriptores del newsletter" });
@@ -482,7 +487,11 @@ export default function Dashboard() {
       if (rest.accountStatus !== undefined && validStatuses.includes(rest.accountStatus)) updateData.accountStatus = rest.accountStatus;
       if (rest.internalNotes !== undefined) updateData.internalNotes = rest.internalNotes || null;
       const cleanData = Object.fromEntries(Object.entries(updateData).filter(([_, v]) => v !== undefined));
-      await apiRequest("PATCH", `/api/admin/users/${id}`, cleanData);
+      const res = await apiRequest("PATCH", `/api/admin/users/${id}`, cleanData);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error al actualizar");
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
@@ -496,7 +505,8 @@ export default function Dashboard() {
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
-      await apiRequest("DELETE", `/api/admin/users/${userId}`);
+      const res = await apiRequest("DELETE", `/api/admin/users/${userId}`);
+      if (!res.ok) throw new Error("Error al eliminar");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
@@ -515,7 +525,8 @@ export default function Dashboard() {
   
   const deleteOrderMutation = useMutation({
     mutationFn: async (orderId: number) => {
-      await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
+      const res = await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
+      if (!res.ok) throw new Error("Error al eliminar");
     },
     onSuccess: () => {
       // Invalidate all related queries
@@ -598,7 +609,8 @@ export default function Dashboard() {
 
   const deleteDocMutation = useMutation({
     mutationFn: async (docId: number) => {
-      await apiRequest("DELETE", `/api/user/documents/${docId}`);
+      const res = await apiRequest("DELETE", `/api/user/documents/${docId}`);
+      if (!res.ok) throw new Error("Error al eliminar");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
@@ -611,7 +623,8 @@ export default function Dashboard() {
 
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("DELETE", "/api/user/account");
+      const res = await apiRequest("DELETE", "/api/user/account");
+      if (!res.ok) throw new Error("Error al eliminar");
     },
     onSuccess: () => {
       toast({ title: "Cuenta eliminada", description: "Tu cuenta ha sido eliminada correctamente." });
@@ -624,7 +637,8 @@ export default function Dashboard() {
 
   const requestPasswordOtpMutation = useMutation({
     mutationFn: async () => {
-      await apiRequest("POST", "/api/user/request-password-otp");
+      const res = await apiRequest("POST", "/api/user/request-password-otp");
+      if (!res.ok) throw new Error("Error al solicitar código");
     },
     onSuccess: () => {
       toast({ title: "Código enviado", description: "Revisa tu email para obtener el código de verificación." });
@@ -637,7 +651,11 @@ export default function Dashboard() {
 
   const changePasswordMutation = useMutation({
     mutationFn: async (data: { currentPassword: string; newPassword: string; otp: string }) => {
-      await apiRequest("POST", "/api/user/change-password", data);
+      const res = await apiRequest("POST", "/api/user/change-password", data);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error al cambiar contraseña");
+      }
     },
     onSuccess: () => {
       toast({ title: "Contraseña actualizada", description: "Tu contraseña ha sido cambiada correctamente." });
