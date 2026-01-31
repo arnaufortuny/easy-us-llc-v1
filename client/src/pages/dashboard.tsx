@@ -1830,7 +1830,7 @@ export default function Dashboard() {
                   {adminSubTab === 'newsletter' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                       <div className="space-y-6">
-                        <div className="bg-accent/10 p-4 rounded-xl">
+                        <div className="p-4 rounded-xl border border-border">
                           <h4 className="font-black text-sm mb-3">Enviar a todos los suscriptores ({adminNewsletterSubs?.length || 0})</h4>
                           <div className="space-y-3">
                             <Input 
