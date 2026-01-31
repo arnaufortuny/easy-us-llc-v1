@@ -551,9 +551,8 @@ export default function Register() {
                 {step < TOTAL_STEPS - 1 ? (
                   <Button
                     type="button"
-                    size="lg"
                     onClick={nextStep}
-                    className="flex-1 bg-accent text-primary font-black rounded-full"
+                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                     data-testid="button-next"
                   >
                     Continuar
@@ -561,9 +560,8 @@ export default function Register() {
                 ) : (
                   <Button
                     type="submit"
-                    size="lg"
                     disabled={isLoading}
-                    className="flex-1 bg-accent text-primary font-black rounded-full"
+                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
                     data-testid="button-register"
                   >
                     {isLoading ? <Loader2 className="animate-spin" /> : "Crear Cuenta"}
