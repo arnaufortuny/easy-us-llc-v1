@@ -236,23 +236,38 @@ export default function Register() {
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center">
         <div className="w-full max-w-sm md:max-w-md">
-          <div className="text-center mb-5 md:mb-8">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
-              Crear <span className="text-accent">cuenta</span>
-            </h1>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base">Registro rapido</p>
-          </div>
+          {step === 0 ? (
+            <div className="text-center mb-6 md:mb-8">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
+                Crear tu <span className="text-accent">cuenta</span>
+              </h1>
+              <p className="text-accent font-semibold mt-2 text-sm md:text-base">Empieza en menos de 1 minuto</p>
+              <p className="text-muted-foreground mt-3 text-sm md:text-base max-w-sm mx-auto">
+                Crea tu acceso para iniciar el proceso de tu LLC en EE. UU.<br />
+                Sin compromiso. Personas reales detrás.
+              </p>
+            </div>
+          ) : (
+            <>
+              <div className="text-center mb-5 md:mb-8">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight">
+                  Crear tu <span className="text-accent">cuenta</span>
+                </h1>
+                <p className="text-muted-foreground mt-2 text-sm md:text-base">Registro rápido</p>
+              </div>
 
-          <div className="flex justify-center gap-1.5 md:gap-2 mb-5 md:mb-8">
-            {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-              <div
-                key={i}
-                className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
-                  i === step ? "w-6 md:w-8 bg-accent" : i < step ? "w-1.5 md:w-2 bg-accent" : "w-1.5 md:w-2 bg-muted"
-                }`}
-              />
-            ))}
-          </div>
+              <div className="flex justify-center gap-1.5 md:gap-2 mb-5 md:mb-8">
+                {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+                  <div
+                    key={i}
+                    className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
+                      i === step ? "w-6 md:w-8 bg-accent" : i < step ? "w-1.5 md:w-2 bg-accent" : "w-1.5 md:w-2 bg-muted"
+                    }`}
+                  />
+                ))}
+              </div>
+            </>
+          )}
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -260,14 +275,22 @@ export default function Register() {
                 {step === 0 && (
                   <div
                     key="step-0"
-                    className="space-y-6"
+                    className="space-y-5"
                   >
-                    <div className="mb-6">
-                      <SocialLogin mode="login" />
+                    <div className="space-y-3">
+                      <p className="text-center text-sm font-medium text-muted-foreground">Continúa de forma rápida</p>
+                      <SocialLogin mode="login" hideSeparator />
                     </div>
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">¿Cómo te llamas?</h2>
-                      <p className="text-sm text-muted-foreground">O registrate con tu email</p>
+                    
+                    <div className="flex items-center gap-3 py-2">
+                      <div className="flex-1 h-px bg-gray-200 dark:bg-zinc-700" />
+                      <span className="text-sm text-muted-foreground whitespace-nowrap">o crea tu cuenta con tu email</span>
+                      <div className="flex-1 h-px bg-gray-200 dark:bg-zinc-700" />
+                    </div>
+
+                    <div className="pt-2">
+                      <h2 className="text-lg font-black text-primary">¿Cómo te llamas?</h2>
+                      <p className="text-sm text-muted-foreground">Así podremos dirigirnos a ti correctamente durante el proceso.</p>
                     </div>
 
                     <FormField
@@ -279,6 +302,7 @@ export default function Register() {
                           <FormControl>
                             <Input
                               {...field}
+                              placeholder="Escribe tu nombre"
                               className="rounded-full border-gray-200 focus:border-accent"
                               data-testid="input-firstName"
                             />
@@ -297,6 +321,7 @@ export default function Register() {
                           <FormControl>
                             <Input
                               {...field}
+                              placeholder="Escribe tu apellido"
                               className="rounded-full border-gray-200 focus:border-accent"
                               data-testid="input-lastName"
                             />
@@ -574,9 +599,9 @@ export default function Register() {
 
           <div className="mt-6 text-center">
             <p className="text-muted-foreground text-sm">
-              ¿Ya tienes cuenta?{" "}
+              ¿Ya tienes una cuenta?{" "}
               <Link href="/auth/login" data-testid="link-login">
-                <span className="font-black text-primary underline cursor-pointer">
+                <span className="font-semibold text-accent underline cursor-pointer">
                   Inicia sesión aquí
                 </span>
               </Link>

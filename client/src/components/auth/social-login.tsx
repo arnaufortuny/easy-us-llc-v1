@@ -8,6 +8,7 @@ interface SocialLoginProps {
   mode?: "login" | "connect";
   onSuccess?: () => void;
   googleConnected?: boolean;
+  hideSeparator?: boolean;
 }
 
 function GoogleIcon({ className }: { className?: string }) {
@@ -33,7 +34,7 @@ function GoogleIcon({ className }: { className?: string }) {
   );
 }
 
-export function SocialLogin({ mode = "login", onSuccess, googleConnected }: SocialLoginProps) {
+export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSeparator = false }: SocialLoginProps) {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const { toast } = useToast();
 
@@ -97,14 +98,16 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected }: Soci
 
   return (
     <div className="space-y-3">
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
+      {!hideSeparator && (
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-border" />
+          </div>
+          <div className="relative flex justify-center text-xs">
+            <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— o continúa de forma rápida —</span>
+          </div>
         </div>
-        <div className="relative flex justify-center text-xs">
-          <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— o continúa de forma rápida —</span>
-        </div>
-      </div>
+      )}
 
       <Button
         type="button"
