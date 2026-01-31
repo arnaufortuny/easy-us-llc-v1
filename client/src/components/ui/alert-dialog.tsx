@@ -44,7 +44,7 @@ const AlertDialogContent = React.forwardRef<
       style={{
         position: 'fixed',
         left: '50%',
-        top: '35%',
+        top: '25%',
         transform: 'translate(-50%, -50%)',
         zIndex: 99999,
         maxHeight: '85vh',
