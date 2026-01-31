@@ -1,5 +1,5 @@
 import { db } from "./db";
-import { llcApplications, orders, userNotifications, users } from "@shared/schema";
+import { llcApplications, orders, userNotifications, users, maintenanceApplications } from "@shared/schema";
 import { eq, and, lte, gte, isNotNull, sql } from "drizzle-orm";
 
 export interface ComplianceDeadline {
@@ -199,7 +199,10 @@ export async function checkAndSendReminders() {
     );
   }
 
-  return { checked: true, timestamp: today };
+  // Also send renewal reminders for maintenance packages
+  const renewalResult = await sendRenewalReminders();
+  
+  return { checked: true, timestamp: today, renewalRemindersSent: renewalResult.remindersSent };
 }
 
 async function createComplianceNotification(
@@ -246,6 +249,182 @@ function formatDate(date: Date): string {
     month: "long",
     year: "numeric"
   });
+}
+
+// Check for expired renewals - optimized with single query
+export async function checkExpiredRenewals() {
+  const today = new Date();
+  
+  // Get all completed LLC applications with renewal dates in the past
+  const expiredApplications = await db.select({
+    application: llcApplications,
+    order: orders,
+    user: users,
+  })
+  .from(llcApplications)
+  .innerJoin(orders, eq(llcApplications.orderId, orders.id))
+  .innerJoin(users, eq(orders.userId, users.id))
+  .where(
+    and(
+      isNotNull(llcApplications.agentRenewalDate),
+      lte(llcApplications.agentRenewalDate, today),
+      eq(orders.status, "completed"),
+      eq(users.accountStatus, "active") // Only check active users
+    )
+  );
+
+  // Get all maintenance applications in a single query
+  const allMaintenanceApps = await db.select({
+    maintApp: maintenanceApplications,
+    maintOrder: orders,
+  })
+  .from(maintenanceApplications)
+  .innerJoin(orders, eq(maintenanceApplications.orderId, orders.id))
+  .where(eq(orders.status, "completed"));
+
+  const expiredList = [];
+  
+  for (const { application, order, user } of expiredApplications) {
+    // Check if there's a maintenance app for the same state created within renewal window
+    // (60 days before renewal date or any time after)
+    const renewalDate = new Date(application.agentRenewalDate!);
+    const sixtyDaysBeforeRenewal = new Date(renewalDate);
+    sixtyDaysBeforeRenewal.setDate(sixtyDaysBeforeRenewal.getDate() - 60);
+    
+    const hasRenewal = allMaintenanceApps.some(({ maintApp, maintOrder }) => 
+      maintOrder.userId === user.id &&
+      maintApp.state === application.state &&
+      new Date(maintOrder.createdAt!) >= sixtyDaysBeforeRenewal
+    );
+    
+    if (!hasRenewal) {
+      const daysSinceExpiry = Math.ceil((today.getTime() - new Date(application.agentRenewalDate!).getTime()) / (1000 * 60 * 60 * 24));
+      expiredList.push({
+        userId: user.id,
+        clientId: user.clientId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        companyName: application.companyName,
+        state: application.state,
+        llcCreatedDate: application.llcCreatedDate,
+        agentRenewalDate: application.agentRenewalDate,
+        daysSinceExpiry,
+        orderId: order.id,
+        applicationId: application.id,
+        accountStatus: user.accountStatus,
+      });
+    }
+  }
+
+  return expiredList;
+}
+
+// Get clients needing renewal (within 90 days of expiry or already expired) - optimized
+export async function getClientsNeedingRenewal() {
+  const today = new Date();
+  const ninetyDaysFromNow = new Date(today);
+  ninetyDaysFromNow.setDate(ninetyDaysFromNow.getDate() + 90);
+
+  const applicationsNeedingRenewal = await db.select({
+    application: llcApplications,
+    order: orders,
+    user: users,
+  })
+  .from(llcApplications)
+  .innerJoin(orders, eq(llcApplications.orderId, orders.id))
+  .innerJoin(users, eq(orders.userId, users.id))
+  .where(
+    and(
+      isNotNull(llcApplications.agentRenewalDate),
+      lte(llcApplications.agentRenewalDate, ninetyDaysFromNow),
+      eq(orders.status, "completed"),
+      eq(users.accountStatus, "active") // Only check active users
+    )
+  );
+
+  // Get all maintenance applications in a single query
+  const allMaintenanceApps = await db.select({
+    maintApp: maintenanceApplications,
+    maintOrder: orders,
+  })
+  .from(maintenanceApplications)
+  .innerJoin(orders, eq(maintenanceApplications.orderId, orders.id))
+  .where(eq(orders.status, "completed"));
+
+  const result = [];
+  
+  for (const { application, order, user } of applicationsNeedingRenewal) {
+    // Check if there's a maintenance app for the same state created within renewal window
+    // (i.e., after formation date but meant to cover the renewal period)
+    const renewalDate = new Date(application.agentRenewalDate!);
+    const sixtyDaysBeforeRenewal = new Date(renewalDate);
+    sixtyDaysBeforeRenewal.setDate(sixtyDaysBeforeRenewal.getDate() - 60);
+    
+    const hasRenewal = allMaintenanceApps.some(({ maintApp, maintOrder }) => 
+      maintOrder.userId === user.id &&
+      maintApp.state === application.state &&
+      new Date(maintOrder.createdAt!) >= sixtyDaysBeforeRenewal // Renewal order created within renewal window
+    );
+    
+    if (!hasRenewal) {
+      const daysUntilExpiry = Math.ceil((new Date(application.agentRenewalDate!).getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+      result.push({
+        userId: user.id,
+        clientId: user.clientId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        companyName: application.companyName,
+        state: application.state,
+        llcCreatedDate: application.llcCreatedDate,
+        agentRenewalDate: application.agentRenewalDate,
+        daysUntilExpiry,
+        isExpired: daysUntilExpiry < 0,
+        orderId: order.id,
+        applicationId: application.id,
+        accountStatus: user.accountStatus,
+      });
+    }
+  }
+
+  return result.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
+}
+
+// Send renewal reminder notifications (called by scheduled job)
+// Sends reminders at 60 days, 30 days, and 7 days before renewal date
+export async function sendRenewalReminders() {
+  const clientsNeedingRenewal = await getClientsNeedingRenewal();
+  let remindersSent = 0;
+
+  for (const client of clientsNeedingRenewal) {
+    // Skip expired clients - they need different handling
+    if (client.daysUntilExpiry < 0) continue;
+    
+    // Send reminders at 60 days, 30 days, and 7 days before expiry
+    const reminderWindows = [
+      { min: 55, max: 65, type: "renewal_60days", label: "60 días" },
+      { min: 25, max: 35, type: "renewal_30days", label: "30 días" },
+      { min: 5, max: 10, type: "renewal_7days", label: "una semana" },
+    ];
+    
+    for (const window of reminderWindows) {
+      if (client.daysUntilExpiry >= window.min && client.daysUntilExpiry <= window.max) {
+        await createComplianceNotification(
+          client.userId,
+          client.orderId,
+          `LLC-${client.applicationId}`,
+          window.type,
+          `Renovación pendiente en ${window.label}`,
+          `Tu pack de mantenimiento para ${client.companyName} vence pronto (${formatDate(new Date(client.agentRenewalDate!))}). Contrata el pack de mantenimiento para mantener tu LLC activa y en cumplimiento legal.`
+        );
+        remindersSent++;
+        break; // Only one reminder per window per client
+      }
+    }
+  }
+
+  return { remindersSent };
 }
 
 export function getUpcomingDeadlinesForUser(applications: any[]): any[] {

@@ -776,6 +776,126 @@ export async function registerRoutes(
     }
   });
 
+  // ============== RENEWAL MANAGEMENT ==============
+  
+  // Get clients needing renewal (within 90 days or expired)
+  app.get("/api/admin/renewals", isAdmin, async (req, res) => {
+    try {
+      const { getClientsNeedingRenewal } = await import("./calendar-service");
+      const clients = await getClientsNeedingRenewal();
+      res.json(clients);
+    } catch (error) {
+      console.error("Error fetching renewal clients:", error);
+      res.status(500).json({ message: "Error al obtener clientes pendientes de renovación" });
+    }
+  });
+
+  // Get only expired clients (past renewal date, no maintenance order)
+  app.get("/api/admin/renewals/expired", isAdmin, async (req, res) => {
+    try {
+      const { checkExpiredRenewals } = await import("./calendar-service");
+      const expiredClients = await checkExpiredRenewals();
+      res.json(expiredClients);
+    } catch (error) {
+      console.error("Error fetching expired renewals:", error);
+      res.status(500).json({ message: "Error al obtener renovaciones vencidas" });
+    }
+  });
+
+  // Deactivate user account (for clients who don't renew)
+  app.patch("/api/admin/users/:id/deactivate", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const { reason, confirmDeactivation } = req.body;
+    
+    // Require explicit confirmation
+    if (!confirmDeactivation) {
+      return res.status(400).json({ message: "Se requiere confirmación explícita (confirmDeactivation: true)" });
+    }
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    // Cannot deactivate admin users
+    if (user.isAdmin) {
+      return res.status(403).json({ message: "No se puede desactivar a un administrador" });
+    }
+    
+    // Check if user is already deactivated
+    if (user.accountStatus === 'deactivated') {
+      return res.status(400).json({ message: "El usuario ya está desactivado" });
+    }
+    
+    // Check for any recent paid orders (within last 30 days)
+    const recentOrders = await db.select().from(ordersTable)
+      .where(and(
+        eq(ordersTable.userId, userId),
+        eq(ordersTable.status, 'paid'),
+        sql`${ordersTable.paidAt} > NOW() - INTERVAL '30 days'`
+      )).limit(1);
+    
+    if (recentOrders.length > 0) {
+      return res.status(400).json({ 
+        message: "No se puede desactivar: el usuario tiene un pago reciente en los últimos 30 días" 
+      });
+    }
+    
+    const sanitizedReason = reason ? String(reason).slice(0, 500) : 'No renovó mantenimiento';
+    
+    await db.update(usersTable).set({
+      accountStatus: 'deactivated',
+      internalNotes: user.internalNotes 
+        ? `${user.internalNotes}\n[${new Date().toISOString()}] Desactivado por admin: ${sanitizedReason}`
+        : `[${new Date().toISOString()}] Desactivado por admin: ${sanitizedReason}`,
+      updatedAt: new Date(),
+    }).where(eq(usersTable.id, userId));
+    
+    logActivity("Usuario Desactivado", { 
+      "Usuario ID": userId,
+      "ClientID": user.clientId,
+      "Email": user.email,
+      "Estado Anterior": user.accountStatus,
+      "Razón": sanitizedReason,
+      "Admin": (req as any).session?.userId
+    });
+    
+    res.json({ success: true, message: "Usuario desactivado correctamente" });
+  }));
+  
+  // Reactivate user account
+  app.patch("/api/admin/users/:id/reactivate", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const { reason } = req.body;
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    if (user.accountStatus !== 'deactivated') {
+      return res.status(400).json({ message: "El usuario no está desactivado" });
+    }
+    
+    const sanitizedReason = reason ? String(reason).slice(0, 500) : 'Reactivado por admin';
+    
+    await db.update(usersTable).set({
+      accountStatus: 'active',
+      internalNotes: user.internalNotes 
+        ? `${user.internalNotes}\n[${new Date().toISOString()}] Reactivado: ${sanitizedReason}`
+        : `[${new Date().toISOString()}] Reactivado: ${sanitizedReason}`,
+      updatedAt: new Date(),
+    }).where(eq(usersTable.id, userId));
+    
+    logActivity("Usuario Reactivado", { 
+      "Usuario ID": userId,
+      "Email": user.email,
+      "Razón": sanitizedReason
+    });
+    
+    res.json({ success: true, message: "Usuario reactivado correctamente" });
+  }));
+
   // ============== DISCOUNT CODES ==============
   
   // Get all discount codes (admin)
