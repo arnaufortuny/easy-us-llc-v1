@@ -1392,6 +1392,11 @@ export async function registerRoutes(
     }
   });
 
+  // Catch-all for /uploads - deny access to any uncovered paths
+  app.get("/uploads/*", (_req, res) => {
+    res.status(403).json({ message: "Acceso denegado" });
+  });
+
   app.get("/api/products", async (req, res) => {
     const products = await storage.getProducts();
     res.json(products);
