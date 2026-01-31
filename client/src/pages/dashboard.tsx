@@ -2206,13 +2206,13 @@ export default function Dashboard() {
           </Dialog>
 
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="sm:max-w-lg bg-white dark:bg-zinc-900 rounded-2xl">
-              <DialogHeader>
+            <DialogContent className="sm:max-w-lg bg-white dark:bg-zinc-900 rounded-2xl max-h-[85vh]">
+              <DialogHeader className="flex-shrink-0">
                 <DialogTitle className="text-xl font-black text-primary">Editar Usuario</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
               </DialogHeader>
               {editingUser && (
-                <div className="space-y-4 pt-2">
+                <div className="space-y-3 pt-2 overflow-y-auto flex-1 pr-1" style={{ maxHeight: 'calc(85vh - 180px)' }}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                       <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
@@ -2296,13 +2296,15 @@ export default function Dashboard() {
                     <Label className="text-sm font-black text-primary mb-2 block">Notas Internas (solo admin)</Label>
                     <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 focus:border-accent" data-testid="input-edit-notes" />
                   </div>
-                  <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
-                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-save-user">
-                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
-                    </Button>
-                  </DialogFooter>
                 </div>
+              )}
+              {editingUser && (
+                <DialogFooter className="flex-col sm:flex-row gap-3 pt-4 border-t border-border flex-shrink-0">
+                  <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-save-user">
+                    {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
+                  </Button>
+                </DialogFooter>
               )}
             </DialogContent>
           </Dialog>
