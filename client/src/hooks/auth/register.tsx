@@ -390,33 +390,24 @@ export default function Register() {
                       name="businessActivity"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">¿A qué te dedicas?</FormLabel>
-                          <FormDescription className="text-sm text-muted-foreground mb-3">
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">¿A qué te dedicas?</FormLabel>
+                          <FormDescription className="text-xs text-muted-foreground mb-2">
                             Elige la opción que mejor describe tu negocio
                           </FormDescription>
-                          <div className="grid gap-2 max-h-[300px] overflow-y-auto pr-2">
-                            {BUSINESS_ACTIVITIES.map((activity) => (
-                              <Button
-                                key={activity}
-                                type="button"
-                                variant="outline"
-                                onClick={() => form.setValue("businessActivity", activity)}
-                                className={`w-full justify-between text-left rounded-xl hover-elevate active-elevate-2 ${
-                                  field.value === activity 
-                                    ? "toggle-elevate toggle-elevated border-2 border-accent bg-accent/10" 
-                                    : ""
-                                }`}
-                                data-testid={`button-activity-${activity.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
-                              >
-                                <span>{activity}</span>
-                                {field.value === activity && (
-                                  <svg className="h-5 w-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                  </svg>
-                                )}
-                              </Button>
-                            ))}
-                          </div>
+                          <FormControl>
+                            <select
+                              {...field}
+                              className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
+                              data-testid="select-businessActivity"
+                            >
+                              <option value="">Selecciona una opción</option>
+                              {BUSINESS_ACTIVITIES.map((activity) => (
+                                <option key={activity} value={activity}>
+                                  {activity}
+                                </option>
+                              ))}
+                            </select>
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
