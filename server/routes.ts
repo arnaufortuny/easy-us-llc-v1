@@ -1341,6 +1341,17 @@ export async function registerRoutes(
     }
   });
 
+  // Delete user notification
+  app.delete("/api/user/notifications/:id", isAuthenticated, async (req: any, res) => {
+    try {
+      await db.delete(userNotifications)
+        .where(and(eq(userNotifications.id, req.params.id), eq(userNotifications.userId, req.session.userId)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar notificación" });
+    }
+  });
+
   // Request OTP for password change
   app.post("/api/user/request-password-otp", isAuthenticated, async (req: any, res) => {
     try {

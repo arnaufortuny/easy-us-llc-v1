@@ -3,7 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState } from "react";
@@ -269,6 +269,15 @@ export default function Dashboard() {
   const markNotificationRead = useMutation({
     mutationFn: async (id: string) => {
       await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
+    }
+  });
+
+  const deleteNotification = useMutation({
+    mutationFn: async (id: string) => {
+      await apiRequest("DELETE", `/api/user/notifications/${id}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
@@ -825,9 +834,16 @@ export default function Dashboard() {
                                   </Button>
                                 )}
                               </div>
-                              {!notif.isRead && (
-                                <div className="w-2 h-2 bg-accent rounded-full flex-shrink-0 mt-2" />
-                              )}
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="flex-shrink-0 h-8 w-8 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
+                                onClick={() => deleteNotification.mutate(notif.id)}
+                                disabled={deleteNotification.isPending}
+                                data-testid={`button-delete-notification-${notif.id}`}
+                              >
+                                <X className="w-4 h-4" />
+                              </Button>
                             </div>
                           </CardContent>
                         </Card>
@@ -840,7 +856,7 @@ export default function Dashboard() {
               {activeTab === 'messages' && (
                 <div key="messages" className="space-y-6">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas y Soporte</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-primary tracking-tight">Mis Consultas</h2>
                     <Link href="/contacto">
                       <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
                     </Link>
