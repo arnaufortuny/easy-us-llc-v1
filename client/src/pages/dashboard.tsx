@@ -624,9 +624,9 @@ export default function Dashboard() {
   }
 
   const menuItems = [
-    { id: 'services', label: 'Mis Servicios', icon: Package, mobileLabel: 'Servicios' },
+    { id: 'services', label: 'Estado de mis trámites', icon: Package, mobileLabel: 'Trámites' },
     { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
-    { id: 'messages', label: '¿Necesitas ayuda?', icon: Mail, mobileLabel: 'Ayuda' },
+    { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas' },
@@ -645,15 +645,15 @@ export default function Dashboard() {
             <div>
               <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-0.5 md:mb-1 uppercase">Área de Clientes</p>
               <h1 className="text-3xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
-                Bienvenido, {user?.firstName || 'Cliente'}
+                Bienvenido, {(user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase()}
               </h1>
               <p className="text-muted-foreground text-base sm:text-sm mt-0.5 md:mt-1 font-medium">
-                Tu espacio privado de gestión
+                Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.
               </p>
             </div>
             <Link href="/servicios#pricing">
               <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-black font-bold rounded-full px-8 h-12 transition-all flex items-center justify-center gap-2">
-                <PlusCircle className="w-5 h-5" /> Nueva LLC
+                <PlusCircle className="w-5 h-5" /> Constituir una nueva LLC
               </Button>
             </Link>
           </div>
@@ -686,7 +686,7 @@ export default function Dashboard() {
               {activeTab === 'services' && (
                 <div key="services" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis Servicios</h2>
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Estado de mis trámites</h2>
                     <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
                   </div>
                   
@@ -697,12 +697,12 @@ export default function Dashboard() {
                           <Package className="w-8 h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2">Ningún servicio activo</h3>
-                          <p className="text-sm text-muted-foreground mb-6">¡Crea tu LLC hoy mismo! Conoce nuestros packs.</p>
+                          <h3 className="text-lg font-black text-primary mb-2">Aún no tienes ningún servicio activo</h3>
+                          <p className="text-sm text-muted-foreground mb-6">Cuando contrates un servicio, aquí verás todo su progreso paso a paso.</p>
                         </div>
                         <Link href="/servicios#pricing">
                           <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-packs">
-                            Ver Packs
+                            Constituir mi LLC
                           </Button>
                         </Link>
                       </div>
@@ -2175,15 +2175,15 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay pedidos activos</p></div>
+                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 mx-auto mb-2" /><p className="text-xs text-muted-foreground">Sin trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">En cuanto iniciemos un proceso, podrás seguirlo aquí en tiempo real.</p></div>
                 )}
               </div>
             </section>
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
-              <h3 className="text-base font-black text-primary mb-3">¿Necesitas ayuda?</h3>
-              <p className="text-xs text-primary/70 mb-5 leading-relaxed">Nuestro equipo de expertos está listo para resolver tus dudas.</p>
+              <h3 className="text-base font-black text-primary mb-3">¿Hablamos?</h3>
+              <p className="text-xs text-primary/70 mb-5 leading-relaxed">Nuestro equipo está disponible para ayudarte en cualquier momento.</p>
               <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-primary font-black rounded-full py-5">Contactar Soporte</Button>
+                <Button className="w-full bg-accent text-primary font-black rounded-full py-5">Hablar con soporte</Button>
               </a>
             </section>
           </div>
