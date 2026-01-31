@@ -333,7 +333,28 @@ export function getDocumentRequestTemplate(name: string, documentType: string, m
   return getEmailWrapper(content);
 }
 
-// 8e. Respuesta a consulta (admin a cliente)
+// 8e. Documento Subido por Admin
+export function getDocumentUploadedTemplate(name: string, documentType: string, orderCode: string) {
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Hemos añadido un nuevo documento a tu expediente:</p>
+    
+    <div style="background: linear-gradient(135deg, #D1FAE5 0%, #ECFDF5 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #10B981; text-align: center;">
+      <p style="margin: 0; font-size: 16px; font-weight: 700; color: #065F46;">${documentType}</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #047857;">Pedido: ${orderCode}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Puedes acceder y descargar este documento desde tu Área Cliente.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+    </div>
+  `;
+  return getEmailWrapper(content);
+}
+
+// 8f. Respuesta a consulta (admin a cliente)
 export function getMessageReplyTemplate(name: string, content: string, ticketId: string) {
   const emailContent = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>

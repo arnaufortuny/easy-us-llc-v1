@@ -7,9 +7,9 @@ import { z } from "zod";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@shared/schema";
 import type { Request, Response } from "express";
 import { db } from "./db";
-import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
+import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate } from "./lib/email";
 import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
-import { and, eq, gt, desc, sql, isNotNull } from "drizzle-orm";
+import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
 import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
 import { setupOAuth } from "./oauth";
@@ -502,7 +502,59 @@ export async function registerRoutes(
   app.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
+      
+      // Cascade delete all user-related data for security and data integrity
+      // 1. Get all orders for this user
+      const userOrders = await db.select({ id: ordersTable.id }).from(ordersTable).where(eq(ordersTable.userId, userId));
+      const orderIds = userOrders.map(o => o.id);
+      
+      // 2. Get all applications for this user
+      const userApps = await db.select({ id: llcApplicationsTable.id }).from(llcApplicationsTable).where(eq(llcApplicationsTable.userId, userId));
+      const appIds = userApps.map(a => a.id);
+      
+      // 3. Delete documents associated with orders/applications
+      if (orderIds.length > 0) {
+        await db.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.orderId, orderIds));
+      }
+      if (appIds.length > 0) {
+        await db.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.applicationId, appIds));
+      }
+      
+      // 4. Delete order events
+      if (orderIds.length > 0) {
+        await db.delete(orderEvents).where(inArray(orderEvents.orderId, orderIds));
+      }
+      
+      // 5. Delete user notifications
+      await db.delete(userNotifications).where(eq(userNotifications.userId, userId));
+      
+      // 6. Delete message replies and messages
+      const userMessages = await db.select({ id: messages.id }).from(messages).where(eq(messages.userId, userId));
+      const messageIds = userMessages.map(m => m.id);
+      if (messageIds.length > 0) {
+        await db.delete(messageReplies).where(inArray(messageReplies.messageId, messageIds));
+      }
+      await db.delete(messages).where(eq(messages.userId, userId));
+      
+      // 7. Delete maintenance applications
+      await db.delete(maintenanceApplicationsTable).where(eq(maintenanceApplicationsTable.userId, userId));
+      
+      // 8. Delete LLC applications
+      await db.delete(llcApplicationsTable).where(eq(llcApplicationsTable.userId, userId));
+      
+      // 9. Delete orders
+      await db.delete(ordersTable).where(eq(ordersTable.userId, userId));
+      
+      // 10. Finally delete the user
       await db.delete(usersTable).where(eq(usersTable.id, userId));
+      
+      logAudit({ 
+        action: 'user_deleted_cascade', 
+        userId: req.session?.userId, 
+        targetId: userId,
+        details: { deletedOrders: orderIds.length, deletedApps: appIds.length } 
+      });
+      
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -1067,18 +1119,32 @@ export async function registerRoutes(
           uploadedBy: req.session.userId
         }).returning();
 
-        // Notify user
+        // Notify user (dashboard notification + email)
         const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, Number(orderId))).limit(1);
         if (order?.userId) {
+          const orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+          const docLabel = docTypeLabels[documentType] || 'Documento';
+          
+          // Dashboard notification
           await db.insert(userNotifications).values({
             userId: order.userId,
             orderId: Number(orderId),
-            orderCode: llcApp?.requestCode || order.invoiceNumber || '',
+            orderCode,
             title: 'Nuevo documento disponible',
-            message: `Se ha añadido el documento "${docTypeLabels[documentType] || 'Documento'}" a tu expediente.`,
+            message: `Se ha añadido el documento "${docLabel}" a tu expediente.`,
             type: 'info',
             isRead: false
           });
+          
+          // Send email notification
+          const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
+          if (user?.email) {
+            sendEmail({
+              to: user.email,
+              subject: `Nuevo documento disponible - ${orderCode}`,
+              html: getDocumentUploadedTemplate(user.firstName || 'Cliente', docLabel, orderCode)
+            }).catch(() => {});
+          }
         }
         
         res.json(doc);
