@@ -808,10 +808,10 @@ export default function Dashboard() {
                                     <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-black">Pedido: {notif.orderCode}</span>
                                   )}
                                   {notif.type === 'action_required' && (
-                                    <span className="text-[10px] bg-red-100 text-red-700 px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
+                                    <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
                                   )}
                                   {notif.type === 'update' && (
-                                    <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
+                                    <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
                                   )}
                                   {notif.type === 'info' && (
                                     <span className="text-[10px] bg-gray-100 text-gray-700 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
