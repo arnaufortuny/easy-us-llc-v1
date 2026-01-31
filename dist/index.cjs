@@ -447,7 +447,7 @@ var init_db = __esm({
     }
     connectionString = process.env.DATABASE_URL;
     if (!connectionString.includes("sslmode=")) {
-      connectionString += (connectionString.includes("?") ? "&" : "?") + "sslmode=require";
+      connectionString += (connectionString.includes("?") ? "&" : "?") + "sslmode=no-verify";
     }
     pool = new Pool({
       connectionString,
@@ -4030,6 +4030,35 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ valid: false, message: "Error validating code" });
     }
   });
+  app2.get("/api/admin/invoices", isAdmin, async (req, res) => {
+    try {
+      const invoices = await db.select({
+        id: applicationDocuments.id,
+        orderId: applicationDocuments.orderId,
+        fileName: applicationDocuments.fileName,
+        fileUrl: applicationDocuments.fileUrl,
+        createdAt: applicationDocuments.createdAt,
+        order: {
+          id: orders.id,
+          amount: orders.amount,
+          currency: orders.currency,
+          status: orders.status,
+          invoiceNumber: orders.invoiceNumber,
+          createdAt: orders.createdAt
+        },
+        user: {
+          id: users.id,
+          firstName: users.firstName,
+          lastName: users.lastName,
+          email: users.email
+        }
+      }).from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).where((0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice")).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.createdAt));
+      res.json(invoices);
+    } catch (error) {
+      console.error("Error fetching invoices:", error);
+      res.status(500).json({ message: "Error al obtener facturas" });
+    }
+  });
   app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
     try {
       const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm10.desc)(newsletterSubscribers.subscribedAt));
@@ -4386,6 +4415,14 @@ async function registerRoutes(httpServer2, app2) {
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.delete("/api/user/notifications/:id", isAuthenticated, async (req, res) => {
+    try {
+      await db.delete(userNotifications).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm10.eq)(userNotifications.userId, req.session.userId)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar notificaci\xF3n" });
     }
   });
   app2.post("/api/user/request-password-otp", isAuthenticated, async (req, res) => {
