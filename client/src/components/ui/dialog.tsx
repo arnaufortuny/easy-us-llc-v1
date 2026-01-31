@@ -59,13 +59,14 @@ const DialogContent = React.forwardRef<
       style={{
         position: 'fixed',
         left: '50%',
-        top: '5%',
-        transform: 'translateX(-50%)',
+        top: '50%',
+        transform: 'translate(-50%, -50%)',
         zIndex: 99999,
-        maxHeight: '90vh',
+        maxHeight: '90dvh',
+        width: 'calc(100vw - 1rem)',
       }}
       className={cn(
-        "flex flex-col w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-2xl overflow-hidden",
+        "flex flex-col max-w-[95vw] sm:max-w-lg md:max-w-xl gap-3 sm:gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-xl sm:rounded-2xl overflow-y-auto",
         className
       )}
       {...props}
