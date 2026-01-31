@@ -5925,13 +5925,13 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         )
       ).limit(1);
       if (!record) {
-        return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
+        return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
       await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
-      res.status(400).json({ message: "Error al verificar el c\xF3digo" });
+      res.status(400).json({ message: "No se pudo verificar el c\xF3digo. Int\xE9ntalo de nuevo." });
     }
   });
   app2.post("/api/contact", async (req, res) => {
@@ -6044,13 +6044,13 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         )
       ).limit(1);
       if (!record) {
-        return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
+        return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
       await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying registration OTP:", err);
-      res.status(400).json({ message: "Error al verificar el c\xF3digo" });
+      res.status(400).json({ message: "No se pudo verificar el c\xF3digo. Int\xE9ntalo de nuevo." });
     }
   });
   app2.post("/api/password-reset/send-otp", async (req, res) => {
@@ -6104,7 +6104,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         )
       ).limit(1);
       if (!record) {
-        return res.status(400).json({ message: "C\xF3digo inv\xE1lido o caducado" });
+        return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
       const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
       if (!user) {

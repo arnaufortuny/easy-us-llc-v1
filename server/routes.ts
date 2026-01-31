@@ -852,7 +852,7 @@ export async function registerRoutes(
         orderId: applicationDocumentsTable.orderId,
         fileName: applicationDocumentsTable.fileName,
         fileUrl: applicationDocumentsTable.fileUrl,
-        createdAt: applicationDocumentsTable.createdAt,
+        uploadedAt: applicationDocumentsTable.uploadedAt,
         order: {
           id: ordersTable.id,
           amount: ordersTable.amount,
@@ -872,7 +872,7 @@ export async function registerRoutes(
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
         .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
         .where(eq(applicationDocumentsTable.documentType, "invoice"))
-        .orderBy(desc(applicationDocumentsTable.createdAt));
+        .orderBy(desc(applicationDocumentsTable.uploadedAt));
       res.json(invoices);
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -2740,8 +2740,7 @@ export async function registerRoutes(
         },
         product: {
           name: order.product?.name || (maintApp ? 'Mantenimiento LLC' : 'Formación LLC'),
-          description: order.product?.description || '',
-          features: order.product?.features as string[] || []
+          description: order.product?.description || ''
         },
         user: {
           firstName: order.user?.firstName,
