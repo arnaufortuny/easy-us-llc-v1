@@ -65,7 +65,7 @@ const DialogContent = React.forwardRef<
         maxHeight: '85vh',
       }}
       className={cn(
-        "grid w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-2xl overflow-y-auto overscroll-contain",
+        "grid w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-2xl overflow-y-auto overscroll-contain",
         className
       )}
       {...props}

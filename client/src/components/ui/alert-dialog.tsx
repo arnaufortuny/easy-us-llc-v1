@@ -44,12 +44,13 @@ const AlertDialogContent = React.forwardRef<
       style={{
         position: 'fixed',
         left: '50%',
-        top: '50%',
+        top: '35%',
         transform: 'translate(-50%, -50%)',
         zIndex: 99999,
+        maxHeight: '85vh',
       }}
       className={cn(
-        "grid w-full max-w-lg gap-4 border bg-background p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 sm:rounded-lg",
+        "grid w-[calc(100vw-2rem)] max-w-[calc(100vw-2rem)] sm:max-w-lg gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-2xl overflow-y-auto overscroll-contain",
         className
       )}
       {...props}
