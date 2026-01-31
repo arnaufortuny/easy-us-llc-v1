@@ -398,12 +398,19 @@ export default function Register() {
                                 type="button"
                                 variant="outline"
                                 onClick={() => form.setValue("businessActivity", activity)}
-                                className={`w-full justify-start text-left rounded-xl toggle-elevate ${
-                                  field.value === activity ? "toggle-elevated border-accent bg-accent/10" : ""
+                                className={`w-full justify-between text-left rounded-xl hover-elevate active-elevate-2 ${
+                                  field.value === activity 
+                                    ? "toggle-elevate toggle-elevated border-2 border-accent bg-accent/10" 
+                                    : ""
                                 }`}
                                 data-testid={`button-activity-${activity.toLowerCase().replace(/[^a-z0-9]/g, "-")}`}
                               >
-                                {activity}
+                                <span>{activity}</span>
+                                {field.value === activity && (
+                                  <svg className="h-5 w-5 text-accent shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                                  </svg>
+                                )}
                               </Button>
                             ))}
                           </div>
