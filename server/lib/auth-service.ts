@@ -186,6 +186,9 @@ export async function loginUser(email: string, password: string): Promise<typeof
     throw error;
   }
 
+  // Allow login for accounts under review, but with restricted access
+  // (restriction is handled in the routes, not here)
+
   const isValid = await verifyPassword(password, user.passwordHash);
   
   if (!isValid) {

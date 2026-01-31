@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import type { Server } from "http";
-import { setupCustomAuth, isAuthenticated, isAdmin } from "./lib/custom-auth";
+import { setupCustomAuth, isAuthenticated, isAdmin, isNotUnderReview } from "./lib/custom-auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
@@ -2364,11 +2364,17 @@ export async function registerRoutes(
       const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = req.body;
       const userId = req.session?.userId || null;
       
-      // Restrict suspended accounts from sending messages
+      // Restrict suspended or under-review accounts from sending new messages
       if (userId) {
         const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
         if (currentUser?.accountStatus === 'deactivated') {
-          return res.status(403).json({ message: "Tu cuenta está suspendida. No puedes enviar mensajes." });
+          return res.status(403).json({ message: "Tu cuenta está desactivada. No puedes enviar mensajes." });
+        }
+        if (currentUser?.accountStatus === 'pending') {
+          return res.status(403).json({ 
+            message: "Tu cuenta está en revisión. Nuestro equipo está realizando comprobaciones de seguridad.",
+            code: "ACCOUNT_UNDER_REVIEW"
+          });
         }
       }
       

@@ -389,17 +389,64 @@ export function setupCustomAuth(app: Express) {
         return res.status(401).json({ message: "No autenticado" });
       }
 
-      const { firstName, lastName, phone, address, businessActivity } = req.body;
+      const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity } = req.body;
+      
+      // Get current user to check for significant changes
+      const [currentUser] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
+      if (!currentUser) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      
+      // Count significant field changes (sensitive fields that require review)
+      const sensitiveFields = ['idNumber', 'idType', 'address', 'streetType', 'city', 'province', 'postalCode', 'country'];
+      let significantChanges = 0;
+      
+      const currentValues: Record<string, any> = {
+        idNumber: currentUser.idNumber,
+        idType: currentUser.idType,
+        address: currentUser.address,
+        streetType: currentUser.streetType,
+        city: currentUser.city,
+        province: currentUser.province,
+        postalCode: currentUser.postalCode,
+        country: currentUser.country,
+      };
+      
+      const newValues: Record<string, any> = { idNumber, idType, address, streetType, city, province, postalCode, country };
+      
+      for (const field of sensitiveFields) {
+        const oldVal = currentValues[field] || '';
+        const newVal = newValues[field] || '';
+        if (newVal && oldVal !== newVal) {
+          significantChanges++;
+        }
+      }
+      
+      // If 3 or more sensitive fields changed, put account under review
+      const needsReview = significantChanges >= 3 && currentUser.accountStatus === 'active';
+      
+      const updateData: any = {
+        firstName,
+        lastName,
+        phone,
+        address,
+        streetType,
+        city,
+        province,
+        postalCode,
+        country,
+        idNumber,
+        idType,
+        businessActivity,
+        updatedAt: new Date(),
+      };
+      
+      if (needsReview) {
+        updateData.accountStatus = 'pending';
+      }
 
       await db.update(users)
-        .set({
-          firstName,
-          lastName,
-          phone,
-          address,
-          businessActivity,
-          updatedAt: new Date(),
-        })
+        .set(updateData)
         .where(eq(users.id, userId));
 
       const [updatedUser] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -413,9 +460,18 @@ export function setupCustomAuth(app: Express) {
           lastName: updatedUser.lastName,
           phone: updatedUser.phone,
           address: updatedUser.address,
+          streetType: updatedUser.streetType,
+          city: updatedUser.city,
+          province: updatedUser.province,
+          postalCode: updatedUser.postalCode,
+          country: updatedUser.country,
+          idNumber: updatedUser.idNumber,
+          idType: updatedUser.idType,
           businessActivity: updatedUser.businessActivity,
           emailVerified: updatedUser.emailVerified,
+          accountStatus: updatedUser.accountStatus,
         },
+        accountUnderReview: needsReview,
       });
     } catch (error) {
       console.error("Update user error:", error);
@@ -423,6 +479,24 @@ export function setupCustomAuth(app: Express) {
     }
   });
 }
+
+// Middleware to check if account is under review (restricts most actions)
+export const isNotUnderReview: RequestHandler = async (req, res, next) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "No autenticado" });
+  }
+  
+  const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
+  
+  if (user?.accountStatus === 'pending') {
+    return res.status(403).json({ 
+      message: "Tu cuenta está en revisión. Nuestro equipo está realizando comprobaciones de seguridad.",
+      code: "ACCOUNT_UNDER_REVIEW"
+    });
+  }
+  
+  next();
+};
 
 export const isAuthenticated: RequestHandler = (req, res, next) => {
   if (!req.session.userId) {
