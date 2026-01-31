@@ -52,10 +52,10 @@ const DialogContent = React.forwardRef<
           ref={ref}
           onOpenAutoFocus={(e) => e.preventDefault()}
           className={cn(
-            "fixed inset-x-0 bottom-0 z-[99999] flex flex-col",
+            "fixed inset-x-0 bottom-[10%] z-[99999] flex flex-col",
             "bg-white dark:bg-zinc-900 border-t border-border",
-            "rounded-t-3xl shadow-2xl",
-            "max-h-[90dvh] overflow-hidden",
+            "rounded-3xl shadow-2xl mx-3",
+            "max-h-[75dvh] overflow-hidden",
             "data-[state=open]:animate-in data-[state=closed]:animate-out",
             "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
             "duration-300 ease-out",
@@ -97,7 +97,7 @@ const DialogContent = React.forwardRef<
           }
         }}
         className={cn(
-          "fixed left-1/2 top-1/2 z-[99999] -translate-x-1/2 -translate-y-1/2",
+          "fixed left-1/2 top-[40%] z-[99999] -translate-x-1/2 -translate-y-1/2",
           "w-full max-w-md",
           "bg-white dark:bg-zinc-900 border border-border",
           "rounded-2xl shadow-2xl",

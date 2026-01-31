@@ -1535,7 +1535,7 @@ export default function Dashboard() {
                         variant={adminSubTab === item.id ? "default" : "outline"}
                         onClick={() => setAdminSubTab(item.id)}
                         size="sm"
-                        className={`flex items-center justify-center gap-1.5 rounded-xl font-bold text-[10px] sm:text-xs h-10 px-2 ${
+                        className={`flex items-center justify-center gap-1.5 rounded-full font-bold text-[10px] sm:text-xs h-9 px-3 ${
                           adminSubTab === item.id 
                           ? 'bg-accent text-primary shadow-md' 
                           : 'bg-white dark:bg-zinc-900 text-muted-foreground border border-border hover:border-accent/50'
