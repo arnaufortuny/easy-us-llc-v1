@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
+import { StepProgress } from "@/components/ui/step-progress";
 
 const registerSchema = z.object({
   firstName: z.string().min(1, "Este campo es obligatorio"),
@@ -245,16 +246,7 @@ export default function Register() {
           </div>
 
           {step > 0 && (
-            <div className="flex justify-center gap-1.5 md:gap-2 mb-5 md:mb-8">
-              {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`h-1.5 md:h-2 rounded-full transition-all duration-300 ${
-                    i === step ? "w-6 md:w-8 bg-accent" : i < step ? "w-1.5 md:w-2 bg-accent" : "w-1.5 md:w-2 bg-muted"
-                  }`}
-                />
-              ))}
-            </div>
+            <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
           )}
 
           <div className="bg-white dark:bg-zinc-900 rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm">
