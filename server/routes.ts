@@ -96,7 +96,40 @@ export async function registerRoutes(
     next();
   });
   
-  // Helper function to detect suspicious order creation activity
+  // IP-based order creation tracking for temporary blocks
+  const ipOrderTracker = new Map<string, number[]>();
+  const IP_BLOCK_THRESHOLD = 7; // Block after 7+ orders from same IP in 24h
+  const IP_BLOCK_DURATION = 24 * 60 * 60 * 1000; // 24 hours
+  
+  // Clean up old IP tracking entries every hour
+  setInterval(() => {
+    const cutoff = Date.now() - IP_BLOCK_DURATION;
+    ipOrderTracker.forEach((timestamps, ip) => {
+      const valid = timestamps.filter(t => t > cutoff);
+      if (valid.length === 0) {
+        ipOrderTracker.delete(ip);
+      } else {
+        ipOrderTracker.set(ip, valid);
+      }
+    });
+  }, 3600000);
+  
+  // Check if IP is temporarily blocked from creating orders
+  function isIpBlockedFromOrders(ip: string): { blocked: boolean; ordersCount?: number } {
+    const timestamps = ipOrderTracker.get(ip) || [];
+    const cutoff = Date.now() - IP_BLOCK_DURATION;
+    const recentCount = timestamps.filter(t => t > cutoff).length;
+    return { blocked: recentCount >= IP_BLOCK_THRESHOLD, ordersCount: recentCount };
+  }
+  
+  // Track order creation by IP
+  function trackOrderByIp(ip: string): void {
+    const timestamps = ipOrderTracker.get(ip) || [];
+    timestamps.push(Date.now());
+    ipOrderTracker.set(ip, timestamps);
+  }
+  
+  // Helper function to detect suspicious order creation activity (more permissive thresholds)
   async function detectSuspiciousOrderActivity(userId: string): Promise<{ suspicious: boolean; reason?: string }> {
     // Check orders created in the last 24 hours
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
@@ -109,15 +142,15 @@ export async function registerRoutes(
         )
       );
     
-    // If user creates 3+ orders in 24 hours, flag as suspicious
-    if (recentOrders.length >= 3) {
+    // Flag if user creates 7+ orders in 24 hours (more permissive)
+    if (recentOrders.length >= 7) {
       return { suspicious: true, reason: `Created ${recentOrders.length} orders in 24 hours` };
     }
     
-    // Check for orders created in very short succession (3+ in 1 hour)
+    // Check for orders created in very short succession (4+ in 1 hour - more permissive)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     const veryRecentOrders = recentOrders.filter(o => o.createdAt && new Date(o.createdAt) > oneHourAgo);
-    if (veryRecentOrders.length >= 2) {
+    if (veryRecentOrders.length >= 4) {
       return { suspicious: true, reason: `Created ${veryRecentOrders.length} orders in 1 hour` };
     }
     
@@ -388,6 +421,95 @@ export async function registerRoutes(
     });
     
     res.json({ success: true, message: "Pedido eliminado correctamente" });
+  }));
+
+  // Get incomplete/draft applications for admin
+  app.get("/api/admin/incomplete-applications", isAdmin, async (req, res) => {
+    try {
+      const llcDrafts = await db.select({
+        id: llcApplicationsTable.id,
+        orderId: llcApplicationsTable.orderId,
+        requestCode: llcApplicationsTable.requestCode,
+        ownerFullName: llcApplicationsTable.ownerFullName,
+        ownerEmail: llcApplicationsTable.ownerEmail,
+        ownerPhone: llcApplicationsTable.ownerPhone,
+        companyName: llcApplicationsTable.companyName,
+        state: llcApplicationsTable.state,
+        status: llcApplicationsTable.status,
+        abandonedAt: llcApplicationsTable.abandonedAt,
+        remindersSent: llcApplicationsTable.remindersSent,
+        lastUpdated: llcApplicationsTable.lastUpdated,
+      })
+      .from(llcApplicationsTable)
+      .where(eq(llcApplicationsTable.status, "draft"))
+      .orderBy(desc(llcApplicationsTable.lastUpdated));
+      
+      const maintDrafts = await db.select({
+        id: maintenanceApplications.id,
+        orderId: maintenanceApplications.orderId,
+        requestCode: maintenanceApplications.requestCode,
+        ownerFullName: maintenanceApplications.ownerFullName,
+        ownerEmail: maintenanceApplications.ownerEmail,
+        ownerPhone: maintenanceApplications.ownerPhone,
+        companyName: maintenanceApplications.companyName,
+        state: maintenanceApplications.state,
+        status: maintenanceApplications.status,
+        abandonedAt: maintenanceApplications.abandonedAt,
+        remindersSent: maintenanceApplications.remindersSent,
+        lastUpdated: maintenanceApplications.lastUpdated,
+      })
+      .from(maintenanceApplications)
+      .where(eq(maintenanceApplications.status, "draft"))
+      .orderBy(desc(maintenanceApplications.lastUpdated));
+      
+      res.json({
+        llc: llcDrafts.map(d => ({ ...d, type: 'llc' })),
+        maintenance: maintDrafts.map(d => ({ ...d, type: 'maintenance' })),
+      });
+    } catch (error) {
+      console.error("Error fetching incomplete applications:", error);
+      res.status(500).json({ message: "Error fetching incomplete applications" });
+    }
+  });
+
+  // Delete incomplete application (admin only) - with full cascade cleanup
+  app.delete("/api/admin/incomplete-applications/:type/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { type, id } = req.params;
+    const appId = Number(id);
+    
+    if (type === 'llc') {
+      const [app] = await db.select({ orderId: llcApplicationsTable.orderId })
+        .from(llcApplicationsTable)
+        .where(and(eq(llcApplicationsTable.id, appId), eq(llcApplicationsTable.status, "draft")));
+      
+      if (!app) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      
+      // Cascade delete: documents, notifications, events, application, order
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+      await db.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, appId));
+      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+    } else if (type === 'maintenance') {
+      const [app] = await db.select({ orderId: maintenanceApplications.orderId })
+        .from(maintenanceApplications)
+        .where(and(eq(maintenanceApplications.id, appId), eq(maintenanceApplications.status, "draft")));
+      
+      if (!app) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      
+      // Cascade delete: documents, notifications, events, application, order
+      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+      await db.delete(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
+      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+    } else {
+      return res.status(400).json({ message: "Tipo de solicitud no válido" });
+    }
+    
+    res.json({ success: true, message: "Solicitud incompleta eliminada" });
   }));
 
   // Update LLC important dates with automatic calculation
@@ -2251,6 +2373,17 @@ export async function registerRoutes(
     try {
       const { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
+      // Check IP-based order creation limit first
+      const clientIp = getClientIp(req);
+      const ipCheck = isIpBlockedFromOrders(clientIp);
+      if (ipCheck.blocked) {
+        logAudit({ action: 'ip_order_blocked', details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
+        return res.status(429).json({ 
+          message: "Se ha alcanzado el límite de solicitudes desde esta conexión. Por favor, intenta más tarde o contacta con soporte.",
+          code: "IP_ORDER_LIMIT"
+        });
+      }
+      
       // Parse productId
       const parsedInput = api.orders.create.input.parse({ productId });
       
@@ -2402,6 +2535,9 @@ export async function registerRoutes(
 
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
 
+      // Track IP for order creation limiting
+      trackOrderByIp(clientIp);
+      
       // Notification to admin about NEW ORDER
       logActivity("Nuevo Pedido Recibido", {
         "Referencia": requestCode,
@@ -3047,6 +3183,17 @@ export async function registerRoutes(
     try {
       const { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
+      // Check IP-based order creation limit first
+      const clientIp = getClientIp(req);
+      const ipCheck = isIpBlockedFromOrders(clientIp);
+      if (ipCheck.blocked) {
+        logAudit({ action: 'ip_order_blocked', details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
+        return res.status(429).json({ 
+          message: "Se ha alcanzado el límite de solicitudes desde esta conexión. Por favor, intenta más tarde o contacta con soporte.",
+          code: "IP_ORDER_LIMIT"
+        });
+      }
+      
       let userId: string;
       let isNewUser = false;
       
@@ -3170,6 +3317,9 @@ export async function registerRoutes(
           isRead: false
         });
       }
+
+      // Track IP for order creation limiting
+      trackOrderByIp(clientIp);
 
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {

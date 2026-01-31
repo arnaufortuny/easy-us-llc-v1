@@ -313,6 +313,27 @@ export default function Dashboard() {
     refetchInterval: 30000,
   });
 
+  const { data: incompleteApps } = useQuery<{ llc: any[]; maintenance: any[] }>({
+    queryKey: ["/api/admin/incomplete-applications"],
+    enabled: !!user?.isAdmin,
+    refetchInterval: 30000,
+  });
+
+  const deleteIncompleteAppMutation = useMutation({
+    mutationFn: async ({ type, id }: { type: string; id: number }) => {
+      const res = await apiRequest("DELETE", `/api/admin/incomplete-applications/${type}/${id}`);
+      if (!res.ok) throw new Error("Error al eliminar");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/incomplete-applications"] });
+      toast({ title: "Eliminada", description: "Solicitud incompleta eliminada correctamente" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo eliminar la solicitud", variant: "destructive" });
+    }
+  });
+
   const { data: adminUsers } = useQuery<any[]>({
     queryKey: ["/api/admin/users"],
     enabled: !!user?.isAdmin,
@@ -1649,6 +1670,7 @@ export default function Dashboard() {
                     {[
                       { id: 'dashboard', label: 'Métricas', mobileLabel: 'Métricas', icon: BarChart3 },
                       { id: 'orders', label: 'Pedidos', mobileLabel: 'Pedidos', icon: Package },
+                      { id: 'incomplete', label: 'Incompletas', mobileLabel: 'Incompl.', icon: AlertCircle },
                       { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
                       { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
                       { id: 'calendar', label: 'Fechas', mobileLabel: 'Fechas', icon: Calendar },
@@ -1850,6 +1872,69 @@ export default function Dashboard() {
                             </div>
                           </div>
                         )})}
+                      </div>
+                    </Card>
+                  )}
+                  {adminSubTab === 'incomplete' && (
+                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                      <div className="p-4 border-b bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
+                        <h3 className="font-black text-sm flex items-center gap-2">
+                          <AlertCircle className="w-4 h-4 text-yellow-600" />
+                          Solicitudes Incompletas ({(incompleteApps?.llc?.length || 0) + (incompleteApps?.maintenance?.length || 0)})
+                        </h3>
+                        <p className="text-xs text-muted-foreground mt-1">Formularios no completados - se eliminan automáticamente tras 48h de inactividad</p>
+                      </div>
+                      <div className="divide-y">
+                        {[...(incompleteApps?.llc || []), ...(incompleteApps?.maintenance || [])].map((app: any) => {
+                          const hoursRemaining = app.abandonedAt 
+                            ? Math.max(0, Math.round(48 - ((Date.now() - new Date(app.abandonedAt).getTime()) / 3600000))) 
+                            : null;
+                          return (
+                            <div key={`${app.type}-${app.id}`} className="p-4 space-y-2" data-testid={`incomplete-app-${app.type}-${app.id}`}>
+                              <div className="flex justify-between items-start gap-3">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap mb-1">
+                                    <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
+                                      {app.type === 'maintenance' ? 'MANTENIMIENTO' : 'LLC'}
+                                    </Badge>
+                                    <Badge className="text-[9px] bg-orange-100 text-orange-700">INCOMPLETA</Badge>
+                                    {hoursRemaining !== null && (
+                                      <Badge className="text-[9px] bg-red-100 text-red-700">
+                                        {hoursRemaining > 0 ? `Se elimina en ${hoursRemaining}h` : 'Eliminación pendiente'}
+                                      </Badge>
+                                    )}
+                                  </div>
+                                  {app.ownerFullName && <p className="text-sm font-bold">{app.ownerFullName}</p>}
+                                  {app.ownerEmail && <p className="text-xs text-muted-foreground">{app.ownerEmail}</p>}
+                                  {app.ownerPhone && <p className="text-xs text-muted-foreground">{app.ownerPhone}</p>}
+                                  <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
+                                    {app.companyName && <p><strong>Empresa:</strong> {app.companyName}</p>}
+                                    {app.state && <p><strong>Estado:</strong> {app.state}</p>}
+                                    {app.remindersSent > 0 && <p><strong>Recordatorios:</strong> {app.remindersSent}/3 enviados</p>}
+                                    {app.lastUpdated && <p><strong>Última actividad:</strong> {new Date(app.lastUpdated).toLocaleString('es-ES')}</p>}
+                                  </div>
+                                </div>
+                                <Button 
+                                  size="sm" 
+                                  variant="outline" 
+                                  className="rounded-full text-xs text-red-600 border-red-200"
+                                  onClick={() => deleteIncompleteAppMutation.mutate({ type: app.type, id: app.id })}
+                                  disabled={deleteIncompleteAppMutation.isPending}
+                                  data-testid={`btn-delete-incomplete-${app.type}-${app.id}`}
+                                >
+                                  <Trash2 className="w-3 h-3 mr-1" />
+                                  Eliminar
+                                </Button>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        {(!incompleteApps?.llc?.length && !incompleteApps?.maintenance?.length) && (
+                          <div className="p-8 text-center text-muted-foreground">
+                            <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
+                            <p className="text-sm font-medium">No hay solicitudes incompletas</p>
+                          </div>
+                        )}
                       </div>
                     </Card>
                   )}

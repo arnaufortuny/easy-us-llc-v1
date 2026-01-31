@@ -120,7 +120,8 @@ export type AuditAction =
   | 'account_unlocked'
   | 'account_status_change'
   | 'account_flagged_for_review'
-  | 'security_otp_required';
+  | 'security_otp_required'
+  | 'ip_order_blocked';
 
 interface AuditLogEntry {
   action: AuditAction;
