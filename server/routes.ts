@@ -953,6 +953,17 @@ export async function registerRoutes(
     }
   });
 
+  app.delete("/api/admin/messages/:id", isAdmin, async (req, res) => {
+    try {
+      const msgId = Number(req.params.id);
+      await db.delete(messageReplies).where(eq(messageReplies.messageId, msgId));
+      await db.delete(messages).where(eq(messages.id, msgId));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar mensaje" });
+    }
+  });
+
   // Document Management - Upload official docs by Admin
   app.post("/api/admin/documents", isAdmin, async (req, res) => {
     try {

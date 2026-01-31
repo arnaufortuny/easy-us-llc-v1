@@ -2035,6 +2035,24 @@ export default function Dashboard() {
                               <div className="flex items-center gap-2">
                                 <Badge variant="outline" className="text-[10px]">{msg.messageId || msg.id}</Badge>
                                 <Badge variant="secondary" className="text-[10px]">{msg.status || 'pendiente'}</Badge>
+                                <Button 
+                                  size="icon" 
+                                  variant="ghost" 
+                                  className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
+                                  onClick={async (e) => {
+                                    e.stopPropagation();
+                                    if (confirm('¿Eliminar este mensaje y todas sus respuestas?')) {
+                                      try {
+                                        await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
+                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+                                        toast({ title: "Mensaje eliminado" });
+                                      } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
+                                    }
+                                  }}
+                                  data-testid={`btn-delete-msg-${msg.id}`}
+                                >
+                                  <Trash2 className="w-3.5 h-3.5" />
+                                </Button>
                               </div>
                             </div>
                             <p className="text-xs font-medium">{msg.subject}</p>
