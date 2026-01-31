@@ -2624,7 +2624,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl top-[55%]">
           <DialogHeader>
             <DialogTitle className="text-lg sm:text-xl font-black text-primary">Subir Documento</DialogTitle>
           </DialogHeader>
