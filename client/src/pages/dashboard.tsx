@@ -701,8 +701,8 @@ export default function Dashboard() {
                           <Package className="w-8 h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2">Aún no tienes servicios activos</h3>
-                          <p className="text-sm text-muted-foreground mb-6">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
+                          <h3 className="text-lg font-black text-primary mb-2 text-center">Aún no tienes servicios activos</h3>
+                          <p className="text-sm text-muted-foreground mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
                         </div>
                         <Link href="/servicios#pricing">
                           <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-packs">
@@ -800,8 +800,8 @@ export default function Dashboard() {
                           <BellRing className="w-8 h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2">Sin notificaciones</h3>
-                          <p className="text-sm text-muted-foreground">Las actualizaciones de tus trámites aparecerán aquí.</p>
+                          <h3 className="text-lg font-black text-primary mb-2 text-center">Sin notificaciones</h3>
+                          <p className="text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
                         </div>
                       </div>
                     </Card>
@@ -886,8 +886,8 @@ export default function Dashboard() {
                             <MessageSquare className="w-8 h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-black text-primary mb-2">Sin consultas activas</h3>
-                            <p className="text-sm text-muted-foreground mb-6">Te responderá una persona, no un bot.</p>
+                            <h3 className="text-lg font-black text-primary mb-2 text-center">Sin consultas activas</h3>
+                            <p className="text-sm text-muted-foreground mb-6 text-center">Te responderá una persona, no un bot.</p>
                           </div>
                           <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
                             <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-support-whatsapp">
@@ -1045,8 +1045,8 @@ export default function Dashboard() {
                             <CreditCard className="w-8 h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-lg font-black text-primary mb-2">Sin pagos registrados</h3>
-                            <p className="text-sm text-muted-foreground mb-6">Tus facturas y recibos aparecerán aquí.</p>
+                            <h3 className="text-lg font-black text-primary mb-2 text-center">Sin pagos registrados</h3>
+                            <p className="text-sm text-muted-foreground mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
                           </div>
                           <Link href="/servicios#pricing">
                             <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-view-services">
@@ -1204,8 +1204,8 @@ export default function Dashboard() {
                           <Calendar className="w-8 h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-lg font-black text-primary mb-2">Calendario Fiscal</h3>
-                          <p className="text-sm text-muted-foreground mb-6">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
+                          <h3 className="text-lg font-black text-primary mb-2 text-center">Calendario Fiscal</h3>
+                          <p className="text-sm text-muted-foreground mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
                         <Link href="/servicios#pricing">
                           <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-start-llc-calendar">
