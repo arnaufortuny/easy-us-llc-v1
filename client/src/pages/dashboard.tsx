@@ -2489,7 +2489,7 @@ export default function Dashboard() {
                       <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-invoice-currency">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
+                      <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
                         <SelectItem value="EUR">EUR</SelectItem>
                         <SelectItem value="USD">USD</SelectItem>
                       </SelectContent>
@@ -2535,7 +2535,7 @@ export default function Dashboard() {
       </Dialog>
 
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl mx-auto">
+        <DialogContent className="sm:max-w-md bg-white dark:bg-zinc-900 rounded-2xl">
           <DialogHeader>
             <DialogTitle className="text-lg sm:text-xl font-black text-primary">Subir Documento</DialogTitle>
           </DialogHeader>
@@ -2555,7 +2555,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm" style={{ fontSize: '16px' }} data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl max-h-[50vh]" position="popper" sideOffset={4}>
+                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl max-h-[50vh]" position="popper" sideOffset={4} style={{ zIndex: 999999 }}>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                   <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                   <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2668,7 +2668,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-user">
                   <SelectValue placeholder="Seleccionar cliente..." />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
+                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
                   {adminUsers?.map((u: any) => (
                     <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
                   ))}
@@ -2681,7 +2681,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-state">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
+                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
                   <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
                   <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
                   <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
@@ -2733,7 +2733,7 @@ export default function Dashboard() {
                   <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-discount-type">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 z-[9999] rounded-xl">
+                  <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
                     <SelectItem value="percentage">Porcentaje (%)</SelectItem>
                     <SelectItem value="fixed">Fijo (centimos)</SelectItem>
                   </SelectContent>
