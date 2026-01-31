@@ -1515,7 +1515,7 @@ export default function Dashboard() {
                 <div key="admin" className="space-y-6">
                   <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6">
                     {['dashboard', 'orders', 'users', 'facturas', 'calendar', 'docs', 'newsletter', 'inbox', 'descuentos'].map(tab => (
-                      <Button key={tab} variant={adminSubTab === tab ? "default" : "outline"} onClick={() => setAdminSubTab(tab)} className="rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3" data-testid={`button-admin-tab-${tab}`}>
+                      <Button key={tab} variant="ghost" onClick={() => setAdminSubTab(tab)} className={`rounded-full text-[10px] md:text-xs font-black capitalize px-2 md:px-3 ${adminSubTab === tab ? 'bg-accent text-primary shadow-lg shadow-accent/20' : 'bg-white dark:bg-zinc-800 text-muted-foreground border-0 shadow-sm'}`} data-testid={`button-admin-tab-${tab}`}>
                         <span className="hidden sm:inline-flex items-center gap-1.5">
                           {tab === 'dashboard' ? <BarChart3 className="w-3.5 h-3.5" /> : tab === 'calendar' ? <Calendar className="w-3.5 h-3.5" /> : tab === 'orders' ? <Package className="w-3.5 h-3.5" /> : tab === 'users' ? <Users className="w-3.5 h-3.5" /> : tab === 'docs' ? <FileText className="w-3.5 h-3.5" /> : tab === 'newsletter' ? <Mail className="w-3.5 h-3.5" /> : tab === 'descuentos' ? <Tag className="w-3.5 h-3.5" /> : tab === 'facturas' ? <Receipt className="w-3.5 h-3.5" /> : <MessageSquare className="w-3.5 h-3.5" />}
                           {tab === 'dashboard' ? 'Métricas' : tab === 'calendar' ? 'Fechas' : tab === 'orders' ? 'Pedidos' : tab === 'users' ? 'Clientes' : tab === 'docs' ? 'Documentos' : tab === 'descuentos' ? 'Descuentos' : tab === 'facturas' ? 'Facturas' : tab === 'newsletter' ? 'Newsletter' : 'Inbox'}
@@ -1525,12 +1525,12 @@ export default function Dashboard() {
                     ))}
                   </div>
                   <div className="flex gap-2 mb-4">
-                    <Button variant="outline" size="sm" className="rounded-full text-xs font-semibold" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-zinc-800 shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
                       <Plus className="w-3 h-3 mr-1" />
                       <span className="hidden sm:inline">Nuevo Cliente</span>
                       <span className="sm:hidden">Cliente</span>
                     </Button>
-                    <Button variant="outline" size="sm" className="rounded-full text-xs font-semibold" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-zinc-800 shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
                       <Plus className="w-3 h-3 mr-1" />
                       <span className="hidden sm:inline">Nuevo Pedido</span>
                       <span className="sm:hidden">Pedido</span>
