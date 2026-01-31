@@ -163,6 +163,7 @@ export default function Dashboard() {
   const [paymentLinkAmount, setPaymentLinkAmount] = useState("");
   const [paymentLinkMessage, setPaymentLinkMessage] = useState("");
   const [isSendingPaymentLink, setIsSendingPaymentLink] = useState(false);
+  const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
   const [adminDocUploadDialog, setAdminDocUploadDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
   const [adminDocType, setAdminDocType] = useState("articles_of_organization");
   const [adminDocFile, setAdminDocFile] = useState<File | null>(null);
@@ -412,13 +413,21 @@ export default function Dashboard() {
 
   const sendNoteMutation = useMutation({
     mutationFn: async ({ userId, title, message, type }: { userId: string, title: string, message: string, type: string }) => {
-      await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
+      const res = await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || "Error al enviar");
+      }
+      return res.json();
     },
     onSuccess: () => {
       toast({ title: "Nota enviada", description: "El cliente recibirá notificación y email" });
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
       setNoteMessage("");
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo enviar la nota", variant: "destructive" });
     }
   });
 
@@ -2582,31 +2591,38 @@ export default function Dashboard() {
                 <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
                 <Button 
                   className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
-                  disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0}
+                  disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
                   onClick={async () => {
+                    setIsGeneratingInvoice(true);
                     try {
                       const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
                       if (amountCents <= 0) {
                         toast({ title: "Error", description: "El importe debe ser mayor que 0", variant: "destructive" });
                         return;
                       }
-                      await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
+                      const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
                         amount: amountCents,
                         currency: orderInvoiceCurrency
                       });
+                      if (!res.ok) {
+                        const data = await res.json().catch(() => ({}));
+                        throw new Error(data.message || "Error al generar factura");
+                      }
                       toast({ title: "Factura generada", description: `Factura creada por ${orderInvoiceAmount} ${orderInvoiceCurrency}` });
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-                      // Open invoice in new tab for download
                       window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
                       setGenerateInvoiceDialog({ open: false, order: null });
-                    } catch (err) {
-                      toast({ title: "Error", description: "No se pudo generar la factura", variant: "destructive" });
+                      setOrderInvoiceAmount("");
+                    } catch (err: any) {
+                      toast({ title: "Error", description: err.message || "No se pudo generar la factura", variant: "destructive" });
+                    } finally {
+                      setIsGeneratingInvoice(false);
                     }
                   }}
                   data-testid="button-confirm-generate-invoice"
                 >
-                  Generar Factura
+                  {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generar Factura'}
                 </Button>
               </DialogFooter>
             </DialogContent>
