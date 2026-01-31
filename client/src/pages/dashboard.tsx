@@ -17,7 +17,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SocialLogin } from "@/components/auth/social-login";
-import { AIChatWidget } from "@/components/ai-chat-widget";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
@@ -694,92 +693,73 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   ) : (
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
-                      {orders.filter(o => o.application && !o.maintenanceApplication).slice(0, 2).map((order) => (
-                        <LLCProgressWidget 
-                          key={`progress-${order.id}`}
-                          status={order.status}
-                          llcName={order.application?.companyName ? `${order.application.companyName} LLC` : order.product?.name || 'Tu LLC'}
-                          state={order.application?.state}
-                          requestCode={order.application?.requestCode || order.invoiceNumber}
-                          data-testid={`widget-progress-${order.id}`}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  
-                  {orders && orders.length > 0 && (
-                    <div className="mt-6">
-                      <h3 className="text-sm font-bold text-muted-foreground mb-3">Historial de Pedidos</h3>
-                      <div className="grid grid-cols-1 gap-3 md:gap-4">
-                        {orders.map((order) => (
-                          <Card key={order.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-zinc-900 overflow-hidden" data-testid={`card-order-${order.id}`}>
-                            <CardHeader className="bg-primary/5 pb-3 md:pb-4 p-3 md:p-6">
-                              <div className="flex justify-between items-start gap-2">
-                                <div className="min-w-0 flex-1">
-                                  <p className="text-[9px] md:text-[10px] font-black text-accent uppercase tracking-widest mb-1">Pedido: {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || order.id}</p>
-                                  <CardTitle className="text-base md:text-lg font-black text-primary truncate">
-                                    {order.maintenanceApplication 
-                                      ? `Mantenimiento ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
-                                      : order.application?.companyName 
-                                        ? `${order.application.companyName} LLC`
-                                        : order.product?.name || 'LLC pendiente'
-                                    }
-                                  </CardTitle>
-                                  <p className="text-[10px] md:text-xs text-muted-foreground mt-0.5">{order.application?.state || order.maintenanceApplication?.state || ''}</p>
-                                </div>
-                                <Badge className={`${getOrderStatusLabel(order.status).className} font-black uppercase text-[9px] md:text-[10px] shrink-0`} data-testid={`badge-order-status-${order.id}`}>
-                                  {getOrderStatusLabel(order.status).label}
-                                </Badge>
-                              </div>
-                            </CardHeader>
-                            <CardContent className="pt-4 md:pt-6 p-3 md:p-6">
-                              <div className="relative pl-5 md:pl-6 space-y-3 md:space-y-4 before:absolute before:left-1.5 md:before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-gray-100">
-                                {order.events?.slice(0, 3).map((event: any, i: number) => (
-                                  <div key={i} className="relative">
-                                    <div className={`absolute -left-[1.1rem] md:-left-[1.35rem] top-1 md:top-1.5 w-2.5 h-2.5 md:w-3 md:h-3 rounded-full border-2 border-white ${i === 0 ? 'bg-accent animate-pulse' : 'bg-gray-300'}`} />
-                                    <div className="flex justify-between items-center gap-2">
-                                      <p className={`text-[11px] md:text-xs font-bold ${i === 0 ? 'text-primary' : 'text-muted-foreground'}`}>{event.eventType}</p>
-                                      <span className="text-[9px] text-muted-foreground shrink-0">{new Date(event.createdAt).toLocaleDateString()}</span>
-                                    </div>
-                                    <p className="text-[9px] md:text-[10px] text-muted-foreground line-clamp-1">{event.description}</p>
-                                  </div>
-                                ))}
-                                {!order.events?.length && (
-                                  <div className="relative">
-                                    <div className="absolute -left-[1.35rem] top-1.5 w-3 h-3 rounded-full border-2 border-white bg-accent animate-pulse" />
-                                    <p className="text-xs font-black text-primary">Pedido Recibido</p>
-                                    <p className="text-[10px] text-muted-foreground">
-                                      {(order.application?.status === 'submitted' || order.maintenanceApplication?.status === 'submitted')
-                                        ? 'Formulario completado.'
-                                        : (order.application?.status === 'pending' || order.maintenanceApplication?.status === 'pending')
-                                          ? 'Falta información del formulario.'
-                                          : (order.status === 'completed' || order.status === 'filed')
-                                            ? 'Proceso completado.'
-                                            : 'Estamos procesando tu solicitud.'
-                                      }
-                                    </p>
-                                  </div>
-                                )}
-                              </div>
-                              {order.status === 'pending' && order.application && (
-                                <div className="mt-6 pt-4 border-t border-gray-100 dark:border-zinc-700 flex gap-2">
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    className="flex-1 text-[10px] h-8 rounded-full font-black"
-                                    onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
-                                    data-testid={`button-modify-order-${order.id}`}
-                                  >
-                                    Modificar datos
-                                  </Button>
-                                </div>
-                              )}
-                            </CardContent>
-                          </Card>
+                    <>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                        {orders.filter(o => o.status !== 'cancelled' && o.status !== 'completed').slice(0, 4).map((order) => (
+                          <LLCProgressWidget 
+                            key={`progress-${order.id}`}
+                            status={order.status}
+                            serviceName={
+                              order.maintenanceApplication 
+                                ? `Mant. ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
+                                : order.application?.companyName 
+                                  ? `${order.application.companyName} LLC`
+                                  : order.product?.name || 'Tu LLC'
+                            }
+                            state={order.application?.state || order.maintenanceApplication?.state}
+                            requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
+                            isMaintenance={!!order.maintenanceApplication}
+                          />
                         ))}
                       </div>
-                    </div>
+                      
+                      {orders.length > 0 && (
+                        <div className="mt-4 md:mt-6">
+                          <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">Todos los Pedidos</h3>
+                          <div className="space-y-2 md:space-y-3">
+                            {orders.map((order) => (
+                              <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-zinc-900 overflow-hidden" data-testid={`card-order-${order.id}`}>
+                                <div className="flex items-center justify-between p-3 md:p-4 gap-2">
+                                  <div className="min-w-0 flex-1">
+                                    <div className="flex items-center gap-2 mb-0.5">
+                                      <p className="text-[9px] md:text-[10px] font-bold text-accent uppercase tracking-wider">
+                                        {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`}
+                                      </p>
+                                      <Badge className={`${getOrderStatusLabel(order.status).className} font-bold uppercase text-[8px] md:text-[9px] px-1.5 py-0`} data-testid={`badge-order-status-${order.id}`}>
+                                        {getOrderStatusLabel(order.status).label}
+                                      </Badge>
+                                    </div>
+                                    <p className="text-sm md:text-base font-bold text-primary truncate">
+                                      {order.maintenanceApplication 
+                                        ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
+                                        : order.application?.companyName 
+                                          ? `${order.application.companyName} LLC`
+                                          : order.product?.name || 'LLC pendiente'
+                                      }
+                                    </p>
+                                    <p className="text-[10px] md:text-xs text-muted-foreground">
+                                      {order.application?.state || order.maintenanceApplication?.state || ''}
+                                      {order.createdAt && ` · ${new Date(order.createdAt).toLocaleDateString('es-ES')}`}
+                                    </p>
+                                  </div>
+                                  {order.status === 'pending' && order.application && (
+                                    <Button 
+                                      variant="outline" 
+                                      size="sm" 
+                                      className="text-[9px] md:text-[10px] h-7 md:h-8 px-2 md:px-3 rounded-full font-bold shrink-0"
+                                      onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
+                                      data-testid={`button-modify-order-${order.id}`}
+                                    >
+                                      Modificar
+                                    </Button>
+                                  )}
+                                </div>
+                              </Card>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
               )}
@@ -2962,7 +2942,6 @@ export default function Dashboard() {
       </Dialog>
 
       <Footer />
-      <AIChatWidget />
     </div>
   );
 }
