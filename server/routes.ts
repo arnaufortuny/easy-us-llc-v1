@@ -3204,7 +3204,7 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "Código inválido o caducado" });
+        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
 
       await db.update(contactOtps)
@@ -3214,7 +3214,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
-      res.status(400).json({ message: "Error al verificar el código" });
+      res.status(400).json({ message: "No se pudo verificar el código. Inténtalo de nuevo." });
     }
   });
 
@@ -3364,7 +3364,7 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "Código inválido o caducado" });
+        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
 
       await db.update(contactOtps)
@@ -3374,7 +3374,7 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying registration OTP:", err);
-      res.status(400).json({ message: "Error al verificar el código" });
+      res.status(400).json({ message: "No se pudo verificar el código. Inténtalo de nuevo." });
     }
   });
 
@@ -3446,7 +3446,7 @@ export async function registerRoutes(
         .limit(1);
 
       if (!record) {
-        return res.status(400).json({ message: "Código inválido o caducado" });
+        return res.status(400).json({ message: "El código ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
 
       // Find the user
