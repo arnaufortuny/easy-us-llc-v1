@@ -1198,32 +1198,21 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="overflow-hidden" data-testid="widget-calendar-empty">
-                      <CardHeader className="pb-2 md:pb-3 p-3 md:p-4 bg-primary/5">
-                        <CardTitle className="text-sm md:text-base font-bold flex items-center gap-2">
-                          <Calendar className="h-4 w-4 md:h-5 md:w-5 text-primary" />
-                          <span>Calendario Fiscal</span>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 md:p-4 space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg">
-                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-muted flex items-center justify-center shrink-0">
-                            <Clock className="w-5 h-5 md:w-6 md:h-6 text-muted-foreground/50" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm md:text-base font-medium text-foreground">Sin fechas programadas</p>
-                            <p className="text-xs text-muted-foreground">Tus vencimientos fiscales aparecerán aquí</p>
-                          </div>
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-8 text-center" data-testid="widget-calendar-empty">
+                      <div className="flex flex-col items-center gap-4">
+                        <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center">
+                          <Calendar className="w-8 h-8 text-accent" />
                         </div>
-                        <div className="space-y-2 pt-2 border-t border-border">
-                          <p className="text-xs text-muted-foreground text-center">Constituye tu LLC para activar el calendario</p>
-                          <Link href="/servicios#pricing">
-                            <Button className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-10 md:h-11">
-                              <PlusCircle className="w-4 h-4 mr-2" /> Constituir mi LLC
-                            </Button>
-                          </Link>
+                        <div>
+                          <h3 className="text-lg font-black text-primary mb-2">Calendario Fiscal</h3>
+                          <p className="text-sm text-muted-foreground mb-6">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
-                      </CardContent>
+                        <Link href="/servicios#pricing">
+                          <Button className="bg-accent text-primary font-black rounded-full px-8 py-3" data-testid="button-start-llc-calendar">
+                            Constituir mi LLC
+                          </Button>
+                        </Link>
+                      </div>
                     </Card>
                   )}
                 </div>
