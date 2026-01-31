@@ -15,13 +15,18 @@ const SelectValue = SelectPrimitive.Value
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+>(({ className, children, onPointerDown, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
       "flex min-h-[44px] md:min-h-[36px] w-full items-center justify-between rounded-full border border-border bg-white dark:bg-zinc-900 px-4 py-3 md:py-2 text-base md:text-sm text-foreground ring-offset-background data-[placeholder]:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 touch-manipulation",
       className
     )}
+    onPointerDown={(e) => {
+      e.preventDefault();
+      (e.target as HTMLElement).click();
+      onPointerDown?.(e);
+    }}
     {...props}
   >
     {children}
