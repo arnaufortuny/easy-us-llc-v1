@@ -36,7 +36,7 @@ const DialogContent = React.forwardRef<
   return (
     <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
       <DialogPrimitive.Overlay 
-        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200"
+        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm"
       />
       <DialogPrimitive.Content
         ref={ref}
@@ -49,10 +49,6 @@ const DialogContent = React.forwardRef<
           "rounded-2xl shadow-2xl",
           "max-h-[80vh] overflow-y-auto overscroll-contain",
           "p-6",
-          "data-[state=open]:animate-in data-[state=closed]:animate-out",
-          "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
-          "data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
-          "duration-200",
           "md:top-1/2",
           className
         )}
