@@ -84,9 +84,9 @@ export default function SalesPage() {
             Tu LLC en 48-72h
           </Badge>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-zinc-900 dark:text-white mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 dark:text-white mb-6 text-center">
             Crea tu LLC en
-            <span className="block text-green-600 dark:text-green-400 mt-2">Estados Unidos</span>
+            <span className="block text-green-500 dark:text-green-400 mt-2">Estados Unidos</span>
           </h1>
           
           <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
@@ -99,7 +99,7 @@ export default function SalesPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <Button 
               size="lg" 
-              className="bg-green-600 text-white gap-2 shadow-lg shadow-green-600/30 text-base font-semibold px-8"
+              className="bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 text-lg font-bold px-10"
               onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-ver-planes"
             >
@@ -108,7 +108,7 @@ export default function SalesPage() {
             </Button>
             <Button 
               size="lg" 
-              className="bg-[#25D366] text-white gap-2 shadow-lg shadow-green-500/30 text-base font-semibold px-8"
+              className="bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 text-lg font-bold px-10"
               asChild
             >
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-hero">
@@ -189,7 +189,7 @@ export default function SalesPage() {
               </div>
 
               <Button 
-                className="w-full bg-green-600 text-white gap-2 shadow-lg shadow-green-600/30 font-semibold text-base"
+                className="w-full bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 font-bold text-lg"
                 size="lg"
                 asChild
               >
@@ -239,7 +239,7 @@ export default function SalesPage() {
               </div>
 
               <Button 
-                className="w-full bg-blue-600 text-white gap-2 shadow-lg shadow-blue-600/30 font-semibold text-base"
+                className="w-full bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 font-bold text-lg"
                 size="lg"
                 asChild
               >
@@ -423,7 +423,7 @@ export default function SalesPage() {
                 </div>
                 <Button 
                   type="submit" 
-                  className="w-full bg-green-600 text-white gap-2 font-semibold text-base shadow-lg shadow-green-600/30"
+                  className="w-full bg-green-500 text-white gap-2 font-bold text-lg shadow-xl shadow-green-500/40"
                   size="lg"
                   data-testid="button-submit-lead"
                 >
@@ -448,7 +448,7 @@ export default function SalesPage() {
             </div>
 
             <Button 
-              className="w-full bg-[#25D366] text-white gap-2 font-semibold text-base shadow-lg shadow-green-500/30"
+              className="w-full bg-green-500 text-white gap-2 font-bold text-lg shadow-xl shadow-green-500/40"
               size="lg"
               asChild
             >
