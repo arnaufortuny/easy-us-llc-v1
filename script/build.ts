@@ -28,15 +28,15 @@ const build = async () => {
       bundle: true,
       platform: "node",
       target: "node20",
-      outfile: "dist/index.js",
+      outfile: "dist/index.cjs",
       external: [...dependencies, ...devDependencies, "pg-native"],
-      format: "esm",
+      format: "cjs",
       sourcemap: true,
     });
 
     // Check if output file exists
-    if (!fs.existsSync("dist/index.js")) {
-      throw new Error("Build output dist/index.js was not generated");
+    if (!fs.existsSync("dist/index.cjs")) {
+      throw new Error("Build output dist/index.cjs was not generated");
     }
 
     console.log("Build completed successfully!");
