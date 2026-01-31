@@ -63,9 +63,16 @@ export async function registerRoutes(
   // Cleanup expired OTPs every 10 minutes
   setInterval(async () => {
     try {
-      await db.delete(contactOtps).where(
+      // Use a timeout for the query to prevent it from hanging and potentially causing connection termination
+      const cleanupPromise = db.delete(contactOtps).where(
         sql`${contactOtps.expiresAt} < NOW()`
       );
+      
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('OTP cleanup query timeout')), 15000)
+      );
+
+      await Promise.race([cleanupPromise, timeoutPromise]);
     } catch (e) {
       console.error("OTP cleanup error:", e);
     }
