@@ -31,7 +31,7 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen font-sans text-left bg-background overflow-x-hidden w-full relative">
+    <div className="min-h-screen font-sans text-left bg-background bg-green-gradient overflow-x-hidden w-full relative">
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center pt-16 sm:pt-8 min-h-[400px] sm:min-h-[70vh] w-full"

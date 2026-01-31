@@ -126,7 +126,7 @@ export default function FAQ() {
   })).filter(category => category.questions.length > 0);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative">
+    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans text-left overflow-x-hidden w-full relative">
       <Navbar />
 
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">

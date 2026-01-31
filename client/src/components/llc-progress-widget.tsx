@@ -1,6 +1,7 @@
 import { CheckCircle2, Circle, Clock, FileText, Building2, CreditCard, Wrench } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { useTranslation } from "react-i18next";
 
 interface ProgressWidgetProps {
   status: string;
@@ -10,26 +11,27 @@ interface ProgressWidgetProps {
   isMaintenance?: boolean;
 }
 
-const LLC_STEPS = [
-  { id: 'pending', label: 'Pedido Recibido', icon: CreditCard, description: 'Tu pedido ha sido registrado' },
-  { id: 'paid', label: 'Pago Confirmado', icon: CheckCircle2, description: 'Pago procesado correctamente' },
-  { id: 'processing', label: 'En Tramitación', icon: Clock, description: 'Preparando documentación' },
-  { id: 'filed', label: 'Presentado', icon: FileText, description: 'Documentos enviados al estado' },
-  { id: 'completed', label: 'LLC Activa', icon: Building2, description: 'Tu LLC está operativa' }
+const getLLCSteps = (t: (key: string) => string) => [
+  { id: 'pending', label: t('progress.orderReceived'), icon: CreditCard, description: t('progress.orderRegistered') },
+  { id: 'paid', label: t('progress.paymentConfirmed'), icon: CheckCircle2, description: t('progress.paymentProcessed') },
+  { id: 'processing', label: t('progress.processing'), icon: Clock, description: t('progress.preparingDocs') },
+  { id: 'filed', label: t('progress.filed'), icon: FileText, description: t('progress.docsSent') },
+  { id: 'completed', label: t('progress.llcActive'), icon: Building2, description: t('progress.llcOperational') }
 ];
 
-const MAINTENANCE_STEPS = [
-  { id: 'pending', label: 'Solicitud Recibida', icon: CreditCard, description: 'Tu solicitud está registrada' },
-  { id: 'paid', label: 'Pago Confirmado', icon: CheckCircle2, description: 'Pago procesado correctamente' },
-  { id: 'processing', label: 'En Proceso', icon: Clock, description: 'Gestionando tu renovación' },
-  { id: 'filed', label: 'Presentado', icon: FileText, description: 'Documentos actualizados' },
-  { id: 'completed', label: 'Completado', icon: Wrench, description: 'Mantenimiento finalizado' }
+const getMaintenanceSteps = (t: (key: string) => string) => [
+  { id: 'pending', label: t('progress.requestReceived'), icon: CreditCard, description: t('progress.requestRegistered') },
+  { id: 'paid', label: t('progress.paymentConfirmed'), icon: CheckCircle2, description: t('progress.paymentProcessed') },
+  { id: 'processing', label: t('progress.inProcess'), icon: Clock, description: t('progress.managingRenewal') },
+  { id: 'filed', label: t('progress.filed'), icon: FileText, description: t('progress.docsUpdated') },
+  { id: 'completed', label: t('progress.completed'), icon: Wrench, description: t('progress.maintenanceComplete') }
 ];
 
 const STATUS_ORDER = ['pending', 'paid', 'processing', 'filed', 'documents_ready', 'completed'];
 
 export function LLCProgressWidget({ status, serviceName, state, requestCode, isMaintenance = false }: ProgressWidgetProps) {
-  const STEPS = isMaintenance ? MAINTENANCE_STEPS : LLC_STEPS;
+  const { t } = useTranslation();
+  const STEPS = isMaintenance ? getMaintenanceSteps(t) : getLLCSteps(t);
   const currentIndex = STATUS_ORDER.indexOf(status);
   const progressPercent = currentIndex >= 0 ? Math.min(((currentIndex + 1) / STEPS.length) * 100, 100) : 0;
   
@@ -56,12 +58,12 @@ export function LLCProgressWidget({ status, serviceName, state, requestCode, isM
         <CardHeader className="pb-2 p-3 md:p-4">
           <CardTitle className="text-sm md:text-base flex items-center gap-2 text-red-700 dark:text-red-400">
             <Circle className="h-4 w-4" />
-            Pedido Cancelado
+            {t('progress.cancelled')}
           </CardTitle>
         </CardHeader>
         <CardContent className="p-3 pt-0 md:p-4 md:pt-0">
           <p className="text-xs md:text-sm text-red-600 dark:text-red-400">
-            Este pedido ha sido cancelado. Contacta con soporte si tienes dudas.
+            {t('progress.cancelledMessage')}
           </p>
         </CardContent>
       </Card>
@@ -79,7 +81,7 @@ export function LLCProgressWidget({ status, serviceName, state, requestCode, isM
               <Building2 className="h-4 w-4 md:h-5 md:w-5 text-primary" />
             )}
             <span className="truncate max-w-[180px] md:max-w-none">
-              {serviceName || (isMaintenance ? 'Mantenimiento' : 'Tu LLC')}
+              {serviceName || (isMaintenance ? t('progress.maintenance') : t('progress.yourLLC'))}
             </span>
           </CardTitle>
           {state && (
@@ -89,13 +91,13 @@ export function LLCProgressWidget({ status, serviceName, state, requestCode, isM
           )}
         </div>
         {requestCode && (
-          <p className="text-[10px] md:text-xs text-muted-foreground mt-1">Ref: {requestCode}</p>
+          <p className="text-[10px] md:text-xs text-muted-foreground mt-1">{t('progress.reference')}: {requestCode}</p>
         )}
       </CardHeader>
       <CardContent className="p-3 md:p-4 space-y-3 md:space-y-4">
         <div className="space-y-1.5 md:space-y-2">
           <div className="flex justify-between text-[10px] md:text-xs">
-            <span className="text-muted-foreground">Progreso</span>
+            <span className="text-muted-foreground">{t('progress.progressLabel')}</span>
             <span className="font-bold text-primary">{Math.round(progressPercent)}%</span>
           </div>
           <Progress value={progressPercent} className="h-1.5 md:h-2" />

@@ -622,7 +622,7 @@ export default function Dashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-muted font-sans">
+    <div className="min-h-screen bg-muted bg-green-gradient font-sans">
       <Navbar />
       <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-4 sm:mb-6 md:mb-8">
