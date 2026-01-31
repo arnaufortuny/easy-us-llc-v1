@@ -146,7 +146,7 @@
     "clientArea": "Área de Clientes",
     "newLLC": "Constituir una nueva LLC",
     "menu": {
-      "services": "Estado de mis trámites",
+      "services": "Mis trámites",
       "servicesMobile": "Trámites",
       "tracking": "Seguimiento",
       "trackingMobile": "Seguim.",
@@ -158,7 +158,7 @@
       "admin": "Administración"
     },
     "services": {
-      "title": "Estado de mis trámites",
+      "title": "Mis trámites",
       "subtitle": "Gestiona tus trámites activos",
       "empty": "Aún no tienes servicios activos",
       "emptyDescription": "Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.",

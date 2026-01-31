@@ -720,7 +720,7 @@ export default function Dashboard() {
   }
 
   const menuItems = [
-    { id: 'services', label: 'Estado de mis trámites', icon: Package, mobileLabel: 'Trámites' },
+    { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites' },
     { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
@@ -782,7 +782,7 @@ export default function Dashboard() {
               {activeTab === 'services' && (
                 <div key="services" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Estado de mis trámites</h2>
+                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis trámites</h2>
                     <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
                   </div>
                   
@@ -1175,7 +1175,7 @@ export default function Dashboard() {
                 <div key="calendar" className="space-y-4 md:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
-                      <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Calendario Fiscal</h2>
+                      <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mi Calendario Fiscal</h2>
                       <p className="text-[10px] md:text-xs text-muted-foreground font-medium">Fechas importantes y vencimientos de tu LLC</p>
                     </div>
                   </div>
@@ -1302,7 +1302,7 @@ export default function Dashboard() {
                           <Calendar className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Calendario Fiscal</h3>
+                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Mi Calendario Fiscal</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
                         <Link href="/servicios#pricing">
