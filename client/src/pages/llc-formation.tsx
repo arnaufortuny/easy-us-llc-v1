@@ -10,7 +10,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
@@ -767,20 +767,20 @@ export default function LlcFormation() {
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">Tipo de vía:</FormLabel>
                       <FormControl>
-                        <Select value={field.value || ""} onValueChange={field.onChange}>
-                          <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base">
-                            <SelectValue placeholder="Tipo" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Calle">Calle</SelectItem>
-                            <SelectItem value="Avenida">Avenida</SelectItem>
-                            <SelectItem value="Plaza">Plaza</SelectItem>
-                            <SelectItem value="Paseo">Paseo</SelectItem>
-                            <SelectItem value="Camino">Camino</SelectItem>
-                            <SelectItem value="Carrera">Carrera</SelectItem>
-                            <SelectItem value="Otro">Otro</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <NativeSelect 
+                          value={field.value || ""} 
+                          onValueChange={field.onChange}
+                          placeholder="Tipo"
+                          className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
+                        >
+                          <NativeSelectItem value="Calle">Calle</NativeSelectItem>
+                          <NativeSelectItem value="Avenida">Avenida</NativeSelectItem>
+                          <NativeSelectItem value="Plaza">Plaza</NativeSelectItem>
+                          <NativeSelectItem value="Paseo">Paseo</NativeSelectItem>
+                          <NativeSelectItem value="Camino">Camino</NativeSelectItem>
+                          <NativeSelectItem value="Carrera">Carrera</NativeSelectItem>
+                          <NativeSelectItem value="Otro">Otro</NativeSelectItem>
+                        </NativeSelect>
                       </FormControl>
                       <FormMessage />
                     </FormItem>

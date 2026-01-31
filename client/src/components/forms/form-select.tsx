@@ -1,5 +1,5 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
 
 interface FormSelectProps<T extends FieldValues> {
@@ -35,23 +35,20 @@ export function FormSelect<T extends FieldValues>({
             {label}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
-          <Select onValueChange={field.onChange} value={field.value || ""}>
-            <FormControl>
-              <SelectTrigger 
-                className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
-                style={{ fontSize: '16px' }}
-              >
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-            </FormControl>
-            <SelectContent>
+          <FormControl>
+            <NativeSelect 
+              value={field.value || ""} 
+              onValueChange={field.onChange}
+              placeholder={placeholder}
+              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
+            >
               {normalizedOptions.map(opt => (
-                <SelectItem key={opt.value} value={opt.value}>
+                <NativeSelectItem key={opt.value} value={opt.value}>
                   {opt.label}
-                </SelectItem>
+                </NativeSelectItem>
               ))}
-            </SelectContent>
-          </Select>
+            </NativeSelect>
+          </FormControl>
           <FormMessage />
         </FormItem>
       )}

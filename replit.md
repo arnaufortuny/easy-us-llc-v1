@@ -42,7 +42,7 @@ The application is built with a modern UI/UX, featuring a consistent design syst
 - **Zod:** For data validation.
 - **Express.js:** Backend framework.
 - **Framer Motion:** For UI animations.
-- **shadcn/ui:** For UI components and design system.
+- **shadcn/ui:** For UI components and design system. All dropdown selectors use native HTML `<select>` elements via `NativeSelect` component (`client/src/components/ui/native-select.tsx`) for maximum compatibility and reliability across all browsers and devices.
 - **TanStack Query:** For client-side data fetching and caching.
 - **wouter:** For client-side routing.
 - **Mercury / Relay:** For banking assistance integrations.

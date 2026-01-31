@@ -10,7 +10,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
@@ -639,10 +639,18 @@ export default function MaintenanceApplication() {
                     <FormField control={form.control} name="state" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">Estado de constitución</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-11 md:h-14 px-4 md:px-6 border-border bg-white dark:bg-zinc-900 focus:ring-[#6EDC8A] font-bold text-foreground text-lg"><SelectValue placeholder="Seleccionar estado" /></SelectTrigger></FormControl>
-                          <SelectContent><SelectItem value="New Mexico">New Mexico</SelectItem><SelectItem value="Wyoming">Wyoming</SelectItem><SelectItem value="Delaware">Delaware</SelectItem></SelectContent>
-                        </Select>
+                        <FormControl>
+                          <NativeSelect 
+                            value={field.value || ""} 
+                            onValueChange={field.onChange}
+                            placeholder="Seleccionar estado"
+                            className="rounded-full h-14 px-6 border-border bg-white dark:bg-zinc-900 font-bold text-foreground text-lg"
+                          >
+                            <NativeSelectItem value="New Mexico">New Mexico</NativeSelectItem>
+                            <NativeSelectItem value="Wyoming">Wyoming</NativeSelectItem>
+                            <NativeSelectItem value="Delaware">Delaware</NativeSelectItem>
+                          </NativeSelect>
+                        </FormControl>
                       </FormItem>
                     )} />
                     
@@ -659,31 +667,39 @@ export default function MaintenanceApplication() {
                     <FormField control={form.control} name="bankAccount" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">Cuenta bancaria USA (opcional)</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona si tienes cuenta" /></SelectTrigger></FormControl>
-                          <SelectContent>
-                            <SelectItem value="Mercury">Mercury</SelectItem>
-                            <SelectItem value="Relay">Relay</SelectItem>
-                            <SelectItem value="Otro banco">Otro banco</SelectItem>
-                            <SelectItem value="No tengo cuenta">No tengo cuenta</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormControl>
+                          <NativeSelect 
+                            value={field.value || ""} 
+                            onValueChange={field.onChange}
+                            placeholder="Selecciona si tienes cuenta"
+                            className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                          >
+                            <NativeSelectItem value="Mercury">Mercury</NativeSelectItem>
+                            <NativeSelectItem value="Relay">Relay</NativeSelectItem>
+                            <NativeSelectItem value="Otro banco">Otro banco</NativeSelectItem>
+                            <NativeSelectItem value="No tengo cuenta">No tengo cuenta</NativeSelectItem>
+                          </NativeSelect>
+                        </FormControl>
                       </FormItem>
                     )} />
                     
                     <FormField control={form.control} name="paymentGateway" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">Pasarela de pagos (opcional)</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value || ""}>
-                          <FormControl><SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Selecciona pasarela" /></SelectTrigger></FormControl>
-                          <SelectContent>
-                            <SelectItem value="Stripe">Stripe</SelectItem>
-                            <SelectItem value="PayPal">PayPal</SelectItem>
-                            <SelectItem value="Stripe y PayPal">Stripe y PayPal</SelectItem>
-                            <SelectItem value="Otra">Otra</SelectItem>
-                            <SelectItem value="Ninguna">Ninguna</SelectItem>
-                          </SelectContent>
-                        </Select>
+                        <FormControl>
+                          <NativeSelect 
+                            value={field.value || ""} 
+                            onValueChange={field.onChange}
+                            placeholder="Selecciona pasarela"
+                            className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                          >
+                            <NativeSelectItem value="Stripe">Stripe</NativeSelectItem>
+                            <NativeSelectItem value="PayPal">PayPal</NativeSelectItem>
+                            <NativeSelectItem value="Stripe y PayPal">Stripe y PayPal</NativeSelectItem>
+                            <NativeSelectItem value="Otra">Otra</NativeSelectItem>
+                            <NativeSelectItem value="Ninguna">Ninguna</NativeSelectItem>
+                          </NativeSelect>
+                        </FormControl>
                       </FormItem>
                     )} />
                     
