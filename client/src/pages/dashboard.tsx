@@ -1558,11 +1558,6 @@ export default function Dashboard() {
                         </div>
                       </div>
 
-                      {/* Actualización en tiempo real */}
-                      <div className="flex items-center justify-center gap-2 text-[10px] text-muted-foreground pt-2">
-                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        <span>Actualización en tiempo real cada 10 segundos</span>
-                      </div>
                     </div>
                   )}
                   
