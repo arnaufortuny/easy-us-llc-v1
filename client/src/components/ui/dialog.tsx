@@ -32,53 +32,75 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
-    <DialogPrimitive.Overlay 
-      className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
-      style={{
-        position: 'fixed',
-        inset: 0,
-        zIndex: 99998,
-        backgroundColor: 'rgba(0, 0, 0, 0.8)',
-      }}
-    />
-    <DialogPrimitive.Content
-      ref={ref}
-      onOpenAutoFocus={(e) => {
-        const firstFocusable = (e.target as HTMLElement)?.querySelector<HTMLElement>(
-          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-        );
-        if (firstFocusable) {
-          e.preventDefault();
-          requestAnimationFrame(() => {
-            firstFocusable.focus({ preventScroll: true });
-          });
-        }
-      }}
-      style={{
-        position: 'fixed',
-        left: '50%',
-        top: '50%',
-        transform: 'translate(-50%, -50%)',
-        zIndex: 99999,
-        maxHeight: '90dvh',
-        width: 'calc(100vw - 1rem)',
-      }}
-      className={cn(
-        "flex flex-col max-w-[95vw] sm:max-w-lg md:max-w-xl gap-3 sm:gap-4 border bg-background p-4 sm:p-6 shadow-xl rounded-xl sm:rounded-2xl overflow-y-auto",
-        className
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close className="absolute right-3 top-3 sm:right-4 sm:top-4 rounded-full p-1.5 opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-        <X className="h-4 w-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPortal>
-))
+>(({ className, children, ...props }, ref) => {
+  const [isMobile, setIsMobile] = React.useState(false);
+  
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return (
+    <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
+      <DialogPrimitive.Overlay 
+        className="data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 99998,
+          backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        }}
+      />
+      <DialogPrimitive.Content
+        ref={ref}
+        onOpenAutoFocus={(e) => {
+          const firstFocusable = (e.target as HTMLElement)?.querySelector<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          );
+          if (firstFocusable) {
+            e.preventDefault();
+            requestAnimationFrame(() => {
+              firstFocusable.focus({ preventScroll: true });
+            });
+          }
+        }}
+        style={isMobile ? {
+          position: 'fixed',
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 99999,
+          maxHeight: '85dvh',
+        } : {
+          position: 'fixed',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          zIndex: 99999,
+          maxHeight: '85dvh',
+          width: '100%',
+          maxWidth: '28rem',
+        }}
+        className={cn(
+          "flex flex-col gap-3 border bg-background p-5 shadow-xl overflow-y-auto",
+          isMobile 
+            ? "rounded-t-2xl animate-in slide-in-from-bottom duration-300" 
+            : "rounded-2xl animate-in fade-in-0 zoom-in-95 duration-200",
+          className
+        )}
+        {...props}
+      >
+        {children}
+        <DialogPrimitive.Close className="absolute right-4 top-4 rounded-full p-2 bg-muted/80 hover:bg-muted opacity-90 hover:opacity-100 transition-all focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+          <X className="h-4 w-4" />
+          <span className="sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  );
+})
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({
