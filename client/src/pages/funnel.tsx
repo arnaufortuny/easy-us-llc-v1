@@ -66,11 +66,10 @@ export default function SalesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 via-green-50 to-white dark:from-green-950 dark:via-zinc-900 dark:to-zinc-950">
+    <div className="min-h-screen bg-white dark:bg-zinc-950">
       {/* Hero Section */}
       <section className="relative overflow-hidden px-4 pt-16 pb-20 md:pt-24 md:pb-28">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-green-200/60 via-transparent to-transparent dark:from-green-900/30" />
-        
+                
         <div className="relative max-w-lg mx-auto text-center">
           {/* Logo */}
           <div className="flex justify-center mb-8">
@@ -86,9 +85,10 @@ export default function SalesPage() {
             Tu LLC en 48-72h
           </Badge>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 dark:text-white mb-6 text-center">
-            Constituimos tu LLC en
-            <span className="block text-green-500 dark:text-green-400 mt-2">Estados Unidos</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-zinc-900 dark:text-white mb-6 text-center uppercase">
+            <span className="block">Constituimos</span>
+            <span className="block">tu LLC</span>
+            <span className="block text-green-500 dark:text-green-400">en Estados Unidos</span>
           </h1>
           
           <p className="text-xl text-zinc-600 dark:text-zinc-400 mb-10 leading-relaxed">
@@ -101,7 +101,7 @@ export default function SalesPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <Button 
               size="lg" 
-              className="bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 text-lg font-bold px-10"
+              className="bg-white text-green-600 border-2 border-green-500 gap-2 shadow-xl text-lg font-bold px-10"
               onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-ver-planes"
             >
@@ -110,7 +110,7 @@ export default function SalesPage() {
             </Button>
             <Button 
               size="lg" 
-              className="bg-green-500 text-white gap-2 shadow-xl shadow-green-500/40 text-lg font-bold px-10"
+              className="bg-white text-green-600 border-2 border-green-500 gap-2 shadow-xl text-lg font-bold px-10"
               asChild
             >
               <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" data-testid="link-whatsapp-hero">
