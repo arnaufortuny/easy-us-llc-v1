@@ -1241,7 +1241,7 @@ export default function Dashboard() {
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
                               <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="DNI · NIE · Pasaporte" /></SelectTrigger>
-                              <SelectContent>
+                              <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
                                 <SelectItem value="passport">Pasaporte</SelectItem>
@@ -1263,7 +1263,7 @@ export default function Dashboard() {
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
                             <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
-                            <SelectContent position="popper" className="max-h-[50vh]">
+                            <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
                               <SelectItem value="consulting">Consultoría</SelectItem>
@@ -1284,7 +1284,7 @@ export default function Dashboard() {
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
                                 <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-street-type"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
-                                <SelectContent position="popper" className="max-h-[50vh]">
+                                <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
                                   <SelectItem value="paseo">Paseo</SelectItem>
