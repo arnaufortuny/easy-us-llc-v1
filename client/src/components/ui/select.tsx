@@ -70,7 +70,7 @@ SelectScrollDownButton.displayName =
 const SelectContent = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = "popper", side, onCloseAutoFocus, ...props }, ref) => (
+>(({ className, children, position = "item-aligned", onCloseAutoFocus, ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
       ref={ref}
@@ -79,30 +79,15 @@ const SelectContent = React.forwardRef<
         onCloseAutoFocus?.(e);
       }}
       className={cn(
-        "relative z-[999999] max-h-[min(280px,50vh)] min-w-[12rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 overscroll-contain",
-        position === "popper" &&
-          "data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+        "relative z-[999999] max-h-[280px] min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-xl border border-border bg-white dark:bg-zinc-900 text-foreground shadow-2xl",
         className
       )}
       position={position}
-      side={side || "bottom"}
-      align="start"
-      sideOffset={4}
-      avoidCollisions={true}
-      collisionPadding={16}
       {...props}
     >
-      <SelectScrollUpButton />
-      <SelectPrimitive.Viewport
-        className={cn(
-          "p-1.5",
-          position === "popper" &&
-            "w-full min-w-[var(--radix-select-trigger-width)]"
-        )}
-      >
+      <SelectPrimitive.Viewport className="p-1.5">
         {children}
       </SelectPrimitive.Viewport>
-      <SelectScrollDownButton />
     </SelectPrimitive.Content>
   </SelectPrimitive.Portal>
 ))

@@ -1241,7 +1241,7 @@ export default function Dashboard() {
                           {isEditing && canEdit ? (
                             <Select value={profileData.idType} onValueChange={val => setProfileData({...profileData, idType: val})}>
                               <SelectTrigger className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-idtype"><SelectValue placeholder="DNI · NIE · Pasaporte" /></SelectTrigger>
-                              <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
+                              <SelectContent>
                                 <SelectItem value="dni">DNI</SelectItem>
                                 <SelectItem value="nie">NIE</SelectItem>
                                 <SelectItem value="passport">Pasaporte</SelectItem>
@@ -1263,7 +1263,7 @@ export default function Dashboard() {
                         {isEditing && canEdit ? (
                           <Select value={profileData.businessActivity} onValueChange={val => setProfileData({...profileData, businessActivity: val})}>
                             <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-activity"><SelectValue placeholder="A qué te dedicas" /></SelectTrigger>
-                            <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
+                            <SelectContent>
                               <SelectItem value="ecommerce">E-commerce</SelectItem>
                               <SelectItem value="dropshipping">Dropshipping</SelectItem>
                               <SelectItem value="consulting">Consultoría</SelectItem>
@@ -1284,7 +1284,7 @@ export default function Dashboard() {
                             {isEditing && canEdit ? (
                               <Select value={profileData.streetType} onValueChange={val => setProfileData({...profileData, streetType: val})}>
                                 <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-street-type"><SelectValue placeholder="Calle · Avenida · Paseo · Plaza" /></SelectTrigger>
-                                <SelectContent position="popper" className="max-h-[50vh]" style={{ zIndex: 999999 }}>
+                                <SelectContent>
                                   <SelectItem value="calle">Calle</SelectItem>
                                   <SelectItem value="avenida">Avenida</SelectItem>
                                   <SelectItem value="paseo">Paseo</SelectItem>
@@ -2236,7 +2236,7 @@ export default function Dashboard() {
                       <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
                       <Select value={editingUser.idType || ''} onValueChange={val => setEditingUser({...editingUser, idType: val})}>
                         <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar" /></SelectTrigger>
-                        <SelectContent className="rounded-xl">
+                        <SelectContent>
                           <SelectItem value="dni">DNI</SelectItem>
                           <SelectItem value="nie">NIE</SelectItem>
                           <SelectItem value="passport">Pasaporte</SelectItem>
@@ -2256,7 +2256,7 @@ export default function Dashboard() {
                     <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
                     <Select value={editingUser.businessActivity || ''} onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}>
                       <SelectTrigger className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" style={{ fontSize: '16px' }} data-testid="select-edit-activity"><SelectValue placeholder="Seleccionar actividad" /></SelectTrigger>
-                      <SelectContent position="popper" className="max-h-[50vh] rounded-xl">
+                      <SelectContent>
                         <SelectItem value="ecommerce">E-commerce</SelectItem>
                         <SelectItem value="dropshipping">Dropshipping</SelectItem>
                         <SelectItem value="consulting">Consultoría</SelectItem>
@@ -2365,7 +2365,7 @@ export default function Dashboard() {
                   <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
                   <Select value={orderInvoiceCurrency} onValueChange={setOrderInvoiceCurrency}>
                     <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar divisa" /></SelectTrigger>
-                    <SelectContent className="rounded-xl">
+                    <SelectContent>
                       <SelectItem value="EUR">EUR (€)</SelectItem>
                       <SelectItem value="USD">USD ($)</SelectItem>
                     </SelectContent>
@@ -2414,7 +2414,7 @@ export default function Dashboard() {
                   <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
                   <Select value={docType} onValueChange={setDocType}>
                     <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"><SelectValue placeholder="Seleccionar tipo..." /></SelectTrigger>
-                    <SelectContent className="rounded-xl" style={{ zIndex: 999999 }}>
+                    <SelectContent>
                       <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                       <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                       <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2491,7 +2491,7 @@ export default function Dashboard() {
                       <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-invoice-currency">
                         <SelectValue />
                       </SelectTrigger>
-                      <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
+                      <SelectContent>
                         <SelectItem value="EUR">EUR</SelectItem>
                         <SelectItem value="USD">USD</SelectItem>
                       </SelectContent>
@@ -2557,7 +2557,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-11 sm:h-12 px-4 sm:px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm" style={{ fontSize: '16px' }} data-testid="select-upload-doc-type">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl max-h-[50vh]" position="popper" sideOffset={4} style={{ zIndex: 999999 }}>
+                <SelectContent>
                   <SelectItem value="passport">Pasaporte / Documento de Identidad</SelectItem>
                   <SelectItem value="address_proof">Prueba de Domicilio</SelectItem>
                   <SelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</SelectItem>
@@ -2670,7 +2670,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-user">
                   <SelectValue placeholder="Seleccionar cliente..." />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
+                <SelectContent>
                   {adminUsers?.map((u: any) => (
                     <SelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</SelectItem>
                   ))}
@@ -2683,7 +2683,7 @@ export default function Dashboard() {
                 <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-order-state">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
+                <SelectContent>
                   <SelectItem value="New Mexico">New Mexico - 739€</SelectItem>
                   <SelectItem value="Wyoming">Wyoming - 899€</SelectItem>
                   <SelectItem value="Delaware">Delaware - 1199€</SelectItem>
@@ -2735,7 +2735,7 @@ export default function Dashboard() {
                   <SelectTrigger className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800" data-testid="select-discount-type">
                     <SelectValue />
                   </SelectTrigger>
-                  <SelectContent className="bg-white dark:bg-zinc-900 rounded-xl" style={{ zIndex: 999999 }}>
+                  <SelectContent>
                     <SelectItem value="percentage">Porcentaje (%)</SelectItem>
                     <SelectItem value="fixed">Fijo (centimos)</SelectItem>
                   </SelectContent>
