@@ -281,19 +281,25 @@ export default function Dashboard() {
 
   const markNotificationRead = useMutation({
     mutationFn: async (id: string) => {
-      await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
+      const res = await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
+      if (!res.ok) throw new Error("Error al marcar notificación");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
-    }
+    },
+    onError: () => {}
   });
 
   const deleteNotification = useMutation({
     mutationFn: async (id: string) => {
-      await apiRequest("DELETE", `/api/user/notifications/${id}`);
+      const res = await apiRequest("DELETE", `/api/user/notifications/${id}`);
+      if (!res.ok) throw new Error("Error al eliminar");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo eliminar", variant: "destructive" });
     }
   });
 
@@ -386,28 +392,40 @@ export default function Dashboard() {
   const uploadDocMutation = useMutation({
     mutationFn: async (data: any) => {
       const res = await apiRequest("POST", "/api/admin/documents", data);
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error al subir documento");
+      }
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
       toast({ title: "Documento subido", description: "El cliente ya puede verlo en su panel." });
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo subir el documento", variant: "destructive" });
     }
   });
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number, status: string }) => {
       const res = await apiRequest("PATCH", `/api/admin/orders/${id}/status`, { status });
+      if (!res.ok) throw new Error("Error al actualizar estado");
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       toast({ title: "Estado actualizado" });
+    },
+    onError: () => {
+      toast({ title: "Error", description: "No se pudo actualizar el estado", variant: "destructive" });
     }
   });
 
   const updateLlcDatesMutation = useMutation({
     mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string }) => {
-      await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
+      const res = await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
+      if (!res.ok) throw new Error("Error al actualizar fecha");
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
