@@ -253,7 +253,12 @@ export default function Dashboard() {
 
   const sendReplyMutation = useMutation({
     mutationFn: async (messageId: number) => {
-      await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
+      const res = await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.message || "Error al enviar");
+      }
+      return res.json();
     },
     onSuccess: () => {
       setReplyContent("");
@@ -261,6 +266,9 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
       toast({ title: user?.isAdmin ? "Respuesta enviada" : "Mensaje enviado", description: user?.isAdmin ? "El cliente recibirá un email con la información" : "Te responderemos personalmente lo antes posible" });
+    },
+    onError: (error: any) => {
+      toast({ title: "Error", description: error.message || "No se pudo enviar la respuesta", variant: "destructive" });
     }
   });
 
@@ -956,9 +964,10 @@ export default function Dashboard() {
                           </div>
                           <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
                           {selectedMessage?.id === msg.id && (
-                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-4">
-                              <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" />
-                              <Button onClick={(e) => { e.stopPropagation(); sendReplyMutation.mutate(msg.id); }} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-primary font-black rounded-full px-6">
+                            <div className="mt-4 pt-4 border-t border-gray-100 space-y-4" onClick={(e) => e.stopPropagation()}>
+                              <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
+                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-primary font-black rounded-full px-6" data-testid="button-user-send-reply">
+                                {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                                 Enviar Respuesta
                               </Button>
                             </div>
