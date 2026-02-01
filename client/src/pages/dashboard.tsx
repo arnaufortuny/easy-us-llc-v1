@@ -1847,7 +1847,7 @@ export default function Dashboard() {
                               <NativeSelect 
                                 value={order.status} 
                                 onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
-                                className="w-28 h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border px-3"
+                                className="w-28 h-9 rounded-lg text-xs bg-white dark:bg-zinc-900 border px-3 relative z-0"
                               >
                                 <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
                                 <NativeSelectItem value="paid">Pagado</NativeSelectItem>
@@ -2475,7 +2475,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className="rounded-full text-xs"
+                                  className="rounded-lg text-xs h-8 w-8 p-0"
                                   onClick={() => {
                                     setNewDiscountCode({
                                       code: dc.code,
@@ -2496,7 +2496,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className={`rounded-full text-xs ${dc.isActive ? 'text-red-600' : 'text-green-600'}`}
+                                  className={`rounded-lg text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-green-600'}`}
                                   onClick={async () => {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
@@ -2509,6 +2509,24 @@ export default function Dashboard() {
                                   data-testid={`button-toggle-discount-${dc.code}`}
                                 >
                                   {dc.isActive ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="rounded-lg text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
+                                  onClick={async () => {
+                                    if (!confirm(`¿Eliminar el código ${dc.code}?`)) return;
+                                    try {
+                                      await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
+                                      refetchDiscountCodes();
+                                      toast({ title: "Código eliminado" });
+                                    } catch (e) {
+                                      toast({ title: "Error al eliminar", variant: "destructive" });
+                                    }
+                                  }}
+                                  data-testid={`button-delete-discount-${dc.code}`}
+                                >
+                                  <Trash2 className="w-3 h-3" />
                                 </Button>
                               </div>
                             </div>

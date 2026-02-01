@@ -36,26 +36,27 @@ const DialogContent = React.forwardRef<
   return (
     <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
       <DialogPrimitive.Overlay 
-        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm"
+        className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=closed]:duration-0"
       />
       <DialogPrimitive.Content
         ref={ref}
         onOpenAutoFocus={(e) => e.preventDefault()}
         className={cn(
           "fixed z-[99999]",
-          "left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2",
-          "w-[calc(100%-2rem)] max-w-md",
+          "left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+          "w-[calc(100vw-2rem)] max-w-md",
           "bg-white dark:bg-zinc-900 border border-border",
-          "rounded-2xl shadow-2xl",
-          "max-h-[80vh] overflow-y-auto overscroll-contain",
-          "p-6",
-          "md:top-1/2",
+          "rounded-xl shadow-2xl",
+          "max-h-[85vh] overflow-y-auto overscroll-contain",
+          "p-5 sm:p-6",
+          "data-[state=closed]:duration-0",
           className
         )}
+        style={{ position: 'fixed' }}
         {...props}
       >
         {children}
-        <DialogPrimitive.Close className="absolute right-4 top-4 w-8 h-8 rounded-full bg-muted/60 hover:bg-muted flex items-center justify-center transition-colors z-10">
+        <DialogPrimitive.Close className="absolute right-3 top-3 w-8 h-8 rounded-full bg-muted/80 hover:bg-muted flex items-center justify-center transition-colors z-10">
           <X className="h-4 w-4 text-muted-foreground" />
           <span className="sr-only">Cerrar</span>
         </DialogPrimitive.Close>
