@@ -32,19 +32,19 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
   };
 
   return (
-    <div className="min-h-screen bg-background font-sans selection:bg-brand-lime selection:text-brand-dark print:bg-white">
+    <div className="min-h-screen bg-[#e8f5eb] dark:bg-zinc-950 font-sans selection:bg-brand-lime selection:text-brand-dark print:bg-white">
       <div className="print:hidden">
         <Navbar />
       </div>
       
-      <header className="bg-gradient-to-br from-brand-lime/10 via-brand-lime/5 to-transparent pt-24 sm:pt-28 lg:pt-32 pb-12 sm:pb-16 lg:pb-20 print:pt-4 print:pb-4">
-        <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-brand-dark leading-[1.1] mb-4 sm:mb-6 print:text-2xl">
+      <header className="pt-28 sm:pt-32 lg:pt-36 pb-10 sm:pb-14 lg:pb-16 print:pt-4 print:pb-4">
+        <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
+          <div className="text-center sm:text-left">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-brand-dark dark:text-white leading-[1.15] mb-4 sm:mb-5 print:text-2xl">
               {title} <span className="text-brand-lime">{titleHighlight}</span>
             </h1>
             
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6 text-muted-foreground">
+            <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-2 sm:gap-5 text-muted-foreground dark:text-zinc-400 mb-6 sm:mb-8">
               <div className="flex items-center gap-2">
                 <Calendar className="w-4 h-4 flex-shrink-0" />
                 <span className="text-sm font-medium">{lastUpdated}</span>
@@ -55,10 +55,10 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
               </div>
             </div>
 
-            <div className="mt-6 sm:mt-8 print:hidden">
+            <div className="print:hidden flex justify-center sm:justify-start">
               <button 
                 onClick={handleDownload}
-                className="inline-flex items-center justify-center rounded-full px-6 sm:px-8 h-11 font-bold text-sm shadow-lg transition-all gap-2 hover-elevate"
+                className="inline-flex items-center justify-center rounded-full px-6 h-11 font-bold text-sm shadow-md transition-all gap-2 hover:opacity-90 active:scale-[0.98]"
                 style={{ backgroundColor: '#6EDC8A', color: '#0E1215' }}
                 data-testid="button-download-pdf"
               >
@@ -70,12 +70,10 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
         </div>
       </header>
       
-      <main className="py-8 sm:py-12 lg:py-16 bg-background print:py-2">
-        <div className="container max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 print:px-2">
-          <div className="max-w-4xl">
-            <div ref={contentRef} className="space-y-8 sm:space-y-10 lg:space-y-12 print:space-y-4">
-              {children}
-            </div>
+      <main className="py-8 sm:py-10 lg:py-12 print:py-2">
+        <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 print:px-2">
+          <div ref={contentRef} className="space-y-8 sm:space-y-10 print:space-y-4">
+            {children}
           </div>
         </div>
       </main>
@@ -96,18 +94,18 @@ interface LegalSectionProps {
 export function LegalSection({ number, title, children }: LegalSectionProps) {
   return (
     <section className="print:break-inside-avoid">
-      <div className="flex items-start gap-4 mb-5 sm:mb-6">
+      <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
         <div 
-          className="flex-shrink-0 w-11 h-11 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center print:w-10 print:h-10"
+          className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center print:w-8 print:h-8"
           style={{ backgroundColor: '#6EDC8A' }}
         >
-          <span className="font-black text-base sm:text-lg print:text-sm" style={{ color: '#0E1215' }}>{number}</span>
+          <span className="font-black text-sm sm:text-base print:text-xs" style={{ color: '#0E1215' }}>{number}</span>
         </div>
-        <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-brand-dark tracking-tight pt-2 sm:pt-3 print:text-lg print:pt-1">
+        <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-brand-dark dark:text-white tracking-tight print:text-base">
           {title}
         </h2>
       </div>
-      <div className="sm:pl-[4.5rem] space-y-4 text-base sm:text-lg text-brand-dark/85 leading-relaxed print:text-sm print:space-y-2 print:pl-0">
+      <div className="pl-[3.25rem] sm:pl-16 space-y-3 sm:space-y-4 text-sm sm:text-base text-brand-dark/85 dark:text-zinc-300 leading-relaxed print:text-sm print:space-y-2 print:pl-0">
         {children}
       </div>
     </section>
@@ -121,9 +119,9 @@ interface LegalSubSectionProps {
 
 export function LegalSubSection({ title, children }: LegalSubSectionProps) {
   return (
-    <div className="mt-5 sm:mt-6 print:mt-3">
-      <h3 className="text-base sm:text-lg font-bold text-brand-dark mb-2 sm:mb-3 print:text-sm print:mb-2">{title}</h3>
-      <div className="space-y-3 print:space-y-1">{children}</div>
+    <div className="mt-4 sm:mt-5 print:mt-3">
+      <h3 className="text-sm sm:text-base font-bold text-brand-dark dark:text-white mb-2 sm:mb-3 print:text-sm print:mb-2">{title}</h3>
+      <div className="space-y-2 sm:space-y-3 print:space-y-1">{children}</div>
     </div>
   );
 }
@@ -135,11 +133,14 @@ interface LegalListProps {
 
 export function LegalList({ items, ordered = false }: LegalListProps) {
   return (
-    <ul className="space-y-2 sm:space-y-3 print:space-y-1">
+    <ul className="space-y-2 sm:space-y-2.5 print:space-y-1">
       {items.map((item, index) => (
-        <li key={index} className="flex items-start gap-3">
-          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-lime mt-2.5 sm:mt-3" />
-          <span className="text-brand-dark/80">{item}</span>
+        <li key={index} className="flex items-start gap-2.5 sm:gap-3">
+          <span 
+            className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-2 sm:mt-2.5" 
+            style={{ backgroundColor: '#6EDC8A' }}
+          />
+          <span className="text-brand-dark/80 dark:text-zinc-300">{item}</span>
         </li>
       ))}
     </ul>
@@ -154,8 +155,8 @@ interface LegalHighlightBoxProps {
 export function LegalHighlightBox({ children, variant = 'info' }: LegalHighlightBoxProps) {
   if (variant === 'dark') {
     return (
-      <div className="bg-brand-dark text-white rounded-xl sm:rounded-2xl p-5 sm:p-8 lg:p-10 shadow-lg print:bg-gray-100 print:text-black print:p-4 print:rounded-lg">
-        <div className="text-sm sm:text-base lg:text-lg leading-relaxed font-medium print:text-sm">
+      <div className="bg-brand-dark dark:bg-zinc-800 text-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 shadow-md print:bg-gray-100 print:text-black print:p-4 print:rounded-lg">
+        <div className="text-sm sm:text-base leading-relaxed font-medium print:text-sm">
           {children}
         </div>
       </div>
@@ -163,8 +164,8 @@ export function LegalHighlightBox({ children, variant = 'info' }: LegalHighlight
   }
 
   return (
-    <div className="bg-brand-lime/5 border border-brand-lime/20 rounded-xl sm:rounded-2xl p-5 sm:p-6 lg:p-8 space-y-1 sm:space-y-2 print:p-4 print:rounded-lg print:border">
-      <div className="text-sm sm:text-base text-brand-dark/80 leading-relaxed">
+    <div className="bg-white/60 dark:bg-zinc-800/50 border border-brand-lime/30 dark:border-brand-lime/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 space-y-1 sm:space-y-2 print:p-4 print:rounded-lg print:border">
+      <div className="text-sm sm:text-base text-brand-dark/80 dark:text-zinc-300 leading-relaxed">
         {children}
       </div>
     </div>
