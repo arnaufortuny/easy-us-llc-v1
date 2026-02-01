@@ -1,7 +1,8 @@
-import { Instagram, Package, Briefcase, PiggyBank, HelpCircle } from "lucide-react";
+import { Instagram, Package, Briefcase, PiggyBank, HelpCircle, Share2 } from "lucide-react";
 import { FaWhatsapp } from "react-icons/fa";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
 
 const links = [
@@ -44,6 +45,30 @@ const links = [
 ];
 
 export default function LinktreePage() {
+  const { toast } = useToast();
+
+  const handleShare = async () => {
+    const shareData = {
+      title: 'Creamos tu LLC',
+      text: 'Optimiza tus impuestos con una LLC en EE. UU.',
+      url: 'https://creamostullc.com'
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // User cancelled
+      }
+    } else {
+      await navigator.clipboard.writeText('https://creamostullc.com');
+      toast({
+        title: "Enlace copiado",
+        description: "El enlace ha sido copiado al portapapeles",
+      });
+    }
+  };
+
   useEffect(() => {
     document.title = "Creamos tu LLC | Tu empresa en Estados Unidos";
     
@@ -77,7 +102,17 @@ export default function LinktreePage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-12 relative">
+      <Button
+        onClick={handleShare}
+        size="icon"
+        variant="ghost"
+        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#6EDC8A] hover:bg-[#5cd67a] text-[#0E1215]"
+        data-testid="button-share"
+      >
+        <Share2 className="w-5 h-5" />
+      </Button>
+
       <div className="w-full max-w-md mx-auto flex flex-col items-center">
         <div className="mb-8">
           <img 
@@ -93,7 +128,7 @@ export default function LinktreePage() {
         </h1>
         <p className="text-base sm:text-lg text-[#0E1215] mb-10 text-center max-w-sm leading-relaxed font-medium">
           Te ayudamos a estructurar tu negocio<br />
-          con una LLC en EE. UU.<br />
+          Con una LLC en EE. UU.<br />
           <span className="block mt-1">Sin letra pequeña. Sin consultorías interminables.</span>
         </p>
 
