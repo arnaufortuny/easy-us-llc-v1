@@ -331,7 +331,7 @@ export default function Contacto() {
                         <p className="text-center text-sm mt-3">
                           <Link href="/auth/login">
                             <span className="text-accent font-bold hover:underline cursor-pointer">
-                              o inicia sesión con email para ir más rápido
+                              o Inicia sesión con email para ir más rápido
                             </span>
                           </Link>
                         </p>
