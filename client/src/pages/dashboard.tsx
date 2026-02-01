@@ -1254,7 +1254,7 @@ export default function Dashboard() {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
                       <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Calendario Fiscal</h2>
-                      <p className="text-[10px] md:text-xs text-muted-foreground font-medium">Fechas importantes y vencimientos de tu LLC</p>
+                      <p className="text-sm text-muted-foreground mt-1">Fechas importantes y vencimientos de tu LLC</p>
                     </div>
                   </div>
                   {orders && orders.length > 0 ? (

@@ -3386,11 +3386,26 @@ export async function registerRoutes(
     }
   });
 
-  // Maintenance App Updates
-  app.put("/api/maintenance/:id", async (req, res) => {
+  // Maintenance App Updates - Protected with ownership verification
+  app.put("/api/maintenance/:id", isAuthenticated, async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
+      
+      // First, get the application to verify ownership
+      const [existingApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.id, appId)).limit(1);
+      
+      if (!existingApp) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      
+      // Verify ownership through the order
+      if (existingApp.orderId) {
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, existingApp.orderId)).limit(1);
+        if (order && order.userId && order.userId !== req.session.userId && !req.session.isAdmin) {
+          return res.status(403).json({ message: "No autorizado" });
+        }
+      }
       
       const [updatedApp] = await db.update(maintenanceApplications)
         .set({ ...updates, lastUpdated: new Date() })
