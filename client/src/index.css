@@ -236,20 +236,20 @@
         rgba(110, 220, 138, 0.35) 0%, 
         rgba(110, 220, 138, 0.20) 20%,
         rgba(110, 220, 138, 0.10) 40%,
-        rgba(255, 255, 255, 1) 100%);
+        rgba(255, 255, 255, 1) 100%) !important;
   }
   
   .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
       rgba(110, 220, 138, 0.12) 0%, 
-      rgba(255, 255, 255, 1) 100%);
+      rgba(255, 255, 255, 1) 100%) !important;
   }
   
   .bg-green-gradient-hero {
     background: linear-gradient(180deg, 
       rgba(110, 220, 138, 0.20) 0%, 
       rgba(110, 220, 138, 0.08) 50%,
-      rgba(255, 255, 255, 1) 100%);
+      rgba(255, 255, 255, 1) 100%) !important;
   }
   
   .bg-green-dots {
@@ -264,20 +264,20 @@
         rgba(110, 220, 138, 0.15) 0%, 
         rgba(110, 220, 138, 0.08) 20%,
         rgba(14, 18, 21, 0.95) 50%,
-        rgba(14, 18, 21, 1) 100%);
+        rgba(14, 18, 21, 1) 100%) !important;
   }
   
   .dark .bg-green-gradient-subtle {
     background: linear-gradient(180deg, 
       rgba(110, 220, 138, 0.08) 0%, 
-      rgba(14, 18, 21, 1) 100%);
+      rgba(14, 18, 21, 1) 100%) !important;
   }
   
   .dark .bg-green-gradient-hero {
     background: linear-gradient(180deg, 
       rgba(110, 220, 138, 0.12) 0%, 
       rgba(110, 220, 138, 0.04) 50%,
-      rgba(14, 18, 21, 1) 100%);
+      rgba(14, 18, 21, 1) 100%) !important;
   }
   
   .dark .bg-green-dots {
