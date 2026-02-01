@@ -103,6 +103,9 @@
   "services": {
     "title": "Our Services",
     "subtitle": "Everything you need to form and maintain your LLC",
+    "heroTitle": "WE FORM YOUR LLC IN THE UNITED STATES",
+    "heroTitleHighlight": "SIMPLY, QUICKLY AND TRANSPARENTLY.",
+    "heroSubtitle": "Everything you need to know about your LLC: structure, taxes, banks and how we work.",
     "llc": {
       "title": "LLC Formation",
       "description": "Form your US LLC quickly and easily"
@@ -118,23 +121,39 @@
         "Registered Agent (12 months)",
         "Articles of Organization",
         "Operating Agreement",
-        "EIN obtainment",
+        "IRS EIN",
+        "BOI Report filed",
         "Our address",
         "Bank assistance",
         "Full support 12 months",
         "Express Service"
-      ]
+      ],
+      "nmWy": "2-3 business days",
+      "de": "3-5 business days",
+      "stateFeesIncluded": "State fees included",
+      "year1": "/year 1",
+      "year": "/year",
+      "popular": "Popular",
+      "premium": "Premium",
+      "startups": "Startups",
+      "choose": "Choose",
+      "maintenanceYear2": "Year 2 Maintenance"
     },
     "maintenancePack": {
       "title": "Annual Maintenance",
+      "badge": "MAINTENANCE",
+      "sectionTitle": "Maintenance Packs",
+      "sectionSubtitle": "(What your annual service includes)",
       "includes": [
         "Form 1120 filing with IRS",
         "Form 5472 filing with IRS",
         "Registered Agent renewal (12 months)",
         "Annual Report filing and management",
         "Unlimited support (12 months)",
-        "BOI Report renewal (if necessary)"
+        "BOI Report renewal (if necessary)",
+        "1 Articles of Organization update"
       ],
+      "choosePack": "Choose Pack",
       "details": {
         "fiscal": {
           "title": "Tax Management",
@@ -161,7 +180,71 @@
           "desc": "Includes an annual update of your Articles of Organization in case of minor changes to the company structure."
         }
       }
-    }
+    },
+    "whatWeDo": {
+      "badge": "SERVICES",
+      "title": "LLC Formation",
+      "subtitle": "(What we do for you)",
+      "items": {
+        "formation": {
+          "title": "Official formation",
+          "desc": "We handle the complete registration of your LLC with the Secretary of State, taking care of all necessary procedures so your company is correctly formed from the start."
+        },
+        "ein": {
+          "title": "EIN obtainment",
+          "desc": "We process your Employer Identification Number (EIN) directly with the IRS, allowing your LLC to be fiscally identified and ready to operate."
+        },
+        "banking": {
+          "title": "Bank accounts",
+          "desc": "We guide you through opening business accounts at Mercury and Relay, with access to USD banking and physical debit and credit cards."
+        },
+        "boi": {
+          "title": "BOI Report",
+          "desc": "We prepare and file the Beneficial Ownership Information Report with FinCEN, complying with current federal requirements for LLCs in the United States."
+        },
+        "agent": {
+          "title": "Registered Agent",
+          "desc": "We include official Registered Agent service for the first full year, providing a legal address in the United States and receiving official notifications."
+        },
+        "support": {
+          "title": "Expert support",
+          "desc": "We offer direct and personalized attention to resolve your tax and operational questions, accompanying you in the use and maintenance of your LLC."
+        }
+      }
+    },
+    "packs": {
+      "badge": "PACKS",
+      "title": "OUR PACKS",
+      "subtitle": "(Choose the plan that best suits you)"
+    },
+    "banks": {
+      "badge": "BANKS",
+      "title": "Banking Assistance",
+      "subtitle": "(We help open accounts at fintechs and banks, if required)",
+      "mercury": {
+        "title": "Mercury",
+        "desc": "We accompany you through the entire Mercury account application process, helping you correctly present your LLC information."
+      },
+      "relay": {
+        "title": "Relay",
+        "desc": "Assistance opening a Relay account, a solid banking alternative for your company's daily operations."
+      },
+      "strategy": {
+        "title": "Banking strategy",
+        "desc": "We guide you on the most suitable banking option according to your type of business and way of operating."
+      },
+      "continuous": {
+        "title": "Continuous support",
+        "desc": "We accompany you throughout the process and resolve your questions until the application is resolved."
+      },
+      "included": "Included in your initial package"
+    },
+    "management": {
+      "badge": "MANAGEMENT",
+      "title": "Annual Maintenance",
+      "subtitle": "(What your maintenance includes)"
+    },
+    "questions": "Have questions? Let's talk"
   },
   "pricing": {
     "title": "Plans & Pricing",
@@ -192,6 +275,7 @@
     "mostPopular": "Most Popular"
   },
   "auth": {
+    "continueQuickly": "or continue quickly",
     "login": {
       "title": "Sign In",
       "email": "Email",
@@ -223,10 +307,13 @@
       "description": "Enter the code we sent to your email",
       "sendCode": "Send verification code",
       "verifyCode": "Verify code",
+      "verificationCode": "Verification code",
+      "codeSentToEmail": "We've sent you a 6-digit code to your email",
       "codeSent": "Code sent",
       "codeExpired": "Code expired",
       "invalidCode": "Invalid code",
-      "resend": "Resend code"
+      "resend": "Resend code",
+      "resendCode": "Didn't receive the code? Resend"
     },
     "google": {
       "signIn": "Sign in with Google",
@@ -431,7 +518,9 @@
   "contact": {
     "title": "Contact",
     "subtitle": "Have a question?",
-    "description": "We're here to help. Send us a message and we'll get back to you as soon as possible.",
+    "pageTitle": "LET'S TALK / CONTACT",
+    "pageSubtitle": "Tell us your case",
+    "description": "We're here to help you. Tell us what you need and we'll respond personally as soon as possible.",
     "form": {
       "name": "Name",
       "lastName": "Last name",
@@ -442,7 +531,29 @@
       "submit": "Send message",
       "whatsapp": "I want to be contacted via WhatsApp",
       "whatsappNote": "We'll only use your number to respond to this inquiry",
-      "whatsappRequired": "Required if you select WhatsApp"
+      "whatsappRequired": "Required if you select WhatsApp",
+      "continue": "Continue",
+      "back": "Back",
+      "yourName": "Your name",
+      "whatsYourName": "What's your name?",
+      "yourLastName": "Your last name",
+      "toKnowWho": "To know who we're talking to",
+      "yourEmail": "Your email",
+      "whereToRespond": "Where do you prefer we respond?",
+      "contactMethod": "Contact method",
+      "howToContact": "How do you prefer we contact you?",
+      "wantWhatsapp": "I want to be contacted via WhatsApp",
+      "enterPhone": "Enter your phone number",
+      "phoneDescription": "Required if you select WhatsApp",
+      "selectSubject": "Select subject",
+      "whatSubject": "What do you need help with?",
+      "yourMessage": "Your message",
+      "tellUs": "Tell us how we can help you",
+      "verification": "Email verification",
+      "verifyToContinue": "Verify your email to continue",
+      "confirmations": "Confirmations",
+      "reviewAndSend": "Review and send your message",
+      "noSpam": "Required - We don't send advertising"
     },
     "subjects": {
       "createCompany": "I want to create my US company",
@@ -454,17 +565,30 @@
     },
     "consent": {
       "dataProcessing": "I accept the processing of my personal data",
-      "terms": "I accept the terms and conditions"
+      "dataProcessingLink": "privacy policy",
+      "terms": "I accept the",
+      "termsLink": "terms and conditions",
+      "mustAccept": "You must accept"
     },
+    "dataProcessingDescription": "We will only use your information to manage your inquiry",
+    "termsReviewAnytime": "You can review them anytime",
+    "otherWays": "OTHER WAYS TO CONTACT",
+    "writeUs": "Write to us, we're waiting!",
+    "order": "Order",
+    "ticket": "Ticket",
     "success": "Message sent successfully",
     "successTitle": "Thank you for writing to us",
     "successDescription": "We have received your message correctly",
     "requestReceived": "Request received",
     "thankYou": "Thank you for trusting us",
-    "order": "Order",
-    "ticket": "Ticket",
+    "willRespond": "We'll respond as soon as possible",
+    "checkEmail": "Check your email",
+    "nextSteps": "We'll send you an email with the next steps",
+    "backHome": "Back to home",
+    "talkWhatsapp": "Talk via WhatsApp",
     "error": "Error sending message",
-    "tryAgain": "Try again in a few seconds"
+    "tryAgain": "Try again in a few seconds",
+    "loginFaster": "or log in with email to go faster"
   },
   "faq": {
     "title": "Frequently Asked Questions",
@@ -516,6 +640,7 @@
     "validation": "Please check the form fields."
   },
   "progress": {
+    "step": "Step {{current}} of {{total}}",
     "orderReceived": "Order Received",
     "paymentConfirmed": "Payment Confirmed",
     "processing": "Processing",

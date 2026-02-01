@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -13,6 +14,7 @@ import { ChevronDown, ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [location, setLocation] = useLocation();
+  const { t } = useTranslation();
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -29,6 +31,16 @@ export default function Home() {
   const { data: products } = useQuery<Product[]>({
     queryKey: ["/api/products"],
   });
+
+  const heroFeatures = [
+    t("hero.features.fast"),
+    t("hero.features.complete"),
+    t("hero.features.noVat"),
+    t("hero.features.transparent"),
+    t("hero.features.close"),
+    t("hero.features.bank"),
+    t("hero.features.card")
+  ];
 
   return (
     <div className="min-h-screen font-sans text-left bg-background bg-green-gradient overflow-x-hidden w-full relative">
@@ -56,16 +68,16 @@ export default function Home() {
               className="font-black tracking-tighter text-foreground mb-4 sm:mb-4 w-full block [text-wrap:balance] [word-break:keep-all] [overflow-wrap:break-word] text-center" 
               style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
             >
-              OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL<br />
-              <span className="text-accent">CON UNA LLC AMERICANA</span>
+              {t("hero.title")}<br />
+              <span className="text-accent">{t("hero.subtitle")}</span>
             </h1>
           </div>
         }
         subtitle={
           <div className="flex flex-col items-center">
             <div className="text-[14px] sm:text-base text-foreground font-medium max-w-3xl mb-12 sm:mb-8 leading-relaxed text-center mx-auto px-2">
-              Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional. <br />
-              <span className="block sm:inline font-black mt-2 text-accent">Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.</span>
+              {t("hero.description")} <br />
+              <span className="block sm:inline font-black mt-2 text-accent">{t("hero.highlight")}</span>
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
@@ -83,37 +95,21 @@ export default function Home() {
             </div>
 
             <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2">
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Tu LLC en 2 días
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Pack Todo Incluido
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Sin IVA
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Precios Transparentes
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Trato Cercano
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Apertura Cuenta Mercury & Relay
-              </span>
-              <span className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                Tarjeta Física de Crédito y Débito
-              </span>
+              {heroFeatures.map((feature, i) => (
+                <span key={i} className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-zinc-900 text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
+                  {feature}
+                </span>
+              ))}
             </div>
 
             <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full">
               <Button size="lg" onClick={() => {
                 setLocation("/servicios#pricing");
               }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md" data-testid="button-select-pack">
-                ¿Estás listo? Selecciona tu pack →
+                {t("hero.cta")} →
               </Button>
               <Button size="lg" variant="outline" onClick={() => setLocation("/servicios")} className="bg-transparent text-primary border-2 border-primary hover:bg-accent/5 font-black text-sm px-8 rounded-full w-full sm:w-auto h-12 sm:h-12" data-testid="button-services">
-                Conoce nuestros servicios →
+                {t("nav.services")} →
               </Button>
             </div>
           </div>
@@ -126,33 +122,14 @@ export default function Home() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
             <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-              VENTAJAS
+              {t("benefits.vat.badge", "BENEFITS")}
             </span>
             <h2 className="text-4xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center leading-[1.1] sm:leading-tight">
-              Ventajas<br className="sm:hidden" /> fiscales
+              {t("benefits.taxes.title", "Tax Benefits")}
             </h2>
-            <p className="text-accent font-black tracking-wide text-lg sm:text-lg mt-1 sm:mt-2 text-center">(Te ayudamos a optimizar tu estructura)</p>
           </div>
           
-          <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
-            {[
-              { badge: "IVA", title: "Sin IVA en la LLC", text: "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.", footer: "Tus servicios están exentos." },
-              { badge: "Impuestos", title: "0% Impuesto de Sociedades", text: "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.", footer: "Impuesto de Sociedades al 0%." },
-              { badge: "Cuotas", title: "Sin cuota fija", text: "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.", footer: "Sin cuota de autónomos." },
-              { badge: "Banca", title: "Banca internacional", text: "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.", footer: "Tarjeta física internacional." },
-            ].map((card, i) => (
-              <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
-                <div className="p-6 flex-grow text-left">
-                  <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{card.badge}</span>
-                  <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{card.title}</h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{card.text}</p>
-                </div>
-                <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto text-left">
-                  <p className="text-sm font-black text-foreground text-left">{card.footer}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <BenefitsCards />
         </div>
       </section>
 
@@ -166,7 +143,7 @@ export default function Home() {
             className="bg-accent text-accent-foreground font-black text-sm px-8 sm:px-12 py-5 sm:py-6 border-0 rounded-full w-full sm:w-auto shadow-xl shadow-accent/30"
             data-testid="button-cta-bottom"
           >
-            ¿Comenzamos? Selecciona tu pack →
+            {t("hero.cta")} →
           </Button>
         </div>
       </section>
@@ -176,28 +153,93 @@ export default function Home() {
   );
 }
 
+function BenefitsCards() {
+  const { t } = useTranslation();
+  
+  const benefits = [
+    { 
+      badge: t("benefits.vat.badge"), 
+      title: t("benefits.vat.title"), 
+      text: t("benefits.vat.text"), 
+      footer: t("benefits.vat.footer") 
+    },
+    { 
+      badge: t("benefits.taxes.badge"), 
+      title: t("benefits.taxes.title"), 
+      text: t("benefits.taxes.text"), 
+      footer: t("benefits.taxes.footer") 
+    },
+    { 
+      badge: t("benefits.fees.badge"), 
+      title: t("benefits.fees.title"), 
+      text: t("benefits.fees.text"), 
+      footer: t("benefits.fees.footer") 
+    },
+    { 
+      badge: t("benefits.banking.badge"), 
+      title: t("benefits.banking.title"), 
+      text: t("benefits.banking.text"), 
+      footer: t("benefits.banking.footer") 
+    },
+  ];
+
+  return (
+    <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+      {benefits.map((card, i) => (
+        <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
+          <div className="p-6 flex-grow text-left">
+            <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{card.badge}</span>
+            <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{card.title}</h3>
+            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{card.text}</p>
+          </div>
+          <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto text-left">
+            <p className="text-sm font-black text-foreground text-left">{card.footer}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PorQueEasyUSLLC() {
+  const { t } = useTranslation();
+  
+  const whyUsFeatures = [
+    { 
+      badge: t("whyUs.speed.badge"), 
+      title: t("whyUs.speed.title"), 
+      text: t("whyUs.speed.text") 
+    },
+    { 
+      badge: t("whyUs.transparency.badge"), 
+      title: t("whyUs.transparency.title"), 
+      text: t("whyUs.transparency.text") 
+    },
+    { 
+      badge: t("whyUs.specialists.badge"), 
+      title: t("whyUs.specialists.title"), 
+      text: t("whyUs.specialists.text") 
+    },
+    { 
+      badge: t("whyUs.support.badge"), 
+      title: t("whyUs.support.title"), 
+      text: t("whyUs.support.text") 
+    },
+  ];
+
   return (
     <section className="py-8 sm:py-14 bg-background relative">
       <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
           <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-            VALORES
+            {t("whyUs.speed.badge", "VALUES")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-            ¿Por qué Easy US LLC?
+            {t("whyUs.transparency.title", "Why Easy US LLC?")}
           </h2>
-          <p className="text-accent font-black tracking-wide text-base sm:text-lg mt-1 sm:mt-2 text-center">
-            (Lo que nos hace diferentes)
-          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
-          {[
-            { badge: "RAPIDEZ REAL", title: "Tu LLC lista en 2–3 días hábiles", text: "Trabajamos con un proceso ágil, probado y bien organizado desde el primer momento. Sin esperas innecesarias ni pasos confusos. Sabes qué está pasando en cada fase y cuándo tendrás tu empresa operativa." },
-            { badge: "TRANSPARENCIA", title: "Precio claro desde el inicio", text: "Todo está incluido desde el primer momento, sin costes ocultos ni sorpresas posteriores. Lo que ves es lo que pagas. Creemos que la confianza empieza por la claridad y la honestidad en los números." },
-            { badge: "ESPECIALISTAS", title: "Especialistas en negocios", text: "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día." },
-            { badge: "SOPORTE HUMANO", title: "Atención cercana, en tu idioma", text: "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso." },
-          ].map((feature, i) => (
+          {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
               <div className="p-6 flex-grow text-left">
                 <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>

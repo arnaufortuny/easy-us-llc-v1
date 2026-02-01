@@ -17,7 +17,11 @@
     "error": "Error",
     "success": "Éxito",
     "required": "Este campo es obligatorio",
-    "optional": "Opcional"
+    "optional": "Opcional",
+    "select": "Seleccionar...",
+    "sending": "Enviando...",
+    "processing": "Procesando...",
+    "verifying": "Verificando..."
   },
   "nav": {
     "home": "Inicio",
@@ -28,12 +32,15 @@
     "login": "Mi Cuenta",
     "myArea": "Mi Panel",
     "register": "Constituye ahora tu LLC",
-    "dashboard": "Panel de control"
+    "dashboard": "Panel de control",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú"
   },
   "hero": {
     "title": "OPTIMIZA LA ESTRUCTURA FISCAL DE TU NEGOCIO DIGITAL",
     "subtitle": "CON UNA LLC AMERICANA",
     "description": "Para freelancers y emprendedores digitales que trabajan online y venden a nivel internacional.",
+    "highlight": "Te entregamos tu LLC en 2 días. Sin IVA. Sin Impuesto de Sociedades. Sin cuota de autónomos.",
     "cta": "Tu LLC en 2 días",
     "features": {
       "fast": "Tu LLC en 2 días",
@@ -45,8 +52,60 @@
       "card": "Tarjeta Física de Crédito y Débito"
     }
   },
+  "benefits": {
+    "vat": {
+      "badge": "IVA",
+      "title": "Sin IVA en la LLC",
+      "text": "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.",
+      "footer": "Tus servicios están exentos."
+    },
+    "taxes": {
+      "badge": "Impuestos",
+      "title": "0% Impuesto de Sociedades",
+      "text": "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.",
+      "footer": "Impuesto de Sociedades al 0%."
+    },
+    "fees": {
+      "badge": "Cuotas",
+      "title": "Sin cuota fija",
+      "text": "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.",
+      "footer": "Sin cuota de autónomos."
+    },
+    "banking": {
+      "badge": "Banca",
+      "title": "Banca internacional",
+      "text": "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.",
+      "footer": "Tarjeta física internacional."
+    }
+  },
+  "whyUs": {
+    "speed": {
+      "badge": "RAPIDEZ REAL",
+      "title": "Tu LLC lista en 2–3 días hábiles",
+      "text": "Trabajamos con un proceso ágil, probado y bien organizado desde el primer momento. Sin esperas innecesarias ni pasos confusos. Sabes qué está pasando en cada fase y cuándo tendrás tu empresa operativa."
+    },
+    "transparency": {
+      "badge": "TRANSPARENCIA",
+      "title": "Precio claro desde el inicio",
+      "text": "Todo está incluido desde el primer momento, sin costes ocultos ni sorpresas posteriores. Lo que ves es lo que pagas. Creemos que la confianza empieza por la claridad y la honestidad en los números."
+    },
+    "specialists": {
+      "badge": "ESPECIALISTAS",
+      "title": "Especialistas en negocios",
+      "text": "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día."
+    },
+    "support": {
+      "badge": "SOPORTE HUMANO",
+      "title": "Atención cercana, en tu idioma",
+      "text": "Hablamos contigo de persona a persona, por WhatsApp y email, cuando lo necesites. Sin tickets eternos ni respuestas automáticas. Estamos para acompañarte antes, durante y después del proceso."
+    }
+  },
   "services": {
     "title": "Nuestros Servicios",
+    "subtitle": "Todo lo que necesitas para formar y mantener tu LLC",
+    "heroTitle": "CONSTITUIMOS TU LLC EN ESTADOS UNIDOS DE",
+    "heroTitleHighlight": "FORMA SIMPLE, RÁPIDA Y TRANSPARENTE.",
+    "heroSubtitle": "Todo lo que necesitas saber sobre tu LLC: estructura, impuestos, bancos y cómo trabajamos.",
     "llc": {
       "title": "Formación de LLC",
       "description": "Constituye tu LLC americana de forma rápida y sencilla"
@@ -54,10 +113,142 @@
     "maintenance": {
       "title": "Mantenimiento Anual",
       "description": "Mantén tu LLC en regla con nuestro servicio de mantenimiento"
-    }
+    },
+    "formation": {
+      "title": "Formación de LLC",
+      "includes": [
+        "Tasas del estado pagadas",
+        "Registered Agent (12 meses)",
+        "Articles of Organization",
+        "Operating Agreement",
+        "EIN del IRS",
+        "BOI Report presentado",
+        "Dirección nuestra",
+        "Asistencia con bancos",
+        "Soporte completo 12 meses",
+        "Servicio Express"
+      ],
+      "nmWy": "2-3 días hábiles",
+      "de": "3-5 días hábiles",
+      "stateFeesIncluded": "Tasas estatales incluidas",
+      "year1": "/año 1",
+      "year": "/año",
+      "popular": "Popular",
+      "premium": "Premium",
+      "startups": "Startups",
+      "choose": "Elegir",
+      "maintenanceYear2": "Mantenimiento Año 2"
+    },
+    "maintenancePack": {
+      "title": "Mantenimiento Anual",
+      "badge": "MANTENIMIENTO",
+      "sectionTitle": "Packs Mantenimiento",
+      "sectionSubtitle": "(Lo que incluye tu servicio anual)",
+      "includes": [
+        "Presentación Form 1120 ante el IRS",
+        "Presentación Form 5472 ante el IRS",
+        "Renovación Registered Agent (12 meses)",
+        "Presentación y Gestión Annual Report",
+        "Soporte Ilimitado (12 meses)",
+        "Renovación de BOI Report (si fuera necesario)",
+        "1 Actualización de Articles of Organization"
+      ],
+      "choosePack": "Elegir Pack",
+      "details": {
+        "fiscal": {
+          "title": "Gestión Fiscal",
+          "desc": "Preparación y presentación de los formularios 1120 y 5472 ante el IRS, asegurando el cumplimiento tributario anual de tu LLC."
+        },
+        "agent": {
+          "title": "Registered Agent",
+          "desc": "Renovación del servicio de Agente Registrado por un año más, manteniendo tu dirección legal y la recepción de notificaciones oficiales."
+        },
+        "annual": {
+          "title": "Annual Report",
+          "desc": "Gestión y presentación del Informe Anual ante el Secretario de Estado correspondiente, incluyendo el pago de las tasas estatales obligatorias."
+        },
+        "boi": {
+          "title": "BOI Report",
+          "desc": "Actualización y mantenimiento del Beneficial Ownership Information Report ante FinCEN para reflejar cualquier cambio en la estructura."
+        },
+        "support": {
+          "title": "Soporte Continuo",
+          "desc": "Acceso ilimitado a nuestro equipo de soporte para resolver dudas sobre la operativa, impuestos y mantenimiento de tu empresa."
+        },
+        "updates": {
+          "title": "Actualizaciones",
+          "desc": "Incluye una actualización anual de tus Articles of Organization en caso de cambios menores en la estructura de la empresa."
+        }
+      }
+    },
+    "whatWeDo": {
+      "badge": "SERVICIOS",
+      "title": "Constitución de LLC",
+      "subtitle": "(Lo que hacemos por ti)",
+      "items": {
+        "formation": {
+          "title": "Constitución oficial",
+          "desc": "Gestionamos el registro completo de tu LLC ante el Secretary of State, ocupándonos de todos los trámites necesarios para que tu empresa quede correctamente constituida desde el inicio."
+        },
+        "ein": {
+          "title": "Obtención del EIN",
+          "desc": "Tramitamos tu Employer Identification Number (EIN) directamente ante el IRS, permitiendo que tu LLC quede identificada fiscalmente y preparada para operar."
+        },
+        "banking": {
+          "title": "Cuentas bancarias",
+          "desc": "Te acompañamos en el proceso de apertura de cuentas empresariales en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito."
+        },
+        "boi": {
+          "title": "BOI Report",
+          "desc": "Preparamos y presentamos el Beneficial Ownership Information Report ante FinCEN, cumpliendo con la obligación federal vigente para las LLC en Estados Unidos."
+        },
+        "agent": {
+          "title": "Registered Agent",
+          "desc": "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales."
+        },
+        "support": {
+          "title": "Soporte experto",
+          "desc": "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC."
+        }
+      }
+    },
+    "packs": {
+      "badge": "PACKS",
+      "title": "NUESTROS PACKS",
+      "subtitle": "(Elige el plan que mejor se adapte a ti)"
+    },
+    "banks": {
+      "badge": "BANCOS",
+      "title": "Asistencia Bancaria",
+      "subtitle": "(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)",
+      "mercury": {
+        "title": "Mercury",
+        "desc": "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC."
+      },
+      "relay": {
+        "title": "Relay",
+        "desc": "Asistencia en la apertura de cuenta en Relay, una alternativa bancaria sólida para la operativa diaria de tu empresa."
+      },
+      "strategy": {
+        "title": "Estrategia bancaria",
+        "desc": "Te orientamos sobre la opción bancaria más adecuada según tu tipo de negocio y forma de operar."
+      },
+      "continuous": {
+        "title": "Acompañamiento continuo",
+        "desc": "Te acompañamos durante el proceso y resolvemos tus dudas hasta que la solicitud queda resuelta."
+      },
+      "included": "Incluido en tu paquete inicial"
+    },
+    "management": {
+      "badge": "GESTIÓN",
+      "title": "Mantenimiento Anual",
+      "subtitle": "(Lo que incluye tu mantenimiento)"
+    },
+    "questions": "¿Alguna duda? Hablemos"
   },
   "pricing": {
     "title": "Planes y Precios",
+    "subtitle": "Precios simples y transparentes, sin sorpresas",
     "newMexico": {
       "title": "New Mexico",
       "price": "739",
@@ -77,9 +268,14 @@
       "agent": "Agente registrado 1 año",
       "bank": "Asistencia apertura bancaria",
       "support": "Soporte prioritario"
-    }
+    },
+    "currency": "€",
+    "startFrom": "Desde",
+    "selectPlan": "Seleccionar plan",
+    "mostPopular": "Más Popular"
   },
   "auth": {
+    "continueQuickly": "o continúa de forma rápida",
     "login": {
       "title": "Iniciar Sesión",
       "email": "Correo electrónico",
@@ -105,7 +301,41 @@
       "title": "Recuperar Contraseña",
       "description": "Introduce tu correo electrónico y te enviaremos instrucciones",
       "submit": "Enviar instrucciones"
+    },
+    "otp": {
+      "title": "Verificar Email",
+      "description": "Introduce el código que te enviamos a tu correo",
+      "sendCode": "Enviar código de verificación",
+      "verifyCode": "Verificar código",
+      "verificationCode": "Código de verificación",
+      "codeSentToEmail": "Te hemos enviado un código de 6 dígitos a tu email",
+      "codeSent": "Código enviado",
+      "codeExpired": "Código expirado",
+      "invalidCode": "Código inválido",
+      "resend": "Reenviar código",
+      "resendCode": "¿No recibiste el código? Reenviar"
+    },
+    "google": {
+      "signIn": "Iniciar sesión con Google",
+      "connect": "Vincular Google",
+      "disconnect": "Desvincular",
+      "connected": "Cuenta de Google vinculada",
+      "disconnected": "Cuenta de Google desvinculada"
     }
+  },
+  "validation": {
+    "required": "Este campo es obligatorio",
+    "invalidEmail": "Email inválido",
+    "invalidPhone": "Teléfono inválido",
+    "minLength": "Mínimo {{min}} caracteres",
+    "maxLength": "Máximo {{max}} caracteres",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "minPassword": "Mínimo 8 caracteres",
+    "nameRequired": "El nombre es obligatorio",
+    "lastNameRequired": "Los apellidos son obligatorios",
+    "llcNameFormat": "El nombre debe terminar en LLC (ej: MI EMPRESA LLC)",
+    "acceptTerms": "Debes aceptar los términos",
+    "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp"
   },
   "application": {
     "title": "Solicitud de LLC",
@@ -121,16 +351,43 @@
     },
     "fields": {
       "fullName": "Nombre completo",
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
       "email": "Correo electrónico",
       "phone": "Teléfono",
       "birthDate": "Fecha de nacimiento",
       "idType": "Tipo de documento",
       "idNumber": "Número de documento",
       "country": "País de residencia",
-      "address": "Dirección completa",
+      "address": "Dirección",
+      "streetType": "Tipo de vía",
+      "city": "Ciudad",
+      "province": "Provincia/Estado",
+      "postalCode": "Código postal",
       "companyName": "Nombre de la empresa",
       "businessActivity": "Actividad del negocio",
-      "businessCategory": "Categoría del negocio"
+      "businessCategory": "Categoría del negocio",
+      "state": "Estado",
+      "sellingOnline": "¿Vendes online?",
+      "needsBank": "¿Necesitas cuenta bancaria?",
+      "useStripe": "¿Usarás Stripe?",
+      "wantsBoi": "BOI Report",
+      "wantsMaintenance": "Pack de mantenimiento anual"
+    },
+    "streetTypes": {
+      "street": "Calle",
+      "avenue": "Avenida",
+      "road": "Carretera",
+      "plaza": "Plaza",
+      "passage": "Pasaje",
+      "boulevard": "Bulevar",
+      "other": "Otro"
+    },
+    "idTypes": {
+      "passport": "Pasaporte",
+      "dni": "DNI",
+      "nie": "NIE",
+      "other": "Otro"
     },
     "validation": {
       "required": "Este campo es obligatorio",
@@ -138,7 +395,14 @@
       "invalidPhone": "Teléfono inválido",
       "minLength": "Mínimo {{min}} caracteres",
       "maxLength": "Máximo {{max}} caracteres"
-    }
+    },
+    "discountCode": "Código de descuento",
+    "applyCode": "Aplicar",
+    "codeApplied": "Código aplicado",
+    "codeInvalid": "Código no válido",
+    "total": "Total",
+    "subtotal": "Subtotal",
+    "discount": "Descuento"
   },
   "dashboard": {
     "title": "Panel de Control",
@@ -156,7 +420,8 @@
       "payments": "Pagos",
       "calendar": "Agenda",
       "profile": "Mi Perfil",
-      "admin": "Administración"
+      "admin": "Administración",
+      "tools": "Herramientas"
     },
     "services": {
       "title": "Mis trámites",
@@ -211,21 +476,119 @@
     "notifications": {
       "title": "Notificaciones",
       "empty": "No tienes notificaciones"
+    },
+    "profile": {
+      "title": "Mi Perfil",
+      "personalInfo": "Información Personal",
+      "security": "Seguridad",
+      "preferences": "Preferencias",
+      "saveChanges": "Guardar cambios",
+      "changePassword": "Cambiar contraseña",
+      "currentPassword": "Contraseña actual",
+      "newPassword": "Nueva contraseña",
+      "confirmNewPassword": "Confirmar nueva contraseña"
+    }
+  },
+  "tour": {
+    "welcome": {
+      "title": "Bienvenido a tu Área de Cliente",
+      "description": "Te mostramos las funciones principales de tu panel."
+    },
+    "orders": {
+      "title": "Tus Pedidos",
+      "description": "Consulta el estado de tus pedidos y documentos."
+    },
+    "calendar": {
+      "title": "Calendario Fiscal",
+      "description": "Fechas importantes: IRS, informes y renovaciones."
+    },
+    "messages": {
+      "title": "Mensajes",
+      "description": "Contacta con nuestro equipo de soporte."
+    },
+    "profile": {
+      "title": "Tu Perfil",
+      "description": "Gestiona tus datos personales."
+    },
+    "ready": {
+      "title": "Listo para empezar",
+      "description": "Si tienes dudas, usa la sección de Mensajes."
     }
   },
   "contact": {
     "title": "Contacto",
     "subtitle": "¿Tienes alguna pregunta?",
-    "description": "Estamos aquí para ayudarte. Envíanos un mensaje y te responderemos lo antes posible.",
+    "pageTitle": "HABLEMOS / CONTACTO",
+    "pageSubtitle": "Cuéntanos tu caso",
+    "description": "Estamos aquí para ayudarte. Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.",
     "form": {
       "name": "Nombre",
+      "lastName": "Apellido",
       "email": "Correo electrónico",
+      "phone": "Teléfono",
       "subject": "Asunto",
       "message": "Mensaje",
-      "submit": "Enviar mensaje"
+      "submit": "Enviar mensaje",
+      "whatsapp": "Quiero que me contacten por WhatsApp",
+      "whatsappNote": "Usaremos tu número únicamente para responder a esta consulta",
+      "whatsappRequired": "Campo obligatorio si marcas WhatsApp",
+      "continue": "Continuar",
+      "back": "Volver",
+      "yourName": "Tu nombre",
+      "whatsYourName": "¿Cómo te llamas?",
+      "yourLastName": "Tu apellido",
+      "toKnowWho": "Para saber con quién estamos hablando",
+      "yourEmail": "Tu email",
+      "whereToRespond": "¿Dónde prefieres que te respondamos?",
+      "contactMethod": "Forma de contacto",
+      "howToContact": "¿Cómo prefieres que te contactemos?",
+      "wantWhatsapp": "Quiero que me contactéis por WhatsApp",
+      "enterPhone": "Introduce tu número de teléfono",
+      "phoneDescription": "Campo obligatorio si quieres contacto por WhatsApp",
+      "selectSubject": "Selecciona el asunto",
+      "whatSubject": "¿En qué podemos ayudarte?",
+      "yourMessage": "Tu mensaje",
+      "tellUs": "Cuéntanos cómo podemos ayudarte",
+      "verification": "Verificación de email",
+      "verifyToContinue": "Verifica tu email para continuar",
+      "confirmations": "Confirmaciones",
+      "reviewAndSend": "Revisa y envía tu mensaje",
+      "noSpam": "Campo obligatorio · No enviamos publicidad ni mensajes innecesarios"
     },
+    "subjects": {
+      "createCompany": "Quiero crear mi empresa en EE.UU.",
+      "llcHelp": "Necesito ayuda con mi LLC",
+      "closeCompany": "Quiero cerrar mi empresa",
+      "bankPayments": "Bancos, pagos o forms",
+      "question": "Tengo una pregunta",
+      "other": "Otro"
+    },
+    "consent": {
+      "dataProcessing": "Acepto el tratamiento de mis datos personales",
+      "dataProcessingLink": "política de privacidad",
+      "terms": "Acepto los",
+      "termsLink": "términos y condiciones",
+      "mustAccept": "Debes aceptar"
+    },
+    "dataProcessingDescription": "Usaremos tu información únicamente para gestionar tu consulta",
+    "termsReviewAnytime": "Puedes revisarlos cuando quieras",
+    "otherWays": "OTRAS VÍAS DE CONTACTO",
+    "writeUs": "Escríbenos, te esperamos!",
+    "order": "Pedido",
+    "ticket": "Ticket",
     "success": "Mensaje enviado correctamente",
-    "error": "Error al enviar el mensaje"
+    "successTitle": "Gracias por escribirnos",
+    "successDescription": "Hemos recibido tu mensaje correctamente",
+    "requestReceived": "Solicitud recibida",
+    "thankYou": "Gracias por confiar en nosotros",
+    "willRespond": "Te responderemos lo antes posible",
+    "checkEmail": "Estate atento a tu email",
+    "nextSteps": "Te enviaremos un correo con los siguientes pasos",
+    "backHome": "Volver al inicio",
+    "talkWhatsapp": "Hablar por WhatsApp",
+    "error": "Error al enviar el mensaje",
+    "tryAgain": "Inténtalo de nuevo en unos segundos",
+    "loginFaster": "o inicia sesión con email para ir más rápido"
   },
   "faq": {
     "title": "Preguntas Frecuentes",
@@ -277,6 +640,7 @@
     "validation": "Por favor, revisa los campos del formulario."
   },
   "progress": {
+    "step": "Paso {{current}} de {{total}}",
     "orderReceived": "Pedido Recibido",
     "paymentConfirmed": "Pago Confirmado",
     "processing": "En Tramitación",
@@ -317,7 +681,8 @@
     "payments": "Pagos",
     "calendar": "Calendario",
     "profile": "Mi Perfil",
-    "admin": "Admin"
+    "admin": "Admin",
+    "tools": "Herramientas"
   },
   "actions": {
     "modify": "Modificar",
@@ -325,6 +690,37 @@
     "view": "Ver",
     "newLLC": "Nueva LLC",
     "viewPacks": "Ver Packs",
-    "modifyData": "Modificar datos"
+    "modifyData": "Modificar datos",
+    "continueApplication": "Continuar solicitud",
+    "startNew": "Comenzar nueva"
+  },
+  "toast": {
+    "success": "Éxito",
+    "error": "Error",
+    "codeSent": "Código enviado",
+    "checkEmail": "Revisa tu bandeja de entrada, te esperamos aquí",
+    "emailVerified": "Email verificado",
+    "canContinue": "Ya puedes continuar",
+    "invalidCode": "Código incorrecto",
+    "codeExpiredOrInvalid": "El código no es válido o ha caducado",
+    "verifyEmail": "Verifica tu email",
+    "needVerification": "Necesitamos verificar tu email para continuar",
+    "messageSent": "Mensaje enviado",
+    "willRespondSoon": "Te responderemos pronto",
+    "somethingWrong": "Algo no ha ido bien",
+    "preferencesUpdated": "Preferencias actualizadas",
+    "thankYouForStaying": "Gracias por quedarte con nosotros",
+    "invalidEmail": "Email no válido",
+    "checkEmailFormat": "Revisa que esté bien escrito",
+    "errorSending": "Error al enviar",
+    "tryAgain": "Inténtalo de nuevo en unos segundos"
+  },
+  "newsletter": {
+    "title": "Mantente informado",
+    "description": "Recibe noticias y actualizaciones sobre LLCs",
+    "placeholder": "Indícanos tu email",
+    "subscribe": "Suscribirse",
+    "success": "Suscrito correctamente",
+    "checkInbox": "Revisa tu bandeja de entrada."
   }
 }

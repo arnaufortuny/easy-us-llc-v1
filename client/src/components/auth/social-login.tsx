@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 interface SocialLoginProps {
   mode?: "login" | "connect";
@@ -37,6 +38,7 @@ function GoogleIcon({ className }: { className?: string }) {
 export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSeparator = false }: SocialLoginProps) {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleGoogleLogin = () => {
     setIsLoadingGoogle(true);
@@ -48,12 +50,12 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
     setIsLoadingGoogle(true);
     try {
       await apiRequest("POST", "/api/auth/disconnect/google");
-      toast({ title: "Éxito", description: "Cuenta de Google desvinculada" });
+      toast({ title: t("toast.success"), description: t("auth.google.disconnected") });
       onSuccess?.();
     } catch (err: any) {
       toast({
-        title: "Error",
-        description: err.message || "Error al desvincular Google",
+        title: t("toast.error"),
+        description: err.message || t("errors.generic"),
         variant: "destructive",
       });
     } finally {
@@ -78,7 +80,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
               className="text-destructive border-destructive/50"
               data-testid="button-disconnect-google"
             >
-              {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : "Desvincular"}
+              {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : t("auth.google.disconnect")}
             </Button>
           ) : (
             <Button
@@ -88,7 +90,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
               disabled={isLoadingGoogle}
               data-testid="button-connect-google"
             >
-              {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : "Vincular"}
+              {isLoadingGoogle ? <Loader2 className="w-4 h-4 animate-spin" /> : t("auth.google.connect")}
             </Button>
           )}
         </div>
@@ -104,7 +106,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
             <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— o continúa de forma rápida —</span>
+            <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— {t("auth.continueQuickly")} —</span>
           </div>
         </div>
       )}
@@ -122,7 +124,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
         ) : (
           <>
             <GoogleIcon className="w-5 h-5" />
-            <span className="text-gray-700 dark:text-gray-200">Acceder con Google</span>
+            <span className="text-gray-700 dark:text-gray-200">{t("auth.google.signIn")}</span>
           </>
         )}
       </Button>

@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+
 interface StepProgressProps {
   currentStep: number;
   totalSteps: number;
@@ -5,13 +7,14 @@ interface StepProgressProps {
 }
 
 export function StepProgress({ currentStep, totalSteps, className = "" }: StepProgressProps) {
+  const { t } = useTranslation();
   const progress = Math.min(((currentStep + 1) / totalSteps) * 100, 100);
   
   return (
     <div className={`w-full ${className}`}>
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-black text-muted-foreground">
-          Paso {Math.min(currentStep + 1, totalSteps)} de {totalSteps}
+          {t("progress.step", { current: Math.min(currentStep + 1, totalSteps), total: totalSteps })}
         </span>
         <span className="text-sm font-black text-accent">
           {Math.round(progress)}%

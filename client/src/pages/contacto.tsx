@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 import { Loader2 } from "lucide-react";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -19,32 +20,24 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
 
-const formSchema = z.object({
-  nombre: z.string().min(1, "Campo obligatorio"),
-  apellido: z.string().min(1, "Campo obligatorio"),
-  email: z.string().email("Email inválido"),
+const createFormSchema = (t: (key: string) => string) => z.object({
+  nombre: z.string().min(1, t("validation.required")),
+  apellido: z.string().min(1, t("validation.required")),
+  email: z.string().email(t("validation.invalidEmail")),
   contactByWhatsapp: z.boolean().default(false),
   telefono: z.string().optional(),
-  subject: z.string().min(1, "Campo obligatorio"),
-  mensaje: z.string().min(1, "Campo obligatorio"),
+  subject: z.string().min(1, t("validation.required")),
+  mensaje: z.string().min(1, t("validation.required")),
   otp: z.string().optional(),
-  dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
-  termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
+  dataProcessingConsent: z.boolean().refine(val => val === true, t("contact.consent.mustAccept")),
+  termsConsent: z.boolean().refine(val => val === true, t("contact.consent.mustAccept")),
 });
 
-type FormValues = z.infer<typeof formSchema>;
-
-const SUBJECT_OPTIONS = [
-  "Quiero crear mi empresa en EE.UU.",
-  "Necesito ayuda con mi LLC",
-  "Quiero cerrar mi empresa",
-  "Bancos, pagos o forms",
-  "Tengo una pregunta",
-  "Otro"
-];
+type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const [step, setStep] = useState(0);
   const [hasAutoSkipped, setHasAutoSkipped] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -53,6 +46,17 @@ export default function Contacto() {
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
+  const SUBJECT_OPTIONS_TRANSLATED = [
+    t("contact.subjects.createCompany"),
+    t("contact.subjects.llcHelp"),
+    t("contact.subjects.closeCompany"),
+    t("contact.subjects.bankPayments"),
+    t("contact.subjects.question"),
+    t("contact.subjects.other")
+  ];
+
+  const formSchema = useMemo(() => createFormSchema(t), [t]);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -112,7 +116,7 @@ export default function Contacto() {
     
     // Validate phone if WhatsApp is checked
     if (step === 4 && form.getValues("contactByWhatsapp") && !form.getValues("telefono")) {
-      form.setError("telefono", { message: "Campo obligatorio si quieres contacto por WhatsApp" });
+      form.setError("telefono", { message: t("validation.whatsappRequired") });
       return;
     }
 
@@ -141,16 +145,16 @@ export default function Contacto() {
   const sendOtp = async () => {
     const email = form.getValues("email");
     if (!email || !email.includes("@")) {
-      toast({ title: "Email no válido", description: "Revisa que esté bien escrito", variant: "destructive" });
+      toast({ title: t("toast.invalidEmail"), description: t("toast.checkEmailFormat"), variant: "destructive" });
       return;
     }
     setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
+      toast({ title: t("toast.codeSent"), description: t("toast.checkEmail") });
     } catch (err) {
-      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
+      toast({ title: t("toast.errorSending"), description: t("toast.tryAgain"), variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -163,10 +167,10 @@ export default function Contacto() {
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsOtpVerified(true);
-      toast({ title: "Email verificado", description: "Ya puedes continuar" });
+      toast({ title: t("toast.emailVerified"), description: t("toast.canContinue") });
       setStep(7);
     } catch (err) {
-      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
+      toast({ title: t("toast.invalidCode"), description: t("toast.codeExpiredOrInvalid"), variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +178,7 @@ export default function Contacto() {
 
   const onSubmit = async (values: FormValues) => {
     if (!isOtpVerified) {
-      toast({ title: "Verifica tu email", description: "Necesitamos verificar tu email para continuar", variant: "destructive" });
+      toast({ title: t("toast.verifyEmail"), description: t("toast.needVerification"), variant: "destructive" });
       return;
     }
     setIsLoading(true);
@@ -190,10 +194,10 @@ export default function Contacto() {
       const data = await response.json();
       setSubmittedMessageId(data.messageId || data.id);
       setIsSubmitted(true);
-      toast({ title: "Mensaje enviado", description: "Te responderemos pronto" });
+      toast({ title: t("toast.messageSent"), description: t("toast.willRespondSoon") });
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
     } catch (err) {
-      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
+      toast({ title: t("toast.somethingWrong"), description: t("toast.tryAgain"), variant: "destructive" });
     } finally {
       setIsLoading(false);
     }
@@ -220,10 +224,10 @@ export default function Contacto() {
             
             <div className="space-y-2 sm:space-y-3">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-foreground leading-tight">
-                {isLLC || isMaintenance ? "Solicitud recibida" : "Gracias por escribirnos"}
+                {isLLC || isMaintenance ? t("contact.requestReceived") : t("contact.successTitle")}
               </h1>
               <p className="text-base sm:text-lg text-muted-foreground">
-                {isLLC || isMaintenance ? "Gracias por confiar en nosotros" : "Hemos recibido tu mensaje correctamente"}
+                {isLLC || isMaintenance ? t("contact.thankYou") : t("contact.successDescription")}
               </p>
               <div className="h-1 w-16 sm:w-20 bg-accent mx-auto rounded-full" />
             </div>
@@ -231,7 +235,7 @@ export default function Contacto() {
             {(submittedMessageId || urlTicketId || urlOrderId) && (
               <div className="bg-white dark:bg-zinc-900 border-2 border-accent px-4 py-3 sm:px-6 sm:py-4 rounded-xl inline-block">
                 <span className="text-[10px] sm:text-xs font-black text-gray-500 tracking-widest uppercase">
-                  {urlOrderId ? "Pedido" : "Ticket"}
+                  {urlOrderId ? t("contact.order") : t("contact.ticket")}
                 </span>
                 <p className="text-xl sm:text-2xl font-black text-black dark:text-white">
                   {urlOrderId || submittedMessageId || urlTicketId}
@@ -241,14 +245,14 @@ export default function Contacto() {
             
             <div className="space-y-3 sm:space-y-4">
               <p className="text-base sm:text-lg font-bold text-foreground leading-tight">
-                Te responderemos lo antes posible
+                {t("contact.willRespond")}
               </p>
               <p className="text-sm text-muted-foreground">
-                Estate atento a tu email
+                {t("contact.checkEmail")}
               </p>
               {(isLLC || isMaintenance) && (
                 <p className="text-xs sm:text-sm bg-white dark:bg-zinc-900 p-3 rounded-full border border-border max-w-md mx-auto">
-                  Te enviaremos un correo con los siguientes pasos
+                  {t("contact.nextSteps")}
                 </p>
               )}
             </div>
@@ -260,7 +264,7 @@ export default function Contacto() {
                   size="default"
                   data-testid="button-home"
                 > 
-                  Volver al inicio 
+                  {t("contact.backHome")}
                 </Button>
               </Link>
               <a 
@@ -274,7 +278,7 @@ export default function Contacto() {
                   className="border-2 border-black text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg transition-all w-full"
                   data-testid="button-whatsapp"
                 > 
-                  Hablar por WhatsApp
+                  {t("contact.talkWhatsapp")}
                 </Button>
               </a>
             </div>
@@ -290,11 +294,11 @@ export default function Contacto() {
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-5xl font-black mb-4 text-foreground leading-tight text-center">
-          <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">HABLEMOS / CONTACTO</span>
-          <span className="text-foreground">Cuéntanos tu caso</span>
+          <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-2">{t("contact.pageTitle")}</span>
+          <span className="text-foreground">{t("contact.pageSubtitle")}</span>
         </h1>
         <p className="text-muted-foreground font-medium mb-6 text-center max-w-lg mx-auto text-sm sm:text-base">
-          Estamos aquí para ayudarte. Cuéntanos qué necesitas y te responderemos personalmente lo antes posible.
+          {t("contact.description")}
         </p>
         
         <StepProgress currentStep={step} totalSteps={9} className="mb-8" />
@@ -307,25 +311,25 @@ export default function Contacto() {
                 {step === 0 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Tu nombre
+                      {t("contact.form.yourName")}
                     </h2>
                     <FormField control={form.control} name="nombre" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo te llamas?</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whatsYourName")}</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-nombre" />
                         </FormControl>
-                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">Continuar</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">{t("contact.form.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="pt-4">
                         <SocialLogin mode="login" />
                         <p className="text-center text-sm text-muted-foreground mt-3">
-                          o <Link href="/auth/login" className="text-accent font-bold hover:underline">inicia sesión con email</Link> para ir más rápido
+                          {t("contact.loginFaster")}
                         </p>
                       </div>
                     )}
@@ -335,21 +339,21 @@ export default function Contacto() {
                 {step === 1 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Tu apellido
+                      {t("contact.form.yourLastName")}
                     </h2>
                     <FormField control={form.control} name="apellido" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Para saber con quién estamos hablando</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.toKnowWho")}</FormLabel>
                         <FormControl>
                           <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-apellido" />
                         </FormControl>
-                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -357,21 +361,21 @@ export default function Contacto() {
                 {step === 2 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Tu email
+                      {t("contact.form.yourEmail")}
                     </h2>
                     <FormField control={form.control} name="email" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Dónde prefieres que te respondamos?</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whereToRespond")}</FormLabel>
                         <FormControl>
                           <Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-email" />
                         </FormControl>
-                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio · No enviamos publicidad ni mensajes innecesarios</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">{t("contact.form.noSpam")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -379,11 +383,11 @@ export default function Contacto() {
                 {step === 3 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Forma de contacto
+                      {t("contact.form.contactMethod")}
                     </h2>
                     <FormField control={form.control} name="contactByWhatsapp" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">¿Cómo prefieres que te contactemos?</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.howToContact")}</FormLabel>
                         <FormControl>
                           <label className="flex items-center gap-3 p-4 rounded-full border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
                             <Checkbox 
@@ -392,14 +396,14 @@ export default function Contacto() {
                               className="w-5 h-5 border-2"
                               data-testid="checkbox-whatsapp"
                             />
-                            <span className="font-medium text-foreground text-sm">Quiero que me contactéis por WhatsApp</span>
+                            <span className="font-medium text-foreground text-sm">{t("contact.form.wantWhatsapp")}</span>
                           </label>
                         </FormControl>
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -407,25 +411,25 @@ export default function Contacto() {
                 {step === 4 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Teléfono
+                      {t("contact.form.phone")}
                     </h2>
                     <FormField control={form.control} name="telefono" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">
-                          Tu número de teléfono {watchWhatsapp ? "" : "(opcional)"}
+                          {t("contact.form.enterPhone")} {watchWhatsapp ? "" : `(${t("common.optional")})`}
                         </FormLabel>
                         <FormControl>
                           <Input {...field} type="tel" inputMode="tel" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-telefono" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">
-                          {watchWhatsapp ? "Campo obligatorio si marcas WhatsApp · " : ""}Usaremos tu número únicamente para responder a esta consulta
+                          {watchWhatsapp ? t("contact.form.whatsappRequired") + " · " : ""}{t("contact.form.whatsappNote")}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -433,14 +437,14 @@ export default function Contacto() {
                 {step === 5 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      ¿En qué podemos ayudarte?
+                      {t("contact.form.whatSubject")}
                     </h2>
                     <FormField control={form.control} name="subject" render={({ field }) => (
                       <FormItem className="space-y-3">
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Así vamos directos a lo importante</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.selectSubject")}</FormLabel>
                         <FormControl>
                           <div className="flex flex-col gap-2">
-                            {SUBJECT_OPTIONS.map((opt) => (
+                            {SUBJECT_OPTIONS_TRANSLATED.map((opt) => (
                               <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800 hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
                                 <span className="font-medium text-foreground text-sm">{opt}</span>
@@ -448,13 +452,13 @@ export default function Contacto() {
                             ))}
                           </div>
                         </FormControl>
-                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -462,21 +466,21 @@ export default function Contacto() {
                 {step === 6 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Cuéntanos un poco más
+                      {t("contact.form.yourMessage")}
                     </h2>
                     <FormField control={form.control} name="mensaje" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">Explícanos tu caso con tus propias palabras</FormLabel>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.tellUs")}</FormLabel>
                         <FormControl>
                           <Textarea {...field} className="rounded-xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
                         </FormControl>
-                        <FormDescription className="text-xs text-muted-foreground">Campo obligatorio</FormDescription>
+                        <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">Continuar</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -484,9 +488,9 @@ export default function Contacto() {
                 {step === 7 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Verificación de seguridad
+                      {t("contact.form.verification")}
                     </h2>
-                    <p className="text-sm text-muted-foreground">Solo para confirmar que eres tú</p>
+                    <p className="text-sm text-muted-foreground">{t("contact.form.verifyToContinue")}</p>
                     
                     {!isOtpSent ? (
                       <div className="space-y-4">
@@ -498,15 +502,15 @@ export default function Contacto() {
                           className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-send-otp"
                         >
-                          {isLoading ? <Loader2 className="animate-spin" /> : "Enviar código de verificación"}
+                          {isLoading ? <Loader2 className="animate-spin" /> : t("auth.otp.sendCode")}
                         </Button>
                       </div>
                     ) : (
                       <div className="space-y-4">
                         <FormField control={form.control} name="otp" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-sm md:text-base font-bold text-foreground">Código de verificación</FormLabel>
-                            <FormDescription className="text-xs text-muted-foreground">Te hemos enviado un código de 6 dígitos a tu email · Campo obligatorio</FormDescription>
+                            <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("auth.otp.verificationCode")}</FormLabel>
+                            <FormDescription className="text-xs text-muted-foreground">{t("auth.otp.codeSentToEmail")}</FormDescription>
                             <FormControl>
                               <Input 
                                 {...field} 
@@ -525,24 +529,24 @@ export default function Contacto() {
                           className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-verify-otp"
                         >
-                          {isLoading ? <Loader2 className="animate-spin" /> : "Verificar código"}
+                          {isLoading ? <Loader2 className="animate-spin" /> : t("auth.otp.verifyCode")}
                         </Button>
                         <button type="button" onClick={sendOtp} className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors">
-                          ¿No recibiste el código? Reenviar
+                          {t("auth.otp.resendCode")}
                         </button>
                       </div>
                     )}
                     
-                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-12 font-bold border-border transition-all mt-4">Volver</Button>
+                    <Button type="button" variant="outline" onClick={prevStep} className="w-full rounded-full h-12 font-bold border-border transition-all mt-4">{t("contact.form.back")}</Button>
                   </div>
                 )}
 
                 {step === 8 && (
                   <div className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      Antes de enviar
+                      {t("contact.form.confirmations")}
                     </h2>
-                    <p className="text-sm text-muted-foreground">Para poder ayudarte, necesitamos tu confirmación</p>
+                    <p className="text-sm text-muted-foreground">{t("contact.form.reviewAndSend")}</p>
 
                     <div className="space-y-4">
                       <FormField control={form.control} name="dataProcessingConsent" render={({ field }) => (
@@ -552,9 +556,9 @@ export default function Contacto() {
                           </FormControl>
                           <div>
                             <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
-                              Acepto el tratamiento de mis datos personales
+                              {t("contact.consent.dataProcessing")}
                             </FormLabel>
-                            <p className="text-xs text-muted-foreground mt-1">Usaremos tu información únicamente para gestionar tu consulta</p>
+                            <p className="text-xs text-muted-foreground mt-1">{t("contact.dataProcessingDescription")}</p>
                           </div>
                         </FormItem>
                       )} />
@@ -565,23 +569,23 @@ export default function Contacto() {
                           </FormControl>
                           <div>
                             <FormLabel className="text-sm font-medium text-foreground leading-relaxed cursor-pointer">
-                              Acepto los <Link href="/legal/terminos" className="text-accent underline hover:text-accent/80 font-bold">términos y condiciones</Link>
+                              {t("contact.consent.terms")} <Link href="/legal/terminos" className="text-accent underline hover:text-accent/80 font-bold">{t("contact.consent.termsLink")}</Link>
                             </FormLabel>
-                            <p className="text-xs text-muted-foreground mt-1">Puedes revisarlos cuando quieras</p>
+                            <p className="text-xs text-muted-foreground mt-1">{t("contact.termsReviewAnytime")}</p>
                           </div>
                         </FormItem>
                       )} />
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
-                        {isLoading ? <Loader2 className="animate-spin" /> : "Enviar mensaje"}
+                        {isLoading ? <Loader2 className="animate-spin" /> : t("contact.form.submit")}
                       </Button>
                     </div>
                   </div>
@@ -594,8 +598,8 @@ export default function Contacto() {
         <div className="mt-24 pt-16">
           <div className="text-center mb-10 flex flex-col items-center justify-center">
             <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black text-primary tracking-tight text-center">
-              <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">OTRAS VÍAS DE CONTACTO</span>
-              Escríbenos, te esperamos!
+              <span className="text-accent tracking-widest text-xs sm:text-sm font-black block mb-0 text-center">{t("contact.otherWays")}</span>
+              {t("contact.writeUs")}
             </h2>
           </div>
           
