@@ -9,7 +9,6 @@ import { Trash2, Plus, FileDown, Receipt, ArrowLeft } from "lucide-react";
 import { Link } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import jsPDF from "jspdf";
 
 interface InvoiceItem {
   id: string;
@@ -70,7 +69,7 @@ export default function InvoiceGenerator() {
     return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     if (!issuerName || !clientName || items.some(i => !i.description)) {
       alert("Por favor completa todos los campos obligatorios");
       return;
@@ -79,6 +78,7 @@ export default function InvoiceGenerator() {
     setIsGenerating(true);
 
     try {
+      const { default: jsPDF } = await import("jspdf");
       const doc = new jsPDF();
       const pageWidth = doc.internal.pageSize.getWidth();
       
