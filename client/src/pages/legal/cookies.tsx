@@ -1,9 +1,10 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Cookies() {
   const { t, i18n } = useTranslation();
-  const isEnglish = i18n.language === 'en';
+  const isEnglish = useMemo(() => i18n.language === 'en', [i18n.language]);
 
   return (
     <LegalPageLayout

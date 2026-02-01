@@ -32,30 +32,30 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
   };
 
   return (
-    <div className="min-h-screen bg-[#e8f5eb] dark:bg-zinc-950 font-sans selection:bg-brand-lime selection:text-brand-dark print:bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-[#e8f5eb] via-white to-[#f7f7f5] dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 font-sans selection:bg-brand-lime selection:text-brand-dark print:bg-white">
       <div className="print:hidden">
         <Navbar />
       </div>
       
-      <header className="pt-28 sm:pt-32 lg:pt-36 pb-10 sm:pb-14 lg:pb-16 print:pt-4 print:pb-4">
+      <header className="pt-24 sm:pt-32 lg:pt-40 pb-10 sm:pb-14 lg:pb-16 print:pt-4 print:pb-4">
         <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
-          <div className="text-center sm:text-left">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-brand-dark dark:text-white leading-[1.15] mb-4 sm:mb-5 print:text-2xl">
+          <div className="text-center w-full flex flex-col items-center">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-brand-dark dark:text-white leading-[1.15] mb-4 sm:mb-5 print:text-2xl text-center w-full">
               {title} <span className="text-brand-lime">{titleHighlight}</span>
             </h1>
             
-            <div className="flex flex-col sm:flex-row items-center sm:items-center justify-center sm:justify-start gap-2 sm:gap-5 text-muted-foreground dark:text-zinc-400 mb-6 sm:mb-8">
-              <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-5 text-muted-foreground dark:text-zinc-400 mb-6 sm:mb-8 w-full text-center">
+              <div className="flex items-center justify-center gap-2">
                 <Calendar className="w-4 h-4 flex-shrink-0" />
                 <span className="text-sm font-medium">{lastUpdated}</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-center gap-2">
                 <FileText className="w-4 h-4 flex-shrink-0" />
                 <span className="text-sm font-medium">{t("legal.documentInfo")}</span>
               </div>
             </div>
 
-            <div className="print:hidden flex justify-center sm:justify-start">
+            <div className="print:hidden flex justify-center w-full">
               <button 
                 onClick={handleDownload}
                 className="inline-flex items-center justify-center rounded-full px-6 h-11 font-bold text-sm shadow-md transition-all gap-2 hover:opacity-90 active:scale-[0.98]"
@@ -72,7 +72,7 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
       
       <main className="py-8 sm:py-10 lg:py-12 print:py-2">
         <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 print:px-2">
-          <div ref={contentRef} className="space-y-8 sm:space-y-10 print:space-y-4">
+          <div ref={contentRef} className="space-y-8 sm:space-y-10 print:space-y-4 text-left">
             {children}
           </div>
         </div>

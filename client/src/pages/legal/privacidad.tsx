@@ -1,9 +1,10 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Privacidad() {
   const { t, i18n } = useTranslation();
-  const isEnglish = i18n.language === 'en';
+  const isEnglish = useMemo(() => i18n.language === 'en', [i18n.language]);
 
   return (
     <LegalPageLayout
@@ -19,10 +20,10 @@ export default function Privacidad() {
             : "Esta Política de Privacidad describe cómo Easy US LLC, operando bajo la razón social Fortuny Consulting LLC, recopila, utiliza, almacena, protege y comparte la información personal de los usuarios de nuestros servicios y plataforma."
           }</p>
           <LegalHighlightBox>
-            <p className="font-black text-brand-dark text-xs tracking-widest opacity-50">{isEnglish ? "Legal Entity" : "Entidad Responsable"}</p>
-            <p className="font-black text-xl text-carbon-black">Fortuny Consulting LLC</p>
+            <p className="font-black text-brand-dark dark:text-zinc-400 text-xs tracking-widest opacity-50">{isEnglish ? "Legal Entity" : "Entidad Responsable"}</p>
+            <p className="font-black text-xl text-brand-dark dark:text-white">Fortuny Consulting LLC</p>
             <p>{isEnglish ? "Trade Name" : "Nombre Comercial"}: Easy US LLC</p>
-            <p>{isEnglish ? "Registered Address" : "Domicilio Social"}: 1209 Mountain Road Place Northeast, STE R, Albuquerque, NM 87110, {isEnglish ? "United States" : "Estados Unidos"}</p>
+            <p>{isEnglish ? "Registered Address" : "Domicilio Social"}: 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {isEnglish ? "United States" : "Estados Unidos"}</p>
             <p>Email: hola@easyusllc.com</p>
             <p>WhatsApp: +34 614 916 910</p>
           </LegalHighlightBox>

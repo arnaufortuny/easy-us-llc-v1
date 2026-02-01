@@ -1,9 +1,10 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Terminos() {
   const { t, i18n } = useTranslation();
-  const isEnglish = i18n.language === 'en';
+  const isEnglish = useMemo(() => i18n.language === 'en', [i18n.language]);
 
   return (
     <LegalPageLayout
@@ -18,11 +19,10 @@ export default function Terminos() {
           : "Easy US LLC es un nombre comercial utilizado para la prestación de servicios administrativos y de gestión empresarial. La entidad legal titular y responsable de los servicios es:"
         }</p>
         <LegalHighlightBox>
-          <p className="font-black text-brand-dark text-xs tracking-widest opacity-50">{isEnglish ? "Legal Entity" : "Entidad Legal"}</p>
-          <p className="font-black text-xl text-carbon-black">Fortuny Consulting LLC</p>
+          <p className="font-black text-brand-dark dark:text-zinc-400 text-xs tracking-widest opacity-50">{isEnglish ? "Legal Entity" : "Entidad Legal"}</p>
+          <p className="font-black text-xl text-brand-dark dark:text-white">Fortuny Consulting LLC</p>
           <p>Domestic Limited Liability Company</p>
           <p>{isEnglish ? "Registration number" : "Número de registro"}: 0008072199</p>
-          <p>EIN: 98-1906730</p>
           <p><strong>{isEnglish ? "Registered address" : "Domicilio social"}:</strong> 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {isEnglish ? "United States" : "Estados Unidos"}</p>
         </LegalHighlightBox>
         <p>{isEnglish 
@@ -78,16 +78,16 @@ export default function Terminos() {
       <LegalSection number="04" title={isEnglish ? "Formation Packages and Pricing" : "Packs de constitución y precios"}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark">739 €</p>
-            <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack New Mexico</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">739 €</p>
+            <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack New Mexico</p>
           </div>
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark">899 €</p>
-            <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Wyoming</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">899 €</p>
+            <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack Wyoming</p>
           </div>
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark">1399 €</p>
-            <p className="text-xs font-black tracking-widest opacity-60 mt-2 uppercase">Pack Delaware</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">1399 €</p>
+            <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack Delaware</p>
           </div>
         </div>
         <p className="text-base sm:text-lg opacity-80 mt-6">{isEnglish 

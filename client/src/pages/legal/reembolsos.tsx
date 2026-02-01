@@ -1,9 +1,10 @@
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 
 export default function Reembolsos() {
   const { t, i18n } = useTranslation();
-  const isEnglish = i18n.language === 'en';
+  const isEnglish = useMemo(() => i18n.language === 'en', [i18n.language]);
 
   return (
     <LegalPageLayout
@@ -14,8 +15,8 @@ export default function Reembolsos() {
     >
       <LegalSection number="01" title={isEnglish ? "General Principles" : "Principios Generales"}>
         <p>{isEnglish 
-          ? "Given the administrative, personalized, and immediate execution nature of the services provided by Easy US LLC, under the legal entity Fortuny Consulting LLC, refunds are generally not accepted once the service process has begun."
-          : "Dado el carácter administrativo, personalizado y de ejecución inmediata de los servicios prestados por Easy US LLC, bajo la entidad legal Fortuny Consulting LLC, generalmente no se aceptan reembolsos una vez iniciado el proceso del servicio."
+          ? "Given the administrative, personalized, and immediate execution nature of the services provided by Easy US LLC, refunds are generally not accepted once the service process has begun."
+          : "Dado el carácter administrativo, personalizado y de ejecución inmediata de los servicios prestados por Easy US LLC, generalmente no se aceptan reembolsos una vez iniciado el proceso del servicio."
         }</p>
         <p>{isEnglish 
           ? "The client understands and accepts that the costs associated with state fees, official registrations, form filing, and administrative management are non-recoverable."
