@@ -23,6 +23,7 @@ const Login = lazy(() => import("@/pages/auth/login.tsx"));
 const Register = lazy(() => import("@/pages/auth/register.tsx"));
 const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password.tsx"));
 const Sales = lazy(() => import("@/pages/funnel"));
+const InvoiceGenerator = lazy(() => import("@/pages/invoice-generator"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -60,6 +61,7 @@ function Router() {
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />
         <Route path="/legal/cookies" component={Cookies} />
+        <Route path="/tools/invoice" component={InvoiceGenerator} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
