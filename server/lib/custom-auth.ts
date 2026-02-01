@@ -180,7 +180,7 @@ export function setupCustomAuth(app: Express) {
             .where(
               and(
                 inArray(appDocsTable.orderId, orderIds),
-                eq(appDocsTable.type, "organization_docs")
+                eq(appDocsTable.documentType, "organization_docs")
               )
             )
             .limit(1);
