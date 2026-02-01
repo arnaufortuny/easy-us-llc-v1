@@ -680,7 +680,7 @@ export default function LlcFormation() {
                     </Button>
                     
                     <p className="text-center text-xs text-muted-foreground">
-                      {t("application.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login")}</Link>{t("application.orLoginWithEmail").split("inicia sesión")[1] || ""}
+                      {t("application.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login.signIn")}</Link>{t("application.orLoginWithEmail").split("inicia sesión")[1] || ""}
                     </p>
                   </div>
                 )}
