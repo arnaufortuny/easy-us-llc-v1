@@ -266,7 +266,7 @@ export default function Servicios() {
                   <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">Startups</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-black text-primary">1199€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">1399€</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">/año 1</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
@@ -297,7 +297,7 @@ export default function Servicios() {
                       className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                       data-testid="button-maintenance-de"
                     >
-                      Mantenimiento Año 2: 899€
+                      Mantenimiento Año 2: 999€
                     </Button>
                   </div>
             </div>
@@ -367,7 +367,7 @@ export default function Servicios() {
             {[
               { state: "New Mexico", price: "539€", annual: true },
               { state: "Wyoming", price: "699€", annual: true },
-              { state: "Delaware", price: "899€", annual: true }
+              { state: "Delaware", price: "999€", annual: true }
             ].map((item, i) => (
               <div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
                 <div className="p-5 sm:p-6 flex-grow text-center">

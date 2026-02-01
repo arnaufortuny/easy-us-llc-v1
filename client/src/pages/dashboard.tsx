@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
+import { DashboardTour } from "@/components/dashboard-tour";
 
 type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar';
 
@@ -741,21 +742,24 @@ export default function Dashboard() {
   }
 
   const menuItems = [
-    { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites' },
+    { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
     { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
-    { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte' },
+    { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
-    { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas' },
-    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil' },
+    { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
+    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
     ] : []),
   ];
 
+  const isNewUser = user && (!orders || orders.length === 0);
+
   return (
     <div className="min-h-screen bg-muted bg-green-gradient font-sans">
       <Navbar />
+      <DashboardTour isNewUser={!!isNewUser} />
       <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
@@ -789,6 +793,7 @@ export default function Dashboard() {
                 : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
               }`}
               data-testid={`button-tab-${item.id}`}
+              {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
             >
               <item.icon className="w-4 h-4" />
               <span className="hidden md:inline">{item.label}</span>
