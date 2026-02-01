@@ -194,7 +194,6 @@ export default function ForgotPassword() {
                   <p className="text-sm text-muted-foreground">Código enviado a: <strong>{email}</strong></p>
                   <div className="w-full">
                     <Input
-                      placeholder="Código de 6 dígitos"
                       maxLength={6}
                       value={otp}
                       onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
