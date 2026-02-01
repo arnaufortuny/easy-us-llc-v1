@@ -757,36 +757,36 @@ export default function Dashboard() {
     <div className="min-h-screen bg-muted bg-green-gradient font-sans">
       <Navbar />
       <main className="pt-16 sm:pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto">
-        <header className="mb-4 sm:mb-6 md:mb-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <header className="mb-6 md:mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-              <p className="text-accent font-black tracking-widest text-[10px] md:text-xs mb-0.5 md:mb-1 uppercase">Área de Clientes</p>
-              <h1 className="text-3xl md:text-4xl font-black text-primary tracking-tighter leading-tight">
+              <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
                 Bienvenido, {(user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase()}
               </h1>
-              <p className="text-muted-foreground text-base sm:text-sm mt-0.5 md:mt-1 font-medium">
-                Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.
+              <p className="text-muted-foreground text-sm md:text-base mt-1 md:mt-2">
+                Gestiona tu LLC de forma simple y clara.
               </p>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-black font-bold rounded-full px-8 h-12 transition-all flex items-center justify-center gap-2">
-                <PlusCircle className="w-5 h-5" /> Constituir una nueva LLC
+              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-lg px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
+                <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
           </div>
         </header>
 
-        <div className="flex overflow-x-auto pb-3 mb-6 gap-1.5 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-2 md:pb-4 md:mb-8">
+        <div className="flex overflow-x-auto pb-3 mb-6 gap-2 no-scrollbar -mx-4 px-4 md:mx-0 md:px-0 md:gap-3 md:pb-4 md:mb-8">
           {menuItems.map((item) => (
             <Button
               key={item.id}
-              variant={activeTab === item.id ? "default" : "outline"}
+              variant={activeTab === item.id ? "default" : "ghost"}
               onClick={() => setActiveTab(item.id as Tab)}
               size="sm"
-              className={`flex items-center gap-1 sm:gap-2 rounded-full font-bold text-[10px] sm:text-[11px] md:text-xs tracking-tight whitespace-nowrap shrink-0 ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-lg font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-3 md:px-4 transition-all duration-200 ${
                 activeTab === item.id 
-                ? 'bg-accent text-primary shadow-lg shadow-accent/20' 
-                : 'bg-white dark:bg-zinc-900 text-muted-foreground border-0'
+                ? 'bg-accent text-accent-foreground shadow-md' 
+                : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
               }`}
               data-testid={`button-tab-${item.id}`}
             >
@@ -803,8 +803,8 @@ export default function Dashboard() {
               {activeTab === 'services' && (
                 <div key="services" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis trámites</h2>
-                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus trámites activos</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis trámites</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Gestiona tus trámites activos</p>
                   </div>
                   
                   {orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft').map((order) => {
@@ -820,7 +820,7 @@ export default function Dashboard() {
                               <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                             </div>
                             <div className="min-w-0">
-                              <p className="text-sm md:text-base font-black text-primary">Solicitud pendiente de completar</p>
+                              <p className="text-sm md:text-base font-semibold text-foreground">Solicitud pendiente de completar</p>
                               <p className="text-xs text-muted-foreground mt-0.5">
                                 {order.maintenanceApplication 
                                   ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
@@ -854,11 +854,11 @@ export default function Dashboard() {
                           <Package className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
+                          <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
                             Ver planes disponibles
                           </Button>
                         </Link>
@@ -939,8 +939,8 @@ export default function Dashboard() {
               {activeTab === 'notifications' && (
                 <div key="notifications" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Seguimiento</h2>
-                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Notificaciones y actualizaciones de tus trámites</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Seguimiento</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Notificaciones y actualizaciones de tus trámites</p>
                   </div>
                   {notificationsLoading ? (
                     <div className="space-y-3">
@@ -953,7 +953,7 @@ export default function Dashboard() {
                           <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin notificaciones</h3>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin notificaciones</h3>
                           <p className="text-xs md:text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
                         </div>
                       </div>
@@ -987,7 +987,7 @@ export default function Dashboard() {
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
                                 {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
                                   <Button 
-                                    className="mt-3 bg-accent text-primary font-black rounded-full text-xs px-4 gap-2"
+                                    className="mt-3 bg-accent text-accent-foreground font-semibold rounded-lg text-xs px-4 gap-2"
                                     onClick={() => {
                                       markNotificationRead.mutate(notif.id);
                                       setActiveTab('documents');
@@ -1023,11 +1023,11 @@ export default function Dashboard() {
                   <div className="mb-4 md:mb-6">
                     <div className="flex justify-between items-center">
                       <div>
-                        <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mis Consultas</h2>
-                        <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tu historial de mensajes con nuestro equipo</p>
+                        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis Consultas</h2>
+                        <p className="text-sm text-muted-foreground mt-1">Tu historial de mensajes con nuestro equipo</p>
                       </div>
                       <Link href="/contacto">
-                        <Button className="bg-accent text-primary font-black rounded-full text-xs">Nueva Consulta</Button>
+                        <Button className="bg-accent text-accent-foreground font-semibold rounded-lg text-xs">Nueva Consulta</Button>
                       </Link>
                     </div>
                   </div>
@@ -1039,11 +1039,11 @@ export default function Dashboard() {
                             <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin consultas activas</h3>
+                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin consultas activas</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
                           </div>
                           <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                            <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
+                            <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                               <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
                             </Button>
                           </a>
@@ -1055,7 +1055,7 @@ export default function Dashboard() {
                           <div className="flex justify-between items-start mb-2">
                             <div className="flex items-center gap-2">
                               <MessageSquare className="w-4 h-4 text-accent" />
-                              <h4 className="font-black text-primary">{msg.subject || 'Sin asunto'}</h4>
+                              <h4 className="font-semibold text-foreground">{msg.subject || 'Sin asunto'}</h4>
                             </div>
                             <span className="text-[10px] text-muted-foreground">{msg.messageId || msg.id}</span>
                           </div>
@@ -1063,7 +1063,7 @@ export default function Dashboard() {
                           {selectedMessage?.id === msg.id && (
                             <div className="mt-4 pt-4 border-t border-gray-100 space-y-4" onClick={(e) => e.stopPropagation()}>
                               <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
-                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-primary font-black rounded-full px-6" data-testid="button-user-send-reply">
+                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-lg px-6" data-testid="button-user-send-reply">
                                 {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                                 Enviar Respuesta
                               </Button>
@@ -1079,8 +1079,8 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <div key="documents" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Centro de Documentación</h2>
-                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Gestiona tus documentos y archivos</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Centro de Documentación</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Gestiona tus documentos y archivos</p>
                   </div>
                   
                   {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && user?.accountStatus !== 'deactivated' && (
@@ -1156,7 +1156,7 @@ export default function Dashboard() {
                           <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="font-black text-primary text-base md:text-lg">Subir Documento</h3>
+                          <h3 className="font-semibold text-foreground text-base md:text-lg">Subir Documento</h3>
                           <p className="text-xs md:text-sm text-muted-foreground">PDF, JPG o PNG (máx. 10MB)</p>
                         </div>
                         <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0">
@@ -1193,8 +1193,8 @@ export default function Dashboard() {
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Historial de Pagos</h2>
-                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tus facturas y recibos</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Historial de Pagos</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Tus facturas y recibos</p>
                   </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
@@ -1204,11 +1204,11 @@ export default function Dashboard() {
                             <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div>
-                            <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Sin pagos registrados</h3>
+                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin pagos registrados</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
                           </div>
                           <Link href="/servicios#pricing">
-                            <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
+                            <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
                               <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
                             </Button>
                           </Link>
@@ -1236,7 +1236,7 @@ export default function Dashboard() {
                 <div key="calendar" className="space-y-4 md:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
-                      <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mi Calendario Fiscal</h2>
+                      <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Calendario Fiscal</h2>
                       <p className="text-[10px] md:text-xs text-muted-foreground font-medium">Fechas importantes y vencimientos de tu LLC</p>
                     </div>
                   </div>
@@ -1363,11 +1363,11 @@ export default function Dashboard() {
                           <Calendar className="w-6 h-6 md:w-8 md:h-8 text-accent" />
                         </div>
                         <div>
-                          <h3 className="text-base md:text-lg font-black text-primary mb-1 md:mb-2 text-center">Mi Calendario Fiscal</h3>
+                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Mi Calendario Fiscal</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-primary font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
+                          <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
                             Constituir mi LLC
                           </Button>
                         </Link>
@@ -1380,12 +1380,12 @@ export default function Dashboard() {
               {activeTab === 'profile' && (
                 <div key="profile" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-lg md:text-2xl font-black text-primary tracking-tight">Mi Perfil</h2>
-                    <p className="text-[11px] md:text-xs text-muted-foreground font-medium">Tus datos personales y configuración de cuenta</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Perfil</h2>
+                    <p className="text-sm text-muted-foreground mt-1">Tus datos personales y configuración de cuenta</p>
                   </div>
                   <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg md:text-xl font-black text-primary">Datos Personales</h3>
+                      <h3 className="text-lg md:text-xl font-semibold text-foreground">Datos Personales</h3>
                       {canEdit && (
                         <Button variant="ghost" size="sm" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
                       )}
@@ -1550,7 +1550,7 @@ export default function Dashboard() {
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between">
                         <div>
-                          <h4 className="font-black text-primary">Suscripción Newsletter</h4>
+                          <h4 className="font-semibold text-foreground">Suscripción Newsletter</h4>
                           <p className="text-xs text-muted-foreground">Recibe noticias y consejos para tu LLC.</p>
                         </div>
                         <NewsletterToggle />
@@ -1559,7 +1559,7 @@ export default function Dashboard() {
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h4 className="font-black text-primary">Cambiar Contraseña</h4>
+                          <h4 className="font-semibold text-foreground">Cambiar Contraseña</h4>
                           <p className="text-xs text-muted-foreground">Actualiza tu contraseña de acceso.</p>
                         </div>
                         {!showPasswordForm && (
@@ -1590,7 +1590,7 @@ export default function Dashboard() {
                               <div className="flex gap-2 pt-2">
                                 <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
                                 <Button 
-                                  className="bg-accent text-primary font-black rounded-full flex-1"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-lg flex-1"
                                   onClick={() => requestPasswordOtpMutation.mutate()}
                                   disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
                                   data-testid="button-request-otp"
@@ -1621,7 +1621,7 @@ export default function Dashboard() {
                               <div className="flex gap-2 pt-2">
                                 <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>Volver</Button>
                                 <Button 
-                                  className="bg-accent text-primary font-black rounded-full flex-1"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-lg flex-1"
                                   onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
                                   disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
                                   data-testid="button-save-password"
@@ -1637,7 +1637,7 @@ export default function Dashboard() {
                     <div className="mt-8 pt-8 border-t">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h4 className="font-black text-primary">Cuentas Conectadas</h4>
+                          <h4 className="font-semibold text-foreground">Cuentas Conectadas</h4>
                           <p className="text-xs text-muted-foreground">Vincula tus cuentas sociales para iniciar sesion mas rapido.</p>
                         </div>
                       </div>
@@ -2344,7 +2344,7 @@ export default function Dashboard() {
                                 <Button 
                                   onClick={() => sendReplyMutation.mutate(msg.id)} 
                                   disabled={!replyContent.trim() || sendReplyMutation.isPending} 
-                                  className="bg-accent text-primary font-black rounded-full px-6"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-lg px-6"
                                   data-testid="button-send-admin-reply"
                                 >
                                   {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
@@ -2541,7 +2541,7 @@ export default function Dashboard() {
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
                           <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">Pedido: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
-                          <p className="text-sm font-black text-primary truncate">
+                          <p className="text-sm font-semibold text-foreground truncate">
                             {orders[0]?.maintenanceApplication 
                               ? `Mantenimiento ${orders[0]?.maintenanceApplication?.state || ''}`
                               : orders[0]?.application?.companyName 
@@ -2563,7 +2563,7 @@ export default function Dashboard() {
                         <div className="w-6 h-6 rounded-full flex items-center justify-center shrink-0 z-10 bg-accent text-primary"><CheckCircle2 className="w-3 h-3" /></div>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-xs md:text-sm font-black text-primary truncate">{event.eventType}</p>
+                            <p className="text-xs md:text-sm font-semibold text-foreground truncate">{event.eventType}</p>
                             {event.createdAt && (
                               <span className="text-[9px] text-muted-foreground whitespace-nowrap">
                                 {new Date(event.createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -2587,10 +2587,10 @@ export default function Dashboard() {
               </div>
             </section>
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
-              <h3 className="text-base font-black text-primary mb-2">¿Tienes alguna duda?</h3>
+              <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
               <a href="https://wa.me/34614916910" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-primary font-black rounded-full py-5">Hablar con un asesor</Button>
+                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-lg py-5">Hablar con un asesor</Button>
               </a>
             </section>
           </div>
@@ -2602,22 +2602,22 @@ export default function Dashboard() {
           <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
             <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
               <DialogHeader>
-                <DialogTitle className="text-xl font-black text-primary">Enviar Mensaje al Cliente</DialogTitle>
+                <DialogTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Título</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
                   <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-note-title" />
                 </div>
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
                   <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-note-message" />
                 </div>
               </div>
               <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
                 <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-send-note">
+                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-send-note">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
                 </Button>
               </DialogFooter>
@@ -2627,32 +2627,32 @@ export default function Dashboard() {
           <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
             <DialogContent className="w-full sm:max-w-lg bg-white dark:bg-zinc-900">
               <DialogHeader className="flex-shrink-0">
-                <DialogTitle className="text-xl font-black text-primary">Editar Usuario</DialogTitle>
+                <DialogTitle className="text-xl font-semibold text-foreground">Editar Usuario</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
               </DialogHeader>
               {editingUser && (
                 <div className="space-y-3 pt-2 overflow-y-auto flex-1 pr-1" style={{ maxHeight: 'calc(85vh - 180px)' }}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
                       <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-firstname" />
                     </div>
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
                       <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-lastname" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
                     <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-email" />
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
                     <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-phone" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Tipo ID</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo ID</Label>
                       <NativeSelect 
                         value={editingUser.idType || ''} 
                         onValueChange={val => setEditingUser({...editingUser, idType: val})}
@@ -2665,16 +2665,16 @@ export default function Dashboard() {
                       </NativeSelect>
                     </div>
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Número ID</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Número ID</Label>
                       <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-idnumber" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Fecha Nacimiento</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Fecha Nacimiento</Label>
                     <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-birthdate" />
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Actividad de Negocio</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Actividad de Negocio</Label>
                     <NativeSelect 
                       value={editingUser.businessActivity || ''} 
                       onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
@@ -2693,31 +2693,31 @@ export default function Dashboard() {
                     </NativeSelect>
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Dirección</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Dirección</Label>
                     <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-address" />
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Ciudad</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Ciudad</Label>
                       <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-city" />
                     </div>
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Código Postal</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Código Postal</Label>
                       <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-postal" />
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">Provincia</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">Provincia</Label>
                       <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-province" />
                     </div>
                     <div>
-                      <Label className="text-sm font-black text-primary mb-2 block">País</Label>
+                      <Label className="text-sm font-semibold text-foreground mb-2 block">País</Label>
                       <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-country" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Notas Internas (solo admin)</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Notas Internas (solo admin)</Label>
                     <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 focus:border-accent" data-testid="input-edit-notes" />
                   </div>
                 </div>
@@ -2725,7 +2725,7 @@ export default function Dashboard() {
               {editingUser && (
                 <DialogFooter className="flex-col sm:flex-row gap-3 pt-4 border-t border-border flex-shrink-0">
                   <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-save-user">
+                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-save-user">
                     {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
                   </Button>
                 </DialogFooter>
@@ -2769,12 +2769,12 @@ export default function Dashboard() {
           <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
             <DialogContent className="w-full sm:max-w-sm bg-white dark:bg-zinc-900">
               <DialogHeader>
-                <DialogTitle className="text-xl font-black text-primary">Generar Factura</DialogTitle>
+                <DialogTitle className="text-xl font-semibold text-foreground">Generar Factura</DialogTitle>
               </DialogHeader>
               <div className="space-y-4 pt-2">
                 <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</strong></p>
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Importe</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
                   <Input 
                     type="number" 
                     step="0.01" 
@@ -2786,7 +2786,7 @@ export default function Dashboard() {
                   />
                 </div>
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Divisa</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Divisa</Label>
                   <NativeSelect 
                     value={orderInvoiceCurrency} 
                     onValueChange={setOrderInvoiceCurrency}
@@ -2800,7 +2800,7 @@ export default function Dashboard() {
               <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
                 <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
                 <Button 
-                  className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
                   disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
                   onClick={async () => {
                     setIsGeneratingInvoice(true);
@@ -2841,12 +2841,12 @@ export default function Dashboard() {
           <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
             <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
               <DialogHeader>
-                <DialogTitle className="text-xl font-black text-primary">Solicitar Documentos</DialogTitle>
+                <DialogTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-2">
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
                   <NativeSelect 
                     value={docType} 
                     onValueChange={setDocType}
@@ -2860,7 +2860,7 @@ export default function Dashboard() {
                   </NativeSelect>
                 </div>
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Mensaje</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
                   <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-doc-message" />
                 </div>
               </div>
@@ -2885,7 +2885,7 @@ export default function Dashboard() {
                     setDocType('');
                     setDocMessage('');
                   }
-                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-request-doc">
+                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-request-doc">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
                 </Button>
               </DialogFooter>
@@ -2895,13 +2895,13 @@ export default function Dashboard() {
           <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
             <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
               <DialogHeader>
-                <DialogTitle className="text-xl font-black text-primary">Crear Factura</DialogTitle>
+                <DialogTitle className="text-xl font-semibold text-foreground">Crear Factura</DialogTitle>
                 <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
               </DialogHeader>
               <div className="space-y-4 pt-2">
                 <p className="text-sm text-muted-foreground bg-gray-50 dark:bg-zinc-800 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
                 <div>
-                  <Label className="text-sm font-black text-primary mb-2 block">Concepto</Label>
+                  <Label className="text-sm font-semibold text-foreground mb-2 block">Concepto</Label>
                   <Input 
                     value={invoiceConcept} 
                     onChange={e => setInvoiceConcept(e.target.value)} 
@@ -2912,7 +2912,7 @@ export default function Dashboard() {
                 </div>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="col-span-2">
-                    <Label className="text-sm font-black text-primary mb-2 block">Importe</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
                     <Input 
                       type="number" 
                       value={invoiceAmount} 
@@ -2923,7 +2923,7 @@ export default function Dashboard() {
                     />
                   </div>
                   <div>
-                    <Label className="text-sm font-black text-primary mb-2 block">Moneda</Label>
+                    <Label className="text-sm font-semibold text-foreground mb-2 block">Moneda</Label>
                     <NativeSelect 
                       value={invoiceCurrency} 
                       onValueChange={setInvoiceCurrency}
@@ -2946,7 +2946,7 @@ export default function Dashboard() {
                     currency: invoiceCurrency
                   })} 
                   disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                  className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
                   data-testid="button-create-invoice"
                 >
                   {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
@@ -2976,7 +2976,7 @@ export default function Dashboard() {
       <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
-            <DialogTitle className="text-lg sm:text-xl font-black text-primary">Subir Documento</DialogTitle>
+            <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">Subir Documento</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             {uploadDialog.file && (
@@ -2989,7 +2989,7 @@ export default function Dashboard() {
               </div>
             )}
             <div>
-              <Label className="text-xs sm:text-sm font-black text-primary mb-2 block">Tipo de documento</Label>
+              <Label className="text-xs sm:text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
               <NativeSelect 
                 value={uploadDocType} 
                 onValueChange={setUploadDocType}
@@ -3004,7 +3004,7 @@ export default function Dashboard() {
             </div>
             {uploadDocType === "other" && (
               <div>
-                <Label className="text-xs sm:text-sm font-black text-primary mb-2 block">Descripción del documento</Label>
+                <Label className="text-xs sm:text-sm font-semibold text-foreground mb-2 block">Descripción del documento</Label>
                 <Textarea 
                   value={uploadNotes} 
                   onChange={(e) => setUploadNotes(e.target.value)} 
@@ -3046,7 +3046,7 @@ export default function Dashboard() {
                 }
               }}
               disabled={uploadDocType === 'other' && !uploadNotes.trim()}
-              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
               data-testid="button-confirm-upload"
             >
               Subir Documento
@@ -3058,36 +3058,36 @@ export default function Dashboard() {
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Cliente</DialogTitle>
+            <DialogTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Nombre</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
                 <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-firstname" />
               </div>
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Apellidos</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
                 <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-lastname" />
               </div>
             </div>
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Email</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
               <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-email" />
             </div>
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Teléfono</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
               <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-phone" />
             </div>
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Contraseña</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
               <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-password" />
             </div>
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
             <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-user">Cancelar</Button>
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-confirm-create-user">
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-confirm-create-user">
               {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
             </Button>
           </DialogFooter>
@@ -3097,12 +3097,12 @@ export default function Dashboard() {
       <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black text-primary">Crear Nuevo Pedido</DialogTitle>
+            <DialogTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Cliente</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Cliente</Label>
               <NativeSelect 
                 value={newOrderData.userId} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
@@ -3116,7 +3116,7 @@ export default function Dashboard() {
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Estado (LLC)</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Estado (LLC)</Label>
               <NativeSelect 
                 value={newOrderData.state} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}
@@ -3130,13 +3130,13 @@ export default function Dashboard() {
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Importe (€)</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Importe (€)</Label>
               <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-order-amount" />
             </div>
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
             <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-order">Cancelar</Button>
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" data-testid="button-confirm-create-order">
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
           </DialogFooter>
@@ -3146,7 +3146,7 @@ export default function Dashboard() {
       <Dialog open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black text-primary">
+            <DialogTitle className="text-xl font-semibold text-foreground">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground">
@@ -3155,7 +3155,7 @@ export default function Dashboard() {
           </DialogHeader>
           <div className="space-y-4 pt-2">
             <div>
-              <Label className="text-sm font-black text-primary mb-2 block">Código</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">Código</Label>
               <Input 
                 value={newDiscountCode.code} 
                 onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
@@ -3166,7 +3166,7 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Tipo</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo</Label>
                 <NativeSelect 
                   value={newDiscountCode.discountType} 
                   onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
@@ -3178,7 +3178,7 @@ export default function Dashboard() {
                 </NativeSelect>
               </div>
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">
+                <Label className="text-sm font-semibold text-foreground mb-2 block">
                   Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(centimos)'}
                 </Label>
                 <Input 
@@ -3192,7 +3192,7 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Pedido min. (EUR)</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Pedido min. (EUR)</Label>
                 <Input 
                   type="number" 
                   value={newDiscountCode.minOrderAmount} 
@@ -3202,7 +3202,7 @@ export default function Dashboard() {
                 />
               </div>
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Usos max.</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Usos max.</Label>
                 <Input 
                   type="number" 
                   value={newDiscountCode.maxUses} 
@@ -3214,7 +3214,7 @@ export default function Dashboard() {
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Válido desde</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Válido desde</Label>
                 <Input 
                   type="date" 
                   value={newDiscountCode.validFrom} 
@@ -3224,7 +3224,7 @@ export default function Dashboard() {
                 />
               </div>
               <div>
-                <Label className="text-sm font-black text-primary mb-2 block">Válido hasta</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Válido hasta</Label>
                 <Input 
                   type="date" 
                   value={newDiscountCode.validUntil} 
@@ -3272,7 +3272,7 @@ export default function Dashboard() {
                 }
               }} 
               disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full" 
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" 
               data-testid="button-save-discount"
             >
               {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
@@ -3294,7 +3294,7 @@ export default function Dashboard() {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Código de verificación</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Código de verificación</Label>
               <Input
                 value={emailVerificationCode}
                 onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
@@ -3333,7 +3333,7 @@ export default function Dashboard() {
               }}
               disabled={isVerifyingEmail || emailVerificationCode.length < 6}
               size="lg"
-              className="w-full bg-accent text-primary font-black rounded-full"
+              className="w-full bg-accent text-accent-foreground font-semibold rounded-lg"
               data-testid="button-verify-email-code"
             >
               {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
@@ -3381,7 +3381,7 @@ export default function Dashboard() {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Link de pago (URL)</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Link de pago (URL)</Label>
               <Input
                 value={paymentLinkUrl}
                 onChange={(e) => setPaymentLinkUrl(e.target.value)}
@@ -3391,7 +3391,7 @@ export default function Dashboard() {
               />
             </div>
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Importe</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Importe</Label>
               <Input
                 value={paymentLinkAmount}
                 onChange={(e) => setPaymentLinkAmount(e.target.value)}
@@ -3401,7 +3401,7 @@ export default function Dashboard() {
               />
             </div>
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Mensaje (opcional)</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Mensaje (opcional)</Label>
               <Textarea
                 value={paymentLinkMessage}
                 onChange={(e) => setPaymentLinkMessage(e.target.value)}
@@ -3446,7 +3446,7 @@ export default function Dashboard() {
                 }
               }}
               disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
               data-testid="button-send-payment-link"
             >
               {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
@@ -3464,7 +3464,7 @@ export default function Dashboard() {
       }}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
-            <DialogTitle className="text-xl font-black text-primary">Subir Documento para Cliente</DialogTitle>
+            <DialogTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</DialogTitle>
             <DialogDescription>
               {adminDocUploadDialog.order?.userId 
                 ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
@@ -3474,7 +3474,7 @@ export default function Dashboard() {
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Tipo de Documento</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Tipo de Documento</Label>
               <NativeSelect
                 value={adminDocType}
                 onValueChange={setAdminDocType}
@@ -3490,7 +3490,7 @@ export default function Dashboard() {
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-sm font-black text-primary block mb-2">Archivo</Label>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Archivo</Label>
               <label className="cursor-pointer block">
                 <input 
                   type="file" 
@@ -3555,7 +3555,7 @@ export default function Dashboard() {
                   setIsUploadingAdminDoc(false);
                 }
               }}
-              className="w-full sm:w-auto bg-accent text-primary font-black rounded-full"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
               data-testid="button-admin-upload-doc"
             >
               {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}

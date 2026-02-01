@@ -71,105 +71,105 @@
 }
 
 :root {
-  /* Brand Colors - Light Mode */
-  --background: 0 0% 100%; /* Pure White */
-  --foreground: 200 20% 7%; /* #0E1215 (Carbon Black) */
+  /* Brand Colors - Light Mode - Refined Professional Palette */
+  --background: 210 20% 98%; /* Soft off-white with slight cool tint */
+  --foreground: 220 25% 12%; /* Deep charcoal, easier on eyes than pure black */
 
-  /* Carbon Black #0E1215 */
-  --primary: 200 20% 7%;
-  --primary-foreground: 60 10% 96%;
+  /* Primary - Rich Dark */
+  --primary: 220 25% 12%;
+  --primary-foreground: 0 0% 100%;
 
-  /* Soft Gray #E6E9EC */
-  --secondary: 208 12% 92%;
-  --secondary-foreground: 200 20% 7%;
+  /* Secondary - Refined Gray */
+  --secondary: 220 14% 96%;
+  --secondary-foreground: 220 25% 12%;
 
-  /* Primary Green #6EDC8A */
-  --accent: 136 60% 65%;
-  --accent-foreground: 200 20% 7%;
+  /* Accent Green - More vibrant and saturated */
+  --accent: 145 72% 44%; /* More vibrant, saturated green */
+  --accent-foreground: 0 0% 100%;
 
-  --muted: 208 12% 92%; /* Soft Gray */
-  --muted-foreground: 220 10% 45%; /* Text Gray #6B7280 approximation */
+  --muted: 220 14% 96%;
+  --muted-foreground: 220 13% 46%; /* Better readable gray */
 
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 210 40% 98%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
 
-  --border: 208 12% 92%;
-  --input: 208 12% 92%;
-  --ring: 136 60% 65%;
+  --border: 220 13% 91%;
+  --input: 220 13% 91%;
+  --ring: 145 72% 44%;
 
-  /* Card colors */
+  /* Card colors - Pure white for contrast */
   --card: 0 0% 100%;
-  --card-foreground: 200 20% 7%;
-  --card-border: 208 12% 92%;
+  --card-foreground: 220 25% 12%;
+  --card-border: 220 13% 91%;
 
   /* Popover colors */
   --popover: 0 0% 100%;
-  --popover-foreground: 200 20% 7%;
-  --popover-border: 208 12% 92%;
+  --popover-foreground: 220 25% 12%;
+  --popover-border: 220 13% 91%;
 
   /* Sidebar colors */
-  --sidebar: 0 0% 98%;
-  --sidebar-foreground: 200 20% 7%;
-  --sidebar-border: 208 12% 92%;
-  --sidebar-ring: 136 60% 65%;
-  --sidebar-primary: 200 20% 7%;
-  --sidebar-primary-foreground: 60 10% 96%;
-  --sidebar-accent: 136 60% 65%;
-  --sidebar-accent-foreground: 200 20% 7%;
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 220 25% 12%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 145 72% 44%;
+  --sidebar-primary: 220 25% 12%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 145 72% 44%;
+  --sidebar-accent-foreground: 0 0% 100%;
 
-  /* Chart colors */
-  --chart-1: 136 60% 65%;
-  --chart-2: 200 20% 7%;
-  --chart-3: 208 12% 72%;
-  --chart-4: 0 84% 60%;
-  --chart-5: 220 10% 45%;
+  /* Chart colors - Harmonized palette */
+  --chart-1: 145 72% 44%;
+  --chart-2: 220 70% 50%;
+  --chart-3: 280 65% 60%;
+  --chart-4: 25 95% 53%;
+  --chart-5: 340 75% 55%;
 
-  --radius: 0.75rem;
+  --radius: 0.625rem;
 
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Dark Mode - Optimized for comfort and readability */
+/* Dark Mode - Refined Professional Dark Theme */
 .dark {
-  --background: 220 15% 10%; /* Soft dark gray-blue, easier on eyes */
-  --foreground: 210 15% 95%; /* Brighter text for better readability */
+  --background: 225 18% 8%; /* Rich dark navy */
+  --foreground: 210 20% 98%; /* Crisp white text */
 
-  --primary: 210 15% 95%;
-  --primary-foreground: 220 15% 10%;
+  --primary: 210 20% 98%;
+  --primary-foreground: 225 18% 8%;
 
-  --secondary: 220 12% 18%;
-  --secondary-foreground: 210 15% 95%;
+  --secondary: 225 15% 15%;
+  --secondary-foreground: 210 20% 98%;
 
-  --accent: 136 60% 55%; /* Brighter green for dark mode */
-  --accent-foreground: 220 20% 8%;
+  --accent: 145 70% 48%; /* Slightly brighter green for dark mode */
+  --accent-foreground: 225 20% 8%;
 
-  --muted: 220 12% 15%;
-  --muted-foreground: 215 12% 65%; /* Better contrast for muted text */
+  --muted: 225 15% 13%;
+  --muted-foreground: 220 15% 65%;
 
-  --destructive: 0 70% 55%;
-  --destructive-foreground: 210 15% 95%;
+  --destructive: 0 65% 55%;
+  --destructive-foreground: 0 0% 100%;
 
-  --border: 220 12% 25%; /* More visible borders */
-  --input: 220 12% 14%; /* Slightly darker input bg for contrast */
-  --ring: 220 12% 40%;
+  --border: 225 15% 20%;
+  --input: 225 15% 13%;
+  --ring: 145 70% 48%;
 
-  --card: 220 14% 13%;
-  --card-foreground: 210 15% 95%;
-  --card-border: 220 12% 25%;
+  --card: 225 16% 11%;
+  --card-foreground: 210 20% 98%;
+  --card-border: 225 15% 20%;
 
-  --popover: 220 14% 13%;
-  --popover-foreground: 210 15% 95%;
-  --popover-border: 220 12% 28%;
+  --popover: 225 16% 11%;
+  --popover-foreground: 210 20% 98%;
+  --popover-border: 225 15% 22%;
 
-  --sidebar: 220 15% 8%;
-  --sidebar-foreground: 210 15% 95%;
-  --sidebar-border: 220 12% 22%;
-  --sidebar-ring: 136 60% 55%;
-  --sidebar-primary: 210 15% 95%;
-  --sidebar-primary-foreground: 220 15% 10%;
-  --sidebar-accent: 136 60% 55%;
-  --sidebar-accent-foreground: 220 20% 8%;
+  --sidebar: 225 18% 6%;
+  --sidebar-foreground: 210 20% 98%;
+  --sidebar-border: 225 15% 18%;
+  --sidebar-ring: 145 70% 48%;
+  --sidebar-primary: 210 20% 98%;
+  --sidebar-primary-foreground: 225 18% 8%;
+  --sidebar-accent: 145 70% 48%;
+  --sidebar-accent-foreground: 225 20% 8%;
 }
 
 @layer base {
