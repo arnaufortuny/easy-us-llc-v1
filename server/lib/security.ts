@@ -1,60 +1,9 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { checkRateLimitInMemory, checkRateLimit as checkRateLimitAuto } from "./rate-limiter";
 
-const RATE_LIMITS: Record<string, { windowMs: number; maxRequests: number }> = {
-  login: { windowMs: 900000, maxRequests: 5 },
-  otp: { windowMs: 300000, maxRequests: 3 },
-  register: { windowMs: 3600000, maxRequests: 3 },
-  passwordReset: { windowMs: 600000, maxRequests: 3 },
-  contact: { windowMs: 300000, maxRequests: 5 },
-  general: { windowMs: 60000, maxRequests: 100 },
-};
-
-const rateLimitStore = new Map<string, Map<string, number[]>>();
-
-Object.keys(RATE_LIMITS).forEach(key => {
-  rateLimitStore.set(key, new Map());
-});
-
-export function checkRateLimit(type: keyof typeof RATE_LIMITS, identifier: string): { allowed: boolean; retryAfter?: number } {
-  const config = RATE_LIMITS[type];
-  const store = rateLimitStore.get(type)!;
-  const now = Date.now();
-  
-  const timestamps = store.get(identifier) || [];
-  const validTimestamps = timestamps.filter(t => now - t < config.windowMs);
-  
-  if (validTimestamps.length >= config.maxRequests) {
-    const oldestValid = Math.min(...validTimestamps);
-    const retryAfter = Math.ceil((config.windowMs - (now - oldestValid)) / 1000);
-    return { allowed: false, retryAfter };
-  }
-  
-  validTimestamps.push(now);
-  store.set(identifier, validTimestamps);
-  return { allowed: true };
-}
-
-export function cleanupRateLimits(): void {
-  const now = Date.now();
-  const storeEntries = Array.from(rateLimitStore.entries());
-  for (let i = 0; i < storeEntries.length; i++) {
-    const [type, store] = storeEntries[i];
-    const config = RATE_LIMITS[type as keyof typeof RATE_LIMITS];
-    const ipEntries = Array.from(store.entries());
-    for (let j = 0; j < ipEntries.length; j++) {
-      const [ip, timestamps] = ipEntries[j];
-      const valid = timestamps.filter((t: number) => now - t < config.windowMs);
-      if (valid.length === 0) {
-        store.delete(ip);
-      } else {
-        store.set(ip, valid);
-      }
-    }
-  }
-}
-
-setInterval(cleanupRateLimits, 300000);
+export { checkRateLimitInMemory as checkRateLimit };
+export { checkRateLimitAuto };
 
 export function sanitizeHtml(input: string): string {
   if (!input || typeof input !== 'string') return '';
