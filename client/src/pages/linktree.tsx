@@ -107,7 +107,7 @@ export default function LinktreePage() {
         onClick={handleShare}
         size="icon"
         variant="ghost"
-        className="absolute top-4 right-4 w-10 h-10 rounded-full bg-[#6EDC8A] hover:bg-[#5cd67a] text-[#0E1215]"
+        className="absolute top-4 right-4 w-10 h-10 rounded-full !bg-[#6EDC8A] hover:!bg-[#5cd67a] !text-[#0E1215] !border-0"
         data-testid="button-share"
       >
         <Share2 className="w-5 h-5" />
@@ -143,8 +143,8 @@ export default function LinktreePage() {
               data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
             >
               <Button
-                className="w-full h-14 bg-[#6EDC8A] hover:bg-[#5cd67a] text-[#0E1215] font-semibold text-base rounded-full shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-3"
-                variant="default"
+                className="w-full h-14 !bg-[#6EDC8A] hover:!bg-[#5cd67a] !text-[#0E1215] font-semibold text-base rounded-full shadow-md transition-all duration-200 hover:scale-[1.02] hover:shadow-lg active:scale-[0.98] flex items-center justify-center gap-3 !border-0"
+                variant="ghost"
               >
                 <link.icon className="w-5 h-5" />
                 {link.label}
