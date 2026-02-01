@@ -329,7 +329,12 @@ export default function Contacto() {
                       <div className="pt-4">
                         <SocialLogin mode="login" />
                         <p className="text-center text-sm text-muted-foreground mt-3">
-                          {t("contact.loginFaster")}
+                          {t("contact.loginFaster")}{" "}
+                          <Link href="/auth/login">
+                            <span className="text-accent font-bold hover:underline cursor-pointer">
+                              {t("auth.login.submit")}
+                            </span>
+                          </Link>
                         </p>
                       </div>
                     )}
