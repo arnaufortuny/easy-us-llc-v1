@@ -3,11 +3,13 @@ import { Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/hooks/use-auth";
 
 export function NewsletterSection() {
   const { isAuthenticated } = useAuth();
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -33,16 +35,16 @@ export function NewsletterSection() {
 
       if (response.ok) {
         toast({ 
-          title: "¡Suscrito!", 
-          description: "Revisa tu bandeja de entrada.",
+          title: t("newsletter.success"), 
+          description: t("newsletter.checkInbox"),
           variant: "success"
         });
         setEmail("");
       } else {
-        toast({ title: "Error", description: data.message || "No se pudo completar la suscripción.", variant: "destructive" });
+        toast({ title: t("newsletter.error"), description: data.message || t("newsletter.subscriptionFailed"), variant: "destructive" });
       }
     } catch (err) {
-      toast({ title: "Error", description: "Error de conexión.", variant: "destructive" });
+      toast({ title: t("newsletter.error"), description: t("newsletter.connectionError"), variant: "destructive" });
     } finally {
       setLoading(false);
     }
@@ -56,11 +58,11 @@ export function NewsletterSection() {
         <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
           <div className="space-y-2 md:space-y-4 w-full text-center">
             <h2 className="text-xl md:text-4xl font-black tracking-tighter text-foreground leading-none text-center">
-              Únete a nuestra <span className="text-primary-foreground bg-accent px-2 inline-block">Newsletter</span>
+              {t("newsletter.joinOur")} <span className="text-primary-foreground bg-accent px-2 inline-block">{t("newsletter.newsletter")}</span>
             </h2>
             <p className="text-muted-foreground text-xs md:text-sm font-medium max-w-lg mx-auto leading-relaxed text-center px-2">
-              Consejos claros sobre fiscalidad en USA.
-              <span className="block mt-1">Novedades que realmente importan para tu negocio.</span>
+              {t("newsletter.taxTips")}
+              <span className="block mt-1">{t("newsletter.businessNews")}</span>
             </p>
           </div>
 
@@ -69,7 +71,7 @@ export function NewsletterSection() {
               <Input 
                 type="email" 
                 inputMode="email"
-                placeholder="Indícanos tu email" 
+                placeholder={t("newsletter.placeholder")} 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-10 md:h-14 pl-4 pr-12 rounded-full border-2 border-border bg-background text-foreground placeholder:text-muted-foreground text-xs md:text-base font-black focus:border-accent focus:bg-background focus:ring-0 transition-all shadow-inner w-full text-left"

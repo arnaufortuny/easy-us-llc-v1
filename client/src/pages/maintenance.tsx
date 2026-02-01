@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
@@ -24,36 +25,37 @@ import { useFormDraft } from "@/hooks/use-form-draft";
 
 const TOTAL_STEPS = 12;
 
-const formSchema = z.object({
-  creationSource: z.string().min(1, "Este campo es obligatorio"),
-  ownerFullName: z.string().min(1, "Este campo es obligatorio"),
-  ownerPhone: z.string().min(1, "Este campo es obligatorio"),
-  ownerEmail: z.string().email("Email inválido"),
-  companyName: z.string().min(1, "Este campo es obligatorio"),
-  ein: z.string().min(1, "Este campo es obligatorio"),
-  state: z.string().min(1, "Este campo es obligatorio"),
+const createFormSchema = (t: (key: string) => string) => z.object({
+  creationSource: z.string().min(1, t("validation.required")),
+  ownerFullName: z.string().min(1, t("validation.required")),
+  ownerPhone: z.string().min(1, t("validation.required")),
+  ownerEmail: z.string().email(t("validation.emailInvalid")),
+  companyName: z.string().min(1, t("validation.required")),
+  ein: z.string().min(1, t("validation.required")),
+  state: z.string().min(1, t("validation.required")),
   creationYear: z.string().optional(),
   bankAccount: z.string().optional(),
   paymentGateway: z.string().optional(),
-  businessActivity: z.string().min(1, "Este campo es obligatorio"),
-  expectedServices: z.string().min(1, "Este campo es obligatorio"),
-  wantsDissolve: z.string().min(1, "Este campo es obligatorio"),
+  businessActivity: z.string().min(1, t("validation.required")),
+  expectedServices: z.string().min(1, t("validation.required")),
+  wantsDissolve: z.string().min(1, t("validation.required")),
   notes: z.string().optional(),
-  password: z.string().min(8, "Mínimo 8 caracteres").optional(),
+  password: z.string().min(8, t("validation.minLength")).optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
   discountCode: z.string().optional(),
-  authorizedManagement: z.boolean().refine(val => val === true, "Debes autorizar"),
-  termsConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
-  dataProcessingConsent: z.boolean().refine(val => val === true, "Debes aceptar"),
+  authorizedManagement: z.boolean().refine(val => val === true, t("validation.acceptTerms")),
+  termsConsent: z.boolean().refine(val => val === true, t("validation.acceptTerms")),
+  dataProcessingConsent: z.boolean().refine(val => val === true, t("validation.acceptTerms")),
 }).refine((data) => !data.password || data.password === data.confirmPassword, {
-  message: "Las contraseñas no coinciden",
+  message: t("validation.passwordMismatch") || "Passwords do not match",
   path: ["confirmPassword"],
 });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function MaintenanceApplication() {
+  const { t } = useTranslation();
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
@@ -79,6 +81,8 @@ export default function MaintenanceApplication() {
   const params = new URLSearchParams(window.location.search);
   const stateFromUrl = params.get("state") || "New Mexico";
 
+  const formSchema = useMemo(() => createFormSchema(t), [t]);
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -391,12 +395,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: "Solicitud recibida", description: "Ya estamos trabajando en ello" });
+        toast({ title: t("maintenance.requestReceived"), description: t("maintenance.workingOnIt") });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       } else {
         if (!data.password || data.password.length < 8) {
-          toast({ title: "Contraseña demasiado corta", description: "Debe tener al menos 8 caracteres", variant: "destructive" });
+          toast({ title: t("application.validation.passwordTooShort"), description: t("application.validation.passwordMinChars"), variant: "destructive" });
           setIsSubmitting(false);
           return;
         }
@@ -428,12 +432,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: "Cuenta creada y solicitud enviada", description: "Todo listo. Nos ponemos en marcha" });
+        toast({ title: t("maintenance.accountCreatedRequest"), description: t("maintenance.allSetStarting") });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       }
     } catch (err: any) {
-      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
+      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgainSeconds"), variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -444,10 +448,10 @@ export default function MaintenanceApplication() {
       <Navbar />
       <main className="pt-20 md:pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
-          Cuidamos tu <span className="text-accent">LLC</span>
+          {t("maintenance.title")} <span className="text-accent">LLC</span>
         </h1>
         <p className="text-muted-foreground text-sm md:text-base mb-4 md:mb-6 text-center">
-          Nos encargamos del mantenimiento para que tú te centres en tu negocio.
+          {t("maintenance.subtitle")}
         </p>
         
         <div>

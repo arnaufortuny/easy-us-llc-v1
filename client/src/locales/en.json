@@ -338,7 +338,15 @@
     "whatsappRequired": "Required if you want WhatsApp contact"
   },
   "application": {
-    "title": "LLC Application",
+    "title": "Form my LLC",
+    "editTitle": "Edit data for",
+    "subtitle": "Form your LLC online in a few clicks. We guide you step by step and take care of everything.",
+    "editMode": "Edit Mode",
+    "editModeDesc": "You are modifying the data of your pending order",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "continue": "Continue",
+    "back": "Back",
     "steps": {
       "personal": "Personal Info",
       "identity": "Identity",
@@ -347,7 +355,39 @@
       "banking": "Bank Account",
       "verification": "Verification",
       "payment": "Payment",
-      "confirmation": "Confirmation"
+      "confirmation": "Confirmation",
+      "whereToForm": "Where do we form your LLC?",
+      "whereToFormDesc": "Choose the state where your company will be registered",
+      "whatsYourName": "What's your name?",
+      "whatsYourNameDesc": "We'll use it in official documents",
+      "contactEmail": "Contact email",
+      "contactEmailDesc": "We'll send you updates and documents about your LLC here",
+      "contactPhone": "Contact phone",
+      "contactPhoneDesc": "We may call you for important matters about your LLC",
+      "companyName": "What will your company be called?",
+      "companyNameDesc": "Must end in LLC",
+      "howManyOwners": "How many owners?",
+      "howManyOwnersDesc": "The LLC can have one or more owners (members)",
+      "yourAddress": "Your address",
+      "yourAddressDesc": "Required for official documents",
+      "birthDate": "Date of birth",
+      "birthDateDesc": "Required for the BOI report",
+      "idDocument": "Identity document",
+      "idDocumentDesc": "Upload a photo of your passport or ID",
+      "businessActivity": "Business activity",
+      "businessActivityDesc": "What will your LLC do?",
+      "sellingOnline": "Do you sell online?",
+      "sellingOnlineDesc": "Through Amazon, eBay, Etsy, Shopify, etc.",
+      "bankAccount": "Do you need a US bank account?",
+      "bankAccountDesc": "We can help you open an account in a US bank",
+      "stripePayments": "Do you want to receive payments with Stripe?",
+      "stripePaymentsDesc": "Accept card payments with a Stripe account linked to your LLC",
+      "additionalNotes": "Additional notes",
+      "additionalNotesDesc": "Anything else we should know?",
+      "createAccount": "Create your account",
+      "createAccountDesc": "This way you can track your order and access your documents",
+      "summary": "Summary",
+      "summaryDesc": "Review the data before submitting"
     },
     "fields": {
       "fullName": "Full name",
@@ -358,7 +398,7 @@
       "birthDate": "Date of birth",
       "idType": "ID type",
       "idNumber": "ID number",
-      "country": "Country of residence",
+      "country": "Country",
       "address": "Address",
       "streetType": "Street type",
       "city": "City",
@@ -372,7 +412,10 @@
       "needsBank": "Do you need a bank account?",
       "useStripe": "Will you use Stripe?",
       "wantsBoi": "BOI Report",
-      "wantsMaintenance": "Annual maintenance pack"
+      "wantsMaintenance": "Annual maintenance pack",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "notes": "Notes"
     },
     "streetTypes": {
       "street": "Street",
@@ -389,12 +432,53 @@
       "nie": "Foreigner ID",
       "other": "Other"
     },
+    "states": {
+      "newMexico": "New Mexico",
+      "newMexicoDesc": "Most affordable, no state taxes",
+      "wyoming": "Wyoming",
+      "wyomingDesc": "Maximum privacy and protection",
+      "delaware": "Delaware",
+      "delawareDesc": "International prestige, ideal for investors"
+    },
+    "options": {
+      "yes": "Yes",
+      "no": "No",
+      "oneOwner": "One owner (single-member)",
+      "multipleOwners": "Multiple owners (multi-member)"
+    },
     "validation": {
       "required": "This field is required",
       "invalidEmail": "Invalid email",
       "invalidPhone": "Invalid phone",
       "minLength": "Minimum {{min}} characters",
-      "maxLength": "Maximum {{max}} characters"
+      "maxLength": "Maximum {{max}} characters",
+      "passwordMismatch": "Passwords do not match",
+      "passwordTooShort": "Password too short",
+      "passwordMinChars": "Must be at least 8 characters"
+    },
+    "messages": {
+      "dataLoaded": "Data loaded",
+      "canEditApplication": "You can edit your application",
+      "changesSaved": "Changes saved",
+      "infoUpdated": "Your information has been updated",
+      "somethingWentWrong": "Something went wrong",
+      "tryAgain": "Try again",
+      "processingPayment": "Processing payment",
+      "momentPlease": "One moment...",
+      "paymentCompleted": "Payment completed",
+      "workingOnRequest": "All set. We're now working on your request",
+      "emailMissing": "Email missing",
+      "emailNeeded": "We need your email to continue",
+      "codeSent": "Code sent",
+      "checkEmailWaiting": "Check your email, we'll wait here",
+      "errorSending": "Error sending",
+      "tryAgainSeconds": "Try again in a few seconds",
+      "codeMissing": "Code missing",
+      "enter6DigitCode": "Enter the 6-digit code",
+      "emailVerified": "Email verified",
+      "canContinue": "Perfect. You can continue now",
+      "incorrectCode": "Incorrect code",
+      "codeInvalidOrExpired": "The code is invalid or has expired"
     },
     "discountCode": "Discount code",
     "applyCode": "Apply",
@@ -402,7 +486,22 @@
     "codeInvalid": "Invalid code",
     "total": "Total",
     "subtotal": "Subtotal",
-    "discount": "Discount"
+    "discount": "Discount",
+    "orContinueFast": "or continue quickly",
+    "accessWithGoogle": "Sign in with Google",
+    "orLoginWithEmail": "or log in with email to go faster",
+    "sendCode": "Send code",
+    "verify": "Verify",
+    "uploadDocument": "Upload document",
+    "dragOrClick": "Drag and drop or click to upload"
+  },
+  "maintenance": {
+    "title": "We take care of your",
+    "subtitle": "We handle the maintenance so you can focus on your business.",
+    "requestReceived": "Request received",
+    "workingOnIt": "We're already working on it",
+    "accountCreatedRequest": "Account created and request sent",
+    "allSetStarting": "All set. We're getting started"
   },
   "dashboard": {
     "title": "Dashboard",
@@ -772,11 +871,16 @@
     "tryAgain": "Try again in a few seconds"
   },
   "newsletter": {
-    "title": "Stay informed",
-    "description": "Receive news and updates about LLCs",
+    "joinOur": "Join our",
+    "newsletter": "Newsletter",
+    "taxTips": "Clear tips on US taxation.",
+    "businessNews": "Updates that truly matter for your business.",
     "placeholder": "Enter your email",
     "subscribe": "Subscribe",
-    "success": "Subscribed successfully",
-    "checkInbox": "Check your inbox."
+    "success": "Subscribed!",
+    "checkInbox": "Check your inbox.",
+    "error": "Error",
+    "subscriptionFailed": "Could not complete subscription.",
+    "connectionError": "Connection error."
   }
 }

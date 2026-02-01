@@ -1,8 +1,9 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useLocation, Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useTranslation } from "react-i18next";
 
 import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
@@ -22,44 +23,45 @@ import { useFormDraft } from "@/hooks/use-form-draft";
 
 const TOTAL_STEPS = 17; // Single company name (no alternatives), BOI and maintenance mandatory
 
-const formSchema = z.object({
-  ownerFirstName: z.string().min(1, "El nombre es obligatorio"),
-  ownerLastName: z.string().min(1, "Los apellidos son obligatorios"),
-  ownerEmail: z.string().email("Email inválido"),
-  ownerPhone: z.string().min(1, "Este campo es obligatorio"),
-  companyName: z.string().min(1, "Este campo es obligatorio").refine(
+const createFormSchema = (t: (key: string) => string) => z.object({
+  ownerFirstName: z.string().min(1, t("validation.firstNameRequired")),
+  ownerLastName: z.string().min(1, t("validation.lastNameRequired")),
+  ownerEmail: z.string().email(t("validation.emailInvalid")),
+  ownerPhone: z.string().min(1, t("validation.required")),
+  companyName: z.string().min(1, t("validation.required")).refine(
     (val) => val.toUpperCase().trim().endsWith("LLC") || val.toUpperCase().trim().endsWith("L.L.C.") || val.toUpperCase().trim().endsWith("L.L.C"),
-    { message: "El nombre debe terminar en LLC (ej: MI EMPRESA LLC)" }
+    { message: t("validation.llcNameFormat") }
   ),
-  state: z.string().min(1, "Este campo es obligatorio"),
+  state: z.string().min(1, t("validation.required")),
   ownerCount: z.number().default(1),
-  ownerStreetType: z.string().min(1, "Este campo es obligatorio"),
-  ownerAddress: z.string().min(1, "Este campo es obligatorio"),
-  ownerCity: z.string().min(1, "Este campo es obligatorio"),
+  ownerStreetType: z.string().min(1, t("validation.required")),
+  ownerAddress: z.string().min(1, t("validation.required")),
+  ownerCity: z.string().min(1, t("validation.required")),
   ownerProvince: z.string().optional(),
-  ownerPostalCode: z.string().min(1, "Este campo es obligatorio"),
-  ownerCountry: z.string().min(1, "Este campo es obligatorio"),
-  ownerBirthDate: z.string().min(1, "Este campo es obligatorio"),
-  businessActivity: z.string().min(1, "Este campo es obligatorio"),
-  isSellingOnline: z.string().min(1, "Este campo es obligatorio"),
-  needsBankAccount: z.string().min(1, "Este campo es obligatorio"),
-  willUseStripe: z.string().min(1, "Este campo es obligatorio"),
-  wantsBoiReport: z.string().min(1, "Este campo es obligatorio"),
-  wantsMaintenancePack: z.string().min(1, "Este campo es obligatorio"),
+  ownerPostalCode: z.string().min(1, t("validation.required")),
+  ownerCountry: z.string().min(1, t("validation.required")),
+  ownerBirthDate: z.string().min(1, t("validation.required")),
+  businessActivity: z.string().min(1, t("validation.required")),
+  isSellingOnline: z.string().min(1, t("validation.required")),
+  needsBankAccount: z.string().min(1, t("validation.required")),
+  willUseStripe: z.string().min(1, t("validation.required")),
+  wantsBoiReport: z.string().min(1, t("validation.required")),
+  wantsMaintenancePack: z.string().min(1, t("validation.required")),
   notes: z.string().optional(),
   idDocumentUrl: z.string().optional(),
-  password: z.string().min(8, "Mínimo 8 caracteres").optional(),
+  password: z.string().min(8, t("validation.minLength")).optional(),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
   discountCode: z.string().optional(),
 }).refine((data) => !data.password || data.password === data.confirmPassword, {
-  message: "Las contraseñas no coinciden",
+  message: t("validation.passwordMismatch") || "Passwords do not match",
   path: ["confirmPassword"],
 });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function LlcFormation() {
+  const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const [location, setLocation] = useLocation();
   const [step, setStep] = useState(0);
@@ -86,6 +88,8 @@ export default function LlcFormation() {
   const urlState = urlParams.get('state');
   const hasUrlState = !!urlState && ["New Mexico", "Wyoming", "Delaware"].includes(urlState);
 
+  const formSchema = useMemo(() => createFormSchema(t), [t]);
+  
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -235,7 +239,7 @@ export default function LlcFormation() {
               notes: appData.notes || "",
               idDocumentUrl: appData.idDocumentUrl || ""
             });
-            toast({ title: "Datos cargados", description: "Puedes editar tu solicitud" });
+            toast({ title: t("application.messages.dataLoaded"), description: t("application.messages.canEditApplication") });
           }
         }
         // Order creation is now deferred to the final submit step
@@ -319,7 +323,7 @@ export default function LlcFormation() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: "Falta tu email", description: "Necesitamos tu email para continuar", variant: "destructive" });
+      toast({ title: t("application.messages.emailMissing"), description: t("application.messages.emailNeeded"), variant: "destructive" });
       return;
     }
     
@@ -328,13 +332,13 @@ export default function LlcFormation() {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: "Código enviado", description: "Revisa tu correo, te esperamos aquí" });
+        toast({ title: t("application.messages.codeSent"), description: t("application.messages.checkEmailWaiting") });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Error al enviar", description: "Inténtalo de nuevo en unos segundos", variant: "destructive" });
+      toast({ title: t("application.messages.errorSending"), description: t("application.messages.tryAgainSeconds"), variant: "destructive" });
     } finally {
       setIsSendingOtp(false);
     }
@@ -344,7 +348,7 @@ export default function LlcFormation() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: "Falta el código", description: "Introduce el código de 6 dígitos", variant: "destructive" });
+      toast({ title: t("application.messages.codeMissing"), description: t("application.messages.enter6DigitCode"), variant: "destructive" });
       return;
     }
     
@@ -353,13 +357,13 @@ export default function LlcFormation() {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: "Email verificado", description: "Perfecto. Ya puedes continuar" });
+        toast({ title: t("application.messages.emailVerified"), description: t("application.messages.canContinue") });
       } else {
         const data = await res.json();
         toast({ title: "Error", description: data.message, variant: "destructive" });
       }
     } catch (error) {
-      toast({ title: "Código incorrecto", description: "El código no es válido o ha caducado", variant: "destructive" });
+      toast({ title: t("application.messages.incorrectCode"), description: t("application.messages.codeInvalidOrExpired"), variant: "destructive" });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -394,11 +398,11 @@ export default function LlcFormation() {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
-        toast({ title: "Contraseña demasiado corta", description: "Debe tener al menos 8 caracteres", variant: "destructive" });
+        toast({ title: t("application.validation.passwordTooShort"), description: t("application.validation.passwordMinChars"), variant: "destructive" });
         return;
       }
       if (password !== confirmPassword) {
-        toast({ title: "Las contraseñas no coinciden", description: "Revísalas y vuelve a intentarlo", variant: "destructive" });
+        toast({ title: t("application.validation.passwordMismatch"), description: t("application.messages.tryAgain"), variant: "destructive" });
         return;
       }
     }
@@ -421,7 +425,7 @@ export default function LlcFormation() {
       // In edit mode, save changes and redirect to dashboard
       if (isEditMode) {
         await apiRequest("PUT", `/api/llc/${appId}`, data);
-        toast({ title: "Cambios guardados", description: "Tu información se ha actualizado" });
+        toast({ title: t("application.messages.changesSaved"), description: t("application.messages.infoUpdated") });
         clearDraft();
         setLocation("/dashboard");
         return;
@@ -486,10 +490,10 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: "Información guardada", description: "Vamos al siguiente paso" });
+      toast({ title: t("application.messages.changesSaved"), description: t("application.continue") });
       setStep(19); // Payment Step
     } catch {
-      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo", variant: "destructive" });
+      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgain"), variant: "destructive" });
     }
   };
   
@@ -520,19 +524,19 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: "Cambios guardados", description: "Tu información se ha actualizado" });
+      toast({ title: t("application.messages.changesSaved"), description: t("application.messages.infoUpdated") });
       clearDraft();
       setLocation("/dashboard");
     } catch {
-      toast({ title: "Algo no ha ido bien", description: "Inténtalo de nuevo", variant: "destructive" });
+      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgain"), variant: "destructive" });
     }
   };
 
   const handlePayment = async () => {
-    toast({ title: "Procesando pago", description: "Un momento..." });
+    toast({ title: t("application.messages.processingPayment"), description: t("application.messages.momentPlease") });
     setTimeout(async () => {
       await apiRequest("POST", `/api/llc/${appId}/pay`, {});
-      toast({ title: "Pago completado", description: "Todo listo. Ya estamos trabajando en tu solicitud" });
+      toast({ title: t("application.messages.paymentCompleted"), description: t("application.messages.workingOnRequest") });
       setLocation("/contacto?success=true");
     }, 2000);
   };
@@ -544,8 +548,8 @@ export default function LlcFormation() {
         {isEditMode && (
           <div className="bg-accent/10 border border-accent/20 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div>
-              <p className="font-black text-primary">Modo Edición</p>
-              <p className="text-sm text-muted-foreground">Estás modificando los datos de tu pedido pendiente</p>
+              <p className="font-black text-primary">{t("application.editMode")}</p>
+              <p className="text-sm text-muted-foreground">{t("application.editModeDesc")}</p>
             </div>
             <div className="flex gap-2">
               <Button 
@@ -554,7 +558,7 @@ export default function LlcFormation() {
                 className="rounded-full"
                 onClick={() => setLocation("/dashboard")}
               >
-                Cancelar
+                {t("application.cancel")}
               </Button>
               <Button 
                 type="button"
@@ -562,18 +566,18 @@ export default function LlcFormation() {
                 onClick={handleSaveChanges}
                 data-testid="button-save-changes"
               >
-                Guardar Cambios
+                {t("application.saveChanges")}
               </Button>
             </div>
           </div>
         )}
         
         <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
-          {isEditMode ? "Modificar datos de " : "Constituir mi "}
+          {isEditMode ? t("application.editTitle") + " " : t("application.title").replace("LLC", "") }
           <span className="text-accent">LLC</span>
         </h1>
         <p className="text-muted-foreground text-sm md:text-base mb-4 md:mb-6 text-center">
-          Constituye tu LLC online en unos clics. Te guiamos paso a paso y nos encargamos de todo.
+          {t("application.subtitle")}
         </p>
         
         <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-8" />
@@ -583,16 +587,16 @@ export default function LlcFormation() {
             
             {step === 0 && (
               <div key="step-0" className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣ ¿Donde constituimos tu LLC?</h2>
-                <FormDescription>Elige el estado donde se registrará tu empresa</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣ {t("application.steps.whereToForm")}</h2>
+                <FormDescription>{t("application.steps.whereToFormDesc")}</FormDescription>
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {[
-                          { name: "New Mexico", price: "739€", desc: "Más económico, sin impuestos estatales" },
-                          { name: "Wyoming", price: "899€", desc: "Máxima privacidad y protección" },
-                          { name: "Delaware", price: "1399€", desc: "Prestigio internacional, ideal inversores" }
+                          { name: "New Mexico", price: "739€", desc: t("application.states.newMexicoDesc") },
+                          { name: "Wyoming", price: "899€", desc: t("application.states.wyomingDesc") },
+                          { name: "Delaware", price: "1399€", desc: t("application.states.delawareDesc") }
                         ].map(opt => (
                           <label 
                             key={opt.name} 
@@ -621,25 +625,25 @@ export default function LlcFormation() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">Continuar</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">{t("application.continue")}</Button>
               </div>
             )}
 
             {step === 1 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">2️⃣ ¿Cómo te llamas?</h2>
-                <FormDescription>Lo usaremos en los documentos oficiales</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">2️⃣ {t("application.steps.whatsYourName")}</h2>
+                <FormDescription>{t("application.steps.whatsYourNameDesc")}</FormDescription>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.firstName")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerLastName" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Apellidos:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.lastName")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -647,16 +651,16 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   {!hasUrlState && (
-                    <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                    <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
                   )}
-                  <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all`}>Continuar</Button>
+                  <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all`}>{t("application.continue")}</Button>
                 </div>
                 
                 {!isAuthenticated && (
                   <div className="space-y-4 pt-4">
                     <div className="flex items-center gap-3">
                       <div className="flex-1 h-px bg-border" />
-                      <span className="text-xs text-muted-foreground font-medium">o continúa de forma rápida</span>
+                      <span className="text-xs text-muted-foreground font-medium">{t("application.orContinueFast")}</span>
                       <div className="flex-1 h-px bg-border" />
                     </div>
                     
@@ -672,11 +676,11 @@ export default function LlcFormation() {
                         <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                         <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                       </svg>
-                      Acceder con Google
+                      {t("application.accessWithGoogle")}
                     </Button>
                     
                     <p className="text-center text-xs text-muted-foreground">
-                      o <Link href="/auth/login" className="text-accent font-bold underline">inicia sesión</Link> con email para ir más rápido
+                      {t("application.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login")}</Link>{t("application.orLoginWithEmail").split("inicia sesión")[1] || ""}
                     </p>
                   </div>
                 )}
@@ -685,8 +689,8 @@ export default function LlcFormation() {
 
             {step === 2 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">3️⃣ Email de contacto</h2>
-                <FormDescription>Aquí te enviaremos los avances y documentos de tu LLC</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">3️⃣ {t("application.steps.contactEmail")}</h2>
+                <FormDescription>{t("application.steps.contactEmailDesc")}</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">Email:</FormLabel>
@@ -695,16 +699,16 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
 
             {step === 3 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">4️⃣ WhatsApp (muy recomendado)</h2>
-                <FormDescription>Para dudas rápidas y avisos importantes</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">4️⃣ {t("application.steps.contactPhone")}</h2>
+                <FormDescription>{t("application.steps.contactPhoneDesc")}</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">Teléfono:</FormLabel>
@@ -713,16 +717,16 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
 
             {step === 4 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">5️⃣ ¿Cómo quieres que se llame tu LLC?</h2>
-                <FormDescription>Si no estás 100% seguro, no pasa nada. Lo revisamos contigo</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">5️⃣ {t("application.steps.companyName")}</h2>
+                <FormDescription>{t("application.steps.companyNameDesc")}</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre deseado:</FormLabel>
@@ -731,16 +735,16 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
 
             {step === 5 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ Propietario único</h2>
-                <FormDescription>Tu LLC tendrá un único propietario al 100%</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ {t("application.steps.howManyOwners")}</h2>
+                <FormDescription>{t("application.steps.howManyOwnersDesc")}</FormDescription>
                 <div className="flex items-center justify-between gap-3 p-4 rounded-full border-2 border-accent bg-accent/10 dark:bg-accent/20">
                   <span className="font-bold text-foreground text-sm md:text-base">Único propietario (100%)</span>
                   <Check className="w-5 h-5 text-accent" />
@@ -757,16 +761,16 @@ export default function LlcFormation() {
                   </a>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
 
             {step === 6 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">7️⃣ Dirección completa</h2>
-                <FormDescription>Tu dirección de residencia habitual</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">7️⃣ {t("application.steps.yourAddress")}</h2>
+                <FormDescription>{t("application.steps.yourAddressDesc")}</FormDescription>
                 
                 <div className="grid grid-cols-3 gap-3">
                   <FormField control={form.control} name="ownerStreetType" render={({ field }) => (
@@ -835,8 +839,8 @@ export default function LlcFormation() {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -852,8 +856,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -921,8 +925,8 @@ export default function LlcFormation() {
                   </label>
                 </div>
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -938,8 +942,8 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1033,8 +1037,8 @@ export default function LlcFormation() {
                   </>
                 )}
                 <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1148,7 +1152,7 @@ export default function LlcFormation() {
                 )}
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
                   <Button 
                     type="button" 
                     onClick={nextStep} 
@@ -1247,8 +1251,8 @@ export default function LlcFormation() {
                 )} />
                 
                 <div className="flex gap-3 pt-4">
-                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">Volver</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">Continuar</Button>
+                  <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
                 </div>
               </div>
             )}

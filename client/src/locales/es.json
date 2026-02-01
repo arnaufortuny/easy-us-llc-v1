@@ -338,7 +338,15 @@
     "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp"
   },
   "application": {
-    "title": "Solicitud de LLC",
+    "title": "Constituir mi LLC",
+    "editTitle": "Modificar datos de",
+    "subtitle": "Constituye tu LLC online en unos clics. Te guiamos paso a paso y nos encargamos de todo.",
+    "editMode": "Modo Edición",
+    "editModeDesc": "Estás modificando los datos de tu pedido pendiente",
+    "cancel": "Cancelar",
+    "saveChanges": "Guardar Cambios",
+    "continue": "Continuar",
+    "back": "Volver",
     "steps": {
       "personal": "Datos Personales",
       "identity": "Identificación",
@@ -347,7 +355,39 @@
       "banking": "Cuenta Bancaria",
       "verification": "Verificación",
       "payment": "Pago",
-      "confirmation": "Confirmación"
+      "confirmation": "Confirmación",
+      "whereToForm": "¿Dónde constituimos tu LLC?",
+      "whereToFormDesc": "Elige el estado donde se registrará tu empresa",
+      "whatsYourName": "¿Cómo te llamas?",
+      "whatsYourNameDesc": "Lo usaremos en los documentos oficiales",
+      "contactEmail": "Email de contacto",
+      "contactEmailDesc": "Aquí te enviaremos los avances y documentos de tu LLC",
+      "contactPhone": "Teléfono de contacto",
+      "contactPhoneDesc": "Podemos llamarte para asuntos importantes de tu LLC",
+      "companyName": "¿Cómo se llamará tu empresa?",
+      "companyNameDesc": "Debe terminar en LLC",
+      "howManyOwners": "¿Cuántos propietarios?",
+      "howManyOwnersDesc": "La LLC puede tener uno o varios propietarios (miembros)",
+      "yourAddress": "Tu dirección",
+      "yourAddressDesc": "Necesaria para los documentos oficiales",
+      "birthDate": "Fecha de nacimiento",
+      "birthDateDesc": "Necesaria para el informe BOI",
+      "idDocument": "Documento de identidad",
+      "idDocumentDesc": "Sube una foto de tu pasaporte o DNI",
+      "businessActivity": "Actividad del negocio",
+      "businessActivityDesc": "¿A qué se dedicará tu LLC?",
+      "sellingOnline": "¿Vendes online?",
+      "sellingOnlineDesc": "A través de Amazon, eBay, Etsy, Shopify, etc.",
+      "bankAccount": "¿Necesitas cuenta bancaria en USA?",
+      "bankAccountDesc": "Te ayudamos a abrir cuenta en un banco estadounidense",
+      "stripePayments": "¿Quieres recibir pagos con Stripe?",
+      "stripePaymentsDesc": "Acepta pagos con tarjeta con una cuenta Stripe vinculada a tu LLC",
+      "additionalNotes": "Notas adicionales",
+      "additionalNotesDesc": "¿Algo más que debamos saber?",
+      "createAccount": "Crea tu cuenta",
+      "createAccountDesc": "Así podrás seguir tu pedido y acceder a tus documentos",
+      "summary": "Resumen",
+      "summaryDesc": "Revisa los datos antes de enviar"
     },
     "fields": {
       "fullName": "Nombre completo",
@@ -358,7 +398,7 @@
       "birthDate": "Fecha de nacimiento",
       "idType": "Tipo de documento",
       "idNumber": "Número de documento",
-      "country": "País de residencia",
+      "country": "País",
       "address": "Dirección",
       "streetType": "Tipo de vía",
       "city": "Ciudad",
@@ -372,7 +412,10 @@
       "needsBank": "¿Necesitas cuenta bancaria?",
       "useStripe": "¿Usarás Stripe?",
       "wantsBoi": "BOI Report",
-      "wantsMaintenance": "Pack de mantenimiento anual"
+      "wantsMaintenance": "Pack de mantenimiento anual",
+      "password": "Contraseña",
+      "confirmPassword": "Confirmar contraseña",
+      "notes": "Notas"
     },
     "streetTypes": {
       "street": "Calle",
@@ -389,12 +432,53 @@
       "nie": "NIE",
       "other": "Otro"
     },
+    "states": {
+      "newMexico": "New Mexico",
+      "newMexicoDesc": "Más económico, sin impuestos estatales",
+      "wyoming": "Wyoming",
+      "wyomingDesc": "Máxima privacidad y protección",
+      "delaware": "Delaware",
+      "delawareDesc": "Prestigio internacional, ideal inversores"
+    },
+    "options": {
+      "yes": "Sí",
+      "no": "No",
+      "oneOwner": "Un propietario (single-member)",
+      "multipleOwners": "Varios propietarios (multi-member)"
+    },
     "validation": {
       "required": "Este campo es obligatorio",
       "invalidEmail": "Email inválido",
       "invalidPhone": "Teléfono inválido",
       "minLength": "Mínimo {{min}} caracteres",
-      "maxLength": "Máximo {{max}} caracteres"
+      "maxLength": "Máximo {{max}} caracteres",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "passwordTooShort": "Contraseña demasiado corta",
+      "passwordMinChars": "Debe tener al menos 8 caracteres"
+    },
+    "messages": {
+      "dataLoaded": "Datos cargados",
+      "canEditApplication": "Puedes editar tu solicitud",
+      "changesSaved": "Cambios guardados",
+      "infoUpdated": "Tu información se ha actualizado",
+      "somethingWentWrong": "Algo no ha ido bien",
+      "tryAgain": "Inténtalo de nuevo",
+      "processingPayment": "Procesando pago",
+      "momentPlease": "Un momento...",
+      "paymentCompleted": "Pago completado",
+      "workingOnRequest": "Todo listo. Ya estamos trabajando en tu solicitud",
+      "emailMissing": "Falta tu email",
+      "emailNeeded": "Necesitamos tu email para continuar",
+      "codeSent": "Código enviado",
+      "checkEmailWaiting": "Revisa tu correo, te esperamos aquí",
+      "errorSending": "Error al enviar",
+      "tryAgainSeconds": "Inténtalo de nuevo en unos segundos",
+      "codeMissing": "Falta el código",
+      "enter6DigitCode": "Introduce el código de 6 dígitos",
+      "emailVerified": "Email verificado",
+      "canContinue": "Perfecto. Ya puedes continuar",
+      "incorrectCode": "Código incorrecto",
+      "codeInvalidOrExpired": "El código no es válido o ha caducado"
     },
     "discountCode": "Código de descuento",
     "applyCode": "Aplicar",
@@ -402,7 +486,22 @@
     "codeInvalid": "Código no válido",
     "total": "Total",
     "subtotal": "Subtotal",
-    "discount": "Descuento"
+    "discount": "Descuento",
+    "orContinueFast": "o continúa de forma rápida",
+    "accessWithGoogle": "Acceder con Google",
+    "orLoginWithEmail": "o inicia sesión con email para ir más rápido",
+    "sendCode": "Enviar código",
+    "verify": "Verificar",
+    "uploadDocument": "Subir documento",
+    "dragOrClick": "Arrastra o haz clic para subir"
+  },
+  "maintenance": {
+    "title": "Cuidamos tu",
+    "subtitle": "Nos encargamos del mantenimiento para que tú te centres en tu negocio.",
+    "requestReceived": "Solicitud recibida",
+    "workingOnIt": "Ya estamos trabajando en ello",
+    "accountCreatedRequest": "Cuenta creada y solicitud enviada",
+    "allSetStarting": "Todo listo. Nos ponemos en marcha"
   },
   "dashboard": {
     "title": "Panel de Control",
@@ -772,11 +871,16 @@
     "tryAgain": "Inténtalo de nuevo en unos segundos"
   },
   "newsletter": {
-    "title": "Mantente informado",
-    "description": "Recibe noticias y actualizaciones sobre LLCs",
+    "joinOur": "Únete a nuestra",
+    "newsletter": "Newsletter",
+    "taxTips": "Consejos claros sobre fiscalidad en USA.",
+    "businessNews": "Novedades que realmente importan para tu negocio.",
     "placeholder": "Indícanos tu email",
     "subscribe": "Suscribirse",
-    "success": "Suscrito correctamente",
-    "checkInbox": "Revisa tu bandeja de entrada."
+    "success": "¡Suscrito!",
+    "checkInbox": "Revisa tu bandeja de entrada.",
+    "error": "Error",
+    "subscriptionFailed": "No se pudo completar la suscripción.",
+    "connectionError": "Error de conexión."
   }
 }
