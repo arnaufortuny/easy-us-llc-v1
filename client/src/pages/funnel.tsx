@@ -447,18 +447,6 @@ export default function SalesPage() {
           </p>
 
           <Card className="p-6 md:p-8 bg-zinc-800 border-zinc-700 shadow-2xl">
-            <div className="text-center mb-6">
-              <p className="text-zinc-400 text-sm">
-                ¿Ya tienes cuenta?{" "}
-                <a 
-                  href="/auth/login" 
-                  className="text-green-500 font-bold hover:underline"
-                  data-testid="link-login-funnel"
-                >
-                  Inicia sesión aquí
-                </a>
-              </p>
-            </div>
             {!formSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input
