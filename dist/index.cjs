@@ -12,11 +12,11 @@ var __export = (target, all) => {
   for (var name in all)
     __defProp(target, name, { get: all[name], enumerable: true });
 };
-var __copyProps = (to, from, except, desc3) => {
+var __copyProps = (to, from, except, desc4) => {
   if (from && typeof from === "object" || typeof from === "function") {
     for (let key of __getOwnPropNames(from))
       if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc3 = __getOwnPropDesc(from, key)) || desc3.enumerable });
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc4 = __getOwnPropDesc(from, key)) || desc4.enumerable });
   }
   return to;
 };
@@ -75,6 +75,11 @@ var init_auth = __esm({
       lockUntil: (0, import_pg_core.timestamp)("lock_until"),
       internalNotes: (0, import_pg_core.text)("internal_notes"),
       googleId: (0, import_pg_core.varchar)("google_id"),
+      // Security tracking fields
+      lastLoginIp: (0, import_pg_core.varchar)("last_login_ip"),
+      loginCount: (0, import_pg_core.integer)("login_count").notNull().default(0),
+      securityOtpRequired: (0, import_pg_core.boolean)("security_otp_required").notNull().default(false),
+      lastSecurityOtpAt: (0, import_pg_core.timestamp)("last_security_otp_at"),
       createdAt: (0, import_pg_core.timestamp)("created_at").defaultNow(),
       updatedAt: (0, import_pg_core.timestamp)("updated_at").defaultNow()
     });
@@ -259,7 +264,11 @@ var init_schema = __esm({
       agentRenewalDate: (0, import_pg_core2.timestamp)("agent_renewal_date"),
       irs1120DueDate: (0, import_pg_core2.timestamp)("irs_1120_due_date"),
       irs5472DueDate: (0, import_pg_core2.timestamp)("irs_5472_due_date"),
-      annualReportDueDate: (0, import_pg_core2.timestamp)("annual_report_due_date")
+      annualReportDueDate: (0, import_pg_core2.timestamp)("annual_report_due_date"),
+      // Abandoned application tracking
+      abandonedAt: (0, import_pg_core2.timestamp)("abandoned_at"),
+      remindersSent: (0, import_pg_core2.integer)("reminders_sent").notNull().default(0),
+      lastReminderAt: (0, import_pg_core2.timestamp)("last_reminder_at")
     }, (table) => ({
       orderIdIdx: (0, import_pg_core2.index)("llc_apps_order_id_idx").on(table.orderId),
       requestCodeIdx: (0, import_pg_core2.index)("llc_apps_req_code_idx").on(table.requestCode),
@@ -269,6 +278,8 @@ var init_schema = __esm({
       id: (0, import_pg_core2.serial)("id").primaryKey(),
       applicationId: (0, import_pg_core2.integer)("application_id").references(() => llcApplications.id),
       orderId: (0, import_pg_core2.integer)("order_id").references(() => orders.id),
+      userId: (0, import_pg_core2.varchar)("user_id").references(() => users.id),
+      // Direct user reference for docs without order
       fileName: (0, import_pg_core2.text)("file_name").notNull(),
       fileType: (0, import_pg_core2.text)("file_type").notNull(),
       fileUrl: (0, import_pg_core2.text)("file_url").notNull(),
@@ -281,6 +292,7 @@ var init_schema = __esm({
     }, (table) => ({
       applicationIdIdx: (0, import_pg_core2.index)("app_docs_application_id_idx").on(table.applicationId),
       orderIdIdx: (0, import_pg_core2.index)("app_docs_order_id_idx").on(table.orderId),
+      userIdIdx: (0, import_pg_core2.index)("app_docs_user_id_idx").on(table.userId),
       uploadedByIdx: (0, import_pg_core2.index)("app_docs_uploaded_by_idx").on(table.uploadedBy)
     }));
     newsletterSubscribers = (0, import_pg_core2.pgTable)("newsletter_subscribers", {
@@ -369,7 +381,11 @@ var init_schema = __esm({
       // transfer, link
       authorizedManagement: (0, import_pg_core2.boolean)("authorized_management").notNull().default(false),
       termsConsent: (0, import_pg_core2.boolean)("terms_consent").notNull().default(false),
-      dataProcessingConsent: (0, import_pg_core2.boolean)("data_processing_consent").notNull().default(false)
+      dataProcessingConsent: (0, import_pg_core2.boolean)("data_processing_consent").notNull().default(false),
+      // Abandoned application tracking
+      abandonedAt: (0, import_pg_core2.timestamp)("abandoned_at"),
+      remindersSent: (0, import_pg_core2.integer)("reminders_sent").notNull().default(0),
+      lastReminderAt: (0, import_pg_core2.timestamp)("last_reminder_at")
     }, (table) => ({
       orderIdIdx: (0, import_pg_core2.index)("maint_apps_order_id_idx").on(table.orderId),
       requestCodeIdx: (0, import_pg_core2.index)("maint_apps_req_code_idx").on(table.requestCode),
@@ -467,6 +483,7 @@ var init_db = __esm({
 // server/lib/email.ts
 var email_exports = {};
 __export(email_exports, {
+  getAbandonedApplicationReminderTemplate: () => getAbandonedApplicationReminderTemplate,
   getAccountDeactivatedTemplate: () => getAccountDeactivatedTemplate,
   getAccountLockedTemplate: () => getAccountLockedTemplate,
   getAccountReactivatedTemplate: () => getAccountReactivatedTemplate,
@@ -493,6 +510,7 @@ __export(email_exports, {
   getPasswordChangeOtpTemplate: () => getPasswordChangeOtpTemplate,
   getPaymentRequestTemplate: () => getPaymentRequestTemplate,
   getRegistrationOtpTemplate: () => getRegistrationOtpTemplate,
+  getRenewalReminderTemplate: () => getRenewalReminderTemplate,
   getWelcomeEmailTemplate: () => getWelcomeEmailTemplate,
   queueEmail: () => queueEmail,
   sendEmail: () => sendEmail,
@@ -502,7 +520,9 @@ function getSimpleHeader() {
   return `
     <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-        <img src="https://${domain}/logo-email.png" alt="Easy US LLC" width="60" height="60" style="display: block; margin: 0 auto 12px; border-radius: 50%;" />
+        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6EDC8A 0%, #4aba6a 100%); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;">
+          <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 24px; font-weight: 800; color: #0E1215;">EU</span>
+        </div>
         <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 18px; font-weight: 800; color: #F7F7F5; letter-spacing: -0.5px;">Easy US LLC</span>
       </a>
     </div>
@@ -575,7 +595,7 @@ function getWelcomeEmailTemplate(name = "Cliente") {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Tu cuenta ha sido creada correctamente. Desde tu \xC1rea Cliente podr\xE1s gestionar solicitudes, documentaci\xF3n y el estado de tus servicios en todo momento.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -610,7 +630,7 @@ function getAccountVipTemplate(name = "Cliente") {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -624,7 +644,7 @@ function getAccountReactivatedTemplate(name = "Cliente") {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Ya puedes acceder a tu \xC1rea Cliente y utilizar todos nuestros servicios con normalidad.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -710,7 +730,7 @@ function getOrderCompletedTemplate(name, orderNumber) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Acceder a documentos</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Tu experiencia es importante para nosotros. Si lo deseas, puedes valorar nuestro servicio cuando recibas la invitaci\xF3n correspondiente.</p>
@@ -728,7 +748,7 @@ function getNoteReceivedTemplate(name, noteContent, orderNumber) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -747,7 +767,7 @@ function getAdminNoteTemplate(name, title, message, ticketId) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -789,7 +809,7 @@ function getDocumentRequestTemplate(name, documentType, message, ticketId) {
     <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-bottom: 25px;">Ticket de referencia: <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Subir Documento</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Subir Documento</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -808,7 +828,7 @@ function getDocumentUploadedTemplate(name, documentType, orderCode) {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Puedes acceder y descargar este documento desde tu \xC1rea Cliente.</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mis Documentos</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -824,7 +844,7 @@ function getMessageReplyTemplate(name, content, ticketId) {
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi \xC1rea Cliente</a>
     </div>
   `;
   return getEmailWrapper(emailContent);
@@ -858,7 +878,7 @@ function getOrderEventTemplate(name, orderId, eventType, description) {
     <p style="line-height: 1.5; font-size: 13px; color: #9CA3AF;">Fecha: ${(/* @__PURE__ */ new Date()).toLocaleString("es-ES")}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${appDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Detalles</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Detalles</a>
     </div>
   `;
   return getEmailWrapper(content);
@@ -884,6 +904,34 @@ function getNewsletterWelcomeTemplate() {
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Recibir\xE1s informaci\xF3n relevante sobre servicios, actualizaciones y novedades relacionadas con Easy US LLC.</p>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Puedes darte de baja en cualquier momento desde el enlace incluido en nuestros correos.</p>
+  `;
+  return getEmailWrapper(content);
+}
+function getRenewalReminderTemplate(name, companyName, daysRemaining, renewalDate, state) {
+  const urgencyColor = daysRemaining === "una semana" ? "#EF4444" : "#F59E0B";
+  const urgencyBg = daysRemaining === "una semana" ? "#FEE2E2" : "#FEF3C7";
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te recordamos que el pack de mantenimiento de tu LLC <strong>${companyName}</strong> (${state}) vence pronto.</p>
+    
+    <div style="background: ${urgencyBg}; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
+      <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">Vence en ${daysRemaining}</p>
+      <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0E1215;">Fecha de vencimiento: ${renewalDate}</p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Sin el pack de mantenimiento activo, tu LLC puede perder su buen estado legal. Esto incluye:</p>
+    
+    <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
+      <li>Agente registrado activo</li>
+      <li>Presentaci\xF3n de informes anuales</li>
+      <li>Cumplimiento fiscal (IRS 1120/5472)</li>
+      <li>Domicilio legal en Estados Unidos</li>
+    </ul>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Renovar Ahora</a>
+    </div>
   `;
   return getEmailWrapper(content);
 }
@@ -917,7 +965,7 @@ function getAdminNewRegistrationTemplate(clientId, firstName, lastName, email, p
   return getEmailWrapper(content);
 }
 function getAccountLockedTemplate(name, ticketId) {
-  const baseUrl = process.env.BASE_URL || "https://app.easyusllc.com";
+  const baseUrl = process.env.BASE_URL || `https://${domain}`;
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
     
@@ -1140,6 +1188,32 @@ async function sendEmail({ to, subject, html, replyTo }) {
     return null;
   }
 }
+function getAbandonedApplicationReminderTemplate(name, applicationType, state, hoursRemaining) {
+  const emailDomain = process.env.REPLIT_DEV_DOMAIN || domain;
+  const serviceLabel = applicationType === "llc" ? "constituci\xF3n de tu LLC" : "paquete de mantenimiento";
+  const urgencyColor = hoursRemaining <= 12 ? "#EF4444" : "#F59E0B";
+  const urgencyText = hoursRemaining <= 12 ? "\xFAltimas horas" : `${Math.round(hoursRemaining)} horas`;
+  const content = `
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Notamos que comenzaste la solicitud de ${serviceLabel} en ${state} pero no la has completado.</p>
+    
+    <div style="background: ${urgencyColor}15; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
+      <p style="margin: 0; font-size: 14px; color: ${urgencyColor}; line-height: 1.7; font-weight: 600;">
+        Tu solicitud se eliminar\xE1 autom\xE1ticamente en ${urgencyText} si no la completas.
+      </p>
+    </div>
+    
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">No pierdas tu progreso. Retoma tu solicitud ahora y completa el proceso en pocos minutos.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Continuar mi solicitud</a>
+    </div>
+    
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si tienes alguna pregunta o necesitas ayuda, responde a este correo y te asistiremos.</p>
+  `;
+  return getEmailWrapper(content);
+}
 async function sendTrustpilotEmail({ to, name, orderNumber }) {
   if (!process.env.SMTP_PASS) {
     return;
@@ -1160,13 +1234,12 @@ async function sendTrustpilotEmail({ to, name, orderNumber }) {
     return null;
   }
 }
-var import_nodemailer, domain, appDomain, transporter, emailQueue, MAX_RETRIES, MAX_QUEUE_SIZE, EMAIL_TTL, QUEUE_PROCESS_INTERVAL, isProcessingQueue, lastProcessTime;
+var import_nodemailer, domain, transporter, emailQueue, MAX_RETRIES, MAX_QUEUE_SIZE, EMAIL_TTL, QUEUE_PROCESS_INTERVAL, isProcessingQueue, lastProcessTime;
 var init_email = __esm({
   "server/lib/email.ts"() {
     "use strict";
     import_nodemailer = __toESM(require("nodemailer"), 1);
     domain = "easyusllc.com";
-    appDomain = "app.easyusllc.com";
     transporter = import_nodemailer.default.createTransport({
       host: process.env.SMTP_HOST || "smtp.ionos.es",
       port: parseInt(process.env.SMTP_PORT || "587"),
@@ -1245,6 +1318,12 @@ async function generateUniqueClientId() {
 async function createUser(data) {
   const existingUser = await db.select().from(users).where((0, import_drizzle_orm4.eq)(users.email, data.email)).limit(1);
   if (existingUser.length > 0) {
+    const existing = existingUser[0];
+    if (existing.isActive === false || existing.accountStatus === "deactivated") {
+      const error = new Error("Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para m\xE1s informaci\xF3n.");
+      error.code = "ACCOUNT_DEACTIVATED";
+      throw error;
+    }
     throw new Error("El email ya est\xE1 registrado");
   }
   const passwordHash = await hashPassword(data.password);
@@ -1504,6 +1583,437 @@ var init_encryption = __esm({
   }
 });
 
+// server/calendar-service.ts
+var calendar_service_exports = {};
+__export(calendar_service_exports, {
+  calculateComplianceDeadlines: () => calculateComplianceDeadlines,
+  checkAndSendReminders: () => checkAndSendReminders,
+  checkExpiredRenewals: () => checkExpiredRenewals,
+  getClientsNeedingRenewal: () => getClientsNeedingRenewal,
+  getUpcomingDeadlinesForUser: () => getUpcomingDeadlinesForUser,
+  sendRenewalReminders: () => sendRenewalReminders,
+  updateApplicationDeadlines: () => updateApplicationDeadlines
+});
+function calculateComplianceDeadlines(formationDate, state) {
+  const deadlines = [];
+  const formationYear = formationDate.getFullYear();
+  const irs1120DueDate = new Date(formationYear + 1, 3, 15);
+  const irs1120ReminderDate = new Date(irs1120DueDate);
+  irs1120ReminderDate.setDate(irs1120ReminderDate.getDate() - 60);
+  deadlines.push({
+    type: "irs_1120",
+    dueDate: irs1120DueDate,
+    reminderDate: irs1120ReminderDate,
+    description: "Presentaci\xF3n del formulario IRS 1120 (Declaraci\xF3n de impuestos corporativos)"
+  });
+  const irs5472DueDate = new Date(formationYear + 1, 3, 15);
+  const irs5472ReminderDate = new Date(irs5472DueDate);
+  irs5472ReminderDate.setDate(irs5472ReminderDate.getDate() - 60);
+  deadlines.push({
+    type: "irs_5472",
+    dueDate: irs5472DueDate,
+    reminderDate: irs5472ReminderDate,
+    description: "Presentaci\xF3n del formulario IRS 5472 (Declaraci\xF3n de transacciones con propietarios extranjeros)"
+  });
+  if (state === "delaware" || state === "DE" || state === "Delaware") {
+    const annualReportDueDate = new Date(formationYear + 1, 5, 1);
+    const annualReportReminderDate = new Date(annualReportDueDate);
+    annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
+    deadlines.push({
+      type: "annual_report",
+      dueDate: annualReportDueDate,
+      reminderDate: annualReportReminderDate,
+      description: "Informe Anual del estado de Delaware",
+      state: "Delaware"
+    });
+  } else if (state === "wyoming" || state === "WY" || state === "Wyoming") {
+    const annualReportDueDate = new Date(formationDate);
+    annualReportDueDate.setFullYear(annualReportDueDate.getFullYear() + 1);
+    const annualReportReminderDate = new Date(annualReportDueDate);
+    annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
+    deadlines.push({
+      type: "annual_report",
+      dueDate: annualReportDueDate,
+      reminderDate: annualReportReminderDate,
+      description: "Informe Anual del estado de Wyoming",
+      state: "Wyoming"
+    });
+  }
+  const agentRenewalDate = new Date(formationDate);
+  agentRenewalDate.setFullYear(agentRenewalDate.getFullYear() + 1);
+  const agentRenewalReminderDate = new Date(agentRenewalDate);
+  agentRenewalReminderDate.setDate(agentRenewalReminderDate.getDate() - 60);
+  deadlines.push({
+    type: "agent_renewal",
+    dueDate: agentRenewalDate,
+    reminderDate: agentRenewalReminderDate,
+    description: "Renovaci\xF3n del Agente Registrado"
+  });
+  return deadlines;
+}
+async function updateApplicationDeadlines(applicationId, formationDate, state) {
+  const deadlines = calculateComplianceDeadlines(formationDate, state);
+  const irs1120Deadline = deadlines.find((d) => d.type === "irs_1120");
+  const irs5472Deadline = deadlines.find((d) => d.type === "irs_5472");
+  const annualReportDeadline = deadlines.find((d) => d.type === "annual_report");
+  const agentRenewalDeadline = deadlines.find((d) => d.type === "agent_renewal");
+  await db.update(llcApplications).set({
+    llcCreatedDate: formationDate,
+    irs1120DueDate: irs1120Deadline?.dueDate,
+    irs5472DueDate: irs5472Deadline?.dueDate,
+    annualReportDueDate: annualReportDeadline?.dueDate,
+    agentRenewalDate: agentRenewalDeadline?.dueDate,
+    lastUpdated: /* @__PURE__ */ new Date()
+  }).where((0, import_drizzle_orm8.eq)(llcApplications.id, applicationId));
+  return deadlines;
+}
+async function checkAndSendReminders() {
+  const today = /* @__PURE__ */ new Date();
+  const reminderWindowStart = new Date(today);
+  reminderWindowStart.setDate(reminderWindowStart.getDate() + 55);
+  const reminderWindowEnd = new Date(today);
+  reminderWindowEnd.setDate(reminderWindowEnd.getDate() + 65);
+  const applicationsWithIRS1120 = await db.select({
+    application: llcApplications,
+    order: orders
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs1120DueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.irs1120DueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.irs1120DueDate, reminderWindowEnd)
+    )
+  );
+  for (const { application, order } of applicationsWithIRS1120) {
+    const daysUntilDue = Math.ceil((application.irs1120DueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+    await createComplianceNotification(
+      order.userId,
+      order.id,
+      application.requestCode || `LLC-${application.id}`,
+      "irs_1120",
+      `Recordatorio: Formulario IRS 1120 vence en ${daysUntilDue} d\xEDas`,
+      `Tu declaraci\xF3n de impuestos corporativos (Form 1120) para ${application.companyName} vence el ${formatDate2(application.irs1120DueDate)}. No olvides presentarlo a tiempo.`
+    );
+  }
+  const applicationsWithIRS5472 = await db.select({
+    application: llcApplications,
+    order: orders
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs5472DueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.irs5472DueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.irs5472DueDate, reminderWindowEnd)
+    )
+  );
+  for (const { application, order } of applicationsWithIRS5472) {
+    const daysUntilDue = Math.ceil((application.irs5472DueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+    await createComplianceNotification(
+      order.userId,
+      order.id,
+      application.requestCode || `LLC-${application.id}`,
+      "irs_5472",
+      `Recordatorio: Formulario IRS 5472 vence en ${daysUntilDue} d\xEDas`,
+      `Tu declaraci\xF3n de transacciones (Form 5472) para ${application.companyName} vence el ${formatDate2(application.irs5472DueDate)}. Es obligatorio para propietarios extranjeros.`
+    );
+  }
+  const applicationsWithAnnualReport = await db.select({
+    application: llcApplications,
+    order: orders
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.annualReportDueDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.annualReportDueDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.annualReportDueDate, reminderWindowEnd)
+    )
+  );
+  for (const { application, order } of applicationsWithAnnualReport) {
+    const daysUntilDue = Math.ceil((application.annualReportDueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" : "Nuevo M\xE9xico";
+    await createComplianceNotification(
+      order.userId,
+      order.id,
+      application.requestCode || `LLC-${application.id}`,
+      "annual_report",
+      `Recordatorio: Informe Anual de ${stateLabel} vence en ${daysUntilDue} d\xEDas`,
+      `El informe anual de tu empresa ${application.companyName} en ${stateLabel} vence el ${formatDate2(application.annualReportDueDate)}. Presentar tarde puede resultar en multas.`
+    );
+  }
+  const applicationsWithAgentRenewal = await db.select({
+    application: llcApplications,
+    order: orders
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.agentRenewalDate),
+      (0, import_drizzle_orm8.gte)(llcApplications.agentRenewalDate, reminderWindowStart),
+      (0, import_drizzle_orm8.lte)(llcApplications.agentRenewalDate, reminderWindowEnd)
+    )
+  );
+  for (const { application, order } of applicationsWithAgentRenewal) {
+    const daysUntilDue = Math.ceil((application.agentRenewalDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+    await createComplianceNotification(
+      order.userId,
+      order.id,
+      application.requestCode || `LLC-${application.id}`,
+      "agent_renewal",
+      `Recordatorio: Renovaci\xF3n de Agente Registrado en ${daysUntilDue} d\xEDas`,
+      `La renovaci\xF3n del agente registrado para ${application.companyName} vence el ${formatDate2(application.agentRenewalDate)}. Sin agente registrado activo, tu LLC puede perder su buen estado legal.`
+    );
+  }
+  const renewalResult = await sendRenewalReminders();
+  return { checked: true, timestamp: today, renewalRemindersSent: renewalResult.remindersSent };
+}
+async function createComplianceNotification(userId, orderId, orderCode, type, title, message) {
+  const ticketId = `COMP-${type.toUpperCase()}-${orderId}-${Date.now()}`;
+  const existing = await db.select().from(userNotifications).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.eq)(userNotifications.userId, userId),
+      (0, import_drizzle_orm8.eq)(userNotifications.orderId, orderId),
+      import_drizzle_orm8.sql`${userNotifications.type} = ${"compliance_" + type}`,
+      import_drizzle_orm8.sql`${userNotifications.createdAt} > NOW() - INTERVAL '30 days'`
+    )
+  ).limit(1);
+  if (existing.length > 0) {
+    return null;
+  }
+  await db.insert(userNotifications).values({
+    userId,
+    orderId,
+    orderCode,
+    ticketId,
+    type: `compliance_${type}`,
+    title,
+    message,
+    isRead: false,
+    actionUrl: `/dashboard/orders/${orderId}`
+  });
+  return ticketId;
+}
+function formatDate2(date) {
+  return date.toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric"
+  });
+}
+async function checkExpiredRenewals() {
+  const today = /* @__PURE__ */ new Date();
+  const expiredApplications = await db.select({
+    application: llcApplications,
+    order: orders,
+    user: users
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).innerJoin(users, (0, import_drizzle_orm8.eq)(orders.userId, users.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.agentRenewalDate),
+      (0, import_drizzle_orm8.lte)(llcApplications.agentRenewalDate, today),
+      (0, import_drizzle_orm8.eq)(orders.status, "completed"),
+      (0, import_drizzle_orm8.eq)(users.accountStatus, "active")
+      // Only check active users
+    )
+  );
+  const allMaintenanceApps = await db.select({
+    maintApp: maintenanceApplications,
+    maintOrder: orders
+  }).from(maintenanceApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(maintenanceApplications.orderId, orders.id)).where((0, import_drizzle_orm8.eq)(orders.status, "completed"));
+  const expiredList = [];
+  for (const { application, order, user } of expiredApplications) {
+    const renewalDate = new Date(application.agentRenewalDate);
+    const sixtyDaysBeforeRenewal = new Date(renewalDate);
+    sixtyDaysBeforeRenewal.setDate(sixtyDaysBeforeRenewal.getDate() - 60);
+    const hasRenewal = allMaintenanceApps.some(
+      ({ maintApp, maintOrder }) => maintOrder.userId === user.id && maintApp.state === application.state && new Date(maintOrder.createdAt) >= sixtyDaysBeforeRenewal
+    );
+    if (!hasRenewal) {
+      const daysSinceExpiry = Math.ceil((today.getTime() - new Date(application.agentRenewalDate).getTime()) / (1e3 * 60 * 60 * 24));
+      expiredList.push({
+        userId: user.id,
+        clientId: user.clientId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        companyName: application.companyName,
+        state: application.state,
+        llcCreatedDate: application.llcCreatedDate,
+        agentRenewalDate: application.agentRenewalDate,
+        daysSinceExpiry,
+        orderId: order.id,
+        applicationId: application.id,
+        accountStatus: user.accountStatus
+      });
+    }
+  }
+  return expiredList;
+}
+async function getClientsNeedingRenewal() {
+  const today = /* @__PURE__ */ new Date();
+  const ninetyDaysFromNow = new Date(today);
+  ninetyDaysFromNow.setDate(ninetyDaysFromNow.getDate() + 90);
+  const applicationsNeedingRenewal = await db.select({
+    application: llcApplications,
+    order: orders,
+    user: users
+  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).innerJoin(users, (0, import_drizzle_orm8.eq)(orders.userId, users.id)).where(
+    (0, import_drizzle_orm8.and)(
+      (0, import_drizzle_orm8.isNotNull)(llcApplications.agentRenewalDate),
+      (0, import_drizzle_orm8.lte)(llcApplications.agentRenewalDate, ninetyDaysFromNow),
+      (0, import_drizzle_orm8.eq)(orders.status, "completed"),
+      (0, import_drizzle_orm8.eq)(users.accountStatus, "active")
+      // Only check active users
+    )
+  );
+  const allMaintenanceApps = await db.select({
+    maintApp: maintenanceApplications,
+    maintOrder: orders
+  }).from(maintenanceApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(maintenanceApplications.orderId, orders.id)).where((0, import_drizzle_orm8.eq)(orders.status, "completed"));
+  const result = [];
+  for (const { application, order, user } of applicationsNeedingRenewal) {
+    const renewalDate = new Date(application.agentRenewalDate);
+    const sixtyDaysBeforeRenewal = new Date(renewalDate);
+    sixtyDaysBeforeRenewal.setDate(sixtyDaysBeforeRenewal.getDate() - 60);
+    const hasRenewal = allMaintenanceApps.some(
+      ({ maintApp, maintOrder }) => maintOrder.userId === user.id && maintApp.state === application.state && new Date(maintOrder.createdAt) >= sixtyDaysBeforeRenewal
+      // Renewal order created within renewal window
+    );
+    if (!hasRenewal) {
+      const daysUntilExpiry = Math.ceil((new Date(application.agentRenewalDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+      result.push({
+        userId: user.id,
+        clientId: user.clientId,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        companyName: application.companyName,
+        state: application.state,
+        llcCreatedDate: application.llcCreatedDate,
+        agentRenewalDate: application.agentRenewalDate,
+        daysUntilExpiry,
+        isExpired: daysUntilExpiry < 0,
+        orderId: order.id,
+        applicationId: application.id,
+        accountStatus: user.accountStatus
+      });
+    }
+  }
+  return result.sort((a, b) => a.daysUntilExpiry - b.daysUntilExpiry);
+}
+async function sendRenewalReminders() {
+  const clientsNeedingRenewal = await getClientsNeedingRenewal();
+  let remindersSent = 0;
+  for (const client of clientsNeedingRenewal) {
+    if (client.daysUntilExpiry < 0) continue;
+    const reminderWindows = [
+      { min: 55, max: 65, type: "renewal_60days", label: "60 d\xEDas" },
+      { min: 25, max: 35, type: "renewal_30days", label: "30 d\xEDas" },
+      { min: 5, max: 10, type: "renewal_7days", label: "una semana" }
+    ];
+    for (const window of reminderWindows) {
+      if (client.daysUntilExpiry >= window.min && client.daysUntilExpiry <= window.max) {
+        await createComplianceNotification(
+          client.userId,
+          client.orderId,
+          `LLC-${client.applicationId}`,
+          window.type,
+          `Renovaci\xF3n pendiente en ${window.label}`,
+          `Tu pack de mantenimiento para ${client.companyName} vence pronto (${formatDate2(new Date(client.agentRenewalDate))}). Contrata el pack de mantenimiento para mantener tu LLC activa y en cumplimiento legal.`
+        );
+        if (client.email && client.companyName) {
+          const emailHtml = getRenewalReminderTemplate(
+            client.firstName || "Cliente",
+            client.companyName,
+            window.label,
+            formatDate2(new Date(client.agentRenewalDate)),
+            client.state || "New Mexico"
+          );
+          queueEmail({
+            to: client.email,
+            subject: `Renovaci\xF3n LLC ${client.companyName} - Vence en ${window.label}`,
+            html: emailHtml
+          });
+        }
+        remindersSent++;
+        break;
+      }
+    }
+  }
+  return { remindersSent };
+}
+function getUpcomingDeadlinesForUser(applications) {
+  const today = /* @__PURE__ */ new Date();
+  const deadlines = [];
+  for (const app2 of applications) {
+    if (app2.llcCreatedDate) {
+      const companyName = app2.companyName || "Tu LLC";
+      if (app2.irs1120DueDate) {
+        const daysUntil = Math.ceil((new Date(app2.irs1120DueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+        if (daysUntil > 0 && daysUntil <= 365) {
+          deadlines.push({
+            type: "irs_1120",
+            title: "IRS Form 1120",
+            description: `Declaraci\xF3n de impuestos para ${companyName}`,
+            dueDate: app2.irs1120DueDate,
+            daysUntil,
+            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
+            applicationId: app2.id
+          });
+        }
+      }
+      if (app2.irs5472DueDate) {
+        const daysUntil = Math.ceil((new Date(app2.irs5472DueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+        if (daysUntil > 0 && daysUntil <= 365) {
+          deadlines.push({
+            type: "irs_5472",
+            title: "IRS Form 5472",
+            description: `Declaraci\xF3n de transacciones para ${companyName}`,
+            dueDate: app2.irs5472DueDate,
+            daysUntil,
+            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
+            applicationId: app2.id
+          });
+        }
+      }
+      if (app2.annualReportDueDate) {
+        const daysUntil = Math.ceil((new Date(app2.annualReportDueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+        if (daysUntil > 0 && daysUntil <= 365) {
+          const stateLabel = app2.state === "wyoming" || app2.state === "WY" ? "Wyoming" : "Nuevo M\xE9xico";
+          deadlines.push({
+            type: "annual_report",
+            title: `Informe Anual (${stateLabel})`,
+            description: `Informe anual del estado para ${companyName}`,
+            dueDate: app2.annualReportDueDate,
+            daysUntil,
+            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
+            applicationId: app2.id,
+            state: stateLabel
+          });
+        }
+      }
+      if (app2.agentRenewalDate) {
+        const daysUntil = Math.ceil((new Date(app2.agentRenewalDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
+        if (daysUntil > 0 && daysUntil <= 365) {
+          deadlines.push({
+            type: "agent_renewal",
+            title: "Renovaci\xF3n Agente Registrado",
+            description: `Renovaci\xF3n anual del agente para ${companyName}`,
+            dueDate: app2.agentRenewalDate,
+            daysUntil,
+            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
+            applicationId: app2.id
+          });
+        }
+      }
+    }
+  }
+  return deadlines.sort((a, b) => a.daysUntil - b.daysUntil);
+}
+var import_drizzle_orm8;
+var init_calendar_service = __esm({
+  "server/calendar-service.ts"() {
+    "use strict";
+    init_db();
+    init_schema();
+    import_drizzle_orm8 = require("drizzle-orm");
+    init_email();
+  }
+});
+
 // server/lib/id-generator.ts
 var id_generator_exports = {};
 __export(id_generator_exports, {
@@ -1525,7 +2035,7 @@ async function generateUniqueClientId2() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const clientId = generate8DigitId();
-    const existing = await db.select({ id: users.id }).from(users).where((0, import_drizzle_orm9.eq)(users.clientId, clientId)).limit(1);
+    const existing = await db.select({ id: users.id }).from(users).where((0, import_drizzle_orm10.eq)(users.clientId, clientId)).limit(1);
     if (existing.length === 0) {
       return clientId;
     }
@@ -1557,8 +2067,8 @@ async function generateUniqueOrderCode(state) {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const code = generateOrderCode(state);
-    const existingLlc = await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm9.eq)(llcApplications.requestCode, code)).limit(1);
-    const existingMaint = await db.select({ id: maintenanceApplications.id }).from(maintenanceApplications).where((0, import_drizzle_orm9.eq)(maintenanceApplications.requestCode, code)).limit(1);
+    const existingLlc = await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.requestCode, code)).limit(1);
+    const existingMaint = await db.select({ id: maintenanceApplications.id }).from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.requestCode, code)).limit(1);
     if (existingLlc.length === 0 && existingMaint.length === 0) {
       return code;
     }
@@ -1572,7 +2082,7 @@ async function generateUniqueTicketId() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const ticketId = generate8DigitId();
-    const existingNotif = await db.select({ id: userNotifications.id }).from(userNotifications).where((0, import_drizzle_orm9.eq)(userNotifications.ticketId, ticketId)).limit(1);
+    const existingNotif = await db.select({ id: userNotifications.id }).from(userNotifications).where((0, import_drizzle_orm10.eq)(userNotifications.ticketId, ticketId)).limit(1);
     if (existingNotif.length === 0) {
       return ticketId;
     }
@@ -1585,7 +2095,7 @@ async function generateUniqueMessageId() {
   const maxAttempts = 10;
   while (attempts < maxAttempts) {
     const messageId = generate8DigitId();
-    const existing = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm9.eq)(messages.messageId, messageId)).limit(1);
+    const existing = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm10.eq)(messages.messageId, messageId)).limit(1);
     if (existing.length === 0) {
       return messageId;
     }
@@ -1602,13 +2112,13 @@ function formatOrderDisplay(requestCode) {
   }
   return "N/A";
 }
-var import_drizzle_orm9;
+var import_drizzle_orm10;
 var init_id_generator = __esm({
   "server/lib/id-generator.ts"() {
     "use strict";
     init_db();
     init_schema();
-    import_drizzle_orm9 = require("drizzle-orm");
+    import_drizzle_orm10 = require("drizzle-orm");
   }
 });
 
@@ -1912,8 +2422,16 @@ function getSession() {
     tableName: "sessions"
   });
   const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
+  const envSecret = process.env.SESSION_SECRET;
+  if (!envSecret && isProduction) {
+    throw new Error("SESSION_SECRET environment variable is required in production");
+  }
+  const sessionSecret = envSecret || require("crypto").randomBytes(32).toString("hex");
+  if (!envSecret) {
+    console.warn("\u26A0\uFE0F Using random session secret for development. Set SESSION_SECRET in production.");
+  }
   return (0, import_express_session.default)({
-    secret: process.env.SESSION_SECRET || "easy-us-llc-secret-key-2024",
+    secret: sessionSecret,
     store: sessionStore,
     resave: false,
     saveUninitialized: false,
@@ -1997,7 +2515,7 @@ function setupCustomAuth(app2) {
           message: `Demasiados intentos. Espera ${rateCheck.retryAfter} segundos.`
         });
       }
-      const { email, password } = req.body;
+      const { email, password, securityOtp } = req.body;
       if (!email || !password) {
         return res.status(400).json({ message: "Email y contrase\xF1a son obligatorios" });
       }
@@ -2009,6 +2527,67 @@ function setupCustomAuth(app2) {
       if (user.accountStatus === "deactivated") {
         return res.status(403).json({ message: "Tu cuenta ha sido desactivada. Contacta a nuestro servicio de atenci\xF3n al cliente para m\xE1s informaci\xF3n." });
       }
+      const { applicationDocuments: appDocsTable, orders: ordersTable } = await Promise.resolve().then(() => (init_schema(), schema_exports));
+      const userOrders = await db.select({ id: ordersTable.id }).from(ordersTable).where((0, import_drizzle_orm5.eq)(ordersTable.userId, user.id));
+      const orderIds = userOrders.map((o) => o.id);
+      let hasOrgDocs = false;
+      if (orderIds.length > 0) {
+        const orgDocs = await db.select().from(appDocsTable).where(
+          (0, import_drizzle_orm5.and)(
+            (0, import_drizzle_orm5.inArray)(appDocsTable.orderId, orderIds),
+            (0, import_drizzle_orm5.eq)(appDocsTable.type, "organization_docs")
+          )
+        ).limit(1);
+        hasOrgDocs = orgDocs.length > 0;
+      }
+      const newLoginCount = (user.loginCount || 0) + 1;
+      const ipChanged = user.lastLoginIp && user.lastLoginIp !== ip;
+      const lastOtpCheck = user.lastSecurityOtpAt ? new Date(user.lastSecurityOtpAt) : null;
+      const daysSinceOtpCheck = lastOtpCheck ? (Date.now() - lastOtpCheck.getTime()) / (1e3 * 60 * 60 * 24) : 999;
+      const requiresSecurityOtp = !hasOrgDocs && !user.isAdmin && (user.securityOtpRequired || newLoginCount % 3 === 0 || ipChanged && daysSinceOtpCheck > 1);
+      if (requiresSecurityOtp && !securityOtp) {
+        const { contactOtps: contactOtps2 } = await Promise.resolve().then(() => (init_schema(), schema_exports));
+        const { sendEmail: sendEmail2, getOtpEmailTemplate: getOtpEmailTemplate2 } = await Promise.resolve().then(() => (init_email(), email_exports));
+        const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
+        const expiresAt = new Date(Date.now() + 10 * 60 * 1e3);
+        await db.insert(contactOtps2).values({
+          email: user.email,
+          otp,
+          otpType: "security_verification",
+          expiresAt
+        });
+        await sendEmail2({
+          to: user.email,
+          subject: "Verificaci\xF3n de seguridad - Easy US LLC",
+          html: getOtpEmailTemplate2(otp, user.firstName || "Cliente")
+        });
+        return res.status(200).json({
+          requiresSecurityOtp: true,
+          message: "Por seguridad, hemos enviado un c\xF3digo de verificaci\xF3n a tu email."
+        });
+      }
+      if (securityOtp) {
+        const { contactOtps: contactOtps2 } = await Promise.resolve().then(() => (init_schema(), schema_exports));
+        const [otpRecord] = await db.select().from(contactOtps2).where(
+          (0, import_drizzle_orm5.and)(
+            (0, import_drizzle_orm5.eq)(contactOtps2.email, user.email),
+            (0, import_drizzle_orm5.eq)(contactOtps2.otp, securityOtp),
+            (0, import_drizzle_orm5.eq)(contactOtps2.otpType, "security_verification"),
+            (0, import_drizzle_orm5.gt)(contactOtps2.expiresAt, /* @__PURE__ */ new Date())
+          )
+        ).orderBy((0, import_drizzle_orm5.desc)(contactOtps2.expiresAt)).limit(1);
+        if (!otpRecord) {
+          return res.status(400).json({ message: "C\xF3digo de verificaci\xF3n incorrecto o expirado." });
+        }
+        await db.update(contactOtps2).set({ verified: true }).where((0, import_drizzle_orm5.eq)(contactOtps2.id, otpRecord.id));
+      }
+      await db.update(users).set({
+        lastLoginIp: ip,
+        loginCount: newLoginCount,
+        securityOtpRequired: false,
+        lastSecurityOtpAt: securityOtp ? /* @__PURE__ */ new Date() : user.lastSecurityOtpAt,
+        loginAttempts: 0
+      }).where((0, import_drizzle_orm5.eq)(users.id, user.id));
       req.session.userId = user.id;
       req.session.email = user.email;
       req.session.isAdmin = user.isAdmin;
@@ -2017,7 +2596,7 @@ function setupCustomAuth(app2) {
           console.error("Session save error:", err);
           return res.status(500).json({ message: "Error al guardar la sesi\xF3n" });
         }
-        logAudit({ action: "user_login", userId: user.id, ip, details: { email, success: true } });
+        logAudit({ action: "user_login", userId: user.id, ip, details: { email, success: true, loginCount: newLoginCount } });
         res.json({
           success: true,
           user: {
@@ -2027,7 +2606,8 @@ function setupCustomAuth(app2) {
             lastName: user.lastName,
             phone: user.phone,
             emailVerified: user.emailVerified,
-            isAdmin: user.isAdmin
+            isAdmin: user.isAdmin,
+            accountStatus: user.accountStatus
           }
         });
       });
@@ -2182,15 +2762,51 @@ function setupCustomAuth(app2) {
       if (!userId) {
         return res.status(401).json({ message: "No autenticado" });
       }
-      const { firstName, lastName, phone, address, businessActivity } = req.body;
-      await db.update(users).set({
+      const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity } = req.body;
+      const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm5.eq)(users.id, userId)).limit(1);
+      if (!currentUser) {
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+      const sensitiveFields = ["idNumber", "idType", "address", "streetType", "city", "province", "postalCode", "country"];
+      let significantChanges = 0;
+      const currentValues = {
+        idNumber: currentUser.idNumber,
+        idType: currentUser.idType,
+        address: currentUser.address,
+        streetType: currentUser.streetType,
+        city: currentUser.city,
+        province: currentUser.province,
+        postalCode: currentUser.postalCode,
+        country: currentUser.country
+      };
+      const newValues = { idNumber, idType, address, streetType, city, province, postalCode, country };
+      for (const field of sensitiveFields) {
+        const oldVal = currentValues[field] || "";
+        const newVal = newValues[field] || "";
+        if (newVal && oldVal !== newVal) {
+          significantChanges++;
+        }
+      }
+      const needsReview = significantChanges >= 3 && currentUser.accountStatus === "active";
+      const updateData = {
         firstName,
         lastName,
         phone,
         address,
+        streetType,
+        city,
+        province,
+        postalCode,
+        country,
+        idNumber,
+        idType,
         businessActivity,
         updatedAt: /* @__PURE__ */ new Date()
-      }).where((0, import_drizzle_orm5.eq)(users.id, userId));
+      };
+      if (needsReview) {
+        updateData.accountStatus = "pending";
+      }
+      await db.update(users).set(updateData).where((0, import_drizzle_orm5.eq)(users.id, userId));
       const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm5.eq)(users.id, userId)).limit(1);
       res.json({
         success: true,
@@ -2201,9 +2817,18 @@ function setupCustomAuth(app2) {
           lastName: updatedUser.lastName,
           phone: updatedUser.phone,
           address: updatedUser.address,
+          streetType: updatedUser.streetType,
+          city: updatedUser.city,
+          province: updatedUser.province,
+          postalCode: updatedUser.postalCode,
+          country: updatedUser.country,
+          idNumber: updatedUser.idNumber,
+          idType: updatedUser.idType,
           businessActivity: updatedUser.businessActivity,
-          emailVerified: updatedUser.emailVerified
-        }
+          emailVerified: updatedUser.emailVerified,
+          accountStatus: updatedUser.accountStatus
+        },
+        accountUnderReview: needsReview
       });
     } catch (error) {
       console.error("Update user error:", error);
@@ -2319,9 +2944,9 @@ var DatabaseStorage = class {
     return await db.select().from(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.applicationId, applicationId));
   }
   async getDocumentsByOrderIds(orderIds) {
-    const { inArray: inArray2 } = await import("drizzle-orm");
+    const { inArray: inArray3 } = await import("drizzle-orm");
     if (orderIds.length === 0) return [];
-    return await db.select().from(applicationDocuments).where(inArray2(applicationDocuments.orderId, orderIds));
+    return await db.select().from(applicationDocuments).where(inArray3(applicationDocuments.orderId, orderIds));
   }
   async deleteDocument(id) {
     await db.delete(applicationDocuments).where((0, import_drizzle_orm6.eq)(applicationDocuments.id, id));
@@ -2498,7 +3123,7 @@ var import_zod2 = require("zod");
 init_db();
 init_email();
 init_schema();
-var import_drizzle_orm10 = require("drizzle-orm");
+var import_drizzle_orm11 = require("drizzle-orm");
 
 // server/lib/pdf-generator.ts
 var import_pdfkit = __toESM(require("pdfkit"), 1);
@@ -3137,266 +3762,141 @@ function setupOAuth(app2) {
   });
 }
 
-// server/calendar-service.ts
+// server/routes.ts
+init_calendar_service();
+
+// server/lib/abandoned-service.ts
 init_db();
 init_schema();
-var import_drizzle_orm8 = require("drizzle-orm");
-function calculateComplianceDeadlines(formationDate, state) {
-  const deadlines = [];
-  const formationYear = formationDate.getFullYear();
-  const irs1120DueDate = new Date(formationYear + 1, 3, 15);
-  const irs1120ReminderDate = new Date(irs1120DueDate);
-  irs1120ReminderDate.setDate(irs1120ReminderDate.getDate() - 60);
-  deadlines.push({
-    type: "irs_1120",
-    dueDate: irs1120DueDate,
-    reminderDate: irs1120ReminderDate,
-    description: "Presentaci\xF3n del formulario IRS 1120 (Declaraci\xF3n de impuestos corporativos)"
-  });
-  const irs5472DueDate = new Date(formationYear + 1, 3, 15);
-  const irs5472ReminderDate = new Date(irs5472DueDate);
-  irs5472ReminderDate.setDate(irs5472ReminderDate.getDate() - 60);
-  deadlines.push({
-    type: "irs_5472",
-    dueDate: irs5472DueDate,
-    reminderDate: irs5472ReminderDate,
-    description: "Presentaci\xF3n del formulario IRS 5472 (Declaraci\xF3n de transacciones con propietarios extranjeros)"
-  });
-  if (state === "wyoming" || state === "delaware" || state === "WY" || state === "DE") {
-    const annualReportDueDate = new Date(formationDate);
-    annualReportDueDate.setFullYear(annualReportDueDate.getFullYear() + 1);
-    const annualReportReminderDate = new Date(annualReportDueDate);
-    annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
-    const stateLabel = state === "wyoming" || state === "WY" ? "Wyoming" : "Delaware";
-    deadlines.push({
-      type: "annual_report",
-      dueDate: annualReportDueDate,
-      reminderDate: annualReportReminderDate,
-      description: `Informe Anual del estado de ${stateLabel}`,
-      state: stateLabel
+var import_drizzle_orm9 = require("drizzle-orm");
+init_email();
+var ABANDONMENT_THRESHOLD_HOURS = 48;
+var REMINDER_INTERVAL_HOURS = 12;
+var MAX_REMINDERS = 3;
+async function markAsAbandoned() {
+  const cutoffDate = new Date(Date.now() - 24 * 60 * 60 * 1e3);
+  await db.update(llcApplications).set({ abandonedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(llcApplications.status, "draft"),
+    (0, import_drizzle_orm9.lt)(llcApplications.lastUpdated, cutoffDate),
+    (0, import_drizzle_orm9.isNull)(llcApplications.abandonedAt)
+  ));
+  await db.update(maintenanceApplications).set({ abandonedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(maintenanceApplications.status, "draft"),
+    (0, import_drizzle_orm9.lt)(maintenanceApplications.lastUpdated, cutoffDate),
+    (0, import_drizzle_orm9.isNull)(maintenanceApplications.abandonedAt)
+  ));
+}
+async function sendReminders() {
+  const now = /* @__PURE__ */ new Date();
+  const reminderCutoff = new Date(now.getTime() - REMINDER_INTERVAL_HOURS * 60 * 60 * 1e3);
+  const deletionThreshold = new Date(now.getTime() - ABANDONMENT_THRESHOLD_HOURS * 60 * 60 * 1e3);
+  const abandonedLlcApps = await db.select({
+    id: llcApplications.id,
+    ownerEmail: llcApplications.ownerEmail,
+    ownerFullName: llcApplications.ownerFullName,
+    state: llcApplications.state,
+    abandonedAt: llcApplications.abandonedAt,
+    remindersSent: llcApplications.remindersSent,
+    lastReminderAt: llcApplications.lastReminderAt,
+    orderId: llcApplications.orderId
+  }).from(llcApplications).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(llcApplications.status, "draft"),
+    (0, import_drizzle_orm9.isNotNull)(llcApplications.abandonedAt),
+    (0, import_drizzle_orm9.lt)(llcApplications.remindersSent, MAX_REMINDERS),
+    (0, import_drizzle_orm9.or)(
+      (0, import_drizzle_orm9.isNull)(llcApplications.lastReminderAt),
+      (0, import_drizzle_orm9.lt)(llcApplications.lastReminderAt, reminderCutoff)
+    )
+  )).limit(20);
+  for (const app2 of abandonedLlcApps) {
+    if (!app2.ownerEmail || !app2.abandonedAt) continue;
+    const hoursRemaining = Math.max(
+      0,
+      ABANDONMENT_THRESHOLD_HOURS - (now.getTime() - app2.abandonedAt.getTime()) / (60 * 60 * 1e3)
+    );
+    if (hoursRemaining <= 0) continue;
+    const name = app2.ownerFullName || "Cliente";
+    const state = app2.state || "EE.UU.";
+    const html = getAbandonedApplicationReminderTemplate(name, "llc", state, hoursRemaining);
+    await sendEmail({
+      to: app2.ownerEmail,
+      subject: `Tu solicitud de LLC est\xE1 pendiente - Compl\xE9tala ahora`,
+      html
     });
+    await db.update(llcApplications).set({
+      remindersSent: (app2.remindersSent || 0) + 1,
+      lastReminderAt: now
+    }).where((0, import_drizzle_orm9.eq)(llcApplications.id, app2.id));
   }
-  const agentRenewalDate = new Date(formationDate);
-  agentRenewalDate.setFullYear(agentRenewalDate.getFullYear() + 1);
-  const agentRenewalReminderDate = new Date(agentRenewalDate);
-  agentRenewalReminderDate.setDate(agentRenewalReminderDate.getDate() - 60);
-  deadlines.push({
-    type: "agent_renewal",
-    dueDate: agentRenewalDate,
-    reminderDate: agentRenewalReminderDate,
-    description: "Renovaci\xF3n del Agente Registrado"
-  });
-  return deadlines;
-}
-async function updateApplicationDeadlines(applicationId, formationDate, state) {
-  const deadlines = calculateComplianceDeadlines(formationDate, state);
-  const irs1120Deadline = deadlines.find((d) => d.type === "irs_1120");
-  const irs5472Deadline = deadlines.find((d) => d.type === "irs_5472");
-  const annualReportDeadline = deadlines.find((d) => d.type === "annual_report");
-  const agentRenewalDeadline = deadlines.find((d) => d.type === "agent_renewal");
-  await db.update(llcApplications).set({
-    llcCreatedDate: formationDate,
-    irs1120DueDate: irs1120Deadline?.dueDate,
-    irs5472DueDate: irs5472Deadline?.dueDate,
-    annualReportDueDate: annualReportDeadline?.dueDate,
-    agentRenewalDate: agentRenewalDeadline?.dueDate,
-    lastUpdated: /* @__PURE__ */ new Date()
-  }).where((0, import_drizzle_orm8.eq)(llcApplications.id, applicationId));
-  return deadlines;
-}
-async function checkAndSendReminders() {
-  const today = /* @__PURE__ */ new Date();
-  const reminderWindowStart = new Date(today);
-  reminderWindowStart.setDate(reminderWindowStart.getDate() + 55);
-  const reminderWindowEnd = new Date(today);
-  reminderWindowEnd.setDate(reminderWindowEnd.getDate() + 65);
-  const applicationsWithIRS1120 = await db.select({
-    application: llcApplications,
-    order: orders
-  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
-    (0, import_drizzle_orm8.and)(
-      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs1120DueDate),
-      (0, import_drizzle_orm8.gte)(llcApplications.irs1120DueDate, reminderWindowStart),
-      (0, import_drizzle_orm8.lte)(llcApplications.irs1120DueDate, reminderWindowEnd)
+  const abandonedMaintApps = await db.select({
+    id: maintenanceApplications.id,
+    ownerEmail: maintenanceApplications.ownerEmail,
+    ownerFullName: maintenanceApplications.ownerFullName,
+    state: maintenanceApplications.state,
+    abandonedAt: maintenanceApplications.abandonedAt,
+    remindersSent: maintenanceApplications.remindersSent,
+    lastReminderAt: maintenanceApplications.lastReminderAt,
+    orderId: maintenanceApplications.orderId
+  }).from(maintenanceApplications).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(maintenanceApplications.status, "draft"),
+    (0, import_drizzle_orm9.isNotNull)(maintenanceApplications.abandonedAt),
+    (0, import_drizzle_orm9.lt)(maintenanceApplications.remindersSent, MAX_REMINDERS),
+    (0, import_drizzle_orm9.or)(
+      (0, import_drizzle_orm9.isNull)(maintenanceApplications.lastReminderAt),
+      (0, import_drizzle_orm9.lt)(maintenanceApplications.lastReminderAt, reminderCutoff)
     )
-  );
-  for (const { application, order } of applicationsWithIRS1120) {
-    const daysUntilDue = Math.ceil((application.irs1120DueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-    await createComplianceNotification(
-      order.userId,
-      order.id,
-      application.requestCode || `LLC-${application.id}`,
-      "irs_1120",
-      `Recordatorio: Formulario IRS 1120 vence en ${daysUntilDue} d\xEDas`,
-      `Tu declaraci\xF3n de impuestos corporativos (Form 1120) para ${application.companyName} vence el ${formatDate2(application.irs1120DueDate)}. No olvides presentarlo a tiempo.`
+  )).limit(20);
+  for (const app2 of abandonedMaintApps) {
+    if (!app2.ownerEmail || !app2.abandonedAt) continue;
+    const hoursRemaining = Math.max(
+      0,
+      ABANDONMENT_THRESHOLD_HOURS - (now.getTime() - app2.abandonedAt.getTime()) / (60 * 60 * 1e3)
     );
+    if (hoursRemaining <= 0) continue;
+    const name = app2.ownerFullName || "Cliente";
+    const state = app2.state || "EE.UU.";
+    const html = getAbandonedApplicationReminderTemplate(name, "maintenance", state, hoursRemaining);
+    await sendEmail({
+      to: app2.ownerEmail,
+      subject: `Tu solicitud de mantenimiento est\xE1 pendiente - Compl\xE9tala ahora`,
+      html
+    });
+    await db.update(maintenanceApplications).set({
+      remindersSent: (app2.remindersSent || 0) + 1,
+      lastReminderAt: now
+    }).where((0, import_drizzle_orm9.eq)(maintenanceApplications.id, app2.id));
   }
-  const applicationsWithIRS5472 = await db.select({
-    application: llcApplications,
-    order: orders
-  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
-    (0, import_drizzle_orm8.and)(
-      (0, import_drizzle_orm8.isNotNull)(llcApplications.irs5472DueDate),
-      (0, import_drizzle_orm8.gte)(llcApplications.irs5472DueDate, reminderWindowStart),
-      (0, import_drizzle_orm8.lte)(llcApplications.irs5472DueDate, reminderWindowEnd)
-    )
-  );
-  for (const { application, order } of applicationsWithIRS5472) {
-    const daysUntilDue = Math.ceil((application.irs5472DueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-    await createComplianceNotification(
-      order.userId,
-      order.id,
-      application.requestCode || `LLC-${application.id}`,
-      "irs_5472",
-      `Recordatorio: Formulario IRS 5472 vence en ${daysUntilDue} d\xEDas`,
-      `Tu declaraci\xF3n de transacciones (Form 5472) para ${application.companyName} vence el ${formatDate2(application.irs5472DueDate)}. Es obligatorio para propietarios extranjeros.`
-    );
-  }
-  const applicationsWithAnnualReport = await db.select({
-    application: llcApplications,
-    order: orders
-  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
-    (0, import_drizzle_orm8.and)(
-      (0, import_drizzle_orm8.isNotNull)(llcApplications.annualReportDueDate),
-      (0, import_drizzle_orm8.gte)(llcApplications.annualReportDueDate, reminderWindowStart),
-      (0, import_drizzle_orm8.lte)(llcApplications.annualReportDueDate, reminderWindowEnd)
-    )
-  );
-  for (const { application, order } of applicationsWithAnnualReport) {
-    const daysUntilDue = Math.ceil((application.annualReportDueDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-    const stateLabel = application.state === "wyoming" || application.state === "WY" ? "Wyoming" : "Nuevo M\xE9xico";
-    await createComplianceNotification(
-      order.userId,
-      order.id,
-      application.requestCode || `LLC-${application.id}`,
-      "annual_report",
-      `Recordatorio: Informe Anual de ${stateLabel} vence en ${daysUntilDue} d\xEDas`,
-      `El informe anual de tu empresa ${application.companyName} en ${stateLabel} vence el ${formatDate2(application.annualReportDueDate)}. Presentar tarde puede resultar en multas.`
-    );
-  }
-  const applicationsWithAgentRenewal = await db.select({
-    application: llcApplications,
-    order: orders
-  }).from(llcApplications).innerJoin(orders, (0, import_drizzle_orm8.eq)(llcApplications.orderId, orders.id)).where(
-    (0, import_drizzle_orm8.and)(
-      (0, import_drizzle_orm8.isNotNull)(llcApplications.agentRenewalDate),
-      (0, import_drizzle_orm8.gte)(llcApplications.agentRenewalDate, reminderWindowStart),
-      (0, import_drizzle_orm8.lte)(llcApplications.agentRenewalDate, reminderWindowEnd)
-    )
-  );
-  for (const { application, order } of applicationsWithAgentRenewal) {
-    const daysUntilDue = Math.ceil((application.agentRenewalDate.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-    await createComplianceNotification(
-      order.userId,
-      order.id,
-      application.requestCode || `LLC-${application.id}`,
-      "agent_renewal",
-      `Recordatorio: Renovaci\xF3n de Agente Registrado en ${daysUntilDue} d\xEDas`,
-      `La renovaci\xF3n del agente registrado para ${application.companyName} vence el ${formatDate2(application.agentRenewalDate)}. Sin agente registrado activo, tu LLC puede perder su buen estado legal.`
-    );
-  }
-  return { checked: true, timestamp: today };
 }
-async function createComplianceNotification(userId, orderId, orderCode, type, title, message) {
-  const ticketId = `COMP-${type.toUpperCase()}-${orderId}-${Date.now()}`;
-  const existing = await db.select().from(userNotifications).where(
-    (0, import_drizzle_orm8.and)(
-      (0, import_drizzle_orm8.eq)(userNotifications.userId, userId),
-      (0, import_drizzle_orm8.eq)(userNotifications.orderId, orderId),
-      import_drizzle_orm8.sql`${userNotifications.type} = ${"compliance_" + type}`,
-      import_drizzle_orm8.sql`${userNotifications.createdAt} > NOW() - INTERVAL '30 days'`
-    )
-  ).limit(1);
-  if (existing.length > 0) {
-    return null;
+async function cleanupAbandonedApplications() {
+  const deletionThreshold = new Date(Date.now() - ABANDONMENT_THRESHOLD_HOURS * 60 * 60 * 1e3);
+  const llcToDelete = await db.select({ id: llcApplications.id, orderId: llcApplications.orderId }).from(llcApplications).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(llcApplications.status, "draft"),
+    (0, import_drizzle_orm9.lt)(llcApplications.abandonedAt, deletionThreshold)
+  ));
+  for (const app2 of llcToDelete) {
+    await db.delete(llcApplications).where((0, import_drizzle_orm9.eq)(llcApplications.id, app2.id));
+    await db.delete(orders).where((0, import_drizzle_orm9.eq)(orders.id, app2.orderId));
   }
-  await db.insert(userNotifications).values({
-    userId,
-    orderId,
-    orderCode,
-    ticketId,
-    type: `compliance_${type}`,
-    title,
-    message,
-    isRead: false,
-    actionUrl: `/dashboard/orders/${orderId}`
-  });
-  return ticketId;
-}
-function formatDate2(date) {
-  return date.toLocaleDateString("es-ES", {
-    day: "numeric",
-    month: "long",
-    year: "numeric"
-  });
-}
-function getUpcomingDeadlinesForUser(applications) {
-  const today = /* @__PURE__ */ new Date();
-  const deadlines = [];
-  for (const app2 of applications) {
-    if (app2.llcCreatedDate) {
-      const companyName = app2.companyName || "Tu LLC";
-      if (app2.irs1120DueDate) {
-        const daysUntil = Math.ceil((new Date(app2.irs1120DueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-        if (daysUntil > 0 && daysUntil <= 365) {
-          deadlines.push({
-            type: "irs_1120",
-            title: "IRS Form 1120",
-            description: `Declaraci\xF3n de impuestos para ${companyName}`,
-            dueDate: app2.irs1120DueDate,
-            daysUntil,
-            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
-            applicationId: app2.id
-          });
-        }
-      }
-      if (app2.irs5472DueDate) {
-        const daysUntil = Math.ceil((new Date(app2.irs5472DueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-        if (daysUntil > 0 && daysUntil <= 365) {
-          deadlines.push({
-            type: "irs_5472",
-            title: "IRS Form 5472",
-            description: `Declaraci\xF3n de transacciones para ${companyName}`,
-            dueDate: app2.irs5472DueDate,
-            daysUntil,
-            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
-            applicationId: app2.id
-          });
-        }
-      }
-      if (app2.annualReportDueDate) {
-        const daysUntil = Math.ceil((new Date(app2.annualReportDueDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-        if (daysUntil > 0 && daysUntil <= 365) {
-          const stateLabel = app2.state === "wyoming" || app2.state === "WY" ? "Wyoming" : "Nuevo M\xE9xico";
-          deadlines.push({
-            type: "annual_report",
-            title: `Informe Anual (${stateLabel})`,
-            description: `Informe anual del estado para ${companyName}`,
-            dueDate: app2.annualReportDueDate,
-            daysUntil,
-            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
-            applicationId: app2.id,
-            state: stateLabel
-          });
-        }
-      }
-      if (app2.agentRenewalDate) {
-        const daysUntil = Math.ceil((new Date(app2.agentRenewalDate).getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-        if (daysUntil > 0 && daysUntil <= 365) {
-          deadlines.push({
-            type: "agent_renewal",
-            title: "Renovaci\xF3n Agente Registrado",
-            description: `Renovaci\xF3n anual del agente para ${companyName}`,
-            dueDate: app2.agentRenewalDate,
-            daysUntil,
-            urgency: daysUntil <= 30 ? "urgent" : daysUntil <= 60 ? "warning" : "normal",
-            applicationId: app2.id
-          });
-        }
-      }
-    }
+  const maintToDelete = await db.select({ id: maintenanceApplications.id, orderId: maintenanceApplications.orderId }).from(maintenanceApplications).where((0, import_drizzle_orm9.and)(
+    (0, import_drizzle_orm9.eq)(maintenanceApplications.status, "draft"),
+    (0, import_drizzle_orm9.lt)(maintenanceApplications.abandonedAt, deletionThreshold)
+  ));
+  for (const app2 of maintToDelete) {
+    await db.delete(maintenanceApplications).where((0, import_drizzle_orm9.eq)(maintenanceApplications.id, app2.id));
+    await db.delete(orders).where((0, import_drizzle_orm9.eq)(orders.id, app2.orderId));
   }
-  return deadlines.sort((a, b) => a.daysUntil - b.daysUntil);
+  if (llcToDelete.length > 0 || maintToDelete.length > 0) {
+    console.log(`[Abandoned Cleanup] Deleted ${llcToDelete.length} LLC apps and ${maintToDelete.length} maintenance apps`);
+  }
+}
+async function processAbandonedApplications() {
+  try {
+    await markAsAbandoned();
+    await sendReminders();
+    await cleanupAbandonedApplications();
+  } catch (error) {
+    console.error("[Abandoned Service] Error:", error);
+  }
 }
 
 // server/routes.ts
@@ -3433,7 +3933,7 @@ async function registerRoutes(httpServer2, app2) {
   setInterval(async () => {
     try {
       const cleanupPromise = db.delete(contactOtps).where(
-        import_drizzle_orm10.sql`${contactOtps.expiresAt} < NOW()`
+        import_drizzle_orm11.sql`${contactOtps.expiresAt} < NOW()`
       );
       const timeoutPromise = new Promise(
         (_, reject) => setTimeout(() => reject(new Error("OTP cleanup query timeout")), 15e3)
@@ -3456,6 +3956,61 @@ async function registerRoutes(httpServer2, app2) {
     rateLimit.set(ip, validTimestamps);
     next();
   });
+  const ipOrderTracker = /* @__PURE__ */ new Map();
+  const IP_BLOCK_THRESHOLD = 7;
+  const IP_BLOCK_DURATION = 24 * 60 * 60 * 1e3;
+  setInterval(() => {
+    const cutoff = Date.now() - IP_BLOCK_DURATION;
+    ipOrderTracker.forEach((timestamps, ip) => {
+      const valid = timestamps.filter((t) => t > cutoff);
+      if (valid.length === 0) {
+        ipOrderTracker.delete(ip);
+      } else {
+        ipOrderTracker.set(ip, valid);
+      }
+    });
+  }, 36e5);
+  function isIpBlockedFromOrders(ip) {
+    const timestamps = ipOrderTracker.get(ip) || [];
+    const cutoff = Date.now() - IP_BLOCK_DURATION;
+    const recentCount = timestamps.filter((t) => t > cutoff).length;
+    return { blocked: recentCount >= IP_BLOCK_THRESHOLD, ordersCount: recentCount };
+  }
+  function trackOrderByIp(ip) {
+    const timestamps = ipOrderTracker.get(ip) || [];
+    timestamps.push(Date.now());
+    ipOrderTracker.set(ip, timestamps);
+  }
+  async function detectSuspiciousOrderActivity(userId) {
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1e3);
+    const recentOrders = await db.select({ id: orders.id, createdAt: orders.createdAt }).from(orders).where(
+      (0, import_drizzle_orm11.and)(
+        (0, import_drizzle_orm11.eq)(orders.userId, userId),
+        (0, import_drizzle_orm11.gt)(orders.createdAt, oneDayAgo)
+      )
+    );
+    if (recentOrders.length >= 7) {
+      return { suspicious: true, reason: `Created ${recentOrders.length} orders in 24 hours` };
+    }
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1e3);
+    const veryRecentOrders = recentOrders.filter((o) => o.createdAt && new Date(o.createdAt) > oneHourAgo);
+    if (veryRecentOrders.length >= 4) {
+      return { suspicious: true, reason: `Created ${veryRecentOrders.length} orders in 1 hour` };
+    }
+    return { suspicious: false };
+  }
+  async function flagAccountForReview(userId, reason) {
+    await db.update(users).set({
+      accountStatus: "pending",
+      securityOtpRequired: true,
+      internalNotes: import_drizzle_orm11.sql`COALESCE(${users.internalNotes}, '') || E'\n[' || NOW() || '] SECURITY FLAG: ' || ${reason}`
+    }).where((0, import_drizzle_orm11.eq)(users.id, userId));
+    logAudit({
+      action: "account_flagged_for_review",
+      userId,
+      details: { reason }
+    });
+  }
   setupCustomAuth(app2);
   setupOAuth(app2);
   setInterval(async () => {
@@ -3464,6 +4019,11 @@ async function registerRoutes(httpServer2, app2) {
     } catch (e) {
       console.error("Compliance reminder check error:", e);
     }
+    try {
+      await processAbandonedApplications();
+    } catch (e) {
+      console.error("Abandoned applications check error:", e);
+    }
   }, 36e5);
   setTimeout(async () => {
     try {
@@ -3471,6 +4031,12 @@ async function registerRoutes(httpServer2, app2) {
       console.log("Initial compliance reminder check completed");
     } catch (e) {
       console.error("Initial compliance reminder check error:", e);
+    }
+    try {
+      await processAbandonedApplications();
+      console.log("Initial abandoned applications check completed");
+    } catch (e) {
+      console.error("Initial abandoned applications check error:", e);
     }
   }, 3e4);
   app2.get("/api/healthz", async (_req, res) => {
@@ -3515,7 +4081,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req, res) => {
     const orderId = Number(req.params.id);
     const { status } = import_zod2.z.object({ status: import_zod2.z.string() }).parse(req.body);
-    const [updatedOrder] = await db.update(orders).set({ status }).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
+    const [updatedOrder] = await db.update(orders).set({ status }).where((0, import_drizzle_orm11.eq)(orders.id, orderId)).returning();
     logAudit({
       action: "order_status_change",
       userId: req.session?.userId,
@@ -3535,7 +4101,7 @@ async function registerRoutes(httpServer2, app2) {
       };
       const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
       if (status === "completed" && order.userId) {
-        await db.update(users).set({ accountStatus: "vip" }).where((0, import_drizzle_orm10.eq)(users.id, order.userId));
+        await db.update(users).set({ accountStatus: "vip" }).where((0, import_drizzle_orm11.eq)(users.id, order.userId));
         const orderCode2 = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
         sendTrustpilotEmail({
           to: order.user.email,
@@ -3548,6 +4114,14 @@ async function registerRoutes(httpServer2, app2) {
         const formationDate = /* @__PURE__ */ new Date();
         const state = order.application.state || "new_mexico";
         await updateApplicationDeadlines(order.application.id, formationDate, state);
+      }
+      if (status === "cancelled" && order.application) {
+        await db.update(llcApplications).set({
+          irs1120DueDate: null,
+          irs5472DueDate: null,
+          annualReportDueDate: null,
+          agentRenewalDate: null
+        }).where((0, import_drizzle_orm11.eq)(llcApplications.id, order.application.id));
       }
       const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
       await db.insert(userNotifications).values({
@@ -3591,7 +4165,7 @@ async function registerRoutes(httpServer2, app2) {
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
     if (paymentDueDate !== void 0) updateData.paymentDueDate = paymentDueDate ? new Date(paymentDueDate) : null;
     if (paymentStatus === "paid") updateData.paidAt = /* @__PURE__ */ new Date();
-    const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
+    const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm11.eq)(orders.id, orderId)).returning();
     if (!updatedOrder) {
       return res.status(404).json({ message: "Pedido no encontrado" });
     }
@@ -3610,22 +4184,87 @@ async function registerRoutes(httpServer2, app2) {
       return res.status(404).json({ message: "Pedido no encontrado" });
     }
     await db.transaction(async (tx) => {
-      await tx.delete(orderEvents).where((0, import_drizzle_orm10.eq)(orderEvents.orderId, orderId));
-      await tx.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orderId));
+      await tx.delete(orderEvents).where((0, import_drizzle_orm11.eq)(orderEvents.orderId, orderId));
+      await tx.delete(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orderId));
       if (order.userId) {
         await tx.delete(userNotifications).where(
-          (0, import_drizzle_orm10.and)(
-            (0, import_drizzle_orm10.eq)(userNotifications.userId, order.userId),
-            import_drizzle_orm10.sql`${userNotifications.message} LIKE ${"%" + (order.invoiceNumber || `#${orderId}`) + "%"}`
+          (0, import_drizzle_orm11.and)(
+            (0, import_drizzle_orm11.eq)(userNotifications.userId, order.userId),
+            import_drizzle_orm11.sql`${userNotifications.message} LIKE ${"%" + (order.invoiceNumber || `#${orderId}`) + "%"}`
           )
         );
       }
       if (order.application?.id) {
-        await tx.delete(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, order.application.id));
+        await tx.delete(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.id, order.application.id));
       }
-      await tx.delete(orders).where((0, import_drizzle_orm10.eq)(orders.id, orderId));
+      await tx.delete(orders).where((0, import_drizzle_orm11.eq)(orders.id, orderId));
     });
     res.json({ success: true, message: "Pedido eliminado correctamente" });
+  }));
+  app2.get("/api/admin/incomplete-applications", isAdmin, async (req, res) => {
+    try {
+      const llcDrafts = await db.select({
+        id: llcApplications.id,
+        orderId: llcApplications.orderId,
+        requestCode: llcApplications.requestCode,
+        ownerFullName: llcApplications.ownerFullName,
+        ownerEmail: llcApplications.ownerEmail,
+        ownerPhone: llcApplications.ownerPhone,
+        companyName: llcApplications.companyName,
+        state: llcApplications.state,
+        status: llcApplications.status,
+        abandonedAt: llcApplications.abandonedAt,
+        remindersSent: llcApplications.remindersSent,
+        lastUpdated: llcApplications.lastUpdated
+      }).from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.status, "draft")).orderBy((0, import_drizzle_orm11.desc)(llcApplications.lastUpdated));
+      const maintDrafts = await db.select({
+        id: maintenanceApplications.id,
+        orderId: maintenanceApplications.orderId,
+        requestCode: maintenanceApplications.requestCode,
+        ownerFullName: maintenanceApplications.ownerFullName,
+        ownerEmail: maintenanceApplications.ownerEmail,
+        ownerPhone: maintenanceApplications.ownerPhone,
+        companyName: maintenanceApplications.companyName,
+        state: maintenanceApplications.state,
+        status: maintenanceApplications.status,
+        abandonedAt: maintenanceApplications.abandonedAt,
+        remindersSent: maintenanceApplications.remindersSent,
+        lastUpdated: maintenanceApplications.lastUpdated
+      }).from(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.status, "draft")).orderBy((0, import_drizzle_orm11.desc)(maintenanceApplications.lastUpdated));
+      res.json({
+        llc: llcDrafts.map((d) => ({ ...d, type: "llc" })),
+        maintenance: maintDrafts.map((d) => ({ ...d, type: "maintenance" }))
+      });
+    } catch (error) {
+      console.error("Error fetching incomplete applications:", error);
+      res.status(500).json({ message: "Error fetching incomplete applications" });
+    }
+  });
+  app2.delete("/api/admin/incomplete-applications/:type/:id", isAdmin, asyncHandler(async (req, res) => {
+    const { type, id } = req.params;
+    const appId = Number(id);
+    if (type === "llc") {
+      const [app3] = await db.select({ orderId: llcApplications.orderId }).from(llcApplications).where((0, import_drizzle_orm11.and)((0, import_drizzle_orm11.eq)(llcApplications.id, appId), (0, import_drizzle_orm11.eq)(llcApplications.status, "draft")));
+      if (!app3) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.orderId, app3.orderId));
+      await db.delete(orderEvents).where((0, import_drizzle_orm11.eq)(orderEvents.orderId, app3.orderId));
+      await db.delete(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.id, appId));
+      await db.delete(orders).where((0, import_drizzle_orm11.eq)(orders.id, app3.orderId));
+    } else if (type === "maintenance") {
+      const [app3] = await db.select({ orderId: maintenanceApplications.orderId }).from(maintenanceApplications).where((0, import_drizzle_orm11.and)((0, import_drizzle_orm11.eq)(maintenanceApplications.id, appId), (0, import_drizzle_orm11.eq)(maintenanceApplications.status, "draft")));
+      if (!app3) {
+        return res.status(404).json({ message: "Solicitud no encontrada" });
+      }
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.orderId, app3.orderId));
+      await db.delete(orderEvents).where((0, import_drizzle_orm11.eq)(orderEvents.orderId, app3.orderId));
+      await db.delete(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.id, appId));
+      await db.delete(orders).where((0, import_drizzle_orm11.eq)(orders.id, app3.orderId));
+    } else {
+      return res.status(400).json({ message: "Tipo de solicitud no v\xE1lido" });
+    }
+    res.json({ success: true, message: "Solicitud incompleta eliminada" });
   }));
   app2.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req, res) => {
     const appId = Number(req.params.appId);
@@ -3645,7 +4284,7 @@ async function registerRoutes(httpServer2, app2) {
       updateData.agentRenewalDate = agentRenewal;
       updateData.irs1120DueDate = new Date(nextYear, 2, 15);
       updateData.irs5472DueDate = new Date(nextYear, 3, 15);
-      const [app3] = await db.select({ state: llcApplications.state }).from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId)).limit(1);
+      const [app3] = await db.select({ state: llcApplications.state }).from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.id, appId)).limit(1);
       if (app3?.state) {
         if (app3.state === "Wyoming") {
           const wyomingDate = new Date(creationDate);
@@ -3657,12 +4296,12 @@ async function registerRoutes(httpServer2, app2) {
         }
       }
     }
-    await db.update(llcApplications).set(updateData).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId));
+    await db.update(llcApplications).set(updateData).where((0, import_drizzle_orm11.eq)(llcApplications.id, appId));
     res.json({ success: true });
   }));
   app2.get("/api/admin/users", isAdmin, async (req, res) => {
     try {
-      const users4 = await db.select().from(users).orderBy((0, import_drizzle_orm10.desc)(users.createdAt));
+      const users4 = await db.select().from(users).orderBy((0, import_drizzle_orm11.desc)(users.createdAt));
       res.json(users4);
     } catch (error) {
       res.status(500).json({ message: "Error fetching users" });
@@ -3694,7 +4333,7 @@ async function registerRoutes(httpServer2, app2) {
     const [updated] = await db.update(users).set({
       ...data,
       updatedAt: /* @__PURE__ */ new Date()
-    }).where((0, import_drizzle_orm10.eq)(users.id, userId)).returning();
+    }).where((0, import_drizzle_orm11.eq)(users.id, userId)).returning();
     logAudit({
       action: "admin_user_update",
       userId: req.session?.userId,
@@ -3702,7 +4341,7 @@ async function registerRoutes(httpServer2, app2) {
       details: { changes: Object.keys(data) }
     });
     if (data.accountStatus) {
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
       if (user && user.email) {
         if (data.accountStatus === "deactivated") {
           await sendEmail({
@@ -3762,34 +4401,34 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
     try {
       const userId = req.params.id;
-      const userOrders = await db.select({ id: orders.id }).from(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
+      const userOrders = await db.select({ id: orders.id }).from(orders).where((0, import_drizzle_orm11.eq)(orders.userId, userId));
       const orderIds = userOrders.map((o) => o.id);
-      const userApps = orderIds.length > 0 ? await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm10.inArray)(llcApplications.orderId, orderIds)) : [];
+      const userApps = orderIds.length > 0 ? await db.select({ id: llcApplications.id }).from(llcApplications).where((0, import_drizzle_orm11.inArray)(llcApplications.orderId, orderIds)) : [];
       const appIds = userApps.map((a) => a.id);
       if (orderIds.length > 0) {
-        await db.delete(applicationDocuments).where((0, import_drizzle_orm10.inArray)(applicationDocuments.orderId, orderIds));
+        await db.delete(applicationDocuments).where((0, import_drizzle_orm11.inArray)(applicationDocuments.orderId, orderIds));
       }
       if (appIds.length > 0) {
-        await db.delete(applicationDocuments).where((0, import_drizzle_orm10.inArray)(applicationDocuments.applicationId, appIds));
+        await db.delete(applicationDocuments).where((0, import_drizzle_orm11.inArray)(applicationDocuments.applicationId, appIds));
       }
       if (orderIds.length > 0) {
-        await db.delete(orderEvents).where((0, import_drizzle_orm10.inArray)(orderEvents.orderId, orderIds));
+        await db.delete(orderEvents).where((0, import_drizzle_orm11.inArray)(orderEvents.orderId, orderIds));
       }
-      await db.delete(userNotifications).where((0, import_drizzle_orm10.eq)(userNotifications.userId, userId));
-      const userMessages = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm10.eq)(messages.userId, userId));
+      await db.delete(userNotifications).where((0, import_drizzle_orm11.eq)(userNotifications.userId, userId));
+      const userMessages = await db.select({ id: messages.id }).from(messages).where((0, import_drizzle_orm11.eq)(messages.userId, userId));
       const messageIds = userMessages.map((m) => m.id);
       if (messageIds.length > 0) {
-        await db.delete(messageReplies).where((0, import_drizzle_orm10.inArray)(messageReplies.messageId, messageIds));
+        await db.delete(messageReplies).where((0, import_drizzle_orm11.inArray)(messageReplies.messageId, messageIds));
       }
-      await db.delete(messages).where((0, import_drizzle_orm10.eq)(messages.userId, userId));
+      await db.delete(messages).where((0, import_drizzle_orm11.eq)(messages.userId, userId));
       if (orderIds.length > 0) {
-        await db.delete(maintenanceApplications).where((0, import_drizzle_orm10.inArray)(maintenanceApplications.orderId, orderIds));
+        await db.delete(maintenanceApplications).where((0, import_drizzle_orm11.inArray)(maintenanceApplications.orderId, orderIds));
       }
       if (orderIds.length > 0) {
-        await db.delete(llcApplications).where((0, import_drizzle_orm10.inArray)(llcApplications.orderId, orderIds));
+        await db.delete(llcApplications).where((0, import_drizzle_orm11.inArray)(llcApplications.orderId, orderIds));
       }
-      await db.delete(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
-      await db.delete(users).where((0, import_drizzle_orm10.eq)(users.id, userId));
+      await db.delete(orders).where((0, import_drizzle_orm11.eq)(orders.userId, userId));
+      await db.delete(users).where((0, import_drizzle_orm11.eq)(users.id, userId));
       logAudit({
         action: "admin_user_update",
         userId: req.session?.userId,
@@ -3811,7 +4450,7 @@ async function registerRoutes(httpServer2, app2) {
       password: import_zod2.z.string().min(6)
     });
     const { firstName, lastName, email, phone, password } = schema.parse(req.body);
-    const existing = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+    const existing = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
     if (existing.length > 0) {
       return res.status(400).json({ message: "El email ya est\xE1 registrado" });
     }
@@ -3836,7 +4475,7 @@ async function registerRoutes(httpServer2, app2) {
       amount: import_zod2.z.string().or(import_zod2.z.number()).refine((val) => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
     });
     const { userId, state, amount } = schema.parse(req.body);
-    const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -3908,22 +4547,22 @@ async function registerRoutes(httpServer2, app2) {
         docsResult,
         pendingDocsResult
       ] = await Promise.all([
-        db.select({ total: import_drizzle_orm10.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed")),
-        db.select({ total: import_drizzle_orm10.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "pending")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "pending")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "processing")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(newsletterSubscribers),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "pending")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "active")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "vip")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(users).where((0, import_drizzle_orm10.eq)(users.accountStatus, "deactivated")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(messages),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(messages).where((0, import_drizzle_orm10.eq)(messages.status, "pending")),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(applicationDocuments),
-        db.select({ count: import_drizzle_orm10.sql`count(*)` }).from(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.reviewStatus, "pending"))
+        db.select({ total: import_drizzle_orm11.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "completed")),
+        db.select({ total: import_drizzle_orm11.sql`COALESCE(sum(amount), 0)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "pending")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(users),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(orders),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "pending")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "completed")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "processing")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(newsletterSubscribers),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(users).where((0, import_drizzle_orm11.eq)(users.accountStatus, "pending")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(users).where((0, import_drizzle_orm11.eq)(users.accountStatus, "active")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(users).where((0, import_drizzle_orm11.eq)(users.accountStatus, "vip")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(users).where((0, import_drizzle_orm11.eq)(users.accountStatus, "deactivated")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(messages),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(messages).where((0, import_drizzle_orm11.eq)(messages.status, "pending")),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(applicationDocuments),
+        db.select({ count: import_drizzle_orm11.sql`count(*)` }).from(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.reviewStatus, "pending"))
       ]);
       const totalSales = Number(salesResult[0]?.total || 0);
       const pendingSales = Number(pendingSalesResult[0]?.total || 0);
@@ -3977,15 +4616,102 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/stats", isAdmin, async (req, res) => {
     try {
-      const result = await db.select({ total: import_drizzle_orm10.sql`sum(amount)` }).from(orders).where((0, import_drizzle_orm10.eq)(orders.status, "completed"));
+      const result = await db.select({ total: import_drizzle_orm11.sql`sum(amount)` }).from(orders).where((0, import_drizzle_orm11.eq)(orders.status, "completed"));
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
     }
   });
+  app2.get("/api/admin/renewals", isAdmin, async (req, res) => {
+    try {
+      const { getClientsNeedingRenewal: getClientsNeedingRenewal2 } = await Promise.resolve().then(() => (init_calendar_service(), calendar_service_exports));
+      const clients = await getClientsNeedingRenewal2();
+      res.json(clients);
+    } catch (error) {
+      console.error("Error fetching renewal clients:", error);
+      res.status(500).json({ message: "Error al obtener clientes pendientes de renovaci\xF3n" });
+    }
+  });
+  app2.get("/api/admin/renewals/expired", isAdmin, async (req, res) => {
+    try {
+      const { checkExpiredRenewals: checkExpiredRenewals2 } = await Promise.resolve().then(() => (init_calendar_service(), calendar_service_exports));
+      const expiredClients = await checkExpiredRenewals2();
+      res.json(expiredClients);
+    } catch (error) {
+      console.error("Error fetching expired renewals:", error);
+      res.status(500).json({ message: "Error al obtener renovaciones vencidas" });
+    }
+  });
+  app2.patch("/api/admin/users/:id/deactivate", isAdmin, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { reason, confirmDeactivation } = req.body;
+    if (!confirmDeactivation) {
+      return res.status(400).json({ message: "Se requiere confirmaci\xF3n expl\xEDcita (confirmDeactivation: true)" });
+    }
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    if (user.isAdmin) {
+      return res.status(403).json({ message: "No se puede desactivar a un administrador" });
+    }
+    if (user.accountStatus === "deactivated") {
+      return res.status(400).json({ message: "El usuario ya est\xE1 desactivado" });
+    }
+    const recentOrders = await db.select().from(orders).where((0, import_drizzle_orm11.and)(
+      (0, import_drizzle_orm11.eq)(orders.userId, userId),
+      (0, import_drizzle_orm11.eq)(orders.status, "paid"),
+      import_drizzle_orm11.sql`${orders.paidAt} > NOW() - INTERVAL '30 days'`
+    )).limit(1);
+    if (recentOrders.length > 0) {
+      return res.status(400).json({
+        message: "No se puede desactivar: el usuario tiene un pago reciente en los \xFAltimos 30 d\xEDas"
+      });
+    }
+    const sanitizedReason = reason ? String(reason).slice(0, 500) : "No renov\xF3 mantenimiento";
+    await db.update(users).set({
+      accountStatus: "deactivated",
+      internalNotes: user.internalNotes ? `${user.internalNotes}
+[${(/* @__PURE__ */ new Date()).toISOString()}] Desactivado por admin: ${sanitizedReason}` : `[${(/* @__PURE__ */ new Date()).toISOString()}] Desactivado por admin: ${sanitizedReason}`,
+      updatedAt: /* @__PURE__ */ new Date()
+    }).where((0, import_drizzle_orm11.eq)(users.id, userId));
+    logActivity2("Usuario Desactivado", {
+      "Usuario ID": userId,
+      "ClientID": user.clientId,
+      "Email": user.email,
+      "Estado Anterior": user.accountStatus,
+      "Raz\xF3n": sanitizedReason,
+      "Admin": req.session?.userId
+    });
+    res.json({ success: true, message: "Usuario desactivado correctamente" });
+  }));
+  app2.patch("/api/admin/users/:id/reactivate", isAdmin, asyncHandler(async (req, res) => {
+    const userId = req.params.id;
+    const { reason } = req.body;
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    if (user.accountStatus !== "deactivated") {
+      return res.status(400).json({ message: "El usuario no est\xE1 desactivado" });
+    }
+    const sanitizedReason = reason ? String(reason).slice(0, 500) : "Reactivado por admin";
+    await db.update(users).set({
+      accountStatus: "active",
+      internalNotes: user.internalNotes ? `${user.internalNotes}
+[${(/* @__PURE__ */ new Date()).toISOString()}] Reactivado: ${sanitizedReason}` : `[${(/* @__PURE__ */ new Date()).toISOString()}] Reactivado: ${sanitizedReason}`,
+      updatedAt: /* @__PURE__ */ new Date()
+    }).where((0, import_drizzle_orm11.eq)(users.id, userId));
+    logActivity2("Usuario Reactivado", {
+      "Usuario ID": userId,
+      "Email": user.email,
+      "Raz\xF3n": sanitizedReason
+    });
+    res.json({ success: true, message: "Usuario reactivado correctamente" });
+  }));
   app2.get("/api/admin/discount-codes", isAdmin, async (req, res) => {
     try {
-      const codes = await db.select().from(discountCodes).orderBy((0, import_drizzle_orm10.desc)(discountCodes.createdAt));
+      const codes = await db.select().from(discountCodes).orderBy((0, import_drizzle_orm11.desc)(discountCodes.createdAt));
       res.json(codes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching discount codes" });
@@ -3997,7 +4723,7 @@ async function registerRoutes(httpServer2, app2) {
       if (!code || !discountValue) {
         return res.status(400).json({ message: "C\xF3digo y valor de descuento son requeridos" });
       }
-      const [existing] = await db.select().from(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.code, code.toUpperCase())).limit(1);
+      const [existing] = await db.select().from(discountCodes).where((0, import_drizzle_orm11.eq)(discountCodes.code, code.toUpperCase())).limit(1);
       if (existing) {
         return res.status(400).json({ message: "Este c\xF3digo ya existe" });
       }
@@ -4031,7 +4757,7 @@ async function registerRoutes(httpServer2, app2) {
       if (validFrom) updateData.validFrom = new Date(validFrom);
       if (validUntil !== void 0) updateData.validUntil = validUntil ? new Date(validUntil) : null;
       if (isActive !== void 0) updateData.isActive = isActive;
-      const [updated] = await db.update(discountCodes).set(updateData).where((0, import_drizzle_orm10.eq)(discountCodes.id, id)).returning();
+      const [updated] = await db.update(discountCodes).set(updateData).where((0, import_drizzle_orm11.eq)(discountCodes.id, id)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating discount code" });
@@ -4040,7 +4766,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      await db.delete(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.id, id));
+      await db.delete(discountCodes).where((0, import_drizzle_orm11.eq)(discountCodes.id, id));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error deleting discount code" });
@@ -4052,7 +4778,7 @@ async function registerRoutes(httpServer2, app2) {
       if (!code) {
         return res.status(400).json({ valid: false, message: "C\xF3digo requerido" });
       }
-      const [discountCode] = await db.select().from(discountCodes).where((0, import_drizzle_orm10.eq)(discountCodes.code, code.toUpperCase())).limit(1);
+      const [discountCode] = await db.select().from(discountCodes).where((0, import_drizzle_orm11.eq)(discountCodes.code, code.toUpperCase())).limit(1);
       if (!discountCode) {
         return res.status(404).json({ valid: false, message: "C\xF3digo no encontrado" });
       }
@@ -4114,7 +4840,7 @@ async function registerRoutes(httpServer2, app2) {
           lastName: users.lastName,
           email: users.email
         }
-      }).from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).where((0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice")).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
+      }).from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm11.eq)(orders.userId, users.id)).where((0, import_drizzle_orm11.eq)(applicationDocuments.documentType, "invoice")).orderBy((0, import_drizzle_orm11.desc)(applicationDocuments.uploadedAt));
       res.json(invoices);
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -4123,10 +4849,19 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/newsletter", isAdmin, async (req, res) => {
     try {
-      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm10.desc)(newsletterSubscribers.subscribedAt));
+      const subscribers = await db.select().from(newsletterSubscribers).orderBy((0, import_drizzle_orm11.desc)(newsletterSubscribers.subscribedAt));
       res.json(subscribers);
     } catch (error) {
       res.status(500).json({ message: "Error" });
+    }
+  });
+  app2.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(newsletterSubscribers).where((0, import_drizzle_orm11.eq)(newsletterSubscribers.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar suscriptor" });
     }
   });
   app2.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req, res) => {
@@ -4174,8 +4909,8 @@ async function registerRoutes(httpServer2, app2) {
   app2.delete("/api/admin/messages/:id", isAdmin, async (req, res) => {
     try {
       const msgId = Number(req.params.id);
-      await db.delete(messageReplies).where((0, import_drizzle_orm10.eq)(messageReplies.messageId, msgId));
-      await db.delete(messages).where((0, import_drizzle_orm10.eq)(messages.id, msgId));
+      await db.delete(messageReplies).where((0, import_drizzle_orm11.eq)(messageReplies.messageId, msgId));
+      await db.delete(messages).where((0, import_drizzle_orm11.eq)(messages.id, msgId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al eliminar mensaje" });
@@ -4212,9 +4947,11 @@ async function registerRoutes(httpServer2, app2) {
       let fileTruncated = false;
       let documentType = "other";
       let orderId = "";
+      let targetUserId = "";
       bb.on("field", (name, val) => {
         if (name === "documentType") documentType = val;
         if (name === "orderId") orderId = val;
+        if (name === "userId") targetUserId = val;
       });
       bb.on("file", (name, file, info) => {
         fileName = info.filename || `documento_${Date.now()}`;
@@ -4231,15 +4968,16 @@ async function registerRoutes(httpServer2, app2) {
         if (fileTruncated) {
           return res.status(413).json({ message: `El archivo excede el l\xEDmite de ${MAX_FILE_SIZE_MB}MB` });
         }
-        if (!fileBuffer || !orderId) {
-          return res.status(400).json({ message: "Faltan datos requeridos" });
+        if (!fileBuffer || !orderId && !targetUserId) {
+          return res.status(400).json({ message: "Faltan datos requeridos (orderId o userId)" });
         }
         const fs5 = await import("fs/promises");
-        const path7 = await import("path");
-        const uploadDir = path7.join(process.cwd(), "uploads", "admin-docs");
+        const path6 = await import("path");
+        const uploadDir = path6.join(process.cwd(), "uploads", "admin-docs");
         await fs5.mkdir(uploadDir, { recursive: true });
-        const safeFileName = `admin_${orderId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-        const filePath = path7.join(uploadDir, safeFileName);
+        const identifier = orderId || targetUserId;
+        const safeFileName = `admin_${identifier}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+        const filePath = path6.join(uploadDir, safeFileName);
         await fs5.writeFile(filePath, fileBuffer);
         const ext = fileName.toLowerCase().split(".").pop() || "";
         const mimeTypes = {
@@ -4258,10 +4996,22 @@ async function registerRoutes(httpServer2, app2) {
           "invoice": "Factura",
           "other": "Otro Documento"
         };
-        const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, Number(orderId))).limit(1);
+        let finalUserId = targetUserId;
+        let applicationId = null;
+        let orderCode = "";
+        if (orderId) {
+          const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.orderId, Number(orderId))).limit(1);
+          applicationId = llcApp?.id || null;
+          const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, Number(orderId))).limit(1);
+          if (order?.userId) {
+            finalUserId = order.userId;
+            orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+          }
+        }
         const [doc] = await db.insert(applicationDocuments).values({
-          orderId: Number(orderId),
-          applicationId: llcApp?.id || null,
+          orderId: orderId ? Number(orderId) : null,
+          applicationId,
+          userId: finalUserId || null,
           fileName: docTypeLabels[documentType] || fileName,
           fileType,
           fileUrl: `/uploads/admin-docs/${safeFileName}`,
@@ -4269,25 +5019,23 @@ async function registerRoutes(httpServer2, app2) {
           reviewStatus: "approved",
           uploadedBy: req.session.userId
         }).returning();
-        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, Number(orderId))).limit(1);
-        if (order?.userId) {
-          const orderCode = llcApp?.requestCode || order.invoiceNumber || `#${order.id}`;
+        if (finalUserId) {
           const docLabel = docTypeLabels[documentType] || "Documento";
           await db.insert(userNotifications).values({
-            userId: order.userId,
-            orderId: Number(orderId),
-            orderCode,
+            userId: finalUserId,
+            orderId: orderId ? Number(orderId) : null,
+            orderCode: orderCode || "General",
             title: "Nuevo documento disponible",
             message: `Se ha a\xF1adido el documento "${docLabel}" a tu expediente.`,
             type: "info",
             isRead: false
           });
-          const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, order.userId)).limit(1);
+          const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, finalUserId)).limit(1);
           if (user?.email) {
             sendEmail({
               to: user.email,
-              subject: `Nuevo documento disponible - ${orderCode}`,
-              html: getDocumentUploadedTemplate(user.firstName || "Cliente", docLabel, orderCode)
+              subject: `Nuevo documento disponible${orderCode ? ` - ${orderCode}` : ""}`,
+              html: getDocumentUploadedTemplate(user.firstName || "Cliente", docLabel, orderCode || "tu cuenta")
             }).catch(() => {
             });
           }
@@ -4302,7 +5050,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/admin/documents", isAdmin, async (req, res) => {
     try {
-      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm10.eq)(orders.userId, users.id)).leftJoin(llcApplications, (0, import_drizzle_orm10.eq)(applicationDocuments.applicationId, llcApplications.id)).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
+      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orders.id)).leftJoin(users, (0, import_drizzle_orm11.eq)(orders.userId, users.id)).leftJoin(llcApplications, (0, import_drizzle_orm11.eq)(applicationDocuments.applicationId, llcApplications.id)).orderBy((0, import_drizzle_orm11.desc)(applicationDocuments.uploadedAt));
       res.json(docs.map((d) => ({
         ...d.application_documents,
         order: d.orders,
@@ -4316,8 +5064,14 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.get("/api/user/documents", isAuthenticated, async (req, res) => {
     try {
-      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm10.eq)(orders.userId, req.session.userId)).orderBy((0, import_drizzle_orm10.desc)(applicationDocuments.uploadedAt));
-      res.json(docs.map((d) => d.application_documents));
+      const userId = req.session.userId;
+      const orderDocs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm11.eq)(orders.userId, userId)).orderBy((0, import_drizzle_orm11.desc)(applicationDocuments.uploadedAt));
+      const directDocs = await db.select().from(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.userId, userId)).orderBy((0, import_drizzle_orm11.desc)(applicationDocuments.uploadedAt));
+      const allDocs = [...orderDocs.map((d) => d.application_documents), ...directDocs];
+      const uniqueDocs = allDocs.filter(
+        (doc, index3, self) => index3 === self.findIndex((d) => d.id === doc.id)
+      );
+      res.json(uniqueDocs);
     } catch (error) {
       res.status(500).json({ message: "Error fetching documents" });
     }
@@ -4326,18 +5080,22 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
       if (!user || user.accountStatus === "pending") {
-        return res.status(403).json({ message: "No puedes eliminar documentos mientras tu cuenta est\xE1 en revisi\xF3n" });
+        return res.status(403).json({ message: "Tu cuenta est\xE1 en un estado que no permite esta acci\xF3n. Contacta a nuestro equipo." });
       }
-      const docs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm10.and)(
-        (0, import_drizzle_orm10.eq)(applicationDocuments.id, docId),
-        (0, import_drizzle_orm10.eq)(orders.userId, userId)
+      const orderDocs = await db.select().from(applicationDocuments).leftJoin(orders, (0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orders.id)).where((0, import_drizzle_orm11.and)(
+        (0, import_drizzle_orm11.eq)(applicationDocuments.id, docId),
+        (0, import_drizzle_orm11.eq)(orders.userId, userId)
       ));
-      if (!docs.length) {
+      const directDocs = await db.select().from(applicationDocuments).where((0, import_drizzle_orm11.and)(
+        (0, import_drizzle_orm11.eq)(applicationDocuments.id, docId),
+        (0, import_drizzle_orm11.eq)(applicationDocuments.userId, userId)
+      ));
+      if (!orderDocs.length && !directDocs.length) {
         return res.status(404).json({ message: "Documento no encontrado" });
       }
-      await db.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId));
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.id, docId));
       res.json({ success: true });
     } catch (error) {
       console.error("Error deleting document:", error);
@@ -4373,6 +5131,87 @@ async function registerRoutes(httpServer2, app2) {
       res.status(500).json({ message: "Error al subir documento" });
     }
   });
+  app2.get("/uploads/admin-docs/:filename", isAuthenticated, async (req, res) => {
+    try {
+      const filename = req.params.filename;
+      const fileUrl = `/uploads/admin-docs/${filename}`;
+      if (!req.session.isAdmin) {
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId)).limit(1);
+        if (user && user.accountStatus === "pending") {
+          return res.status(403).json({ message: "Tu cuenta est\xE1 en un estado que no permite esta acci\xF3n. Contacta a nuestro equipo." });
+        }
+      }
+      const [doc] = await db.select().from(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.fileUrl, fileUrl)).limit(1);
+      if (!doc) {
+        return res.status(404).json({ message: "Documento no encontrado" });
+      }
+      let hasAccess = req.session.isAdmin;
+      if (!hasAccess && doc.orderId) {
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, doc.orderId)).limit(1);
+        if (order && order.userId === req.session.userId) {
+          hasAccess = true;
+        }
+      }
+      if (!hasAccess && doc.userId === req.session.userId) {
+        hasAccess = true;
+      }
+      if (!hasAccess) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      const path6 = await import("path");
+      const fs5 = await import("fs");
+      const filePath = path6.join(process.cwd(), "uploads", "admin-docs", filename);
+      if (!fs5.existsSync(filePath)) {
+        return res.status(404).json({ message: "Archivo no encontrado" });
+      }
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving admin doc:", error);
+      res.status(500).json({ message: "Error al servir archivo" });
+    }
+  });
+  app2.get("/uploads/client-docs/:filename", isAuthenticated, async (req, res) => {
+    try {
+      const filename = req.params.filename;
+      const fileUrl = `/uploads/client-docs/${filename}`;
+      if (!req.session.isAdmin) {
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId)).limit(1);
+        if (user && user.accountStatus === "pending") {
+          return res.status(403).json({ message: "Tu cuenta est\xE1 en un estado que no permite esta acci\xF3n. Contacta a nuestro equipo." });
+        }
+      }
+      const [doc] = await db.select().from(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.fileUrl, fileUrl)).limit(1);
+      if (!doc) {
+        return res.status(404).json({ message: "Documento no encontrado" });
+      }
+      let hasAccess = req.session.isAdmin;
+      if (!hasAccess && doc.orderId) {
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, doc.orderId)).limit(1);
+        if (order && order.userId === req.session.userId) {
+          hasAccess = true;
+        }
+      }
+      if (!hasAccess && doc.userId === req.session.userId) {
+        hasAccess = true;
+      }
+      if (!hasAccess) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      const path6 = await import("path");
+      const fs5 = await import("fs");
+      const filePath = path6.join(process.cwd(), "uploads", "client-docs", filename);
+      if (!fs5.existsSync(filePath)) {
+        return res.status(404).json({ message: "Archivo no encontrado" });
+      }
+      res.sendFile(filePath);
+    } catch (error) {
+      console.error("Error serving client doc:", error);
+      res.status(500).json({ message: "Error al servir archivo" });
+    }
+  });
+  app2.get("/uploads/*", (_req, res) => {
+    res.status(403).json({ message: "Acceso denegado" });
+  });
   app2.get("/api/products", async (req, res) => {
     const products3 = await storage.getProducts();
     res.json(products3);
@@ -4381,11 +5220,11 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const { email } = req.body;
       const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, adminEmail)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, adminEmail)).limit(1);
       if (!existingUser) {
         return res.status(404).json({ message: "Usuario no encontrado." });
       }
-      await db.update(users).set({ isAdmin: true, accountStatus: "active" }).where((0, import_drizzle_orm10.eq)(users.email, adminEmail));
+      await db.update(users).set({ isAdmin: true, accountStatus: "active" }).where((0, import_drizzle_orm11.eq)(users.email, adminEmail));
       res.json({ success: true, message: "Rol de administrador asignado correctamente" });
     } catch (error) {
       console.error("Seed admin error:", error);
@@ -4397,15 +5236,15 @@ async function registerRoutes(httpServer2, app2) {
       const userId = req.session.userId;
       const { mode } = req.body;
       if (mode === "hard") {
-        await db.delete(users).where((0, import_drizzle_orm10.eq)(users.id, userId));
+        await db.delete(users).where((0, import_drizzle_orm11.eq)(users.id, userId));
       } else {
-        const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
         await db.update(users).set({
           accountStatus: "deactivated",
           isActive: false,
           email: `deleted_${userId}_${user.email}`,
           updatedAt: /* @__PURE__ */ new Date()
-        }).where((0, import_drizzle_orm10.eq)(users.id, userId));
+        }).where((0, import_drizzle_orm11.eq)(users.id, userId));
       }
       req.session.destroy(() => {
       });
@@ -4434,8 +5273,8 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const userId = req.session.userId;
       const validatedData = updateProfileSchema.parse(req.body);
-      await db.update(users).set(validatedData).where((0, import_drizzle_orm10.eq)(users.id, userId));
-      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+      await db.update(users).set(validatedData).where((0, import_drizzle_orm11.eq)(users.id, userId));
+      const [updatedUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
       res.json(updatedUser);
     } catch (error) {
       if (error instanceof import_zod2.z.ZodError) {
@@ -4451,7 +5290,7 @@ async function registerRoutes(httpServer2, app2) {
       const userOrders = await db.select({
         order: orders,
         application: llcApplications
-      }).from(orders).leftJoin(llcApplications, (0, import_drizzle_orm10.eq)(orders.id, llcApplications.orderId)).where((0, import_drizzle_orm10.eq)(orders.userId, userId));
+      }).from(orders).leftJoin(llcApplications, (0, import_drizzle_orm11.eq)(orders.id, llcApplications.orderId)).where((0, import_drizzle_orm11.eq)(orders.userId, userId));
       const applications = userOrders.filter((o) => o.application).map((o) => o.application);
       const deadlines = getUpcomingDeadlinesForUser(applications);
       res.json(deadlines);
@@ -4467,7 +5306,7 @@ async function registerRoutes(httpServer2, app2) {
         formationDate: import_zod2.z.string(),
         state: import_zod2.z.string().optional()
       }).parse(req.body);
-      const [app3] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.id, applicationId)).limit(1);
+      const [app3] = await db.select().from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.id, applicationId)).limit(1);
       if (!app3) {
         return res.status(404).json({ message: "Aplicaci\xF3n no encontrada" });
       }
@@ -4494,7 +5333,7 @@ async function registerRoutes(httpServer2, app2) {
         message: import_zod2.z.string().min(1, "Mensaje requerido"),
         type: import_zod2.z.enum(["update", "info", "action_required"])
       }).parse(req.body);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
       if (!user) return res.status(404).json({ message: "Usuario no encontrado" });
       const { generateUniqueTicketId: generateUniqueTicketId2 } = await Promise.resolve().then(() => (init_id_generator(), id_generator_exports));
       const ticketId = await generateUniqueTicketId2();
@@ -4527,7 +5366,7 @@ async function registerRoutes(httpServer2, app2) {
         message: import_zod2.z.string(),
         amount: import_zod2.z.string().optional()
       }).parse(req.body);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
       if (!user || !user.email) return res.status(404).json({ message: "Usuario o email no encontrado" });
       await sendEmail({
         to: user.email,
@@ -4565,7 +5404,7 @@ async function registerRoutes(httpServer2, app2) {
         notes: import_zod2.z.string().optional()
       });
       const validatedData = updateSchema.parse(req.body);
-      await db.update(llcApplications).set({ ...validatedData, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId));
+      await db.update(llcApplications).set({ ...validatedData, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm11.eq)(llcApplications.orderId, orderId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al actualizar pedido" });
@@ -4574,7 +5413,7 @@ async function registerRoutes(httpServer2, app2) {
   app2.get("/api/user/notifications", isAuthenticated, async (req, res) => {
     try {
       const userId = req.session.userId;
-      const notifs = await db.select().from(userNotifications).where((0, import_drizzle_orm10.eq)(userNotifications.userId, userId)).orderBy((0, import_drizzle_orm10.desc)(userNotifications.createdAt)).limit(50);
+      const notifs = await db.select().from(userNotifications).where((0, import_drizzle_orm11.eq)(userNotifications.userId, userId)).orderBy((0, import_drizzle_orm11.desc)(userNotifications.createdAt)).limit(50);
       res.json(notifs);
     } catch (error) {
       console.error("Get notifications error:", error);
@@ -4583,7 +5422,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.patch("/api/user/notifications/:id/read", isAuthenticated, async (req, res) => {
     try {
-      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm10.eq)(userNotifications.userId, req.session.userId)));
+      await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm11.and)((0, import_drizzle_orm11.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm11.eq)(userNotifications.userId, req.session.userId)));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error" });
@@ -4591,7 +5430,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.delete("/api/user/notifications/:id", isAuthenticated, async (req, res) => {
     try {
-      await db.delete(userNotifications).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm10.eq)(userNotifications.userId, req.session.userId)));
+      await db.delete(userNotifications).where((0, import_drizzle_orm11.and)((0, import_drizzle_orm11.eq)(userNotifications.id, req.params.id), (0, import_drizzle_orm11.eq)(userNotifications.userId, req.session.userId)));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al eliminar notificaci\xF3n" });
@@ -4599,7 +5438,7 @@ async function registerRoutes(httpServer2, app2) {
   });
   app2.post("/api/user/request-password-otp", isAuthenticated, async (req, res) => {
     try {
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId));
       if (!user?.email) {
         return res.status(400).json({ message: "Usuario no encontrado" });
       }
@@ -4630,27 +5469,27 @@ async function registerRoutes(httpServer2, app2) {
         newPassword: import_zod2.z.string().min(8),
         otp: import_zod2.z.string().length(6)
       }).parse(req.body);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId));
       if (!user?.email || !user?.passwordHash) {
         return res.status(400).json({ message: "No se puede cambiar la contrase\xF1a" });
       }
-      const [otpRecord] = await db.select().from(contactOtps).where((0, import_drizzle_orm10.and)(
-        (0, import_drizzle_orm10.eq)(contactOtps.email, user.email),
-        (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
-        (0, import_drizzle_orm10.eq)(contactOtps.otpType, "password_change"),
-        (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+      const [otpRecord] = await db.select().from(contactOtps).where((0, import_drizzle_orm11.and)(
+        (0, import_drizzle_orm11.eq)(contactOtps.email, user.email),
+        (0, import_drizzle_orm11.eq)(contactOtps.otp, otp),
+        (0, import_drizzle_orm11.eq)(contactOtps.otpType, "password_change"),
+        (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
       ));
       if (!otpRecord) {
         return res.status(400).json({ message: "C\xF3digo de verificaci\xF3n inv\xE1lido o expirado" });
       }
-      await db.delete(contactOtps).where((0, import_drizzle_orm10.eq)(contactOtps.id, otpRecord.id));
+      await db.delete(contactOtps).where((0, import_drizzle_orm11.eq)(contactOtps.id, otpRecord.id));
       const { verifyPassword: verifyPassword2, hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_auth_service(), auth_service_exports));
       const isValid = await verifyPassword2(currentPassword, user.passwordHash);
       if (!isValid) {
         return res.status(400).json({ message: "Contrase\xF1a actual incorrecta" });
       }
       const newHash = await hashPassword2(newPassword);
-      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId));
+      await db.update(users).set({ passwordHash: newHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId));
       res.json({ success: true });
     } catch (error) {
       if (error instanceof import_zod2.z.ZodError) {
@@ -4722,8 +5561,8 @@ async function registerRoutes(httpServer2, app2) {
       if (!order || order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "No autorizado" });
       }
-      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
+      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const pdfBuffer = await generateOrderInvoice({
         order: {
           id: order.id,
@@ -4762,18 +5601,18 @@ async function registerRoutes(httpServer2, app2) {
   app2.post("/api/admin/orders/:id/generate-invoice", isAdmin, async (req, res) => {
     try {
       const orderId = Number(req.params.id);
-      const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).limit(1);
+      const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, orderId)).limit(1);
       if (!order) {
         return res.status(404).json({ message: "Pedido no encontrado" });
       }
       const updateData = { isInvoiceGenerated: true };
       if (req.body.amount) updateData.amount = req.body.amount;
       if (req.body.currency) updateData.currency = req.body.currency;
-      const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm10.eq)(orders.id, orderId)).returning();
-      const [llcAppInv] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
-      const [maintAppInv] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
+      const [updatedOrder] = await db.update(orders).set(updateData).where((0, import_drizzle_orm11.eq)(orders.id, orderId)).returning();
+      const [llcAppInv] = await db.select().from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintAppInv] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const displayInvoiceNumber = llcAppInv?.requestCode || maintAppInv?.requestCode || order.invoiceNumber;
-      const existingDoc = await db.select().from(applicationDocuments).where((0, import_drizzle_orm10.and)((0, import_drizzle_orm10.eq)(applicationDocuments.orderId, orderId), (0, import_drizzle_orm10.eq)(applicationDocuments.documentType, "invoice"))).limit(1);
+      const existingDoc = await db.select().from(applicationDocuments).where((0, import_drizzle_orm11.and)((0, import_drizzle_orm11.eq)(applicationDocuments.orderId, orderId), (0, import_drizzle_orm11.eq)(applicationDocuments.documentType, "invoice"))).limit(1);
       if (existingDoc.length === 0) {
         await db.insert(applicationDocuments).values({
           orderId,
@@ -4799,7 +5638,7 @@ async function registerRoutes(httpServer2, app2) {
       currency: import_zod2.z.enum(["EUR", "USD"]).default("EUR")
     }).parse(req.body);
     const currencySymbol = currency === "USD" ? "$" : "\u20AC";
-    const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+    const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -4883,7 +5722,7 @@ async function registerRoutes(httpServer2, app2) {
   </div>
 </body>
 </html>`;
-    const [userOrder] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.userId, userId)).limit(1);
+    const [userOrder] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.userId, userId)).limit(1);
     if (!userOrder) {
       return res.status(400).json({ message: "El usuario no tiene pedidos. Primero crea un pedido para poder generar facturas." });
     }
@@ -4901,11 +5740,20 @@ async function registerRoutes(httpServer2, app2) {
   app2.post(api.orders.create.path, async (req, res) => {
     try {
       const { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      const clientIp = getClientIp(req);
+      const ipCheck = isIpBlockedFromOrders(clientIp);
+      if (ipCheck.blocked) {
+        logAudit({ action: "ip_order_blocked", details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
+        return res.status(429).json({
+          message: "Se ha alcanzado el l\xEDmite de solicitudes desde esta conexi\xF3n. Por favor, intenta m\xE1s tarde o contacta con soporte.",
+          code: "IP_ORDER_LIMIT"
+        });
+      }
       const parsedInput = api.orders.create.input.parse({ productId });
       let userId;
       let isNewUser = false;
       if (req.session?.userId) {
-        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === "pending" || currentUser.accountStatus === "deactivated")) {
           return res.status(403).json({ message: "Tu cuenta est\xE1 en revisi\xF3n o desactivada. No puedes realizar nuevos pedidos en este momento." });
         }
@@ -4917,19 +5765,19 @@ async function registerRoutes(httpServer2, app2) {
         if (password.length < 8) {
           return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
         }
-        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
         if (existingUser) {
           return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
         }
         const [otpRecord] = await db.select().from(contactOtps).where(
-          (0, import_drizzle_orm10.and)(
-            (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-            (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
-            (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
-            (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+          (0, import_drizzle_orm11.and)(
+            (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+            (0, import_drizzle_orm11.eq)(contactOtps.otpType, "account_verification"),
+            (0, import_drizzle_orm11.eq)(contactOtps.verified, true),
+            (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
             // Allow 30 min window after verification
           )
-        ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
+        ).orderBy(import_drizzle_orm11.sql`${contactOtps.expiresAt} DESC`).limit(1);
         if (!otpRecord) {
           return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
         }
@@ -4962,7 +5810,7 @@ async function registerRoutes(httpServer2, app2) {
       let finalPrice = product.price;
       if (product.name.includes("New Mexico")) finalPrice = 73900;
       else if (product.name.includes("Wyoming")) finalPrice = 89900;
-      else if (product.name.includes("Delaware")) finalPrice = 119900;
+      else if (product.name.includes("Delaware")) finalPrice = 139900;
       let originalAmount = finalPrice;
       let appliedDiscountAmount = 0;
       let appliedDiscountCode = null;
@@ -4970,7 +5818,7 @@ async function registerRoutes(httpServer2, app2) {
         appliedDiscountCode = discountCode;
         appliedDiscountAmount = discountAmount;
         finalPrice = Math.max(0, finalPrice - discountAmount);
-        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode.toUpperCase()));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm11.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm11.eq)(discountCodes.code, discountCode.toUpperCase()));
       }
       const order = await storage.createOrder({
         userId,
@@ -5009,6 +5857,7 @@ async function registerRoutes(httpServer2, app2) {
       const appState = product.name.split(" ")[0] || "New Mexico";
       const requestCode = await generateUniqueOrderCode2(appState);
       const updatedApplication = await storage.updateLlcApplication(application.id, { requestCode });
+      trackOrderByIp(clientIp);
       logActivity2("Nuevo Pedido Recibido", {
         "Referencia": requestCode,
         "Producto": product.name,
@@ -5038,9 +5887,15 @@ async function registerRoutes(httpServer2, app2) {
       const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = req.body;
       const userId = req.session?.userId || null;
       if (userId) {
-        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
         if (currentUser?.accountStatus === "deactivated") {
-          return res.status(403).json({ message: "Tu cuenta est\xE1 suspendida. No puedes enviar mensajes." });
+          return res.status(403).json({ message: "Tu cuenta est\xE1 desactivada. No puedes enviar mensajes." });
+        }
+        if (currentUser?.accountStatus === "pending") {
+          return res.status(403).json({
+            message: "Tu cuenta est\xE1 en revisi\xF3n. Nuestro equipo est\xE1 realizando comprobaciones de seguridad.",
+            code: "ACCOUNT_UNDER_REVIEW"
+          });
         }
       }
       const message = await storage.createMessage({
@@ -5084,18 +5939,24 @@ async function registerRoutes(httpServer2, app2) {
       if (password.length < 8) {
         return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
       }
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       if (existingUser) {
+        if (existingUser.isActive === false || existingUser.accountStatus === "deactivated") {
+          return res.status(403).json({
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para m\xE1s informaci\xF3n.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
       const [otpRecord] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
-          (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
-          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm11.eq)(contactOtps.verified, true),
+          (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
         )
-      ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
+      ).orderBy(import_drizzle_orm11.sql`${contactOtps.expiresAt} DESC`).limit(1);
       if (!otpRecord) {
         return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
       }
@@ -5129,9 +5990,9 @@ async function registerRoutes(httpServer2, app2) {
       if (discountCode && discountAmount) {
         orderUpdate.discountCode = discountCode;
         orderUpdate.discountAmount = discountAmount;
-        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm11.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm11.eq)(discountCodes.code, discountCode));
       }
-      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm10.eq)(orders.id, application.orderId));
+      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm11.eq)(orders.id, application.orderId));
       if (paymentMethod) {
         await storage.updateLlcApplication(applicationId, { paymentMethod });
       }
@@ -5156,22 +6017,28 @@ async function registerRoutes(httpServer2, app2) {
       if (password.length < 8) {
         return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
       }
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       if (existingUser) {
+        if (existingUser.isActive === false || existingUser.accountStatus === "deactivated") {
+          return res.status(403).json({
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para m\xE1s informaci\xF3n.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
       const [otpRecord] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
-          (0, import_drizzle_orm10.eq)(contactOtps.verified, true),
-          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm11.eq)(contactOtps.verified, true),
+          (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1e3))
         )
-      ).orderBy(import_drizzle_orm10.sql`${contactOtps.expiresAt} DESC`).limit(1);
+      ).orderBy(import_drizzle_orm11.sql`${contactOtps.expiresAt} DESC`).limit(1);
       if (!otpRecord) {
         return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
       }
-      const [application] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, applicationId)).limit(1);
+      const [application] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.id, applicationId)).limit(1);
       if (!application) {
         return res.status(404).json({ message: "Solicitud no encontrada." });
       }
@@ -5192,11 +6059,11 @@ async function registerRoutes(httpServer2, app2) {
       if (discountCode && discountAmount) {
         orderUpdate.discountCode = discountCode;
         orderUpdate.discountAmount = discountAmount;
-        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm11.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm11.eq)(discountCodes.code, discountCode));
       }
-      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm10.eq)(orders.id, application.orderId));
+      await db.update(orders).set(orderUpdate).where((0, import_drizzle_orm11.eq)(orders.id, application.orderId));
       if (paymentMethod) {
-        await db.update(maintenanceApplications).set({ paymentMethod }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, applicationId));
+        await db.update(maintenanceApplications).set({ paymentMethod }).where((0, import_drizzle_orm11.eq)(maintenanceApplications.id, applicationId));
       }
       req.session.userId = newUser.id;
       sendEmail({
@@ -5214,7 +6081,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updated] = await db.update(llcApplications).set({ ...updates, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(llcApplications.id, appId)).returning();
+      const [updated] = await db.update(llcApplications).set({ ...updates, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm11.eq)(llcApplications.id, appId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating application" });
@@ -5239,7 +6106,7 @@ async function registerRoutes(httpServer2, app2) {
       const updatedApp = await storage.updateLlcApplication(appId, updates);
       if (updates.status === "submitted" && updatedApp.ownerEmail) {
         const orderIdentifier = updatedApp.requestCode || `#${updatedApp.id}`;
-        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, updatedApp.orderId)).limit(1);
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : "N/A";
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const paymentMethodLabel = updatedApp.paymentMethod === "transfer" ? "Transferencia Bancaria" : updatedApp.paymentMethod === "link" ? "Link de Pago" : "No especificado";
@@ -5323,7 +6190,7 @@ async function registerRoutes(httpServer2, app2) {
     try {
       const docId = Number(req.params.id);
       const { reviewStatus } = import_zod2.z.object({ reviewStatus: import_zod2.z.enum(["pending", "approved", "rejected", "action_required"]) }).parse(req.body);
-      const [updated] = await db.update(applicationDocuments).set({ reviewStatus }).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId)).returning();
+      const [updated] = await db.update(applicationDocuments).set({ reviewStatus }).where((0, import_drizzle_orm11.eq)(applicationDocuments.id, docId)).returning();
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error updating document review status" });
@@ -5338,10 +6205,10 @@ async function registerRoutes(httpServer2, app2) {
         return res.status(401).json({ message: "No autorizado" });
       }
       const userOrders = await storage.getOrders(userId);
-      const pendingRequests = await db.select().from(userNotifications).where((0, import_drizzle_orm10.and)(
-        (0, import_drizzle_orm10.eq)(userNotifications.userId, userId),
-        (0, import_drizzle_orm10.eq)(userNotifications.type, "action_required"),
-        (0, import_drizzle_orm10.eq)(userNotifications.isRead, false)
+      const pendingRequests = await db.select().from(userNotifications).where((0, import_drizzle_orm11.and)(
+        (0, import_drizzle_orm11.eq)(userNotifications.userId, userId),
+        (0, import_drizzle_orm11.eq)(userNotifications.type, "action_required"),
+        (0, import_drizzle_orm11.eq)(userNotifications.isRead, false)
       ));
       const hasOrdersOrRequests = userOrders.length > 0 || pendingRequests.length > 0;
       const busboy = (await import("busboy")).default;
@@ -5377,11 +6244,11 @@ async function registerRoutes(httpServer2, app2) {
           return res.status(400).json({ message: "No se recibi\xF3 ning\xFAn archivo" });
         }
         const fs5 = await import("fs/promises");
-        const path7 = await import("path");
-        const uploadDir = path7.join(process.cwd(), "uploads", "client-docs");
+        const path6 = await import("path");
+        const uploadDir = path6.join(process.cwd(), "uploads", "client-docs");
         await fs5.mkdir(uploadDir, { recursive: true });
         const safeFileName = `${userId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-        const filePath = path7.join(uploadDir, safeFileName);
+        const filePath = path6.join(uploadDir, safeFileName);
         await fs5.writeFile(filePath, fileBuffer);
         const { generateUniqueMessageId: generateUniqueMessageId2 } = await Promise.resolve().then(() => (init_id_generator(), id_generator_exports));
         const ticketId = await generateUniqueMessageId2();
@@ -5415,7 +6282,7 @@ async function registerRoutes(httpServer2, app2) {
           reviewStatus: "pending",
           uploadedBy: userId
         }).returning();
-        const userData = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, userId)).limit(1);
+        const userData = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, userId)).limit(1);
         const user = userData[0];
         if (user) {
           const { encrypt: encrypt2 } = await Promise.resolve().then(() => (init_encryption(), encryption_exports));
@@ -5441,9 +6308,9 @@ Archivo disponible en: ${doc[0].fileUrl}`;
           });
         }
         if (pendingRequests.length > 0) {
-          await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm10.and)(
-            (0, import_drizzle_orm10.eq)(userNotifications.userId, userId),
-            (0, import_drizzle_orm10.eq)(userNotifications.type, "action_required")
+          await db.update(userNotifications).set({ isRead: true }).where((0, import_drizzle_orm11.and)(
+            (0, import_drizzle_orm11.eq)(userNotifications.userId, userId),
+            (0, import_drizzle_orm11.eq)(userNotifications.type, "action_required")
           ));
         }
         res.json({ success: true, document: doc[0], ticketId });
@@ -5457,7 +6324,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.delete("/api/admin/documents/:id", isAdmin, async (req, res) => {
     try {
       const docId = Number(req.params.id);
-      await db.delete(applicationDocuments).where((0, import_drizzle_orm10.eq)(applicationDocuments.id, docId));
+      await db.delete(applicationDocuments).where((0, import_drizzle_orm11.eq)(applicationDocuments.id, docId));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error deleting document" });
@@ -5483,12 +6350,29 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.post("/api/maintenance/orders", async (req, res) => {
     try {
       const { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      const clientIp = getClientIp(req);
+      const ipCheck = isIpBlockedFromOrders(clientIp);
+      if (ipCheck.blocked) {
+        logAudit({ action: "ip_order_blocked", details: { ip: clientIp, ordersCount: ipCheck.ordersCount } });
+        return res.status(429).json({
+          message: "Se ha alcanzado el l\xEDmite de solicitudes desde esta conexi\xF3n. Por favor, intenta m\xE1s tarde o contacta con soporte.",
+          code: "IP_ORDER_LIMIT"
+        });
+      }
       let userId;
       let isNewUser = false;
       if (req.session?.userId) {
-        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, req.session.userId)).limit(1);
+        const [currentUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, req.session.userId)).limit(1);
         if (currentUser && (currentUser.accountStatus === "pending" || currentUser.accountStatus === "deactivated")) {
           return res.status(403).json({ message: "Tu cuenta est\xE1 en revisi\xF3n o desactivada. No puedes realizar nuevos pedidos en este momento." });
+        }
+        const suspiciousCheck = await detectSuspiciousOrderActivity(req.session.userId);
+        if (suspiciousCheck.suspicious) {
+          await flagAccountForReview(req.session.userId, suspiciousCheck.reason || "Suspicious order activity");
+          return res.status(403).json({
+            message: "Tu cuenta ha sido puesta en revisi\xF3n debido a actividad inusual. Nuestro equipo la revisar\xE1 pronto.",
+            code: "ACCOUNT_UNDER_REVIEW"
+          });
         }
         userId = req.session.userId;
       } else {
@@ -5498,7 +6382,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         if (password.length < 8) {
           return res.status(400).json({ message: "La contrase\xF1a debe tener al menos 8 caracteres." });
         }
-        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+        const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
         if (existingUser) {
           return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
         }
@@ -5529,7 +6413,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       let finalPrice = product.price;
       if (state?.includes("New Mexico")) finalPrice = 53900;
       else if (state?.includes("Wyoming")) finalPrice = 69900;
-      else if (state?.includes("Delaware")) finalPrice = 89900;
+      else if (state?.includes("Delaware")) finalPrice = 99900;
       let originalAmount = finalPrice;
       let appliedDiscountAmount = 0;
       let appliedDiscountCode = null;
@@ -5537,7 +6421,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         appliedDiscountCode = discountCode;
         appliedDiscountAmount = discountAmount;
         finalPrice = Math.max(0, finalPrice - discountAmount);
-        await db.update(discountCodes).set({ usedCount: import_drizzle_orm10.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm10.eq)(discountCodes.code, discountCode.toUpperCase()));
+        await db.update(discountCodes).set({ usedCount: import_drizzle_orm11.sql`${discountCodes.usedCount} + 1` }).where((0, import_drizzle_orm11.eq)(discountCodes.code, discountCode.toUpperCase()));
       }
       const order = await storage.createOrder({
         userId,
@@ -5557,7 +6441,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       const { generateUniqueOrderCode: generateUniqueOrderCode2 } = await Promise.resolve().then(() => (init_id_generator(), id_generator_exports));
       const appState = state || product.name.split(" ")[0] || "New Mexico";
       const requestCode = await generateUniqueOrderCode2(appState);
-      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, application.id));
+      await db.update(maintenanceApplications).set({ requestCode }).where((0, import_drizzle_orm11.eq)(maintenanceApplications.id, application.id));
       if (userId && !userId.startsWith("guest_")) {
         await db.insert(userNotifications).values({
           userId,
@@ -5569,6 +6453,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
           isRead: false
         });
       }
+      trackOrderByIp(clientIp);
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {
       console.error("Error creating maintenance order:", err);
@@ -5579,13 +6464,13 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
-      const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(maintenanceApplications.id, appId)).returning();
+      const [updatedApp] = await db.update(maintenanceApplications).set({ ...updates, lastUpdated: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm11.eq)(maintenanceApplications.id, appId)).returning();
       if (!updatedApp) {
         return res.status(404).json({ message: "Solicitud no encontrada" });
       }
       if (updates.status === "submitted") {
         const orderIdentifier = updatedApp.requestCode || `MN-${updatedApp.id}`;
-        const [order] = await db.select().from(orders).where((0, import_drizzle_orm10.eq)(orders.id, updatedApp.orderId)).limit(1);
+        const [order] = await db.select().from(orders).where((0, import_drizzle_orm11.eq)(orders.id, updatedApp.orderId)).limit(1);
         const orderAmount = order ? (order.amount / 100).toFixed(2) : "N/A";
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
         const maintPaymentMethodLabel = updatedApp.paymentMethod === "transfer" ? "Transferencia Bancaria" : updatedApp.paymentMethod === "link" ? "Link de Pago" : "No especificado";
@@ -5632,7 +6517,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     res.json({ isSubscribed });
   });
   app2.post("/api/newsletter/unsubscribe", isAuthenticated, async (req, res) => {
-    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm10.eq)(newsletterSubscribers.email, req.session.email));
+    await db.delete(newsletterSubscribers).where((0, import_drizzle_orm11.eq)(newsletterSubscribers.email, req.session.email));
     res.json({ success: true });
   });
   app2.post("/api/newsletter/subscribe", async (req, res) => {
@@ -5647,7 +6532,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         return res.json({ success: true, message: "Ya est\xE1s suscrito" });
       }
       await storage.subscribeToNewsletter(targetEmail);
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, targetEmail)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, targetEmail)).limit(1);
       if (user) {
         await db.insert(userNotifications).values({
           userId: user.id,
@@ -5686,8 +6571,8 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "Acceso denegado" });
       }
-      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm10.eq)(llcApplications.orderId, orderId)).limit(1);
-      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm10.eq)(maintenanceApplications.orderId, orderId)).limit(1);
+      const [llcApp] = await db.select().from(llcApplications).where((0, import_drizzle_orm11.eq)(llcApplications.orderId, orderId)).limit(1);
+      const [maintApp] = await db.select().from(maintenanceApplications).where((0, import_drizzle_orm11.eq)(maintenanceApplications.orderId, orderId)).limit(1);
       const requestCode = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || "";
       const pdfBuffer = await generateOrderReceipt({
         order: {
@@ -5726,7 +6611,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       if (order.userId !== req.session.userId && !req.session.isAdmin) {
         return res.status(403).json({ message: "Acceso denegado" });
       }
-      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm10.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm10.desc)(orderEvents.createdAt));
+      const events = await db.select().from(orderEvents).where((0, import_drizzle_orm11.eq)(orderEvents.orderId, orderId)).orderBy((0, import_drizzle_orm11.desc)(orderEvents.createdAt));
       res.json(events);
     } catch (error) {
       console.error("Error fetching order events:", error);
@@ -5745,7 +6630,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
       }).returning();
       const order = await storage.getOrder(orderId);
       if (order) {
-        const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.id, order.userId)).limit(1);
+        const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.id, order.userId)).limit(1);
         if (user?.email) {
           sendEmail({
             to: user.email,
@@ -5764,7 +6649,14 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.get("/api/messages/:id/replies", isAuthenticated, async (req, res) => {
     try {
       const messageId = Number(req.params.id);
-      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm10.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
+      const [message] = await db.select().from(messages).where((0, import_drizzle_orm11.eq)(messages.id, messageId)).limit(1);
+      if (!message) {
+        return res.status(404).json({ message: "Mensaje no encontrado" });
+      }
+      if (message.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      const replies = await db.select().from(messageReplies).where((0, import_drizzle_orm11.eq)(messageReplies.messageId, messageId)).orderBy(messageReplies.createdAt);
       res.json(replies);
     } catch (error) {
       console.error("Error fetching message replies:", error);
@@ -5775,6 +6667,13 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     try {
       const messageId = Number(req.params.id);
       const { content } = req.body;
+      const [existingMessage] = await db.select().from(messages).where((0, import_drizzle_orm11.eq)(messages.id, messageId)).limit(1);
+      if (!existingMessage) {
+        return res.status(404).json({ message: "Mensaje no encontrado" });
+      }
+      if (existingMessage.userId !== req.session.userId && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
       if (!content || typeof content !== "string" || !content.trim()) {
         return res.status(400).json({ message: "El contenido de la respuesta es requerido" });
       }
@@ -5784,7 +6683,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         isAdmin: req.session.isAdmin || false,
         createdBy: req.session.userId
       }).returning();
-      const [message] = await db.select().from(messages).where((0, import_drizzle_orm10.eq)(messages.id, messageId)).limit(1);
+      const [message] = await db.select().from(messages).where((0, import_drizzle_orm11.eq)(messages.id, messageId)).limit(1);
       if (message?.email && req.session.isAdmin) {
         const ticketId = message.messageId || String(messageId);
         sendEmail({
@@ -6113,16 +7012,16 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     try {
       const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
-          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
-      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm11.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying contact OTP:", err);
@@ -6148,10 +7047,10 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         telefono: contactData.telefono ? sanitizeHtml(contactData.telefono) : void 0
       };
       const [otpRecord] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, contactData.email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otp, contactData.otp),
-          (0, import_drizzle_orm10.eq)(contactOtps.verified, true)
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, contactData.email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otp, contactData.otp),
+          (0, import_drizzle_orm11.eq)(contactOtps.verified, true)
         )
       ).limit(1);
       if (!otpRecord) {
@@ -6184,7 +7083,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
   app2.post("/api/auth/check-email", async (req, res) => {
     try {
       const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       res.json({
         exists: !!existingUser,
         firstName: existingUser?.firstName || null
@@ -6203,8 +7102,14 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         });
       }
       const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       if (existingUser) {
+        if (existingUser.isActive === false || existingUser.accountStatus === "deactivated") {
+          return res.status(403).json({
+            message: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para m\xE1s informaci\xF3n.",
+            code: "ACCOUNT_DEACTIVATED"
+          });
+        }
         return res.status(400).json({ message: "Este email ya est\xE1 registrado. Por favor inicia sesi\xF3n." });
       }
       const otp = Math.floor(1e5 + Math.random() * 9e5).toString();
@@ -6231,17 +7136,17 @@ Archivo disponible en: ${doc[0].fileUrl}`;
     try {
       const { email, otp } = import_zod2.z.object({ email: import_zod2.z.string().email(), otp: import_zod2.z.string() }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
-          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "account_verification"),
-          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm11.eq)(contactOtps.otpType, "account_verification"),
+          (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date())
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
-      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm11.eq)(contactOtps.id, record.id));
       res.json({ success: true });
     } catch (err) {
       console.error("Error verifying registration OTP:", err);
@@ -6258,7 +7163,7 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         });
       }
       const { email } = import_zod2.z.object({ email: import_zod2.z.string().email() }).parse(req.body);
-      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [existingUser] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       if (!existingUser) {
         return res.json({ success: true });
       }
@@ -6290,25 +7195,25 @@ Archivo disponible en: ${doc[0].fileUrl}`;
         newPassword: import_zod2.z.string().min(8, "La contrase\xF1a debe tener al menos 8 caracteres")
       }).parse(req.body);
       const [record] = await db.select().from(contactOtps).where(
-        (0, import_drizzle_orm10.and)(
-          (0, import_drizzle_orm10.eq)(contactOtps.email, email),
-          (0, import_drizzle_orm10.eq)(contactOtps.otp, otp),
-          (0, import_drizzle_orm10.eq)(contactOtps.otpType, "password_reset"),
-          (0, import_drizzle_orm10.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date()),
-          (0, import_drizzle_orm10.eq)(contactOtps.verified, false)
+        (0, import_drizzle_orm11.and)(
+          (0, import_drizzle_orm11.eq)(contactOtps.email, email),
+          (0, import_drizzle_orm11.eq)(contactOtps.otp, otp),
+          (0, import_drizzle_orm11.eq)(contactOtps.otpType, "password_reset"),
+          (0, import_drizzle_orm11.gt)(contactOtps.expiresAt, /* @__PURE__ */ new Date()),
+          (0, import_drizzle_orm11.eq)(contactOtps.verified, false)
         )
       ).limit(1);
       if (!record) {
         return res.status(400).json({ message: "El c\xF3digo ha expirado o no es correcto. Por favor, solicita uno nuevo." });
       }
-      const [user] = await db.select().from(users).where((0, import_drizzle_orm10.eq)(users.email, email)).limit(1);
+      const [user] = await db.select().from(users).where((0, import_drizzle_orm11.eq)(users.email, email)).limit(1);
       if (!user) {
         return res.status(400).json({ message: "Usuario no encontrado" });
       }
       const { hashPassword: hashPassword2 } = await Promise.resolve().then(() => (init_auth_service(), auth_service_exports));
       const passwordHash = await hashPassword2(newPassword);
-      await db.update(users).set({ passwordHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm10.eq)(users.id, user.id));
-      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm10.eq)(contactOtps.id, record.id));
+      await db.update(users).set({ passwordHash, updatedAt: /* @__PURE__ */ new Date() }).where((0, import_drizzle_orm11.eq)(users.id, user.id));
+      await db.update(contactOtps).set({ verified: true }).where((0, import_drizzle_orm11.eq)(contactOtps.id, record.id));
       res.json({ success: true, message: "Contrase\xF1a actualizada correctamente" });
     } catch (err) {
       console.error("Error resetting password:", err);
@@ -6358,7 +7263,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Delaware LLC",
       description: "El est\xE1ndar para startups y empresas tecnol\xF3gicas. Reconocimiento legal global.",
-      price: 119900,
+      price: 139900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -6415,7 +7320,6 @@ function serveStatic(app2) {
 // server/index.ts
 var import_http = require("http");
 var import_compression = __toESM(require("compression"), 1);
-var import_path6 = __toESM(require("path"), 1);
 
 // server/lib/sentry.ts
 var Sentry = __toESM(require("@sentry/node"), 1);
@@ -6497,7 +7401,6 @@ function scheduleBackups() {
 // server/index.ts
 initServerSentry();
 var app = (0, import_express3.default)();
-app.use("/uploads", import_express3.default.static(import_path6.default.join(process.cwd(), "uploads")));
 var httpServer = (0, import_http.createServer)(app);
 app.use((0, import_compression.default)());
 function log(message, source = "express") {
