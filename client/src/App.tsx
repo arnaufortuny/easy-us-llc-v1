@@ -24,6 +24,7 @@ const Register = lazy(() => import("@/pages/auth/register.tsx"));
 const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password.tsx"));
 const Sales = lazy(() => import("@/pages/funnel"));
 const InvoiceGenerator = lazy(() => import("@/pages/invoice-generator"));
+const LinktreePage = lazy(() => import("@/pages/linktree"));
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -62,6 +63,7 @@ function Router() {
         <Route path="/legal/reembolsos" component={Reembolsos} />
         <Route path="/legal/cookies" component={Cookies} />
         <Route path="/tools/invoice" component={InvoiceGenerator} />
+        <Route path="/links" component={LinktreePage} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
@@ -69,6 +71,23 @@ function Router() {
 }
 
 function App() {
+  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
+
+  if (isLinktreeDomain) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Suspense fallback={
+          <div className="min-h-screen bg-[#0E1215] flex items-center justify-center">
+            <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          </div>
+        }>
+          <LinktreePage />
+        </Suspense>
+      </QueryClientProvider>
+    );
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="light" storageKey="easyusllc-theme">
