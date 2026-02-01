@@ -42,10 +42,11 @@ const DialogContent = React.forwardRef<
         ref={ref}
         onOpenAutoFocus={(e) => e.preventDefault()}
         onPointerDownOutside={(e) => {
-          // Prevent closing on touch scroll
-          if (e.detail.originalEvent.type === 'touchend') {
+          // Prevent closing on touch scroll (with safe access)
+          const originalEvent = e.detail?.originalEvent;
+          if (originalEvent?.type === 'touchend') {
             const target = e.target as HTMLElement;
-            if (target.closest('[data-radix-dialog-content]')) {
+            if (target?.closest?.('[data-radix-dialog-content]')) {
               e.preventDefault();
             }
           }
