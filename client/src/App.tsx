@@ -52,8 +52,10 @@ function LoadingScreen() {
 }
 
 function Router() {
+  const [location] = useLocation();
+  
   return (
-    <Suspense fallback={<LoadingScreen />}>
+    <Suspense key={location} fallback={<LoadingScreen />}>
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/servicios" component={Servicios} />
