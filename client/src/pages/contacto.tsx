@@ -328,11 +328,10 @@ export default function Contacto() {
                     {!isAuthenticated && (
                       <div className="pt-4">
                         <SocialLogin mode="login" />
-                        <p className="text-center text-sm text-muted-foreground mt-3">
-                          {t("contact.loginFaster")}{" "}
+                        <p className="text-center text-sm mt-3">
                           <Link href="/auth/login">
                             <span className="text-accent font-bold hover:underline cursor-pointer">
-                              {t("auth.login.submit")}
+                              o inicia sesión con email para ir más rápido
                             </span>
                           </Link>
                         </p>
