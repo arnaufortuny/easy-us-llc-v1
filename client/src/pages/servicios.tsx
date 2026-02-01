@@ -171,7 +171,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-6 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-14 sm:h-11 shadow-accent/20"
                 >
                   {t("services.formation.choose")} New Mexico
                 </Button>
@@ -215,7 +215,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-6 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-14 sm:h-11 shadow-accent/20"
                 >
                   {t("services.formation.choose")} Wyoming
                 </Button>
@@ -259,7 +259,7 @@ export default function Servicios() {
               <div className="p-5 sm:p-6 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-6 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-14 sm:h-11 shadow-accent/20"
                 >
                   {t("services.formation.choose")} Delaware
                 </Button>
@@ -357,14 +357,14 @@ export default function Servicios() {
                     ))}
                   </div>
                 </div>
-                <div className="p-5 sm:p-6 pt-0 mt-auto">
-                  <Button 
-                    onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-black text-sm rounded-full py-4 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-11 sm:h-11 shadow-accent/20"
-                  >
-                    {t("services.maintenancePack.choosePack")} {item.state}
-                  </Button>
-                </div>
+              <div className="p-5 sm:p-6 pt-0 mt-auto">
+                <Button 
+                  onClick={() => handleSelectMaintenance(item.state)}
+                  className="w-full bg-accent text-primary font-black text-sm rounded-full py-6 sm:py-4 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-14 sm:h-11 shadow-accent/20"
+                >
+                  {t("services.maintenancePack.choosePack")} {item.state}
+                </Button>
+              </div>
               </div>
             ))}
           </div>
