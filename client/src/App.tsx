@@ -57,7 +57,7 @@ function Router() {
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/register" component={Register} />
         <Route path="/auth/forgot-password" component={ForgotPassword} />
-        <Route path="/sales" component={Sales} />
+        <Route path="/tu-llc" component={Sales} />
         <Route path="/legal/terminos" component={Legal} />
         <Route path="/legal/privacidad" component={Privacidad} />
         <Route path="/legal/reembolsos" component={Reembolsos} />
@@ -72,13 +72,32 @@ function Router() {
 
 function App() {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
   const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
 
   if (isLinktreeDomain) {
+    if (pathname === '/tu-llc' || pathname === '/tu-llc/') {
+      return (
+        <QueryClientProvider client={queryClient}>
+          <ThemeProvider defaultTheme="light" storageKey="easyusllc-theme">
+            <TooltipProvider>
+              <Suspense fallback={
+                <div className="min-h-screen bg-background flex items-center justify-center">
+                  <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                </div>
+              }>
+                <Sales />
+              </Suspense>
+              <Toaster />
+            </TooltipProvider>
+          </ThemeProvider>
+        </QueryClientProvider>
+      );
+    }
     return (
       <QueryClientProvider client={queryClient}>
         <Suspense fallback={
-          <div className="min-h-screen bg-[#0E1215] flex items-center justify-center">
+          <div className="min-h-screen bg-white flex items-center justify-center">
             <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
           </div>
         }>
