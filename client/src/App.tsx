@@ -38,13 +38,20 @@ function ScrollToTop() {
   return null;
 }
 
+function LoadingScreen() {
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+        <p className="text-sm text-muted-foreground">Cargando...</p>
+      </div>
+    </div>
+  );
+}
+
 function Router() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-background flex items-center justify-center transition-opacity duration-300">
-        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
-      </div>
-    }>
+    <Suspense fallback={<LoadingScreen />}>
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/servicios" component={Servicios} />
@@ -79,11 +86,7 @@ function App() {
         <QueryClientProvider client={queryClient}>
           <ThemeProvider defaultTheme="light" storageKey="easyusllc-theme">
             <TooltipProvider>
-              <Suspense fallback={
-                <div className="min-h-screen bg-background flex items-center justify-center">
-                  <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                </div>
-              }>
+              <Suspense fallback={<LoadingScreen />}>
                 <Sales />
               </Suspense>
               <Toaster />
@@ -94,11 +97,7 @@ function App() {
     }
     return (
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={
-          <div className="min-h-screen bg-white flex items-center justify-center">
-            <div className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-          </div>
-        }>
+        <Suspense fallback={<LoadingScreen />}>
           <LinktreePage />
         </Suspense>
       </QueryClientProvider>

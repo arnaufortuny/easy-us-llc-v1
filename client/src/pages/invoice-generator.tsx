@@ -45,21 +45,38 @@ export default function InvoiceGenerator() {
   const [isGenerating, setIsGenerating] = useState(false);
   
   // Check authentication
-  const { data: user, isLoading: authLoading } = useQuery<any>({
+  const { data: user, isLoading: authLoading, isError } = useQuery<any>({
     queryKey: ["/api/user"],
+    retry: 1,
+    staleTime: 30000,
   });
-  
-  // Redirect if not authenticated
-  if (!authLoading && !user) {
-    setLocation("/auth/login");
-    return null;
-  }
   
   // Show loading while checking auth
   if (authLoading) {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-accent" />
+        <div className="text-center">
+          <Loader2 className="w-8 h-8 animate-spin text-accent mx-auto mb-3" />
+          <p className="text-sm text-muted-foreground">Cargando...</p>
+        </div>
+      </div>
+    );
+  }
+  
+  // Redirect if not authenticated
+  if (!user || isError) {
+    return (
+      <div className="min-h-screen bg-muted flex items-center justify-center px-4">
+        <div className="text-center max-w-sm">
+          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Receipt className="w-8 h-8 text-accent" />
+          </div>
+          <h2 className="text-xl font-bold text-foreground mb-2">Acceso Requerido</h2>
+          <p className="text-muted-foreground text-sm mb-4">Debes iniciar sesion para usar el generador de facturas.</p>
+          <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full">
+            Iniciar Sesion
+          </Button>
+        </div>
       </div>
     );
   }
