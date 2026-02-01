@@ -12,31 +12,31 @@ interface TourStep {
 const tourSteps: TourStep[] = [
   {
     title: "Bienvenido a tu Area de Cliente",
-    description: "Te mostramos las funciones principales de tu panel para que puedas gestionar tu LLC facilmente."
+    description: "Te mostramos las funciones principales de tu panel."
   },
   {
     target: '[data-tour="orders"]',
     title: "Tus Pedidos",
-    description: "Consulta el estado de tus pedidos, documentos y progreso de tu LLC."
+    description: "Consulta el estado de tus pedidos y documentos."
   },
   {
     target: '[data-tour="calendar"]',
     title: "Calendario Fiscal",
-    description: "Fechas importantes: formularios IRS, informes anuales y renovaciones."
+    description: "Fechas importantes: IRS, informes y renovaciones."
   },
   {
     target: '[data-tour="messages"]',
     title: "Mensajes",
-    description: "Comunicacion directa con nuestro equipo para resolver tus dudas."
+    description: "Contacta con nuestro equipo de soporte."
   },
   {
     target: '[data-tour="profile"]',
     title: "Tu Perfil",
-    description: "Gestiona tus datos personales y preferencias de cuenta."
+    description: "Gestiona tus datos personales."
   },
   {
     title: "Listo para empezar",
-    description: "Ya conoces tu area de cliente. Si tienes dudas, usa la seccion de Mensajes."
+    description: "Si tienes dudas, usa la seccion de Mensajes."
   }
 ];
 
@@ -135,7 +135,7 @@ export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
       )}
 
       <Card 
-        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-4 md:p-5 shadow-2xl border-0 bg-card transition-all duration-300 ${
+        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-4 md:p-5 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl ${
           hasTarget 
             ? 'left-1/2 -translate-x-1/2' 
             : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
@@ -143,9 +143,12 @@ export function DashboardTour({ isNewUser, onComplete }: DashboardTourProps) {
         style={hasTarget ? {
           top: Math.min(
             targetRect.bottom + 16,
-            window.innerHeight - 200
+            window.innerHeight - 220
           ),
-        } : undefined}
+          maxHeight: 'calc(100vh - 280px)',
+        } : {
+          maxHeight: 'calc(100vh - 100px)',
+        }}
       >
         <button
           onClick={handleClose}

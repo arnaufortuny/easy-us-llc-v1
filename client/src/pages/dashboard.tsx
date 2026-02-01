@@ -759,7 +759,7 @@ export default function Dashboard() {
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
-    { id: 'tools', label: 'Herramientas', icon: Receipt, mobileLabel: 'Tools' },
+    { id: 'tools', label: 'Herramientas', icon: Receipt, mobileLabel: 'Herramientas' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
@@ -785,7 +785,7 @@ export default function Dashboard() {
               </p>
             </div>
             <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-lg px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
+              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
                 <PlusCircle className="w-5 h-5" /> Nueva LLC
               </Button>
             </Link>
@@ -799,7 +799,7 @@ export default function Dashboard() {
               variant={activeTab === item.id ? "default" : "ghost"}
               onClick={() => setActiveTab(item.id as Tab)}
               size="sm"
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-lg font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-3 md:px-4 transition-all duration-200 ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
                 activeTab === item.id 
                 ? 'bg-accent text-accent-foreground shadow-md' 
                 : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
@@ -875,7 +875,7 @@ export default function Dashboard() {
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
+                          <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
                             Ver planes disponibles
                           </Button>
                         </Link>
@@ -1004,7 +1004,7 @@ export default function Dashboard() {
                                 <p className="text-sm text-muted-foreground mt-1">{notif.message}</p>
                                 {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
                                   <Button 
-                                    className="mt-3 bg-accent text-accent-foreground font-semibold rounded-lg text-xs px-4 gap-2"
+                                    className="mt-3 bg-accent text-accent-foreground font-semibold rounded-full text-xs px-4 gap-2"
                                     onClick={() => {
                                       markNotificationRead.mutate(notif.id);
                                       setActiveTab('documents');
@@ -1044,7 +1044,7 @@ export default function Dashboard() {
                         <p className="text-sm text-muted-foreground mt-1">Tu historial de mensajes con nuestro equipo</p>
                       </div>
                       <Link href="/contacto">
-                        <Button className="bg-accent text-accent-foreground font-semibold rounded-lg text-xs">Nueva Consulta</Button>
+                        <Button className="bg-accent text-accent-foreground font-semibold rounded-full text-xs">Nueva Consulta</Button>
                       </Link>
                     </div>
                   </div>
@@ -1060,7 +1060,7 @@ export default function Dashboard() {
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
                           </div>
                           <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
-                            <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
+                            <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                               <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
                             </Button>
                           </a>
@@ -1080,7 +1080,7 @@ export default function Dashboard() {
                           {selectedMessage?.id === msg.id && (
                             <div className="mt-4 pt-4 border-t border-gray-100 space-y-4" onClick={(e) => e.stopPropagation()}>
                               <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
-                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-lg px-6" data-testid="button-user-send-reply">
+                              <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-full px-6" data-testid="button-user-send-reply">
                                 {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                                 Enviar Respuesta
                               </Button>
@@ -1225,7 +1225,7 @@ export default function Dashboard() {
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
                           </div>
                           <Link href="/servicios#pricing">
-                            <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
+                            <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
                               <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
                             </Button>
                           </Link>
@@ -1384,7 +1384,7 @@ export default function Dashboard() {
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-accent-foreground font-semibold rounded-lg px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
+                          <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
                             Constituir mi LLC
                           </Button>
                         </Link>
@@ -1634,7 +1634,7 @@ export default function Dashboard() {
                               <div className="flex gap-2 pt-2">
                                 <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
                                 <Button 
-                                  className="bg-accent text-accent-foreground font-semibold rounded-lg flex-1"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
                                   onClick={() => requestPasswordOtpMutation.mutate()}
                                   disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
                                   data-testid="button-request-otp"
@@ -1665,7 +1665,7 @@ export default function Dashboard() {
                               <div className="flex gap-2 pt-2">
                                 <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>Volver</Button>
                                 <Button 
-                                  className="bg-accent text-accent-foreground font-semibold rounded-lg flex-1"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
                                   onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
                                   disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
                                   data-testid="button-save-password"
@@ -2376,7 +2376,7 @@ export default function Dashboard() {
                                 <Button 
                                   onClick={() => sendReplyMutation.mutate(msg.id)} 
                                   disabled={!replyContent.trim() || sendReplyMutation.isPending} 
-                                  className="bg-accent text-accent-foreground font-semibold rounded-lg px-6"
+                                  className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
                                   data-testid="button-send-admin-reply"
                                 >
                                   {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
@@ -2640,7 +2640,7 @@ export default function Dashboard() {
               <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
               <a href="https://wa.me/34614916910?text=Hola%2C%20me%20interesa%20crear%20una%20LLC%20en%20Estados%20Unidos" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-lg py-5">Hablar con un asesor</Button>
+                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">Hablar con un asesor</Button>
               </a>
             </section>
           </div>
@@ -2667,7 +2667,7 @@ export default function Dashboard() {
               </div>
               <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
                 <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-send-note">
+                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
                 </Button>
               </DialogFooter>
@@ -2775,7 +2775,7 @@ export default function Dashboard() {
               {editingUser && (
                 <DialogFooter className="flex-col sm:flex-row gap-3 pt-4 border-t border-border flex-shrink-0">
                   <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-save-user">
+                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
                     {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
                   </Button>
                 </DialogFooter>
@@ -2850,7 +2850,7 @@ export default function Dashboard() {
               <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
                 <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
                 <Button 
-                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
+                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
                   disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
                   onClick={async () => {
                     setIsGeneratingInvoice(true);
@@ -2935,7 +2935,7 @@ export default function Dashboard() {
                     setDocType('');
                     setDocMessage('');
                   }
-                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-request-doc">
+                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
                 </Button>
               </DialogFooter>
@@ -2996,7 +2996,7 @@ export default function Dashboard() {
                     currency: invoiceCurrency
                   })} 
                   disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
+                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
                   data-testid="button-create-invoice"
                 >
                   {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
@@ -3096,7 +3096,7 @@ export default function Dashboard() {
                 }
               }}
               disabled={uploadDocType === 'other' && !uploadNotes.trim()}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-confirm-upload"
             >
               Subir Documento
@@ -3137,7 +3137,7 @@ export default function Dashboard() {
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
             <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-user">Cancelar</Button>
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-confirm-create-user">
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
               {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
             </Button>
           </DialogFooter>
@@ -3186,7 +3186,7 @@ export default function Dashboard() {
           </div>
           <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
             <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-order">Cancelar</Button>
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" data-testid="button-confirm-create-order">
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
           </DialogFooter>
@@ -3322,7 +3322,7 @@ export default function Dashboard() {
                 }
               }} 
               disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg" 
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" 
               data-testid="button-save-discount"
             >
               {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
@@ -3383,7 +3383,7 @@ export default function Dashboard() {
               }}
               disabled={isVerifyingEmail || emailVerificationCode.length < 6}
               size="lg"
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-lg"
+              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-verify-email-code"
             >
               {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
@@ -3496,7 +3496,7 @@ export default function Dashboard() {
                 }
               }}
               disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-send-payment-link"
             >
               {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
@@ -3605,7 +3605,7 @@ export default function Dashboard() {
                   setIsUploadingAdminDoc(false);
                 }
               }}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-lg"
+              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-admin-upload-doc"
             >
               {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
