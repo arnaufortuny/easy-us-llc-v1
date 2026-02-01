@@ -6,7 +6,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
@@ -741,7 +741,18 @@ export default function Dashboard() {
     );
   }
 
-  const menuItems = [
+  // Memoized filtered orders to avoid recalculating on every render
+  const draftOrders = useMemo(() => 
+    orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft') || [],
+    [orders]
+  );
+  
+  const activeOrders = useMemo(() => 
+    orders?.filter(o => o.status !== 'cancelled' && o.status !== 'completed').slice(0, 4) || [],
+    [orders]
+  );
+
+  const menuItems = useMemo(() => [
     { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
     { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
@@ -752,7 +763,7 @@ export default function Dashboard() {
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
     ] : []),
-  ];
+  ], [user?.isAdmin]);
 
   const isNewUser = user && (!orders || orders.length === 0);
 
@@ -812,7 +823,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground mt-1">Gestiona tus trámites activos</p>
                   </div>
                   
-                  {orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft').map((order) => {
+                  {draftOrders.map((order) => {
                     const abandonedAt = order.application?.abandonedAt || order.maintenanceApplication?.abandonedAt;
                     const hoursRemaining = abandonedAt ? Math.max(0, Math.round((48 - ((Date.now() - new Date(abandonedAt).getTime()) / 3600000)))) : null;
                     return (
@@ -872,7 +883,7 @@ export default function Dashboard() {
                   ) : (
                     <>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                        {orders.filter(o => o.status !== 'cancelled' && o.status !== 'completed').slice(0, 4).map((order) => (
+                        {activeOrders.map((order) => (
                           <LLCProgressWidget 
                             key={`progress-${order.id}`}
                             status={order.status}
