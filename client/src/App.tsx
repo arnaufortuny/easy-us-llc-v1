@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy } from "react";
 import NotFound from "@/pages/not-found";
 
 const Home = lazy(() => import("@/pages/home"));
@@ -39,13 +39,36 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress: number) => {
+        if (oldProgress === 100) return 100;
+        const diff = Math.random() * 40;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 100);
+
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex flex-col items-center justify-center">
-      <div className="w-48 h-1 bg-muted rounded-full overflow-hidden">
-        <div 
-          className="h-full rounded-full animate-loading-bar"
-          style={{ backgroundColor: '#6EDC8A' }}
-        />
+      <div className="w-64 space-y-4 flex flex-col items-center">
+        <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
+          <div 
+            className="h-full rounded-full transition-all duration-300 ease-out"
+            style={{ 
+              width: `${progress}%`,
+              backgroundColor: '#6EDC8A',
+              boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
+            }}
+          />
+        </div>
+        <span className="text-accent font-black text-xl tabular-nums">
+          {Math.round(progress)}%
+        </span>
       </div>
     </div>
   );

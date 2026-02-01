@@ -368,17 +368,12 @@ img {
 @keyframes loading-bar {
   0% {
     width: 0%;
-    transform: translateX(0);
-  }
-  50% {
-    width: 60%;
   }
   100% {
     width: 100%;
-    transform: translateX(0);
   }
 }
 
 .animate-loading-bar {
-  animation: loading-bar 1.2s ease-in-out infinite;
+  animation: loading-bar 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
 }
