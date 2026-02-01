@@ -3286,6 +3286,24 @@ export async function registerRoutes(
           return res.status(400).json({ message: "Este email ya está registrado. Por favor inicia sesión." });
         }
         
+        // Verify that email has been verified via OTP (same as LLC formation)
+        const [otpRecord] = await db.select()
+          .from(contactOtps)
+          .where(
+            and(
+              eq(contactOtps.email, email),
+              eq(contactOtps.otpType, "account_verification"),
+              eq(contactOtps.verified, true),
+              gt(contactOtps.expiresAt, new Date(Date.now() - 30 * 60 * 1000)) // Allow 30 min window after verification
+            )
+          )
+          .orderBy(sql`${contactOtps.expiresAt} DESC`)
+          .limit(1);
+        
+        if (!otpRecord) {
+          return res.status(400).json({ message: "Por favor verifica tu email antes de continuar." });
+        }
+        
         const { hashPassword, generateUniqueClientId } = await import("./lib/auth-service");
         const passwordHash = await hashPassword(password);
         const clientId = await generateUniqueClientId();
