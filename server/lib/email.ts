@@ -11,9 +11,7 @@ function getSimpleHeader() {
   return `
     <div style="background: linear-gradient(180deg, #0E1215 0%, #1a1f25 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6EDC8A 0%, #4aba6a 100%); border-radius: 50%; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center;">
-          <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 24px; font-weight: 800; color: #0E1215;">EU</span>
-        </div>
+        <img src="https://${domain}/logo-icon.png" alt="Easy US LLC" width="60" height="60" style="display: block; margin: 0 auto 12px; border-radius: 50%; border: 0;" />
         <span style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-size: 18px; font-weight: 800; color: #F7F7F5; letter-spacing: -0.5px;">Easy US LLC</span>
       </a>
     </div>
