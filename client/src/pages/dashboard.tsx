@@ -28,7 +28,7 @@ function getOrderStatusLabel(status: string): { label: string; className: string
     processing: { label: 'En Proceso', className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
     documents_ready: { label: 'Docs. Listos', className: 'bg-cyan-100 dark:bg-cyan-900/50 text-cyan-800 dark:text-cyan-300' },
     completed: { label: 'Completado', className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
-    cancelled: { label: 'Cancelado', className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
+    cancelled: { label: 'Cancelada', className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
     filed: { label: 'Presentado', className: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300' },
     draft: { label: 'Borrador', className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' },
   };
@@ -340,7 +340,7 @@ export default function Dashboard() {
     refetchInterval: 60000,
   });
 
-  const { data: adminNewsletterSubs } = useQuery<any[]>({
+  const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
     queryKey: ["/api/admin/newsletter"],
     enabled: !!user?.isAdmin,
   });
@@ -2228,47 +2228,35 @@ export default function Dashboard() {
                   {adminSubTab === 'newsletter' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                       <div className="space-y-6">
-                        <div className="p-4 rounded-xl border border-border">
-                          <h4 className="font-black text-sm mb-3">Enviar a todos los suscriptores ({adminNewsletterSubs?.length || 0})</h4>
-                          <div className="space-y-3">
-                            <Input 
-                              value={broadcastSubject} 
-                              onChange={e => setBroadcastSubject(e.target.value)} 
-                              placeholder="Asunto del email" 
-                              className="bg-white dark:bg-zinc-900"
-                              data-testid="input-broadcast-subject"
-                            />
-                            <Textarea 
-                              value={broadcastMessage} 
-                              onChange={e => setBroadcastMessage(e.target.value)} 
-                              placeholder="Contenido del mensaje" 
-                              rows={4}
-                              className="bg-white dark:bg-zinc-900"
-                              data-testid="input-broadcast-message"
-                            />
-                            <Button 
-                              onClick={() => broadcastMutation.mutate({ subject: broadcastSubject, message: broadcastMessage })}
-                              disabled={!broadcastSubject || !broadcastMessage || broadcastMutation.isPending}
-                              className="w-full rounded-full"
-                              data-testid="button-send-broadcast"
-                            >
-                              {broadcastMutation.isPending ? 'Enviando...' : `Enviar (${adminNewsletterSubs?.length || 0})`}
-                            </Button>
-                          </div>
-                        </div>
-                        <div>
-                          <h4 className="font-black text-sm mb-3">Lista de Suscriptores</h4>
-                          <div className="divide-y max-h-80 overflow-y-auto">
-                            {adminNewsletterSubs?.map((sub: any) => (
-                              <div key={sub.id} className="py-2 flex justify-between items-center">
-                                <span className="text-sm">{sub.email}</span>
-                                <span className="text-[10px] text-muted-foreground">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
-                              </div>
-                            ))}
-                            {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
-                              <p className="text-sm text-muted-foreground py-4 text-center">No hay suscriptores</p>
-                            )}
-                          </div>
+                        <h4 className="font-black text-sm mb-3">Lista de Suscriptores ({adminNewsletterSubs?.length || 0})</h4>
+                        <div className="divide-y max-h-80 overflow-y-auto">
+                          {adminNewsletterSubs?.map((sub: any) => (
+                            <div key={sub.id} className="py-2 flex justify-between items-center gap-2">
+                              <span className="text-sm truncate flex-1">{sub.email}</span>
+                              <span className="text-[10px] text-muted-foreground shrink-0">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
+                              <Button 
+                                size="icon" 
+                                variant="ghost" 
+                                className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
+                                onClick={async () => {
+                                  if (!confirm(`¿Eliminar suscriptor ${sub.email}?`)) return;
+                                  try {
+                                    await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
+                                    refetchNewsletterSubs();
+                                    toast({ title: "Suscriptor eliminado" });
+                                  } catch (e) {
+                                    toast({ title: "Error al eliminar", variant: "destructive" });
+                                  }
+                                }}
+                                data-testid={`button-delete-subscriber-${sub.id}`}
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            </div>
+                          ))}
+                          {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
+                            <p className="text-sm text-muted-foreground py-4 text-center">No hay suscriptores</p>
+                          )}
                         </div>
                       </div>
                     </Card>
@@ -3144,7 +3132,7 @@ export default function Dashboard() {
               >
                 <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
                 <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
-                <NativeSelectItem value="Delaware">Delaware - 1199€</NativeSelectItem>
+                <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
               </NativeSelect>
             </div>
             <div>

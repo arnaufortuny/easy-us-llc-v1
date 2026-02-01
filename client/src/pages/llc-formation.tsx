@@ -166,7 +166,7 @@ export default function LlcFormation() {
   const formationPriceMap: Record<string, number> = {
     "New Mexico": 73900,
     "Wyoming": 89900,
-    "Delaware": 119900
+    "Delaware": 139900
   };
   const selectedState = form.watch("state");
   const formationPrice = formationPriceMap[selectedState] || 73900;
@@ -592,7 +592,7 @@ export default function LlcFormation() {
                         {[
                           { name: "New Mexico", price: "739€", desc: "Más económico, sin impuestos estatales" },
                           { name: "Wyoming", price: "899€", desc: "Máxima privacidad y protección" },
-                          { name: "Delaware", price: "1199€", desc: "Prestigio internacional, ideal inversores" }
+                          { name: "Delaware", price: "1399€", desc: "Prestigio internacional, ideal inversores" }
                         ].map(opt => (
                           <label 
                             key={opt.name} 

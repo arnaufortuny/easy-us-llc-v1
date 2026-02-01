@@ -315,6 +315,16 @@ export async function registerRoutes(
         await updateApplicationDeadlines(order.application.id, formationDate, state);
       }
 
+      // Clear compliance deadlines when order is cancelled
+      if (status === 'cancelled' && order.application) {
+        await db.update(llcApplicationsTable).set({
+          irs1120DueDate: null,
+          irs5472DueDate: null,
+          annualReportDueDate: null,
+          agentRenewalDate: null,
+        }).where(eq(llcApplicationsTable.id, order.application.id));
+      }
+
       // Create Notification in Dashboard
       const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
       await db.insert(userNotifications).values({
@@ -1255,6 +1265,17 @@ export async function registerRoutes(
       res.json(subscribers);
     } catch (error) {
       res.status(500).json({ message: "Error" });
+    }
+  });
+
+  // Delete newsletter subscriber
+  app.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar suscriptor" });
     }
   });
 
@@ -2466,11 +2487,11 @@ export async function registerRoutes(
         return res.status(400).json({ message: "Invalid product" });
       }
 
-      // CRITICAL: Ensure pricing follows NM 739€, WY 899€, DE 1199€
+      // CRITICAL: Ensure pricing follows NM 739€, WY 899€, DE 1399€
       let finalPrice = product.price;
       if (product.name.includes("New Mexico")) finalPrice = 73900;
       else if (product.name.includes("Wyoming")) finalPrice = 89900;
-      else if (product.name.includes("Delaware")) finalPrice = 119900;
+      else if (product.name.includes("Delaware")) finalPrice = 139900;
 
       // Calculate final amount with discount
       let originalAmount = finalPrice;
@@ -3257,11 +3278,11 @@ export async function registerRoutes(
       const product = await storage.getProduct(productId);
       if (!product) return res.status(400).json({ message: "Invalid product" });
 
-      // State-specific pricing for maintenance: NM 539€, WY 699€, DE 899€
+      // State-specific pricing for maintenance: NM 539€, WY 699€, DE 999€
       let finalPrice = product.price;
       if (state?.includes("New Mexico")) finalPrice = 53900;
       else if (state?.includes("Wyoming")) finalPrice = 69900;
-      else if (state?.includes("Delaware")) finalPrice = 89900;
+      else if (state?.includes("Delaware")) finalPrice = 99900;
 
       // Calculate final amount with discount
       let originalAmount = finalPrice;
@@ -4295,7 +4316,7 @@ async function seedDatabase() {
     await storage.createProduct({
       name: "Delaware LLC",
       description: "El estándar para startups y empresas tecnológicas. Reconocimiento legal global.",
-      price: 119900,
+      price: 139900,
       features: [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",

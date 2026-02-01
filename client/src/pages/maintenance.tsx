@@ -198,7 +198,7 @@ export default function MaintenanceApplication() {
   };
 
   const state = form.watch("state");
-  const maintenancePriceMap: Record<string, number> = { "New Mexico": 53900, "Wyoming": 69900, "Delaware": 89900 };
+  const maintenancePriceMap: Record<string, number> = { "New Mexico": 53900, "Wyoming": 69900, "Delaware": 99900 };
   const maintenancePrice = maintenancePriceMap[state] || 53900;
 
   const validateDiscountCode = async (code: string) => {

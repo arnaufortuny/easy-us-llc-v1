@@ -37,21 +37,37 @@ export function calculateComplianceDeadlines(formationDate: Date, state: string)
     description: "Presentación del formulario IRS 5472 (Declaración de transacciones con propietarios extranjeros)",
   });
 
-  if (state === "wyoming" || state === "delaware" || state === "WY" || state === "DE") {
+  // Annual Report: only Delaware and Wyoming
+  // Delaware: June 1st of the year following formation
+  // Wyoming: Anniversary of LLC formation
+  if (state === "delaware" || state === "DE" || state === "Delaware") {
+    const annualReportDueDate = new Date(formationYear + 1, 5, 1); // June 1st
+    const annualReportReminderDate = new Date(annualReportDueDate);
+    annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
+
+    deadlines.push({
+      type: "annual_report",
+      dueDate: annualReportDueDate,
+      reminderDate: annualReportReminderDate,
+      description: "Informe Anual del estado de Delaware",
+      state: "Delaware",
+    });
+  } else if (state === "wyoming" || state === "WY" || state === "Wyoming") {
+    // Wyoming: Anniversary date of formation
     const annualReportDueDate = new Date(formationDate);
     annualReportDueDate.setFullYear(annualReportDueDate.getFullYear() + 1);
     const annualReportReminderDate = new Date(annualReportDueDate);
     annualReportReminderDate.setDate(annualReportReminderDate.getDate() - 60);
 
-    const stateLabel = (state === "wyoming" || state === "WY") ? "Wyoming" : "Delaware";
     deadlines.push({
       type: "annual_report",
       dueDate: annualReportDueDate,
       reminderDate: annualReportReminderDate,
-      description: `Informe Anual del estado de ${stateLabel}`,
-      state: stateLabel,
+      description: "Informe Anual del estado de Wyoming",
+      state: "Wyoming",
     });
   }
+  // New Mexico: No annual report required
 
   const agentRenewalDate = new Date(formationDate);
   agentRenewalDate.setFullYear(agentRenewalDate.getFullYear() + 1);
@@ -422,13 +438,13 @@ export async function sendRenewalReminders() {
         );
         
         // Send email notification
-        if (client.email) {
+        if (client.email && client.companyName) {
           const emailHtml = getRenewalReminderTemplate(
             client.firstName || "Cliente",
             client.companyName,
             window.label,
             formatDate(new Date(client.agentRenewalDate!)),
-            client.state
+            client.state || "New Mexico"
           );
           queueEmail({
             to: client.email,
