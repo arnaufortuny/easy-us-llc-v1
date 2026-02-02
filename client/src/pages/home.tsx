@@ -1,16 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
-import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
-
-import { ChevronDown, ArrowRight } from "lucide-react";
 
 export default function Home() {
   const [location, setLocation] = useLocation();
