@@ -222,7 +222,7 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => scrollToSection("comparador")}
-                className="text-left px-3 py-3 rounded-xl text-accent hover:bg-accent/10 transition-colors font-black text-xl tracking-tighter border border-accent/30"
+                className="text-left px-3 py-3 rounded-xl text-accent hover:bg-accent/10 transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.savings")}
               </button>
