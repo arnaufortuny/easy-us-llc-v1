@@ -136,7 +136,7 @@ export default function Home() {
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
           <div className="bg-gradient-to-br from-accent/10 to-accent/5 border-2 border-accent/20 rounded-3xl p-6 sm:p-8 text-center">
-            <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2">¿Empezamos?</h3>
+            <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">¿Empezamos?</h3>
             <p className="text-muted-foreground text-sm sm:text-base mb-6">Estamos listos para ayudarte. Hablemos cuando tú quieras.</p>
             <a 
               href="https://wa.me/34614916910?text=Hola!%20Quiero%20formar%20mi%20LLC%20en%20Estados%20Unidos"
