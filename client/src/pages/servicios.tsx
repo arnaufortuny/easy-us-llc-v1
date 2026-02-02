@@ -86,7 +86,7 @@ export default function Servicios() {
           </h1>
         }
         subtitle={
-            <div className="flex flex-col items-center justify-center w-full">
+            <div className="flex flex-col items-center justify-center w-full mt-6 sm:mt-8">
               <div className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2">
                 {t("services.heroSubtitle")}
               </div>
