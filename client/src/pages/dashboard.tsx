@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -1330,6 +1330,23 @@ export default function Dashboard() {
                           <Link href="/tools/invoice">
                             <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
                               Crear Factura <ChevronRight className="w-4 h-4 ml-1" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </Card>
+                    
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
+                          <Calculator className="w-6 h-6 text-blue-500" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-foreground mb-1">Calculadora de Precios</h3>
+                          <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
+                          <Link href="/tools/price-calculator">
+                            <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
+                              Calcular Precio <ChevronRight className="w-4 h-4 ml-1" />
                             </Button>
                           </Link>
                         </div>
