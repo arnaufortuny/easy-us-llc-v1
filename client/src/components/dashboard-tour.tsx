@@ -140,17 +140,15 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
       )}
 
       <Card 
-        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-5 md:p-6 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl ${
-          hasTarget 
-            ? 'left-1/2 -translate-x-1/2' 
-            : 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
+        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-5 md:p-6 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl left-1/2 -translate-x-1/2 ${
+          hasTarget ? '' : 'top-20 md:top-1/2 md:-translate-y-1/2'
         }`}
         style={hasTarget ? {
           top: Math.min(
-            targetRect.bottom + 20,
+            Math.max(80, targetRect.top - 200),
             window.innerHeight - 280
           ),
-          maxHeight: 'calc(100dvh - 300px)',
+          maxHeight: 'calc(100dvh - 120px)',
         } : {
           maxHeight: 'calc(100dvh - 120px)',
         }}

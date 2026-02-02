@@ -275,7 +275,7 @@ export default function Contacto() {
               >
                 <Button 
                   variant="outline"
-                  className="border-2 border-black text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg transition-all w-full"
+                  className="border-2 border-accent text-accent-foreground dark:text-white dark:border-white font-black px-6 sm:px-10 rounded-full text-base sm:text-lg transition-all w-full bg-white dark:bg-transparent"
                   data-testid="button-whatsapp"
                 > 
                   {t("contact.talkWhatsapp")}

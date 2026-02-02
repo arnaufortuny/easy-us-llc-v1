@@ -19,6 +19,23 @@ async function throwIfResNotOk(res: Response) {
 const requestCache = new Map<string, { data: any; timestamp: number }>();
 const CACHE_TTL = 5000;
 
+let csrfToken: string | null = null;
+
+async function getCsrfToken(): Promise<string> {
+  if (csrfToken) return csrfToken;
+  try {
+    const res = await fetch('/api/csrf-token', { credentials: 'include' });
+    if (res.ok) {
+      const data = await res.json();
+      csrfToken = data.csrfToken;
+      return csrfToken || '';
+    }
+  } catch {
+    // Silently fail
+  }
+  return '';
+}
+
 export async function apiRequest(
   method: string,
   url: string,
@@ -36,12 +53,24 @@ export async function apiRequest(
     }
   }
 
+  const headers: Record<string, string> = {};
+  if (data) headers["Content-Type"] = "application/json";
+  
+  if (method !== 'GET' && method !== 'HEAD' && method !== 'OPTIONS') {
+    const token = await getCsrfToken();
+    if (token) headers["X-CSRF-Token"] = token;
+  }
+
   const res = await fetch(url, {
     method,
-    headers: data ? { "Content-Type": "application/json" } : {},
+    headers,
     body: data ? JSON.stringify(data) : undefined,
     credentials: "include",
   });
+
+  if (res.status === 403) {
+    csrfToken = null;
+  }
 
   await throwIfResNotOk(res);
   

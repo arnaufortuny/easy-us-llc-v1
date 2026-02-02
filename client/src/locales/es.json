@@ -973,7 +973,10 @@
   "legal": {
     "downloadPdf": "Descargar PDF",
     "documentInfo": "Documento legal oficial",
-    "lastUpdated": "Última actualización: 1 de febrero de 2026"
+    "lastUpdated": "Última actualización: 1 de febrero de 2026",
+    "termsAcceptance": "Al registrarte aceptas nuestros",
+    "termsAndConditions": "Términos y Condiciones",
+    "privacyPolicy": "Política de Privacidad"
   },
   "theme": {
     "title": "Preferencias",

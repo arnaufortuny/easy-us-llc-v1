@@ -902,11 +902,12 @@ export default function Dashboard() {
 
   const menuItems = useMemo(() => [
     { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
-    { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Notif.' },
+    { id: 'notifications', label: 'Seguimiento', icon: BellRing, mobileLabel: 'Seguim.' },
     { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
+    { id: 'tools', label: 'Herramientas', icon: Calculator, mobileLabel: 'Tools' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }
@@ -2280,10 +2281,10 @@ export default function Dashboard() {
                                   {dc.minOrderAmount && ` | Min: ${(dc.minOrderAmount / 100).toFixed(2)}€`}
                                 </p>
                                 {(dc.validFrom || dc.validUntil) && (
-                                  <p className="text-[10px] text-muted-foreground">
-                                    {dc.validFrom && `Desde: ${new Date(dc.validFrom).toLocaleDateString('es-ES')}`}
-                                    {dc.validFrom && dc.validUntil && ' - '}
-                                    {dc.validUntil && `Hasta: ${new Date(dc.validUntil).toLocaleDateString('es-ES')}`}
+                                  <p className="text-[9px] md:text-[10px] text-muted-foreground">
+                                    {dc.validFrom && new Date(dc.validFrom).toLocaleDateString('es-ES')}
+                                    {dc.validFrom && dc.validUntil && ' → '}
+                                    {dc.validUntil && new Date(dc.validUntil).toLocaleDateString('es-ES')}
                                   </p>
                                 )}
                               </div>
@@ -2420,7 +2421,7 @@ export default function Dashboard() {
                 )}
               </div>
             </section>
-            <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20">
+            <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-12">
               <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
               <a href="https://wa.me/34614916910?text=Hola!%20Tengo%20una%20duda%20sobre%20mi%20LLC" target="_blank" rel="noopener noreferrer">

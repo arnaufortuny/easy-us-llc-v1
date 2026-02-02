@@ -64,7 +64,21 @@ export function MessagesTab({
               </div>
               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
               {selectedMessage?.id === msg.id && (
-                <div className="mt-4 pt-4 border-t border-gray-100 space-y-4" onClick={(e) => e.stopPropagation()}>
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700 space-y-4" onClick={(e) => e.stopPropagation()}>
+                  {msg.replies && msg.replies.length > 0 && (
+                    <div className="space-y-3 mb-4">
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Respuestas</p>
+                      {msg.replies.map((reply: any, idx: number) => (
+                        <div key={idx} className={`p-3 rounded-xl text-sm ${reply.isFromAdmin ? 'bg-accent/10 border-l-2 border-accent' : 'bg-muted/50'}`}>
+                          <div className="flex justify-between items-center mb-1">
+                            <span className="text-xs font-semibold text-foreground">{reply.isFromAdmin ? 'Equipo Easy US' : 'Tú'}</span>
+                            <span className="text-[10px] text-muted-foreground">{new Date(reply.createdAt).toLocaleDateString('es-ES')}</span>
+                          </div>
+                          <p className="text-muted-foreground">{reply.content}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder="Escribe tu respuesta..." className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
                   <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-full px-6" data-testid="button-user-send-reply">
                     {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
