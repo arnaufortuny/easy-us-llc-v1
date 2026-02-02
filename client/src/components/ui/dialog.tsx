@@ -3,6 +3,7 @@
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
 
@@ -29,10 +30,9 @@ const DialogOverlay = React.forwardRef<
 ))
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 
-const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
+function DialogContentInner({ className, children, ...props }: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>, ref: React.ForwardedRef<React.ElementRef<typeof DialogPrimitive.Content>>) {
+  const { t } = useTranslation();
+  
   React.useEffect(() => {
     const originalStyle = window.getComputedStyle(document.body).overflow;
     document.body.style.overflow = 'hidden';
@@ -76,17 +76,22 @@ const DialogContent = React.forwardRef<
         >
           {children}
           <DialogPrimitive.Close 
-            className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover:bg-muted active:bg-muted/60 flex items-center justify-center transition-colors z-10 touch-manipulation"
+            className="absolute right-3 top-3 w-9 h-9 sm:w-8 sm:h-8 rounded-full bg-muted/80 hover-elevate active-elevate-2 flex items-center justify-center z-10 touch-manipulation"
             data-testid="button-dialog-close"
           >
             <X className="h-4 w-4 text-muted-foreground" />
-            <span className="sr-only">Cerrar</span>
+            <span className="sr-only">{t("common.close")}</span>
           </DialogPrimitive.Close>
         </DialogPrimitive.Content>
       </div>
     </DialogPortal>
   );
-})
+}
+
+const DialogContent = React.forwardRef<
+  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(DialogContentInner)
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({

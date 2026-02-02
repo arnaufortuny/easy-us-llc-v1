@@ -28,6 +28,7 @@
     "home": "Home",
     "services": "How we help",
     "pricing": "Clear pricing",
+    "savings": "How much I save",
     "faq": "FAQ",
     "contact": "Talk to an expert",
     "login": "My Account",
@@ -979,6 +980,11 @@
     "error": "Error",
     "subscriptionFailed": "Could not complete subscription.",
     "connectionError": "Connection error."
+  },
+  "whatsapp": {
+    "defaultMessage": "Hi, I would like more information about US LLCs",
+    "ariaLabel": "Contact via WhatsApp",
+    "tooltip": "Questions? Write us!"
   },
   "taxComparator": {
     "badge": "TAX COMPARATOR",

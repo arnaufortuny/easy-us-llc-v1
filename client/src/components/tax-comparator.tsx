@@ -1,8 +1,29 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Calculator, TrendingDown, Building2, Globe, ChevronDown, ChevronUp } from "lucide-react";
+import { Calculator, TrendingDown, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+
+const SpainFlag = () => (
+  <svg viewBox="0 0 512 512" className="w-8 h-8 rounded-full shadow-sm">
+    <rect y="0" width="512" height="170.67" fill="#c60b1e"/>
+    <rect y="170.67" width="512" height="170.67" fill="#ffc400"/>
+    <rect y="341.33" width="512" height="170.67" fill="#c60b1e"/>
+  </svg>
+);
+
+const USFlag = () => (
+  <svg viewBox="0 0 512 512" className="w-8 h-8 rounded-full shadow-sm">
+    <rect width="512" height="512" fill="#bf0a30"/>
+    <rect y="39.4" width="512" height="39.4" fill="#fff"/>
+    <rect y="118.2" width="512" height="39.4" fill="#fff"/>
+    <rect y="197" width="512" height="39.4" fill="#fff"/>
+    <rect y="275.8" width="512" height="39.4" fill="#fff"/>
+    <rect y="354.6" width="512" height="39.4" fill="#fff"/>
+    <rect y="433.4" width="512" height="39.4" fill="#fff"/>
+    <rect width="204.8" height="275.8" fill="#002868"/>
+  </svg>
+);
 
 interface TaxBreakdown {
   income: number;
@@ -164,8 +185,8 @@ export function TaxComparator() {
             <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-accent/10">
               <div className="p-5 sm:p-8 bg-red-50/50 dark:bg-red-950/20">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-                    <Building2 className="w-6 h-6 text-red-600 dark:text-red-400" />
+                  <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center overflow-hidden">
+                    <SpainFlag />
                   </div>
                   <div>
                     <h3 className="font-black text-foreground text-lg">{t("taxComparator.spanish.title")}</h3>
@@ -203,8 +224,8 @@ export function TaxComparator() {
               
               <div className="p-5 sm:p-8 bg-accent/5">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                    <Globe className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center overflow-hidden">
+                    <USFlag />
                   </div>
                   <div>
                     <h3 className="font-black text-foreground text-lg">{t("taxComparator.usllc.title")}</h3>
@@ -242,20 +263,18 @@ export function TaxComparator() {
             </div>
             
             <div className="p-5 sm:p-8 bg-accent/10 border-t border-accent/20">
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-4">
+              <div className="flex flex-col items-center justify-center gap-4 text-center">
+                <div className="flex flex-col items-center gap-2">
                   <div className="w-14 h-14 rounded-full bg-accent flex items-center justify-center shadow-lg">
                     <TrendingDown className="w-7 h-7 text-accent-foreground" />
                   </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">{t("taxComparator.savings.label")}</p>
-                    <p className="font-black text-accent text-2xl sm:text-3xl">{formatCurrency(savings)}</p>
-                    <p className="text-xs text-muted-foreground">{t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}</p>
-                  </div>
+                  <p className="text-sm text-muted-foreground">{t("taxComparator.savings.label")}</p>
+                  <p className="font-black text-accent text-3xl sm:text-4xl">{formatCurrency(savings)}</p>
+                  <p className="text-sm text-muted-foreground">{t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}</p>
                 </div>
                 <Button
                   onClick={() => setLocation("/llc/formation")}
-                  className="bg-accent text-accent-foreground font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20 w-full sm:w-auto"
+                  className="bg-accent text-accent-foreground font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20 w-full sm:w-auto mt-2"
                   data-testid="button-start-llc-comparator"
                 >
                   {t("taxComparator.cta")} →
