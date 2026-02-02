@@ -708,9 +708,9 @@ export default function Dashboard() {
         <Navbar />
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full">
           <header className="mb-6 md:mb-8">
-            <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 uppercase">Área de Clientes</p>
+            <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight leading-tight">
-              Hola, {(user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase()}
+              {t("dashboard.pendingAccount.hello", { name: (user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase() })}
             </h1>
           </header>
 
@@ -724,8 +724,8 @@ export default function Dashboard() {
                     <Clock className="w-6 h-6 text-orange-500" />
                   </div>
                   <div>
-                    <h2 className="font-black text-lg text-foreground">Cuenta en revisión</h2>
-                    <p className="text-sm text-muted-foreground">Estamos verificando tus datos</p>
+                    <h2 className="font-black text-lg text-foreground">{t("dashboard.pendingAccount.title")}</h2>
+                    <p className="text-sm text-muted-foreground">{t("dashboard.pendingAccount.subtitle")}</p>
                   </div>
                 </div>
                 
@@ -733,10 +733,10 @@ export default function Dashboard() {
                   <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Mail className="w-4 h-4 text-orange-600" />
-                      <span className="font-bold text-sm text-orange-800 dark:text-orange-300">Paso 1: Verificar email</span>
+                      <span className="font-bold text-sm text-orange-800 dark:text-orange-300">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
                     </div>
                     <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
-                      Código enviado a <strong>{user?.email}</strong>
+                      {t("dashboard.pendingAccount.codeSentTo")} <strong>{user?.email}</strong>
                     </p>
                     <Input
                       value={emailVerificationCode}
@@ -750,7 +750,7 @@ export default function Dashboard() {
                     <Button
                       onClick={async () => {
                         if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                          toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
+                          toast({ title: t("dashboard.pendingAccount.enter6DigitCode"), variant: "destructive" });
                           return;
                         }
                         setIsVerifyingEmail(true);
@@ -759,11 +759,11 @@ export default function Dashboard() {
                           const result = await res.json();
                           if (result.success) {
                             await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                            toast({ title: "¡Email verificado!" });
+                            toast({ title: t("dashboard.pendingAccount.emailVerified") });
                             setEmailVerificationCode("");
                           }
                         } catch (err: any) {
-                          toast({ title: "Código incorrecto", variant: "destructive" });
+                          toast({ title: t("llc.messages.incorrectCode"), variant: "destructive" });
                         } finally {
                           setIsVerifyingEmail(false);
                         }
@@ -772,7 +772,7 @@ export default function Dashboard() {
                       className="w-full bg-accent text-accent-foreground font-black rounded-full h-11"
                       data-testid="button-pending-verify"
                     >
-                      {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar"}
+                      {isVerifyingEmail ? <Loader2 className="animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
                     </Button>
                     <Button
                       variant="link"
@@ -780,9 +780,9 @@ export default function Dashboard() {
                         setIsResendingCode(true);
                         try {
                           await apiRequest("POST", "/api/auth/resend-verification");
-                          toast({ title: "Código enviado" });
+                          toast({ title: t("llc.messages.codeSent") });
                         } catch {
-                          toast({ title: "Error", variant: "destructive" });
+                          toast({ title: t("common.error"), variant: "destructive" });
                         } finally {
                           setIsResendingCode(false);
                         }
@@ -791,7 +791,7 @@ export default function Dashboard() {
                       className="text-accent p-0 h-auto text-xs mt-2"
                       data-testid="button-pending-resend"
                     >
-                      {isResendingCode ? "Enviando..." : "Reenviar código"}
+                      {isResendingCode ? t("common.sending") : t("dashboard.pendingAccount.resendCode")}
                     </Button>
                   </div>
                 ) : (
@@ -799,15 +799,15 @@ export default function Dashboard() {
                     <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-3">
                       <div className="flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-green-600" />
-                        <span className="font-bold text-sm text-green-700 dark:text-green-400">Email verificado</span>
+                        <span className="font-bold text-sm text-green-700 dark:text-green-400">{t("dashboard.pendingAccount.emailVerified")}</span>
                       </div>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      Tu cuenta será activada en menos de 24 horas. Te avisaremos por email.
+                      {t("dashboard.pendingAccount.accountActivation")}
                     </p>
                     <a href="https://wa.me/34614916910?text=Hola!%20Mi%20cuenta%20est%C3%A1%20en%20revisi%C3%B3n" target="_blank" rel="noopener noreferrer">
                       <Button variant="outline" className="w-full font-semibold h-10 rounded-full text-sm" data-testid="button-pending-whatsapp">
-                        Preguntar estado por WhatsApp
+                        {t("dashboard.pendingAccount.askStatusWhatsApp")}
                       </Button>
                     </a>
                   </div>
@@ -821,7 +821,7 @@ export default function Dashboard() {
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <BellRing className="w-5 h-5 text-accent" />
-                  <h2 className="font-black text-lg text-foreground">Notificaciones</h2>
+                  <h2 className="font-black text-lg text-foreground">{t("dashboard.notifications.title")}</h2>
                 </div>
                 
                 {notificationsLoading ? (
@@ -853,7 +853,7 @@ export default function Dashboard() {
                               className="h-7 px-2 text-xs"
                               onClick={() => markNotificationRead.mutate(notif.id)}
                             >
-                              Leída
+                              {t("dashboard.notifications.read")}
                             </Button>
                           )}
                         </div>
@@ -863,7 +863,7 @@ export default function Dashboard() {
                 ) : (
                   <div className="text-center py-8">
                     <BellRing className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
-                    <p className="text-sm text-muted-foreground">No tienes notificaciones</p>
+                    <p className="text-sm text-muted-foreground">{t("dashboard.notifications.empty")}</p>
                   </div>
                 )}
               </CardContent>
@@ -877,7 +877,7 @@ export default function Dashboard() {
               onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
               data-testid="button-pending-logout"
             >
-              Cerrar Sesión
+              {t("dashboard.pendingAccount.logout")}
             </Button>
           </div>
         </main>
@@ -904,7 +904,6 @@ export default function Dashboard() {
     { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
     { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
     { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
-    { id: 'tools', label: 'Herramientas', icon: Receipt, mobileLabel: 'Herramientas' },
     { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
     ...(user?.isAdmin ? [
       { id: 'admin', label: 'Admin', icon: Shield, mobileLabel: 'Admin' }

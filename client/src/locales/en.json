@@ -699,7 +699,22 @@
     },
     "notifications": {
       "title": "Notifications",
-      "empty": "No notifications"
+      "empty": "No notifications",
+      "read": "Read"
+    },
+    "pendingAccount": {
+      "title": "Account under review",
+      "subtitle": "We are verifying your data",
+      "hello": "Hello, {{name}}",
+      "verifyEmailStep": "Step 1: Verify email",
+      "codeSentTo": "Code sent to",
+      "verifyButton": "Verify",
+      "resendCode": "Resend code",
+      "emailVerified": "Email verified",
+      "accountActivation": "Your account will be activated within 24 hours. We will notify you by email.",
+      "askStatusWhatsApp": "Ask status via WhatsApp",
+      "logout": "Log out",
+      "enter6DigitCode": "Enter the 6-digit code"
     },
     "profile": {
       "title": "My Profile",

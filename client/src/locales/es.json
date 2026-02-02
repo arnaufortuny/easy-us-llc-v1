@@ -699,7 +699,22 @@
     },
     "notifications": {
       "title": "Notificaciones",
-      "empty": "No tienes notificaciones"
+      "empty": "No tienes notificaciones",
+      "read": "Leída"
+    },
+    "pendingAccount": {
+      "title": "Cuenta en revisión",
+      "subtitle": "Estamos verificando tus datos",
+      "hello": "Hola, {{name}}",
+      "verifyEmailStep": "Paso 1: Verificar email",
+      "codeSentTo": "Código enviado a",
+      "verifyButton": "Verificar",
+      "resendCode": "Reenviar código",
+      "emailVerified": "Email verificado",
+      "accountActivation": "Tu cuenta será activada en menos de 24 horas. Te avisaremos por email.",
+      "askStatusWhatsApp": "Preguntar estado por WhatsApp",
+      "logout": "Cerrar Sesión",
+      "enter6DigitCode": "Introduce el código de 6 dígitos"
     },
     "profile": {
       "title": "Mi Perfil",
