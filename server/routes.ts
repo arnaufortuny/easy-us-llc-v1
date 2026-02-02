@@ -620,10 +620,23 @@ export async function registerRoutes(
     });
     const data = updateSchema.parse(req.body);
     
-    const [updated] = await db.update(usersTable).set({
-      ...data,
-      updatedAt: new Date()
-    }).where(eq(usersTable.id, userId)).returning();
+    // Only afortuny07@gmail.com can assign admin privileges
+    const SUPER_ADMIN_EMAIL = "afortuny07@gmail.com";
+    if (data.isAdmin !== undefined) {
+      const [currentAdmin] = await db.select().from(usersTable).where(eq(usersTable.id, req.session?.userId || '')).limit(1);
+      if (!currentAdmin || currentAdmin.email !== SUPER_ADMIN_EMAIL) {
+        return res.status(403).json({ message: "Solo el administrador principal puede asignar privilegios de administrador" });
+      }
+    }
+    
+    // If setting isAdmin to true, ensure emailVerified is also true
+    const updateData: any = { ...data, updatedAt: new Date() };
+    if (data.isAdmin === true) {
+      updateData.emailVerified = true;
+      updateData.accountStatus = 'active';
+    }
+    
+    const [updated] = await db.update(usersTable).set(updateData).where(eq(usersTable.id, userId)).returning();
 
     // Audit log for user update
     logAudit({ 
@@ -791,6 +804,51 @@ export async function registerRoutes(
     }).returning();
     
     res.json({ success: true, userId: newUser.id });
+  }));
+
+  // Admin reset client password
+  app.post("/api/admin/users/:id/reset-password", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const { newPassword } = req.body;
+    
+    if (!newPassword || newPassword.length < 8) {
+      return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
+    }
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    const bcrypt = await import("bcrypt");
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    await db.update(usersTable).set({ 
+      passwordHash: hashedPassword, 
+      updatedAt: new Date() 
+    }).where(eq(usersTable.id, userId));
+    
+    logAudit({ 
+      action: 'admin_password_reset', 
+      userId: req.session?.userId, 
+      targetId: userId,
+      details: { email: user.email }
+    });
+    
+    // Send email notification to user
+    if (user.email) {
+      await sendEmail({
+        to: user.email,
+        subject: "Tu contraseña ha sido restablecida",
+        html: `${getEmailHeader('Contraseña Restablecida')}
+          <p>Hola ${user.firstName || 'Cliente'},</p>
+          <p>Tu contraseña ha sido restablecida por un administrador.</p>
+          <p>Si no solicitaste este cambio, por favor contacta con soporte inmediatamente.</p>
+          ${getEmailFooter()}`
+      }).catch(() => {});
+    }
+    
+    res.json({ success: true });
   }));
 
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {

@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail } from "lucide-react";
+import { CheckCircle2, Trash2, Mail, Copy, Check } from "lucide-react";
+import { useState } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";
 import type { User, ProfileData } from "./types";
@@ -61,6 +62,15 @@ export function ProfileTab({
   setShowEmailVerification,
   setDeleteOwnAccountDialog,
 }: ProfileTabProps) {
+  const [copiedId, setCopiedId] = useState(false);
+  
+  const copyIdToClipboard = () => {
+    const clientId = user?.clientId || user?.id?.slice(0, 8).toUpperCase() || '';
+    navigator.clipboard.writeText(clientId);
+    setCopiedId(true);
+    setTimeout(() => setCopiedId(false), 2000);
+  };
+
   return (
     <div key="profile" className="space-y-6">
       <div className="mb-4 md:mb-6">
@@ -88,7 +98,19 @@ export function ProfileTab({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
               <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">ID Cliente</p>
-              <p className="text-lg font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-lg font-black font-mono">{user?.clientId || user?.id?.slice(0, 8).toUpperCase()}</p>
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="h-7 w-7 p-0 rounded-full" 
+                  onClick={copyIdToClipboard}
+                  data-testid="button-copy-client-id"
+                  title="Copiar ID"
+                >
+                  {copiedId ? <Check className="h-4 w-4 text-green-600" /> : <Copy className="h-4 w-4" />}
+                </Button>
+              </div>
             </div>
             <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
               <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>

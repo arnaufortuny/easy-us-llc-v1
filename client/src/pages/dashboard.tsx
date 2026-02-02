@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -14,7 +14,6 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
@@ -130,6 +129,9 @@ export default function Dashboard() {
   const [adminDocType, setAdminDocType] = useState("articles_of_organization");
   const [adminDocFile, setAdminDocFile] = useState<File | null>(null);
   const [isUploadingAdminDoc, setIsUploadingAdminDoc] = useState(false);
+  const [resetPasswordDialog, setResetPasswordDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [newAdminPassword, setNewAdminPassword] = useState("");
+  const [isResettingPassword, setIsResettingPassword] = useState(false);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
@@ -1799,6 +1801,9 @@ export default function Dashboard() {
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
                                 Editar
                               </Button>
+                              <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
+                                <Key className="w-3 h-3 mr-1" />Contraseña
+                              </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
                                 Mensaje
                               </Button>
@@ -2082,7 +2087,26 @@ export default function Dashboard() {
                               </div>
                               <div className="flex items-center gap-1 shrink-0">
                                 <Badge variant="outline" className="text-[8px] md:text-[10px] hidden md:inline-flex">{msg.messageId || msg.id}</Badge>
-                                <Badge variant="secondary" className="text-[8px] md:text-[10px]">{msg.status || 'pendiente'}</Badge>
+                                <Badge variant={msg.status === 'archived' ? 'secondary' : 'default'} className="text-[8px] md:text-[10px]">{msg.status === 'archived' ? 'archivado' : msg.status || 'pendiente'}</Badge>
+                                {msg.status !== 'archived' && (
+                                  <Button 
+                                    size="icon" 
+                                    variant="ghost" 
+                                    className="h-6 w-6 md:h-7 md:w-7 text-muted-foreground hover:text-foreground" 
+                                    onClick={async (e) => {
+                                      e.stopPropagation();
+                                      try {
+                                        await apiRequest("PATCH", `/api/admin/messages/${msg.id}/archive`);
+                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
+                                        toast({ title: "Mensaje archivado" });
+                                      } catch { toast({ title: "Error al archivar", variant: "destructive" }); }
+                                    }}
+                                    data-testid={`btn-archive-msg-${msg.id}`}
+                                    title="Archivar"
+                                  >
+                                    <Archive className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                                  </Button>
+                                )}
                                 <Button 
                                   size="icon" 
                                   variant="ghost" 
@@ -2530,6 +2554,21 @@ export default function Dashboard() {
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
                     <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 text-sm" data-testid="input-edit-notes" />
                   </div>
+                  {user?.email === 'afortuny07@gmail.com' && (
+                    <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-xs font-black text-purple-700 dark:text-purple-300">Permisos de Administrador</p>
+                          <p className="text-[10px] text-purple-600 dark:text-purple-400">Solo tú puedes cambiar esto</p>
+                        </div>
+                        <Switch
+                          checked={editingUser.isAdmin || false}
+                          onCheckedChange={(checked) => setEditingUser({...editingUser, isAdmin: checked})}
+                          data-testid="switch-admin-toggle"
+                        />
+                      </div>
+                    </div>
+                  )}
                   <div className="flex flex-col gap-2 pt-4 border-t mt-4">
                     <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
                       {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
@@ -2769,21 +2808,23 @@ export default function Dashboard() {
         </>
       )}
 
-      <Dialog open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <DialogContent className="w-full sm:max-w-sm bg-white dark:bg-zinc-900">
-          <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</DialogTitle></DialogHeader>
+      <Sheet open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</SheetTitle>
+          </SheetHeader>
           <div className="py-4">
             <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
             <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer. Todos tus datos serán eliminados.</p>
           </div>
-          <DialogFooter className="flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} className="rounded-full font-black" data-testid="button-confirm-delete-account">
+          <div className="flex flex-col gap-3 mt-4">
+            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete-account">
               {deleteOwnAccountMutation.isPending ? 'Eliminando...' : 'Eliminar Mi Cuenta'}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)} className="w-full rounded-full">Cancelar</Button>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       
       <Sheet open={createUserDialog} onOpenChange={setCreateUserDialog}>
@@ -3012,24 +3053,24 @@ export default function Dashboard() {
         </SheetContent>
       </Sheet>
 
-      <Dialog open={showEmailVerification} onOpenChange={(open) => {
+      <Sheet open={showEmailVerification} onOpenChange={(open) => {
         setShowEmailVerification(open);
         if (!open) {
           setEmailVerificationCode("");
         }
       }}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-black">Verifica tu correo electrónico</DialogTitle>
-            <DialogDescription>Te hemos enviado un código de verificación para confirmar tu email</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-black">Verifica tu correo electrónico</SheetTitle>
+            <SheetDescription>Te hemos enviado un código de verificación para confirmar tu email</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
             <div>
               <Label className="text-sm font-semibold text-foreground block mb-2">Código de verificación</Label>
               <Input
                 value={emailVerificationCode}
                 onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-full text-center text-2xl font-black border-gray-200 focus:border-accent tracking-[0.5em]"
+                className="rounded-xl text-center text-2xl font-black border-gray-200 h-14 tracking-[0.5em]"
                 maxLength={6}
                 inputMode="numeric"
                 autoComplete="one-time-code"
@@ -3092,8 +3133,8 @@ export default function Dashboard() {
               </Button>
             </div>
           </div>
-        </DialogContent>
-      </Dialog>
+        </SheetContent>
+      </Sheet>
 
       <Sheet open={paymentLinkDialog.open} onOpenChange={(open) => {
         setPaymentLinkDialog({ open, user: open ? paymentLinkDialog.user : null });
@@ -3290,6 +3331,55 @@ export default function Dashboard() {
               {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
             </Button>
             <Button variant="outline" onClick={() => setAdminDocUploadDialog({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
+          </div>
+        </SheetContent>
+      </Sheet>
+
+      <Sheet open={resetPasswordDialog.open} onOpenChange={(open) => {
+        setResetPasswordDialog({ open, user: open ? resetPasswordDialog.user : null });
+        if (!open) setNewAdminPassword("");
+      }}>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-black">Restablecer Contraseña</SheetTitle>
+            <SheetDescription>Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
+            <div>
+              <Label className="text-sm font-semibold text-foreground block mb-2">Nueva Contraseña</Label>
+              <Input
+                type="password"
+                value={newAdminPassword}
+                onChange={(e) => setNewAdminPassword(e.target.value)}
+                placeholder="Mínimo 8 caracteres"
+                className="rounded-xl h-12 border-gray-200"
+                data-testid="input-admin-new-password"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
+            <Button
+              disabled={newAdminPassword.length < 8 || isResettingPassword}
+              onClick={async () => {
+                if (!resetPasswordDialog.user?.id || newAdminPassword.length < 8) return;
+                setIsResettingPassword(true);
+                try {
+                  await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
+                  toast({ title: "Contraseña actualizada", description: "El cliente recibirá un email notificando el cambio." });
+                  setResetPasswordDialog({ open: false, user: null });
+                  setNewAdminPassword("");
+                } catch {
+                  toast({ title: "Error", description: "No se pudo actualizar la contraseña", variant: "destructive" });
+                } finally {
+                  setIsResettingPassword(false);
+                }
+              }}
+              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
+              data-testid="button-confirm-reset-password"
+            >
+              {isResettingPassword ? <Loader2 className="animate-spin" /> : "Restablecer Contraseña"}
+            </Button>
+            <Button variant="outline" onClick={() => setResetPasswordDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
           </div>
         </SheetContent>
       </Sheet>
