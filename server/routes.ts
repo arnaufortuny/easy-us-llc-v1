@@ -1625,6 +1625,12 @@ export async function registerRoutes(
   app.get("/uploads/admin-docs/:filename", isAuthenticated, async (req: any, res) => {
     try {
       const filename = req.params.filename;
+      
+      // Security: Prevent path traversal attacks
+      if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
+        return res.status(400).json({ message: "Nombre de archivo inválido" });
+      }
+      
       const fileUrl = `/uploads/admin-docs/${filename}`;
       
       // Check if user account is under review (non-admin only)
@@ -1670,6 +1676,11 @@ export async function registerRoutes(
         return res.status(404).json({ message: "Archivo no encontrado" });
       }
       
+      // Security headers for file downloads
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('Cache-Control', 'private, no-cache');
+      
       res.sendFile(filePath);
     } catch (error) {
       console.error("Error serving admin doc:", error);
@@ -1681,6 +1692,12 @@ export async function registerRoutes(
   app.get("/uploads/client-docs/:filename", isAuthenticated, async (req: any, res) => {
     try {
       const filename = req.params.filename;
+      
+      // Security: Prevent path traversal attacks
+      if (filename.includes('..') || filename.includes('/') || filename.includes('\\')) {
+        return res.status(400).json({ message: "Nombre de archivo inválido" });
+      }
+      
       const fileUrl = `/uploads/client-docs/${filename}`;
       
       // Check if user account is under review (non-admin only)
@@ -1725,6 +1742,11 @@ export async function registerRoutes(
       if (!fs.existsSync(filePath)) {
         return res.status(404).json({ message: "Archivo no encontrado" });
       }
+      
+      // Security headers for file downloads
+      res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('Cache-Control', 'private, no-cache');
       
       res.sendFile(filePath);
     } catch (error) {
