@@ -300,7 +300,11 @@
   },
   "packsTitle": {
     "packs": "PACKS",
-    "formation": "FORMACIÓN LLC"
+    "formation": "FORMACIÓN LLC",
+    "maintenance": {
+      "packs": "PACKS",
+      "name": "MANTENIMIENTO"
+    }
   },
   "pricing": {
     "title": "Planes y Precios",

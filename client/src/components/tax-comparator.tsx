@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { Calculator, ChevronDown, ChevronUp, Sparkles } from "lucide-react";
+import { ChevronDown, ChevronUp, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { SpainFlag, USAFlag as USFlag } from "@/components/ui/flags";
@@ -115,8 +115,7 @@ export function TaxComparator() {
           <div className="bg-card rounded-3xl border border-border shadow-xl overflow-hidden">
             <div className="p-6 sm:p-8 border-b border-border">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
-                <label className="text-base font-bold text-foreground flex items-center gap-2">
-                  <Calculator className="w-5 h-5 text-accent" />
+                <label className="text-base font-bold text-foreground">
                   {t("taxComparator.annualIncome")}
                 </label>
                 <div className="text-3xl sm:text-4xl font-black text-foreground">{formatCurrency(income)}</div>
