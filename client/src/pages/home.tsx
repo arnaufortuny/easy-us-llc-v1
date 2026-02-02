@@ -214,12 +214,14 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
-      text: t("whyUs.specialists.text")
+      text: t("whyUs.specialists.text"),
+      image: "/specialists.png"
     },
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
-      text: t("whyUs.support.text")
+      text: t("whyUs.support.text"),
+      image: "/support.png"
     },
   ];
 
