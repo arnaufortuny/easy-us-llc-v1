@@ -208,8 +208,7 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
-      text: t("whyUs.transparency.text"),
-      image: "/coins.jpg"
+      text: t("whyUs.transparency.text")
     },
     { 
       badge: t("whyUs.specialists.badge"), 
@@ -219,8 +218,7 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
-      text: t("whyUs.support.text"),
-      image: "/support.jpg"
+      text: t("whyUs.support.text")
     },
   ];
 
@@ -238,11 +236,6 @@ function PorQueEasyUSLLC() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
           {whyUsFeatures.map((feature, i) => (
             <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
-              {feature.image && (
-                <div className="w-full h-40 overflow-hidden">
-                  <img src={feature.image} alt="" className="w-full h-full object-cover" />
-                </div>
-              )}
               <div className="p-6 flex-grow text-left">
                 <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{feature.badge}</span>
                 <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{feature.title}</h3>
