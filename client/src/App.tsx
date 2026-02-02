@@ -4,28 +4,88 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { useState, useEffect, Suspense, lazy } from "react";
+import { useState, useEffect, Suspense, lazy, Component, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import NotFound from "@/pages/not-found";
 
-const Home = lazy(() => import("@/pages/home"));
-const Legal = lazy(() => import("@/pages/legal/terminos"));
-const Servicios = lazy(() => import("@/pages/servicios"));
-const Privacidad = lazy(() => import("@/pages/legal/privacidad"));
-const Reembolsos = lazy(() => import("@/pages/legal/reembolsos"));
-const Cookies = lazy(() => import("@/pages/legal/cookies"));
-const Contacto = lazy(() => import("@/pages/contacto"));
-const FAQ = lazy(() => import("@/pages/faq"));
-const MaintenancePage = lazy(() => import("@/pages/maintenance"));
-const LlcFormation = lazy(() => import("@/pages/llc-formation"));
-const Dashboard = lazy(() => import("@/pages/dashboard"));
+function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
+  importFn: () => Promise<T>,
+  retries = 3,
+  interval = 1000
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    importFn()
+      .then(resolve)
+      .catch((error) => {
+        if (retries === 0) {
+          reject(error);
+          return;
+        }
+        setTimeout(() => {
+          lazyRetry(importFn, retries - 1, interval).then(resolve, reject);
+        }, interval);
+      });
+  });
+}
 
-const Login = lazy(() => import("@/pages/auth/login.tsx"));
-const Register = lazy(() => import("@/pages/auth/register.tsx"));
-const ForgotPassword = lazy(() => import("@/pages/auth/forgot-password.tsx"));
-const Sales = lazy(() => import("@/pages/funnel"));
-const InvoiceGenerator = lazy(() => import("@/pages/invoice-generator"));
-const LinktreePage = lazy(() => import("@/pages/linktree"));
+const Home = lazy(() => lazyRetry(() => import("@/pages/home")));
+const Legal = lazy(() => lazyRetry(() => import("@/pages/legal/terminos")));
+const Servicios = lazy(() => lazyRetry(() => import("@/pages/servicios")));
+const Privacidad = lazy(() => lazyRetry(() => import("@/pages/legal/privacidad")));
+const Reembolsos = lazy(() => lazyRetry(() => import("@/pages/legal/reembolsos")));
+const Cookies = lazy(() => lazyRetry(() => import("@/pages/legal/cookies")));
+const Contacto = lazy(() => lazyRetry(() => import("@/pages/contacto")));
+const FAQ = lazy(() => lazyRetry(() => import("@/pages/faq")));
+const MaintenancePage = lazy(() => lazyRetry(() => import("@/pages/maintenance")));
+const LlcFormation = lazy(() => lazyRetry(() => import("@/pages/llc-formation")));
+const Dashboard = lazy(() => lazyRetry(() => import("@/pages/dashboard")));
+
+const Login = lazy(() => lazyRetry(() => import("@/pages/auth/login.tsx")));
+const Register = lazy(() => lazyRetry(() => import("@/pages/auth/register.tsx")));
+const ForgotPassword = lazy(() => lazyRetry(() => import("@/pages/auth/forgot-password.tsx")));
+const Sales = lazy(() => lazyRetry(() => import("@/pages/funnel")));
+const InvoiceGenerator = lazy(() => lazyRetry(() => import("@/pages/invoice-generator")));
+const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
+
+interface ErrorBoundaryState {
+  hasError: boolean;
+}
+
+class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, ErrorBoundaryState> {
+  constructor(props: { children: ReactNode; fallback?: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(): ErrorBoundaryState {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error): void {
+    console.error('Page load error:', error);
+  }
+
+  render(): ReactNode {
+    if (this.state.hasError) {
+      return this.props.fallback || (
+        <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+          <div className="text-center space-y-4">
+            <h2 className="text-xl font-semibold text-foreground">Error al cargar</h2>
+            <p className="text-muted-foreground">Hubo un problema al cargar la página.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-accent text-white rounded-md font-medium"
+            >
+              Recargar página
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
 
 function ScrollToTop() {
   const [location] = useLocation();
@@ -81,27 +141,29 @@ function Router() {
   const [location] = useLocation();
   
   return (
-    <Suspense key={location} fallback={<LoadingScreen />}>
-      <Switch>
-        <Route path="/" component={Home} />
-        <Route path="/servicios" component={Servicios} />
-        <Route path="/precios" component={Servicios} />
-        <Route path="/faq" component={FAQ} />
-        <Route path="/contacto" component={Contacto} />
-        <Route path="/llc/maintenance" component={MaintenancePage} />
-        <Route path="/llc/formation" component={LlcFormation} />
-        <Route path="/dashboard" component={Dashboard} />
-        <Route path="/auth/login" component={Login} />
-        <Route path="/auth/register" component={Register} />
-        <Route path="/auth/forgot-password" component={ForgotPassword} />
-        <Route path="/legal/terminos" component={Legal} />
-        <Route path="/legal/privacidad" component={Privacidad} />
-        <Route path="/legal/reembolsos" component={Reembolsos} />
-        <Route path="/legal/cookies" component={Cookies} />
-        <Route path="/tools/invoice" component={InvoiceGenerator} />
-        <Route component={NotFound} />
-      </Switch>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense key={location} fallback={<LoadingScreen />}>
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/servicios" component={Servicios} />
+          <Route path="/precios" component={Servicios} />
+          <Route path="/faq" component={FAQ} />
+          <Route path="/contacto" component={Contacto} />
+          <Route path="/llc/maintenance" component={MaintenancePage} />
+          <Route path="/llc/formation" component={LlcFormation} />
+          <Route path="/dashboard" component={Dashboard} />
+          <Route path="/auth/login" component={Login} />
+          <Route path="/auth/register" component={Register} />
+          <Route path="/auth/forgot-password" component={ForgotPassword} />
+          <Route path="/legal/terminos" component={Legal} />
+          <Route path="/legal/privacidad" component={Privacidad} />
+          <Route path="/legal/reembolsos" component={Reembolsos} />
+          <Route path="/legal/cookies" component={Cookies} />
+          <Route path="/tools/invoice" component={InvoiceGenerator} />
+          <Route component={NotFound} />
+        </Switch>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 
@@ -115,9 +177,11 @@ function App() {
       return (
         <QueryClientProvider client={queryClient}>
           <TooltipProvider>
-            <Suspense fallback={<LoadingScreen />}>
-              <Sales />
-            </Suspense>
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingScreen />}>
+                <Sales />
+              </Suspense>
+            </ErrorBoundary>
             <Toaster />
           </TooltipProvider>
         </QueryClientProvider>
@@ -125,9 +189,11 @@ function App() {
     }
     return (
       <QueryClientProvider client={queryClient}>
-        <Suspense fallback={<LoadingScreen />}>
-          <LinktreePage />
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<LoadingScreen />}>
+            <LinktreePage />
+          </Suspense>
+        </ErrorBoundary>
         <Toaster />
       </QueryClientProvider>
     );
