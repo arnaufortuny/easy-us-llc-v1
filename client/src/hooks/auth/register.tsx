@@ -517,17 +517,16 @@ export default function Register() {
                 )}
               
 
-              <div className="flex gap-3 pt-4">
+              <div className="flex gap-4 pt-4">
                 {step > 0 && (
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
                     onClick={prevStep}
-                    className="rounded-full font-medium px-4 h-10"
+                    className="rounded-full font-black px-6 h-12 text-sm border-border"
                     data-testid="button-prev"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-1" />
+                    <ArrowLeft className="w-4 h-4 mr-2" />
                     {t("common.back")}
                   </Button>
                 )}
@@ -536,16 +535,17 @@ export default function Register() {
                   <Button
                     type="button"
                     onClick={nextStep}
-                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
+                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20"
                     data-testid="button-next"
                   >
                     {t("common.next")}
+                    <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 ) : (
                   <Button
                     type="submit"
                     disabled={isLoading}
-                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11 md:h-12 text-sm md:text-base shadow-lg shadow-accent/20"
+                    className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20"
                     data-testid="button-register"
                   >
                     {isLoading ? <Loader2 className="animate-spin" /> : t("auth.register.submit")}
