@@ -244,9 +244,6 @@ function PorQueEasyUSLLC() {
     <section className="py-8 sm:py-14 bg-background relative">
       <div className="w-full px-5 sm:px-8">
         <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-          <span className="inline-flex items-center justify-center px-5 py-2 rounded-full bg-accent text-accent-foreground font-black text-xs sm:text-sm tracking-widest shadow-md mb-4">
-            {t("whyUs.transparency.badge", "VALUES")}
-          </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
             {t("whyUs.sectionTitle", "NOS ENCARGAMOS DE TU LLC, DE PRINCIPIO A FIN")}
           </h2>
