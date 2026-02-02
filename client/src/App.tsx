@@ -104,8 +104,8 @@ function LoadingScreen() {
   const [progress, setProgress] = useState(0);
   
   useEffect(() => {
-    const duration = 600;
-    const steps = 20;
+    const duration = 400; // Faster loading animation
+    const steps = 15;
     const increment = 100 / steps;
     const interval = duration / steps;
     
@@ -130,13 +130,12 @@ function LoadingScreen() {
         alt="Easy US LLC" 
         className="w-16 h-16 sm:w-20 sm:h-20 mb-8 opacity-90"
       />
-      <div className="w-64 sm:w-72 h-3 bg-muted/50 rounded-full overflow-hidden border border-border">
+      <div className="w-64 sm:w-72 h-2 bg-muted/50 rounded-full overflow-hidden border border-border">
         <div 
-          className="h-full bg-accent rounded-full transition-all duration-100 ease-out"
+          className="h-full bg-accent rounded-full transition-all duration-75 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="text-sm sm:text-base text-foreground mt-4 font-bold">{Math.round(progress)}%</p>
     </div>
   );
 }
@@ -175,14 +174,16 @@ function MainRouter() {
 function usePrefetchCriticalRoutes() {
   useEffect(() => {
     const timer = setTimeout(() => {
-      // Prefetch most visited routes after 2s idle
+      // Prefetch most visited routes after 1s idle for faster navigation
       const criticalRoutes = [
         () => import("@/pages/servicios"),
         () => import("@/pages/home"),
         () => import("@/pages/faq"),
+        () => import("@/pages/auth/login.tsx"),
+        () => import("@/pages/dashboard"),
       ];
       criticalRoutes.forEach(route => route().catch(() => {}));
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 }
