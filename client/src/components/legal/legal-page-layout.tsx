@@ -71,7 +71,7 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
       </header>
       
       <main className="py-8 sm:py-10 lg:py-12 print:py-2">
-        <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8 print:px-2">
+        <div className="container max-w-5xl mx-auto px-3 sm:px-6 lg:px-8 print:px-2">
           <div ref={contentRef} className="space-y-8 sm:space-y-10 print:space-y-4 text-left">
             {children}
           </div>
