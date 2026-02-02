@@ -214,7 +214,8 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
-      text: t("whyUs.specialists.text") 
+      text: t("whyUs.specialists.text"),
+      image: "/handshake.jpg"
     },
     { 
       badge: t("whyUs.support.badge"), 
