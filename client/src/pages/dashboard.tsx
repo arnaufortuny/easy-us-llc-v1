@@ -704,9 +704,9 @@ export default function Dashboard() {
   // Cuenta en revisión - solo verificar email y ver notificaciones
   if (user?.accountStatus === 'pending') {
     return (
-      <div className="min-h-screen bg-muted bg-green-gradient font-sans flex flex-col overflow-x-hidden">
+      <div className="min-h-screen bg-muted bg-green-gradient font-sans flex flex-col overflow-x-hidden overflow-y-auto">
         <Navbar />
-        <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full">
+        <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight leading-tight">

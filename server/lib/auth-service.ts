@@ -196,34 +196,37 @@ export async function loginUser(email: string, password: string): Promise<typeof
     const newAttempts = (user.loginAttempts || 0) + 1;
     const updates: any = { loginAttempts: newAttempts };
     
-    if (newAttempts >= 5) {
-      // Lock account for 1 hour (temporary lock, not deactivation)
-      updates.lockUntil = new Date(Date.now() + 60 * 60 * 1000);
+    if (newAttempts >= 4) {
+      // Deactivate account after 4 failed attempts (permanent until admin review)
+      updates.accountStatus = 'deactivated';
+      updates.isActive = false;
+      updates.lockUntil = null;
       
       const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
 
-      // Send lock email
+      // Send deactivation email
       try {
         await sendEmail({
           to: user.email!,
-          subject: "Seguridad Easy US LLC - Cuenta Bloqueada Temporalmente",
+          subject: "Seguridad Easy US LLC - Cuenta Desactivada",
           html: getAccountLockedTemplate(user.firstName || 'Cliente', msgId)
         });
 
         // Add to messages for admin visibility
         await db.insert(messagesTable).values({
           userId: user.id,
-          name: "Claudia (Seguridad)",
+          name: "Sistema de Seguridad",
           email: "seguridad@easyusllc.com",
-          subject: "Cuenta Bloqueada - Verificación Requerida",
-          content: `Cuenta desactivada temporalmente por seguridad. Se ha solicitado DNI y fecha de nacimiento. Ticket ID: ${msgId}`,
+          subject: "Cuenta Desactivada - 4 Intentos Fallidos",
+          content: `Cuenta desactivada permanentemente por seguridad tras 4 intentos fallidos de inicio de sesión. Se requiere verificación de identidad para reactivar. Ticket ID: ${msgId}`,
           status: "unread",
           type: "support",
           messageId: msgId
         });
 
+        logActivity("Cuenta Desactivada por Seguridad", { userId: user.id, email: user.email, attempts: newAttempts });
       } catch (e) {
-        console.error("Error handling account lock:", e);
+        console.error("Error handling account deactivation:", e);
       }
     }
     
