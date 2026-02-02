@@ -209,19 +209,19 @@ function PorQueEasyUSLLC() {
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
       text: t("whyUs.transparency.text"),
-      image: "/transparency.png"
+      image: "/transparency.png?v=2"
     },
     { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
       text: t("whyUs.specialists.text"),
-      image: "/specialists.png"
+      image: "/specialists.png?v=2"
     },
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
       text: t("whyUs.support.text"),
-      image: "/support.png"
+      image: "/support.png?v=2"
     },
   ];
 
