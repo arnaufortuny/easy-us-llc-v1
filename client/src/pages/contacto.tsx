@@ -582,7 +582,7 @@ export default function Contacto() {
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" variant="outline" size="sm" onClick={() => setStep(6)} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 

@@ -91,7 +91,7 @@ export async function createUser(data: {
     businessActivity: data.businessActivity || null,
     emailVerified: false,
     isAdmin: isAdmin,
-    accountStatus: "active",
+    accountStatus: "pending",
   }).returning();
 
   const verificationToken = generateOtp();

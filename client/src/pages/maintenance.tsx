@@ -1145,12 +1145,13 @@ export default function MaintenanceApplication() {
                       <Button 
                         type="button" 
                         variant="outline" 
+                        size="sm"
                         onClick={() => {
                           setEmailExists(false);
                           setStep(3);
                           form.setValue("ownerEmail", "");
                         }}
-                        className="flex-1 rounded-full h-12 font-bold border-border transition-all"
+                        className="rounded-full h-10 px-4 font-medium border-border transition-all"
                       >
                         Usar otro email
                       </Button>

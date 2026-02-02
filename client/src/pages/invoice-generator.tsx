@@ -319,7 +319,7 @@ export default function InvoiceGenerator() {
                     data-testid="input-issuer-address"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label htmlFor="issuerEmail" className="text-xs md:text-sm">Email</Label>
                     <Input
@@ -375,7 +375,7 @@ export default function InvoiceGenerator() {
                     data-testid="input-client-address"
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <Label htmlFor="clientEmail" className="text-xs md:text-sm">Email</Label>
                     <Input
