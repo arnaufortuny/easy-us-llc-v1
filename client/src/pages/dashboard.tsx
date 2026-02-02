@@ -1069,37 +1069,123 @@ export default function Dashboard() {
                     </Card>
                   )}
                   
-                  {/* Botón prominente de subir archivo para móvil */}
+                  {/* Subir documento inline sin dialogo */}
                   <Card className="rounded-2xl border-2 border-dashed border-accent/50 bg-accent/5 p-4 md:p-6 mb-4">
-                    <label className="cursor-pointer w-full block">
-                      <input 
-                        type="file" 
-                        className="hidden" 
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            setUploadDialog({ open: true, file });
-                            setUploadDocType("passport");
-                            setUploadNotes("");
-                          }
-                        }}
-                        data-testid="input-upload-new-document"
-                      />
-                      <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0">
-                          <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
+                    {!uploadDialog.file ? (
+                      <label className="cursor-pointer w-full block">
+                        <input 
+                          type="file" 
+                          className="hidden" 
+                          accept=".pdf,.jpg,.jpeg,.png"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              setUploadDialog({ open: false, file });
+                              setUploadDocType("passport");
+                              setUploadNotes("");
+                            }
+                          }}
+                          data-testid="input-upload-new-document"
+                        />
+                        <div className="flex items-center gap-4">
+                          <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-accent/20 flex items-center justify-center shrink-0">
+                            <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h3 className="font-semibold text-foreground text-base md:text-lg">Subir Documento</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground">PDF, JPG o PNG (máx. 10MB)</p>
+                          </div>
+                          <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0" asChild>
+                            <span>
+                              <FileUp className="w-5 h-5 md:mr-2" />
+                              <span className="hidden md:inline">Subir</span>
+                            </span>
+                          </Button>
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-semibold text-foreground text-base md:text-lg">Subir Documento</h3>
-                          <p className="text-xs md:text-sm text-muted-foreground">PDF, JPG o PNG (máx. 10MB)</p>
+                      </label>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-800 rounded-xl">
+                          <FileUp className="w-8 h-8 text-accent shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm truncate text-foreground">{uploadDialog.file.name}</p>
+                            <p className="text-xs text-muted-foreground">{(uploadDialog.file.size / 1024 / 1024).toFixed(2)} MB</p>
+                          </div>
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            onClick={() => setUploadDialog({ open: false, file: null })}
+                            className="shrink-0 text-muted-foreground hover:text-red-500"
+                            data-testid="button-clear-file"
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
                         </div>
-                        <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0">
-                          <FileUp className="w-5 h-5 md:mr-2" />
-                          <span className="hidden md:inline">Subir</span>
+                        
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-2 block">Tipo de documento</Label>
+                          <NativeSelect 
+                            value={uploadDocType} 
+                            onValueChange={setUploadDocType}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                            data-testid="select-upload-doc-type-inline"
+                          >
+                            <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
+                            <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
+                            <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
+                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                        
+                        {uploadDocType === "other" && (
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-2 block">Descripción</Label>
+                            <Textarea 
+                              value={uploadNotes} 
+                              onChange={(e) => setUploadNotes(e.target.value)} 
+                              placeholder="Describe el documento..."
+                              className="min-h-[70px] rounded-xl border-gray-200 text-base"
+                              style={{ fontSize: '16px' }}
+                              data-testid="input-upload-notes-inline"
+                            />
+                          </div>
+                        )}
+                        
+                        <Button 
+                          onClick={async () => {
+                            if (!uploadDialog.file) return;
+                            const formData = new FormData();
+                            formData.append('file', uploadDialog.file);
+                            formData.append('documentType', uploadDocType);
+                            if (uploadDocType === 'other' && uploadNotes) {
+                              formData.append('notes', uploadNotes);
+                            }
+                            try {
+                              const res = await fetch('/api/user/documents/upload', {
+                                method: 'POST',
+                                body: formData,
+                                credentials: 'include'
+                              });
+                              if (res.ok) {
+                                toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                                queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
+                                setUploadDialog({ open: false, file: null });
+                              } else {
+                                const data = await res.json();
+                                toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
+                              }
+                            } catch {
+                              toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                            }
+                          }}
+                          disabled={uploadDocType === 'other' && !uploadNotes.trim()}
+                          className="w-full bg-accent text-accent-foreground font-bold rounded-full h-12"
+                          data-testid="button-send-document"
+                        >
+                          <Send className="w-4 h-4 mr-2" /> Enviar Documento
                         </Button>
                       </div>
-                    </label>
+                    )}
                   </Card>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2696,88 +2782,7 @@ export default function Dashboard() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={uploadDialog.open} onOpenChange={(open) => { if (!open) setUploadDialog({ open: false, file: null }); }}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-lg sm:text-xl font-semibold text-foreground">Subir Documento</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
-            {uploadDialog.file && (
-              <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg flex items-center gap-3">
-                <FileUp className="w-7 h-7 sm:w-8 sm:h-8 text-accent shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-xs sm:text-sm truncate">{uploadDialog.file.name}</p>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground">{(uploadDialog.file.size / 1024 / 1024).toFixed(2)} MB</p>
-                </div>
-              </div>
-            )}
-            <div>
-              <Label className="text-xs sm:text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
-              <NativeSelect 
-                value={uploadDocType} 
-                onValueChange={setUploadDocType}
-                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
-                data-testid="select-upload-doc-type"
-              >
-                <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
-                <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
-                <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
-                <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
-              </NativeSelect>
-            </div>
-            {uploadDocType === "other" && (
-              <div>
-                <Label className="text-xs sm:text-sm font-semibold text-foreground mb-2 block">Descripción del documento</Label>
-                <Textarea 
-                  value={uploadNotes} 
-                  onChange={(e) => setUploadNotes(e.target.value)} 
-                  placeholder="Describe el tipo de documento que estás subiendo..."
-                  className="min-h-[80px] rounded-xl border-gray-200 focus:border-accent text-base"
-                  style={{ fontSize: '16px' }}
-                  data-testid="input-upload-notes"
-                />
-              </div>
-            )}
-          </div>
-          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setUploadDialog({ open: false, file: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-            <Button 
-              onClick={async () => {
-                if (!uploadDialog.file) return;
-                const formData = new FormData();
-                formData.append('file', uploadDialog.file);
-                formData.append('documentType', uploadDocType);
-                if (uploadDocType === 'other' && uploadNotes) {
-                  formData.append('notes', uploadNotes);
-                }
-                try {
-                  const res = await fetch('/api/user/documents/upload', {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include'
-                  });
-                  if (res.ok) {
-                    toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
-                    queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
-                    setUploadDialog({ open: false, file: null });
-                  } else {
-                    const data = await res.json();
-                    toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
-                  }
-                } catch {
-                  toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
-                }
-              }}
-              disabled={uploadDocType === 'other' && !uploadNotes.trim()}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
-              data-testid="button-confirm-upload"
-            >
-              Subir Documento
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
+      
       <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
         <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
           <DialogHeader>
