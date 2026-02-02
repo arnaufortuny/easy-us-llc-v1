@@ -171,28 +171,6 @@ function MainRouter() {
   );
 }
 
-function AppRouter() {
-  const [location] = useLocation();
-  
-  return (
-    <ErrorBoundary>
-      <Suspense key={location} fallback={<LoadingScreen />}>
-        <Switch>
-          <Route path="/" component={Dashboard} />
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/auth/login" component={Login} />
-          <Route path="/auth/register" component={Register} />
-          <Route path="/auth/forgot-password" component={ForgotPassword} />
-          <Route path="/llc/maintenance" component={MaintenancePage} />
-          <Route path="/llc/formation" component={LlcFormation} />
-          <Route path="/tools/invoice" component={InvoiceGenerator} />
-          <Route component={NotFound} />
-        </Switch>
-      </Suspense>
-    </ErrorBoundary>
-  );
-}
-
 // Prefetch critical routes after initial load
 function usePrefetchCriticalRoutes() {
   useEffect(() => {
@@ -216,7 +194,6 @@ function App() {
   usePrefetchCriticalRoutes();
   
   const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
-  const isAppDomain = hostname === 'app.easyusllc.com';
 
   // creamostullc.com - Standalone landing pages (completely isolated)
   if (isLinktreeDomain) {
@@ -246,22 +223,7 @@ function App() {
     );
   }
 
-  // app.easyusllc.com - Application portal (login, dashboard, admin, forms)
-  if (isAppDomain) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <ThemeProvider defaultTheme="system" storageKey="easyusllc-theme">
-          <TooltipProvider>
-            <ScrollToTop />
-            <Toaster />
-            <AppRouter />
-          </TooltipProvider>
-        </ThemeProvider>
-      </QueryClientProvider>
-    );
-  }
-
-  // easyusllc.com - Main website (info, services, FAQ, legal)
+  // easyusllc.com - Main website (everything: info, services, FAQ, legal, dashboard, forms)
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider defaultTheme="system" storageKey="easyusllc-theme">

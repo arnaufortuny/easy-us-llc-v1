@@ -6,42 +6,38 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 ## User Preferences
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
-## CRITICAL: Domain Separation (DO NOT MODIFY)
+## Domain Separation
 
-**Three domains with COMPLETELY SEPARATE systems:**
+**Two domains:**
 
 | Domain | Router | Description |
 |--------|--------|-------------|
 | `creamostullc.com` | Standalone | Landing pages, NO i18n, hardcoded Spanish, isolated |
-| `app.easyusllc.com` | `AppRouter` | Application portal: login, dashboard, admin, forms |
-| `easyusllc.com` | `MainRouter` | Public website: home, services, FAQ, legal, WhatsApp |
+| `easyusllc.com` | `MainRouter` | Main website: home, services, FAQ, legal, dashboard, forms, auth |
 
 **Domain Routes:**
 
-| Route | creamostullc.com | app.easyusllc.com | easyusllc.com |
-|-------|------------------|-------------------|---------------|
-| `/` | LinktreePage | Dashboard | Home |
-| `/tu-llc` | Sales (funnel) | - | - |
-| `/auth/*` | - | Login/Register/Recovery | Login/Register/Recovery |
-| `/dashboard` | - | Dashboard | Dashboard |
-| `/llc/*` | - | Forms | Forms |
-| `/tools/*` | - | Invoice Generator | Invoice Generator |
-| `/servicios`, `/faq` | - | - | Info pages |
-| `/legal/*` | - | - | Legal pages |
+| Route | creamostullc.com | easyusllc.com |
+|-------|------------------|---------------|
+| `/` | LinktreePage | Home |
+| `/tu-llc` | Sales (funnel) | - |
+| `/auth/*` | - | Login/Register/Recovery |
+| `/dashboard` | - | Dashboard |
+| `/llc/*` | - | Forms |
+| `/tools/*` | - | Invoice Generator |
+| `/servicios`, `/faq` | - | Info pages |
+| `/legal/*` | - | Legal pages |
 
 **RULES:**
 1. **NEVER** modify `linktree.tsx` or `funnel.tsx` when making changes to the main web system
 2. **NEVER** import shared components from main web into linktree/funnel (they are self-contained)
 3. **NEVER** add i18n to linktree/funnel - they use hardcoded Spanish intentionally
-4. `app.easyusllc.com` has NO WhatsAppButton (app context, user already engaged)
-5. `easyusllc.com` has WhatsAppButton (public website, lead generation)
-6. Each domain has its own loading screen using the green progress bar (NO spinner circles)
+4. Each domain has its own loading screen using the green progress bar (NO spinner circles)
 
 **Architecture in App.tsx:**
 ```javascript
 if (isLinktreeDomain) → LinktreePage or Sales
-if (isAppDomain) → AppRouter (no WhatsApp)
-else → MainRouter + WhatsAppButton
+else → MainRouter
 ```
 
 ## System Architecture
