@@ -104,15 +104,25 @@ function LoadingScreen() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    let currentProgress = 0;
     const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) return 100;
-        const increment = Math.random() * 15 + 5;
-        return Math.min(prev + increment, 100);
-      });
-    }, 150);
+      currentProgress += Math.random() * 12 + 8;
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(timer);
+      }
+      setProgress(currentProgress);
+    }, 120);
 
-    return () => clearInterval(timer);
+    const forceComplete = setTimeout(() => {
+      clearInterval(timer);
+      setProgress(100);
+    }, 1500);
+
+    return () => {
+      clearInterval(timer);
+      clearTimeout(forceComplete);
+    };
   }, []);
 
   return (
@@ -120,16 +130,16 @@ function LoadingScreen() {
       <div className="w-64 space-y-4 flex flex-col items-center">
         <div className="w-full h-1.5 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full rounded-full transition-all duration-150 ease-out"
+            className="h-full rounded-full transition-all duration-120 ease-out"
             style={{ 
-              width: `${progress}%`,
+              width: `${Math.min(progress, 100)}%`,
               backgroundColor: '#6EDC8A',
               boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
             }}
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-accent font-black text-xl tabular-nums">{Math.round(progress)}%</span>
+          <span className="text-accent font-black text-xl tabular-nums">{Math.min(Math.round(progress), 100)}%</span>
           <span className="text-muted-foreground text-sm font-medium">{t('common.loading')}</span>
         </div>
       </div>
