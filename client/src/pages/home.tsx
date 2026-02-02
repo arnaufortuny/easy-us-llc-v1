@@ -121,9 +121,7 @@ export default function Home() {
       <section className="bg-background py-8 sm:py-24 relative" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-6 sm:mb-20 flex flex-col items-center justify-center relative">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] sm:leading-tight" style={{ fontWeight: 900 }}>
-              {t("benefits.sectionTitle")}
-            </h2>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }} />
           </div>
           
           <BenefitsCards />
@@ -243,9 +241,7 @@ function HowWeWorkSection() {
     <section className="py-12 sm:py-20 bg-background">
       <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-10 sm:mb-14">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-tight">
-            {t("howWeWork.title")}
-          </h2>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
         </div>
         
         <div className="space-y-6">

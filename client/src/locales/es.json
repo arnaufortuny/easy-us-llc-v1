@@ -55,7 +55,7 @@
     }
   },
   "benefits": {
-    "sectionTitle": "UNA ESTRUCTURA EFICIENTE SIMPLE Y PREPARADA PARA OPERAR A NIVEL INTERNACIONAL",
+    "sectionTitle": "<span class='text-foreground'>UNA ESTRUCTURA</span> <span class='text-accent'>EFICIENTE</span><br/><span class='text-foreground'>SIMPLE Y PREPARADA PARA OPERAR</span><br/><span class='text-accent'>A NIVEL INTERNACIONAL</span>",
     "vat": {
       "badge": "SIN IVA",
       "title": "Sin IVA en la LLC",
@@ -87,7 +87,7 @@
     "button": "Hablemos por WhatsApp"
   },
   "howWeWork": {
-    "title": "Cómo trabajamos en Easy US LLC",
+    "title": "<span class='text-foreground'>CÓMO</span> <span class='text-accent'>TRABAJAMOS</span><br/><span class='text-foreground'>EN EASY US LLC</span>",
     "steps": {
       "listen": {
         "number": "1",

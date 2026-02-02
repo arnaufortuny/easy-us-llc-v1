@@ -55,7 +55,7 @@
     }
   },
   "benefits": {
-    "sectionTitle": "AN EFFICIENT STRUCTURE SIMPLE AND READY TO OPERATE INTERNATIONALLY",
+    "sectionTitle": "<span class='text-foreground'>AN EFFICIENT STRUCTURE</span><br/><span class='text-accent'>SIMPLE AND READY</span><br/><span class='text-foreground'>TO OPERATE INTERNATIONALLY</span>",
     "vat": {
       "badge": "NO VAT",
       "title": "No VAT on LLC",
@@ -87,7 +87,7 @@
     "button": "Let's talk on WhatsApp"
   },
   "howWeWork": {
-    "title": "How we work at Easy US LLC",
+    "title": "<span class='text-foreground'>HOW</span> <span class='text-accent'>WE WORK</span><br/><span class='text-foreground'>AT EASY US LLC</span>",
     "steps": {
       "listen": {
         "number": "1",
