@@ -86,6 +86,46 @@
     "subtitle": "Estamos listos para ayudarte. Hablemos cuando tú quieras.",
     "button": "Hablemos por WhatsApp"
   },
+  "howWeWork": {
+    "title": "Cómo trabajamos en Easy US LLC",
+    "steps": {
+      "listen": {
+        "number": "1",
+        "title": "Te escuchamos",
+        "text": "Nos cuentas tu situación y tu negocio. Sin consultorías eternas ni ventas agresivas. Vamos al grano y vemos si una LLC tiene sentido para ti."
+      },
+      "collect": {
+        "number": "2",
+        "title": "Recogemos la información",
+        "text": "Rellenas un único formulario con los datos necesarios. Nada redundante, nada innecesario. Nosotros nos encargamos del resto."
+      },
+      "form": {
+        "number": "3",
+        "title": "Constituimos tu LLC",
+        "text": "Creamos tu LLC en Estados Unidos de forma legal y correcta, normalmente en 48–72 horas, según el estado."
+      },
+      "docs": {
+        "number": "4",
+        "title": "Documentación completa",
+        "text": "Te entregamos toda la documentación clave: Articles of Organization, Operating Agreement, EIN (si aplica) y estructura clara de la empresa. Todo ordenado y listo para operar."
+      },
+      "banking": {
+        "number": "5",
+        "title": "Te guiamos con banca y pagos",
+        "text": "Te ayudamos a acceder a banca internacional y procesadores de pago, explicándote qué opciones encajan con tu modelo de negocio."
+      },
+      "compliance": {
+        "number": "6",
+        "title": "Cumplimiento y fiscalidad básica",
+        "text": "Te explicamos qué debes presentar, cuándo y por qué (reportes, obligaciones y buenas prácticas). Sin humo ni promesas irreales."
+      },
+      "followup": {
+        "number": "7",
+        "title": "Seguimiento real",
+        "text": "No desaparecemos. Estamos disponibles para dudas, siguientes pasos y crecimiento de tu estructura."
+      }
+    }
+  },
   "whyUs": {
     "sectionTitle": "<span class='text-foreground'>NOS ENCARGAMOS</span><br/><span class='text-accent'>DE TU LLC</span><br/><span class='text-foreground'>DE PRINCIPIO A FIN</span>",
     "speed": {

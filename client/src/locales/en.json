@@ -86,6 +86,46 @@
     "subtitle": "We're ready to help you. Let's talk whenever you want.",
     "button": "Let's talk on WhatsApp"
   },
+  "howWeWork": {
+    "title": "How we work at Easy US LLC",
+    "steps": {
+      "listen": {
+        "number": "1",
+        "title": "We listen to you",
+        "text": "Tell us about your situation and business. No endless consultations or aggressive sales. We get to the point and see if an LLC makes sense for you."
+      },
+      "collect": {
+        "number": "2",
+        "title": "We collect the information",
+        "text": "You fill out a single form with the necessary data. Nothing redundant, nothing unnecessary. We take care of the rest."
+      },
+      "form": {
+        "number": "3",
+        "title": "We form your LLC",
+        "text": "We create your LLC in the United States legally and correctly, usually within 48-72 hours, depending on the state."
+      },
+      "docs": {
+        "number": "4",
+        "title": "Complete documentation",
+        "text": "We deliver all key documentation: Articles of Organization, Operating Agreement, EIN (if applicable), and clear company structure. Everything organized and ready to operate."
+      },
+      "banking": {
+        "number": "5",
+        "title": "We guide you with banking and payments",
+        "text": "We help you access international banking and payment processors, explaining which options fit your business model."
+      },
+      "compliance": {
+        "number": "6",
+        "title": "Compliance and basic taxation",
+        "text": "We explain what you need to file, when and why (reports, obligations, and best practices). No smoke or unrealistic promises."
+      },
+      "followup": {
+        "number": "7",
+        "title": "Real follow-up",
+        "text": "We don't disappear. We're available for questions, next steps, and growth of your structure."
+      }
+    }
+  },
   "whyUs": {
     "sectionTitle": "<span class='text-foreground'>WE HANDLE</span><br/><span class='text-accent'>YOUR LLC</span><br/><span class='text-foreground'>FROM START TO FINISH</span>",
     "speed": {

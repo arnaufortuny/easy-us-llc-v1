@@ -9,7 +9,6 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { apiRequest } from "@/lib/queryClient";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
-import ctaProcessImage from "../../../attached_assets/19A3937D-8DC8-42F4-B932-8469593DAD36_1_1770069116316.png";
 
 import { ChevronDown, ArrowRight } from "lucide-react";
 
@@ -131,17 +130,11 @@ export default function Home() {
         </div>
       </section>
 
+      <HowWeWorkSection />
+
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
           <div className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 border-accent/20">
-            <div className="w-full overflow-hidden bg-accent/10">
-              <img 
-                src={ctaProcessImage} 
-                alt="LLC Formation Process" 
-                className="w-full object-cover"
-                loading="lazy"
-              />
-            </div>
             <div className="p-6 text-center flex flex-col items-center justify-center">
               <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
               <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
@@ -230,6 +223,58 @@ function BenefitsCards() {
         </div>
       ))}
     </div>
+  );
+}
+
+function HowWeWorkSection() {
+  const { t } = useTranslation();
+  
+  const steps = [
+    { key: "listen" },
+    { key: "collect" },
+    { key: "form" },
+    { key: "docs" },
+    { key: "banking" },
+    { key: "compliance" },
+    { key: "followup" },
+  ];
+
+  return (
+    <section className="py-12 sm:py-20 bg-background">
+      <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-10 sm:mb-14">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground leading-tight">
+            {t("howWeWork.title")}
+          </h2>
+        </div>
+        
+        <div className="space-y-6">
+          {steps.map((step, i) => (
+            <div 
+              key={step.key} 
+              className="flex gap-4 sm:gap-6"
+            >
+              <div className="flex flex-col items-center">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-black text-lg sm:text-xl shrink-0">
+                  {t(`howWeWork.steps.${step.key}.number`)}
+                </div>
+                {i < steps.length - 1 && (
+                  <div className="w-0.5 flex-1 bg-accent/20 mt-2" />
+                )}
+              </div>
+              <div className="pb-6">
+                <h3 className="font-black text-lg sm:text-xl text-foreground mb-2">
+                  {t(`howWeWork.steps.${step.key}.title`)}
+                </h3>
+                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                  {t(`howWeWork.steps.${step.key}.text`)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
