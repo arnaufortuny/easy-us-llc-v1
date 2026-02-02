@@ -257,7 +257,6 @@ export function Navbar() {
                     >
                       <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
                     </button>
-                    <p className="text-sm text-muted-foreground mt-1 text-left">{t("mobile.accountDescription")}</p>
                   </>
                 )}
               </div>
