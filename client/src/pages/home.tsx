@@ -220,7 +220,8 @@ function PorQueEasyUSLLC() {
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
-      text: t("whyUs.support.text") 
+      text: t("whyUs.support.text"),
+      image: "/support.jpg"
     },
   ];
 
