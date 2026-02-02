@@ -19,11 +19,10 @@ export default function Terminos() {
           : "Easy US LLC es un nombre comercial utilizado para la prestación de servicios administrativos y de gestión empresarial. La entidad legal titular y responsable de los servicios es:"
         }</p>
         <LegalHighlightBox>
-          <p className="font-black text-brand-dark dark:text-zinc-400 text-xs tracking-widest opacity-50">{isEnglish ? "Legal Entity" : "Entidad Legal"}</p>
-          <p className="font-black text-xl text-brand-dark dark:text-white">Fortuny Consulting LLC</p>
-          <p>Domestic Limited Liability Company</p>
-          <p>{isEnglish ? "Registration number" : "Número de registro"}: 0008072199</p>
-          <p><strong>{isEnglish ? "Registered address" : "Domicilio social"}:</strong> 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {isEnglish ? "United States" : "Estados Unidos"}</p>
+          <p className="text-xs text-muted-foreground mb-1">{isEnglish ? "Legal Entity" : "Entidad Legal"}</p>
+          <p className="font-bold text-base text-foreground">Fortuny Consulting LLC</p>
+          <p className="text-sm text-muted-foreground">Domestic Limited Liability Company · Nº 0008072199</p>
+          <p className="text-sm text-muted-foreground">{isEnglish ? "Address" : "Dirección"}: 1209 Mountain Road Pl NE, STE R, Albuquerque, NM 87110, USA</p>
         </LegalHighlightBox>
         <p>{isEnglish 
           ? "Fortuny Consulting LLC operates under the trade name Easy US LLC for the provision of services to clients worldwide."

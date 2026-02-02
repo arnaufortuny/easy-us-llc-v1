@@ -105,7 +105,7 @@ export function LegalSection({ number, title, children }: LegalSectionProps) {
           {title}
         </h2>
       </div>
-      <div className="pl-[3.25rem] sm:pl-16 space-y-3 sm:space-y-4 text-sm sm:text-base text-brand-dark/85 dark:text-zinc-300 leading-relaxed print:text-sm print:space-y-2 print:pl-0">
+      <div className="pl-0 sm:pl-16 space-y-3 sm:space-y-4 text-sm sm:text-base text-brand-dark/85 dark:text-zinc-300 leading-relaxed print:text-sm print:space-y-2 print:pl-0">
         {children}
       </div>
     </section>
@@ -164,8 +164,8 @@ export function LegalHighlightBox({ children, variant = 'info' }: LegalHighlight
   }
 
   return (
-    <div className="bg-white/60 dark:bg-zinc-800/50 border border-brand-lime/30 dark:border-brand-lime/20 rounded-lg sm:rounded-xl p-4 sm:p-5 lg:p-6 space-y-1 sm:space-y-2 print:p-4 print:rounded-lg print:border">
-      <div className="text-sm sm:text-base text-brand-dark/80 dark:text-zinc-300 leading-relaxed">
+    <div className="bg-white/60 dark:bg-zinc-800/50 border border-border rounded-lg p-4 print:p-3 print:rounded-lg print:border">
+      <div className="text-sm text-brand-dark/80 dark:text-zinc-300 leading-relaxed">
         {children}
       </div>
     </div>
