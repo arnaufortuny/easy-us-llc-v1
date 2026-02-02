@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import { useState, useEffect, Suspense, lazy, Component, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import NotFound from "@/pages/not-found";
+import logoIcon from "@/assets/logo-icon.png";
 
 function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   importFn: () => Promise<T>,
@@ -100,8 +101,42 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
+  const [progress, setProgress] = useState(0);
+  
+  useEffect(() => {
+    const duration = 600;
+    const steps = 20;
+    const increment = 100 / steps;
+    const interval = duration / steps;
+    
+    let current = 0;
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= 100) {
+        setProgress(100);
+        clearInterval(timer);
+      } else {
+        setProgress(current);
+      }
+    }, interval);
+    
+    return () => clearInterval(timer);
+  }, []);
+  
   return (
-    <div className="min-h-screen bg-background" />
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+      <img 
+        src={logoIcon} 
+        alt="Easy US LLC" 
+        className="w-16 h-16 sm:w-20 sm:h-20 mb-6 opacity-90"
+      />
+      <div className="w-48 sm:w-56 h-1 bg-border rounded-full overflow-hidden">
+        <div 
+          className="h-full bg-accent rounded-full transition-all duration-75 ease-out"
+          style={{ width: `${progress}%` }}
+        />
+      </div>
+    </div>
   );
 }
 

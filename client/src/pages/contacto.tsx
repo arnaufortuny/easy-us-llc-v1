@@ -214,7 +214,7 @@ export default function Contacto() {
     const isMaintenance = successType === "maintenance";
     
     return (
-      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans selection:bg-accent selection:text-black">
+      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans selection:bg-accent selection:text-black animate-page-in">
         <Navbar />
         <main className="pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
@@ -290,7 +290,7 @@ export default function Contacto() {
   }
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans w-full">
+    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans w-full animate-page-in">
       <Navbar />
       <main className="pt-24 pb-16 max-w-4xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-3xl md:text-5xl font-black mb-4 text-foreground leading-tight text-center">
