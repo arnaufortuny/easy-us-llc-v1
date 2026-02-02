@@ -33,13 +33,21 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
+  React.useEffect(() => {
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = originalStyle;
+    };
+  }, []);
+
   return (
     <DialogPortal container={typeof document !== 'undefined' ? document.body : undefined}>
       <DialogPrimitive.Overlay 
         className="fixed inset-0 z-[99998] bg-black/60 backdrop-blur-sm data-[state=closed]:duration-0"
       />
       <div 
-        className="fixed inset-0 z-[99999] overflow-y-auto"
+        className="fixed inset-0 z-[99999] overflow-y-auto overscroll-none"
         style={{ 
           display: 'flex',
           alignItems: 'center',
