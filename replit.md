@@ -8,28 +8,40 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 
 ## CRITICAL: Domain Separation (DO NOT MODIFY)
 
-**creamostullc.com** and **easyusllc.com** are COMPLETELY SEPARATE systems:
+**Three domains with COMPLETELY SEPARATE systems:**
 
-| Domain | Files | Description |
-|--------|-------|-------------|
-| `creamostullc.com` | `linktree.tsx`, `funnel.tsx` | Standalone landing pages, NO i18n, hardcoded Spanish, independent styling |
-| `easyusllc.com` | All other pages via `Router` | Main web system with i18n, ThemeProvider, WhatsAppButton |
+| Domain | Router | Description |
+|--------|--------|-------------|
+| `creamostullc.com` | Standalone | Landing pages, NO i18n, hardcoded Spanish, isolated |
+| `app.easyusllc.com` | `AppRouter` | Application portal: login, dashboard, admin, forms |
+| `easyusllc.com` | `MainRouter` | Public website: home, services, FAQ, legal, WhatsApp |
+
+**Domain Routes:**
+
+| Route | creamostullc.com | app.easyusllc.com | easyusllc.com |
+|-------|------------------|-------------------|---------------|
+| `/` | LinktreePage | Dashboard | Home |
+| `/tu-llc` | Sales (funnel) | - | - |
+| `/auth/*` | - | Login/Register/Recovery | Login/Register/Recovery |
+| `/dashboard` | - | Dashboard | Dashboard |
+| `/llc/*` | - | Forms | Forms |
+| `/tools/*` | - | Invoice Generator | Invoice Generator |
+| `/servicios`, `/faq` | - | - | Info pages |
+| `/legal/*` | - | - | Legal pages |
 
 **RULES:**
 1. **NEVER** modify `linktree.tsx` or `funnel.tsx` when making changes to the main web system
 2. **NEVER** import shared components from main web into linktree/funnel (they are self-contained)
 3. **NEVER** add i18n to linktree/funnel - they use hardcoded Spanish intentionally
-4. Changes to main web components, styles, or routing must NOT affect creamostullc.com
-5. Each domain has its own loading screen, styling, and functionality
+4. `app.easyusllc.com` has NO WhatsAppButton (app context, user already engaged)
+5. `easyusllc.com` has WhatsAppButton (public website, lead generation)
+6. Each domain has its own loading screen using the green progress bar (NO spinner circles)
 
 **Architecture in App.tsx:**
 ```javascript
-if (isLinktreeDomain) {
-  // creamostullc.com → LinktreePage or Sales (completely isolated)
-  return <LinktreePage /> or <Sales />
-}
-// easyusllc.com → Main Router with all standard routes
-return <Router />
+if (isLinktreeDomain) → LinktreePage or Sales
+if (isAppDomain) → AppRouter (no WhatsApp)
+else → MainRouter + WhatsAppButton
 ```
 
 ## System Architecture
