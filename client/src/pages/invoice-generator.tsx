@@ -275,13 +275,13 @@ export default function InvoiceGenerator() {
               <ArrowLeft className="w-4 h-4 mr-1" /> Volver al dashboard
             </Button>
           </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-              <FileDown className="w-6 h-6 text-accent" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
+              <FileDown className="w-5 h-5 sm:w-6 sm:h-6 text-accent" />
             </div>
-            <div>
-              <h1 className="text-2xl md:text-3xl font-black text-foreground">Generador de Facturas</h1>
-              <p className="text-muted-foreground text-sm">Crea facturas profesionales en segundos</p>
+            <div className="min-w-0">
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground leading-tight">Generador de Facturas</h1>
+              <p className="text-muted-foreground text-xs sm:text-sm">Crea facturas profesionales</p>
             </div>
           </div>
         </div>
