@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -2408,65 +2409,65 @@ export default function Dashboard() {
 
       {user?.isAdmin && (
         <>
-          <Dialog open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</DialogTitle>
-                <DialogDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 pt-2">
+          <Sheet open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-6">
+                <SheetTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</SheetTitle>
+                <SheetDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</SheetDescription>
+              </SheetHeader>
+              <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-note-title" />
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800" data-testid="input-note-title" />
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
                   <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-note-message" />
                 </div>
               </div>
-              <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
-                <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
+              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
+                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
 
-          <Dialog open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <DialogContent className="w-full sm:max-w-lg bg-white dark:bg-zinc-900">
-              <DialogHeader className="flex-shrink-0">
-                <DialogTitle className="text-xl font-semibold text-foreground">Editar Usuario</DialogTitle>
-                <DialogDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</DialogDescription>
-              </DialogHeader>
+          <Sheet open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
+            <SheetContent className="bg-white dark:bg-zinc-900 overflow-y-auto">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-semibold text-foreground">Editar Usuario</SheetTitle>
+                <SheetDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</SheetDescription>
+              </SheetHeader>
               {editingUser && (
-                <div className="space-y-3 pt-2 overflow-y-auto flex-1 pr-1" style={{ maxHeight: 'calc(85vh - 180px)' }}>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-3 pb-20">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
-                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-firstname" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nombre</Label>
+                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-firstname" />
                     </div>
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
-                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-lastname" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Apellidos</Label>
+                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-lastname" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
-                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-email" />
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>
+                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-email" />
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
-                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-phone" />
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Teléfono</Label>
+                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-phone" />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo ID</Label>
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Tipo ID</Label>
                       <NativeSelect 
                         value={editingUser.idType || ''} 
                         onValueChange={val => setEditingUser({...editingUser, idType: val})}
                         placeholder="Seleccionar"
-                        className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                        className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm"
                       >
                         <NativeSelectItem value="dni">DNI</NativeSelectItem>
                         <NativeSelectItem value="nie">NIE</NativeSelectItem>
@@ -2474,21 +2475,21 @@ export default function Dashboard() {
                       </NativeSelect>
                     </div>
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Número ID</Label>
-                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-idnumber" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Número ID</Label>
+                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-idnumber" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Fecha Nacimiento</Label>
-                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-birthdate" />
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Fecha Nacimiento</Label>
+                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-birthdate" />
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Actividad de Negocio</Label>
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Actividad de Negocio</Label>
                     <NativeSelect 
                       value={editingUser.businessActivity || ''} 
                       onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
                       placeholder="Seleccionar actividad"
-                      className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                      className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm"
                       data-testid="select-edit-activity"
                     >
                       <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
@@ -2502,86 +2503,88 @@ export default function Dashboard() {
                     </NativeSelect>
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Dirección</Label>
-                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-address" />
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Dirección</Label>
+                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-address" />
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Ciudad</Label>
-                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-city" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Ciudad</Label>
+                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-city" />
                     </div>
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Código Postal</Label>
-                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-postal" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">CP</Label>
+                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-postal" />
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">Provincia</Label>
-                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-province" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Provincia</Label>
+                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-province" />
                     </div>
                     <div>
-                      <Label className="text-sm font-semibold text-foreground mb-2 block">País</Label>
-                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-edit-country" />
+                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">País</Label>
+                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-country" />
                     </div>
                   </div>
                   <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Notas Internas (solo admin)</Label>
-                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 focus:border-accent" data-testid="input-edit-notes" />
+                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
+                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 text-sm" data-testid="input-edit-notes" />
+                  </div>
+                  <div className="flex flex-col gap-2 pt-4 border-t mt-4">
+                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
+                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
+                    </Button>
+                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full rounded-full">Cancelar</Button>
                   </div>
                 </div>
               )}
-              {editingUser && (
-                <DialogFooter className="flex-col sm:flex-row gap-3 pt-4 border-t border-border flex-shrink-0">
-                  <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                  <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
-                    {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
-                  </Button>
-                </DialogFooter>
-              )}
-            </DialogContent>
-          </Dialog>
+            </SheetContent>
+          </Sheet>
 
-          <Dialog open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <DialogContent className="w-full sm:max-w-sm bg-white dark:bg-zinc-900">
-              <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Usuario</DialogTitle></DialogHeader>
+          <Sheet open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-black text-red-600">Eliminar Usuario</SheetTitle>
+              </SheetHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
                 <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-3">
-                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="rounded-full font-black" data-testid="button-confirm-delete">
+              <div className="flex flex-col gap-3 mt-4">
+                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete">
                   {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
           
-          <Dialog open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <DialogContent className="w-full sm:max-w-sm bg-white dark:bg-zinc-900">
-              <DialogHeader><DialogTitle className="text-xl font-black text-red-600">Eliminar Pedido</DialogTitle></DialogHeader>
+          <Sheet open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-black text-red-600">Eliminar Pedido</SheetTitle>
+              </SheetHeader>
               <div className="py-4">
                 <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
                 <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
                 <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-3">
-                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
-                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full sm:w-auto rounded-full font-black" data-testid="button-confirm-delete-order">
+              <div className="flex flex-col gap-3 mt-4">
+                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete-order">
                   {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
           
-          <Dialog open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <DialogContent className="w-full sm:max-w-sm bg-white dark:bg-zinc-900">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold text-foreground">Generar Factura</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</strong></p>
+          <Sheet open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-semibold text-foreground">Generar Factura</SheetTitle>
+              </SheetHeader>
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-xl">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</strong></p>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
                   <Input 
@@ -2589,7 +2592,7 @@ export default function Dashboard() {
                     step="0.01" 
                     value={orderInvoiceAmount} 
                     onChange={e => setOrderInvoiceAmount(e.target.value)}
-                    className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                    className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                     placeholder="739.00"
                     data-testid="input-invoice-amount"
                   />
@@ -2599,17 +2602,16 @@ export default function Dashboard() {
                   <NativeSelect 
                     value={orderInvoiceCurrency} 
                     onValueChange={setOrderInvoiceCurrency}
-                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                   >
                     <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
                     <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
                   </NativeSelect>
                 </div>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
-                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
                 <Button 
-                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
+                  className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
                   disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
                   onClick={async () => {
                     setIsGeneratingInvoice(true);
@@ -2643,24 +2645,25 @@ export default function Dashboard() {
                 >
                   {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generar Factura'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
 
-          <Dialog open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</DialogTitle>
-                <DialogDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 pt-2">
+          <Sheet open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</SheetTitle>
+                <SheetDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</SheetDescription>
+              </SheetHeader>
+              <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
                   <NativeSelect 
                     value={docType} 
                     onValueChange={setDocType}
                     placeholder="Seleccionar tipo..."
-                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                   >
                     <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
                     <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
@@ -2670,11 +2673,10 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-doc-message" />
+                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-gray-200" data-testid="input-doc-message" />
                 </div>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
-                <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
                 <Button onClick={() => {
                   if (docDialog.user?.id && docDialog.user?.email) {
                     const docTypeLabels: Record<string, string> = {
@@ -2694,28 +2696,29 @@ export default function Dashboard() {
                     setDocType('');
                     setDocMessage('');
                   }
-                }} disabled={!docType || sendNoteMutation.isPending} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
+                }} disabled={!docType || sendNoteMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
                   {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
 
-          <Dialog open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-              <DialogHeader>
-                <DialogTitle className="text-xl font-semibold text-foreground">Crear Factura</DialogTitle>
-                <DialogDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</DialogDescription>
-              </DialogHeader>
-              <div className="space-y-4 pt-2">
-                <p className="text-sm text-muted-foreground bg-gray-50 dark:bg-zinc-800 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
+          <Sheet open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
+            <SheetContent className="bg-white dark:bg-zinc-900">
+              <SheetHeader className="mb-4">
+                <SheetTitle className="text-xl font-semibold text-foreground">Crear Factura</SheetTitle>
+                <SheetDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</SheetDescription>
+              </SheetHeader>
+              <div className="space-y-4">
+                <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Concepto</Label>
                   <Input 
                     value={invoiceConcept} 
                     onChange={e => setInvoiceConcept(e.target.value)} 
                     placeholder="Ej: Servicio de consultoría" 
-                    className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                     data-testid="input-invoice-concept"
                   />
                 </div>
@@ -2727,7 +2730,7 @@ export default function Dashboard() {
                       value={invoiceAmount} 
                       onChange={e => setInvoiceAmount(e.target.value)} 
                       placeholder="739" 
-                      className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base"
+                      className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                       data-testid="input-invoice-amount"
                     />
                   </div>
@@ -2736,7 +2739,7 @@ export default function Dashboard() {
                     <NativeSelect 
                       value={invoiceCurrency} 
                       onValueChange={setInvoiceCurrency}
-                      className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                      className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-zinc-700"
                       data-testid="select-invoice-currency"
                     >
                       <NativeSelectItem value="EUR">EUR</NativeSelectItem>
@@ -2745,8 +2748,7 @@ export default function Dashboard() {
                   </div>
                 </div>
               </div>
-              <DialogFooter className="flex-col sm:flex-row gap-3 mt-6">
-                <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
                 <Button 
                   onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
                     userId: invoiceDialog.user.id, 
@@ -2755,14 +2757,15 @@ export default function Dashboard() {
                     currency: invoiceCurrency
                   })} 
                   disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                  className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
+                  className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
                   data-testid="button-create-invoice"
                 >
                   {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
                 </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
+              </div>
+            </SheetContent>
+          </Sheet>
         </>
       )}
 
@@ -2783,59 +2786,59 @@ export default function Dashboard() {
       </Dialog>
 
       
-      <Dialog open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <Sheet open={createUserDialog} onOpenChange={setCreateUserDialog}>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
-                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-firstname" />
+                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-firstname" />
               </div>
               <div>
                 <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
-                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-lastname" />
+                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-lastname" />
               </div>
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
-              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-email" />
+              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-email" />
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
-              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-phone" />
+              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-phone" />
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
-              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-create-user-password" />
+              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-password" />
             </div>
           </div>
-          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-user">Cancelar</Button>
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
+          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
+            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
               {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-user">Cancelar</Button>
+          </div>
+        </SheetContent>
+      </Sheet>
 
-      <Dialog open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
+      <Sheet open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Cliente</Label>
               <NativeSelect 
                 value={newOrderData.userId} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
                 placeholder="Seleccionar cliente..."
-                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                 data-testid="select-order-user"
               >
                 {adminUsers?.map((u: any) => (
@@ -2849,7 +2852,7 @@ export default function Dashboard() {
                 value={newOrderData.state} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}
                 placeholder="Seleccionar estado"
-                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                 data-testid="select-order-state"
               >
                 <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
@@ -2859,35 +2862,35 @@ export default function Dashboard() {
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Importe (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-order-amount" />
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-order-amount" />
             </div>
           </div>
-          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-create-order">Cancelar</Button>
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
+          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
+            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
               {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-order">Cancelar</Button>
+          </div>
+        </SheetContent>
+      </Sheet>
 
-      <Dialog open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-foreground">
+      <Sheet open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
+        <SheetContent className="bg-white dark:bg-zinc-900 overflow-y-auto">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-semibold text-foreground">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
-            </DialogTitle>
-            <DialogDescription className="text-sm text-muted-foreground">
+            </SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground">
               {discountCodeDialog.code ? 'Modifica los datos del código' : 'Configura un nuevo código de descuento'}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 pt-2">
+            </SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4 pb-20">
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Código</Label>
               <Input 
                 value={newDiscountCode.code} 
                 onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base uppercase" 
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 uppercase" 
                 disabled={!!discountCodeDialog.code}
                 data-testid="input-discount-code" 
               />
@@ -2898,7 +2901,7 @@ export default function Dashboard() {
                 <NativeSelect 
                   value={newDiscountCode.discountType} 
                   onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
-                  className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                  className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-zinc-700"
                   data-testid="select-discount-type"
                 >
                   <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
@@ -2907,25 +2910,25 @@ export default function Dashboard() {
               </div>
               <div>
                 <Label className="text-sm font-semibold text-foreground mb-2 block">
-                  Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(centimos)'}
+                  Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
                 </Label>
                 <Input 
                   type="number" 
                   value={newDiscountCode.discountValue} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                   data-testid="input-discount-value" 
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Pedido min. (EUR)</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Min. (EUR)</Label>
                 <Input 
                   type="number" 
                   value={newDiscountCode.minOrderAmount} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                   data-testid="input-discount-min-amount" 
                 />
               </div>
@@ -2935,29 +2938,29 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.maxUses} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                   data-testid="input-discount-max-uses" 
                 />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Válido desde</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Desde</Label>
                 <Input 
                   type="date" 
                   value={newDiscountCode.validFrom} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                   data-testid="input-discount-valid-from" 
                 />
               </div>
               <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Válido hasta</Label>
+                <Label className="text-sm font-semibold text-foreground mb-2 block">Hasta</Label>
                 <Input 
                   type="date" 
                   value={newDiscountCode.validUntil} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
                   data-testid="input-discount-valid-until" 
                 />
               </div>
@@ -2970,44 +2973,44 @@ export default function Dashboard() {
               />
               <Label className="text-sm font-semibold">Código activo</Label>
             </div>
-          </div>
-          <DialogFooter className="mt-6 flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="w-full sm:w-auto rounded-full font-black" data-testid="button-cancel-discount">Cancelar</Button>
-            <Button 
-              onClick={async () => {
-                try {
-                  const payload = {
-                    code: newDiscountCode.code,
-                    discountType: newDiscountCode.discountType,
-                    discountValue: parseInt(newDiscountCode.discountValue),
-                    minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
-                    maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
-                    validFrom: newDiscountCode.validFrom || null,
-                    validUntil: newDiscountCode.validUntil || null,
-                    isActive: newDiscountCode.isActive
-                  };
-                  if (discountCodeDialog.code) {
-                    await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
-                    toast({ title: "Código actualizado" });
-                  } else {
-                    await apiRequest("POST", "/api/admin/discount-codes", payload);
-                    toast({ title: "Código creado" });
+            <div className="flex flex-col gap-3 pt-4 border-t mt-4">
+              <Button 
+                onClick={async () => {
+                  try {
+                    const payload = {
+                      code: newDiscountCode.code,
+                      discountType: newDiscountCode.discountType,
+                      discountValue: parseInt(newDiscountCode.discountValue),
+                      minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
+                      maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
+                      validFrom: newDiscountCode.validFrom || null,
+                      validUntil: newDiscountCode.validUntil || null,
+                      isActive: newDiscountCode.isActive
+                    };
+                    if (discountCodeDialog.code) {
+                      await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
+                      toast({ title: "Código actualizado" });
+                    } else {
+                      await apiRequest("POST", "/api/admin/discount-codes", payload);
+                      toast({ title: "Código creado" });
+                    }
+                    refetchDiscountCodes();
+                    setDiscountCodeDialog({ open: false, code: null });
+                  } catch (e: any) {
+                    toast({ title: "Error", description: e.message || "No se pudo guardar el código", variant: "destructive" });
                   }
-                  refetchDiscountCodes();
-                  setDiscountCodeDialog({ open: false, code: null });
-                } catch (e: any) {
-                  toast({ title: "Error", description: e.message || "No se pudo guardar el código", variant: "destructive" });
-                }
-              }} 
-              disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full" 
-              data-testid="button-save-discount"
-            >
-              {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+                }} 
+                disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
+                className="w-full bg-accent text-accent-foreground font-semibold rounded-full" 
+                data-testid="button-save-discount"
+              >
+                {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
+              </Button>
+              <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="w-full rounded-full" data-testid="button-cancel-discount">Cancelar</Button>
+            </div>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       <Dialog open={showEmailVerification} onOpenChange={(open) => {
         setShowEmailVerification(open);
@@ -3092,7 +3095,7 @@ export default function Dashboard() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={paymentLinkDialog.open} onOpenChange={(open) => {
+      <Sheet open={paymentLinkDialog.open} onOpenChange={(open) => {
         setPaymentLinkDialog({ open, user: open ? paymentLinkDialog.user : null });
         if (!open) {
           setPaymentLinkUrl("");
@@ -3100,21 +3103,21 @@ export default function Dashboard() {
           setPaymentLinkMessage("");
         }
       }}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-black">Enviar Link de Pago</DialogTitle>
-            <DialogDescription>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-black">Enviar Link de Pago</SheetTitle>
+            <SheetDescription>
               Envía un enlace de pago a {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
+            </SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
             <div>
               <Label className="text-sm font-semibold text-foreground block mb-2">Link de pago (URL)</Label>
               <Input
                 value={paymentLinkUrl}
                 onChange={(e) => setPaymentLinkUrl(e.target.value)}
                 placeholder="https://..."
-                className="rounded-full border-gray-200 focus:border-accent"
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                 data-testid="input-payment-link-url"
               />
             </div>
@@ -3124,7 +3127,7 @@ export default function Dashboard() {
                 value={paymentLinkAmount}
                 onChange={(e) => setPaymentLinkAmount(e.target.value)}
                 placeholder="Ej: 739€"
-                className="rounded-full border-gray-200 focus:border-accent"
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
                 data-testid="input-payment-link-amount"
               />
             </div>
@@ -3134,20 +3137,13 @@ export default function Dashboard() {
                 value={paymentLinkMessage}
                 onChange={(e) => setPaymentLinkMessage(e.target.value)}
                 placeholder="Mensaje adicional para el cliente..."
-                className="rounded-xl border-gray-200 focus:border-accent resize-none"
+                className="rounded-xl border-gray-200"
                 rows={3}
                 data-testid="input-payment-link-message"
               />
             </div>
           </div>
-          <DialogFooter className="flex-col sm:flex-row gap-3">
-            <Button
-              variant="outline"
-              onClick={() => setPaymentLinkDialog({ open: false, user: null })}
-              className="w-full sm:w-auto rounded-full"
-            >
-              Cancelar
-            </Button>
+          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
             <Button
               onClick={async () => {
                 if (!paymentLinkUrl || !paymentLinkAmount) {
@@ -3174,39 +3170,46 @@ export default function Dashboard() {
                 }
               }}
               disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
+              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-send-payment-link"
             >
               {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button
+              variant="outline"
+              onClick={() => setPaymentLinkDialog({ open: false, user: null })}
+              className="w-full rounded-full"
+            >
+              Cancelar
+            </Button>
+          </div>
+        </SheetContent>
+      </Sheet>
 
-      <Dialog open={adminDocUploadDialog.open} onOpenChange={(open) => {
+      <Sheet open={adminDocUploadDialog.open} onOpenChange={(open) => {
         setAdminDocUploadDialog({ open, order: open ? adminDocUploadDialog.order : null });
         if (!open) {
           setAdminDocFile(null);
           setAdminDocType("articles_of_organization");
         }
       }}>
-        <DialogContent className="w-full sm:max-w-md bg-white dark:bg-zinc-900">
-          <DialogHeader>
-            <DialogTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</DialogTitle>
-            <DialogDescription>
+        <SheetContent className="bg-white dark:bg-zinc-900">
+          <SheetHeader className="mb-4">
+            <SheetTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</SheetTitle>
+            <SheetDescription>
               {adminDocUploadDialog.order?.userId 
                 ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
                 : `Pedido: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
               }
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
+            </SheetDescription>
+          </SheetHeader>
+          <div className="space-y-4">
             <div>
               <Label className="text-sm font-semibold text-foreground block mb-2">Tipo de Documento</Label>
               <NativeSelect
                 value={adminDocType}
                 onValueChange={setAdminDocType}
-                className="w-full rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
               >
                 <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
                 <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
@@ -3245,8 +3248,7 @@ export default function Dashboard() {
               </label>
             </div>
           </div>
-          <DialogFooter className="flex-col sm:flex-row gap-3">
-            <Button variant="outline" onClick={() => setAdminDocUploadDialog({ open: false, order: null })} className="w-full sm:w-auto rounded-full font-black">Cancelar</Button>
+          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
             <Button
               disabled={!adminDocFile || isUploadingAdminDoc}
               onClick={async () => {
@@ -3256,7 +3258,6 @@ export default function Dashboard() {
                   const formData = new FormData();
                   formData.append('file', adminDocFile);
                   formData.append('documentType', adminDocType);
-                  // Send orderId or userId depending on what was selected
                   if (adminDocUploadDialog.order.userId) {
                     formData.append('userId', adminDocUploadDialog.order.userId);
                   } else {
@@ -3283,14 +3284,15 @@ export default function Dashboard() {
                   setIsUploadingAdminDoc(false);
                 }
               }}
-              className="w-full sm:w-auto bg-accent text-accent-foreground font-semibold rounded-full"
+              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
               data-testid="button-admin-upload-doc"
             >
               {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
             </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <Button variant="outline" onClick={() => setAdminDocUploadDialog({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
+          </div>
+        </SheetContent>
+      </Sheet>
 
       <Footer />
     </div>
