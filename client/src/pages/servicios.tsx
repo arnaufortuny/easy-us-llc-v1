@@ -78,7 +78,7 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-16 min-h-[450px] sm:min-h-[auto] w-full"
+        className="flex flex-col items-center justify-center text-center pt-32 sm:pt-24 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase">
