@@ -176,8 +176,7 @@ export default function Register() {
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
                 {t("auth.verify.title")} <span className="text-accent">{t("auth.verify.titleHighlight")}</span>
               </h1>
-              <p className="text-muted-foreground mt-3">{t("auth.verify.subtitle")}</p>
-              <p className="text-muted-foreground mt-1">{t("auth.verify.subtitleDesc")}</p>
+              <p className="text-muted-foreground mt-2">{t("auth.verify.subtitleDesc")}</p>
             </div>
 
             <div className="bg-white dark:bg-zinc-900 rounded-2xl p-5 border border-border shadow-sm mb-6">
@@ -191,7 +190,6 @@ export default function Register() {
                   <span>{t("auth.verify.tip2")}</span>
                 </p>
               </div>
-              <p className="text-sm text-muted-foreground mt-3">{t("auth.verify.tipDesc")}</p>
             </div>
 
             <div className="space-y-6">

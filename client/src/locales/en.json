@@ -359,13 +359,13 @@
       }
     },
     "verify": {
-      "title": "Quick security",
-      "titleHighlight": "check",
-      "subtitle": "Let's verify your email to protect your account.",
+      "title": "Verify your",
+      "titleHighlight": "email",
+      "subtitle": "",
       "subtitleDesc": "We've sent you a verification code.",
       "tip1": "Check your inbox.",
       "tip2": "If you don't see it, check SPAM or Promotions.",
-      "tipDesc": "It's just a quick step and we continue.",
+      "tipDesc": "",
       "codeLabel": "Verification code",
       "submit": "Verify my email",
       "notReceived": "Didn't receive the code?",

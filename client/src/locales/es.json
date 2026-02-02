@@ -359,13 +359,13 @@
       }
     },
     "verify": {
-      "title": "Comprobación rápida de",
-      "titleHighlight": "seguridad",
-      "subtitle": "Vamos a verificar tu email para proteger tu cuenta.",
+      "title": "Verifica tu",
+      "titleHighlight": "email",
+      "subtitle": "",
       "subtitleDesc": "Te hemos enviado un código de verificación.",
       "tip1": "Revisa tu bandeja de entrada.",
       "tip2": "Si no lo ves, comprueba también SPAM o Promociones.",
-      "tipDesc": "Es solo un paso rápido y seguimos.",
+      "tipDesc": "",
       "codeLabel": "Código de verificación",
       "submit": "Verificar mi email",
       "notReceived": "¿No has recibido el código?",

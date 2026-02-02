@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, FileDown, Receipt, ArrowLeft, Loader2 } from "lucide-react";
+import { Trash2, Plus, FileDown, ArrowLeft, Loader2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -57,9 +57,6 @@ export default function InvoiceGenerator() {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
-          <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-            <Receipt className="w-8 h-8 text-accent" />
-          </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Acceso Requerido</h2>
           <p className="text-muted-foreground text-sm mb-4">Inicia sesion para usar el generador de facturas.</p>
           <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full px-6">
@@ -278,14 +275,9 @@ export default function InvoiceGenerator() {
               <ArrowLeft className="w-4 h-4 mr-1" /> Volver al dashboard
             </Button>
           </Link>
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-accent/10 flex items-center justify-center">
-              <Receipt className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold text-foreground">Generador de Facturas</h1>
-              <p className="text-muted-foreground text-xs md:text-sm">Crea facturas profesionales</p>
-            </div>
+          <div>
+            <h1 className="text-xl md:text-2xl font-bold text-foreground">Generador de Facturas</h1>
+            <p className="text-muted-foreground text-xs md:text-sm">Crea facturas profesionales</p>
           </div>
         </div>
 
