@@ -8,6 +8,7 @@ import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
+import howWeWorkImage from "@assets/how-we-work-process.png";
 
 export default function Home() {
   const [location, setLocation] = useLocation();
@@ -237,8 +238,17 @@ function HowWeWorkSection() {
   return (
     <section className="py-12 sm:py-20 bg-background">
       <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+        <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center">
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
+        </div>
+        
+        <div className="mb-10 sm:mb-14">
+          <img 
+            src={howWeWorkImage} 
+            alt="How we work process" 
+            className="w-full max-w-2xl mx-auto rounded-2xl"
+            loading="lazy"
+          />
         </div>
         
         <div className="space-y-6">
