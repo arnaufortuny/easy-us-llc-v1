@@ -301,6 +301,7 @@ export default function SalesPage() {
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
     const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -309,9 +310,28 @@ export default function SalesPage() {
     const handleChange = (e: MediaQueryListEvent) => setIsDark(e.matches);
     darkModeMediaQuery.addEventListener('change', handleChange);
     
-    setTimeout(() => setIsLoading(false), 300);
+    let currentProgress = 0;
+    const timer = setInterval(() => {
+      currentProgress += Math.random() * 15 + 10;
+      if (currentProgress >= 100) {
+        currentProgress = 100;
+        clearInterval(timer);
+        setTimeout(() => setIsLoading(false), 100);
+      }
+      setLoadingProgress(currentProgress);
+    }, 80);
+
+    const forceComplete = setTimeout(() => {
+      clearInterval(timer);
+      setLoadingProgress(100);
+      setTimeout(() => setIsLoading(false), 100);
+    }, 1200);
     
-    return () => darkModeMediaQuery.removeEventListener('change', handleChange);
+    return () => {
+      darkModeMediaQuery.removeEventListener('change', handleChange);
+      clearInterval(timer);
+      clearTimeout(forceComplete);
+    };
   }, []);
 
   useEffect(() => {
@@ -363,11 +383,21 @@ export default function SalesPage() {
   if (isLoading) {
     return (
       <div className={`min-h-screen flex items-center justify-center ${isDark ? 'bg-zinc-950' : 'bg-white'}`}>
-        <div className={`w-48 h-1 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-zinc-200'}`}>
-          <div 
-            className="h-full rounded-full animate-loading-bar"
-            style={{ backgroundColor: '#6EDC8A' }}
-          />
+        <div className="w-64 space-y-4 flex flex-col items-center">
+          <div className={`w-full h-1.5 rounded-full overflow-hidden ${isDark ? 'bg-zinc-800' : 'bg-zinc-200'}`}>
+            <div 
+              className="h-full rounded-full transition-all duration-100 ease-out"
+              style={{ 
+                width: `${Math.min(loadingProgress, 100)}%`,
+                backgroundColor: '#6EDC8A',
+                boxShadow: '0 0 10px rgba(110, 220, 138, 0.5)'
+              }}
+            />
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="font-black text-xl tabular-nums" style={{ color: '#6EDC8A' }}>{Math.min(Math.round(loadingProgress), 100)}%</span>
+            <span className={`text-sm font-medium ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>Cargando</span>
+          </div>
         </div>
       </div>
     );
