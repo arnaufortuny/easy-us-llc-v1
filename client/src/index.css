@@ -4,21 +4,24 @@
 
 /* Prevent flash of unstyled content */
 html {
-  background-color: #F7F7F5;
+  background: linear-gradient(135deg, #F7F7F5 0%, #e8f5e9 25%, #F7F7F5 50%, #e0f2e0 75%, #F7F7F5 100%);
+  background-attachment: fixed;
+  min-height: 100dvh;
 }
 
 html.dark {
-  background-color: #0E1215;
+  background: linear-gradient(135deg, #0E1215 0%, #0d1f14 25%, #0E1215 50%, #0a1a10 75%, #0E1215 100%);
+  background-attachment: fixed;
 }
 
 /* Ensure smooth page transitions without visual glitches */
 body {
-  background-color: inherit;
+  background: transparent;
   min-height: 100dvh;
 }
 
 #root {
-  background-color: inherit;
+  background: transparent;
   min-height: 100dvh;
 }
 
