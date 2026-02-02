@@ -1,5 +1,44 @@
 export type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools';
 
+export interface User {
+  id: string;
+  clientId?: string | null;
+  email?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  streetType?: string | null;
+  city?: string | null;
+  province?: string | null;
+  postalCode?: string | null;
+  country?: string | null;
+  idNumber?: string | null;
+  idType?: string | null;
+  birthDate?: string | null;
+  businessActivity?: string | null;
+  isAdmin?: boolean;
+  accountStatus?: 'active' | 'pending' | 'deactivated' | 'vip';
+  emailVerified?: boolean;
+  googleId?: string | null;
+}
+
+export interface ProfileData {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  address: string;
+  streetType: string;
+  city: string;
+  province: string;
+  postalCode: string;
+  country: string;
+  idNumber: string;
+  idType: string;
+  birthDate: string;
+  businessActivity: string;
+}
+
 export interface AdminUserData {
   id?: string;
   email?: string | null;
