@@ -6,6 +6,32 @@ Easy US LLC provides business formation services, specifically for LLCs in New M
 ## User Preferences
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
+## CRITICAL: Domain Separation (DO NOT MODIFY)
+
+**creamostullc.com** and **easyusllc.com** are COMPLETELY SEPARATE systems:
+
+| Domain | Files | Description |
+|--------|-------|-------------|
+| `creamostullc.com` | `linktree.tsx`, `funnel.tsx` | Standalone landing pages, NO i18n, hardcoded Spanish, independent styling |
+| `easyusllc.com` | All other pages via `Router` | Main web system with i18n, ThemeProvider, WhatsAppButton |
+
+**RULES:**
+1. **NEVER** modify `linktree.tsx` or `funnel.tsx` when making changes to the main web system
+2. **NEVER** import shared components from main web into linktree/funnel (they are self-contained)
+3. **NEVER** add i18n to linktree/funnel - they use hardcoded Spanish intentionally
+4. Changes to main web components, styles, or routing must NOT affect creamostullc.com
+5. Each domain has its own loading screen, styling, and functionality
+
+**Architecture in App.tsx:**
+```javascript
+if (isLinktreeDomain) {
+  // creamostullc.com → LinktreePage or Sales (completely isolated)
+  return <LinktreePage /> or <Sales />
+}
+// easyusllc.com → Main Router with all standard routes
+return <Router />
+```
+
 ## System Architecture
 The application features a modern UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and typography (Inter, Sans-serif), with UI animations powered by Framer Motion.
 
