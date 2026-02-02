@@ -162,28 +162,28 @@ function BenefitsCards() {
       title: t("benefits.vat.title"), 
       text: t("benefits.vat.text"), 
       footer: t("benefits.vat.footer"),
-      image: "/benefits-no-vat.png?v=2"
+      image: "/benefits-no-vat.png"
     },
     { 
       badge: t("benefits.taxes.badge"), 
       title: t("benefits.taxes.title"), 
       text: t("benefits.taxes.text"), 
       footer: t("benefits.taxes.footer"),
-      image: "/benefits-no-tax.png?v=2"
+      image: "/benefits-no-tax.png"
     },
     { 
       badge: t("benefits.fees.badge"), 
       title: t("benefits.fees.title"), 
       text: t("benefits.fees.text"), 
       footer: t("benefits.fees.footer"),
-      image: "/benefits-no-fees.png?v=2"
+      image: "/benefits-no-fees.png"
     },
     { 
       badge: t("benefits.banking.badge"), 
       title: t("benefits.banking.title"), 
       text: t("benefits.banking.text"), 
       footer: t("benefits.banking.footer"),
-      image: "/benefits-banking.png?v=2"
+      image: "/benefits-banking.png"
     },
   ];
 
@@ -224,19 +224,19 @@ function PorQueEasyUSLLC() {
       badge: t("whyUs.transparency.badge"), 
       title: t("whyUs.transparency.title"), 
       text: t("whyUs.transparency.text"),
-      image: "/clear-pricing.png?v=2"
+      image: "/clear-pricing.png"
     },
     { 
       badge: t("whyUs.specialists.badge"), 
       title: t("whyUs.specialists.title"), 
       text: t("whyUs.specialists.text"),
-      image: "/business-specialists.png?v=2"
+      image: "/business-specialists.png"
     },
     { 
       badge: t("whyUs.support.badge"), 
       title: t("whyUs.support.title"), 
       text: t("whyUs.support.text"),
-      image: "/personal-support.png?v=2"
+      image: "/personal-support.png"
     },
   ];
 
