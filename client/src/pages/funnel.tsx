@@ -170,10 +170,10 @@ function TaxComparatorSection({ whatsappUrl }: { whatsappUrl: string }) {
                 <button
                   key={preset}
                   onClick={() => setIncome(preset)}
-                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-semibold transition-all hover-elevate active-elevate-2 ${
                     income === preset
                       ? 'bg-accent text-accent-foreground shadow-md'
-                      : 'bg-muted text-muted-foreground hover:bg-muted/80'
+                      : 'bg-muted text-muted-foreground'
                   }`}
                   data-testid={`button-preset-${preset}`}
                 >
@@ -200,13 +200,13 @@ function TaxComparatorSection({ whatsappUrl }: { whatsappUrl: string }) {
           </div>
           
           <div className="grid grid-cols-2 gap-4 p-6 bg-muted/30">
-            <div className="p-4 rounded-xl bg-red-500/10">
+            <div className="p-4 rounded-xl bg-destructive/10 dark:bg-destructive/20">
               <div className="flex items-center gap-2 mb-3">
                 <SpainFlag />
                 <span className="font-bold text-foreground">Autónomo</span>
               </div>
               <p className="text-xs mb-1 text-muted-foreground">Impuestos totales</p>
-              <p className="text-xl font-black text-red-500">{formatCurrency(spanishTaxes.total)}</p>
+              <p className="text-xl font-black text-destructive">{formatCurrency(spanishTaxes.total)}</p>
               <p className="text-xs mt-1 text-muted-foreground">
                 ({spanishTaxes.effectiveRate}% efectivo)
               </p>
@@ -236,7 +236,7 @@ function TaxComparatorSection({ whatsappUrl }: { whatsappUrl: string }) {
             </p>
             
             <Button 
-              className="w-full mt-5 gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground hover:bg-accent/90"
+              className="w-full mt-5 gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground"
               size="lg"
               asChild
             >
@@ -387,7 +387,7 @@ export default function SalesPage() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             <Button 
               size="lg" 
-              className="gap-2 shadow-lg shadow-accent/30 font-bold text-base px-8 bg-accent text-accent-foreground hover:bg-accent/90"
+              className="gap-2 shadow-lg shadow-accent/30 font-bold text-base px-8 bg-accent text-accent-foreground"
               onClick={() => document.getElementById('planes')?.scrollIntoView({ behavior: 'smooth' })}
               data-testid="button-ver-planes"
             >
@@ -493,7 +493,7 @@ export default function SalesPage() {
               </div>
 
               <Button 
-                className="w-full gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground hover:bg-accent/90"
+                className="w-full gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground"
                 size="lg"
                 asChild
               >
@@ -526,7 +526,7 @@ export default function SalesPage() {
                   "Apoyo en banca y cumplimiento"
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3 text-foreground">
-                    <Check className="w-5 h-5 text-blue-500 mt-0.5 flex-shrink-0" />
+                    <Check className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
                     {item}
                   </li>
                 ))}
@@ -538,7 +538,7 @@ export default function SalesPage() {
               </div>
 
               <Button 
-                className="w-full gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground hover:bg-accent/90"
+                className="w-full gap-2 shadow-lg shadow-accent/30 font-bold text-base bg-accent text-accent-foreground"
                 size="lg"
                 asChild
               >
@@ -729,7 +729,7 @@ export default function SalesPage() {
                 />
                 <Button 
                   type="submit" 
-                  className="w-full gap-2 font-bold text-base shadow-lg shadow-accent/30 bg-accent text-accent-foreground hover:bg-accent/90"
+                  className="w-full gap-2 font-bold text-base shadow-lg shadow-accent/30 bg-accent text-accent-foreground"
                   size="lg"
                   data-testid="button-submit-lead"
                 >
@@ -754,7 +754,7 @@ export default function SalesPage() {
             </div>
 
             <Button 
-              className="w-full gap-2 font-bold text-base shadow-lg shadow-accent/30 bg-accent text-accent-foreground hover:bg-accent/90"
+              className="w-full gap-2 font-bold text-base shadow-lg shadow-accent/30 bg-accent text-accent-foreground"
               size="lg"
               asChild
             >
