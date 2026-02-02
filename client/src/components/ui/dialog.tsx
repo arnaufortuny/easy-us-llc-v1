@@ -60,9 +60,9 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
       />
       <div 
         className="fixed inset-0 z-[99999] overflow-y-auto"
-        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100%' }}
+        style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'center', minHeight: '100%' }}
       >
-        <div className="flex min-h-full w-full items-center justify-center p-4">
+        <div className="flex min-h-full w-full items-start justify-center p-4 pt-12 sm:pt-16">
           <DialogPrimitive.Content
             ref={ref}
             onOpenAutoFocus={(e) => e.preventDefault()}
