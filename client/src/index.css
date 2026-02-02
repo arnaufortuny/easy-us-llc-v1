@@ -429,3 +429,9 @@ img {
     animation: none;
   }
 }
+
+/* Optimize scroll performance */
+.overflow-y-auto, .overflow-auto, .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}

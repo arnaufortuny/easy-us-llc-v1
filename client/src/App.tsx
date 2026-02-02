@@ -157,9 +157,27 @@ function AppRouter() {
   );
 }
 
+// Prefetch critical routes after initial load
+function usePrefetchCriticalRoutes() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      // Prefetch most visited routes after 2s idle
+      const criticalRoutes = [
+        () => import("@/pages/servicios"),
+        () => import("@/pages/home"),
+        () => import("@/pages/faq"),
+      ];
+      criticalRoutes.forEach(route => route().catch(() => {}));
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+}
+
 function App() {
   const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
   const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  
+  usePrefetchCriticalRoutes();
   
   const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
   const isAppDomain = hostname === 'app.easyusllc.com';
