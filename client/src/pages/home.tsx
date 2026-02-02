@@ -245,7 +245,7 @@ function PorQueEasyUSLLC() {
             {t("whyUs.transparency.badge", "VALUES")}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-foreground tracking-tight text-center">
-            {t("whyUs.transparency.title", "Why Easy US LLC?")}
+            {t("whyUs.sectionTitle", "NOS ENCARGAMOS DE TU LLC, DE PRINCIPIO A FIN")}
           </h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">

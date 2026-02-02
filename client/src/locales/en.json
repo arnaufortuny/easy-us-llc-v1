@@ -81,6 +81,7 @@
     }
   },
   "whyUs": {
+    "sectionTitle": "WE HANDLE YOUR LLC FROM START TO FINISH",
     "speed": {
       "badge": "REAL SPEED",
       "title": "Your LLC ready in 2-3 business days",
@@ -88,7 +89,7 @@
     },
     "transparency": {
       "badge": "TRANSPARENCY",
-      "title": "WE HANDLE YOUR LLC FROM START TO FINISH",
+      "title": "Clear pricing from the start",
       "text": "Everything is included from the beginning, with no hidden costs or surprises. What you see is what you pay. We believe trust starts with clarity and honesty in the numbers."
     },
     "specialists": {
