@@ -2,6 +2,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
+import { TaxComparator } from "@/components/tax-comparator";
 import type { Product } from "@shared/schema";
 
 import { useState, useEffect } from "react";
@@ -128,6 +129,8 @@ export default function Servicios() {
           </div>
         </div>
       </section>
+
+      <TaxComparator />
 
       <section className="py-12 sm:py-20 bg-background border-t border-primary/5" id="pricing">
         <div className="w-full px-4 sm:px-8">

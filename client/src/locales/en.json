@@ -979,5 +979,43 @@
     "error": "Error",
     "subscriptionFailed": "Could not complete subscription.",
     "connectionError": "Connection error."
+  },
+  "taxComparator": {
+    "badge": "TAX COMPARATOR",
+    "title": "How much can you save?",
+    "subtitle": "Compare your current tax situation as a freelancer in Spain vs a US LLC",
+    "annualIncome": "Select your gross annual income",
+    "minIncome": "€20,000",
+    "maxIncome": "€200,000",
+    "spanish": {
+      "title": "Freelancer in Spain",
+      "subtitle": "Self-employed regime",
+      "irpf": "Income Tax (by brackets)",
+      "socialSecurity": "Social Security"
+    },
+    "usllc": {
+      "title": "US LLC",
+      "subtitle": "No physical presence in USA",
+      "federalTax": "US Federal Tax",
+      "selfEmployment": "US Self-Employment Tax"
+    },
+    "totalTaxes": "Total taxes",
+    "effectiveRate": "Effective rate",
+    "netIncome": "Net income",
+    "savings": {
+      "label": "Your estimated annual savings",
+      "percentage": "{{percentage}}% of your income"
+    },
+    "cta": "Start your LLC now",
+    "showDetails": "View important information",
+    "hideDetails": "Hide information",
+    "disclaimer": {
+      "title": "Important information",
+      "point1": "This calculation is for guidance only and does not constitute tax advice.",
+      "point2": "Actual savings depend on your specific personal and tax situation.",
+      "point3": "An LLC without physical presence in the USA may be exempt from federal taxes, but you must comply with reporting obligations (forms 5472, FBAR if applicable).",
+      "point4": "Consult with a tax advisor for your particular case before making decisions.",
+      "note": "Freelancer calculations include income tax by current 2024 brackets and estimated social security contributions."
+    }
   }
 }

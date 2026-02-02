@@ -979,5 +979,43 @@
     "error": "Error",
     "subscriptionFailed": "No se pudo completar la suscripción.",
     "connectionError": "Error de conexión."
+  },
+  "taxComparator": {
+    "badge": "COMPARADOR DE IMPUESTOS",
+    "title": "¿Cuánto puedes ahorrar?",
+    "subtitle": "Compara tu situación fiscal actual como autónomo en España vs una LLC en Estados Unidos",
+    "annualIncome": "Selecciona tus ingresos anuales brutos",
+    "minIncome": "20.000€",
+    "maxIncome": "200.000€",
+    "spanish": {
+      "title": "Autónomo en España",
+      "subtitle": "Régimen de autónomos",
+      "irpf": "IRPF (según tramos)",
+      "socialSecurity": "Cuota de autónomos"
+    },
+    "usllc": {
+      "title": "LLC en Estados Unidos",
+      "subtitle": "Sin presencia física en USA",
+      "federalTax": "Impuesto Federal USA",
+      "selfEmployment": "Cuota autónomos USA"
+    },
+    "totalTaxes": "Total impuestos",
+    "effectiveRate": "Tipo efectivo",
+    "netIncome": "Ingreso neto",
+    "savings": {
+      "label": "Tu ahorro anual estimado",
+      "percentage": "{{percentage}}% de tus ingresos"
+    },
+    "cta": "Empieza tu LLC ahora",
+    "showDetails": "Ver información importante",
+    "hideDetails": "Ocultar información",
+    "disclaimer": {
+      "title": "Información importante",
+      "point1": "Este cálculo es orientativo y no constituye asesoramiento fiscal.",
+      "point2": "Los ahorros reales dependen de tu situación personal y fiscal específica.",
+      "point3": "Una LLC sin presencia física en USA puede estar exenta de impuestos federales, pero debes cumplir obligaciones de reporte (formularios 5472, FBAR si aplica).",
+      "point4": "Consulta con un asesor fiscal para tu caso particular antes de tomar decisiones.",
+      "note": "Los cálculos de autónomos incluyen IRPF según tramos vigentes 2024 y cuota de autónomos estimada."
+    }
   }
 }
