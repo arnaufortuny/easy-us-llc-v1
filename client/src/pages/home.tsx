@@ -137,7 +137,7 @@ export default function Home() {
             <img 
               src={ctaProcessImage} 
               alt="LLC Formation Process" 
-              className="w-full max-w-md mx-auto mb-6 rounded-xl"
+              className="w-full max-w-md mx-auto mb-6"
               loading="lazy"
             />
             <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
