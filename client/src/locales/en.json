@@ -758,6 +758,10 @@
       "incompleteForm": "INCOMPLETE FORM",
       "incomplete": "INCOMPLETE",
       "adminBadge": "ADMIN",
+      "incompleteApplications": "Incomplete Applications",
+      "incompleteApplicationsDescription": "Incomplete forms - automatically deleted after 48h of inactivity",
+      "expiresIn": "Expires in",
+      "hours": "hours",
       "status": {
         "pending": "Pending",
         "processing": "Processing",

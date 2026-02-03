@@ -758,6 +758,10 @@
       "incompleteForm": "FORMULARIO INCOMPLETO",
       "incomplete": "INCOMPLETA",
       "adminBadge": "ADMIN",
+      "incompleteApplications": "Solicitudes Incompletas",
+      "incompleteApplicationsDescription": "Formularios no completados - se eliminan automáticamente tras 48h de inactividad",
+      "expiresIn": "Expira en",
+      "hours": "horas",
       "status": {
         "pending": "Pendiente",
         "processing": "En proceso",
