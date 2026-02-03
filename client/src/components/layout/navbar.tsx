@@ -243,22 +243,15 @@ export function Navbar() {
                 {isAuthenticated ? (
                   <>
                     <button
-                      onClick={() => handleNavClick("/dashboard")}
-                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
-                      data-testid="button-mobile-dashboard-menu"
-                    >
-                      <UserIcon className="w-5 h-5" /> {t("mobile.myPanel")}
-                    </button>
-                    <button
                       onClick={() => {
                         resetScrollLock();
                         logout();
                         setIsOpen(false);
                       }}
-                      className="w-full text-left py-2 text-muted-foreground font-black text-lg flex items-center gap-2 mt-2"
+                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
                       data-testid="button-mobile-logout-menu"
                     >
-                      <LogOut className="w-4 h-4" /> {t("mobile.logout")}
+                      <LogOut className="w-5 h-5" /> {t("mobile.logout")}
                     </button>
                   </>
                 ) : (

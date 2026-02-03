@@ -695,24 +695,19 @@ export default function Dashboard() {
                   <span className="text-2xl sm:text-3xl font-black text-red-500">!</span>
                 </div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
-                  Tu cuenta ha sido desactivada
+                  Cuenta desactivada
                 </h1>
                 <p className="text-sm sm:text-base text-muted-foreground font-medium leading-relaxed mb-6 sm:mb-8">
-                  Revisa tu email, deberías haber recibido una nota de nuestro equipo con más información.
+                  Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas.
                 </p>
-                <div className="space-y-3">
-                  <p className="text-xs sm:text-sm text-red-600 dark:text-red-400 font-medium bg-red-50 dark:bg-red-950/30 p-3 rounded-xl">
-                    No puedes realizar acciones ni contactar hasta que se resuelva tu situación.
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    className="w-full font-black text-foreground h-12 rounded-full border-2"
-                    onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
-                    data-testid="button-logout"
-                  >
-                    Cerrar Sesión
-                  </Button>
-                </div>
+                <Button 
+                  variant="outline" 
+                  className="w-full font-black text-foreground h-12 rounded-full border-2"
+                  onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+                  data-testid="button-logout"
+                >
+                  Cerrar Sesión
+                </Button>
               </CardContent>
             </Card>
           </div>
@@ -951,11 +946,18 @@ export default function Dashboard() {
                 Gestiona tu LLC de forma simple y clara.
               </p>
             </div>
-            <Link href="/servicios#pricing">
-              <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
-                <PlusCircle className="w-5 h-5" /> Nueva LLC
-              </Button>
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <Link href="/llc/formation">
+                <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
+                  <PlusCircle className="w-5 h-5" /> Nueva LLC
+                </Button>
+              </Link>
+              <Link href="/tools/calculator">
+                <Button variant="outline" className="w-full md:w-auto font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2">
+                  Comparador Fiscal
+                </Button>
+              </Link>
+            </div>
           </div>
 
           {!user?.emailVerified && (

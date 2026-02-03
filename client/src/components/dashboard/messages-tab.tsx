@@ -29,9 +29,9 @@ export function MessagesTab({
             <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis Consultas</h2>
             <p className="text-sm text-muted-foreground mt-1">Tu historial de mensajes con nuestro equipo</p>
           </div>
-          <Link href="/contacto">
+          <a href="https://wa.me/34614916910?text=Hola!%20Necesito%20ayuda%20con%20mi%20cuenta" target="_blank" rel="noopener noreferrer">
             <Button className="bg-accent text-accent-foreground font-semibold rounded-full text-xs">Nueva Consulta</Button>
-          </Link>
+          </a>
         </div>
       </div>
       <div className="space-y-4">
@@ -47,7 +47,7 @@ export function MessagesTab({
               </div>
               <a href="https://wa.me/34614916910?text=Hola!%20Necesito%20ayuda%20con%20mi%20cuenta" target="_blank" rel="noopener noreferrer">
                 <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
-                  <MessageSquare className="w-4 h-4 mr-2" /> Hablar con soporte
+                  <MessageSquare className="w-4 h-4 mr-2" /> Nueva Consulta
                 </Button>
               </a>
             </div>
