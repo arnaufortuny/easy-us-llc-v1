@@ -82,17 +82,32 @@ export default function Servicios() {
         className="flex flex-col items-center justify-center text-center pt-32 sm:pt-24 min-h-[450px] sm:min-h-[auto] w-full"
         showOverlay={false}
         title={
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase">
+          <motion.h1 
+            className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
+          >
             {t("services.heroTitle")} <span className="text-accent">{t("services.heroTitleHighlight")}</span>
-          </h1>
+          </motion.h1>
         }
         subtitle={
             <div className="flex flex-col items-center justify-center w-full mt-6 sm:mt-8">
-              <div className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2">
+              <motion.div 
+                className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 {t("services.heroSubtitle")}
-              </div>
+              </motion.div>
               
-              <div className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12">
+              <motion.div 
+                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 {heroFeatures.map((text, i) => (
                   <div 
                     key={i} 
@@ -101,7 +116,7 @@ export default function Servicios() {
                     {text}
                   </div>
                 ))}
-              </div>
+              </motion.div>
             </div>
         }
       />
@@ -130,12 +145,19 @@ export default function Servicios() {
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
             {whatWeDoItems.map((item, i) => (
-              <div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left">
+              <motion.div 
+                key={i} 
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left transition-colors"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
                   {t(`services.whatWeDo.items.${item.key}.title`)}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -339,12 +361,19 @@ export default function Servicios() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {bankItems.map((item, i) => (
-              <div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center">
+              <motion.div 
+                key={i} 
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {t(`services.banks.${item.key}.title`)}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t(`services.banks.${item.key}.desc`)}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
           <div className="mt-8 mb-12 flex justify-center">
@@ -441,12 +470,19 @@ export default function Servicios() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">
             {["fiscal", "agent", "annual", "boi", "support", "updates"].map((key, i) => (
-              <div key={i} className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left">
+              <motion.div 
+                key={i} 
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.4, delay: i * 0.08, ease: [0.25, 0.1, 0.25, 1] }}
+              >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {t(`services.maintenancePack.details.${key}.title`)}
                 </span>
                 <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{t(`services.maintenancePack.details.${key}.desc`)}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
