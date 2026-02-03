@@ -7,6 +7,7 @@ import path from "path";
 import { initServerSentry } from "./lib/sentry";
 import { scheduleBackups } from "./lib/backup";
 import { cleanupDbRateLimits } from "./lib/rate-limiter";
+import { setupSitemapRoute } from "./sitemap";
 
 initServerSentry();
 
@@ -119,6 +120,8 @@ app.use((req, res, next) => {
 
 (async () => {
   await registerRoutes(httpServer, app);
+  
+  setupSitemapRoute(app);
 
   // Simple WebSocket logging for admin panel
   const { WebSocketServer } = await import('ws');

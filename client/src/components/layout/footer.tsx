@@ -2,6 +2,8 @@ import { Link, useLocation } from "wouter";
 import { NewsletterSection } from "./newsletter-section";
 import { useTranslation } from "react-i18next";
 import logoIcon from "@/assets/logo-icon.png";
+import mercuryLogo from "@/assets/mercury-logo.png";
+import relayLogo from "@/assets/relay-logo.png";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -128,6 +130,18 @@ export function Footer() {
           </div>
         </div>
 
+        {/* Partners Section */}
+        <div className="mt-10 sm:mt-12 pt-8 border-t border-white/20">
+          <h4 className="font-black text-base tracking-wider mb-6 text-center text-white/90">{t("footer.partners")}</h4>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-12">
+            <a href="https://mercury.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" data-testid="link-partner-mercury">
+              <img src={mercuryLogo} alt="Mercury" className="h-8 sm:h-10 w-auto bg-white rounded-md px-3 py-1.5" />
+            </a>
+            <a href="https://relayfi.com" target="_blank" rel="noopener noreferrer" className="opacity-80 hover:opacity-100 transition-opacity" data-testid="link-partner-relay">
+              <img src={relayLogo} alt="Relay" className="h-8 sm:h-10 w-auto bg-white rounded-md px-3 py-1.5" />
+            </a>
+          </div>
+        </div>
         
         {/* Legal Disclaimer */}
         <div className="mt-8 sm:mt-10 pt-6 border-t border-white/20">
