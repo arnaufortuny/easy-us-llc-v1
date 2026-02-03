@@ -103,7 +103,7 @@
     "button": "Hablemos por WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-white bg-accent px-4 py-1 inline-block'>NUESTRA FORMA</span><br/>DE TRABAJAR",
+    "title": "<span class='text-foreground'>NUESTRA FORMA</span><br/><span class='text-foreground'>DE TRABAJAR</span>",
     "steps": {
       "listen": {
         "number": "1",
@@ -143,7 +143,7 @@
     }
   },
   "timing": {
-    "title": "<span class='text-white bg-accent px-4 py-1 inline-block'>EN 48-72 HORAS</span><br/>TODO LISTO",
+    "title": "<span class='text-accent'>EN 48-72 HORAS</span><br/><span class='text-foreground'>TODO LISTO</span>",
     "mostPopular": "MÁS POPULAR",
     "steps": {
       "step1": {
