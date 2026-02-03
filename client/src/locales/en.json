@@ -103,42 +103,64 @@
     "button": "Let's talk on WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>HOW</span> <span class='text-accent'>WE WORK</span><br/><span class='text-foreground'>AT EASY US LLC</span>",
+    "title": "<span class='text-white bg-black px-4 py-1 inline-block'>OUR WAY</span><br/>OF WORKING",
     "steps": {
       "listen": {
         "number": "1",
-        "title": "We listen to you",
-        "text": "Tell us about your situation and business. No endless consultations or aggressive sales. We get to the point and see if an LLC makes sense for you."
+        "title": "We listen to your needs",
+        "text": "We analyze your profile, goals, and the state that best suits your LLC based on your activity."
       },
       "collect": {
         "number": "2",
-        "title": "We collect the information",
-        "text": "You fill out a single form with the necessary data. Nothing redundant, nothing unnecessary. We take care of the rest."
+        "title": "We collect information",
+        "text": "We request only the minimum necessary data to start the process safely and efficiently."
       },
       "form": {
         "number": "3",
-        "title": "We form your LLC",
-        "text": "We create your LLC in the United States legally and correctly, usually within 48-72 hours, depending on the state."
+        "title": "We submit the registration",
+        "text": "We process all documentation with the corresponding Secretary of State to formalize your company."
       },
       "docs": {
         "number": "4",
-        "title": "Complete documentation",
-        "text": "We deliver all key documentation: Articles of Organization, Operating Agreement, EIN (if applicable), and clear company structure. Everything organized and ready to operate."
+        "title": "Document management",
+        "text": "We obtain your EIN, Operating Agreement, and all necessary legal documents for operation."
       },
       "banking": {
         "number": "5",
-        "title": "We guide you with banking and payments",
-        "text": "We help you access international banking and payment processors, explaining which options fit your business model."
+        "title": "Banking assistance",
+        "text": "We help you open your account in banks like Mercury or Relay so you can start transacting."
       },
       "compliance": {
         "number": "6",
-        "title": "Compliance and basic taxation",
-        "text": "We explain what you need to file, when and why (reports, obligations, and best practices). No smoke or unrealistic promises."
+        "title": "Annual compliance",
+        "text": "We handle your renewals and reports so your LLC is always in good standing."
       },
       "followup": {
         "number": "7",
-        "title": "Real follow-up",
-        "text": "We don't disappear. We're available for questions, next steps, and growth of your structure."
+        "title": "Continuous follow-up",
+        "text": "We are by your side to answer questions and support your business growth in the US."
+      }
+    }
+  },
+  "timing": {
+    "title": "IN 48-72 HOURS, EVERYTHING READY",
+    "mostPopular": "MOST POPULAR",
+    "disclaimer": "*Average management times. We work agilely so you don't waste a minute on bureaucratic procedures.",
+    "steps": {
+      "step1": {
+        "title": "STATE REGISTRATION",
+        "text": "We create your LLC with you and for you. We handle the complete legal process for a stress-free start.",
+        "duration": "24-48 HOURS"
+      },
+      "step2": {
+        "title": "EIN INCLUDED",
+        "text": "We get your US tax number so your company can operate with total peace of mind and legal backing.",
+        "duration": "48-72 HOURS"
+      },
+      "step3": {
+        "title": "BANK ACCOUNT",
+        "text": "We accompany you to open your international account and start moving your business without limits.",
+        "duration": "24-48 HOURS"
       }
     }
   },
