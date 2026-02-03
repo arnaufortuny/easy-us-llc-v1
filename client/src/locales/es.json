@@ -537,7 +537,8 @@
     "lastNameRequired": "Los apellidos son obligatorios",
     "llcNameFormat": "El nombre debe terminar en LLC (ej: MI EMPRESA LLC)",
     "acceptTerms": "Debes aceptar los términos",
-    "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp"
+    "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp",
+    "ageMinimum": "Debes tener al menos 18 años para crear una LLC"
   },
   "application": {
     "title": "Constituir mi LLC",
@@ -754,7 +755,19 @@
     "calendar": {
       "title": "Calendario fiscal",
       "empty": "No hay fechas fiscales programadas",
-      "emptyDescription": "Al constituir tu LLC, verás aquí todos los vencimientos importantes."
+      "emptyDescription": "Al constituir tu LLC, verás aquí todos los vencimientos importantes.",
+      "taxExtension": {
+        "label": "Extensión Fiscal (+6 meses)",
+        "active": "Extensión activa",
+        "inactive": "Sin extensión",
+        "datesOctober": "Fechas IRS: 15 de octubre",
+        "datesApril": "Fechas IRS: 15 de abril",
+        "activated": "Extensión activada",
+        "deactivated": "Extensión desactivada",
+        "movedToOctober": "Fechas fiscales movidas al 15 de octubre",
+        "movedToApril": "Fechas fiscales restauradas al 15 de abril",
+        "withExtension": "(con extensión de 6 meses)"
+      }
     },
     "orders": {
       "title": "Mis Pedidos",

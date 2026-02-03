@@ -11,22 +11,28 @@ export interface ComplianceDeadline {
   state?: string;
 }
 
-export function calculateComplianceDeadlines(formationDate: Date, state: string): ComplianceDeadline[] {
+export function calculateComplianceDeadlines(formationDate: Date, state: string, hasTaxExtension: boolean = false): ComplianceDeadline[] {
   const deadlines: ComplianceDeadline[] = [];
   const formationYear = formationDate.getFullYear();
 
-  const irs1120DueDate = new Date(formationYear + 1, 3, 15);
+  // Tax deadlines: April 15 normally, October 15 with 6-month extension
+  const taxMonth = hasTaxExtension ? 9 : 3; // October (9) with extension, April (3) without
+  const taxDay = 15;
+
+  const irs1120DueDate = new Date(formationYear + 1, taxMonth, taxDay);
   const irs1120ReminderDate = new Date(irs1120DueDate);
   irs1120ReminderDate.setDate(irs1120ReminderDate.getDate() - 60);
+
+  const extensionNote = hasTaxExtension ? " (con extensión de 6 meses)" : "";
 
   deadlines.push({
     type: "irs_1120",
     dueDate: irs1120DueDate,
     reminderDate: irs1120ReminderDate,
-    description: "Presentación del formulario IRS 1120 (Declaración de impuestos corporativos)",
+    description: `Presentación del formulario IRS 1120 (Declaración de impuestos corporativos)${extensionNote}`,
   });
 
-  const irs5472DueDate = new Date(formationYear + 1, 3, 15);
+  const irs5472DueDate = new Date(formationYear + 1, taxMonth, taxDay);
   const irs5472ReminderDate = new Date(irs5472DueDate);
   irs5472ReminderDate.setDate(irs5472ReminderDate.getDate() - 60);
 
@@ -34,7 +40,7 @@ export function calculateComplianceDeadlines(formationDate: Date, state: string)
     type: "irs_5472",
     dueDate: irs5472DueDate,
     reminderDate: irs5472ReminderDate,
-    description: "Presentación del formulario IRS 5472 (Declaración de transacciones con propietarios extranjeros)",
+    description: `Presentación del formulario IRS 5472 (Declaración de transacciones con propietarios extranjeros)${extensionNote}`,
   });
 
   // Annual Report: only Delaware and Wyoming
@@ -84,8 +90,8 @@ export function calculateComplianceDeadlines(formationDate: Date, state: string)
   return deadlines;
 }
 
-export async function updateApplicationDeadlines(applicationId: number, formationDate: Date, state: string) {
-  const deadlines = calculateComplianceDeadlines(formationDate, state);
+export async function updateApplicationDeadlines(applicationId: number, formationDate: Date, state: string, hasTaxExtension: boolean = false) {
+  const deadlines = calculateComplianceDeadlines(formationDate, state, hasTaxExtension);
 
   const irs1120Deadline = deadlines.find(d => d.type === "irs_1120");
   const irs5472Deadline = deadlines.find(d => d.type === "irs_5472");

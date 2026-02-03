@@ -172,6 +172,19 @@ export default function Dashboard() {
       if (!canEdit) {
         throw new Error("No puedes modificar tus datos en el estado actual de tu cuenta.");
       }
+      // Age validation - must be at least 18 years old
+      if (data.birthDate) {
+        const birthDate = new Date(data.birthDate);
+        const today = new Date();
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        if (age < 18) {
+          throw new Error(t("validation.ageMinimum"));
+        }
+      }
       const res = await apiRequest("PATCH", "/api/user/profile", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -1908,6 +1921,43 @@ export default function Dashboard() {
                                     data-testid={`input-annual-report-${app.id}`}
                                   />
                                 </div>
+                              </div>
+                              {/* Tax Extension Toggle */}
+                              <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t flex items-center justify-between">
+                                <div>
+                                  <Label className="text-xs md:text-sm font-bold text-foreground">{t("dashboard.calendar.taxExtension.label")}</Label>
+                                  <p className="text-[10px] md:text-xs text-muted-foreground">
+                                    {app.hasTaxExtension 
+                                      ? t("dashboard.calendar.taxExtension.datesOctober") 
+                                      : t("dashboard.calendar.taxExtension.datesApril")}
+                                  </p>
+                                </div>
+                                <Button
+                                  size="sm"
+                                  variant={app.hasTaxExtension ? "default" : "outline"}
+                                  className={`rounded-full text-xs ${app.hasTaxExtension ? "bg-accent text-primary" : ""}`}
+                                  onClick={async () => {
+                                    try {
+                                      const res = await apiRequest("PATCH", `/api/admin/llc/${app.id}/tax-extension`, {
+                                        hasTaxExtension: !app.hasTaxExtension
+                                      });
+                                      if (res.ok) {
+                                        queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                                        toast({
+                                          title: !app.hasTaxExtension ? t("dashboard.calendar.taxExtension.activated") : t("dashboard.calendar.taxExtension.deactivated"),
+                                          description: !app.hasTaxExtension 
+                                            ? t("dashboard.calendar.taxExtension.movedToOctober")
+                                            : t("dashboard.calendar.taxExtension.movedToApril")
+                                        });
+                                      }
+                                    } catch {
+                                      toast({ title: "Error", variant: "destructive" });
+                                    }
+                                  }}
+                                  data-testid={`button-tax-extension-${app.id}`}
+                                >
+                                  {app.hasTaxExtension ? t("dashboard.calendar.taxExtension.active") : t("dashboard.calendar.taxExtension.inactive")}
+                                </Button>
                               </div>
                             </div>
                           );

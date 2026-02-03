@@ -88,6 +88,8 @@ export const llcApplications = pgTable("llc_applications", {
   irs1120DueDate: timestamp("irs_1120_due_date"),
   irs5472DueDate: timestamp("irs_5472_due_date"),
   annualReportDueDate: timestamp("annual_report_due_date"),
+  // Tax extension (6 months: April 15 -> October 15)
+  hasTaxExtension: boolean("has_tax_extension").notNull().default(false),
   // Abandoned application tracking
   abandonedAt: timestamp("abandoned_at"),
   remindersSent: integer("reminders_sent").notNull().default(0),

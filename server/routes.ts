@@ -317,7 +317,8 @@ export async function registerRoutes(
       if (status === 'filed' && order.application) {
         const formationDate = new Date();
         const state = order.application.state || "new_mexico";
-        await updateApplicationDeadlines(order.application.id, formationDate, state);
+        const hasTaxExtension = order.application.hasTaxExtension || false;
+        await updateApplicationDeadlines(order.application.id, formationDate, state, hasTaxExtension);
       }
 
       // Clear compliance deadlines when order is cancelled
@@ -584,6 +585,51 @@ export async function registerRoutes(
       .where(eq(llcApplicationsTable.id, appId));
     
     res.json({ success: true });
+  }));
+
+  // Toggle tax extension for LLC application (6 months: Apr 15 -> Oct 15)
+  app.patch("/api/admin/llc/:appId/tax-extension", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const appId = Number(req.params.appId);
+    const { hasTaxExtension } = z.object({ 
+      hasTaxExtension: z.boolean()
+    }).parse(req.body);
+    
+    // Get current application data
+    const [app] = await db.select()
+      .from(llcApplicationsTable)
+      .where(eq(llcApplicationsTable.id, appId))
+      .limit(1);
+    
+    if (!app) {
+      return res.status(404).json({ message: "Aplicación no encontrada" });
+    }
+    
+    // Update extension flag
+    await db.update(llcApplicationsTable)
+      .set({ hasTaxExtension })
+      .where(eq(llcApplicationsTable.id, appId));
+    
+    // Recalculate tax deadlines if LLC has been created
+    if (app.llcCreatedDate) {
+      const creationDate = new Date(app.llcCreatedDate);
+      const creationYear = creationDate.getFullYear();
+      const nextYear = creationYear + 1;
+      
+      // Tax extension: April 15 normally, October 15 with 6-month extension
+      const taxMonth = hasTaxExtension ? 9 : 3; // October (9) with extension, April (3) without
+      
+      await db.update(llcApplicationsTable)
+        .set({
+          irs1120DueDate: new Date(nextYear, taxMonth, 15),
+          irs5472DueDate: new Date(nextYear, taxMonth, 15),
+        })
+        .where(eq(llcApplicationsTable.id, appId));
+    }
+    
+    res.json({ 
+      success: true, 
+      hasTaxExtension
+    });
   }));
 
   // Admin Users
@@ -2252,7 +2298,8 @@ export async function registerRoutes(
       const deadlines = await updateApplicationDeadlines(
         applicationId, 
         new Date(formationDate), 
-        state || app.state || "new_mexico"
+        state || app.state || "new_mexico",
+        app.hasTaxExtension || false
       );
 
       res.json({ 

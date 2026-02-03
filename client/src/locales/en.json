@@ -537,7 +537,8 @@
     "lastNameRequired": "Last name is required",
     "llcNameFormat": "Name must end in LLC (e.g., MY COMPANY LLC)",
     "acceptTerms": "You must accept the terms",
-    "whatsappRequired": "Required if you want WhatsApp contact"
+    "whatsappRequired": "Required if you want WhatsApp contact",
+    "ageMinimum": "You must be at least 18 years old to create an LLC"
   },
   "application": {
     "title": "Form my LLC",
@@ -754,7 +755,19 @@
     "calendar": {
       "title": "Tax calendar",
       "empty": "No tax dates scheduled",
-      "emptyDescription": "When you form your LLC, you'll see all important deadlines here."
+      "emptyDescription": "When you form your LLC, you'll see all important deadlines here.",
+      "taxExtension": {
+        "label": "Tax Extension (+6 months)",
+        "active": "Extension active",
+        "inactive": "No extension",
+        "datesOctober": "IRS dates: October 15",
+        "datesApril": "IRS dates: April 15",
+        "activated": "Extension activated",
+        "deactivated": "Extension deactivated",
+        "movedToOctober": "Tax dates moved to October 15",
+        "movedToApril": "Tax dates restored to April 15",
+        "withExtension": "(with 6-month extension)"
+      }
     },
     "orders": {
       "title": "My Orders",

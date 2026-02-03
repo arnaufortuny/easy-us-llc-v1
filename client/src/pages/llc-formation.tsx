@@ -40,7 +40,20 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   ownerProvince: z.string().optional(),
   ownerPostalCode: z.string().min(1, t("validation.required")),
   ownerCountry: z.string().min(1, t("validation.required")),
-  ownerBirthDate: z.string().min(1, t("validation.required")),
+  ownerBirthDate: z.string().min(1, t("validation.required")).refine(
+    (val) => {
+      if (!val) return false;
+      const birthDate = new Date(val);
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age >= 18;
+    },
+    { message: t("validation.ageMinimum") }
+  ),
   businessActivity: z.string().min(1, t("validation.required")),
   isSellingOnline: z.string().min(1, t("validation.required")),
   needsBankAccount: z.string().min(1, t("validation.required")),
