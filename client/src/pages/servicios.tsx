@@ -83,10 +83,10 @@ export default function Servicios() {
         showOverlay={false}
         title={
           <motion.h1 
-            className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase"
-            initial={{ opacity: 0, y: 15 }}
+            className="text-4xl sm:text-5xl lg:text-7xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-transform"
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             {t("services.heroTitle")} <span className="text-accent">{t("services.heroTitleHighlight")}</span>
           </motion.h1>
@@ -94,19 +94,19 @@ export default function Servicios() {
         subtitle={
             <div className="flex flex-col items-center justify-center w-full mt-6 sm:mt-8">
               <motion.div 
-                className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2"
+                className="text-[13px] sm:text-xl lg:text-2xl text-foreground font-medium leading-relaxed max-w-2xl text-center mb-8 sm:mb-12 mx-auto px-2 will-change-transform"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ duration: 0.35, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               >
                 {t("services.heroSubtitle")}
               </motion.div>
               
               <motion.div 
-                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12"
-                initial={{ opacity: 0, y: 15 }}
+                className="hidden sm:flex flex-wrap justify-center gap-3 sm:gap-4 max-w-4xl px-4 mb-12 will-change-transform"
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
               >
                 {heroFeatures.map((text, i) => (
                   <div 
@@ -125,21 +125,21 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform" 
               style={{ fontWeight: 900 }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               <span className="text-accent">{t("services.whatWeDo.title")}</span>
             </motion.h2>
             <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full"
+              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             />
           </div>
           
@@ -147,11 +147,11 @@ export default function Servicios() {
             {whatWeDoItems.map((item, i) => (
               <motion.div 
                 key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left transition-colors"
-                initial={{ opacity: 0, y: 15 }}
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left transition-colors will-change-transform"
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.3, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
                   {t(`services.whatWeDo.items.${item.key}.title`)}
@@ -169,22 +169,22 @@ export default function Servicios() {
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform" 
               style={{ fontWeight: 900 }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.formation")}</span>
             </motion.h2>
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full"
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             />
           </div>
           
@@ -339,22 +339,22 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center will-change-transform" 
               style={{ fontWeight: 900 }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               <span className="text-foreground">{t("services.banks.sectionTitle")}</span>{" "}
               <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span>
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center"
+              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center will-change-transform"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {t("services.banks.subtitle")}
             </motion.p>
@@ -363,11 +363,11 @@ export default function Servicios() {
             {bankItems.map((item, i) => (
               <motion.div 
                 key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center"
-                initial={{ opacity: 0, y: 15 }}
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center will-change-transform"
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.3, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {t(`services.banks.${item.key}.title`)}
@@ -386,22 +386,22 @@ export default function Servicios() {
 
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform" 
               style={{ fontWeight: 900 }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
             </motion.h2>
             <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full"
+              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
@@ -447,22 +447,22 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center will-change-transform" 
               style={{ fontWeight: 900 }}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
               <span className="text-foreground">{t("services.process.title")}</span>{" "}
               <span className="text-accent">{t("services.process.titleHighlight")}</span>
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center"
+              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center will-change-transform"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
             >
               {t("services.management.subtitle")}
             </motion.p>
@@ -472,11 +472,11 @@ export default function Servicios() {
             {["fiscal", "agent", "annual", "boi", "support", "updates"].map((key, i) => (
               <motion.div 
                 key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left"
-                initial={{ opacity: 0, y: 15 }}
+                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-left will-change-transform"
+                initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.3, delay: 0, ease: [0.25, 0.1, 0.25, 1] }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
               >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {t(`services.maintenancePack.details.${key}.title`)}

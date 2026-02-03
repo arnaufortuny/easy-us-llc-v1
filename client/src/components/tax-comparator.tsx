@@ -254,43 +254,43 @@ export function TaxComparator() {
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent font-black text-sm mb-6"
-            initial={{ opacity: 0, y: 15 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent font-black text-sm mb-6 will-change-transform"
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             <Calculator className="w-4 h-4" />
             {t("taxComparator.badge")}
           </motion.div>
           <motion.h2 
-            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-tight"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-tight will-change-transform"
             style={{ fontWeight: 900 }}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
           >
             <span className="text-foreground">{t("taxComparator.titlePart1")}</span>{" "}
             <span className="text-accent">{t("taxComparator.titlePart2")}</span>
           </motion.h2>
           <motion.p 
-            className="text-muted-foreground font-bold text-base sm:text-lg mt-4 text-center max-w-xl"
+            className="text-muted-foreground font-bold text-base sm:text-lg mt-4 text-center max-w-xl will-change-transform"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
           >
             {t("taxComparator.subtitle")}
           </motion.p>
         </div>
         
         <motion.div 
-          className="max-w-4xl mx-auto"
-          initial={{ opacity: 0, y: 20 }}
+          className="max-w-4xl mx-auto will-change-transform"
+          initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
         >
           <div className="bg-background rounded-3xl border-2 border-accent/20 shadow-2xl shadow-accent/10 overflow-hidden">
             {/* Country Selection */}
@@ -383,8 +383,8 @@ export function TaxComparator() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="p-6 sm:p-8 bg-background"
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="p-6 sm:p-8 bg-background will-change-transform"
                 >
                   <div className="max-w-md mx-auto text-center">
                     <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/20 flex items-center justify-center">
@@ -438,8 +438,8 @@ export function TaxComparator() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center"
+                  transition={{ duration: 0.2, ease: "easeOut" }}
+                  className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center will-change-transform"
                 >
                   <div className="relative mb-8">
                     <div className="w-24 h-24 rounded-full border-4 border-accent/20" />
@@ -475,9 +475,10 @@ export function TaxComparator() {
               {showResults && (
                 <motion.div
                   key="results"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="will-change-transform"
                 >
                   {/* Comparison */}
                   <div className="grid grid-cols-1 md:grid-cols-2">

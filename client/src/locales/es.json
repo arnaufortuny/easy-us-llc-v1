@@ -167,7 +167,7 @@
     "heroTitleHighlight": "DE FORMA LEGAL, CLARA Y LISTA PARA OPERAR.",
     "heroSubtitle": "Nos encargamos de todo el proceso: desde la estructura correcta hasta los aspectos fiscales, bancarios y operativos, para que puedas centrarte en hacer crecer tu negocio con tranquilidad.",
     "llc": {
-      "title": "Formación de LLC",
+      "title": "FORMACIÓN DE LLC",
       "description": "Constituye tu LLC americana de forma rápida y sencilla",
       "messages": {
         "codeSent": "Código enviado"
@@ -178,7 +178,7 @@
       "description": "Mantén tu LLC en regla con nuestro servicio de mantenimiento"
     },
     "formation": {
-      "title": "Formación de LLC",
+      "title": "FORMACIÓN DE LLC",
       "includes": [
         "Tasas del estado pagadas",
         "Registered Agent (12 meses)",
@@ -249,7 +249,7 @@
     },
     "whatWeDo": {
       "badge": "SERVICIOS",
-      "title": "Constitución de LLC",
+      "title": "CONSTITUCIÓN DE LLC",
       "subtitle": "(Lo que hacemos por ti)",
       "items": {
         "formation": {
