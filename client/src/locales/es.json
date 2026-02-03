@@ -1201,6 +1201,15 @@
       "percentage": "{{percentage}}% de tus ingresos"
     },
     "cta": "Empieza tu LLC ahora",
+    "emailTitle": "Calcula tu ahorro gratis",
+    "emailSubtitle": "Introduce tu email para ver cuánto puedes ahorrar con una LLC en Estados Unidos",
+    "emailPlaceholder": "tu@email.com",
+    "emailRequired": "Por favor, introduce tu email",
+    "emailInvalid": "Por favor, introduce un email válido",
+    "emailPrivacy": "Tu email está protegido. No enviamos spam.",
+    "calculateButton": "Calcular mi ahorro",
+    "calculating": "Calculando tu ahorro...",
+    "calculatingSubtitle": "Analizando impuestos y optimizaciones",
     "showDetails": "Ver información importante",
     "hideDetails": "Ocultar información",
     "disclaimer": {

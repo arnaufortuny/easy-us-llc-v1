@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { USAFlag as USFlag } from "@/components/ui/flags";
@@ -178,6 +178,10 @@ export function TaxComparator() {
   const [income, setIncome] = useState(50000);
   const [selectedCountry, setSelectedCountry] = useState<Country>("spain");
   const [showDetails, setShowDetails] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isCalculating, setIsCalculating] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [emailError, setEmailError] = useState("");
   
   const countryTaxes = useMemo(() => calculateTaxes(income, selectedCountry), [income, selectedCountry]);
   const usLLCTaxes = useMemo(() => calculateUSLLCTaxes(income), [income]);
@@ -192,6 +196,30 @@ export function TaxComparator() {
       currency: 'EUR',
       maximumFractionDigits: 0
     }).format(amount);
+  };
+  
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+  
+  const handleCalculate = async () => {
+    if (!email.trim()) {
+      setEmailError(t("taxComparator.emailRequired"));
+      return;
+    }
+    if (!validateEmail(email)) {
+      setEmailError(t("taxComparator.emailInvalid"));
+      return;
+    }
+    
+    setEmailError("");
+    setIsCalculating(true);
+    
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    
+    setIsCalculating(false);
+    setShowResults(true);
   };
   
   const incomePresets = [30000, 50000, 75000, 100000, 150000];
@@ -329,46 +357,149 @@ export function TaxComparator() {
               </div>
             </div>
             
-            {/* Comparison */}
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* US LLC */}
-              <div className="p-6 sm:p-8 bg-accent/10 border-b md:border-b-0 md:border-r border-accent/20 relative">
-                <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1.5 rounded-full bg-accent text-primary text-xs font-black flex items-center gap-1.5 shadow-lg shadow-accent/30">
-                    <TrendingUp className="w-3.5 h-3.5" /> 0% {t("taxComparator.taxes")}
-                  </span>
-                </div>
-                
-                <div className="flex items-center gap-3 mb-8">
-                  <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg">
-                    <USFlag />
-                  </div>
-                  <div>
-                    <h3 className="font-black text-foreground text-xl">{t("taxComparator.usllc.title")}</h3>
-                    <p className="text-sm text-muted-foreground font-bold">{t("taxComparator.usllc.subtitle")}</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-3 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.federalTax")}</span>
-                    <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.selfEmployment")}</span>
-                    <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-accent/20">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.vat")}</span>
-                    <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
-                  </div>
-                  <div className="pt-4">
-                    <div className="flex justify-between items-center">
-                      <span className="font-black text-foreground text-lg">{t("taxComparator.totalTaxes")}</span>
-                      <span className="font-black text-accent text-2xl">{formatCurrency(0)}</span>
+            <AnimatePresence mode="wait">
+              {!showResults && !isCalculating && (
+                <motion.div
+                  key="email-input"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="p-6 sm:p-8 bg-background"
+                >
+                  <div className="max-w-md mx-auto text-center">
+                    <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/20 flex items-center justify-center">
+                      <Mail className="w-8 h-8 text-accent" />
+                    </div>
+                    <h3 className="text-xl sm:text-2xl font-black text-foreground mb-2">
+                      {t("taxComparator.emailTitle")}
+                    </h3>
+                    <p className="text-muted-foreground font-medium mb-6">
+                      {t("taxComparator.emailSubtitle")}
+                    </p>
+                    <div className="space-y-4">
+                      <div className="relative">
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => {
+                            setEmail(e.target.value);
+                            if (emailError) setEmailError("");
+                          }}
+                          placeholder={t("taxComparator.emailPlaceholder")}
+                          className={`w-full px-5 py-4 rounded-full border-2 ${
+                            emailError 
+                              ? 'border-destructive focus:border-destructive' 
+                              : 'border-accent/30 focus:border-accent'
+                          } bg-background text-foreground font-medium text-center outline-none transition-all`}
+                          data-testid="input-email-calculator"
+                        />
+                        {emailError && (
+                          <p className="text-destructive text-sm font-bold mt-2">{emailError}</p>
+                        )}
+                      </div>
+                      <Button
+                        onClick={handleCalculate}
+                        className="w-full bg-accent text-primary font-black text-base rounded-full h-14 shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
+                        data-testid="button-calculate"
+                      >
+                        {t("taxComparator.calculateButton")} →
+                      </Button>
+                      <p className="text-xs text-muted-foreground">
+                        {t("taxComparator.emailPrivacy")}
+                      </p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
+              )}
+              
+              {isCalculating && (
+                <motion.div
+                  key="calculating"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center"
+                >
+                  <div className="relative mb-8">
+                    <div className="w-24 h-24 rounded-full border-4 border-accent/20" />
+                    <div className="absolute inset-0 w-24 h-24 rounded-full border-4 border-transparent border-t-accent animate-spin" />
+                    <Calculator className="absolute inset-0 m-auto w-10 h-10 text-accent" />
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-foreground mb-2">
+                    {t("taxComparator.calculating")}
+                  </h3>
+                  <p className="text-muted-foreground font-medium">
+                    {t("taxComparator.calculatingSubtitle")}
+                  </p>
+                  <div className="flex gap-1 mt-6">
+                    <motion.div 
+                      className="w-3 h-3 rounded-full bg-accent"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0 }}
+                    />
+                    <motion.div 
+                      className="w-3 h-3 rounded-full bg-accent"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+                    />
+                    <motion.div 
+                      className="w-3 h-3 rounded-full bg-accent"
+                      animate={{ scale: [1, 1.3, 1] }}
+                      transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+                    />
+                  </div>
+                </motion.div>
+              )}
+              
+              {showResults && (
+                <motion.div
+                  key="results"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, ease: [0.25, 0.1, 0.25, 1] }}
+                >
+                  {/* Comparison */}
+                  <div className="grid grid-cols-1 md:grid-cols-2">
+                    {/* US LLC */}
+                    <div className="p-6 sm:p-8 bg-accent/10 border-b md:border-b-0 md:border-r border-accent/20 relative">
+                      <div className="absolute top-4 right-4">
+                        <span className="px-3 py-1.5 rounded-full bg-accent text-primary text-xs font-black flex items-center gap-1.5 shadow-lg shadow-accent/30">
+                          <TrendingUp className="w-3.5 h-3.5" /> 0% {t("taxComparator.taxes")}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center gap-3 mb-8">
+                        <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg">
+                          <USFlag />
+                        </div>
+                        <div>
+                          <h3 className="font-black text-foreground text-xl">{t("taxComparator.usllc.title")}</h3>
+                          <p className="text-sm text-muted-foreground font-bold">{t("taxComparator.usllc.subtitle")}</p>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center py-3 border-b border-accent/20">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.federalTax")}</span>
+                          <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-accent/20">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.selfEmployment")}</span>
+                          <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-accent/20">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.vat")}</span>
+                          <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
+                        </div>
+                        <div className="pt-4">
+                          <div className="flex justify-between items-center">
+                            <span className="font-black text-foreground text-lg">{t("taxComparator.totalTaxes")}</span>
+                            <span className="font-black text-accent text-2xl">{formatCurrency(0)}</span>
+                          </div>
+                        </div>
+                      </div>
                 
                 <div className="bg-accent rounded-2xl p-5 mt-6 shadow-lg shadow-accent/20">
                   <p className="text-sm text-primary/80 mb-1 font-black">{t("taxComparator.netIncome")}</p>
@@ -423,30 +554,33 @@ export function TaxComparator() {
               </div>
             </div>
             
-            {/* Savings */}
-            <div className="p-6 sm:p-8 bg-background relative overflow-hidden border-t border-accent/10">
-              <div className="absolute inset-0 opacity-10">
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent rounded-full blur-2xl" />
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent rounded-full blur-2xl" />
-              </div>
-              
-              <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-                <div className="text-center md:text-left">
-                  <p className="text-sm text-accent/70 font-black">{t("taxComparator.savings.label")}</p>
-                  <p className="font-black text-accent text-4xl sm:text-5xl">{formatCurrency(savings)}</p>
-                  <p className="text-sm text-accent/80 font-black mt-1">
-                    {t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}
-                  </p>
-                </div>
-                <Button
-                  onClick={() => setLocation("/llc/formation")}
-                  className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
-                  data-testid="button-start-llc-comparator"
-                >
-                  {t("taxComparator.cta")} →
-                </Button>
-              </div>
-            </div>
+                  {/* Savings */}
+                  <div className="p-6 sm:p-8 bg-background relative overflow-hidden border-t border-accent/10">
+                    <div className="absolute inset-0 opacity-10">
+                      <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent rounded-full blur-2xl" />
+                      <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent rounded-full blur-2xl" />
+                    </div>
+                    
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
+                      <div className="text-center md:text-left">
+                        <p className="text-sm text-accent/70 font-black">{t("taxComparator.savings.label")}</p>
+                        <p className="font-black text-accent text-4xl sm:text-5xl">{formatCurrency(savings)}</p>
+                        <p className="text-sm text-accent/80 font-black mt-1">
+                          {t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}
+                        </p>
+                      </div>
+                      <Button
+                        onClick={() => setLocation("/llc/formation")}
+                        className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
+                        data-testid="button-start-llc-comparator"
+                      >
+                        {t("taxComparator.cta")} →
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
             
             <button
               onClick={() => setShowDetails(!showDetails)}
