@@ -85,6 +85,7 @@ export default function LlcFormation() {
   const [acceptedInfo, setAcceptedInfo] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   
   // OTP verification states
@@ -437,6 +438,7 @@ export default function LlcFormation() {
   };
 
   const onSubmit = async (data: FormValues) => {
+    setIsSubmitting(true);
     try {
       // In edit mode, save changes and redirect to dashboard
       if (isEditMode) {
@@ -510,6 +512,8 @@ export default function LlcFormation() {
       setStep(19); // Payment Step
     } catch {
       toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgain"), variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
     }
   };
   
@@ -871,7 +875,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Fecha:</FormLabel>
-                    <FormControl><Input {...field} type="date" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /></FormControl>
+                    <FormControl><Input {...field} type="date" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base max-w-[200px] md:max-w-none" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -1001,7 +1005,7 @@ export default function LlcFormation() {
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
-                          {["Sí, Mercury", "Sí, Relay", "Aún no", "Ya tengo cuenta"].map(opt => (
+                          {["Sí, Mercury", "Sí, Relay", "Aún no", "Otro banco"].map(opt => (
                             <label 
                               key={opt} 
                               onClick={() => field.onChange(opt)}
@@ -1026,7 +1030,7 @@ export default function LlcFormation() {
                     <FormField control={form.control} name="willUseStripe" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
-                          {["Stripe", "PayPal", "Ambas", "Otra", "No todavía"].map(opt => (
+                          {["Stripe", "Otra", "No todavía"].map(opt => (
                             <label 
                               key={opt} 
                               onClick={() => field.onChange(opt)}
@@ -1255,7 +1259,7 @@ export default function LlcFormation() {
                             <p><span className="opacity-60">Número de ruta:</span> <span className="font-bold font-mono">121145433</span></p>
                             <p><span className="opacity-60">Banco:</span> <span className="font-bold">Column N.A.</span></p>
                             <p className="opacity-60 text-[10px] pt-2">1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p>
-                            <p className="pt-2 text-accent font-bold">Concepto: Tu número de pedido</p>
+                            <p className="pt-2 text-accent font-bold">Concepto: {form.getValues("state") ? `${form.getValues("state")?.substring(0, 2).toUpperCase() || "XX"}-${Date.now().toString().slice(-8)}` : "Tu número de pedido"}</p>
                           </div>
                         </div>
                       </label>
@@ -1309,10 +1313,10 @@ export default function LlcFormation() {
                 <div className="flex flex-col gap-4 pt-4">
                   <Button 
                     type="submit" 
-                    disabled={!acceptedInfo || !acceptedTerms}
-                    className="w-full bg-accent text-primary font-black py-8 rounded-full text-lg md:text-xl tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={!acceptedInfo || !acceptedTerms || isSubmitting}
+                    className="w-full bg-accent text-accent-foreground font-bold py-8 rounded-full text-base md:text-lg hover:bg-accent/90 active:scale-95 transition-all shadow-xl shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Enviar Solicitud
+                    {isSubmitting ? <Loader2 className="animate-spin" /> : t("application.submit")}
                   </Button>
                   <Button type="button" variant="ghost" onClick={() => setStep(0)} className="text-primary/50 font-black text-[10px] tracking-widest">Empezar de nuevo</Button>
                 </div>

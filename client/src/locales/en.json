@@ -628,6 +628,8 @@
     "saveChanges": "Save Changes",
     "continue": "Continue",
     "back": "Back",
+    "submit": "Submit Request",
+    "submitting": "Submitting...",
     "steps": {
       "personal": "Personal Info",
       "identity": "Identity",

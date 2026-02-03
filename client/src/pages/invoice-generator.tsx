@@ -41,6 +41,7 @@ export default function InvoiceGenerator() {
   const [dueDate, setDueDate] = useState("");
   const [currency, setCurrency] = useState("EUR");
   const [notes, setNotes] = useState("");
+  const [taxRate, setTaxRate] = useState<number>(0);
   const [items, setItems] = useState<InvoiceItem[]>([
     { id: generateId(), description: "", quantity: 1, price: 0 }
   ]);
@@ -86,6 +87,8 @@ export default function InvoiceGenerator() {
   };
 
   const subtotal = items.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  const taxAmount = subtotal * (taxRate / 100);
+  const total = subtotal + taxAmount;
   const currencySymbol = currency === "EUR" ? "\u20AC" : currency === "USD" ? "$" : "\u00A3";
 
   const formatDate = (dateStr: string) => {
@@ -216,13 +219,32 @@ export default function InvoiceGenerator() {
         const descLines = doc.splitTextToSize(item.description, 95);
         doc.text(descLines, 20, yPos);
         doc.text(String(item.quantity), 128, yPos);
+        const itemTotal = item.quantity * item.price;
         doc.text(`${item.price.toFixed(2)} ${currencySymbol}`, 160, yPos, { align: 'right' });
-        doc.text(`${total.toFixed(2)} ${currencySymbol}`, 188, yPos, { align: 'right' });
+        doc.text(`${itemTotal.toFixed(2)} ${currencySymbol}`, 188, yPos, { align: 'right' });
         yPos += Math.max(descLines.length * 6, 10);
       });
 
       yPos += 8;
 
+      // Subtotal, Tax, and Total section
+      doc.setTextColor(107, 114, 128);
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.text('Subtotal:', 140, yPos);
+      doc.setTextColor(14, 18, 21);
+      doc.text(`${subtotal.toFixed(2)} ${currencySymbol}`, 183, yPos, { align: 'right' });
+      
+      if (taxRate > 0) {
+        yPos += 8;
+        doc.setTextColor(107, 114, 128);
+        doc.text(`IVA (${taxRate}%):`, 140, yPos);
+        doc.setTextColor(14, 18, 21);
+        doc.text(`${taxAmount.toFixed(2)} ${currencySymbol}`, 183, yPos, { align: 'right' });
+      }
+      
+      yPos += 10;
+      
       // Total section - modern style
       doc.setFillColor(14, 18, 21);
       doc.roundedRect(120, yPos, 70, 18, 3, 3, 'F');
@@ -231,7 +253,7 @@ export default function InvoiceGenerator() {
       doc.setFont('helvetica', 'bold');
       doc.text('TOTAL', 128, yPos + 12);
       doc.setFontSize(14);
-      doc.text(`${subtotal.toFixed(2)} ${currencySymbol}`, 183, yPos + 12, { align: 'right' });
+      doc.text(`${total.toFixed(2)} ${currencySymbol}`, 183, yPos + 12, { align: 'right' });
 
       // Notes section
       if (notes) {
@@ -455,6 +477,20 @@ export default function InvoiceGenerator() {
                     <option value="GBP">GBP</option>
                   </NativeSelect>
                 </div>
+                <div>
+                  <Label htmlFor="taxRate" className="text-xs md:text-sm">IVA (%)</Label>
+                  <NativeSelect
+                    value={String(taxRate)}
+                    onChange={(e) => setTaxRate(Number(e.target.value))}
+                    className="mt-1"
+                    data-testid="select-tax-rate"
+                  >
+                    <option value="0">Sin IVA (0%)</option>
+                    <option value="4">4%</option>
+                    <option value="10">10%</option>
+                    <option value="21">21%</option>
+                  </NativeSelect>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -529,10 +565,19 @@ export default function InvoiceGenerator() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-border flex justify-end">
-                <div className="text-right">
-                  <p className="text-xs md:text-sm text-muted-foreground">Total</p>
+                <div className="text-right space-y-1">
+                  <div className="flex justify-end gap-4 text-xs md:text-sm text-muted-foreground">
+                    <span>Subtotal:</span>
+                    <span>{subtotal.toFixed(2)} {currencySymbol}</span>
+                  </div>
+                  {taxRate > 0 && (
+                    <div className="flex justify-end gap-4 text-xs md:text-sm text-muted-foreground">
+                      <span>IVA ({taxRate}%):</span>
+                      <span>{taxAmount.toFixed(2)} {currencySymbol}</span>
+                    </div>
+                  )}
                   <p className="text-xl md:text-2xl font-bold text-foreground" data-testid="text-total">
-                    {subtotal.toFixed(2)} {currencySymbol}
+                    {total.toFixed(2)} {currencySymbol}
                   </p>
                 </div>
               </div>

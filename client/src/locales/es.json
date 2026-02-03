@@ -628,6 +628,8 @@
     "saveChanges": "Guardar Cambios",
     "continue": "Continuar",
     "back": "Volver",
+    "submit": "Enviar Solicitud",
+    "submitting": "Enviando...",
     "steps": {
       "personal": "Datos Personales",
       "identity": "Identificación",

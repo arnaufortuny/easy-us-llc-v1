@@ -23,6 +23,7 @@ import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
+import { DashboardTour } from "@/components/dashboard-tour";
 import { 
   Tab, 
   AdminUserData, 
@@ -833,15 +834,7 @@ export default function Dashboard() {
                         {t("dashboard.pendingAccount.adminReviewMessage")}
                       </p>
                     </div>
-                    <div className="text-xs text-muted-foreground">
-                      {t("dashboard.pendingAccount.adminReviewContact")}
-                    </div>
-                    <a href="https://wa.me/34614916910?text=Hola!%20Mi%20cuenta%20est%C3%A1%20en%20revisi%C3%B3n%20administrativa" target="_blank" rel="noopener noreferrer">
-                      <Button variant="outline" className="w-full font-semibold h-10 rounded-full text-sm" data-testid="button-pending-whatsapp">
-                        {t("dashboard.pendingAccount.askStatusWhatsApp")}
-                      </Button>
-                    </a>
-                  </div>
+                                      </div>
                 )}
               </CardContent>
             </Card>
@@ -945,6 +938,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-muted dashboard-gradient font-sans overflow-x-hidden animate-page-in">
       <Navbar />
+      <DashboardTour />
       <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto">
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
