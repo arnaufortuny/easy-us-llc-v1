@@ -331,6 +331,32 @@
       "name": "PACKS"
     }
   },
+  "stateComparison": {
+    "title": "COMPARE",
+    "titleHighlight": "THE STATES",
+    "subtitle": "Each state has its advantages. Find the one that best fits your business.",
+    "characteristic": "Feature",
+    "popular": "Most Popular",
+    "premium": "Premium",
+    "startups": "Startups",
+    "days": "days",
+    "features": {
+      "formationPrice": "Formation price",
+      "maintenancePrice": "Annual maintenance",
+      "processingTime": "Processing time",
+      "stateFee": "State fee",
+      "annualReport": "Annual report",
+      "privacy": "Owner privacy",
+      "noStateTax": "No state taxes",
+      "idealFor": "Ideal for"
+    },
+    "idealFor": {
+      "newMexico": "Freelancers and small businesses",
+      "wyoming": "Maximum privacy and e-commerce",
+      "delaware": "Startups and venture capital"
+    },
+    "disclaimer": "* State fees are included in our formation prices. Annual maintenance includes registered agent, compliance, and support."
+  },
   "pricing": {
     "title": "Plans & Pricing",
     "subtitle": "Simple, transparent pricing with no surprises",

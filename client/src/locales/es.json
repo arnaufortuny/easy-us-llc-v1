@@ -331,6 +331,32 @@
       "name": "MANTENIMIENTO"
     }
   },
+  "stateComparison": {
+    "title": "COMPARA",
+    "titleHighlight": "LOS ESTADOS",
+    "subtitle": "Cada estado tiene sus ventajas. Encuentra el que mejor se adapta a tu negocio.",
+    "characteristic": "Característica",
+    "popular": "Más Popular",
+    "premium": "Premium",
+    "startups": "Startups",
+    "days": "días",
+    "features": {
+      "formationPrice": "Precio formación",
+      "maintenancePrice": "Mantenimiento anual",
+      "processingTime": "Tiempo de proceso",
+      "stateFee": "Tasa del estado",
+      "annualReport": "Reporte anual",
+      "privacy": "Privacidad del propietario",
+      "noStateTax": "Sin impuestos estatales",
+      "idealFor": "Ideal para"
+    },
+    "idealFor": {
+      "newMexico": "Freelancers y pequeños negocios",
+      "wyoming": "Privacidad máxima y e-commerce",
+      "delaware": "Startups y venture capital"
+    },
+    "disclaimer": "* Los costos de tasas estatales están incluidos en nuestros precios de formación. El mantenimiento anual incluye agente registrado, cumplimiento y soporte."
+  },
   "pricing": {
     "title": "Planes y Precios",
     "subtitle": "Precios simples y transparentes, sin sorpresas",

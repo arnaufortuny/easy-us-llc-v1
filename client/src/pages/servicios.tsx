@@ -3,6 +3,7 @@ import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
 import { TaxComparator } from "@/components/tax-comparator";
+import { StateComparison } from "@/components/state-comparison";
 import type { Product } from "@shared/schema";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
@@ -338,6 +339,8 @@ export default function Servicios() {
           </div>
         </div>
       </section>
+
+      <StateComparison />
 
       <section className="py-12 sm:py-20 bg-background relative" id="bancos">
         <div className="w-full px-5 sm:px-8">
