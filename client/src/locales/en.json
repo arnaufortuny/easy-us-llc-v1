@@ -1163,29 +1163,29 @@
     "vat": "VAT",
     "countries": {
       "spain": {
-        "title": "Limited Company Spain",
-        "subtitle": "SL + Social Security"
+        "title": "Spain",
+        "subtitle": "Limited Company (SL)"
       },
       "uk": {
-        "title": "Limited Company UK",
-        "subtitle": "Ltd + National Insurance"
+        "title": "United Kingdom",
+        "subtitle": "Limited Company (Ltd)"
       },
       "germany": {
-        "title": "GmbH in Germany",
-        "subtitle": "Gesellschaft + Sozialversicherung"
+        "title": "Germany",
+        "subtitle": "GmbH"
       },
       "france": {
-        "title": "SARL in France",
-        "subtitle": "Société + Cotisations"
+        "title": "France",
+        "subtitle": "SARL"
       },
       "bulgaria": {
-        "title": "EOOD in Bulgaria",
-        "subtitle": "Company + Insurance"
+        "title": "Bulgaria",
+        "subtitle": "EOOD"
       }
     },
     "usllc": {
-      "title": "US LLC",
-      "subtitle": "No physical presence in USA",
+      "title": "United States",
+      "subtitle": "LLC no physical presence",
       "federalTax": "US Federal Tax",
       "corporateTax": "Corporate tax",
       "selfEmployment": "US Self-Employment Tax",

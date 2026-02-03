@@ -1163,29 +1163,29 @@
     "vat": "IVA",
     "countries": {
       "spain": {
-        "title": "Sociedad Limitada España",
-        "subtitle": "SL + Cuota autónomos"
+        "title": "España",
+        "subtitle": "Sociedad Limitada (SL)"
       },
       "uk": {
-        "title": "Limited Company UK",
-        "subtitle": "Ltd + National Insurance"
+        "title": "Reino Unido",
+        "subtitle": "Limited Company (Ltd)"
       },
       "germany": {
-        "title": "GmbH en Alemania",
-        "subtitle": "Gesellschaft + Sozialversicherung"
+        "title": "Alemania",
+        "subtitle": "GmbH"
       },
       "france": {
-        "title": "SARL en Francia",
-        "subtitle": "Société + Cotisations"
+        "title": "Francia",
+        "subtitle": "SARL"
       },
       "bulgaria": {
-        "title": "EOOD en Bulgaria",
-        "subtitle": "Дружество + Осигуровки"
+        "title": "Bulgaria",
+        "subtitle": "EOOD"
       }
     },
     "usllc": {
-      "title": "LLC en Estados Unidos",
-      "subtitle": "Sin presencia física en USA",
+      "title": "Estados Unidos",
+      "subtitle": "LLC sin presencia física",
       "federalTax": "Impuesto Federal USA",
       "corporateTax": "Impuesto de sociedades",
       "selfEmployment": "Cuota autónomos USA",
