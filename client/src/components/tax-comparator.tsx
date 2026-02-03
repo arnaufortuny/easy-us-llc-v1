@@ -374,9 +374,9 @@ export function TaxComparator() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
                 >
-                  <div className="max-w-sm w-full mx-auto text-center">
-                    <Mail className="w-8 h-8 text-accent mx-auto mb-4" />
-                    <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">
+                  <div className="max-w-sm w-full mx-auto text-center flex flex-col items-center">
+                    <Mail className="w-8 h-8 text-accent mb-4" />
+                    <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
                       {t("taxComparator.emailTitle")}
                     </h3>
                     <p className="text-muted-foreground font-medium text-sm mb-4">
