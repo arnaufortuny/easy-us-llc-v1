@@ -915,6 +915,7 @@
     },
     "login": {
       "title": "Log in",
+      "description": "Log in with your existing account to continue with the form.",
       "hello": "Hello",
       "existingAccount": "You already have an account with this email. Log in to continue.",
       "forgotPassword": "Forgot your password?",

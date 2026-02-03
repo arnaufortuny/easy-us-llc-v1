@@ -78,7 +78,7 @@ type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 export default function LlcFormation() {
   const { t } = useTranslation();
   usePageTitle();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [location, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
@@ -98,6 +98,11 @@ export default function LlcFormation() {
   // Discount code states
   const [discountInfo, setDiscountInfo] = useState<{ valid: boolean; discountAmount: number; message?: string } | null>(null);
   const [isValidatingDiscount, setIsValidatingDiscount] = useState(false);
+  
+  // Login states for existing users
+  const [emailExists, setEmailExists] = useState(false);
+  const [existingUserName, setExistingUserName] = useState<string>("");
+  const [showPassword, setShowPassword] = useState(false);
   
   // Check for edit and state parameters in URL
   const urlParams = new URLSearchParams(window.location.search);
@@ -386,6 +391,46 @@ export default function LlcFormation() {
     }
   };
 
+  // Check if email already exists (user already registered)
+  const checkEmailExists = async (email: string) => {
+    try {
+      const res = await apiRequest("POST", "/api/auth/check-email", { email });
+      const data = await res.json();
+      setEmailExists(data.exists);
+      setExistingUserName(data.firstName || "");
+      return data.exists;
+    } catch {
+      return false;
+    }
+  };
+
+  // Handle login for existing users during form
+  const handleLogin = async () => {
+    const email = form.getValues("ownerEmail");
+    const password = form.getValues("password");
+    
+    if (!password || password.length < 1) {
+      toast({ title: t("toast.passwordMissing"), description: t("toast.passwordMissingDesc"), variant: "destructive" });
+      return;
+    }
+
+    try {
+      const res = await apiRequest("POST", "/api/login", { email, password });
+      if (!res.ok) {
+        toast({ title: t("toast.passwordIncorrect"), description: t("toast.passwordIncorrectDesc"), variant: "destructive" });
+        return;
+      }
+      await refetchAuth();
+      setIsOtpVerified(true);
+      toast({ title: t("toast.welcomeBack"), description: t("toast.welcomeBackDesc") });
+      
+      // Continue from first empty required field instead of fixed step
+      // The useEffect will handle auto-fill and step navigation
+    } catch {
+      toast({ title: t("toast.connectionError"), description: t("toast.connectionErrorDesc"), variant: "destructive" });
+    }
+  };
+
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["state"],
@@ -408,6 +453,16 @@ export default function LlcFormation() {
     if (fieldsToValidate) {
       const isValid = await form.trigger(fieldsToValidate);
       if (!isValid) return;
+    }
+    
+    // Check if email exists for step 2 (email) - redirect to login if user exists
+    if (step === 2 && !isAuthenticated) {
+      const email = form.getValues("ownerEmail");
+      const exists = await checkEmailExists(email);
+      if (exists) {
+        setStep(20); // Go to login step
+        return;
+      }
     }
     
     // Validate password step (step 14) for non-authenticated users
@@ -1277,6 +1332,65 @@ export default function LlcFormation() {
                 <div className="flex gap-3 pt-4">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("application.back")}</Button>
                   <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("application.continue")}</Button>
+                </div>
+              </div>
+            )}
+
+            {step === 20 && (
+              <div key={"step-" + step} className="space-y-8 text-left">
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("maintenance.login.title")}</h2>
+                <p className="text-sm text-muted-foreground">{t("maintenance.login.description")}</p>
+                
+                <div className="bg-accent/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
+                  <p className="text-sm font-bold text-foreground mb-1">
+                    {t("maintenance.login.hello")}{existingUserName ? `, ${existingUserName}` : ""}!
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("maintenance.login.existingAccount")}
+                  </p>
+                </div>
+
+                <div className="bg-gray-50 dark:bg-muted rounded-2xl p-5">
+                  <p className="text-xs font-black text-foreground tracking-widest mb-2">{t("common.yourEmail")}</p>
+                  <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-black text-foreground tracking-widest block">{t("auth.login.password")}</label>
+                  <div className="relative">
+                    <Input 
+                      type={showPassword ? "text" : "password"}
+                      value={form.getValues("password") || ""}
+                      onChange={(e) => form.setValue("password", e.target.value)}
+                      className="rounded-full p-6 border-border focus:border-accent pr-12"
+                      data-testid="input-login-password"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+                    >
+                      {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="flex gap-3 pt-4">
+                  <Button type="button" variant="outline" onClick={() => setStep(2)} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("application.back")}</Button>
+                  <Button 
+                    type="button" 
+                    onClick={handleLogin}
+                    className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all"
+                    data-testid="button-login-continue"
+                  >
+                    {t("auth.login.signIn")}
+                  </Button>
+                </div>
+                
+                <div className="text-center pt-2">
+                  <Link href="/auth/forgot-password" className="text-xs text-accent underline">
+                    {t("auth.login.forgotPassword")}
+                  </Link>
                 </div>
               </div>
             )}

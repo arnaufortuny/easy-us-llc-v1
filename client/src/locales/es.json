@@ -915,6 +915,7 @@
     },
     "login": {
       "title": "Inicia sesión",
+      "description": "Inicia sesión con tu cuenta existente para continuar con el formulario.",
       "hello": "¡Hola",
       "existingAccount": "Ya tienes una cuenta con este email. Inicia sesión para continuar.",
       "forgotPassword": "¿Olvidaste tu contraseña?",
