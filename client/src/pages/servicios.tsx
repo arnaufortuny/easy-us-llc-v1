@@ -139,6 +139,15 @@ export default function Servicios() {
             >
               <span className="text-accent">{t("services.whatWeDo.title")}</span>
             </motion.h2>
+            <motion.p
+              className="text-lg sm:text-xl text-muted-foreground mt-4"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("services.whatWeDo.subtitle")}
+            </motion.p>
             <motion.div 
               className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
               variants={lineExpand}
