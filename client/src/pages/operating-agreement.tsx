@@ -14,7 +14,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "react-i18next";
-import logoGreen from "@assets/logo-green.png";
+import logoGreen from "@assets/logo-icon.png";
 
 interface CompletedLLC {
   id: number;
@@ -66,10 +66,7 @@ export default function OperatingAgreementGenerator() {
   
   const saveDocumentMutation = useMutation({
     mutationFn: async (data: { llcApplicationId: number; pdfBase64: string; fileName: string }) => {
-      return apiRequest("/api/user/operating-agreements", {
-        method: "POST",
-        body: JSON.stringify(data),
-      });
+      return apiRequest("POST", "/api/user/operating-agreements", data);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
