@@ -8,6 +8,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import { usePageTitle } from "@/hooks/use-page-title";
+import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
 import type { Product } from "@shared/schema";
 import howWeWorkImage from "@assets/how-we-work-process.png";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
@@ -123,20 +124,20 @@ export default function Home() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }} 
               dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }}
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
             />
             <motion.div 
-              className="w-24 h-1 bg-accent mt-6 rounded-full"
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              variants={lineExpand}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
           
