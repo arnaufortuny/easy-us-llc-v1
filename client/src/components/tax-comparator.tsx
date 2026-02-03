@@ -430,10 +430,12 @@ export function TaxComparator() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-12 sm:p-16 bg-background flex flex-col items-center justify-center will-change-transform"
                 >
-                  <div className="relative mb-8">
-                    <div className="w-24 h-24 rounded-full border-4 border-accent/20" />
-                    <div className="absolute inset-0 w-24 h-24 rounded-full border-4 border-transparent border-t-accent animate-spin" />
-                    <Calculator className="absolute inset-0 m-auto w-10 h-10 text-accent" />
+                  <div className="relative w-24 h-24 mb-8">
+                    <div className="absolute inset-0 rounded-full border-4 border-accent/20" />
+                    <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-accent animate-spin" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Calculator className="w-10 h-10 text-accent" />
+                    </div>
                   </div>
                   <h3 className="text-xl sm:text-2xl font-black text-foreground mb-2">
                     {t("taxComparator.calculating")}

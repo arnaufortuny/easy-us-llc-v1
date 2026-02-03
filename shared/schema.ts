@@ -90,6 +90,8 @@ export const llcApplications = pgTable("llc_applications", {
   annualReportDueDate: timestamp("annual_report_due_date"),
   // Tax extension (6 months: April 15 -> October 15)
   hasTaxExtension: boolean("has_tax_extension").notNull().default(false),
+  // EIN (Employer Identification Number) - set by admin when order completed
+  ein: text("ein"),
   // Abandoned application tracking
   abandonedAt: timestamp("abandoned_at"),
   remindersSent: integer("reminders_sent").notNull().default(0),
