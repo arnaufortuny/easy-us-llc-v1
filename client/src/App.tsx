@@ -11,21 +11,26 @@ import logoIcon from "@/assets/logo-icon.png";
 
 function lazyRetry<T extends { default: React.ComponentType<unknown> }>(
   importFn: () => Promise<T>,
-  retries = 3,
-  interval = 1000
+  retries = 5,
+  interval = 500
 ): Promise<T> {
   return new Promise((resolve, reject) => {
-    importFn()
-      .then(resolve)
-      .catch((error) => {
-        if (retries === 0) {
-          reject(error);
-          return;
-        }
-        setTimeout(() => {
-          lazyRetry(importFn, retries - 1, interval).then(resolve, reject);
-        }, interval);
-      });
+    const attemptImport = (remainingRetries: number) => {
+      importFn()
+        .then(resolve)
+        .catch((error) => {
+          if (remainingRetries <= 0) {
+            console.error('Failed to load module after retries:', error);
+            reject(error);
+            return;
+          }
+          const delay = interval * (6 - remainingRetries);
+          setTimeout(() => {
+            attemptImport(remainingRetries - 1);
+          }, delay);
+        });
+    };
+    attemptImport(retries);
   });
 }
 
@@ -52,18 +57,32 @@ const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
 interface ErrorBoundaryState {
   hasError: boolean;
   errorCount: number;
+  lastError: string;
 }
 
-class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNode }, ErrorBoundaryState> {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+  fallback?: ReactNode;
+  resetKey?: string;
+}
+
+class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   private retryTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  constructor(props: { children: ReactNode; fallback?: ReactNode }) {
+  constructor(props: ErrorBoundaryProps) {
     super(props);
-    this.state = { hasError: false, errorCount: 0 };
+    this.state = { hasError: false, errorCount: 0, lastError: '' };
   }
 
-  static getDerivedStateFromError(): Partial<ErrorBoundaryState> {
-    return { hasError: true };
+  static getDerivedStateFromError(error: Error): Partial<ErrorBoundaryState> {
+    return { hasError: true, lastError: error.message };
+  }
+
+  static getDerivedStateFromProps(props: ErrorBoundaryProps, state: ErrorBoundaryState): Partial<ErrorBoundaryState> | null {
+    if (state.hasError) {
+      return { hasError: false, errorCount: 0, lastError: '' };
+    }
+    return null;
   }
 
   componentDidCatch(error: Error): void {
@@ -71,10 +90,11 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
     const newCount = this.state.errorCount + 1;
     this.setState({ errorCount: newCount });
     
-    if (newCount < 3) {
+    if (newCount < 5) {
+      const delay = Math.min(300 * newCount, 1000);
       this.retryTimeout = setTimeout(() => {
         this.setState({ hasError: false });
-      }, 1500);
+      }, delay);
     }
   }
 
@@ -85,21 +105,22 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
   }
 
   handleRetry = (): void => {
-    this.setState({ hasError: false, errorCount: 0 });
+    this.setState({ hasError: false, errorCount: 0, lastError: '' });
   };
 
   handleReload = (): void => {
+    sessionStorage.clear();
     window.location.reload();
   };
 
   render(): ReactNode {
     if (this.state.hasError) {
-      if (this.state.errorCount < 3) {
+      if (this.state.errorCount < 5) {
         return (
           <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
             <div className="text-center space-y-4">
               <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin mx-auto" />
-              <p className="text-muted-foreground">Reintentando...</p>
+              <p className="text-muted-foreground">Cargando...</p>
             </div>
           </div>
         );
@@ -114,12 +135,14 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback?: ReactNod
               <button
                 onClick={this.handleRetry}
                 className="px-4 py-2 bg-muted text-foreground rounded-md font-medium"
+                data-testid="button-retry"
               >
                 Reintentar
               </button>
               <button
                 onClick={this.handleReload}
                 className="px-4 py-2 bg-accent text-white rounded-md font-medium"
+                data-testid="button-reload"
               >
                 Recargar página
               </button>
