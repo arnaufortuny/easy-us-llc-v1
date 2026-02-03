@@ -1,5 +1,4 @@
 import { Link, useLocation } from "wouter";
-import logoIcon from "@/assets/logo-icon.png";
 import { NewsletterSection } from "./newsletter-section";
 import { useTranslation } from "react-i18next";
 
@@ -31,10 +30,10 @@ export function Footer() {
       <NewsletterSection />
       <footer className="bg-zinc-950 text-white py-12 sm:py-20 overflow-hidden font-sans w-full" style={{ backgroundColor: '#0E1215' }}>
       <div className="w-full px-5 sm:px-8">
-        {/* Mobile: Logo centered at top */}
+        {/* Mobile: Title centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-16 h-16 object-contain" loading="lazy" />
+            <span className="text-white font-black text-2xl">Easy US LLC</span>
           </Link>
           <p className="text-white/70 text-base text-center max-w-xs">
             {t("footer.description")}
@@ -84,7 +83,7 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
             <Link href="/" className="flex items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-              <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 object-contain" loading="lazy" />
+              <span className="text-white font-black text-2xl">Easy US LLC</span>
             </Link>
             <p className="text-white/70 text-base max-w-xs">
               {t("footer.description")}
