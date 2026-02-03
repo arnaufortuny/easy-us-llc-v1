@@ -178,7 +178,7 @@ export default function FAQ() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
             <div className="bg-accent/10 border-2 border-accent/30 rounded-3xl p-8 sm:p-10 text-center">
-              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-3 text-center">
+              <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-3 text-center">
                 {t("faq.helpCenter.title")}
               </h3>
               <p className="text-muted-foreground font-medium mb-6 text-center">
