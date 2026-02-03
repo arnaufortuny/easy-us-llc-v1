@@ -1157,39 +1157,37 @@
     "annualIncome": "Gross annual income",
     "minIncome": "€20,000",
     "maxIncome": "€200,000",
-    "incomeTax": "Income tax",
+    "corporateTax": "Corporate tax",
+    "dividendTax": "Dividend tax",
     "socialSecurity": "Social security",
     "vat": "VAT",
     "countries": {
       "spain": {
-        "title": "Freelancer in Spain",
-        "subtitle": "Self-employed regime"
+        "title": "Limited Company Spain",
+        "subtitle": "SL + Social Security"
       },
       "uk": {
-        "title": "Freelancer in UK",
-        "subtitle": "Self-employed + NI"
+        "title": "Limited Company UK",
+        "subtitle": "Ltd + National Insurance"
       },
       "germany": {
-        "title": "Freelancer in Germany",
-        "subtitle": "Freiberufler"
+        "title": "GmbH in Germany",
+        "subtitle": "Gesellschaft + Sozialversicherung"
       },
       "france": {
-        "title": "Auto-entrepreneur in France",
-        "subtitle": "Micro-entreprise"
-      },
-      "lithuania": {
-        "title": "Freelancer in Lithuania",
-        "subtitle": "Individual activity"
+        "title": "SARL in France",
+        "subtitle": "Société + Cotisations"
       },
       "bulgaria": {
-        "title": "Freelancer in Bulgaria",
-        "subtitle": "Sole proprietor"
+        "title": "EOOD in Bulgaria",
+        "subtitle": "Company + Insurance"
       }
     },
     "usllc": {
       "title": "US LLC",
       "subtitle": "No physical presence in USA",
       "federalTax": "US Federal Tax",
+      "corporateTax": "Corporate tax",
       "selfEmployment": "US Self-Employment Tax",
       "vat": "VAT / Sales Tax"
     },

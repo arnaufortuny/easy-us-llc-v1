@@ -1,14 +1,14 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail, Loader2 } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
-import { USAFlag as USFlag } from "@/components/ui/flags";
 import moneyIcon from "@/assets/images/money-icon.png";
 
 interface TaxBreakdown {
   income: number;
+  corporateTax: number;
   incomeTax: number;
   socialSecurity: number;
   vat: number;
@@ -17,140 +17,158 @@ interface TaxBreakdown {
   effectiveRate: number;
 }
 
-type Country = "spain" | "uk" | "germany" | "france" | "lithuania" | "bulgaria";
+type Country = "spain" | "uk" | "germany" | "france" | "bulgaria";
 
 interface CountryInfo {
   id: Country;
   name: string;
   flag: string;
   vatRate: number;
+  corporateTaxRate: number;
 }
 
 const countries: CountryInfo[] = [
-  { id: "spain", name: "España", flag: "🇪🇸", vatRate: 21 },
-  { id: "uk", name: "Reino Unido", flag: "🇬🇧", vatRate: 20 },
-  { id: "germany", name: "Alemania", flag: "🇩🇪", vatRate: 19 },
-  { id: "france", name: "Francia", flag: "🇫🇷", vatRate: 20 },
-  { id: "lithuania", name: "Lituania", flag: "🇱🇹", vatRate: 21 },
-  { id: "bulgaria", name: "Bulgaria", flag: "🇧🇬", vatRate: 20 },
+  { id: "spain", name: "España", flag: "🇪🇸", vatRate: 21, corporateTaxRate: 25 },
+  { id: "uk", name: "Reino Unido", flag: "🇬🇧", vatRate: 20, corporateTaxRate: 25 },
+  { id: "germany", name: "Alemania", flag: "🇩🇪", vatRate: 19, corporateTaxRate: 30 },
+  { id: "france", name: "Francia", flag: "🇫🇷", vatRate: 20, corporateTaxRate: 25 },
+  { id: "bulgaria", name: "Bulgaria", flag: "🇧🇬", vatRate: 20, corporateTaxRate: 10 },
 ];
 
 function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
+  let corporateTax = 0;
   let incomeTax = 0;
   let socialSecurity = 0;
   let vatRate = 0;
 
   switch (country) {
-    case "spain":
-      // Spain: Progressive IRPF + Social Security (30% capped) + 21% VAT
-      socialSecurity = Math.min(Math.max(grossIncome * 0.30, 3600), 16000);
-      const taxableSpain = grossIncome - socialSecurity;
-      const bracketsSpain = [
-        { limit: 12450, rate: 0.19 },
-        { limit: 20200, rate: 0.24 },
-        { limit: 35200, rate: 0.30 },
-        { limit: 60000, rate: 0.37 },
-        { limit: 300000, rate: 0.45 },
-        { limit: Infinity, rate: 0.47 }
-      ];
-      let remainingSpain = Math.max(taxableSpain, 0);
-      let prevLimitSpain = 0;
-      for (const b of bracketsSpain) {
-        const taxable = Math.min(remainingSpain, b.limit - prevLimitSpain);
-        if (taxable > 0) incomeTax += taxable * b.rate;
-        remainingSpain -= taxable;
-        prevLimitSpain = b.limit;
-        if (remainingSpain <= 0) break;
+    case "spain": {
+      // Spain SL (Sociedad Limitada): IS 25% + Cuota autónomos + IRPF dividendos + IVA 21%
+      // Cuota autónomos 2024: Base mínima ~300€/mes, máxima ~1,300€/mes
+      const monthlyQuota = Math.min(Math.max(grossIncome / 12 * 0.306, 300), 1300);
+      socialSecurity = monthlyQuota * 12;
+      
+      // Impuesto de Sociedades 25% (15% primeros 2 años para nuevas empresas)
+      const beneficioBruto = grossIncome - socialSecurity;
+      corporateTax = Math.max(beneficioBruto * 0.25, 0);
+      
+      // Si el socio extrae dividendos: IRPF 19-26% sobre dividendos
+      const beneficioNeto = beneficioBruto - corporateTax;
+      const dividendos = beneficioNeto * 0.8; // Asumimos 80% se reparte
+      // Tramos dividendos: hasta 6000€ (19%), 6000-50000€ (21%), 50000-200000€ (23%), +200000€ (27%)
+      let irpfDividendos = 0;
+      let restante = dividendos;
+      if (restante > 0) {
+        const tramo1 = Math.min(restante, 6000);
+        irpfDividendos += tramo1 * 0.19;
+        restante -= tramo1;
       }
+      if (restante > 0) {
+        const tramo2 = Math.min(restante, 44000);
+        irpfDividendos += tramo2 * 0.21;
+        restante -= tramo2;
+      }
+      if (restante > 0) {
+        const tramo3 = Math.min(restante, 150000);
+        irpfDividendos += tramo3 * 0.23;
+        restante -= tramo3;
+      }
+      if (restante > 0) {
+        irpfDividendos += restante * 0.27;
+      }
+      incomeTax = irpfDividendos;
       vatRate = 0.21;
       break;
+    }
 
-    case "uk":
-      // UK: Progressive Income Tax + National Insurance (12%) + 20% VAT
-      socialSecurity = grossIncome * 0.12;
-      const bracketsUK = [
-        { limit: 12570, rate: 0 },
-        { limit: 50270, rate: 0.20 },
-        { limit: 125140, rate: 0.40 },
-        { limit: Infinity, rate: 0.45 }
-      ];
-      let remainingUK = grossIncome;
-      let prevLimitUK = 0;
-      for (const b of bracketsUK) {
-        const taxable = Math.min(remainingUK, b.limit - prevLimitUK);
-        if (taxable > 0) incomeTax += taxable * b.rate;
-        remainingUK -= taxable;
-        prevLimitUK = b.limit;
-        if (remainingUK <= 0) break;
+    case "uk": {
+      // UK Ltd: Corporation Tax 25% (19% for profits under £50k) + NI + Dividend Tax + VAT 20%
+      // Class 2 NI: £3.45/week, Class 4 NI: 9% on profits £12,570-£50,270
+      const class2NI = 3.45 * 52;
+      const profitsForNI = Math.max(Math.min(grossIncome, 50270) - 12570, 0);
+      const class4NI = profitsForNI * 0.09;
+      socialSecurity = class2NI + class4NI;
+      
+      // Corporation Tax: 19% up to £50k, 25% over £250k, marginal between
+      if (grossIncome <= 50000) {
+        corporateTax = grossIncome * 0.19;
+      } else if (grossIncome >= 250000) {
+        corporateTax = grossIncome * 0.25;
+      } else {
+        corporateTax = grossIncome * 0.25 - ((250000 - grossIncome) * 0.015);
       }
+      
+      // Dividend tax: 8.75% basic, 33.75% higher, 39.35% additional
+      const netProfit = grossIncome - corporateTax - socialSecurity;
+      const dividends = netProfit * 0.8;
+      const taxableDividends = Math.max(dividends - 1000, 0); // £1000 allowance
+      incomeTax = taxableDividends * 0.0875;
       vatRate = 0.20;
       break;
+    }
 
-    case "germany":
-      // Germany: Progressive (14-45%) + Social Security (~20%) + 19% VAT
-      socialSecurity = grossIncome * 0.20;
-      const bracketsGermany = [
-        { limit: 10908, rate: 0 },
-        { limit: 62810, rate: 0.30 },
-        { limit: 277826, rate: 0.42 },
-        { limit: Infinity, rate: 0.45 }
-      ];
-      let remainingDE = grossIncome;
-      let prevLimitDE = 0;
-      for (const b of bracketsGermany) {
-        const taxable = Math.min(remainingDE, b.limit - prevLimitDE);
-        if (taxable > 0) incomeTax += taxable * b.rate;
-        remainingDE -= taxable;
-        prevLimitDE = b.limit;
-        if (remainingDE <= 0) break;
-      }
+    case "germany": {
+      // Germany GmbH: Körperschaftsteuer 15% + Solidaritätszuschlag 5.5% + Gewerbesteuer ~14% + Sozialversicherung
+      // Total corporate: ~30%
+      // Geschäftsführer (director) must pay social security: ~20% employer + ~20% employee
+      socialSecurity = Math.min(grossIncome * 0.20, 15000); // Capped at Beitragsbemessungsgrenze
+      
+      corporateTax = grossIncome * 0.30; // Combined corporate tax rate
+      
+      // Dividends: Abgeltungssteuer 25% + Soli
+      const netProfit = grossIncome - corporateTax - socialSecurity;
+      const dividends = netProfit * 0.8;
+      incomeTax = dividends * 0.26375; // 25% + 5.5% Soli
       vatRate = 0.19;
       break;
+    }
 
-    case "france":
-      // France: Progressive (0-45%) + Social Security (~22%) + 20% VAT
-      socialSecurity = grossIncome * 0.22;
-      const bracketsFR = [
-        { limit: 10777, rate: 0 },
-        { limit: 27478, rate: 0.11 },
-        { limit: 78570, rate: 0.30 },
-        { limit: 168994, rate: 0.41 },
-        { limit: Infinity, rate: 0.45 }
-      ];
-      let remainingFR = grossIncome;
-      let prevLimitFR = 0;
-      for (const b of bracketsFR) {
-        const taxable = Math.min(remainingFR, b.limit - prevLimitFR);
-        if (taxable > 0) incomeTax += taxable * b.rate;
-        remainingFR -= taxable;
-        prevLimitFR = b.limit;
-        if (remainingFR <= 0) break;
+    case "france": {
+      // France SARL/SAS: IS 25% (15% up to €42,500) + Cotisations sociales + IR dividendes + TVA 20%
+      // Cotisations sociales gérant: ~45% on remuneration
+      const remuneration = grossIncome * 0.5; // Assume 50% as salary
+      socialSecurity = remuneration * 0.45;
+      
+      // Impôt sur les sociétés
+      const benefice = grossIncome - remuneration;
+      if (benefice <= 42500) {
+        corporateTax = benefice * 0.15;
+      } else {
+        corporateTax = 42500 * 0.15 + (benefice - 42500) * 0.25;
       }
+      
+      // Prélèvement Forfaitaire Unique (PFU) on dividends: 30% (12.8% IR + 17.2% prélèvements sociaux)
+      const netProfit = benefice - corporateTax;
+      const dividends = netProfit * 0.8;
+      incomeTax = dividends * 0.30;
       vatRate = 0.20;
       break;
+    }
 
-    case "lithuania":
-      // Lithuania: Flat 20% income tax + Social Security (~19.5%) + 21% VAT
-      incomeTax = grossIncome * 0.20;
-      socialSecurity = grossIncome * 0.195;
-      vatRate = 0.21;
-      break;
-
-    case "bulgaria":
-      // Bulgaria: Flat 10% income tax + Social Security (~13%) + 20% VAT
-      incomeTax = grossIncome * 0.10;
-      socialSecurity = grossIncome * 0.13;
+    case "bulgaria": {
+      // Bulgaria EOOD: Corporate tax 10% + Social security ~32% + Dividend tax 5% + VAT 20%
+      // Very competitive tax regime
+      socialSecurity = Math.min(grossIncome * 0.32, 12000); // Capped
+      
+      corporateTax = grossIncome * 0.10;
+      
+      // Dividend tax: flat 5%
+      const netProfit = grossIncome - corporateTax - socialSecurity;
+      const dividends = netProfit * 0.8;
+      incomeTax = dividends * 0.05;
       vatRate = 0.20;
       break;
+    }
   }
 
   const vat = grossIncome * vatRate;
-  const total = incomeTax + socialSecurity + vat;
+  const total = corporateTax + incomeTax + socialSecurity + vat;
   const netIncome = grossIncome - total;
   const effectiveRate = grossIncome > 0 ? (total / grossIncome) * 100 : 0;
 
   return {
     income: grossIncome,
+    corporateTax: Math.round(corporateTax),
     incomeTax: Math.round(incomeTax),
     socialSecurity: Math.round(socialSecurity),
     vat: Math.round(vat),
@@ -163,6 +181,7 @@ function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
 function calculateUSLLCTaxes(grossIncome: number): TaxBreakdown {
   return {
     income: grossIncome,
+    corporateTax: 0,
     incomeTax: 0,
     socialSecurity: 0,
     vat: 0,
@@ -471,8 +490,8 @@ export function TaxComparator() {
                       </div>
                       
                       <div className="flex items-center gap-3 mb-8">
-                        <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg">
-                          <USFlag />
+                        <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg text-3xl">
+                          🇺🇸
                         </div>
                         <div>
                           <h3 className="font-black text-foreground text-xl">{t("taxComparator.usllc.title")}</h3>
@@ -483,6 +502,10 @@ export function TaxComparator() {
                       <div className="space-y-3">
                         <div className="flex justify-between items-center py-3 border-b border-accent/20">
                           <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.federalTax")}</span>
+                          <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-accent/20">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.usllc.corporateTax")}</span>
                           <span className="font-black text-accent text-lg">{formatCurrency(0)}</span>
                         </div>
                         <div className="flex justify-between items-center py-3 border-b border-accent/20">
@@ -500,45 +523,49 @@ export function TaxComparator() {
                           </div>
                         </div>
                       </div>
-                
-                <div className="bg-accent rounded-2xl p-5 mt-6 shadow-lg shadow-accent/20">
-                  <p className="text-sm text-primary/80 mb-1 font-black">{t("taxComparator.netIncome")}</p>
-                  <p className="font-black text-primary text-3xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
-                </div>
-              </div>
-              
-              {/* Selected Country */}
-              <div className="p-6 sm:p-8 bg-muted/50 relative">
-                <div className="flex items-start justify-between gap-3 mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg text-3xl shrink-0">
-                      {selectedCountryInfo.flag}
+                      
+                      <div className="bg-accent rounded-2xl p-5 mt-6 shadow-lg shadow-accent/20">
+                        <p className="text-sm text-primary/80 mb-1 font-black">{t("taxComparator.netIncome")}</p>
+                        <p className="font-black text-primary text-3xl">{formatCurrency(usLLCTaxes.netIncome)}</p>
+                      </div>
                     </div>
-                    <div className="text-left">
-                      <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>
-                      <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.countries.${selectedCountry}.subtitle`)}</p>
-                    </div>
-                  </div>
-                  <div className="px-3 py-1.5 rounded-full bg-destructive/15 border border-destructive/30 shrink-0">
-                    <span className="text-destructive text-xs font-black whitespace-nowrap">
-                      {countryTaxes.effectiveRate}% {t("taxComparator.effectiveRate")}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.incomeTax")}</span>
-                    <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.incomeTax)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.socialSecurity")}</span>
-                    <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.socialSecurity)}</span>
-                  </div>
-                  <div className="flex justify-between items-center py-3 border-b border-border/50">
-                    <span className="text-sm text-muted-foreground font-black">{t("taxComparator.vat")} ({selectedCountryInfo.vatRate}%)</span>
-                    <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.vat)}</span>
-                  </div>
+                    
+                    {/* Selected Country */}
+                    <div className="p-6 sm:p-8 bg-muted/50 relative">
+                      <div className="flex items-start justify-between gap-3 mb-8">
+                        <div className="flex items-center gap-3">
+                          <div className="w-14 h-14 rounded-2xl bg-muted flex items-center justify-center border-2 border-border shadow-lg text-3xl shrink-0">
+                            {selectedCountryInfo.flag}
+                          </div>
+                          <div className="text-left">
+                            <h3 className="font-black text-foreground text-xl">{t(`taxComparator.countries.${selectedCountry}.title`)}</h3>
+                            <p className="text-sm text-muted-foreground font-bold">{t(`taxComparator.countries.${selectedCountry}.subtitle`)}</p>
+                          </div>
+                        </div>
+                        <div className="px-3 py-1.5 rounded-full bg-destructive/15 border border-destructive/30 shrink-0">
+                          <span className="text-destructive text-xs font-black whitespace-nowrap">
+                            {countryTaxes.effectiveRate}% {t("taxComparator.effectiveRate")}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-3">
+                        <div className="flex justify-between items-center py-3 border-b border-border/50">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.corporateTax")} ({selectedCountryInfo.corporateTaxRate}%)</span>
+                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.corporateTax)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-border/50">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.dividendTax")}</span>
+                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.incomeTax)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-border/50">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.socialSecurity")}</span>
+                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.socialSecurity)}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-3 border-b border-border/50">
+                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.vat")} ({selectedCountryInfo.vatRate}%)</span>
+                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.vat)}</span>
+                        </div>
                   <div className="pt-4">
                     <div className="flex justify-between items-center">
                       <span className="font-black text-foreground text-lg">{t("taxComparator.totalTaxes")}</span>

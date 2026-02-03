@@ -1157,39 +1157,37 @@
     "annualIncome": "Ingresos anuales brutos",
     "minIncome": "20.000€",
     "maxIncome": "200.000€",
-    "incomeTax": "Impuesto sobre la renta",
-    "socialSecurity": "Seguridad social",
+    "corporateTax": "Impuesto de sociedades",
+    "dividendTax": "IRPF dividendos",
+    "socialSecurity": "Cuota autónomos",
     "vat": "IVA",
     "countries": {
       "spain": {
-        "title": "Autónomo en España",
-        "subtitle": "Régimen de autónomos"
+        "title": "Sociedad Limitada España",
+        "subtitle": "SL + Cuota autónomos"
       },
       "uk": {
-        "title": "Autónomo en Reino Unido",
-        "subtitle": "Self-employed + NI"
+        "title": "Limited Company UK",
+        "subtitle": "Ltd + National Insurance"
       },
       "germany": {
-        "title": "Freelancer en Alemania",
-        "subtitle": "Freiberufler"
+        "title": "GmbH en Alemania",
+        "subtitle": "Gesellschaft + Sozialversicherung"
       },
       "france": {
-        "title": "Auto-entrepreneur en Francia",
-        "subtitle": "Micro-entreprise"
-      },
-      "lithuania": {
-        "title": "Autónomo en Lituania",
-        "subtitle": "Individualios veiklos"
+        "title": "SARL en Francia",
+        "subtitle": "Société + Cotisations"
       },
       "bulgaria": {
-        "title": "Freelancer en Bulgaria",
-        "subtitle": "Свободна практика"
+        "title": "EOOD en Bulgaria",
+        "subtitle": "Дружество + Осигуровки"
       }
     },
     "usllc": {
       "title": "LLC en Estados Unidos",
       "subtitle": "Sin presencia física en USA",
       "federalTax": "Impuesto Federal USA",
+      "corporateTax": "Impuesto de sociedades",
       "selfEmployment": "Cuota autónomos USA",
       "vat": "IVA / Sales Tax"
     },
