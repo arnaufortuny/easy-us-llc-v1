@@ -53,7 +53,7 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             <div className="mb-4 sm:hidden flex justify-center mt-6">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border border-border">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
                 <div className="flex gap-0.5">
                   {[1,2,3,4,5].map((star) => (
@@ -83,7 +83,7 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border border-border">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
@@ -149,7 +149,7 @@ export default function Home() {
 
       <section className="py-10 sm:py-16 bg-background">
         <div className="w-full max-w-lg mx-auto px-5 sm:px-8">
-          <div className="bg-background rounded-2xl shadow-md overflow-hidden border-2 border-accent">
+          <div className="bg-background rounded-2xl shadow-md overflow-hidden border border-border">
             <div className="p-6 text-center flex flex-col items-center justify-center">
               <h3 className="text-2xl sm:text-3xl font-black text-foreground mb-2 text-center">{t("ctaSection.title")}</h3>
               <p className="text-muted-foreground text-sm sm:text-base mb-6">{t("ctaSection.subtitle")}</p>
