@@ -255,12 +255,12 @@ export default function Register() {
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
-          <div className="text-center mb-6 md:mb-8 flex flex-col items-center justify-center w-full">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
+          <div className="mb-6 md:mb-8 flex flex-col items-end w-full text-right">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-right w-full">
               <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
             </h1>
-            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">{t("auth.register.subtitleHighlight")}</p>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
+            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-right">{t("auth.register.subtitleHighlight")}</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base text-right max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
           </div>
 
           {step > 0 && (
@@ -575,8 +575,8 @@ export default function Register() {
             <div className="mt-6 pt-5 border-t border-border text-center">
               <Link href="/auth/login">
                 <div className="hover:underline cursor-pointer" data-testid="link-login">
-                  <p className="text-foreground text-xs md:text-sm font-bold">{t("auth.register.hasAccount")}</p>
-                  <p className="text-accent text-[10px] md:text-xs">{t("auth.register.login")}</p>
+                  <p className="text-foreground text-sm md:text-base font-bold">{t("auth.register.hasAccount")}</p>
+                  <p className="text-accent text-xs md:text-sm font-semibold">{t("auth.register.login")}</p>
                 </div>
               </Link>
             </div>
