@@ -1,4 +1,9 @@
 {
+  "notFound": {
+    "title": "Página No Encontrada",
+    "description": "La página que buscas no existe o ha sido movida.",
+    "button": "Volver al Inicio"
+  },
   "common": {
     "loading": "Cargando...",
     "save": "Guardar",

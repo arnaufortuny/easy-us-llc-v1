@@ -374,11 +374,11 @@ export function TaxComparator() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-6 sm:p-8 bg-background will-change-transform"
+                  className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px]"
                 >
                   <div className="max-w-sm mx-auto text-center">
-                    <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/20 flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-accent" />
+                    <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-accent/20 flex items-center justify-center">
+                      <Mail className="w-7 h-7 text-accent" />
                     </div>
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">
                       {t("taxComparator.emailTitle")}
@@ -396,7 +396,7 @@ export function TaxComparator() {
                             if (emailError) setEmailError("");
                           }}
                           placeholder={t("taxComparator.emailPlaceholder")}
-                          className={`w-full px-4 py-3 rounded-xl border-2 text-sm ${
+                          className={`w-full px-5 py-3 rounded-full border-2 text-sm ${
                             emailError 
                               ? 'border-destructive focus:border-destructive' 
                               : 'border-accent/30 focus:border-accent'
@@ -409,7 +409,7 @@ export function TaxComparator() {
                       </div>
                       <Button
                         onClick={handleCalculate}
-                        className="w-full bg-accent text-primary font-black text-sm rounded-xl h-11 shadow-lg shadow-accent/30 hover:bg-accent/90 transition-all transform active:scale-95"
+                        className="w-full bg-accent text-primary font-black text-sm rounded-full h-11 shadow-lg shadow-accent/30 hover:bg-accent/90 transition-all transform active:scale-95"
                         data-testid="button-calculate"
                       >
                         {t("taxComparator.calculateButton")} →
