@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { PRICING, getFormationPriceFormatted } from "@shared/config/pricing";
 
 import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
@@ -181,12 +182,12 @@ export default function LlcFormation() {
   });
 
   const formationPriceMap: Record<string, number> = {
-    "New Mexico": 73900,
-    "Wyoming": 89900,
-    "Delaware": 139900
+    "New Mexico": PRICING.formation.newMexico.price * 100,
+    "Wyoming": PRICING.formation.wyoming.price * 100,
+    "Delaware": PRICING.formation.delaware.price * 100
   };
   const selectedState = form.watch("state");
-  const formationPrice = formationPriceMap[selectedState] || 73900;
+  const formationPrice = formationPriceMap[selectedState] || PRICING.formation.newMexico.price * 100;
 
   const validateDiscountCode = async (code: string) => {
     if (!code.trim()) {
@@ -607,9 +608,9 @@ export default function LlcFormation() {
                     <FormControl>
                       <div className="flex flex-col gap-3">
                         {[
-                          { name: "New Mexico", price: "739€", desc: t("application.states.newMexicoDesc") },
-                          { name: "Wyoming", price: "899€", desc: t("application.states.wyomingDesc") },
-                          { name: "Delaware", price: "1399€", desc: t("application.states.delawareDesc") }
+                          { name: "New Mexico", price: getFormationPriceFormatted("newMexico"), desc: t("application.states.newMexicoDesc") },
+                          { name: "Wyoming", price: getFormationPriceFormatted("wyoming"), desc: t("application.states.wyomingDesc") },
+                          { name: "Delaware", price: getFormationPriceFormatted("delaware"), desc: t("application.states.delawareDesc") }
                         ].map(opt => (
                           <label 
                             key={opt.name} 

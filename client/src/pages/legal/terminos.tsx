@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
+import { getFormationPriceFormatted } from "@shared/config/pricing";
 
 export default function Terminos() {
   const { t, i18n } = useTranslation();
@@ -77,15 +78,15 @@ export default function Terminos() {
       <LegalSection number="04" title={isEnglish ? "Formation Packages and Pricing" : "Packs de constitución y precios"}>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark dark:text-white">739 €</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">{getFormationPriceFormatted("newMexico")}</p>
             <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack New Mexico</p>
           </div>
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark dark:text-white">899 €</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">{getFormationPriceFormatted("wyoming")}</p>
             <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack Wyoming</p>
           </div>
           <div className="bg-white dark:bg-zinc-900 p-8 rounded-2xl border-2 border-accent/20 text-center shadow-sm">
-            <p className="text-3xl font-black text-brand-dark dark:text-white">1399 €</p>
+            <p className="text-3xl font-black text-brand-dark dark:text-white">{getFormationPriceFormatted("delaware")}</p>
             <p className="text-xs font-black tracking-widest text-brand-dark/60 dark:text-zinc-400 mt-2 uppercase">Pack Delaware</p>
           </div>
         </div>

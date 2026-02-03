@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@assets/logo-icon.png";
+import { getFormationPriceFormatted, PRICING } from "@shared/config/pricing";
 import { 
   Check, 
   Clock, 
@@ -288,7 +289,7 @@ export default function SalesPage() {
   }, []);
 
   useEffect(() => {
-    document.title = "Crea tu LLC en Estados Unidos | Desde 739€ todo incluido";
+    document.title = `Crea tu LLC en Estados Unidos | Desde ${getFormationPriceFormatted("newMexico")} todo incluido`;
     
     const setMeta = (name: string, content: string, isProperty = false) => {
       const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -301,7 +302,7 @@ export default function SalesPage() {
       tag.setAttribute('content', content);
     };
 
-    setMeta('description', 'Constituye tu LLC en Estados Unidos desde 739€. Todo incluido: EIN, documentación, área de cliente y 12 meses de acompañamiento. 48-72 horas.');
+    setMeta('description', `Constituye tu LLC en Estados Unidos desde ${getFormationPriceFormatted("newMexico")}. Todo incluido: EIN, documentación, área de cliente y 12 meses de acompañamiento. 48-72 horas.`);
     setMeta('robots', 'index, follow');
   }, []);
 
@@ -451,7 +452,7 @@ export default function SalesPage() {
               </div>
 
               <div className="mb-5">
-                <span className="text-5xl font-black text-foreground">739€</span>
+                <span className="text-5xl font-black text-foreground">{getFormationPriceFormatted("newMexico")}</span>
                 <span className="ml-2 text-lg text-muted-foreground">todo incluido</span>
               </div>
 
@@ -496,7 +497,7 @@ export default function SalesPage() {
               </div>
 
               <div className="mb-5">
-                <span className="text-5xl font-black text-foreground">899€</span>
+                <span className="text-5xl font-black text-foreground">{getFormationPriceFormatted("wyoming")}</span>
                 <span className="ml-2 text-lg text-muted-foreground">todo incluido</span>
               </div>
 

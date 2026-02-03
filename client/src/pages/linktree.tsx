@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { useEffect, useState, useMemo } from "react";
 import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
+import { getFormationPriceFormatted } from "@shared/config/pricing";
 
 const SpainFlag = () => (
   <svg viewBox="0 0 512 512" className="w-6 h-6 rounded-full shadow-sm">
@@ -203,13 +204,13 @@ export default function LinktreePage() {
       tag.setAttribute('content', content);
     };
 
-    setMeta('description', 'Optimiza tus impuestos con una LLC en EE. UU. Formación desde 739€. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.');
+    setMeta('description', `Optimiza tus impuestos con una LLC en EE. UU. Formación desde ${getFormationPriceFormatted("newMexico")}. Te ayudamos a estructurar tu negocio. Sin letra pequeña. Sin consultorías interminables.`);
     setMeta('keywords', 'LLC Estados Unidos, crear LLC, empresa USA, optimizar impuestos, LLC para autonomos, LLC emprendedores, abrir empresa EEUU');
     setMeta('robots', 'index, follow');
     setMeta('author', 'Creamos tu LLC');
 
     setMeta('og:title', 'Creamos tu LLC | Optimiza tus impuestos con una LLC en EEUU', true);
-    setMeta('og:description', 'Formación LLC desde 739€. Sin letra pequeña. Sin consultorías interminables.', true);
+    setMeta('og:description', `Formación LLC desde ${getFormationPriceFormatted("newMexico")}. Sin letra pequeña. Sin consultorías interminables.`, true);
     setMeta('og:type', 'website', true);
     setMeta('og:url', 'https://creamostullc.com', true);
     setMeta('og:site_name', 'Creamos tu LLC', true);
@@ -217,7 +218,7 @@ export default function LinktreePage() {
 
     setMeta('twitter:card', 'summary');
     setMeta('twitter:title', 'Creamos tu LLC | LLC en EEUU');
-    setMeta('twitter:description', 'Optimiza tus impuestos con una LLC. Desde 739€.');
+    setMeta('twitter:description', `Optimiza tus impuestos con una LLC. Desde ${getFormationPriceFormatted("newMexico")}.`);
 
     let canonical = document.querySelector('link[rel="canonical"]');
     if (!canonical) {
@@ -288,7 +289,7 @@ export default function LinktreePage() {
             </h1>
             
             <p className={`text-base sm:text-lg mb-6 leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Formación desde <span className="font-bold" style={{ color: '#6EDC8A' }}>739€</span>
+              Formación desde <span className="font-bold" style={{ color: '#6EDC8A' }}>{getFormationPriceFormatted("newMexico")}</span>
               <br />
               Todo incluido. Sin sorpresas.
             </p>

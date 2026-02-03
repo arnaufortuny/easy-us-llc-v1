@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
 import { TaxComparator } from "@/components/tax-comparator";
 import type { Product } from "@shared/schema";
+import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
 import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
@@ -197,7 +198,7 @@ export default function Servicios() {
                   <span className="bg-accent/20 text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">{t("services.formation.popular")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-black text-primary">739€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("newMexico")}</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
@@ -228,7 +229,7 @@ export default function Servicios() {
                       className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                       data-testid="button-maintenance-nm"
                     >
-                      {t("services.formation.maintenanceYear2")}: 539€
+                      {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("newMexico")}
                     </Button>
                   </div>
             </div>
@@ -241,7 +242,7 @@ export default function Servicios() {
                   <span className="bg-accent text-primary-foreground text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">{t("services.formation.premium")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-black text-primary">899€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("wyoming")}</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
@@ -272,7 +273,7 @@ export default function Servicios() {
                       className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                       data-testid="button-maintenance-wy"
                     >
-                      {t("services.formation.maintenanceYear2")}: 699€
+                      {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("wyoming")}
                     </Button>
                   </div>
             </div>
@@ -285,7 +286,7 @@ export default function Servicios() {
                   <span className="bg-accent text-primary text-[10px] sm:text-[11px] font-black px-3 py-1 rounded-full ">{t("services.formation.startups")}</span>
                 </div>
                 <div className="flex items-baseline justify-center gap-1 mb-2">
-                  <p className="text-4xl sm:text-4xl font-black text-primary">1399€</p>
+                  <p className="text-4xl sm:text-4xl font-black text-primary">{getFormationPriceFormatted("delaware")}</p>
                   <span className="text-muted-foreground text-xs sm:text-xs font-medium">{t("services.formation.year1")}</span>
                 </div>
                 <div className="text-muted-foreground text-[10px] sm:text-[9px] font-black  tracking-widest mb-4 sm:mb-4 flex items-center justify-center gap-1">
@@ -316,7 +317,7 @@ export default function Servicios() {
                       className="font-black text-[10px] sm:text-[9px] tracking-widest text-primary/70 p-0 h-auto"
                       data-testid="button-maintenance-de"
                     >
-                      {t("services.formation.maintenanceYear2")}: 999€
+                      {t("services.formation.maintenanceYear2")}: {getMaintenancePriceFormatted("delaware")}
                     </Button>
                   </div>
             </div>
@@ -406,9 +407,9 @@ export default function Servicios() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
-              { state: "New Mexico", price: "539€", annual: true },
-              { state: "Wyoming", price: "699€", annual: true },
-              { state: "Delaware", price: "999€", annual: true }
+              { state: "New Mexico", price: getMaintenancePriceFormatted("newMexico"), annual: true },
+              { state: "Wyoming", price: getMaintenancePriceFormatted("wyoming"), annual: true },
+              { state: "Delaware", price: getMaintenancePriceFormatted("delaware"), annual: true }
             ].map((item, i) => (
               <div key={i} className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
                 <div className="p-5 sm:p-6 flex-grow text-center">

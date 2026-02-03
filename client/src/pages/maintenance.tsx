@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useTranslation } from "react-i18next";
+import { PRICING } from "@shared/config/pricing";
 
 import { Check, Loader2, Eye, EyeOff } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
@@ -202,8 +203,12 @@ export default function MaintenanceApplication() {
   };
 
   const state = form.watch("state");
-  const maintenancePriceMap: Record<string, number> = { "New Mexico": 53900, "Wyoming": 69900, "Delaware": 99900 };
-  const maintenancePrice = maintenancePriceMap[state] || 53900;
+  const maintenancePriceMap: Record<string, number> = { 
+    "New Mexico": PRICING.maintenance.newMexico.price * 100, 
+    "Wyoming": PRICING.maintenance.wyoming.price * 100, 
+    "Delaware": PRICING.maintenance.delaware.price * 100 
+  };
+  const maintenancePrice = maintenancePriceMap[state] || PRICING.maintenance.newMexico.price * 100;
 
   const validateDiscountCode = async (code: string) => {
     if (!code.trim()) {
