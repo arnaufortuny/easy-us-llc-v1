@@ -255,63 +255,133 @@ function HowWeWorkSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 bg-background">
-      <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
-        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
-          <motion.h2 
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
-            style={{ fontWeight: 900 }} 
-            dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }}
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
-          />
-          <motion.div 
-            className="w-24 h-1 bg-foreground mt-6 rounded-full"
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-          />
-        </div>
-        
-        <div className="mb-10 sm:mb-14">
-          <img 
-            src={howWeWorkImage} 
-            alt="How we work process" 
-            className="w-full max-w-2xl mx-auto mix-blend-multiply dark:mix-blend-screen dark:invert"
-            loading="lazy"
-          />
-        </div>
-        
-        <div className="space-y-6">
-          {steps.map((step, i) => (
-            <div 
-              key={step.key} 
-              className="flex gap-4 sm:gap-6"
-            >
-              <div className="flex flex-col items-center">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-black text-lg sm:text-xl shrink-0">
-                  {t(`howWeWork.steps.${step.key}.number`)}
+    <>
+      <section className="py-16 sm:py-20 bg-background">
+        <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }} 
+              dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+            <motion.div 
+              className="w-24 h-1 bg-foreground mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+          </div>
+          
+          <div className="mb-10 sm:mb-14">
+            <img 
+              src={howWeWorkImage} 
+              alt="How we work process" 
+              className="w-full max-w-2xl mx-auto mix-blend-multiply dark:mix-blend-screen dark:invert"
+              loading="lazy"
+            />
+          </div>
+          
+          <div className="space-y-6">
+            {steps.map((step, i) => (
+              <div 
+                key={step.key} 
+                className="flex gap-4 sm:gap-6"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-black text-lg sm:text-xl shrink-0">
+                    {t(`howWeWork.steps.${step.key}.number`)}
+                  </div>
+                  {i < steps.length - 1 && (
+                    <div className="w-0.5 flex-1 bg-accent/20 mt-2" />
+                  )}
                 </div>
-                {i < steps.length - 1 && (
-                  <div className="w-0.5 flex-1 bg-accent/20 mt-2" />
-                )}
+                <div className="pb-6">
+                  <h3 className="font-black text-lg sm:text-xl text-foreground mb-2">
+                    {t(`howWeWork.steps.${step.key}.title`)}
+                  </h3>
+                  <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                    {t(`howWeWork.steps.${step.key}.text`)}
+                  </p>
+                </div>
               </div>
-              <div className="pb-6">
-                <h3 className="font-black text-lg sm:text-xl text-foreground mb-2">
-                  {t(`howWeWork.steps.${step.key}.title`)}
-                </h3>
-                <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                  {t(`howWeWork.steps.${step.key}.text`)}
-                </p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 sm:py-20 bg-accent/5 border-y border-accent/10">
+        <div className="w-full max-w-5xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-12 flex flex-col items-center justify-center">
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }} 
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
+            >
+              {t("timing.title")}
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-accent/10 text-accent flex items-center justify-center mb-6">
+                <span className="text-3xl font-black">1</span>
+              </div>
+              <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
+              <div className="mt-6 py-2 px-4 bg-accent/10 rounded-full">
+                <span className="text-accent font-black text-xs uppercase tracking-widest">{t("timing.steps.step1.duration")}</span>
               </div>
             </div>
-          ))}
+
+            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-tighter shadow-sm">
+                {t("timing.mostPopular")}
+              </div>
+              <div className="w-16 h-16 rounded-full bg-accent text-accent-foreground flex items-center justify-center mb-6 shadow-lg shadow-accent/20">
+                <span className="text-3xl font-black">2</span>
+              </div>
+              <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
+              <div className="mt-6 py-2 px-4 bg-accent rounded-full">
+                <span className="text-accent-foreground font-black text-xs uppercase tracking-widest">{t("timing.steps.step2.duration")}</span>
+              </div>
+            </div>
+
+            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
+              <div className="w-16 h-16 rounded-full bg-accent/10 text-accent flex items-center justify-center mb-6">
+                <span className="text-3xl font-black">3</span>
+              </div>
+              <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
+              <div className="mt-6 py-2 px-4 bg-accent/10 rounded-full">
+                <span className="text-accent font-black text-xs uppercase tracking-widest">{t("timing.steps.step3.duration")}</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center bg-white/50 dark:bg-zinc-900/50 p-6 rounded-2xl border border-dashed border-border max-w-2xl mx-auto">
+            <p className="text-sm text-muted-foreground italic font-medium">
+              {t("timing.disclaimer")}
+            </p>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

@@ -103,42 +103,64 @@
     "button": "Hablemos por WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>CÓMO</span> <span class='text-accent'>TRABAJAMOS</span><br/><span class='text-foreground'>EN EASY US LLC</span>",
+    "title": "<span class='text-white bg-black px-4 py-1 inline-block'>NUESTRA FORMA</span><br/>DE TRABAJAR",
     "steps": {
       "listen": {
         "number": "1",
-        "title": "Te escuchamos",
-        "text": "Nos cuentas tu situación y tu negocio. Sin consultorías eternas ni ventas agresivas. Vamos al grano y vemos si una LLC tiene sentido para ti."
+        "title": "Escuchamos tus necesidades",
+        "text": "Analizamos tu perfil, objetivos y el estado donde más te conviene formalizar tu LLC según tu actividad."
       },
       "collect": {
         "number": "2",
-        "title": "Recogemos la información",
-        "text": "Rellenas un único formulario con los datos necesarios. Nada redundante, nada innecesario. Nosotros nos encargamos del resto."
+        "title": "Recopilamos la información",
+        "text": "Te solicitamos los datos mínimos necesarios para iniciar el proceso de forma segura y eficiente."
       },
       "form": {
         "number": "3",
-        "title": "Constituimos tu LLC",
-        "text": "Creamos tu LLC en Estados Unidos de forma legal y correcta, normalmente en 48–72 horas, según el estado."
+        "title": "Presentamos el registro",
+        "text": "Tramitamos toda la documentación ante la Secretaría de Estado correspondiente para formalizar tu empresa."
       },
       "docs": {
         "number": "4",
-        "title": "Documentación completa",
-        "text": "Te entregamos toda la documentación clave: Articles of Organization, Operating Agreement, EIN (si aplica) y estructura clara de la empresa. Todo ordenado y listo para operar."
+        "title": "Gestión de documentos",
+        "text": "Obtenemos tu EIN, Operating Agreement y todos los documentos legales necesarios para operar."
       },
       "banking": {
         "number": "5",
-        "title": "Te guiamos con banca y pagos",
-        "text": "Te ayudamos a acceder a banca internacional y procesadores de pago, explicándote qué opciones encajan con tu modelo de negocio."
+        "title": "Acompañamiento bancario",
+        "text": "Te ayudamos a abrir tu cuenta en bancos como Mercury o Relay para que puedas cobrar y pagar."
       },
       "compliance": {
         "number": "6",
-        "title": "Cumplimiento y fiscalidad básica",
-        "text": "Te explicamos qué debes presentar, cuándo y por qué (reportes, obligaciones y buenas prácticas). Sin humo ni promesas irreales."
+        "title": "Cumplimiento anual",
+        "text": "Nos encargamos de tus renovaciones y reportes para que tu LLC esté siempre en regla."
       },
       "followup": {
         "number": "7",
-        "title": "Seguimiento real",
-        "text": "No desaparecemos. Estamos disponibles para dudas, siguientes pasos y crecimiento de tu estructura."
+        "title": "Seguimiento continuo",
+        "text": "Estamos a tu lado para resolver dudas y apoyarte en el crecimiento de tu negocio en EE.UU."
+      }
+    }
+  },
+  "timing": {
+    "title": "¿CUÁNTO TARDAMOS EN FORMALIZAR TU LLC?",
+    "mostPopular": "MÁS POPULAR",
+    "disclaimer": "*Los plazos son estimaciones basadas en tiempos medios de respuesta de las Secretarías de Estado y el IRS. Pueden variar según la carga de trabajo de los organismos oficiales.",
+    "steps": {
+      "step1": {
+        "title": "REGISTRO ESTATAL",
+        "text": "Presentación de Artículos de Organización y aprobación oficial del estado.",
+        "duration": "24-48 HORAS"
+      },
+      "step2": {
+        "title": "OBTENCIÓN DEL EIN",
+        "text": "Tramitación del Número de Identificación Patronal ante el IRS para extranjeros.",
+        "duration": "7-10 DÍAS"
+      },
+      "step3": {
+        "title": "APERTURA BANCARIA",
+        "text": "Solicitud y aprobación de cuenta de empresa en bancos digitales de EE.UU.",
+        "duration": "3-5 DÍAS"
       }
     }
   },
