@@ -3871,15 +3871,15 @@ export async function registerRoutes(
           targetOrderId = pendingRequests[0].orderId;
         }
         
-        // Determine file type from extension
-        const ext = fileName.toLowerCase().split('.').pop() || '';
-        const mimeTypes: Record<string, string> = {
+        // Determine file type from extension (ext already validated above)
+        const mimeTypesMap: Record<string, string> = {
           'pdf': 'application/pdf',
           'jpg': 'image/jpeg',
           'jpeg': 'image/jpeg',
           'png': 'image/png'
         };
-        const detectedFileType = mimeTypes[ext] || 'application/octet-stream';
+        const fileExt = fileName.toLowerCase().split('.').pop() || '';
+        const detectedFileType = mimeTypesMap[fileExt] || 'application/octet-stream';
         
         // Create document record
         const doc = await db.insert(applicationDocumentsTable).values({
