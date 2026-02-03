@@ -316,7 +316,7 @@ export default function LinktreePage() {
               className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium ${isDark ? 'bg-zinc-800 text-white' : 'bg-zinc-100 text-zinc-900'}`}
               data-testid="link-trustpilot"
             >
-              <img src={trustpilotLogo} alt="Trustpilot" className="h-4" />
+              <img src={trustpilotLogo} alt="Trustpilot" className={`h-4 ${isDark ? 'brightness-0 invert' : ''}`} style={isDark ? undefined : { mixBlendMode: 'multiply' }} />
               <div className="flex items-center gap-0.5">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-3.5 h-3.5 fill-green-500 text-green-500" />
