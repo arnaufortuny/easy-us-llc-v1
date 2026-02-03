@@ -123,6 +123,21 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
   subscribedAt: timestamp("subscribed_at").defaultNow(),
 });
 
+export const calculatorConsultations = pgTable("calculator_consultations", {
+  id: serial("id").primaryKey(),
+  email: text("email").notNull(),
+  income: integer("income").notNull(),
+  country: text("country").notNull(),
+  savings: integer("savings"),
+  isRead: boolean("is_read").default(false),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  emailIdx: index("calc_consultations_email_idx").on(table.email),
+  isReadIdx: index("calc_consultations_is_read_idx").on(table.isRead),
+}));
+
+export type CalculatorConsultation = typeof calculatorConsultations.$inferSelect;
+
 export const messages = pgTable("messages", {
   id: serial("id").primaryKey(),
   userId: varchar("user_id").references(() => users.id),

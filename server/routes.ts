@@ -8,7 +8,7 @@ import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@sh
 import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs } from "./lib/security";
 import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
@@ -1339,6 +1339,73 @@ export async function registerRoutes(
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error al eliminar suscriptor" });
+    }
+  });
+
+  // Calculator consultations - Save consultation
+  app.post("/api/calculator/consultation", async (req, res) => {
+    try {
+      const { email, income, country, savings } = z.object({
+        email: z.string().email(),
+        income: z.number().min(1),
+        country: z.string(),
+        savings: z.number().optional()
+      }).parse(req.body);
+
+      await db.insert(calculatorConsultations).values({
+        email,
+        income,
+        country,
+        savings: savings || 0,
+        isRead: false
+      });
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Calculator consultation error:", error);
+      res.status(500).json({ message: "Error al guardar consulta" });
+    }
+  });
+
+  // Admin: Get calculator consultations
+  app.get("/api/admin/calculator-consultations", isAdmin, async (req, res) => {
+    try {
+      const consultations = await db.select().from(calculatorConsultations).orderBy(desc(calculatorConsultations.createdAt));
+      res.json(consultations);
+    } catch (error) {
+      res.status(500).json({ message: "Error al obtener consultas" });
+    }
+  });
+
+  // Admin: Mark consultation as read
+  app.patch("/api/admin/calculator-consultations/:id/read", isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.update(calculatorConsultations).set({ isRead: true }).where(eq(calculatorConsultations.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al marcar como leída" });
+    }
+  });
+
+  // Admin: Delete calculator consultation
+  app.delete("/api/admin/calculator-consultations/:id", isAdmin, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseInt(id)));
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error al eliminar consulta" });
+    }
+  });
+
+  // Admin: Get unread calculator consultations count
+  app.get("/api/admin/calculator-consultations/unread-count", isAdmin, async (req, res) => {
+    try {
+      const [result] = await db.select({ count: sql<number>`count(*)` }).from(calculatorConsultations).where(eq(calculatorConsultations.isRead, false));
+      res.json({ count: result?.count || 0 });
+    } catch (error) {
+      res.status(500).json({ message: "Error" });
     }
   });
 

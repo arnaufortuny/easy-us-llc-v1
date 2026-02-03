@@ -1206,6 +1206,7 @@
     "emailInvalid": "Por favor, introduce un email válido",
     "emailPrivacy": "Tu email está protegido. No enviamos spam.",
     "calculateButton": "Calcular mi ahorro",
+    "enterIncome": "Introduce tu facturación anual",
     "calculating": "Calculando tu ahorro...",
     "calculatingSubtitle": "Analizando impuestos y optimizaciones",
     "showDetails": "Ver información importante",

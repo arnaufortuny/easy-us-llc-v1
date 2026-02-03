@@ -1206,6 +1206,7 @@
     "emailInvalid": "Please enter a valid email",
     "emailPrivacy": "Your email is protected. We don't send spam.",
     "calculateButton": "Calculate my savings",
+    "enterIncome": "Enter your annual revenue",
     "calculating": "Calculating your savings...",
     "calculatingSubtitle": "Analyzing taxes and optimizations",
     "showDetails": "View important information",

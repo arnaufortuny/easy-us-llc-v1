@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
+import { apiRequest } from "@/lib/queryClient";
 import moneyIcon from "@/assets/images/money-icon.png";
 
 interface TaxBreakdown {
@@ -231,9 +232,24 @@ export function TaxComparator() {
       setEmailError(t("taxComparator.emailInvalid"));
       return;
     }
+    if (income < 1000) {
+      return;
+    }
     
     setEmailError("");
     setIsCalculating(true);
+    
+    // Save consultation to database
+    try {
+      await apiRequest("POST", "/api/calculator/consultation", {
+        email,
+        income,
+        country: selectedCountry,
+        savings: countryTaxes.total - usLLCTaxes.total
+      });
+    } catch (error) {
+      console.error("Error saving consultation:", error);
+    }
     
     await new Promise(resolve => setTimeout(resolve, 2000));
     
@@ -241,8 +257,14 @@ export function TaxComparator() {
     setShowResults(true);
   };
   
-  const incomePresets = [30000, 50000, 75000, 100000, 150000];
-  const sliderProgress = ((income - 20000) / (200000 - 20000)) * 100;
+  const handleIncomeChange = (value: string) => {
+    const numValue = parseInt(value.replace(/[^0-9]/g, '')) || 0;
+    setIncome(Math.min(Math.max(numValue, 0), 500000));
+  };
+  
+  const formatInputCurrency = (value: number) => {
+    return value.toLocaleString('es-ES');
+  };
   
   return (
     <section className="py-16 sm:py-24 bg-accent/5 relative overflow-hidden" id="comparador">
@@ -319,60 +341,28 @@ export function TaxComparator() {
             
             {/* Income Selection */}
             <div className="p-6 sm:p-8 bg-background">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+              <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center p-2">
-                    <img src={moneyIcon} alt="" className="w-8 h-8 object-contain" />
+                  <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center p-2">
+                    <img src={moneyIcon} alt="" className="w-6 h-6 object-contain" />
                   </div>
-                  <label className="text-base font-black text-foreground">
+                  <label className="text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>
                 </div>
-                <div className="text-4xl sm:text-5xl font-black text-accent tracking-tight">{formatCurrency(income)}</div>
-              </div>
-              
-              <div className="flex flex-wrap gap-2 mb-8">
-                {incomePresets.map((preset) => (
-                  <button
-                    key={preset}
-                    onClick={() => setIncome(preset)}
-                    className={`px-5 py-2.5 rounded-full text-sm font-black transition-all transform active:scale-95 ${
-                      income === preset
-                        ? 'bg-accent text-primary shadow-lg shadow-accent/30'
-                        : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
-                    }`}
-                    data-testid={`button-preset-${preset}`}
-                  >
-                    {formatCurrency(preset)}
-                  </button>
-                ))}
-              </div>
-              
-              <div className="relative">
-                <div className="relative h-3 rounded-full bg-muted overflow-hidden">
-                  <div 
-                    className="absolute inset-y-0 left-0 bg-gradient-to-r from-accent to-accent/80 rounded-full transition-all duration-200"
-                    style={{ width: `${sliderProgress}%` }}
+                <div className="relative w-full max-w-xs">
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    value={formatInputCurrency(income)}
+                    onChange={(e) => handleIncomeChange(e.target.value)}
+                    placeholder="50.000"
+                    className="w-full px-4 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-background border-2 border-accent/30 rounded-xl focus:border-accent outline-none transition-all"
+                    data-testid="input-income"
                   />
+                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
                 </div>
-                <input
-                  type="range"
-                  min="20000"
-                  max="200000"
-                  step="5000"
-                  value={income}
-                  onChange={(e) => setIncome(Number(e.target.value))}
-                  className="absolute inset-0 w-full h-3 opacity-0 cursor-pointer"
-                  data-testid="slider-income"
-                />
-                <div 
-                  className="absolute top-1/2 -translate-y-1/2 w-6 h-6 bg-accent rounded-full border-4 border-background shadow-lg shadow-accent/40 transition-all duration-200 pointer-events-none"
-                  style={{ left: `calc(${sliderProgress}% - 12px)` }}
-                />
-                <div className="flex justify-between text-xs text-muted-foreground mt-4 font-black">
-                  <span>{t("taxComparator.minIncome")}</span>
-                  <span>{t("taxComparator.maxIncome")}</span>
-                </div>
+                <p className="text-xs text-muted-foreground">{t("taxComparator.enterIncome")}</p>
               </div>
             </div>
             
@@ -386,17 +376,17 @@ export function TaxComparator() {
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-6 sm:p-8 bg-background will-change-transform"
                 >
-                  <div className="max-w-md mx-auto text-center">
-                    <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/20 flex items-center justify-center">
-                      <Mail className="w-8 h-8 text-accent" />
+                  <div className="max-w-sm mx-auto text-center">
+                    <div className="w-12 h-12 mx-auto mb-4 rounded-full bg-accent/20 flex items-center justify-center">
+                      <Mail className="w-6 h-6 text-accent" />
                     </div>
-                    <h3 className="text-xl sm:text-2xl font-black text-foreground mb-2">
+                    <h3 className="text-lg sm:text-xl font-black text-foreground mb-1">
                       {t("taxComparator.emailTitle")}
                     </h3>
-                    <p className="text-muted-foreground font-medium mb-6">
+                    <p className="text-muted-foreground font-medium text-sm mb-4">
                       {t("taxComparator.emailSubtitle")}
                     </p>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                       <div className="relative">
                         <input
                           type="email"
@@ -406,7 +396,7 @@ export function TaxComparator() {
                             if (emailError) setEmailError("");
                           }}
                           placeholder={t("taxComparator.emailPlaceholder")}
-                          className={`w-full px-5 py-4 rounded-full border-2 ${
+                          className={`w-full px-4 py-3 rounded-xl border-2 text-sm ${
                             emailError 
                               ? 'border-destructive focus:border-destructive' 
                               : 'border-accent/30 focus:border-accent'
@@ -414,17 +404,17 @@ export function TaxComparator() {
                           data-testid="input-email-calculator"
                         />
                         {emailError && (
-                          <p className="text-destructive text-sm font-bold mt-2">{emailError}</p>
+                          <p className="text-destructive text-xs font-bold mt-1">{emailError}</p>
                         )}
                       </div>
                       <Button
                         onClick={handleCalculate}
-                        className="w-full bg-accent text-primary font-black text-base rounded-full h-14 shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
+                        className="w-full bg-accent text-primary font-black text-sm rounded-xl h-11 shadow-lg shadow-accent/30 hover:bg-accent/90 transition-all transform active:scale-95"
                         data-testid="button-calculate"
                       >
                         {t("taxComparator.calculateButton")} →
                       </Button>
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-[10px] text-muted-foreground">
                         {t("taxComparator.emailPrivacy")}
                       </p>
                     </div>
