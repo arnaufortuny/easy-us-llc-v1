@@ -355,7 +355,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -472,7 +472,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-16 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center will-change-[transform,opacity]" 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
