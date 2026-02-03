@@ -275,16 +275,6 @@ export function TaxComparator() {
       
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
-          <motion.div 
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent/20 text-accent font-black text-sm mb-6 will-change-transform"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.2, ease: "easeOut" }}
-          >
-            <Calculator className="w-4 h-4" />
-            {t("taxComparator.badge")}
-          </motion.div>
           <motion.h2 
             className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-tight will-change-transform"
             style={{ fontWeight: 900 }}
@@ -472,12 +462,6 @@ export function TaxComparator() {
                   <div className="grid grid-cols-1 md:grid-cols-2">
                     {/* US LLC */}
                     <div className="p-6 sm:p-8 bg-accent/10 border-b md:border-b-0 md:border-r border-accent/20 relative">
-                      <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1.5 rounded-full bg-accent text-primary text-xs font-black flex items-center gap-1.5 shadow-lg shadow-accent/30">
-                          <TrendingUp className="w-3.5 h-3.5" /> 0% {t("taxComparator.taxes")}
-                        </span>
-                      </div>
-                      
                       <div className="flex items-center gap-3 mb-8">
                         <div className="w-14 h-14 rounded-2xl bg-accent/20 flex items-center justify-center border-2 border-accent/30 shadow-lg text-3xl">
                           🇺🇸
