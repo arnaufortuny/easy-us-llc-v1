@@ -351,9 +351,17 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
-              <div className="mt-6 py-2 px-4 bg-accent/10 rounded-full">
-                <span className="text-accent font-black text-xs uppercase tracking-widest">{t("timing.steps.step1.duration")}</span>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step1.text")}</p>
+              <div className="mt-auto">
+                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
+                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
+                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
+                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" stroke-width="3" stroke-linecap="round"/>
+                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
+                  <text x="36" y="56" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="9" fill="white" font-weight="600">48–72 H</text>
+                </svg>
               </div>
             </div>
 
@@ -368,9 +376,17 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
-              <div className="mt-6 py-2 px-4 bg-accent rounded-full">
-                <span className="text-accent-foreground font-black text-xs uppercase tracking-widest">{t("timing.steps.step2.duration")}</span>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step2.text")}</p>
+              <div className="mt-auto">
+                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
+                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
+                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
+                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" stroke-width="3" stroke-linecap="round"/>
+                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
+                  <text x="36" y="56" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="9" fill="white" font-weight="600">48–72 H</text>
+                </svg>
               </div>
             </div>
 
@@ -387,9 +403,17 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
-              <div className="mt-6 py-2 px-4 bg-accent/10 rounded-full">
-                <span className="text-accent font-black text-xs uppercase tracking-widest">{t("timing.steps.step3.duration")}</span>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step3.text")}</p>
+              <div className="mt-auto">
+                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
+                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
+                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
+                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
+                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" stroke-width="3" stroke-linecap="round"/>
+                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
+                  <text x="36" y="56" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="9" fill="white" font-weight="600">48–72 H</text>
+                </svg>
               </div>
             </div>
           </div>
