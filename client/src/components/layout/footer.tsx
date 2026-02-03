@@ -34,7 +34,7 @@ export function Footer() {
         {/* Mobile: Title centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-            <img src={logoIcon} alt="Easy US LLC" className="h-16 w-auto" />
+            <img src={logoIcon} alt="Easy US LLC" className="h-24 w-auto" />
           </Link>
           <p className="text-white/70 text-base text-center max-w-xs">
             {t("footer.description")}
@@ -84,7 +84,7 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
             <Link href="/" className="flex items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-              <img src={logoIcon} alt="Easy US LLC" className="h-16 w-auto" />
+              <img src={logoIcon} alt="Easy US LLC" className="h-24 w-auto" />
             </Link>
             <p className="text-white/70 text-base max-w-xs">
               {t("footer.description")}
