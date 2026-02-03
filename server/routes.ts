@@ -937,7 +937,7 @@ export async function registerRoutes(
       invoiceNumber
     }).returning();
     
-    // Create LLC application so order shows in client dashboard
+    // Create LLC application so order shows in client dashboard (as 'submitted' not 'draft' since admin created it)
     await db.insert(llcApplicationsTable).values({
       orderId: order.id,
       requestCode: invoiceNumber,
@@ -945,7 +945,7 @@ export async function registerRoutes(
       ownerEmail: user.email,
       ownerPhone: user.phone,
       state,
-      status: 'draft'
+      status: 'submitted'
     });
     
     await db.insert(orderEvents).values({
@@ -1368,6 +1368,50 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error fetching invoices:", error);
       res.status(500).json({ message: "Error al obtener facturas" });
+    }
+  });
+
+  // Delete invoice (admin only)
+  app.delete("/api/admin/invoices/:id", isAdmin, async (req, res) => {
+    try {
+      const invoiceId = parseInt(req.params.id);
+      await db.delete(applicationDocumentsTable).where(
+        and(
+          eq(applicationDocumentsTable.id, invoiceId),
+          eq(applicationDocumentsTable.documentType, "invoice")
+        )
+      );
+      res.json({ success: true, message: "Factura eliminada" });
+    } catch (error) {
+      console.error("Error deleting invoice:", error);
+      res.status(500).json({ message: "Error al eliminar factura" });
+    }
+  });
+
+  // Update invoice order status (admin only)
+  app.patch("/api/admin/invoices/:id/status", isAdmin, async (req, res) => {
+    try {
+      const invoiceId = parseInt(req.params.id);
+      const { status } = z.object({
+        status: z.enum(['pending', 'paid', 'completed', 'cancelled', 'refunded'])
+      }).parse(req.body);
+      
+      const [invoice] = await db.select({ orderId: applicationDocumentsTable.orderId })
+        .from(applicationDocumentsTable)
+        .where(eq(applicationDocumentsTable.id, invoiceId))
+        .limit(1);
+      
+      if (!invoice?.orderId) {
+        return res.status(404).json({ message: "Factura o pedido no encontrado" });
+      }
+      
+      await db.update(ordersTable).set({ status, updatedAt: new Date() })
+        .where(eq(ordersTable.id, invoice.orderId));
+      
+      res.json({ success: true, message: "Estado actualizado" });
+    } catch (error) {
+      console.error("Error updating invoice status:", error);
+      res.status(500).json({ message: "Error al actualizar estado" });
     }
   });
 

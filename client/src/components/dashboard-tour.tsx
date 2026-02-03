@@ -140,17 +140,23 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
       )}
 
       <Card 
-        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-5 md:p-6 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl left-1/2 -translate-x-1/2 ${
-          hasTarget ? '' : 'top-20 md:top-1/2 md:-translate-y-1/2'
+        className={`fixed z-[10000] w-[calc(100vw-2rem)] max-w-sm p-5 md:p-6 shadow-2xl border-0 bg-card transition-all duration-300 rounded-2xl ${
+          hasTarget 
+            ? 'md:left-auto md:translate-x-0' 
+            : 'left-1/2 -translate-x-1/2 top-20 md:top-24'
         }`}
         style={hasTarget ? {
           top: Math.min(
-            Math.max(80, targetRect.top - 200),
-            window.innerHeight - 280
+            Math.max(100, targetRect.top),
+            window.innerHeight - 320
           ),
-          maxHeight: 'calc(100dvh - 120px)',
+          left: window.innerWidth >= 768 
+            ? Math.min(targetRect.right + 24, window.innerWidth - 400)
+            : '50%',
+          transform: window.innerWidth >= 768 ? 'none' : 'translateX(-50%)',
+          maxHeight: 'calc(100dvh - 160px)',
         } : {
-          maxHeight: 'calc(100dvh - 120px)',
+          maxHeight: 'calc(100dvh - 160px)',
         }}
       >
         <button

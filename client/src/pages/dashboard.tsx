@@ -5,7 +5,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
 import calendarIconPath from "@/assets/icons/calendar-icon.svg";
 import moneyIconPath from "@/assets/icons/money-icon.svg";
 import trackingIconPath from "@/assets/icons/tracking-icon.svg";
@@ -1690,6 +1690,22 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className="flex gap-2 flex-wrap">
+                              {app?.id && (
+                                <Button 
+                                  size="sm" 
+                                  variant="outline" 
+                                  className="rounded-full text-xs"
+                                  onClick={() => {
+                                    const editUrl = isMaintenance 
+                                      ? `/llc/maintenance?edit=${app.id}`
+                                      : `/llc/formation?edit=${app.id}`;
+                                    window.location.href = editUrl;
+                                  }}
+                                  data-testid={`btn-modify-order-${order.id}`}
+                                >
+                                  <Edit2 className="w-3 h-3 mr-1" /> Modificar
+                                </Button>
+                              )}
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 Ver Factura
                               </Button>
@@ -2313,7 +2329,26 @@ export default function Dashboard() {
                                   Fecha: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
                                 </p>
                               </div>
-                              <div className="flex gap-2">
+                              <div className="flex gap-2 flex-wrap">
+                                <NativeSelect
+                                  value={inv.order?.status || 'pending'}
+                                  onValueChange={async (newStatus) => {
+                                    try {
+                                      await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
+                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+                                      toast({ title: "Estado actualizado" });
+                                    } catch {
+                                      toast({ title: "Error al actualizar estado", variant: "destructive" });
+                                    }
+                                  }}
+                                  className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
+                                >
+                                  <option value="pending">Pendiente</option>
+                                  <option value="paid">Pagada</option>
+                                  <option value="completed">Completada</option>
+                                  <option value="cancelled">Cancelada</option>
+                                  <option value="refunded">Reembolsada</option>
+                                </NativeSelect>
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
@@ -2336,6 +2371,24 @@ export default function Dashboard() {
                                   data-testid={`button-download-invoice-${inv.id}`}
                                 >
                                   <Download className="w-3 h-3 mr-1" /> Descargar
+                                </Button>
+                                <Button 
+                                  variant="outline" 
+                                  size="sm" 
+                                  className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                  onClick={async () => {
+                                    if (!confirm('¿Eliminar esta factura?')) return;
+                                    try {
+                                      await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
+                                      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+                                      toast({ title: "Factura eliminada" });
+                                    } catch {
+                                      toast({ title: "Error al eliminar", variant: "destructive" });
+                                    }
+                                  }}
+                                  data-testid={`button-delete-invoice-${inv.id}`}
+                                >
+                                  <Trash2 className="w-3 h-3" />
                                 </Button>
                               </div>
                             </div>
@@ -2544,7 +2597,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Sheet open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-6">
                 <SheetTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</SheetDescription>
@@ -2569,7 +2622,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <SheetContent className="bg-white dark:bg-card overflow-y-auto">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md overflow-y-auto">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Editar Usuario</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</SheetDescription>
@@ -2691,7 +2744,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-black text-red-600">Eliminar Usuario</SheetTitle>
               </SheetHeader>
@@ -2709,7 +2762,7 @@ export default function Dashboard() {
           </Sheet>
           
           <Sheet open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-black text-red-600">Eliminar Pedido</SheetTitle>
               </SheetHeader>
@@ -2728,7 +2781,7 @@ export default function Dashboard() {
           </Sheet>
           
           <Sheet open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Generar Factura</SheetTitle>
               </SheetHeader>
@@ -2800,7 +2853,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</SheetDescription>
@@ -2854,7 +2907,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-card">
+            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Crear Factura</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</SheetDescription>
@@ -2919,7 +2972,7 @@ export default function Dashboard() {
       )}
 
       <Sheet open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</SheetTitle>
           </SheetHeader>
@@ -2938,7 +2991,7 @@ export default function Dashboard() {
 
       
       <Sheet open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</SheetTitle>
             <SheetDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</SheetDescription>
@@ -2977,7 +3030,7 @@ export default function Dashboard() {
       </Sheet>
 
       <Sheet open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</SheetTitle>
             <SheetDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</SheetDescription>
@@ -3026,7 +3079,7 @@ export default function Dashboard() {
       </Sheet>
 
       <Sheet open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <SheetContent className="bg-white dark:bg-card overflow-y-auto">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md overflow-y-auto">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
@@ -3169,7 +3222,7 @@ export default function Dashboard() {
           setEmailVerificationCode("");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Verifica tu correo electrónico</SheetTitle>
             <SheetDescription>Te hemos enviado un código de verificación para confirmar tu email</SheetDescription>
@@ -3254,7 +3307,7 @@ export default function Dashboard() {
           setPaymentLinkMessage("");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Enviar Link de Pago</SheetTitle>
             <SheetDescription>
@@ -3344,7 +3397,7 @@ export default function Dashboard() {
           setAdminDocType("articles_of_organization");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</SheetTitle>
             <SheetDescription>
@@ -3449,7 +3502,7 @@ export default function Dashboard() {
         setResetPasswordDialog({ open, user: open ? resetPasswordDialog.user : null });
         if (!open) setNewAdminPassword("");
       }}>
-        <SheetContent className="bg-white dark:bg-card">
+        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Restablecer Contraseña</SheetTitle>
             <SheetDescription>Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</SheetDescription>
