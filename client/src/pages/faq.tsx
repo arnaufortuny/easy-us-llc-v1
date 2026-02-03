@@ -65,7 +65,8 @@ export default function FAQ() {
         { q: t("faq.categories.operations.q5"), a: t("faq.categories.operations.a5") },
         { q: t("faq.categories.operations.q6"), a: t("faq.categories.operations.a6") },
         { q: t("faq.categories.operations.q7"), a: t("faq.categories.operations.a7") },
-        { q: t("faq.categories.operations.q8"), a: t("faq.categories.operations.a8") }
+        { q: t("faq.categories.operations.q8"), a: t("faq.categories.operations.a8") },
+        { q: t("faq.categories.operations.q9"), a: t("faq.categories.operations.a9") }
       ]
     }
   ], [t]);
