@@ -320,31 +320,31 @@
     "process": {
       "title": "OUR",
       "titleHighlight": "PROCESS",
-      "subtitle": "From idea to operational LLC in just a few days",
+      "subtitle": "What your annual maintenance includes",
       "steps": {
         "1": {
-          "title": "Initial consultation",
-          "desc": "We analyze your situation and advise you on the best state for your business."
+          "title": "Tax Management",
+          "desc": "Forms 1120 and 5472 with the IRS."
         },
         "2": {
-          "title": "Documentation",
-          "desc": "We prepare all necessary documents for your LLC formation."
+          "title": "Registered Agent",
+          "desc": "12-month registered agent renewal."
         },
         "3": {
-          "title": "LLC Formation",
-          "desc": "We register your LLC with the corresponding Secretary of State."
+          "title": "Annual Report",
+          "desc": "Annual report to the Secretary of State."
         },
         "4": {
-          "title": "EIN Obtainment",
-          "desc": "We request your tax identification number from the IRS."
+          "title": "BOI Report",
+          "desc": "FinCEN report update."
         },
         "5": {
-          "title": "Bank account opening",
-          "desc": "We assist you in opening your business bank account in the USA."
+          "title": "Ongoing Support",
+          "desc": "Unlimited access to our team."
         },
         "6": {
-          "title": "Ready to operate",
-          "desc": "You receive all documentation and start invoicing."
+          "title": "Updates",
+          "desc": "One annual Articles update."
         }
       }
     },
