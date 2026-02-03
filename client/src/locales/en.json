@@ -622,7 +622,8 @@
     "llcNameFormat": "Name must end in LLC (e.g., MY COMPANY LLC)",
     "acceptTerms": "You must accept the terms",
     "whatsappRequired": "Required if you want WhatsApp contact",
-    "ageMinimum": "You must be at least 18 years old to create an LLC"
+    "ageMinimum": "You must be at least 18 years old to create an LLC",
+    "phoneFormat": "Invalid phone. Must start with + or have at least 6 digits, no letters"
   },
   "application": {
     "title": "Form my LLC",

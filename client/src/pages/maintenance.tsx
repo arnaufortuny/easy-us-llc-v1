@@ -29,7 +29,18 @@ const TOTAL_STEPS = 12;
 const createFormSchema = (t: (key: string) => string) => z.object({
   creationSource: z.string().min(1, t("validation.required")),
   ownerFullName: z.string().min(1, t("validation.required")),
-  ownerPhone: z.string().min(1, t("validation.required")),
+  ownerPhone: z.string()
+    .min(1, t("validation.required"))
+    .refine(
+      (val) => {
+        // No letters allowed
+        if (/[a-zA-Z]/.test(val)) return false;
+        // Must start with + OR have at least 6 digits
+        const digitsOnly = val.replace(/\D/g, '');
+        return val.startsWith('+') || digitsOnly.length >= 6;
+      },
+      { message: t("validation.phoneFormat") }
+    ),
   ownerEmail: z.string().email(t("validation.emailInvalid")),
   companyName: z.string().min(1, t("validation.required")),
   ein: z.string().min(1, t("validation.required")),

@@ -573,13 +573,25 @@ img {
   perspective: 1000px;
 }
 
-/* Dashboard gradient background */
+/* Dashboard gradient background - Professional and elegant */
 .dashboard-gradient {
-  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--accent)/0.05) 50%, hsl(var(--background)) 100%);
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(110, 220, 138, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 30% at 100% 0%, rgba(110, 220, 138, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, 
+      rgba(110, 220, 138, 0.06) 0%, 
+      rgba(255, 255, 255, 0) 40%),
+    hsl(var(--background));
 }
 
 .dark .dashboard-gradient {
-  background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--accent)/0.08) 50%, hsl(var(--background)) 100%);
+  background: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(110, 220, 138, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 30% at 100% 0%, rgba(110, 220, 138, 0.06) 0%, transparent 40%),
+    linear-gradient(180deg, 
+      rgba(110, 220, 138, 0.04) 0%, 
+      rgba(14, 18, 21, 0) 40%),
+    hsl(var(--background));
 }
 
 /* GPU acceleration for animations - critical for 0 lag */

@@ -29,7 +29,18 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   ownerFirstName: z.string().min(1, t("validation.firstNameRequired")),
   ownerLastName: z.string().min(1, t("validation.lastNameRequired")),
   ownerEmail: z.string().email(t("validation.emailInvalid")),
-  ownerPhone: z.string().min(1, t("validation.required")),
+  ownerPhone: z.string()
+    .min(1, t("validation.required"))
+    .refine(
+      (val) => {
+        // No letters allowed
+        if (/[a-zA-Z]/.test(val)) return false;
+        // Must start with + OR have at least 6 digits
+        const digitsOnly = val.replace(/\D/g, '');
+        return val.startsWith('+') || digitsOnly.length >= 6;
+      },
+      { message: t("validation.phoneFormat") }
+    ),
   companyName: z.string().min(1, t("validation.required")).refine(
     (val) => val.toUpperCase().trim().endsWith("LLC") || val.toUpperCase().trim().endsWith("L.L.C.") || val.toUpperCase().trim().endsWith("L.L.C"),
     { message: t("validation.llcNameFormat") }
