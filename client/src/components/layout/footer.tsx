@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import logoIcon from "@/assets/logo-icon.png";
-import relayLogo from "@assets/relay-logo.webp";
+import relayLogo from "@assets/relay-logo.png";
 import trustpilotLogo from "@assets/trustpilot-logo.png";
 import mercuryLogo from "@assets/mercury-logo.png";
 import { NewsletterSection } from "./newsletter-section";
