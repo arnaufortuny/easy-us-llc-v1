@@ -350,18 +350,7 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step1.text")}</p>
-              <div className="mt-auto">
-                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
-                  <circle cx="36" cy="32" r="16" stroke="#22C55E" strokeWidth="3"/>
-                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
-                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" strokeWidth="3" strokeLinecap="round"/>
-                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" strokeWidth="3" strokeLinecap="round"/>
-                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
-                  <text x="36" y="56" textAnchor="middle" fontFamily="Inter, Arial, sans-serif" fontSize="9" fill="white" fontWeight="600">48–72 H</text>
-                </svg>
-              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
             </div>
 
             <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10">
@@ -375,18 +364,7 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step2.text")}</p>
-              <div className="mt-auto">
-                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
-                  <circle cx="36" cy="32" r="16" stroke="#22C55E" strokeWidth="3"/>
-                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
-                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" strokeWidth="3" strokeLinecap="round"/>
-                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" strokeWidth="3" strokeLinecap="round"/>
-                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
-                  <text x="36" y="56" textAnchor="middle" fontFamily="Inter, Arial, sans-serif" fontSize="9" fill="white" fontWeight="600">48–72 H</text>
-                </svg>
-              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
             </div>
 
             <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
@@ -402,18 +380,7 @@ function HowWeWorkSection() {
                 </svg>
               </div>
               <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step3.text")}</p>
-              <div className="mt-auto">
-                <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
-                  <circle cx="36" cy="32" r="16" stroke="#22C55E" strokeWidth="3"/>
-                  <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
-                  <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" strokeWidth="3" strokeLinecap="round"/>
-                  <line x1="36" y1="32" x2="44" y2="36" stroke="#22C55E" strokeWidth="3" strokeLinecap="round"/>
-                  <rect x="18" y="46" width="36" height="14" rx="7" fill="#22C55E"/>
-                  <text x="36" y="56" textAnchor="middle" fontFamily="Inter, Arial, sans-serif" fontSize="9" fill="white" fontWeight="600">48–72 H</text>
-                </svg>
-              </div>
+              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
             </div>
           </div>
         </div>
