@@ -143,24 +143,24 @@
     }
   },
   "timing": {
-    "title": "¿CUÁNTO TARDAMOS EN FORMALIZAR TU LLC?",
+    "title": "EN 48-72 HORAS, TODO LISTO",
     "mostPopular": "MÁS POPULAR",
-    "disclaimer": "*Los plazos son estimaciones basadas en tiempos medios de respuesta de las Secretarías de Estado y el IRS. Pueden variar según la carga de trabajo de los organismos oficiales.",
+    "disclaimer": "*Tiempos medios de gestión. Trabajamos de forma ágil para que no pierdas ni un minuto en trámites burocráticos.",
     "steps": {
       "step1": {
         "title": "REGISTRO ESTATAL",
-        "text": "Presentación de Artículos de Organización y aprobación oficial del estado.",
+        "text": "Presentamos y gestionamos tu LLC ante el estado. Rápido, humano y sin complicaciones.",
         "duration": "24-48 HORAS"
       },
       "step2": {
-        "title": "OBTENCIÓN DEL EIN",
-        "text": "Tramitación del Número de Identificación Patronal ante el IRS para extranjeros.",
-        "duration": "7-10 DÍAS"
+        "title": "EIN INCLUIDO",
+        "text": "Tramitamos tu número fiscal ante el IRS. Nos encargamos de que lo tengas cuanto antes.",
+        "duration": "48-72 HORAS"
       },
       "step3": {
-        "title": "APERTURA BANCARIA",
-        "text": "Solicitud y aprobación de cuenta de empresa en bancos digitales de EE.UU.",
-        "duration": "3-5 DÍAS"
+        "title": "CUENTA BANCARIA",
+        "text": "Te acompañamos en la apertura para que puedas empezar a operar de inmediato.",
+        "duration": "24-48 HORAS"
       }
     }
   },
