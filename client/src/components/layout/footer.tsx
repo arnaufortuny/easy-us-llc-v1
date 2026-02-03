@@ -45,20 +45,20 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <h4 className="font-black text-base tracking-wider mb-5 border-b border-white/20 pb-1 w-full">{t("footer.links")}</h4>
             <nav className="flex flex-col gap-3 text-base text-white/70">
-              <Link href="/" className="hover:text-white transition-colors py-1 block w-full">{t("footer.home")}</Link>
-              <Link href="/servicios" className="hover:text-white transition-colors py-1 block w-full">{t("footer.services")}</Link>
-              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-white transition-colors py-1 block w-full text-left">{t("footer.pricing")}</button>
-              <Link href="/faq" className="hover:text-white transition-colors py-1 block w-full text-left">{t("footer.faq")}</Link>
+              <Link href="/" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-home">{t("footer.home")}</Link>
+              <Link href="/servicios" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-services">{t("footer.services")}</Link>
+              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-white transition-colors py-1 block w-full text-left" data-testid="button-footer-pricing">{t("footer.pricing")}</button>
+              <Link href="/faq" className="hover:text-white transition-colors py-1 block w-full text-left" data-testid="link-footer-faq">{t("footer.faq")}</Link>
             </nav>
           </div>
           
           <div className="flex flex-col items-start">
             <h4 className="font-black text-base tracking-wider mb-5 border-b border-white/20 pb-1 w-full">{t("footer.legal")}</h4>
             <nav className="flex flex-col gap-3 text-base text-white/70">
-              <Link href="/legal/terminos" className="hover:text-white transition-colors py-1 block w-full">{t("footer.termsShort")}</Link>
-              <Link href="/legal/privacidad" className="hover:text-white transition-colors py-1 block w-full">{t("footer.privacyShort")}</Link>
-              <Link href="/legal/reembolsos" className="hover:text-white transition-colors py-1 block w-full">{t("footer.refundsShort")}</Link>
-              <Link href="/legal/cookies" className="hover:text-white transition-colors py-1 block w-full">{t("footer.cookiesShort")}</Link>
+              <Link href="/legal/terminos" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-terms">{t("footer.termsShort")}</Link>
+              <Link href="/legal/privacidad" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-privacy">{t("footer.privacyShort")}</Link>
+              <Link href="/legal/reembolsos" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-refunds">{t("footer.refundsShort")}</Link>
+              <Link href="/legal/cookies" className="hover:text-white transition-colors py-1 block w-full" data-testid="link-footer-cookies">{t("footer.cookiesShort")}</Link>
             </nav>
           </div>
         </div>
@@ -93,20 +93,20 @@ export function Footer() {
           <div className="flex flex-col items-start">
             <h4 className="font-black text-base tracking-wider mb-5">{t("footer.links")}</h4>
             <nav className="flex flex-col gap-3 text-base text-white/70">
-              <Link href="/" className="hover:text-white transition-colors">{t("footer.home")}</Link>
-              <Link href="/servicios" className="hover:text-white transition-colors">{t("footer.services")}</Link>
-              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-white transition-colors text-left">{t("footer.pricing")}</button>
-              <Link href="/faq" className="hover:text-white transition-colors text-left">{t("footer.faq")}</Link>
+              <Link href="/" className="hover:text-white transition-colors" data-testid="link-footer-desktop-home">{t("footer.home")}</Link>
+              <Link href="/servicios" className="hover:text-white transition-colors" data-testid="link-footer-desktop-services">{t("footer.services")}</Link>
+              <button onClick={() => handleHashClick('/servicios#pricing')} className="hover:text-white transition-colors text-left" data-testid="button-footer-desktop-pricing">{t("footer.pricing")}</button>
+              <Link href="/faq" className="hover:text-white transition-colors text-left" data-testid="link-footer-desktop-faq">{t("footer.faq")}</Link>
             </nav>
           </div>
           
           <div className="flex flex-col items-start">
             <h4 className="font-black text-base tracking-wider mb-5">{t("footer.legal")}</h4>
             <nav className="flex flex-col gap-3 text-base text-white/70">
-              <Link href="/legal/terminos" className="hover:text-white transition-colors">{t("footer.terms")}</Link>
-              <Link href="/legal/privacidad" className="hover:text-white transition-colors">{t("footer.privacy")}</Link>
-              <Link href="/legal/reembolsos" className="hover:text-white transition-colors">{t("footer.refunds")}</Link>
-              <Link href="/legal/cookies" className="hover:text-white transition-colors">{t("footer.cookies")}</Link>
+              <Link href="/legal/terminos" className="hover:text-white transition-colors" data-testid="link-footer-desktop-terms">{t("footer.terms")}</Link>
+              <Link href="/legal/privacidad" className="hover:text-white transition-colors" data-testid="link-footer-desktop-privacy">{t("footer.privacy")}</Link>
+              <Link href="/legal/reembolsos" className="hover:text-white transition-colors" data-testid="link-footer-desktop-refunds">{t("footer.refunds")}</Link>
+              <Link href="/legal/cookies" className="hover:text-white transition-colors" data-testid="link-footer-desktop-cookies">{t("footer.cookies")}</Link>
             </nav>
           </div>
           
