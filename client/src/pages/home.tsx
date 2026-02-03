@@ -280,7 +280,7 @@ function HowWeWorkSection() {
           <img 
             src={howWeWorkImage} 
             alt="How we work process" 
-            className="w-full max-w-2xl mx-auto"
+            className="w-full max-w-2xl mx-auto mix-blend-multiply dark:mix-blend-screen dark:invert"
             loading="lazy"
           />
         </div>
