@@ -1,7 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { NewsletterSection } from "./newsletter-section";
 import { useTranslation } from "react-i18next";
-import logoIcon from "@/assets/logo-icon.png";
 
 export function Footer() {
   const [location, setLocation] = useLocation();
@@ -34,7 +33,7 @@ export function Footer() {
         {/* Mobile: Title centered at top */}
         <div className="flex flex-col items-center mb-10 md:hidden">
           <Link href="/" className="flex flex-col items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-            <img src={logoIcon} alt="Easy US LLC" className="h-10 w-auto" />
+            <span className="text-white font-black text-2xl">Easy US LLC</span>
           </Link>
           <p className="text-white/70 text-base text-center max-w-xs">
             {t("footer.description")}
@@ -84,7 +83,7 @@ export function Footer() {
         <div className="hidden md:grid md:grid-cols-4 gap-10 text-left">
           <div className="flex flex-col items-start">
             <Link href="/" className="flex items-center gap-3 mb-6" onClick={() => window.scrollTo(0, 0)}>
-              <img src={logoIcon} alt="Easy US LLC" className="h-10 w-auto" />
+              <span className="text-white font-black text-2xl">Easy US LLC</span>
             </Link>
             <p className="text-white/70 text-base max-w-xs">
               {t("footer.description")}
