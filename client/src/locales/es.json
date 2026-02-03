@@ -1263,6 +1263,14 @@
   },
   "tools": {
     "backToDashboard": "Volver al panel",
+    "invoiceGenerator": {
+      "loginRequired": "Acceso Requerido",
+      "loginDescription": "Inicia sesión para usar el generador de facturas."
+    },
+    "priceCalculator": {
+      "loginRequired": "Acceso Requerido",
+      "loginDescription": "Inicia sesión para usar la calculadora de precios."
+    },
     "operatingAgreement": {
       "title": "Generador de Operating Agreement",
       "subtitle": "Genera el documento legal de tu LLC con tus datos validados",

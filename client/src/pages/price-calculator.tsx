@@ -9,6 +9,7 @@ import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslation } from "react-i18next";
 
 interface CostItem {
   id: string;
@@ -23,6 +24,7 @@ function generateId() {
 
 export default function PriceCalculator() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
   const [productName, setProductName] = useState("");
@@ -41,10 +43,10 @@ export default function PriceCalculator() {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
-          <h2 className="text-xl font-bold text-foreground mb-2">Acceso Requerido</h2>
-          <p className="text-muted-foreground text-sm mb-4">Inicia sesión para usar la calculadora de precios.</p>
+          <h2 className="text-xl font-bold text-foreground mb-2">{t("tools.priceCalculator.loginRequired")}</h2>
+          <p className="text-muted-foreground text-sm mb-4">{t("tools.priceCalculator.loginDescription")}</p>
           <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full px-6">
-            Iniciar Sesión
+            {t("auth.login.submit")}
           </Button>
         </div>
       </div>

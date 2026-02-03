@@ -10,6 +10,7 @@ import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
+import { useTranslation } from "react-i18next";
 
 interface InvoiceItem {
   id: string;
@@ -24,6 +25,7 @@ function generateId() {
 
 export default function InvoiceGenerator() {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation();
   
   // All hooks must be called before any conditional returns
   const [issuerName, setIssuerName] = useState("");
@@ -57,10 +59,10 @@ export default function InvoiceGenerator() {
     return (
       <div className="min-h-screen bg-muted flex items-center justify-center px-4">
         <div className="text-center max-w-sm">
-          <h2 className="text-xl font-bold text-foreground mb-2">Acceso Requerido</h2>
-          <p className="text-muted-foreground text-sm mb-4">Inicia sesion para usar el generador de facturas.</p>
+          <h2 className="text-xl font-bold text-foreground mb-2">{t("tools.invoiceGenerator.loginRequired")}</h2>
+          <p className="text-muted-foreground text-sm mb-4">{t("tools.invoiceGenerator.loginDescription")}</p>
           <Button onClick={() => setLocation("/auth/login")} className="bg-accent text-accent-foreground rounded-full px-6">
-            Iniciar Sesion
+            {t("auth.login.submit")}
           </Button>
         </div>
       </div>

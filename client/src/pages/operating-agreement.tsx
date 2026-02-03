@@ -10,7 +10,8 @@ import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "react-i18next";
 import logoGreen from "@assets/logo-green.png";
 
@@ -55,9 +56,23 @@ export default function OperatingAgreementGenerator() {
     effectiveDate: new Date().toISOString().split('T')[0],
   });
   
+  const queryClient = useQueryClient();
+  
   const { data: completedLLCs, isLoading: llcsLoading } = useQuery<CompletedLLC[]>({
     queryKey: ["/api/user/completed-llcs"],
     enabled: isAuthenticated,
+  });
+  
+  const saveDocumentMutation = useMutation({
+    mutationFn: async (data: { llcApplicationId: number; pdfBase64: string; fileName: string }) => {
+      return apiRequest("/api/user/operating-agreements", {
+        method: "POST",
+        body: JSON.stringify(data),
+      });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+    },
   });
   
   const selectedLLC = completedLLCs?.find(llc => String(llc.id) === selectedLlcId);
@@ -485,7 +500,23 @@ export default function OperatingAgreementGenerator() {
       addPageFooter();
       
       const fileName = `Operating_Agreement_${selectedLLC.companyName.replace(/\s+/g, '_')}.pdf`;
+      
+      // Get PDF as base64 for saving to Document Center
+      const pdfBase64 = doc.output('datauristring');
+      
+      // Save to browser
       doc.save(fileName);
+      
+      // Save to Document Center
+      try {
+        await saveDocumentMutation.mutateAsync({
+          llcApplicationId: selectedLLC.id,
+          pdfBase64: pdfBase64,
+          fileName: fileName,
+        });
+      } catch (saveError) {
+        console.error('Error saving to Document Center:', saveError);
+      }
     } catch (error) {
       console.error('Error generating PDF:', error);
     } finally {

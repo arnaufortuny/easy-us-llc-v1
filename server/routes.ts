@@ -1716,6 +1716,7 @@ export async function registerRoutes(
         state: llcApplicationsTable.state,
         ownerFullName: llcApplicationsTable.ownerFullName,
         ownerEmail: llcApplicationsTable.ownerEmail,
+        ownerPhone: llcApplicationsTable.ownerPhone,
         ownerIdNumber: llcApplicationsTable.ownerIdNumber,
         ownerIdType: llcApplicationsTable.ownerIdType,
         ownerAddress: llcApplicationsTable.ownerAddress,
@@ -1737,6 +1738,56 @@ export async function registerRoutes(
     } catch (error) {
       console.error("Error fetching completed LLCs:", error);
       res.status(500).json({ message: "Error fetching completed LLCs" });
+    }
+  });
+
+  // Save Operating Agreement to Document Center
+  app.post("/api/user/operating-agreements", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { llcApplicationId, pdfBase64, fileName } = req.body;
+      
+      if (!llcApplicationId || !pdfBase64 || !fileName) {
+        return res.status(400).json({ message: "Datos incompletos" });
+      }
+      
+      // Verify user owns this LLC application
+      const [llcApp] = await db.select({ orderId: llcApplicationsTable.orderId, ein: llcApplicationsTable.ein, companyName: llcApplicationsTable.companyName })
+        .from(llcApplicationsTable)
+        .where(eq(llcApplicationsTable.id, llcApplicationId))
+        .limit(1);
+      
+      if (!llcApp) {
+        return res.status(404).json({ message: "Aplicación no encontrada" });
+      }
+      
+      // Check ownership via order
+      const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, llcApp.orderId)).limit(1);
+      if (!order || order.userId !== userId) {
+        return res.status(403).json({ message: "Acceso denegado" });
+      }
+      
+      // Verify EIN is assigned (required for Operating Agreement)
+      if (!llcApp.ein) {
+        return res.status(400).json({ message: "No se puede generar sin EIN asignado" });
+      }
+      
+      // Save to Document Center
+      const [doc] = await db.insert(applicationDocumentsTable).values({
+        orderId: llcApp.orderId,
+        userId: userId,
+        fileName: fileName,
+        fileType: "application/pdf",
+        fileUrl: pdfBase64,
+        documentType: "operating_agreement",
+        reviewStatus: "approved",
+        uploadedBy: userId,
+      }).returning();
+      
+      res.json({ success: true, documentId: doc.id });
+    } catch (error) {
+      console.error("Error saving Operating Agreement:", error);
+      res.status(500).json({ message: "Error al guardar documento" });
     }
   });
 
@@ -3348,8 +3399,32 @@ export async function registerRoutes(
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
+      
+      // Security: Check if EIN has been assigned - if so, data is locked
+      const [existingApp] = await db.select({ ein: llcApplicationsTable.ein, orderId: llcApplicationsTable.orderId })
+        .from(llcApplicationsTable)
+        .where(eq(llcApplicationsTable.id, appId))
+        .limit(1);
+      
+      if (!existingApp) {
+        return res.status(404).json({ message: "Aplicación no encontrada" });
+      }
+      
+      // If EIN is assigned, only admin can modify
+      if (existingApp.ein && !req.session.isAdmin) {
+        return res.status(403).json({ message: "Los datos no pueden modificarse después de asignar el EIN. Contacta con soporte." });
+      }
+      
+      // Verify ownership for non-admin users
+      if (existingApp.orderId && !req.session.isAdmin) {
+        const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, existingApp.orderId)).limit(1);
+        if (order && order.userId !== req.session.userId) {
+          return res.status(403).json({ message: "Acceso denegado" });
+        }
+      }
+      
       const [updated] = await db.update(llcApplicationsTable)
-        .set({ ...updates, updatedAt: new Date() })
+        .set({ ...updates, lastUpdated: new Date() })
         .where(eq(llcApplicationsTable.id, appId))
         .returning();
       res.json(updated);

@@ -1263,6 +1263,14 @@
   },
   "tools": {
     "backToDashboard": "Back to dashboard",
+    "invoiceGenerator": {
+      "loginRequired": "Login Required",
+      "loginDescription": "Log in to use the invoice generator."
+    },
+    "priceCalculator": {
+      "loginRequired": "Login Required",
+      "loginDescription": "Log in to use the price calculator."
+    },
     "operatingAgreement": {
       "title": "Operating Agreement Generator",
       "subtitle": "Generate your LLC's legal document with your validated data",
