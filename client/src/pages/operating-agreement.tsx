@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
-import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone, Mail, DollarSign } from "lucide-react";
+import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone, Mail } from "lucide-react";
+import moneyIconPath from "@/assets/icons/money-icon.png";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -669,7 +670,7 @@ export default function OperatingAgreementGenerator() {
                           
                           <div>
                             <Label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
-                              <DollarSign className="w-4 h-4 text-muted-foreground" />
+                              <img src={moneyIconPath} alt="" className="w-4 h-4 opacity-60" />
                               {t("tools.operatingAgreement.capitalContribution")}
                             </Label>
                             <Input

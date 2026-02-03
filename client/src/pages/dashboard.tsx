@@ -7,6 +7,7 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key } from "lucide-react";
 import emailIconPath from "@/assets/icons/email-icon.png";
 import calendarIconPath from "@/assets/icons/calendar-icon.png";
+import moneyIconPath from "@/assets/icons/money-icon.png";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";

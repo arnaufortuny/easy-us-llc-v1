@@ -4,8 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, DollarSign, Percent, Package, Truck, PiggyBank } from "lucide-react";
+import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, Percent, Package, Truck, PiggyBank } from "lucide-react";
 import { Link, useLocation } from "wouter";
+import moneyIconPath from "@/assets/icons/money-icon.png";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -344,7 +345,7 @@ export default function PriceCalculator() {
               <Card className="rounded-2xl border-0 shadow-lg bg-gradient-to-br from-accent to-green-600 text-white overflow-hidden">
                 <CardContent className="p-5 md:p-6">
                   <div className="flex items-center gap-2 mb-4">
-                    <DollarSign className="w-5 h-5" />
+                    <img src={moneyIconPath} alt="" className="w-5 h-5" />
                     <h2 className="font-bold">Precio Recomendado</h2>
                   </div>
                   

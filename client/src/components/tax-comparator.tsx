@@ -5,8 +5,8 @@ import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
-import moneyIcon from "@/assets/images/money-icon.png";
-import emailIcon from "@/assets/images/email-icon.png";
+import moneyIcon from "@/assets/icons/money-icon.png";
+import emailIcon from "@/assets/icons/email-icon.png";
 
 interface TaxBreakdown {
   income: number;
