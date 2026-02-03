@@ -314,7 +314,7 @@ function HowWeWorkSection() {
         </div>
       </section>
 
-      <section className="py-16 sm:py-20 bg-accent/5 border-y border-accent/10">
+      <section className="py-16 sm:py-24 bg-[#0A0A0A] text-white border-y border-white/5">
         <div className="w-full max-w-5xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-12 flex flex-col items-center justify-center">
             <motion.h2 
@@ -337,10 +337,10 @@ function HowWeWorkSection() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
+            <div className="bg-[#141414] p-8 rounded-2xl shadow-sm border border-white/5 flex flex-col items-center text-center">
               <div className="mb-6">
                 <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="18" y="20" width="60" height="70" rx="10" fill="#E8F7EE"/>
+                  <rect x="18" y="20" width="60" height="70" rx="10" fill="#E8F7EE" fillOpacity="0.1"/>
                   <rect x="24" y="30" width="48" height="6" rx="3" fill="#34C759"/>
                   <rect x="24" y="44" width="36" height="6" rx="3" fill="#34C759" opacity="0.6"/>
                   <rect x="24" y="58" width="28" height="6" rx="3" fill="#34C759" opacity="0.4"/>
@@ -350,11 +350,11 @@ function HowWeWorkSection() {
                   <rect x="78" y="58" width="10" height="7" fill="#1F2933"/>
                 </svg>
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step1.text")}</p>
+              <h3 className="text-xl font-black mb-3 text-white">{t("timing.steps.step1.title")}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">{t("timing.steps.step1.text")}</p>
               <div className="mt-auto">
                 <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="36" r="34" fill="#22C55E" fillOpacity="0.1"/>
                   <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
                   <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
                   <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
@@ -365,21 +365,21 @@ function HowWeWorkSection() {
               </div>
             </div>
 
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10">
+            <div className="bg-[#141414] p-8 rounded-2xl shadow-sm border border-white/10 flex flex-col items-center text-center relative md:scale-105 z-10">
               <div className="mb-6">
                 <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="25" y="30" width="70" height="55" rx="12" fill="#E8F7EE"/>
+                  <rect x="25" y="30" width="70" height="55" rx="12" fill="#E8F7EE" fillOpacity="0.1"/>
                   <rect x="35" y="45" width="50" height="8" rx="4" fill="#34C759"/>
                   <rect x="35" y="60" width="35" height="8" rx="4" fill="#34C759" opacity="0.6"/>
                   <path d="M60 20 L75 28 L75 45 C75 55 67 63 60 66 C53 63 45 55 45 45 L45 28 Z" fill="#34C759"/>
                   <path d="M54 42 L59 47 L67 35" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step2.text")}</p>
+              <h3 className="text-xl font-black mb-3 text-white">{t("timing.steps.step2.title")}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">{t("timing.steps.step2.text")}</p>
               <div className="mt-auto">
                 <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="36" r="34" fill="#22C55E" fillOpacity="0.1"/>
                   <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
                   <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
                   <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
@@ -390,10 +390,10 @@ function HowWeWorkSection() {
               </div>
             </div>
 
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
+            <div className="bg-[#141414] p-8 rounded-2xl shadow-sm border border-white/5 flex flex-col items-center text-center">
               <div className="mb-6">
                 <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="30" y="40" width="60" height="40" rx="8" fill="#E8F7EE"/>
+                  <rect x="30" y="40" width="60" height="40" rx="8" fill="#E8F7EE" fillOpacity="0.1"/>
                   <rect x="36" y="48" width="48" height="20" rx="4" fill="#34C759"/>
                   <rect x="40" y="52" width="22" height="4" rx="2" fill="white"/>
                   <rect x="40" y="60" width="30" height="4" rx="2" fill="white" opacity="0.7"/>
@@ -402,11 +402,11 @@ function HowWeWorkSection() {
                   <polygon points="25,40 60,20 95,40" fill="#34C759"/>
                 </svg>
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed mb-6">{t("timing.steps.step3.text")}</p>
+              <h3 className="text-xl font-black mb-3 text-white">{t("timing.steps.step3.title")}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-6">{t("timing.steps.step3.text")}</p>
               <div className="mt-auto">
                 <svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-14 h-14">
-                  <circle cx="36" cy="36" r="34" fill="#E8F6EE"/>
+                  <circle cx="36" cy="36" r="34" fill="#22C55E" fillOpacity="0.1"/>
                   <circle cx="36" cy="32" r="16" stroke="#22C55E" stroke-width="3"/>
                   <circle cx="36" cy="32" r="2.5" fill="#22C55E"/>
                   <line x1="36" y1="32" x2="36" y2="22" stroke="#16A34A" stroke-width="3" stroke-linecap="round"/>
@@ -416,12 +416,6 @@ function HowWeWorkSection() {
                 </svg>
               </div>
             </div>
-          </div>
-
-          <div className="mt-12 text-center bg-white/50 dark:bg-zinc-900/50 p-6 rounded-2xl border border-dashed border-border max-w-2xl mx-auto">
-            <p className="text-sm text-muted-foreground italic font-medium">
-              {t("timing.disclaimer")}
-            </p>
           </div>
         </div>
       </section>
