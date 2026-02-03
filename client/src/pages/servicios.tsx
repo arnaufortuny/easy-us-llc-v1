@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
 import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -108,10 +109,23 @@ export default function Servicios() {
       <section className="py-16 sm:py-20 bg-background relative" id="que-hacemos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <span className="text-accent">{t("services.whatWeDo.title")}</span>
-            </h2>
-            <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 bg-foreground mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            />
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
@@ -132,11 +146,24 @@ export default function Servicios() {
       <section className="py-16 sm:py-20 bg-background" id="pricing">
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.formation")}</span>
-            </h2>
-            <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            />
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0">
@@ -289,13 +316,26 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-background relative" id="bancos">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+            <motion.h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" 
+              style={{ fontWeight: 900 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <span className="text-foreground">{t("services.banks.sectionTitle")}</span>{" "}
               <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               {t("services.banks.subtitle")}
-            </p>
+            </motion.p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {bankItems.map((item, i) => (
@@ -316,11 +356,24 @@ export default function Servicios() {
           </div>
 
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }}>
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
-            </h2>
-            <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
+            </motion.h2>
+            <motion.div 
+              className="w-24 h-1 bg-foreground mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
             {[
@@ -364,13 +417,26 @@ export default function Servicios() {
       <section className="py-12 sm:py-20 bg-background relative" id="proceso">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-16 flex flex-col items-center justify-center relative">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" style={{ fontWeight: 900 }}>
+            <motion.h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center" 
+              style={{ fontWeight: 900 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               <span className="text-foreground">{t("services.process.title")}</span>{" "}
               <span className="text-accent">{t("services.process.titleHighlight")}</span>
-            </h2>
-            <p className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center">
+            </motion.h2>
+            <motion.p 
+              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.15, ease: [0.25, 0.1, 0.25, 1] }}
+            >
               {t("services.management.subtitle")}
-            </p>
+            </motion.p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto">

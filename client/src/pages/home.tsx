@@ -120,8 +120,22 @@ export default function Home() {
       <section className="bg-background py-16 sm:py-20 relative" id="ventajas">
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }} />
-            <div className="w-24 h-1 bg-accent mt-6 rounded-full" />
+            <motion.h2 
+              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+              style={{ fontWeight: 900 }} 
+              dangerouslySetInnerHTML={{ __html: t("benefits.sectionTitle") }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+            />
+            <motion.div 
+              className="w-24 h-1 bg-accent mt-6 rounded-full"
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+            />
           </div>
           
           <BenefitsCards />
@@ -241,8 +255,22 @@ function HowWeWorkSection() {
     <section className="py-16 sm:py-20 bg-background">
       <div className="w-full max-w-4xl mx-auto px-5 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" style={{ fontWeight: 900 }} dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }} />
-          <div className="w-24 h-1 bg-foreground mt-6 rounded-full" />
+          <motion.h2 
+            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
+            style={{ fontWeight: 900 }} 
+            dangerouslySetInnerHTML={{ __html: t("howWeWork.title") }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+          />
+          <motion.div 
+            className="w-24 h-1 bg-foreground mt-6 rounded-full"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+          />
         </div>
         
         <div className="mb-10 sm:mb-14">
@@ -317,17 +345,17 @@ function PorQueEasyUSLLC() {
             className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
             style={{ fontWeight: 900 }} 
             dangerouslySetInnerHTML={{ __html: t("whyUs.sectionTitle") }}
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
           />
           <motion.div 
             className="w-24 h-1 bg-accent mt-6 rounded-full"
-            initial={{ scaleX: 0, opacity: 0 }}
-            whileInView={{ scaleX: 1, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, delay: 0.2, ease: [0.25, 0.1, 0.25, 1] }}
           />
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
