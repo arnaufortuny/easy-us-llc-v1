@@ -53,7 +53,7 @@ function _NewsletterToggleLegacy() {
     }
   });
 
-  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-zinc-700 animate-pulse rounded-full" />;
+  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-muted animate-pulse rounded-full" />;
 
   return (
     <Switch 
@@ -688,7 +688,7 @@ export default function Dashboard() {
         <Navbar />
         <main className="flex-1 flex items-center justify-center px-4 py-8 sm:py-12">
           <div className="max-w-md w-full">
-            <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-zinc-900">
+            <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-card">
               <div className="bg-red-500 h-2 w-full" />
               <CardContent className="p-6 sm:p-8 md:p-12 text-center">
                 <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-50 dark:bg-red-950/30 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
@@ -737,7 +737,7 @@ export default function Dashboard() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Estado de cuenta */}
-            <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-zinc-900">
+            <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-card">
               <div className={`h-1.5 w-full ${!user?.emailVerified ? 'bg-orange-500' : 'bg-amber-500'}`} />
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
@@ -848,7 +848,7 @@ export default function Dashboard() {
             </Card>
 
             {/* Notificaciones */}
-            <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-zinc-900">
+            <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-card">
               <div className="bg-accent h-1.5 w-full" />
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-3 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
@@ -1138,7 +1138,7 @@ export default function Dashboard() {
                       </label>
                     ) : (
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-zinc-800 rounded-xl">
+                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-muted rounded-xl">
                           <FileUp className="w-8 h-8 text-accent shrink-0" />
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm truncate text-foreground">{uploadDialog.file.name}</p>
@@ -1160,7 +1160,7 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={uploadDocType} 
                             onValueChange={setUploadDocType}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-muted"
                             data-testid="select-upload-doc-type-inline"
                           >
                             <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
@@ -1224,7 +1224,7 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     
                     {userDocuments?.map((doc: any) => (
-                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white dark:bg-zinc-900">
+                      <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white dark:bg-card">
                         <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
                         <h3 className="font-bold text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
                         <p className="text-[9px] md:text-[10px] text-muted-foreground mb-3">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
@@ -1252,7 +1252,7 @@ export default function Dashboard() {
                   </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-payments-empty">
+                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
                           <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
                             <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-accent" />
@@ -1270,7 +1270,7 @@ export default function Dashboard() {
                       </Card>
                     ) : (
                       orders.map((order: any) => (
-                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-zinc-900">
+                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
                           <div>
                             <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
@@ -1314,7 +1314,7 @@ export default function Dashboard() {
                         const nextDeadline = sortedDates.find(d => new Date(d.date) > new Date());
                         
                         return (
-                          <Card key={order.id} className={`rounded-xl md:rounded-2xl border shadow-sm bg-white dark:bg-zinc-900 overflow-hidden ${isCancelled ? 'opacity-50' : ''}`}>
+                          <Card key={order.id} className={`rounded-xl md:rounded-2xl border shadow-sm bg-white dark:bg-card overflow-hidden ${isCancelled ? 'opacity-50' : ''}`}>
                             <CardHeader className="p-3 md:p-4 pb-2 md:pb-3 border-b bg-muted/30">
                               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                                 <CardTitle className="text-sm md:text-base font-black flex items-center gap-2 flex-wrap">
@@ -1411,7 +1411,7 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
                         <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12" />
                         <div>
@@ -1436,7 +1436,7 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground mt-1">Utilidades para gestionar tu negocio</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
                           <Receipt className="w-6 h-6 text-accent" />
@@ -1453,7 +1453,7 @@ export default function Dashboard() {
                       </div>
                     </Card>
                     
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex items-start gap-4">
                         <div className="w-12 h-12 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
                           <Calculator className="w-6 h-6 text-blue-500" />
@@ -1524,7 +1524,7 @@ export default function Dashboard() {
                         className={`flex items-center justify-center gap-1.5 rounded-full font-bold text-[10px] sm:text-xs h-9 px-3 ${
                           adminSubTab === item.id 
                           ? 'bg-accent text-primary shadow-md' 
-                          : 'bg-white dark:bg-zinc-900 text-muted-foreground border border-border hover:border-accent/50'
+                          : 'bg-white dark:bg-card text-muted-foreground border border-border hover:border-accent/50'
                         }`}
                         data-testid={`button-admin-tab-${item.id}`}
                       >
@@ -1534,12 +1534,12 @@ export default function Dashboard() {
                     ))}
                   </div>
                   <div className="flex gap-2 mb-4">
-                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-zinc-800 shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
                       <Plus className="w-3 h-3 mr-1" />
                       <span className="hidden sm:inline">Nuevo Cliente</span>
                       <span className="sm:hidden">Cliente</span>
                     </Button>
-                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-zinc-800 shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                    <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
                       <Plus className="w-3 h-3 mr-1" />
                       <span className="hidden sm:inline">Nuevo Pedido</span>
                       <span className="sm:hidden">Pedido</span>
@@ -1684,7 +1684,7 @@ export default function Dashboard() {
                               <NativeSelect 
                                 value={order.status} 
                                 onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
-                                className="w-28 h-9 rounded-lg text-xs bg-white dark:bg-zinc-900 border px-3 relative z-0"
+                                className="w-28 h-9 rounded-lg text-xs bg-white dark:bg-card border px-3 relative z-0"
                               >
                                 <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
                                 <NativeSelectItem value="paid">Pagado</NativeSelectItem>
@@ -1816,7 +1816,7 @@ export default function Dashboard() {
                                 <NativeSelect 
                                   value={u.accountStatus || 'active'} 
                                   onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}
-                                  className="w-full h-9 rounded-full text-xs bg-white dark:bg-zinc-900 border shadow-sm px-3"
+                                  className="w-full h-9 rounded-full text-xs bg-white dark:bg-card border shadow-sm px-3"
                                 >
                                   <NativeSelectItem value="active">Verificado</NativeSelectItem>
                                   <NativeSelectItem value="pending">En revisión</NativeSelectItem>
@@ -1864,7 +1864,7 @@ export default function Dashboard() {
                           if (!app) return null;
                           const fiscalOrderCode = app?.requestCode || order.invoiceNumber;
                           return (
-                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-zinc-800/50">
+                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-muted/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
@@ -1874,7 +1874,7 @@ export default function Dashboard() {
                               </div>
                               {/* Fechas - Grid compacto en móvil */}
                               <div className="grid grid-cols-2 gap-2 md:gap-4">
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Creación LLC</Label>
                                   <Input 
                                     type="date" 
@@ -1884,7 +1884,7 @@ export default function Dashboard() {
                                     data-testid={`input-llc-created-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Renovación Agente</Label>
                                   <Input 
                                     type="date" 
@@ -1894,7 +1894,7 @@ export default function Dashboard() {
                                     data-testid={`input-agent-renewal-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 1120</Label>
                                   <Input 
                                     type="date" 
@@ -1904,7 +1904,7 @@ export default function Dashboard() {
                                     data-testid={`input-irs1120-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">IRS 5472</Label>
                                   <Input 
                                     type="date" 
@@ -1914,7 +1914,7 @@ export default function Dashboard() {
                                     data-testid={`input-irs5472-${app.id}`}
                                   />
                                 </div>
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Reporte Anual</Label>
                                   <Input 
                                     type="date" 
@@ -1927,7 +1927,7 @@ export default function Dashboard() {
                               </div>
                               {/* EIN Field */}
                               <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t">
-                                <div className="bg-white dark:bg-zinc-900 p-2 md:p-3 rounded-lg md:rounded-xl border">
+                                <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
                                   <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block">EIN (Employer Identification Number)</Label>
                                   <Input 
                                     type="text" 
@@ -2440,7 +2440,7 @@ export default function Dashboard() {
           </div>
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
-            <section className="bg-white dark:bg-zinc-900 p-6 md:p-8 rounded-[2rem] shadow-sm">
+            <section className="bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm">
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
                   <Clock className="w-5 h-5 text-accent" /> Notificaciones
@@ -2450,7 +2450,7 @@ export default function Dashboard() {
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
                   <>
-                    <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-3 mb-4">
+                    <div className="bg-gray-50 dark:bg-muted rounded-xl p-3 mb-4">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
                           <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">Pedido: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
@@ -2513,7 +2513,7 @@ export default function Dashboard() {
       {user?.isAdmin && (
         <>
           <Sheet open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-6">
                 <SheetTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</SheetDescription>
@@ -2521,7 +2521,7 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800" data-testid="input-note-title" />
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted" data-testid="input-note-title" />
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
@@ -2538,7 +2538,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <SheetContent className="bg-white dark:bg-zinc-900 overflow-y-auto">
+            <SheetContent className="bg-white dark:bg-card overflow-y-auto">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Editar Usuario</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</SheetDescription>
@@ -2548,20 +2548,20 @@ export default function Dashboard() {
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nombre</Label>
-                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-firstname" />
+                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-firstname" />
                     </div>
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">Apellidos</Label>
-                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-lastname" />
+                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-lastname" />
                     </div>
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>
-                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-email" />
+                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-email" />
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Teléfono</Label>
-                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-phone" />
+                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-phone" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
@@ -2570,7 +2570,7 @@ export default function Dashboard() {
                         value={editingUser.idType || ''} 
                         onValueChange={val => setEditingUser({...editingUser, idType: val})}
                         placeholder="Seleccionar"
-                        className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm"
+                        className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm"
                       >
                         <NativeSelectItem value="dni">DNI</NativeSelectItem>
                         <NativeSelectItem value="nie">NIE</NativeSelectItem>
@@ -2579,12 +2579,12 @@ export default function Dashboard() {
                     </div>
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">Número ID</Label>
-                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-idnumber" />
+                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-idnumber" />
                     </div>
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Fecha Nacimiento</Label>
-                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-birthdate" />
+                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-birthdate" />
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Actividad de Negocio</Label>
@@ -2592,7 +2592,7 @@ export default function Dashboard() {
                       value={editingUser.businessActivity || ''} 
                       onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
                       placeholder="Seleccionar actividad"
-                      className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm"
+                      className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm"
                       data-testid="select-edit-activity"
                     >
                       <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
@@ -2607,26 +2607,26 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Dirección</Label>
-                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-address" />
+                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-address" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">Ciudad</Label>
-                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-city" />
+                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-city" />
                     </div>
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">CP</Label>
-                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-postal" />
+                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-postal" />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">Provincia</Label>
-                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-province" />
+                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-province" />
                     </div>
                     <div>
                       <Label className="text-xs font-semibold text-foreground mb-1.5 block">País</Label>
-                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-zinc-700 text-sm" data-testid="input-edit-country" />
+                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-country" />
                     </div>
                   </div>
                   <div>
@@ -2660,7 +2660,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-black text-red-600">Eliminar Usuario</SheetTitle>
               </SheetHeader>
@@ -2678,7 +2678,7 @@ export default function Dashboard() {
           </Sheet>
           
           <Sheet open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-black text-red-600">Eliminar Pedido</SheetTitle>
               </SheetHeader>
@@ -2697,7 +2697,7 @@ export default function Dashboard() {
           </Sheet>
           
           <Sheet open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Generar Factura</SheetTitle>
               </SheetHeader>
@@ -2710,7 +2710,7 @@ export default function Dashboard() {
                     step="0.01" 
                     value={orderInvoiceAmount} 
                     onChange={e => setOrderInvoiceAmount(e.target.value)}
-                    className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                    className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                     placeholder="739.00"
                     data-testid="input-invoice-amount"
                   />
@@ -2720,7 +2720,7 @@ export default function Dashboard() {
                   <NativeSelect 
                     value={orderInvoiceCurrency} 
                     onValueChange={setOrderInvoiceCurrency}
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                   >
                     <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
                     <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
@@ -2769,7 +2769,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</SheetDescription>
@@ -2781,7 +2781,7 @@ export default function Dashboard() {
                     value={docType} 
                     onValueChange={setDocType}
                     placeholder="Seleccionar tipo..."
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                   >
                     <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
                     <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
@@ -2823,7 +2823,7 @@ export default function Dashboard() {
           </Sheet>
 
           <Sheet open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <SheetContent className="bg-white dark:bg-zinc-900">
+            <SheetContent className="bg-white dark:bg-card">
               <SheetHeader className="mb-4">
                 <SheetTitle className="text-xl font-semibold text-foreground">Crear Factura</SheetTitle>
                 <SheetDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</SheetDescription>
@@ -2836,7 +2836,7 @@ export default function Dashboard() {
                     value={invoiceConcept} 
                     onChange={e => setInvoiceConcept(e.target.value)} 
                     placeholder="Ej: Servicio de consultoría" 
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                     data-testid="input-invoice-concept"
                   />
                 </div>
@@ -2848,7 +2848,7 @@ export default function Dashboard() {
                       value={invoiceAmount} 
                       onChange={e => setInvoiceAmount(e.target.value)} 
                       placeholder="739" 
-                      className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                      className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                       data-testid="input-invoice-amount"
                     />
                   </div>
@@ -2857,7 +2857,7 @@ export default function Dashboard() {
                     <NativeSelect 
                       value={invoiceCurrency} 
                       onValueChange={setInvoiceCurrency}
-                      className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-zinc-700"
+                      className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border"
                       data-testid="select-invoice-currency"
                     >
                       <NativeSelectItem value="EUR">EUR</NativeSelectItem>
@@ -2888,7 +2888,7 @@ export default function Dashboard() {
       )}
 
       <Sheet open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</SheetTitle>
           </SheetHeader>
@@ -2907,7 +2907,7 @@ export default function Dashboard() {
 
       
       <Sheet open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</SheetTitle>
             <SheetDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</SheetDescription>
@@ -2916,24 +2916,24 @@ export default function Dashboard() {
             <div className="grid grid-cols-2 gap-3">
               <div>
                 <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
-                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-firstname" />
+                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-firstname" />
               </div>
               <div>
                 <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
-                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-lastname" />
+                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-lastname" />
               </div>
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
-              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-email" />
+              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-email" />
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
-              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-phone" />
+              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-phone" />
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
-              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-create-user-password" />
+              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-password" />
             </div>
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
@@ -2946,7 +2946,7 @@ export default function Dashboard() {
       </Sheet>
 
       <Sheet open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</SheetTitle>
             <SheetDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</SheetDescription>
@@ -2958,7 +2958,7 @@ export default function Dashboard() {
                 value={newOrderData.userId} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
                 placeholder="Seleccionar cliente..."
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="select-order-user"
               >
                 {adminUsers?.map((u: any) => (
@@ -2972,7 +2972,7 @@ export default function Dashboard() {
                 value={newOrderData.state} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}
                 placeholder="Seleccionar estado"
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="select-order-state"
               >
                 <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
@@ -2982,7 +2982,7 @@ export default function Dashboard() {
             </div>
             <div>
               <Label className="text-sm font-semibold text-foreground mb-2 block">Importe (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" data-testid="input-order-amount" />
+              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-order-amount" />
             </div>
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
@@ -2995,7 +2995,7 @@ export default function Dashboard() {
       </Sheet>
 
       <Sheet open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <SheetContent className="bg-white dark:bg-zinc-900 overflow-y-auto">
+        <SheetContent className="bg-white dark:bg-card overflow-y-auto">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">
               {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
@@ -3010,7 +3010,7 @@ export default function Dashboard() {
               <Input 
                 value={newDiscountCode.code} 
                 onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700 uppercase" 
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border uppercase" 
                 disabled={!!discountCodeDialog.code}
                 data-testid="input-discount-code" 
               />
@@ -3021,7 +3021,7 @@ export default function Dashboard() {
                 <NativeSelect 
                   value={newDiscountCode.discountType} 
                   onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
-                  className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-zinc-700"
+                  className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border"
                   data-testid="select-discount-type"
                 >
                   <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
@@ -3036,7 +3036,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.discountValue} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                   data-testid="input-discount-value" 
                 />
               </div>
@@ -3048,7 +3048,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.minOrderAmount} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                   data-testid="input-discount-min-amount" 
                 />
               </div>
@@ -3058,7 +3058,7 @@ export default function Dashboard() {
                   type="number" 
                   value={newDiscountCode.maxUses} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                   data-testid="input-discount-max-uses" 
                 />
               </div>
@@ -3070,7 +3070,7 @@ export default function Dashboard() {
                   type="date" 
                   value={newDiscountCode.validFrom} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                   data-testid="input-discount-valid-from" 
                 />
               </div>
@@ -3080,7 +3080,7 @@ export default function Dashboard() {
                   type="date" 
                   value={newDiscountCode.validUntil} 
                   onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700" 
+                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
                   data-testid="input-discount-valid-until" 
                 />
               </div>
@@ -3138,7 +3138,7 @@ export default function Dashboard() {
           setEmailVerificationCode("");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Verifica tu correo electrónico</SheetTitle>
             <SheetDescription>Te hemos enviado un código de verificación para confirmar tu email</SheetDescription>
@@ -3223,7 +3223,7 @@ export default function Dashboard() {
           setPaymentLinkMessage("");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Enviar Link de Pago</SheetTitle>
             <SheetDescription>
@@ -3237,7 +3237,7 @@ export default function Dashboard() {
                 value={paymentLinkUrl}
                 onChange={(e) => setPaymentLinkUrl(e.target.value)}
                 placeholder="https://..."
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="input-payment-link-url"
               />
             </div>
@@ -3247,7 +3247,7 @@ export default function Dashboard() {
                 value={paymentLinkAmount}
                 onChange={(e) => setPaymentLinkAmount(e.target.value)}
                 placeholder="Ej: 739€"
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="input-payment-link-amount"
               />
             </div>
@@ -3313,7 +3313,7 @@ export default function Dashboard() {
           setAdminDocType("articles_of_organization");
         }
       }}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</SheetTitle>
             <SheetDescription>
@@ -3329,7 +3329,7 @@ export default function Dashboard() {
               <NativeSelect
                 value={adminDocType}
                 onValueChange={setAdminDocType}
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-zinc-700"
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
               >
                 <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
                 <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
@@ -3352,7 +3352,7 @@ export default function Dashboard() {
                     if (file) setAdminDocFile(file);
                   }}
                 />
-                <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-gray-200 dark:border-zinc-700'}`}>
+                <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-gray-200 dark:border-border'}`}>
                   {adminDocFile ? (
                     <div className="flex items-center justify-center gap-2">
                       <FileUp className="w-5 h-5 text-accent" />
@@ -3418,7 +3418,7 @@ export default function Dashboard() {
         setResetPasswordDialog({ open, user: open ? resetPasswordDialog.user : null });
         if (!open) setNewAdminPassword("");
       }}>
-        <SheetContent className="bg-white dark:bg-zinc-900">
+        <SheetContent className="bg-white dark:bg-card">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-xl font-black">Restablecer Contraseña</SheetTitle>
             <SheetDescription>Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</SheetDescription>

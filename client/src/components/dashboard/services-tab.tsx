@@ -64,7 +64,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       );})}
       
       {(!orders || orders.length === 0) ? (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
+        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
               <Package className="w-6 h-6 md:w-8 md:h-8 text-accent" />
@@ -106,7 +106,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
               <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">Todos los Pedidos</h3>
               <div className="space-y-2 md:space-y-3">
                 {orders.map((order) => (
-                  <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-zinc-900 overflow-hidden" data-testid={`card-order-${order.id}`}>
+                  <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-card overflow-hidden" data-testid={`card-order-${order.id}`}>
                     <div className="flex items-center justify-between p-3 md:p-4 gap-2">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-0.5">

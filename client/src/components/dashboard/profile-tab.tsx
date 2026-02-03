@@ -77,7 +77,7 @@ export function ProfileTab({
         <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Perfil</h2>
         <p className="text-sm text-muted-foreground mt-1">Tus datos personales y configuración de cuenta</p>
       </div>
-      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-zinc-900">
+      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-card">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg md:text-xl font-semibold text-foreground">Datos Personales</h3>
           {canEdit && (
@@ -122,16 +122,16 @@ export function ProfileTab({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">Nombre</Label>
-              {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} placeholder="Tu nombre real" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.firstName || '-'}</div>}
+              {isEditing && canEdit ? <Input value={profileData.firstName} onChange={e => setProfileData({...profileData, firstName: e.target.value})} placeholder="Tu nombre real" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-firstname" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.firstName || '-'}</div>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">Apellidos</Label>
-              {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} placeholder="Tal y como aparecen en tu documento" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.lastName || '-'}</div>}
+              {isEditing && canEdit ? <Input value={profileData.lastName} onChange={e => setProfileData({...profileData, lastName: e.target.value})} placeholder="Tal y como aparecen en tu documento" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-lastname" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.lastName || '-'}</div>}
             </div>
           </div>
           <div className="space-y-1">
             <Label>Email</Label>
-            <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg flex justify-between items-center text-sm">
+            <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg flex justify-between items-center text-sm">
               <span>{user?.email}</span>
               {user?.emailVerified ? (
                 <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -153,7 +153,7 @@ export function ProfileTab({
           </div>
           <div className="space-y-1">
             <Label className="text-xs font-bold text-muted-foreground">Teléfono</Label>
-            {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder="Para contactarte si es necesario" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
+            {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder="Para contactarte si es necesario" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-phone" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.phone || 'No proporcionado'}</div>}
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-1">
@@ -163,23 +163,23 @@ export function ProfileTab({
                   value={profileData.idType} 
                   onValueChange={val => setProfileData({...profileData, idType: val})}
                   placeholder="DNI · NIE · Pasaporte"
-                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                  className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                   data-testid="select-idtype"
                 >
                   <NativeSelectItem value="dni">DNI</NativeSelectItem>
                   <NativeSelectItem value="nie">NIE</NativeSelectItem>
                   <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
                 </NativeSelect>
-              ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
+              ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.idType === 'dni' ? 'DNI' : user?.idType === 'nie' ? 'NIE' : user?.idType === 'passport' ? 'Pasaporte' : 'No proporcionado'}</div>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">Número de documento</Label>
-              {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Documento de identificación" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
+              {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder="Documento de identificación" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" data-testid="input-idnumber" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.idNumber || 'No proporcionado'}</div>}
             </div>
           </div>
           <div className="space-y-1 max-w-[200px]">
             <Label className="text-xs font-bold text-muted-foreground">Fecha de nacimiento</Label>
-            {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-10 px-4 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-sm" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
+            {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className="rounded-full h-10 px-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-sm" data-testid="input-birthdate" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.birthDate || 'No proporcionado'}</div>}
           </div>
           <div className="space-y-1">
             <Label className="text-xs font-bold text-muted-foreground">Actividad profesional</Label>
@@ -188,7 +188,7 @@ export function ProfileTab({
                 value={profileData.businessActivity} 
                 onValueChange={val => setProfileData({...profileData, businessActivity: val})}
                 placeholder="A qué te dedicas"
-                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 data-testid="select-activity"
               >
                 <NativeSelectItem value="ecommerce">E-commerce</NativeSelectItem>
@@ -200,7 +200,7 @@ export function ProfileTab({
                 <NativeSelectItem value="freelance">Freelance</NativeSelectItem>
                 <NativeSelectItem value="other">Otra</NativeSelectItem>
               </NativeSelect>
-            ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
+            ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.businessActivity || 'No proporcionado'}</div>}
           </div>
           <div className="pt-4 border-t border-border">
             <h4 className="font-bold text-sm mb-3">Dirección de residencia</h4>
@@ -212,7 +212,7 @@ export function ProfileTab({
                     value={profileData.streetType} 
                     onValueChange={val => setProfileData({...profileData, streetType: val})}
                     placeholder="Calle · Avenida · Paseo · Plaza"
-                    className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 bg-white dark:bg-zinc-800"
+                    className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                     data-testid="select-street-type"
                   >
                     <NativeSelectItem value="calle">Calle</NativeSelectItem>
@@ -220,29 +220,29 @@ export function ProfileTab({
                     <NativeSelectItem value="paseo">Paseo</NativeSelectItem>
                     <NativeSelectItem value="plaza">Plaza</NativeSelectItem>
                   </NativeSelect>
-                ) : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.streetType || '-'}</div>}
+                ) : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.streetType || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">Dirección</Label>
-                {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.address || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.address} onChange={e => setProfileData({...profileData, address: e.target.value})} placeholder="Calle y número" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.address || '-'}</div>}
               </div>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mt-4">
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">Ciudad</Label>
-                {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} placeholder="Ciudad de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.city || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.city} onChange={e => setProfileData({...profileData, city: e.target.value})} placeholder="Ciudad de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.city || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">Provincia</Label>
-                {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} placeholder="Provincia o región" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.province || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.province} onChange={e => setProfileData({...profileData, province: e.target.value})} placeholder="Provincia o región" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.province || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">C.P.</Label>
-                {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} placeholder="Código postal" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.postalCode || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.postalCode} onChange={e => setProfileData({...profileData, postalCode: e.target.value})} placeholder="Código postal" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.postalCode || '-'}</div>}
               </div>
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">País</Label>
-                {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} placeholder="País de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-zinc-700 focus:border-accent bg-white dark:bg-zinc-800 transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-zinc-800 rounded-lg text-sm">{user?.country || '-'}</div>}
+                {isEditing && canEdit ? <Input value={profileData.country} onChange={e => setProfileData({...profileData, country: e.target.value})} placeholder="País de residencia" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-all font-medium text-foreground text-base" /> : <div className="p-3 bg-gray-50 dark:bg-muted rounded-lg text-sm">{user?.country || '-'}</div>}
               </div>
             </div>
           </div>
@@ -275,7 +275,7 @@ export function ProfileTab({
             )}
           </div>
           {showPasswordForm && (
-            <div className="space-y-3 p-4 bg-gray-50 dark:bg-zinc-800 rounded-xl">
+            <div className="space-y-3 p-4 bg-gray-50 dark:bg-muted rounded-xl">
               {passwordStep === 'form' && (
                 <>
                   <div className="space-y-1">

@@ -69,7 +69,7 @@ function DialogContentInner({ className, children, ...props }: React.ComponentPr
             onCloseAutoFocus={(e) => e.preventDefault()}
             className={cn(
               "relative w-full max-w-md my-auto",
-              "bg-white dark:bg-zinc-900 border border-border",
+              "bg-white dark:bg-card border border-border",
               "rounded-xl shadow-2xl",
               "max-h-[85vh] overflow-y-auto overscroll-contain",
               "p-4 sm:p-6",

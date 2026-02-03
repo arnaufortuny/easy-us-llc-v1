@@ -108,7 +108,7 @@ export default function PriceCalculator() {
   };
 
   return (
-    <div className="min-h-screen bg-muted dark:bg-zinc-950 flex flex-col">
+    <div className="min-h-screen bg-muted dark:bg-background flex flex-col">
       <Navbar />
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">

@@ -141,7 +141,7 @@ export function getOrderStatusLabel(status: string, t: (key: string) => string):
     completed: { label: t('dashboard.orders.status.completed'), className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
     cancelled: { label: t('dashboard.orders.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 font-black' },
     filed: { label: t('dashboard.orders.status.filed'), className: 'bg-indigo-100 dark:bg-indigo-900/50 text-indigo-800 dark:text-indigo-300' },
-    draft: { label: t('dashboard.orders.status.draft'), className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' },
+    draft: { label: t('dashboard.orders.status.draft'), className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' },
   };
-  return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-zinc-700 text-gray-600 dark:text-gray-300' };
+  return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' };
 }

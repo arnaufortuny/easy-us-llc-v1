@@ -143,7 +143,7 @@
     }
   },
   "timing": {
-    "title": "EN 48-72 HORAS, TODO LISTO",
+    "title": "<span class='text-white bg-black px-4 py-1 inline-block'>EN 48-72 HORAS</span><br/>TODO LISTO",
     "mostPopular": "MÁS POPULAR",
     "steps": {
       "step1": {

@@ -27,11 +27,11 @@ const toastVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-white dark:bg-zinc-900 text-foreground shadow-xl shadow-black/10 dark:shadow-black/30 border border-gray-100 dark:border-zinc-800",
-        destructive: "bg-white dark:bg-zinc-900 text-foreground shadow-xl shadow-red-500/10 border-l-4 border-l-red-500 border border-red-100 dark:border-red-900/50",
-        success: "bg-white dark:bg-zinc-900 text-foreground shadow-xl shadow-green-500/10 border-l-4 border-l-[#6EDC8A] border border-green-100 dark:border-green-900/50",
-        warning: "bg-white dark:bg-zinc-900 text-foreground shadow-xl shadow-yellow-500/10 border-l-4 border-l-yellow-500 border border-yellow-100 dark:border-yellow-900/50",
-        info: "bg-white dark:bg-zinc-900 text-foreground shadow-xl shadow-blue-500/10 border-l-4 border-l-blue-500 border border-blue-100 dark:border-blue-900/50",
+        default: "bg-white dark:bg-card text-foreground shadow-xl shadow-black/10 dark:shadow-black/30 border border-gray-100 dark:border-border",
+        destructive: "bg-white dark:bg-card text-foreground shadow-xl shadow-red-500/10 border-l-4 border-l-red-500 border border-red-100 dark:border-red-900/50",
+        success: "bg-white dark:bg-card text-foreground shadow-xl shadow-green-500/10 border-l-4 border-l-[#6EDC8A] border border-green-100 dark:border-green-900/50",
+        warning: "bg-white dark:bg-card text-foreground shadow-xl shadow-yellow-500/10 border-l-4 border-l-yellow-500 border border-yellow-100 dark:border-yellow-900/50",
+        info: "bg-white dark:bg-card text-foreground shadow-xl shadow-blue-500/10 border-l-4 border-l-blue-500 border border-blue-100 dark:border-blue-900/50",
       },
     },
     defaultVariants: {

@@ -106,7 +106,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
             <span className="w-full border-t border-border" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-white dark:bg-zinc-900 px-3 text-muted-foreground">— {t("auth.continueQuickly")} —</span>
+            <span className="bg-white dark:bg-card px-3 text-muted-foreground">— {t("auth.continueQuickly")} —</span>
           </div>
         </div>
       )}
@@ -116,7 +116,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
         variant="outline"
         onClick={handleGoogleLogin}
         disabled={isLoadingGoogle}
-        className="w-full h-12 font-medium flex items-center justify-center gap-3 bg-white dark:bg-zinc-900 hover:bg-gray-50 dark:hover:bg-zinc-800 border-gray-300 dark:border-zinc-700 transition-all shadow-sm"
+        className="w-full h-12 font-medium flex items-center justify-center gap-3 bg-white dark:bg-card hover:bg-gray-50 dark:hover:bg-zinc-800 border-gray-300 dark:border-border transition-all shadow-sm"
         data-testid="button-google-login"
       >
         {isLoadingGoogle ? (

@@ -34,7 +34,7 @@ export function NotificationsTab({
           {[1, 2, 3].map(i => <div key={i} className="h-24 bg-muted rounded-2xl animate-pulse" />)}
         </div>
       ) : notifications?.length === 0 ? (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center">
+        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
               <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
@@ -66,7 +66,7 @@ export function NotificationsTab({
                         <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">{t("dashboard.notifications.update")}</span>
                       )}
                       {notif.type === 'info' && (
-                        <span className="text-[10px] bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">{t("dashboard.notifications.info")}</span>
+                        <span className="text-[10px] bg-gray-100 dark:bg-muted text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">{t("dashboard.notifications.info")}</span>
                       )}
                       <span className="text-[10px] text-muted-foreground font-medium">{new Date(notif.createdAt).toLocaleDateString()}</span>
                     </div>

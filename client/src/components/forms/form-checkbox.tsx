@@ -20,7 +20,7 @@ export function FormCheckbox<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className={`flex items-start gap-3 p-4 rounded-[1.5rem] border border-border bg-white dark:bg-zinc-900 hover:border-accent/30 cursor-pointer transition-all ${className}`}>
+        <FormItem className={`flex items-start gap-3 p-4 rounded-[1.5rem] border border-border bg-white dark:bg-card hover:border-accent/30 cursor-pointer transition-all ${className}`}>
           <FormControl>
             <Checkbox
               checked={field.value}

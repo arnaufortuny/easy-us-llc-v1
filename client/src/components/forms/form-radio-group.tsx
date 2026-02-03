@@ -46,7 +46,7 @@ export function FormRadioGroup<T extends FieldValues>({
                   className={`flex items-center gap-3 p-4 rounded-full border cursor-pointer transition-all active:scale-95 ${
                     field.value === opt
                       ? "border-accent bg-accent/5"
-                      : "border-border bg-white dark:bg-zinc-900 hover:border-accent/50"
+                      : "border-border bg-white dark:bg-card hover:border-accent/50"
                   }`}
                 >
                   <input

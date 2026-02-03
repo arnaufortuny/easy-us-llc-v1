@@ -36,7 +36,7 @@ export function MessagesTab({
       </div>
       <div className="space-y-4">
         {(!messagesData || messagesData.length === 0) ? (
-          <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-zinc-900 p-6 md:p-8 text-center" data-testid="widget-support-empty">
+          <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-support-empty">
             <div className="flex flex-col items-center gap-3 md:gap-4">
               <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
                 <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-accent" />
@@ -54,7 +54,7 @@ export function MessagesTab({
           </Card>
         ) : (
           messagesData.map((msg) => (
-            <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-zinc-900 hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
+            <Card key={msg.id} className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow cursor-pointer" onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}>
               <div className="flex justify-between items-start mb-2">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 text-accent" />
@@ -64,7 +64,7 @@ export function MessagesTab({
               </div>
               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
               {selectedMessage?.id === msg.id && (
-                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-zinc-700 space-y-4" onClick={(e) => e.stopPropagation()}>
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-border space-y-4" onClick={(e) => e.stopPropagation()}>
                   {msg.replies && msg.replies.length > 0 && (
                     <div className="space-y-3 mb-4">
                       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">Respuestas</p>

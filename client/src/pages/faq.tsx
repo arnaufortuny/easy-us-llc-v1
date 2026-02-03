@@ -134,7 +134,7 @@ export default function FAQ() {
                           className={`group transition-all duration-200 border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
                             openItems[category.key] === i 
                               ? "border-accent bg-accent/[0.03]" 
-                              : "border-primary/5 hover:border-accent/30 bg-white dark:bg-zinc-900"
+                              : "border-primary/5 hover:border-accent/30 bg-white dark:bg-card"
                           }`}
                           data-testid={`faq-item-${category.key}-${i}`}
                         >

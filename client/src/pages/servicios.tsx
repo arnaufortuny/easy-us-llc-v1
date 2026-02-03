@@ -116,7 +116,7 @@ export default function Servicios() {
                 {heroFeatures.map((text, i) => (
                   <div 
                     key={i} 
-                    className="bg-white dark:bg-zinc-900 text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
+                    className="bg-white dark:bg-card text-primary font-black text-sm px-4 py-2 rounded-full border border-primary shadow-sm"
                   >
                     {text}
                   </div>
