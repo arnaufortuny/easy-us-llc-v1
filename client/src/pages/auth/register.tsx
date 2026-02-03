@@ -255,12 +255,12 @@ export default function Register() {
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
-          <div className="mb-6 md:mb-8 flex flex-col items-end w-full text-right">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-right w-full">
+          <div className="mb-6 md:mb-8 flex flex-col items-center w-full text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
               <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
             </h1>
-            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-right">{t("auth.register.subtitleHighlight")}</p>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base text-right max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
+            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">{t("auth.register.subtitleHighlight")}</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
           </div>
 
           {step > 0 && (
@@ -273,7 +273,7 @@ export default function Register() {
               
                 {step === 0 && (
                   <div key="step-0" className="space-y-4">
-                    <div className="text-center mb-2">
+                    <div className="text-left mb-2">
                       <h2 className="text-base font-bold text-foreground">{t("auth.register.step0Title")}</h2>
                       <p className="text-xs text-muted-foreground">{t("auth.register.step0Subtitle")}</p>
                     </div>
