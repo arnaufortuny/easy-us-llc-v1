@@ -164,22 +164,18 @@ export async function registerRoutes(
     getCsrfToken(req, res);
   });
   
-  // CSRF Validation for sensitive endpoints (must be after csrfMiddleware)
-  const csrfProtectedPaths = [
-    "/api/auth/register",
-    "/api/auth/login", 
-    "/api/auth/reset-password",
-    "/api/admin/orders",
-    "/api/admin/users",
-    "/api/orders",
-    "/api/user/profile",
+  // CSRF Validation for ALL state-changing endpoints (must be after csrfMiddleware)
+  const csrfExemptPaths = [
+    "/api/stripe/webhook",
+    "/api/webhook",
   ];
   
   app.use((req, res, next) => {
-    const shouldValidate = csrfProtectedPaths.some(path => req.path.startsWith(path));
+    const isExempt = csrfExemptPaths.some(path => req.path.startsWith(path));
     const isMutatingMethod = !["GET", "HEAD", "OPTIONS"].includes(req.method);
+    const isApiRoute = req.path.startsWith("/api/");
     
-    if (shouldValidate && isMutatingMethod) {
+    if (isApiRoute && isMutatingMethod && !isExempt) {
       return validateCsrf(req, res, next);
     }
     next();
@@ -1610,8 +1606,14 @@ export async function registerRoutes(
         if (name === 'userId') targetUserId = val;
       });
       
+      // Allowed file extensions and MIME types for security
+      const ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png'];
+      const ALLOWED_MIMES = ['application/pdf', 'image/jpeg', 'image/png'];
+      let detectedMime = '';
+      
       bb.on('file', (name: string, file: any, info: any) => {
         fileName = info.filename || `documento_${Date.now()}`;
+        detectedMime = info.mimeType || '';
         const chunks: Buffer[] = [];
         file.on('data', (data: Buffer) => chunks.push(data));
         file.on('limit', () => { fileTruncated = true; });
@@ -1626,6 +1628,17 @@ export async function registerRoutes(
         // Need either orderId or userId
         if (!fileBuffer || (!orderId && !targetUserId)) {
           return res.status(400).json({ message: "Faltan datos requeridos (orderId o userId)" });
+        }
+        
+        // Validate file extension
+        const extCheck = fileName.toLowerCase().split('.').pop() || '';
+        if (!ALLOWED_EXTENSIONS.includes(extCheck)) {
+          return res.status(400).json({ message: "Tipo de archivo no permitido. Solo se aceptan: PDF, JPG, JPEG, PNG" });
+        }
+        
+        // Validate MIME type
+        if (!ALLOWED_MIMES.includes(detectedMime)) {
+          return res.status(400).json({ message: "Formato de archivo no válido" });
         }
 
         const fs = await import('fs/promises');
@@ -3793,8 +3806,14 @@ export async function registerRoutes(
         if (name === 'notes') notes = val;
       });
       
+      // Allowed file extensions and MIME types for security
+      const ALLOWED_EXTENSIONS = ['pdf', 'jpg', 'jpeg', 'png'];
+      const ALLOWED_MIMES = ['application/pdf', 'image/jpeg', 'image/png'];
+      let detectedMime = '';
+      
       bb.on('file', (name: string, file: any, info: any) => {
         fileName = info.filename || `documento_${Date.now()}`;
+        detectedMime = info.mimeType || '';
         const chunks: Buffer[] = [];
         file.on('data', (data: Buffer) => chunks.push(data));
         file.on('limit', () => { fileTruncated = true; });
@@ -3808,6 +3827,17 @@ export async function registerRoutes(
         
         if (!fileBuffer) {
           return res.status(400).json({ message: "No se recibió ningún archivo" });
+        }
+        
+        // Validate file extension
+        const ext = fileName.toLowerCase().split('.').pop() || '';
+        if (!ALLOWED_EXTENSIONS.includes(ext)) {
+          return res.status(400).json({ message: "Tipo de archivo no permitido. Solo se aceptan: PDF, JPG, JPEG, PNG" });
+        }
+        
+        // Validate MIME type
+        if (!ALLOWED_MIMES.includes(detectedMime)) {
+          return res.status(400).json({ message: "Formato de archivo no válido" });
         }
 
         // Save file (in production, use cloud storage)
