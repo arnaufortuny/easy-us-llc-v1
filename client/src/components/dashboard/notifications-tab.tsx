@@ -2,6 +2,7 @@ import { BellRing, Upload, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Tab } from "./types";
+import { useTranslation } from "react-i18next";
 
 interface NotificationsTabProps {
   notifications: any[] | undefined;
@@ -20,11 +21,13 @@ export function NotificationsTab({
   deleteNotification,
   setActiveTab
 }: NotificationsTabProps) {
+  const { t } = useTranslation();
+  
   return (
     <div key="notifications" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Notificaciones</h2>
-        <p className="text-sm text-muted-foreground mt-1">Actualizaciones de tus tramites</p>
+        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t("dashboard.notifications.title")}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t("dashboard.tracking.subtitle")}</p>
       </div>
       {notificationsLoading ? (
         <div className="space-y-3">
@@ -37,8 +40,8 @@ export function NotificationsTab({
               <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
             </div>
             <div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin notificaciones</h3>
-              <p className="text-xs md:text-sm text-muted-foreground text-center">Las actualizaciones de tus trámites aparecerán aquí.</p>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t("dashboard.notifications.empty")}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground text-center">{t("dashboard.tracking.subtitle")}</p>
             </div>
           </div>
         </Card>
@@ -54,16 +57,16 @@ export function NotificationsTab({
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       {notif.orderCode && (
-                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-black">Pedido: {notif.orderCode}</span>
+                        <span className="text-[10px] bg-primary/10 text-primary px-2 py-1 rounded-full font-black">{t("dashboard.orders.order")}: {notif.orderCode}</span>
                       )}
                       {notif.type === 'action_required' && (
-                        <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACCIÓN REQUERIDA</span>
+                        <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">{t("dashboard.notifications.actionRequired")}</span>
                       )}
                       {notif.type === 'update' && (
-                        <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">ACTUALIZACIÓN</span>
+                        <span className="text-[10px] bg-accent/20 text-primary px-2 py-1 rounded-full font-black">{t("dashboard.notifications.update")}</span>
                       )}
                       {notif.type === 'info' && (
-                        <span className="text-[10px] bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">INFORMACIÓN</span>
+                        <span className="text-[10px] bg-gray-100 dark:bg-zinc-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full font-black">{t("dashboard.notifications.info")}</span>
                       )}
                       <span className="text-[10px] text-muted-foreground font-medium">{new Date(notif.createdAt).toLocaleDateString()}</span>
                     </div>
@@ -79,7 +82,7 @@ export function NotificationsTab({
                         data-testid={`button-upload-document-${notif.id}`}
                       >
                         <Upload className="w-3 h-3" />
-                        Subir Documento
+                        {t("dashboard.documents.upload")}
                       </Button>
                     )}
                   </div>

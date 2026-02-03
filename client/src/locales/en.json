@@ -22,7 +22,14 @@
     "select": "Select...",
     "sending": "Sending...",
     "processing": "Processing...",
-    "verifying": "Verifying..."
+    "verifying": "Verifying...",
+    "yourEmail": "YOUR EMAIL"
+  },
+  "helpSection": {
+    "title": "HAVE A",
+    "titleHighlight": "QUESTION",
+    "subtitle": "We're here to help. Contact us and we'll respond within 24 hours.",
+    "whatsapp": "Send us a WhatsApp"
   },
   "nav": {
     "home": "Home",
@@ -275,6 +282,8 @@
     "banks": {
       "badge": "BANKS",
       "title": "Banking Assistance",
+      "sectionTitle": "BANK ACCOUNT",
+      "sectionTitleHighlight": "OPENING",
       "subtitle": "(We help open accounts at fintechs and banks, if required)",
       "mercury": {
         "title": "Mercury",
@@ -740,7 +749,11 @@
     },
     "orders": {
       "title": "My Orders",
+      "order": "Order",
       "empty": "You don't have any orders yet",
+      "incompleteForm": "INCOMPLETE FORM",
+      "incomplete": "INCOMPLETE",
+      "adminBadge": "ADMIN",
       "status": {
         "pending": "Pending",
         "processing": "Processing",
@@ -760,7 +773,10 @@
     "notifications": {
       "title": "Notifications",
       "empty": "No notifications",
-      "read": "Read"
+      "read": "Read",
+      "actionRequired": "ACTION REQUIRED",
+      "update": "UPDATE",
+      "info": "INFORMATION"
     },
     "pendingAccount": {
       "title": "Account under review",

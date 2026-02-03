@@ -827,7 +827,7 @@ export default function MaintenanceApplication() {
                         {!isOtpVerified && (
                           <div className="space-y-4">
                             <div className="bg-gray-50 dark:bg-zinc-800 rounded-2xl p-5">
-                              <p className="text-xs font-black text-foreground tracking-widest mb-2">TU EMAIL</p>
+                              <p className="text-xs font-black text-foreground tracking-widest mb-2">{t("common.yourEmail")}</p>
                               <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                             </div>
                             
@@ -1117,12 +1117,12 @@ export default function MaintenanceApplication() {
                     </div>
 
                     <div className="bg-gray-50 dark:bg-zinc-800 rounded-2xl p-5">
-                      <p className="text-xs font-black text-foreground tracking-widest mb-2">TU EMAIL</p>
+                      <p className="text-xs font-black text-foreground tracking-widest mb-2">{t("common.yourEmail")}</p>
                       <p className="text-lg font-bold text-foreground">{form.getValues("ownerEmail")}</p>
                     </div>
 
                     <div className="space-y-2">
-                      <label className="text-xs font-black text-foreground tracking-widest block">Contraseña</label>
+                      <label className="text-xs font-black text-foreground tracking-widest block">{t("auth.login.password")}</label>
                       <div className="relative">
                         <Input
                           type={showPassword ? "text" : "password"}

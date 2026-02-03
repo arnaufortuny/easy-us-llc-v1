@@ -22,7 +22,14 @@
     "select": "Seleccionar...",
     "sending": "Enviando...",
     "processing": "Procesando...",
-    "verifying": "Verificando..."
+    "verifying": "Verificando...",
+    "yourEmail": "TU EMAIL"
+  },
+  "helpSection": {
+    "title": "¿ALGUNA",
+    "titleHighlight": "CONSULTA",
+    "subtitle": "Estamos disponibles para ayudarte. Escríbenos y te respondemos en menos de 24h.",
+    "whatsapp": "Envíanos un WhatsApp"
   },
   "nav": {
     "home": "Inicio",
@@ -275,6 +282,8 @@
     "banks": {
       "badge": "BANCOS",
       "title": "Asistencia Bancaria",
+      "sectionTitle": "APERTURA DE",
+      "sectionTitleHighlight": "CUENTA BANCARIA",
       "subtitle": "(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)",
       "mercury": {
         "title": "Mercury",
@@ -740,7 +749,11 @@
     },
     "orders": {
       "title": "Mis Pedidos",
+      "order": "Pedido",
       "empty": "No tienes pedidos aún",
+      "incompleteForm": "FORMULARIO INCOMPLETO",
+      "incomplete": "INCOMPLETA",
+      "adminBadge": "ADMIN",
       "status": {
         "pending": "Pendiente",
         "processing": "En proceso",
@@ -760,7 +773,10 @@
     "notifications": {
       "title": "Notificaciones",
       "empty": "No tienes notificaciones",
-      "read": "Leída"
+      "read": "Leída",
+      "actionRequired": "ACCIÓN REQUERIDA",
+      "update": "ACTUALIZACIÓN",
+      "info": "INFORMACIÓN"
     },
     "pendingAccount": {
       "title": "Cuenta en revisión",
