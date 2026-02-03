@@ -943,12 +943,12 @@
         "q3": "¿Qué no incluye el paquete base?",
         "a3": "No incluye servicios que dependen directamente de tu facturación o actividad específica: La apertura bancaria directa (aunque te guiamos paso a paso, la decisión final es del banco), las declaraciones fiscales anuales, el registro de Sales Tax (impuesto sobre las ventas), servicios de contabilidad mensual o trámites migratorios personales. Estos servicios adicionales se activan de forma modular cuando tu negocio realmente los necesita para operar a gran escala.",
         "q4": "¿Me dais una dirección en Estados Unidos?",
-        "a4": "Sí, por supuesto. Te proporcionamos una dirección comercial física real y válida para bancos, plataformas de pago (Stripe/PayPal), registros oficiales estatales y documentación fiscal ante el IRS. No es un simple buzón postal barato de reenvío; es una dirección de gestión empresarial real. Sin una dirección profesional en Estados Unidos, tu empresa no podrá superar las verificaciones de seguridad de los neobancos ni de las pasarelas de pago modernas."
+        "a4": "Sí, por supuesto. Te proporcionamos una dirección comercial física real y válida para bancos, plataformas de pago (Stripe, Wise), registros oficiales estatales y documentación fiscal ante el IRS. No es un simple buzón postal barato de reenvío; es una dirección de gestión empresarial real. Sin una dirección profesional en Estados Unidos, tu empresa no podrá superar las verificaciones de seguridad de los neobancos ni de las pasarelas de pago modernas."
       },
       "keyConcepts": {
         "title": "Conceptos Clave y Trámites",
         "q1": "¿Qué es el EIN?",
-        "a1": "El EIN (Employer Identification Number) es el número de identificación fiscal federal de tu empresa en Estados Unidos, equivalente al NIF o CIF en otros países. Es el documento más importante: lo necesitas obligatoriamente para abrir cuentas bancarias empresariales, facturar a clientes, contratar empleados, declarar impuestos ante el IRS y verificar tus cuentas en Stripe, PayPal, Wise y Amazon. Sin un EIN validado, tu empresa existe legalmente pero está totalmente inoperativa en el sistema financiero.",
+        "a1": "El EIN (Employer Identification Number) es el número de identificación fiscal federal de tu empresa en Estados Unidos, equivalente al NIF o CIF en otros países. Es el documento más importante: lo necesitas obligatoriamente para abrir cuentas bancarias empresariales, facturar a clientes, contratar empleados, declarar impuestos ante el IRS y verificar tus cuentas en Stripe, Wise y Amazon. Sin un EIN validado, tu empresa existe legalmente pero está totalmente inoperativa en el sistema financiero.",
         "q2": "¿Qué es el Operating Agreement?",
         "a2": "Es el contrato interno fundamental de tu empresa. Este documento marca las reglas de juego: quiénes son los dueños (miembros), qué porcentaje de participación tiene cada uno, quién tiene el poder de decisión, cómo se reparten los beneficios y qué sucede legalmente si un socio quiere salir o entrar en la compañía. Los bancos estadounidenses lo exigen como requisito indispensable para abrir una cuenta y es tu principal defensa ante cualquier disputa legal o auditoría.",
         "q3": "¿Qué es los Artículos de Organización?",
@@ -986,7 +986,7 @@
       },
       "operations": {
         "title": "Operativa y Plataformas",
-        "q1": "¿Puedo usar mi LLC para cobrar en Stripe, PayPal o Wise?",
+        "q1": "¿Puedo usar mi LLC para cobrar en Stripe o Wise?",
         "a1": "Sí, ese es precisamente uno de los mayores beneficios de tener una LLC. Con tu EIN federal, Operating Agreement profesional y dirección comercial certificada, puedes abrir cuentas empresariales en estas plataformas sin los bloqueos que suelen sufrir las cuentas personales de países con alto riesgo. Te asesoramos sobre cómo presentar la documentación técnica correctamente para superar los procesos de 'Know Your Customer' (KYC) y evitar retenciones de fondos injustificadas.",
         "q2": "¿Qué pasa si una plataforma me bloquea la cuenta?",
         "a2": "Un bloqueo no siempre es definitivo, suele ser un control rutinario de seguridad. Te ayudamos a analizar qué documentos específicos están solicitando, preparamos la respuesta técnica adecuada con tus Artículos de Organización y EIN, y te indicamos cómo enviar la información para que un agente humano del soporte la apruebe. La mayoría de las cuentas se desbloquean en pocos días si la respuesta es profesional y está bien documentada.",

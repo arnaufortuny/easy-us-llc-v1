@@ -2,7 +2,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageCircle } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 
 export default function FAQ() {
@@ -172,27 +172,24 @@ export default function FAQ() {
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-2xl mx-auto">
             <div className="bg-accent/10 border-2 border-accent/30 rounded-3xl p-8 sm:p-10 text-center">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-accent/20 flex items-center justify-center">
-                <MessageCircle className="w-8 h-8 text-accent" />
-              </div>
-              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-3">
+              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-3 text-center">
                 {t("faq.helpCenter.title")}
               </h3>
-              <p className="text-muted-foreground font-medium mb-6">
+              <p className="text-muted-foreground font-medium mb-6 text-center">
                 {t("faq.helpCenter.description")}
               </p>
               <Button
                 asChild
-                className="bg-accent hover:bg-accent/90 text-primary font-black rounded-full px-8 h-12 shadow-lg shadow-accent/30 transition-all transform active:scale-95"
+                className="bg-[#25D366] hover:bg-[#25D366]/90 text-white font-black rounded-full px-8 h-12 shadow-lg shadow-[#25D366]/30 transition-all transform active:scale-95"
                 data-testid="button-whatsapp-help"
               >
                 <a 
-                  href="https://wa.me/34600000000" 
+                  href="https://wa.me/34614916910" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2"
                 >
-                  <MessageCircle className="w-5 h-5" />
+                  <SiWhatsapp className="w-5 h-5" />
                   {t("faq.helpCenter.button")}
                 </a>
               </Button>

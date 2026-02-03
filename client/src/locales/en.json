@@ -943,12 +943,12 @@
         "q3": "What's NOT included in the base package?",
         "a3": "It doesn't include services that depend directly on your billing or specific activity: Direct bank account opening (although we guide you step by step, the final decision is the bank's), annual tax filings, Sales Tax registration, monthly accounting services or personal immigration procedures. These additional services are activated modularly when your business really needs them to operate at large scale.",
         "q4": "Do you provide a US address?",
-        "a4": "Yes, of course. We provide you with a real physical commercial address valid for banks, payment platforms (Stripe/PayPal), official state registrations and tax documentation before the IRS. It's not a simple cheap forwarding postal box; it's a real business management address. Without a professional address in the United States, your company won't be able to pass the security verifications of neobanks or modern payment gateways."
+        "a4": "Yes, of course. We provide you with a real physical commercial address valid for banks, payment platforms (Stripe, Wise), official state registrations and tax documentation before the IRS. It's not a simple cheap forwarding postal box; it's a real business management address. Without a professional address in the United States, your company won't be able to pass the security verifications of neobanks or modern payment gateways."
       },
       "keyConcepts": {
         "title": "Key Concepts and Procedures",
         "q1": "What is the EIN?",
-        "a1": "The EIN (Employer Identification Number) is your company's federal tax identification number in the United States, equivalent to the NIF or CIF in other countries. It's the most important document: you need it mandatorily to open business bank accounts, invoice clients, hire employees, file taxes with the IRS and verify your accounts on Stripe, PayPal, Wise and Amazon. Without a validated EIN, your company exists legally but is completely inoperative in the financial system.",
+        "a1": "The EIN (Employer Identification Number) is your company's federal tax identification number in the United States, equivalent to the NIF or CIF in other countries. It's the most important document: you need it mandatorily to open business bank accounts, invoice clients, hire employees, file taxes with the IRS and verify your accounts on Stripe, Wise and Amazon. Without a validated EIN, your company exists legally but is completely inoperative in the financial system.",
         "q2": "What is the Operating Agreement?",
         "a2": "It's the fundamental internal contract of your company. This document sets the rules of the game: who are the owners (members), what percentage of participation each one has, who has decision-making power, how profits are distributed and what happens legally if a partner wants to leave or enter the company. US banks require it as an essential requirement to open an account and it's your main defense against any legal dispute or audit.",
         "q3": "What are the Articles of Organization?",
@@ -986,7 +986,7 @@
       },
       "operations": {
         "title": "Operations and Platforms",
-        "q1": "Can I use my LLC to collect payments on Stripe, PayPal or Wise?",
+        "q1": "Can I use my LLC to collect payments on Stripe or Wise?",
         "a1": "Yes, that's precisely one of the biggest benefits of having an LLC. With your federal EIN, professional Operating Agreement and certified commercial address, you can open business accounts on these platforms without the blocks that personal accounts from high-risk countries often suffer. We advise you on how to present the technical documentation correctly to pass the 'Know Your Customer' (KYC) processes and avoid unjustified fund holds.",
         "q2": "What happens if a platform blocks my account?",
         "a2": "A block is not always definitive, it's usually a routine security check. We help you analyze what specific documents they're requesting, prepare the appropriate technical response with your Articles of Organization and EIN, and tell you how to send the information so that a human support agent approves it. Most accounts are unblocked in a few days if the response is professional and well documented.",
