@@ -343,8 +343,8 @@ export function TaxComparator() {
             <div className="p-6 sm:p-8 bg-background">
               <div className="flex flex-col items-center gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-accent flex items-center justify-center p-2">
-                    <img src={moneyIcon} alt="" className="w-6 h-6 object-contain" />
+                  <div className="w-10 h-10 rounded-full bg-accent flex items-center justify-center p-2">
+                    <img src={moneyIcon} alt="" className="w-6 h-6 object-contain" loading="lazy" decoding="async" />
                   </div>
                   <label className="text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
@@ -357,10 +357,10 @@ export function TaxComparator() {
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
                     placeholder="50.000"
-                    className="w-full px-4 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-background border-2 border-accent/30 rounded-xl focus:border-accent outline-none transition-all"
+                    className="w-full px-6 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-background border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-all"
                     data-testid="input-income"
                   />
-                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
+                  <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
                 </div>
                 <p className="text-xs text-muted-foreground">{t("taxComparator.enterIncome")}</p>
               </div>
