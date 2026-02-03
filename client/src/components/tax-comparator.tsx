@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator, DollarSign } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { USAFlag as USFlag } from "@/components/ui/flags";
+import moneyIcon from "@/assets/images/money-icon.png";
 
 interface TaxBreakdown {
   income: number;
@@ -270,11 +271,11 @@ export function TaxComparator() {
             </div>
             
             {/* Income Selection */}
-            <div className="p-6 sm:p-8 bg-gradient-to-br from-accent/5 to-transparent">
+            <div className="p-6 sm:p-8 bg-background">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-2xl bg-accent/20 flex items-center justify-center">
-                    <DollarSign className="w-6 h-6 text-accent" />
+                  <div className="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center p-2">
+                    <img src={moneyIcon} alt="" className="w-8 h-8 object-contain" />
                   </div>
                   <label className="text-base font-black text-foreground">
                     {t("taxComparator.annualIncome")}
@@ -422,23 +423,23 @@ export function TaxComparator() {
             </div>
             
             {/* Savings */}
-            <div className="p-6 sm:p-8 bg-accent relative overflow-hidden">
-              <div className="absolute inset-0 opacity-20">
-                <div className="absolute -top-10 -right-10 w-40 h-40 bg-white rounded-full blur-2xl" />
-                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-white rounded-full blur-2xl" />
+            <div className="p-6 sm:p-8 bg-background relative overflow-hidden border-t border-accent/10">
+              <div className="absolute inset-0 opacity-10">
+                <div className="absolute -top-10 -right-10 w-40 h-40 bg-accent rounded-full blur-2xl" />
+                <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-accent rounded-full blur-2xl" />
               </div>
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
                 <div className="text-center md:text-left">
-                  <p className="text-sm text-primary/70 font-black">{t("taxComparator.savings.label")}</p>
-                  <p className="font-black text-primary text-4xl sm:text-5xl">{formatCurrency(savings)}</p>
-                  <p className="text-sm text-primary/80 font-black mt-1">
+                  <p className="text-sm text-accent/70 font-black">{t("taxComparator.savings.label")}</p>
+                  <p className="font-black text-accent text-4xl sm:text-5xl">{formatCurrency(savings)}</p>
+                  <p className="text-sm text-accent/80 font-black mt-1">
                     {t("taxComparator.savings.percentage", { percentage: Math.round(savingsPercentage) })}
                   </p>
                 </div>
                 <Button
                   onClick={() => setLocation("/llc/formation")}
-                  className="bg-primary text-accent font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl hover:bg-primary/90 transition-all transform hover:scale-105 active:scale-95"
+                  className="bg-accent text-primary font-black text-base rounded-full px-10 h-14 w-full md:w-auto shadow-xl shadow-accent/30 hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95"
                   data-testid="button-start-llc-comparator"
                 >
                   {t("taxComparator.cta")} →
