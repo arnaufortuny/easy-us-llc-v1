@@ -68,8 +68,6 @@ export default function Servicios() {
   ];
 
   const bankItems = [
-    { key: "mercury" },
-    { key: "relay" },
     { key: "strategy" },
     { key: "continuous" }
   ];
