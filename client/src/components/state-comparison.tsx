@@ -92,8 +92,8 @@ export function StateComparison() {
               viewport={viewportOnce}
               transition={{ delay: index * 0.1 }}
             >
-              <div className="text-center mb-4">
-                <h3 className="text-xl font-black text-foreground mb-2">{state.name}</h3>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-black text-foreground">{state.name}</h3>
                 <span className={`text-xs font-bold px-3 py-1 rounded-full ${state.badgeStyle}`}>
                   {state.badge}
                 </span>
