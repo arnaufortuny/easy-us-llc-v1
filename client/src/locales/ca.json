@@ -394,30 +394,72 @@
   "stateComparison": {
     "title": "COMPARA",
     "titleHighlight": "LES NOSTRES PROPOSTES",
-    "titleLine1": "COMPARA",
-    "titleLine2": "LES NOSTRES PROPOSTES",
-    "subtitle": "Cada estat té els seus avantatges. Troba el que millor s'adapta al teu negoci.",
-    "characteristic": "Característica",
+    "subtitle": "No existeix un estat millor que un altre. Existeix l'estat que millor encaixa amb el teu projecte i el teu moment actual.",
     "popular": "Més Popular",
     "premium": "Premium",
     "startups": "Startups",
     "days": "dies",
+    "pros": "Avantatges",
+    "cons": "Consideracions",
+    "idealIf": "Ideal si...",
     "features": {
       "formationPrice": "Preu formació",
       "maintenancePrice": "Manteniment anual",
-      "processingTime": "Temps de procés",
-      "stateFee": "Taxa de l'estat",
-      "annualReport": "Informe anual",
-      "privacy": "Privacitat del propietari",
-      "noStateTax": "Sense impostos estatals",
-      "idealFor": "Ideal per"
+      "processingTime": "Temps de procés"
     },
-    "idealFor": {
-      "newMexico": "Freelancers i petits negocis",
-      "wyoming": "Privacitat màxima i e-commerce",
-      "delaware": "Startups i venture capital"
+    "newMexico": {
+      "pros": [
+        "Cost inicial i manteniment més baixos",
+        "No exigeix informe anual estatal (menys burocràcia)",
+        "Sense impost estatal sobre beneficis si operes des de fora dels EUA",
+        "Configuració ràpida i senzilla",
+        "Molt popular entre freelancers, nòmades digitals i negocis online"
+      ],
+      "cons": [
+        "Menor prestigi corporatiu comparat amb Delaware",
+        "Protecció legal correcta, però no tan avançada com Wyoming o Delaware"
+      ],
+      "idealIf": "Vols llançar el teu negoci ràpid, estalviar costos i operar internacionalment sense complicacions administratives.",
+      "tagline": "L'opció més pràctica per començar"
     },
-    "disclaimer": "* Els costos de taxes estatals estan inclosos en els nostres preus de formació. El manteniment anual inclou agent registrat, compliment i suport.",
+    "wyoming": {
+      "pros": [
+        "Alt nivell de privacitat per a propietaris",
+        "Excel·lent protecció legal del patrimoni personal",
+        "Molt bona reputació per a negocis digitals",
+        "Estructura molt flexible i segura",
+        "Sense impost estatal sobre ingressos per a no residents"
+      ],
+      "cons": [
+        "Requereix informe anual estatal",
+        "Cost lleugerament superior a New Mexico"
+      ],
+      "idealIf": "Vols una estructura més sòlida, major protecció legal i transmetre una imatge més professional.",
+      "tagline": "L'equilibri perfecte entre seguretat, privacitat i cost"
+    },
+    "delaware": {
+      "pros": [
+        "Màxim prestigi empresarial internacional",
+        "Legislació corporativa molt desenvolupada i estable",
+        "Estat favorit per a startups i venture capital",
+        "Sistema judicial especialitzat en empreses (Chancery Court)",
+        "Molt atractiu si planegeix aixecar inversió o vendre l'empresa"
+      ],
+      "cons": [
+        "Cost inicial i manteniment més alts",
+        "Major complexitat administrativa",
+        "Normalment innecessari per a freelancers o petits negocis online"
+      ],
+      "idealIf": "El teu objectiu és construir una empresa escalable, atraure inversors o preparar una futura venda o expansió global.",
+      "tagline": "L'opció més estratègica per a projectes grans"
+    },
+    "quickGuide": {
+      "title": "Quin triar?",
+      "easy": "Si vols començar fàcil i gastar el mínim",
+      "protection": "Si busques protecció, privacitat i estabilitat",
+      "growth": "Si vols crear una empresa preparada per créixer o captar inversió"
+    },
+    "humanMessage": "El nostre treball és ajudar-te a triar l'opció que tingui més sentit per a tu, no vendre't la més cara.",
     "imReady": "Estic llest",
     "needHelp": "No sé quin triar"
   },

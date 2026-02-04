@@ -394,30 +394,72 @@
   "stateComparison": {
     "title": "COMPARE",
     "titleHighlight": "OUR PROPOSALS",
-    "titleLine1": "COMPARE",
-    "titleLine2": "OUR PROPOSALS",
-    "subtitle": "Each state has its advantages. Find the one that best fits your business.",
-    "characteristic": "Feature",
+    "subtitle": "There's no better state than another. There's the state that best fits your project and your current moment.",
     "popular": "Most Popular",
     "premium": "Premium",
     "startups": "Startups",
     "days": "days",
+    "pros": "Advantages",
+    "cons": "Considerations",
+    "idealIf": "Ideal if...",
     "features": {
       "formationPrice": "Formation price",
       "maintenancePrice": "Annual maintenance",
-      "processingTime": "Processing time",
-      "stateFee": "State fee",
-      "annualReport": "Annual report",
-      "privacy": "Owner privacy",
-      "noStateTax": "No state taxes",
-      "idealFor": "Ideal for"
+      "processingTime": "Processing time"
     },
-    "idealFor": {
-      "newMexico": "Freelancers and small businesses",
-      "wyoming": "Maximum privacy and e-commerce",
-      "delaware": "Startups and venture capital"
+    "newMexico": {
+      "pros": [
+        "Lowest initial cost and maintenance",
+        "No annual state report required (less bureaucracy)",
+        "No state tax on profits if you operate from outside the U.S.",
+        "Fast and simple setup",
+        "Very popular among freelancers, digital nomads and online businesses"
+      ],
+      "cons": [
+        "Lower corporate prestige compared to Delaware",
+        "Correct legal protection, but not as advanced as Wyoming or Delaware"
+      ],
+      "idealIf": "You want to launch your business quickly, save costs and operate internationally without administrative complications.",
+      "tagline": "The most practical option to start"
     },
-    "disclaimer": "* State fees are included in our formation prices. Annual maintenance includes registered agent, compliance, and support.",
+    "wyoming": {
+      "pros": [
+        "High level of privacy for owners",
+        "Excellent legal protection of personal assets",
+        "Very good reputation for digital businesses",
+        "Very flexible and secure structure",
+        "No state income tax for non-residents"
+      ],
+      "cons": [
+        "Requires annual state report",
+        "Slightly higher cost than New Mexico"
+      ],
+      "idealIf": "You want a more solid structure, greater legal protection and convey a more professional image.",
+      "tagline": "The perfect balance between security, privacy and cost"
+    },
+    "delaware": {
+      "pros": [
+        "Maximum international business prestige",
+        "Highly developed and stable corporate legislation",
+        "Favorite state for startups and venture capital",
+        "Specialized business court system (Chancery Court)",
+        "Very attractive if you plan to raise investment or sell the company"
+      ],
+      "cons": [
+        "Higher initial cost and maintenance",
+        "Greater administrative complexity",
+        "Usually unnecessary for freelancers or small online businesses"
+      ],
+      "idealIf": "Your goal is to build a scalable company, attract investors or prepare a future sale or global expansion.",
+      "tagline": "The most strategic option for large projects"
+    },
+    "quickGuide": {
+      "title": "Which to choose?",
+      "easy": "If you want to start easy and spend the minimum",
+      "protection": "If you're looking for protection, privacy and stability",
+      "growth": "If you want to create a company ready to grow or attract investment"
+    },
+    "humanMessage": "Our job is to help you choose the option that makes the most sense for you, not to sell you the most expensive one.",
     "imReady": "I'm ready",
     "needHelp": "I don't know which to choose"
   },
