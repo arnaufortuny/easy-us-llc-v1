@@ -1,7 +1,8 @@
 import { useState, useMemo, ComponentType } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp, TrendingUp, Calculator, Mail } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "lucide-react";
+import { GrowthChartIcon } from "@/components/ui/flags";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
@@ -366,7 +367,7 @@ export function TaxComparator() {
                   className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
                 >
                   <div className="max-w-sm w-full mx-auto text-center flex flex-col items-center">
-                    <Mail className="w-8 h-8 text-accent mb-4" />
+                    <GrowthChartIcon className="w-16 h-16 mb-4" />
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
                       {t("taxComparator.emailTitle")}
                     </h3>

@@ -134,3 +134,16 @@ export const BulgariaFlag = ({ className = "w-6 h-6" }: { className?: string }) 
     </svg>
   );
 };
+
+export const GrowthChartIcon = ({ className = "w-16 h-16" }: { className?: string }) => (
+  <svg viewBox="0 0 64 64" fill="none" className={className}>
+    <circle cx="32" cy="32" r="30" fill="#E8F7EF"/>
+    <rect x="18" y="34" width="6" height="10" rx="2" fill="#22C55E"/>
+    <rect x="28" y="28" width="6" height="16" rx="2" fill="#16A34A"/>
+    <rect x="38" y="22" width="6" height="22" rx="2" fill="#15803D"/>
+    <path d="M20 26L30 18L44 22" stroke="#22C55E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M42 18L44 22L40 23" stroke="#22C55E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="46" cy="42" r="7" fill="#22C55E"/>
+    <path d="M43 42L45 44L49 40" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
