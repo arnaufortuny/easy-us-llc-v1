@@ -494,7 +494,7 @@ export default function MaintenanceApplication() {
                               <label 
                                 key={opt.value} 
                                 onClick={() => field.onChange(opt.value)}
-                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
                                   field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                     : 'border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent/50'
@@ -509,7 +509,7 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all">{t("maintenance.buttons.continue")}</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-colors">{t("maintenance.buttons.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="space-y-4 pt-4">
@@ -523,7 +523,7 @@ export default function MaintenanceApplication() {
                           type="button"
                           variant="outline"
                           onClick={() => window.location.href = '/api/auth/google'}
-                          className="w-full h-12 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:bg-gray-50 dark:hover:bg-zinc-700 transition-all font-bold flex items-center justify-center gap-3"
+                          className="w-full h-12 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors font-bold flex items-center justify-center gap-3"
                         >
                           <svg className="w-5 h-5" viewBox="0 0 24 24">
                             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -554,13 +554,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.fullNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -577,13 +577,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.phoneLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -600,13 +600,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.emailLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base"  /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -623,13 +623,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.companyNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -646,13 +646,13 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.einLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base"  /></FormControl>
+                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -687,7 +687,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.creationYearLabel")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base" />
+                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -733,8 +733,8 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -748,13 +748,13 @@ export default function MaintenanceApplication() {
                     <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-all font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -776,7 +776,7 @@ export default function MaintenanceApplication() {
                               { value: "Soporte durante el año", label: t("maintenance.steps.serviceSupport") },
                               { value: "Revisión general de la situación de la LLC", label: t("maintenance.steps.serviceReview") }
                             ].map(opt => (
-                              <label key={opt.value} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-all active:scale-[0.98]">
+                              <label key={opt.value} className="flex items-center gap-3 p-4 rounded-[2rem] border border-border bg-white dark:bg-card hover:border-accent cursor-pointer transition-colors active:scale-[0.98]">
                                 <Checkbox 
                                   checked={field.value?.split(", ").includes(opt.value)}
                                   onCheckedChange={(checked) => {
@@ -794,8 +794,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -819,7 +819,7 @@ export default function MaintenanceApplication() {
                               <label 
                                 key={opt.value} 
                                 onClick={() => field.onChange(opt.value)}
-                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-all active:scale-[0.98] ${
+                                className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
                                   field.value === opt.value 
                                     ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                     : 'border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent/50'
@@ -835,8 +835,8 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -953,12 +953,12 @@ export default function MaintenanceApplication() {
                     )}
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button 
                         type="button" 
                         onClick={nextStep} 
                         disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
-                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
+                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                         data-testid="button-next-step-10"
                       >
                         {t("maintenance.buttons.continue")}
@@ -1029,7 +1029,7 @@ export default function MaintenanceApplication() {
                     <FormField control={form.control} name="paymentMethod" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-4">
-                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
                               <span className="font-bold text-foreground text-sm block mb-2">{t("maintenance.payment.bankTransfer")}</span>
@@ -1043,7 +1043,7 @@ export default function MaintenanceApplication() {
                               </div>
                             </div>
                           </label>
-                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-all ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                          <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
                             <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#6EDC8A] mt-1" />
                             <div className="flex-1">
                               <span className="font-bold text-foreground text-sm block mb-1">{t("maintenance.payment.paymentLink")}</span>
@@ -1055,8 +1055,8 @@ export default function MaintenanceApplication() {
                     )} />
                     
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -1080,7 +1080,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-foreground">{t("maintenance.confirmation.additionalNotes")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-all text-foreground" />
+                          <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
                         </FormControl>
                       </FormItem>
                     )} />
@@ -1115,11 +1115,11 @@ export default function MaintenanceApplication() {
                       )} />
                     </div>
                     <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-all">{t("maintenance.buttons.back")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
+                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                       >
                         {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                         {isSubmitting ? t("maintenance.confirmation.submitting") : t("maintenance.confirmation.submit")}
@@ -1179,7 +1179,7 @@ export default function MaintenanceApplication() {
                           setStep(3);
                           form.setValue("ownerEmail", "");
                         }}
-                        className="rounded-full h-10 px-4 font-medium border-border transition-all"
+                        className="rounded-full h-10 px-4 font-medium border-border transition-colors"
                       >
                         {t("auth.useAnotherEmail")}
                       </Button>
@@ -1187,7 +1187,7 @@ export default function MaintenanceApplication() {
                         type="button"
                         onClick={handleLogin}
                         disabled={isCheckingEmail}
-                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all"
+                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors"
                         data-testid="button-login-submit"
                       >
                         {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
