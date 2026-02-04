@@ -6,6 +6,12 @@ Easy US LLC simplifies US business formation, specifically for LLCs in New Mexic
 ## User Preferences
 I want to be communicated with in a clear and concise manner. I prefer explanations that are easy to understand, avoiding overly technical jargon. I appreciate an iterative development approach where I can provide feedback throughout the process. Please ask for my approval before implementing any significant changes to the codebase or design.
 
+**REGLA CRÍTICA - NUNCA ELIMINAR CÓDIGO SIN PERMISO:**
+- NUNCA eliminar, quitar o modificar significativamente código existente sin permiso explícito del usuario
+- Siempre PREGUNTAR antes de hacer cambios destructivos
+- Si hay un problema, PROPONER la solución y esperar aprobación antes de implementar
+- Esta regla tiene máxima prioridad
+
 ## System Architecture
 The application features a modern UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and Inter typography, with UI animations powered by Framer Motion.
 
