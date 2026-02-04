@@ -25,9 +25,8 @@ export default function Servicios() {
   usePageTitle();
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash === '#pricing' || hash === '#comparador' || hash === '#estados') {
-      const element = document.getElementById(hash.slice(1));
+    if (window.location.hash === '#pricing') {
+      const element = document.getElementById('pricing');
       if (element) {
         setTimeout(() => {
           element.scrollIntoView({ behavior: 'smooth' });
@@ -164,8 +163,8 @@ export default function Servicios() {
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
               dangerouslySetInnerHTML={{ __html: t("services.whatWeDo.title") }}
             />
             
@@ -173,8 +172,8 @@ export default function Servicios() {
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               {t("services.whatWeDo.subtitle")}
             </motion.p>
@@ -182,8 +181,8 @@ export default function Servicios() {
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
           
@@ -194,8 +193,8 @@ export default function Servicios() {
                 className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left transition-colors will-change-[transform,opacity]"
                 variants={cardVariants}
                 initial="hidden"
-                
-                
+                whileInView="visible"
+                viewport={viewportOnce}
               >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
                   {t(`services.whatWeDo.items.${item.key}.title`)}
@@ -217,8 +216,8 @@ export default function Servicios() {
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               <span className="text-foreground">{t("packsTitle.packs")}</span><br/>
               <span className="text-accent">{t("packsTitle.formation")}</span><br/>
@@ -229,8 +228,8 @@ export default function Servicios() {
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               {t("packsTitle.subtitle")}
             </motion.p>
@@ -238,8 +237,8 @@ export default function Servicios() {
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
           
@@ -400,8 +399,8 @@ export default function Servicios() {
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               <span className="text-foreground">{t("services.banks.sectionTitle")}</span>{" "}
               <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span>
@@ -409,8 +408,8 @@ export default function Servicios() {
             <motion.p 
               className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-opacity"
               initial={{ opacity: 0 }}
-              
-              
+              whileInView={{ opacity: 1 }}
+              viewport={viewportOnce}
               transition={transitions.fast}
             >
               {t("services.banks.subtitle")}
@@ -419,8 +418,8 @@ export default function Servicios() {
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
@@ -430,8 +429,8 @@ export default function Servicios() {
                 className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 transition-colors text-center will-change-[transform,opacity]"
                 variants={cardVariants}
                 initial="hidden"
-                
-                
+                whileInView="visible"
+                viewport={viewportOnce}
               >
                 <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-primary font-black text-sm shadow-sm mb-4">
                   {t(`services.banks.${item.key}.title`)}
@@ -455,8 +454,8 @@ export default function Servicios() {
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               <span className="text-foreground">{t("services.maintenancePack.sectionTitle")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.sectionTitleHighlight")}</span>
@@ -465,8 +464,8 @@ export default function Servicios() {
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-3xl"
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               {t("services.maintenancePack.sectionSubtitle")}
             </motion.p>
@@ -474,8 +473,8 @@ export default function Servicios() {
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
 
@@ -484,8 +483,8 @@ export default function Servicios() {
             className="max-w-4xl mx-auto mb-10 px-4"
             variants={fadeInUp}
             initial="hidden"
-            
-            
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <div className="bg-accent/5 rounded-2xl p-6 sm:p-8 border border-accent/10">
               <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
@@ -502,8 +501,8 @@ export default function Servicios() {
             className="max-w-4xl mx-auto mb-10 px-4"
             variants={fadeInUp}
             initial="hidden"
-            
-            
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <div className="bg-accent/10 rounded-2xl p-6 sm:p-8 text-left">
               <h4 className="text-xl sm:text-2xl font-black text-foreground mb-4">
@@ -520,8 +519,8 @@ export default function Servicios() {
             className="max-w-3xl mx-auto mb-10 px-4"
             variants={fadeInUp}
             initial="hidden"
-            
-            
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <div className="flex flex-wrap justify-start gap-x-6 gap-y-3 text-left">
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
@@ -538,8 +537,8 @@ export default function Servicios() {
             className="text-center mb-12 px-4"
             variants={fadeInUp}
             initial="hidden"
-            
-            
+            whileInView="visible"
+            viewport={viewportOnce}
           >
             <p className="text-foreground font-bold text-base sm:text-lg max-w-2xl mx-auto mb-2">
               {t("services.maintenancePack.finalText")}
@@ -556,8 +555,8 @@ export default function Servicios() {
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
@@ -566,8 +565,8 @@ export default function Servicios() {
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               variants={fadeInUp}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             >
               {t("packsTitle.maintenance.subtitle")}
             </motion.p>
@@ -575,8 +574,8 @@ export default function Servicios() {
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
-              
-              
+              whileInView="visible"
+              viewport={viewportOnce}
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-4 sm:px-0 mb-12">
