@@ -657,7 +657,7 @@
     "acceptTerms": "Has d'acceptar els termes",
     "whatsappRequired": "Camp obligatori si vols contacte per WhatsApp",
     "ageMinimum": "Has de tenir almenys 18 anys per crear una LLC",
-    "phoneFormat": "Telèfon invàlid. Ha de començar amb + o tenir mínim 6 dígits, sense lletres"
+    "phoneFormat": "Telèfon invàlid"
   },
   "application": {
     "title": "Constituir la meva LLC",
@@ -1965,8 +1965,44 @@
         "signature": "Firma:",
         "dateLabel": "Fecha:",
         "preparedBy": "Preparado por",
-        "corporateServices": "Servicios de Formación y Cumplimiento Corporativo"
+        "corporateServices": "Serveis de Formació i Compliment Corporatiu"
       }
+    },
+    "csvGenerator": {
+      "title": "Generador CSV Comptable",
+      "subtitle": "Registra les teves transaccions i exporta a format CSV",
+      "loginRequired": "Accés Requerit",
+      "loginDescription": "Inicia sessió per usar el generador CSV comptable.",
+      "backToDashboard": "Tornar al Dashboard",
+      "totalIncome": "Total Ingressos",
+      "totalExpenses": "Total Despeses",
+      "netBalance": "Balanç Net",
+      "transactions": "Transaccions",
+      "transactionsTitle": "Registre de Transaccions",
+      "addTransaction": "Afegir Transacció",
+      "date": "Data",
+      "description": "Descripció",
+      "descriptionPlaceholder": "Descripció de la transacció...",
+      "amount": "Import",
+      "currency": "Moneda",
+      "type": "Tipus",
+      "income": "Ingrés",
+      "expense": "Despesa",
+      "transfer": "Transferència",
+      "category": "Categoria",
+      "paymentMethod": "Mètode de Pagament",
+      "bankAccount": "Compte Bancari",
+      "bankAccountPlaceholder": "Número de compte...",
+      "invoiceNumber": "Nº Factura",
+      "invoiceNumberPlaceholder": "INV-001",
+      "notes": "Notes",
+      "notesPlaceholder": "Notes addicionals...",
+      "disclaimer": "Aquesta eina és només per a fins de registre. Easy US LLC no proporciona assessorament comptable ni fiscal.",
+      "downloadCsv": "Descarregar CSV",
+      "generating": "Generant...",
+      "toolTitle": "Generador CSV Comptable",
+      "toolDescription": "Registra els teus ingressos i despeses per a la teva comptabilitat professional.",
+      "openTool": "Crear Registre"
     }
   },
   "seo": {

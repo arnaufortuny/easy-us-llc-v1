@@ -657,7 +657,7 @@
     "acceptTerms": "Debes aceptar los términos",
     "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp",
     "ageMinimum": "Debes tener al menos 18 años para crear una LLC",
-    "phoneFormat": "Teléfono inválido. Debe empezar con + o tener mínimo 6 dígitos, sin letras"
+    "phoneFormat": "Teléfono inválido"
   },
   "application": {
     "title": "Constituir mi LLC",
@@ -1967,6 +1967,42 @@
         "preparedBy": "Preparado por",
         "corporateServices": "Servicios de Formación y Cumplimiento Corporativo"
       }
+    },
+    "csvGenerator": {
+      "title": "Generador CSV Contable",
+      "subtitle": "Registra tus transacciones y exporta a formato CSV",
+      "loginRequired": "Acceso Requerido",
+      "loginDescription": "Inicia sesión para usar el generador CSV contable.",
+      "backToDashboard": "Volver al Dashboard",
+      "totalIncome": "Total Ingresos",
+      "totalExpenses": "Total Gastos",
+      "netBalance": "Balance Neto",
+      "transactions": "Transacciones",
+      "transactionsTitle": "Registro de Transacciones",
+      "addTransaction": "Añadir Transacción",
+      "date": "Fecha",
+      "description": "Descripción",
+      "descriptionPlaceholder": "Descripción de la transacción...",
+      "amount": "Importe",
+      "currency": "Moneda",
+      "type": "Tipo",
+      "income": "Ingreso",
+      "expense": "Gasto",
+      "transfer": "Transferencia",
+      "category": "Categoría",
+      "paymentMethod": "Método de Pago",
+      "bankAccount": "Cuenta Bancaria",
+      "bankAccountPlaceholder": "Número de cuenta...",
+      "invoiceNumber": "Nº Factura",
+      "invoiceNumberPlaceholder": "INV-001",
+      "notes": "Notas",
+      "notesPlaceholder": "Notas adicionales...",
+      "disclaimer": "Esta herramienta es solo para fines de registro. Easy US LLC no proporciona asesoramiento contable ni fiscal.",
+      "downloadCsv": "Descargar CSV",
+      "generating": "Generando...",
+      "toolTitle": "Generador CSV Contable",
+      "toolDescription": "Registra tus ingresos y gastos para tu contabilidad profesional.",
+      "openTool": "Crear Registro"
     }
   },
   "seo": {

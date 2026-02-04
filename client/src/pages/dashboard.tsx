@@ -1560,10 +1560,25 @@ export default function Dashboard() {
                           <img src={tramitesIconPath} alt="Operating Agreement" className="w-6 h-6" />
                           <h3 className="font-bold text-foreground">{t('dashboard.tools.operatingAgreement')}</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">Genera el documento legal de tu LLC con todos los datos requeridos.</p>
+                        <p className="text-sm text-muted-foreground mb-4">{t('tools.operatingAgreement.subtitle')}</p>
                         <Link href="/tools/operating-agreement">
                           <Button className="bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
-                            Generar Documento <ChevronRight className="w-4 h-4 ml-1" />
+                            {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
+                          </Button>
+                        </Link>
+                      </div>
+                    </Card>
+                    
+                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <FileText className="w-6 h-6 text-teal-600" />
+                          <h3 className="font-bold text-foreground">{t('tools.csvGenerator.toolTitle')}</h3>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-4">{t('tools.csvGenerator.toolDescription')}</p>
+                        <Link href="/tools/csv-generator">
+                          <Button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-full" size="sm" data-testid="button-csv-generator">
+                            {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
                       </div>

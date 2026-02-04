@@ -657,7 +657,7 @@
     "acceptTerms": "You must accept the terms",
     "whatsappRequired": "Required if you want WhatsApp contact",
     "ageMinimum": "You must be at least 18 years old to create an LLC",
-    "phoneFormat": "Invalid phone. Must start with + or have at least 6 digits, no letters"
+    "phoneFormat": "Invalid phone"
   },
   "application": {
     "title": "Form my LLC",
@@ -1967,6 +1967,42 @@
         "preparedBy": "Prepared by",
         "corporateServices": "Corporate Formation and Compliance Services"
       }
+    },
+    "csvGenerator": {
+      "title": "Accounting CSV Generator",
+      "subtitle": "Record your transactions and export to CSV format",
+      "loginRequired": "Access Required",
+      "loginDescription": "Sign in to use the accounting CSV generator.",
+      "backToDashboard": "Back to Dashboard",
+      "totalIncome": "Total Income",
+      "totalExpenses": "Total Expenses",
+      "netBalance": "Net Balance",
+      "transactions": "Transactions",
+      "transactionsTitle": "Transaction Records",
+      "addTransaction": "Add Transaction",
+      "date": "Date",
+      "description": "Description",
+      "descriptionPlaceholder": "Transaction description...",
+      "amount": "Amount",
+      "currency": "Currency",
+      "type": "Type",
+      "income": "Income",
+      "expense": "Expense",
+      "transfer": "Transfer",
+      "category": "Category",
+      "paymentMethod": "Payment Method",
+      "bankAccount": "Bank Account",
+      "bankAccountPlaceholder": "Account number...",
+      "invoiceNumber": "Invoice No.",
+      "invoiceNumberPlaceholder": "INV-001",
+      "notes": "Notes",
+      "notesPlaceholder": "Additional notes...",
+      "disclaimer": "This tool is provided for record-keeping purposes only. Easy US LLC does not provide accounting or tax advice.",
+      "downloadCsv": "Download CSV",
+      "generating": "Generating...",
+      "toolTitle": "Accounting CSV Generator",
+      "toolDescription": "Record your income and expenses for professional bookkeeping.",
+      "openTool": "Create Record"
     }
   },
   "seo": {
