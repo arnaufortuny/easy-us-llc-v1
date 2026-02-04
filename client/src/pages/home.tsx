@@ -213,7 +213,7 @@ function BenefitsCards() {
   ];
 
   return (
-    <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+    <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
       {benefits.map((card, i) => (
         <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
           {card.image && (
@@ -435,7 +435,7 @@ function PorQueEasyUSLLC() {
             transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
           />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto">
           {whyUsFeatures.map((feature, i) => {
             const CardWrapper = ({ children }: { children: React.ReactNode }) => {
               if ('link' in feature && feature.link) {
