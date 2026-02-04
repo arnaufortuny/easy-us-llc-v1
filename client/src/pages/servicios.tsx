@@ -91,7 +91,8 @@ export default function Servicios() {
         title={
           <>
             <motion.h1 
-              className="text-5xl sm:text-6xl lg:text-8xl font-black text-foreground tracking-tight leading-[1.1] text-center uppercase will-change-[transform,opacity]"
+              className="font-black text-foreground tracking-tighter text-center uppercase will-change-[transform,opacity] [text-wrap:balance]"
+              style={{ fontSize: 'clamp(34px, 10vw, 88px)', lineHeight: '0.85' }}
               variants={heroTitle}
               initial="hidden"
               animate="visible"
