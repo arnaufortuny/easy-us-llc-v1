@@ -36,6 +36,11 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
   - Optimized Vite build: es2020 target, esbuild minify, CSS code splitting, no sourcemaps
   - Improved cache headers with stale-while-revalidate for better CDN performance
   - Added fetchpriority="high" for critical images
+- **Global Green Gradient Background**: Implemented professional radial green gradient on html element that shows through all pages. Works in both light and dark modes. Removed redundant dashboard-gradient class.
+- **Dashboard Tour Improvements**: Extended tour texts to be more human and welcoming. Each step now has detailed descriptions explaining features in a warm, conversational tone.
+- **Registration UX Improvements**: 
+  - "Minimum 8 characters" hint only shows when no password error (not in red unless validation fails)
+  - Verify email section: reduced padding between navbar and title, centered title properly
 
 ## Domain Separation
 

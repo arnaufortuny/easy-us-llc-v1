@@ -12,37 +12,37 @@ interface TourStep {
 
 const tourSteps: TourStep[] = [
   {
-    title: "¡Bienvenido a tu espacio!",
-    description: "Este es tu panel personal. Aquí tienes todo lo que necesitas para gestionar tu LLC de forma sencilla.",
+    title: "¡Bienvenido a tu espacio personal!",
+    description: "Nos alegra mucho tenerte aquí. Este es tu panel de control, diseñado para que gestiones tu LLC de forma sencilla y sin complicaciones. Todo lo que necesitas está a un clic de distancia.",
     icon: Heart
   },
   {
     target: '[data-tour="orders"]',
-    title: "Tus trámites",
-    description: "Aquí puedes ver cómo va tu LLC: documentos, estados y todo el progreso de tu empresa.",
+    title: "El corazón de tu LLC",
+    description: "Aquí encontrarás todos tus trámites activos. Podrás ver el estado de tu formación, descargar documentos importantes como tu EIN y Articles of Organization, y seguir cada paso del proceso en tiempo real.",
     icon: Package
   },
   {
     target: '[data-tour="calendar"]',
-    title: "Fechas importantes",
-    description: "Te avisamos de los plazos del IRS, informes anuales y renovaciones. Así no te olvidas de nada.",
+    title: "Nunca más olvides una fecha",
+    description: "Sabemos que los plazos fiscales pueden ser confusos. Por eso te mostramos un calendario con todas las fechas importantes: declaraciones del IRS, informes anuales y renovaciones. Te avisamos con tiempo para que estés siempre al día.",
     icon: Calendar
   },
   {
     target: '[data-tour="messages"]',
-    title: "Estamos aquí",
-    description: "¿Tienes dudas? Escríbenos directamente desde aquí. Te respondemos lo antes posible.",
+    title: "Tu equipo de soporte personal",
+    description: "¿Tienes alguna duda o necesitas ayuda? Escríbenos directamente desde aquí. Nuestro equipo está listo para responderte de forma rápida y personalizada. No estás solo en este proceso.",
     icon: MessageSquare
   },
   {
     target: '[data-tour="profile"]',
-    title: "Tu perfil",
-    description: "Actualiza tus datos personales y de contacto cuando lo necesites.",
+    title: "Mantén tus datos actualizados",
+    description: "Aquí puedes modificar tu información personal, cambiar tu contraseña y configurar tus preferencias de contacto. Tener tus datos al día nos ayuda a darte un mejor servicio.",
     icon: User
   },
   {
-    title: "¡Todo listo!",
-    description: "Ya puedes empezar. Recuerda que estamos a un mensaje de distancia si necesitas ayuda.",
+    title: "¡Estás listo para comenzar!",
+    description: "Ya conoces las funciones principales de tu panel. Si en algún momento necesitas ayuda, recuerda que estamos a solo un mensaje de distancia. ¡Mucho éxito con tu LLC!",
     icon: Sparkles
   }
 ];

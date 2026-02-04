@@ -187,13 +187,13 @@ export default function Register() {
     return (
       <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
         <Navbar />
-        <main className="pt-24 pb-16 px-5 sm:px-6 flex flex-col items-center justify-center min-h-screen">
+        <main className="pt-8 pb-16 px-5 sm:px-6 flex flex-col items-center min-h-[calc(100vh-80px)]">
           <div className="w-full max-w-md">
             <div className="text-center mb-8">
-              <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight">
+              <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight text-center mx-auto">
                 {t("auth.verify.title")} <span className="text-accent">{t("auth.verify.titleHighlight")}</span>
               </h1>
-              <p className="text-muted-foreground mt-2">{t("auth.verify.subtitleDesc")}</p>
+              <p className="text-muted-foreground mt-2 text-center">{t("auth.verify.subtitleDesc")}</p>
             </div>
 
             <div className="bg-white dark:bg-card rounded-2xl p-5 border border-border shadow-sm mb-6">
@@ -464,8 +464,10 @@ export default function Register() {
                               </Button>
                             </div>
                           </FormControl>
-                          <p className="text-xs text-muted-foreground mt-1">{t("auth.register.passwordHint")}</p>
                           <FormMessage />
+                          {!form.formState.errors.password && (
+                            <p className="text-xs text-muted-foreground mt-1">{t("auth.register.passwordHint")}</p>
+                          )}
                         </FormItem>
                       )}
                     />
