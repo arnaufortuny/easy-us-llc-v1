@@ -202,13 +202,13 @@ export function StateComparison() {
         </motion.div>
 
         <motion.p
-          className="text-center text-lg sm:text-xl text-muted-foreground mt-10 max-w-3xl mx-auto font-medium italic"
+          className="text-center text-lg sm:text-xl text-foreground mt-10 max-w-3xl mx-auto font-semibold"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={viewportOnce}
           transition={{ delay: 0.4 }}
         >
-          "{t("stateComparison.humanMessage")}"
+          {t("stateComparison.humanMessage")}
         </motion.p>
 
         <motion.div 
