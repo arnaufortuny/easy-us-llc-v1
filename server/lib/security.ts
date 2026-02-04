@@ -105,7 +105,8 @@ export type AuditAction =
   | 'consultation_rescheduled'
   | 'accounting_transaction_created'
   | 'accounting_transaction_updated'
-  | 'accounting_transaction_deleted';
+  | 'accounting_transaction_deleted'
+  | 'admin_documents_download';
 
 interface AuditLogEntry {
   action: AuditAction;

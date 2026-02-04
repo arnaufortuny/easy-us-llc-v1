@@ -98,6 +98,11 @@ export const llcApplications = pgTable("llc_applications", {
   llcAddress: text("llc_address"),
   // Owner share/capital percentage (set by admin)
   ownerSharePercentage: text("owner_share_percentage"),
+  // Registered agent status: active, pending_renewal, renewed, expired
+  agentStatus: text("agent_status").default("active"),
+  // BOI (Beneficial Ownership Information) status: pending, filed, update_required, exempt
+  boiStatus: text("boi_status").default("pending"),
+  boiFiledDate: timestamp("boi_filed_date"),
   // Abandoned application tracking
   abandonedAt: timestamp("abandoned_at"),
   remindersSent: integer("reminders_sent").notNull().default(0),

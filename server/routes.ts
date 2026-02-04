@@ -530,14 +530,38 @@ export async function registerRoutes(
   app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);
     const { field, value } = z.object({ 
-      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein']),
+      field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus', 'boiFiledDate']),
       value: z.string()
     }).parse(req.body);
     
-    // Handle EIN as text field
-    if (field === 'ein') {
+    // Handle text fields (EIN, registration number, address, share percentage, agent status, BOI status)
+    const textFields = ['ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus'];
+    if (textFields.includes(field)) {
+      const updateData: Record<string, string | null> = {};
+      updateData[field] = value || null;
+      
+      // If marking agent as renewed, update the renewal date to next year
+      if (field === 'agentStatus' && value === 'renewed') {
+        const [app] = await db.select({ agentRenewalDate: llcApplicationsTable.agentRenewalDate })
+          .from(llcApplicationsTable)
+          .where(eq(llcApplicationsTable.id, appId))
+          .limit(1);
+        
+        if (app?.agentRenewalDate) {
+          const newRenewalDate = new Date(app.agentRenewalDate);
+          newRenewalDate.setFullYear(newRenewalDate.getFullYear() + 1);
+          await db.update(llcApplicationsTable)
+            .set({ 
+              agentStatus: 'active',
+              agentRenewalDate: newRenewalDate 
+            })
+            .where(eq(llcApplicationsTable.id, appId));
+          return res.json({ success: true, newRenewalDate });
+        }
+      }
+      
       await db.update(llcApplicationsTable)
-        .set({ ein: value || null })
+        .set(updateData)
         .where(eq(llcApplicationsTable.id, appId));
       return res.json({ success: true });
     }
@@ -902,6 +926,53 @@ export async function registerRoutes(
     }
     
     res.json({ success: true });
+  }));
+
+  // Download all user documents as ZIP
+  app.get("/api/admin/users/:id/documents/download", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const userId = req.params.id;
+    const archiver = await import("archiver");
+    const path = await import("path");
+    const fs = await import("fs");
+    
+    // Get user info
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    // Get all documents for this user
+    const documents = await db.select()
+      .from(applicationDocumentsTable)
+      .where(eq(applicationDocumentsTable.userId, userId));
+    
+    if (documents.length === 0) {
+      return res.status(404).json({ message: "No hay documentos para este usuario" });
+    }
+    
+    // Create ZIP archive
+    const archive = archiver.default('zip', { zlib: { level: 9 } });
+    
+    res.setHeader('Content-Type', 'application/zip');
+    res.setHeader('Content-Disposition', `attachment; filename="documentos_${user.firstName || 'cliente'}_${user.clientId || userId}.zip"`);
+    
+    archive.pipe(res);
+    
+    for (const doc of documents) {
+      const filePath = path.join(process.cwd(), doc.fileUrl);
+      if (fs.existsSync(filePath)) {
+        archive.file(filePath, { name: doc.fileName });
+      }
+    }
+    
+    await archive.finalize();
+    
+    logAudit({
+      action: 'admin_documents_download',
+      userId: req.session?.userId,
+      targetId: userId,
+      details: { documentCount: documents.length }
+    });
   }));
 
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {

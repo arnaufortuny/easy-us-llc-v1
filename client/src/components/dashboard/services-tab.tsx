@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
-import { AlertCircle, ChevronRight, Package } from "lucide-react";
+import { AlertCircle, ChevronRight, Calendar, FileText, CheckCircle2, Clock, AlertTriangle, Building2, MapPin, Users, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,14 +14,48 @@ interface ServicesTabProps {
   activeOrders: any[];
 }
 
+function formatDate(date: string | Date | null | undefined) {
+  if (!date) return '-';
+  return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function getAgentStatusBadge(status: string | null | undefined, t: any) {
+  switch (status) {
+    case 'active':
+      return <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-[9px]" data-testid="badge-agent-active"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentActive')}</Badge>;
+    case 'pending_renewal':
+      return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 text-[9px]" data-testid="badge-agent-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentPendingRenewal')}</Badge>;
+    case 'expired':
+      return <Badge className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 text-[9px]" data-testid="badge-agent-expired"><AlertTriangle className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentExpired')}</Badge>;
+    default:
+      return <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400 text-[9px]" data-testid="badge-agent-unknown">{t('dashboard.llcDetails.agentPending')}</Badge>;
+  }
+}
+
+function getBoiStatusBadge(status: string | null | undefined, t: any) {
+  switch (status) {
+    case 'filed':
+      return <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400 text-[9px]" data-testid="badge-boi-filed"><CheckCircle2 className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiFiled')}</Badge>;
+    case 'update_required':
+      return <Badge className="bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400 text-[9px]" data-testid="badge-boi-update"><AlertTriangle className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiUpdateRequired')}</Badge>;
+    case 'exempt':
+      return <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-[9px]" data-testid="badge-boi-exempt"><Shield className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiExempt')}</Badge>;
+    default:
+      return <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400 text-[9px]" data-testid="badge-boi-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiPending')}</Badge>;
+  }
+}
+
 export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabProps) {
   const { t } = useTranslation();
+  
+  const completedOrders = orders?.filter(o => o.status === 'completed' && o.application) || [];
+  const inProgressOrders = orders?.filter(o => o.status !== 'completed' && o.status !== 'pending') || [];
 
   return (
     <div key="services" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mis trámites</h2>
-        <p className="text-sm text-muted-foreground mt-1">Gestiona tus trámites activos</p>
+        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>
       </div>
       
       {draftOrders.map((order) => {
@@ -37,17 +71,17 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                   <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm md:text-base font-semibold text-foreground">Solicitud pendiente de completar</p>
+                  <p className="text-sm md:text-base font-semibold text-foreground">{t('dashboard.services.pendingApplication')}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {order.maintenanceApplication 
-                      ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
+                      ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                       : order.application?.companyName 
                         ? `${order.application.companyName} LLC`
-                        : `${order.application?.state || 'Tu LLC'}`
+                        : `${order.application?.state || t('dashboard.services.yourLLC')}`
                     }
                     {hoursRemaining !== null && (
                       <span className="text-yellow-600 dark:text-yellow-400 font-semibold ml-2">
-                        · Se eliminará en {hoursRemaining}h
+                        · {t('dashboard.services.deletedIn', { hours: hoursRemaining })}
                       </span>
                     )}
                   </p>
@@ -55,7 +89,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
               </div>
               <Link href={order.maintenanceApplication ? "/llc/maintenance" : "/llc/formation"} data-testid={`link-continue-application-${order.id}`}>
                 <Button className="bg-accent text-primary font-bold rounded-full" size="sm" data-testid={`button-continue-application-${order.id}`}>
-                  Continuar solicitud
+                  {t('dashboard.services.continueApplication')}
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
               </Link>
@@ -67,61 +101,217 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       {(!orders || orders.length === 0) ? (
         <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <img src={tramitesIconPath} alt="Mis trámites" className="w-12 h-12 md:w-16 md:h-16" />
+            <img src={tramitesIconPath} alt={t('dashboard.services.title')} className="w-12 h-12 md:w-16 md:h-16" />
             <div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
-              <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
+              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.services.empty')}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.services.emptyDescription')}</p>
             </div>
             <Link href="/servicios#pricing">
               <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
-                Ver planes disponibles
+                {t('dashboard.services.viewPlans')}
               </Button>
             </Link>
           </div>
         </Card>
       ) : (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-            {activeOrders.map((order) => (
-              <LLCProgressWidget 
-                key={`progress-${order.id}`}
-                status={order.status}
-                serviceName={
-                  order.maintenanceApplication 
-                    ? `Mant. ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
-                    : order.application?.companyName 
-                      ? `${order.application.companyName} LLC`
-                      : order.product?.name || 'Tu LLC'
-                }
-                state={order.application?.state || order.maintenanceApplication?.state}
-                requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
-                isMaintenance={!!order.maintenanceApplication}
-              />
-            ))}
-          </div>
+          {/* Completed LLCs - Full Details */}
+          {completedOrders.length > 0 && (
+            <div className="space-y-4">
+              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-accent" />
+                {t('dashboard.llcDetails.myLLCs')}
+              </h3>
+              
+              {completedOrders.map((order) => {
+                const app = order.application;
+                return (
+                  <Card key={`completed-${order.id}`} className="rounded-2xl border-0 shadow-md bg-white dark:bg-card overflow-hidden" data-testid={`card-completed-llc-${order.id}`}>
+                    <div className="bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 p-4 border-b border-green-100 dark:border-green-900/30">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
+                            <h4 className="text-lg font-bold text-foreground">{app.companyName} LLC</h4>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {app.state} · {t('dashboard.llcDetails.orderCode')}: {app.requestCode}
+                          </p>
+                        </div>
+                        <Badge className="bg-green-500 text-white font-bold text-xs self-start sm:self-auto" data-testid={`badge-completed-${order.id}`}>
+                          {t('dashboard.llcDetails.active')}
+                        </Badge>
+                      </div>
+                    </div>
+                    
+                    <div className="p-4 space-y-4">
+                      {/* LLC Details Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {app.ein && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-ein-${order.id}`}>
+                            <FileText className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.ein')}</p>
+                              <p className="text-sm font-bold text-foreground">{app.ein}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {app.registrationNumber && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-registration-${order.id}`}>
+                            <FileText className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.registrationNumber')}</p>
+                              <p className="text-sm font-bold text-foreground">{app.registrationNumber}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {app.llcAddress && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 sm:col-span-2" data-testid={`llc-address-${order.id}`}>
+                            <MapPin className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.address')}</p>
+                              <p className="text-sm font-medium text-foreground">{app.llcAddress}</p>
+                            </div>
+                          </div>
+                        )}
+                        
+                        {app.ownerSharePercentage && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-shares-${order.id}`}>
+                            <Users className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                            <div className="min-w-0">
+                              <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.ownership')}</p>
+                              <p className="text-sm font-bold text-foreground">{app.ownerSharePercentage}%</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Status Badges */}
+                      <div className="flex flex-wrap gap-2">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] text-muted-foreground">{t('dashboard.llcDetails.registeredAgent')}:</span>
+                          {getAgentStatusBadge(app.agentStatus, t)}
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <span className="text-[10px] text-muted-foreground">{t('dashboard.llcDetails.boi')}:</span>
+                          {getBoiStatusBadge(app.boiStatus, t)}
+                        </div>
+                      </div>
+                      
+                      {/* Important Dates */}
+                      {(app.llcCreatedDate || app.agentRenewalDate || app.irs1120DueDate) && (
+                        <div className="border-t pt-3">
+                          <p className="text-[10px] text-muted-foreground uppercase font-bold mb-2 flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {t('dashboard.llcDetails.importantDates')}
+                          </p>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
+                            {app.llcCreatedDate && (
+                              <div data-testid={`date-created-${order.id}`}>
+                                <p className="text-muted-foreground">{t('dashboard.llcDetails.formed')}</p>
+                                <p className="font-semibold text-foreground">{formatDate(app.llcCreatedDate)}</p>
+                              </div>
+                            )}
+                            {app.agentRenewalDate && (
+                              <div data-testid={`date-agent-${order.id}`}>
+                                <p className="text-muted-foreground">{t('dashboard.llcDetails.agentRenewal')}</p>
+                                <p className="font-semibold text-foreground">{formatDate(app.agentRenewalDate)}</p>
+                              </div>
+                            )}
+                            {app.irs1120DueDate && (
+                              <div data-testid={`date-irs1120-${order.id}`}>
+                                <p className="text-muted-foreground">IRS 1120</p>
+                                <p className="font-semibold text-foreground">{formatDate(app.irs1120DueDate)}</p>
+                              </div>
+                            )}
+                            {app.annualReportDueDate && (
+                              <div data-testid={`date-annual-${order.id}`}>
+                                <p className="text-muted-foreground">{t('dashboard.llcDetails.annualReport')}</p>
+                                <p className="font-semibold text-foreground">{formatDate(app.annualReportDueDate)}</p>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Actions */}
+                      <div className="flex flex-wrap gap-2 pt-2">
+                        <Link href="/dashboard?tab=documents">
+                          <Button variant="outline" size="sm" className="text-xs rounded-full" data-testid={`button-documents-${order.id}`}>
+                            <FileText className="w-3 h-3 mr-1" />
+                            {t('dashboard.llcDetails.myDocuments')}
+                          </Button>
+                        </Link>
+                        {app.ein && (
+                          <Link href="/tools/operating-agreement">
+                            <Button variant="outline" size="sm" className="text-xs rounded-full" data-testid={`button-operating-${order.id}`}>
+                              {t('dashboard.llcDetails.generateAgreement')}
+                            </Button>
+                          </Link>
+                        )}
+                      </div>
+                    </div>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
           
-          {orders.length > 0 && (
+          {/* In Progress Orders */}
+          {inProgressOrders.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-xs md:text-sm font-bold text-muted-foreground">{t('dashboard.services.inProgress')}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                {inProgressOrders.map((order) => (
+                  <LLCProgressWidget 
+                    key={`progress-${order.id}`}
+                    status={order.status}
+                    serviceName={
+                      order.maintenanceApplication 
+                        ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
+                        : order.application?.companyName 
+                          ? `${order.application.companyName} LLC`
+                          : order.product?.name || t('dashboard.services.yourLLC')
+                    }
+                    state={order.application?.state || order.maintenanceApplication?.state}
+                    requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
+                    isMaintenance={!!order.maintenanceApplication}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* All Orders List */}
+          {orders && orders.length > 0 && (
             <div className="mt-4 md:mt-6">
-              <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">Todos los Pedidos</h3>
+              <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">{t('dashboard.services.allOrders')}</h3>
               <div className="space-y-2 md:space-y-3">
                 {orders.map((order) => (
                   <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-card overflow-hidden" data-testid={`card-order-${order.id}`}>
                     <div className="flex items-center justify-between p-3 md:p-4 gap-2">
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center gap-2 mb-0.5">
+                        <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                           <p className="text-[9px] md:text-[10px] font-bold text-accent uppercase tracking-wider">
                             {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`}
                           </p>
                           <Badge className={`${getOrderStatusLabel(order.status, t).className} font-bold uppercase text-[8px] md:text-[9px] px-1.5 py-0`} data-testid={`badge-order-status-${order.id}`}>
                             {getOrderStatusLabel(order.status, t).label}
                           </Badge>
+                          {order.status === 'completed' && order.application?.ein && (
+                            <Badge className="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 text-[8px] px-1.5 py-0" data-testid={`badge-ein-${order.id}`}>
+                              EIN: {order.application.ein}
+                            </Badge>
+                          )}
                         </div>
                         <p className="text-sm md:text-base font-bold text-primary truncate">
                           {order.maintenanceApplication 
-                            ? `Mantenimiento ${order.maintenanceApplication.state || ''}`
+                            ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                             : order.application?.companyName 
                               ? `${order.application.companyName} LLC`
-                              : order.product?.name || 'LLC pendiente'
+                              : order.product?.name || t('dashboard.services.pendingLLC')
                           }
                         </p>
                         <p className="text-[10px] md:text-xs text-muted-foreground">
@@ -137,7 +327,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                           onClick={() => window.location.href = `/llc/formation?edit=${order.application.id}`}
                           data-testid={`button-modify-order-${order.id}`}
                         >
-                          Modificar
+                          {t('dashboard.services.modify')}
                         </Button>
                       )}
                     </div>
