@@ -224,7 +224,8 @@
         "Our address",
         "Bank assistance",
         "Full support 12 months",
-        "Express Service"
+        "Express Service",
+        "Tools and digital platform"
       ],
       "nmWy": "2-3 business days",
       "de": "3-5 business days",
@@ -250,7 +251,8 @@
         "Annual Report filing and management",
         "Unlimited support (12 months)",
         "BOI Report renewal (if necessary)",
-        "1 Articles of Organization update"
+        "1 Articles of Organization update",
+        "Tools and digital platform"
       ],
       "choosePack": "Choose Pack",
       "details": {
@@ -415,7 +417,9 @@
       "wyoming": "Maximum privacy and e-commerce",
       "delaware": "Startups and venture capital"
     },
-    "disclaimer": "* State fees are included in our formation prices. Annual maintenance includes registered agent, compliance, and support."
+    "disclaimer": "* State fees are included in our formation prices. Annual maintenance includes registered agent, compliance, and support.",
+    "imReady": "I'm ready",
+    "needHelp": "I don't know which to choose"
   },
   "pricing": {
     "title": "Plans & Pricing",

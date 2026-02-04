@@ -1,8 +1,10 @@
-import { Check } from "lucide-react";
+import { Check, MessageCircle, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { fadeInUp, viewportOnce, transitions } from "@/lib/animations";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
+import { Button } from "@/components/ui/button";
+import { Link } from "wouter";
 
 interface StateData {
   name: string;
@@ -132,6 +134,37 @@ export function StateComparison() {
             </motion.div>
           ))}
         </div>
+
+        <motion.div 
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 sm:mt-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={viewportOnce}
+          transition={{ delay: 0.2 }}
+        >
+          <Link href="/llc/formation">
+            <Button 
+              className="bg-accent hover:bg-accent/90 text-primary font-black text-sm sm:text-base rounded-full px-8 py-6 h-12 shadow-md shadow-accent/20 transition-all transform active:scale-95"
+              data-testid="button-im-ready"
+            >
+              {t("stateComparison.imReady")}
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </Button>
+          </Link>
+          <a 
+            href="https://wa.me/34611047000?text=Hola,%20necesito%20ayuda%20para%20elegir%20el%20estado%20ideal%20para%20mi%20LLC"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button 
+              className="bg-accent hover:bg-accent/90 text-primary font-black text-sm sm:text-base rounded-full px-8 py-6 h-12 shadow-md shadow-accent/20 transition-all transform active:scale-95"
+              data-testid="button-need-help"
+            >
+              <MessageCircle className="w-4 h-4 mr-2" />
+              {t("stateComparison.needHelp")}
+            </Button>
+          </a>
+        </motion.div>
 
         <motion.p
           className="text-center text-muted-foreground text-xs sm:text-sm mt-6 max-w-3xl mx-auto"

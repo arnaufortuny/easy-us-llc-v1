@@ -224,7 +224,8 @@
         "Dirección nuestra",
         "Asistencia con bancos",
         "Soporte completo 12 meses",
-        "Servicio Express"
+        "Servicio Express",
+        "Herramientas y plataforma digital"
       ],
       "nmWy": "2-3 días hábiles",
       "de": "3-5 días hábiles",
@@ -250,7 +251,8 @@
         "Presentación y Gestión Annual Report",
         "Soporte Ilimitado (12 meses)",
         "Renovación de BOI Report (si fuera necesario)",
-        "1 Actualización de Articles of Organization"
+        "1 Actualización de Articles of Organization",
+        "Herramientas y plataforma digital"
       ],
       "choosePack": "Elegir Pack",
       "details": {
@@ -415,7 +417,9 @@
       "wyoming": "Privacidad máxima y e-commerce",
       "delaware": "Startups y venture capital"
     },
-    "disclaimer": "* Los costos de tasas estatales están incluidos en nuestros precios de formación. El mantenimiento anual incluye agente registrado, cumplimiento y soporte."
+    "disclaimer": "* Los costos de tasas estatales están incluidos en nuestros precios de formación. El mantenimiento anual incluye agente registrado, cumplimiento y soporte.",
+    "imReady": "Estoy listo",
+    "needHelp": "No sé cuál elegir"
   },
   "pricing": {
     "title": "Planes y Precios",

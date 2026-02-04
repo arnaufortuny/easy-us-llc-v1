@@ -224,7 +224,8 @@
         "Adreça nostra",
         "Assistència amb bancs",
         "Suport complet 12 mesos",
-        "Servei Express"
+        "Servei Express",
+        "Eines i plataforma digital"
       ],
       "nmWy": "2-3 dies hàbils",
       "de": "3-5 dies hàbils",
@@ -250,7 +251,8 @@
         "Presentació i Gestió Annual Report",
         "Suport Il·limitat (12 mesos)",
         "Renovació de BOI Report (si fos necessari)",
-        "1 Actualització d'Articles of Organization"
+        "1 Actualització d'Articles of Organization",
+        "Eines i plataforma digital"
       ],
       "choosePack": "Triar Pack",
       "details": {
@@ -415,7 +417,9 @@
       "wyoming": "Privacitat màxima i e-commerce",
       "delaware": "Startups i venture capital"
     },
-    "disclaimer": "* Els costos de taxes estatals estan inclosos en els nostres preus de formació. El manteniment anual inclou agent registrat, compliment i suport."
+    "disclaimer": "* Els costos de taxes estatals estan inclosos en els nostres preus de formació. El manteniment anual inclou agent registrat, compliment i suport.",
+    "imReady": "Estic llest",
+    "needHelp": "No sé quin triar"
   },
   "pricing": {
     "title": "Plans i Preus",
