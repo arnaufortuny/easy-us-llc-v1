@@ -89,7 +89,7 @@ export default function FAQ() {
   })).filter(category => category.questions.length > 0);
 
   return (
-    <div className="min-h-screen bg-background font-sans text-left overflow-x-hidden w-full relative animate-page-in">
+    <div className="min-h-screen bg-background font-sans text-left w-full relative animate-page-in">
       <Navbar />
 
       <section className="pt-16 sm:pt-24 lg:pt-28 pb-4 sm:py-20 bg-background">

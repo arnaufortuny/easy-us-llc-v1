@@ -81,7 +81,7 @@ export default function Servicios() {
   ];
 
   return (
-    <div className="min-h-screen font-sans bg-background text-center overflow-x-hidden w-full relative animate-page-in">
+    <div className="min-h-screen font-sans bg-background text-center w-full relative animate-page-in">
       <Navbar />
       
       <HeroSection 

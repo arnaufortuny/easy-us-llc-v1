@@ -26,11 +26,9 @@ body {
 
 @layer base {
   :root {
-    content-visibility: auto;
-    text-rendering: optimizeSpeed;
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    scroll-behavior: smooth;
   }
 
   /* Prevent zoom on input focus for iOS */
@@ -53,25 +51,6 @@ body {
     font-size: 16px !important;
     touch-action: manipulation;
     -webkit-text-size-adjust: 100%;
-  }
-
-  /* Performance: Lazy load off-screen content (disabled on mobile for better scroll) */
-  @media (min-width: 768px) {
-    section, .card, .container {
-      content-visibility: auto;
-      contain-intrinsic-size: 1px 500px;
-    }
-  }
-  
-  /* Footer must always render - critical for mobile visibility */
-  footer {
-    content-visibility: visible !important;
-  }
-
-  /* Reduce layout shifts */
-  img {
-    aspect-ratio: auto;
-    content-visibility: auto;
   }
   
   [role="combobox"], [data-radix-select-trigger] {
@@ -197,34 +176,20 @@ body {
 @layer base {
   * {
     @apply border-border;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
   }
   html {
-    overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
   }
   body {
     @apply bg-background text-foreground antialiased font-sans text-left;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
     min-height: 100dvh;
-    position: relative;
-    scroll-behavior: smooth;
   }
   #root {
-    overflow-x: hidden;
     width: 100%;
-    max-width: 100vw;
     min-height: 100dvh;
-    position: relative;
   }
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-black tracking-tight text-left;
@@ -264,10 +229,6 @@ body {
 
 a, button {
   transition: none;
-}
-
-img {
-  content-visibility: auto;
 }
 
 /* Main site gradient background - top to bottom (white at bottom) */
@@ -489,42 +450,18 @@ img {
   transform: scale3d(0.97, 0.97, 1) translateZ(0);
 }
 
-/* Page transitions - instant feel */
+/* Page transitions - simple fade only */
 .animate-page-in {
-  animation: fadeIn 0.12s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  animation: fadeIn 0.15s ease-out forwards;
 }
 
 .animate-section-in {
-  animation: fadeInUp 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  animation: fadeIn 0.2s ease-out forwards;
 }
 
-/* GPU acceleration utility */
-.gpu-accelerate {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-
-/* GPU acceleration for animations - critical for 0 lag */
+/* GPU acceleration utility - minimal */
 .gpu-accelerated {
-  transform: translateZ(0);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  contain: layout style paint;
-}
-
-/* Optimized motion elements - instant GPU compositing */
-[data-motion],
-.motion-element {
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: translateZ(0);
-  contain: layout style paint;
+  will-change: opacity;
 }
 
 /* Global animation performance optimization */
