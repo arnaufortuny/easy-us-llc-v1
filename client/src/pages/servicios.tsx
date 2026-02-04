@@ -432,7 +432,8 @@ export default function Servicios() {
             </div>
           </div>
 
-          <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
+          {/* Maintenance Section Header */}
+          <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center relative" id="mantenimiento">
             <motion.h2 
               className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
@@ -441,20 +442,150 @@ export default function Servicios() {
               whileInView="visible"
               viewport={viewportOnce}
             >
-              <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
-              <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
+              <span className="text-foreground">{t("services.maintenancePack.sectionTitle")}</span>{" "}
+              <span className="text-accent">{t("services.maintenancePack.sectionTitleHighlight")}</span>
             </motion.h2>
             <motion.p
-              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-3xl"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
-              {t("packsTitle.maintenance.subtitle")}
+              {t("services.maintenancePack.sectionSubtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+              variants={lineExpand}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            />
+          </div>
+
+          {/* Trust Text Block */}
+          <motion.div 
+            className="max-w-4xl mx-auto mb-10 px-4"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <div className="bg-accent/5 rounded-2xl p-6 sm:p-8 border border-accent/10">
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed mb-4">
+                {t("services.maintenancePack.trustText")}
+              </p>
+              <p className="text-foreground font-bold text-sm sm:text-base">
+                {t("services.maintenancePack.trustGoal")}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* What We Do Title */}
+          <motion.h3 
+            className="text-2xl sm:text-3xl font-black text-center mb-8"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            {t("services.maintenancePack.whatWeDoTitle")}
+          </motion.h3>
+
+          {/* Details Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto mb-10 px-4">
+            {["fiscal", "agent", "annual", "boi", "deadlines", "support"].map((key, i) => (
+              <motion.div 
+                key={key}
+                className="bg-background rounded-2xl p-5 border border-accent/10 hover:border-accent/30 transition-colors"
+                variants={fadeInUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={viewportOnce}
+                transition={{ delay: i * 0.05 }}
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-sm font-black text-primary-foreground">{i + 1}</span>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm sm:text-base mb-1">
+                      {t(`services.maintenancePack.details.${key}.title`)}
+                    </h4>
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+                      {t(`services.maintenancePack.details.${key}.desc`)}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Emotional Block */}
+          <motion.div 
+            className="max-w-4xl mx-auto mb-10 px-4"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <div className="bg-accent/10 rounded-2xl p-6 sm:p-8 text-center">
+              <h4 className="text-xl sm:text-2xl font-black text-foreground mb-4">
+                {t("services.maintenancePack.emotionalTitle")}
+              </h4>
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+                {t("services.maintenancePack.emotionalText")}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Benefits List */}
+          <motion.div 
+            className="max-w-3xl mx-auto mb-10 px-4"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
+                <div key={i} className="flex items-center gap-2 text-foreground">
+                  <Check className="w-5 h-5 text-accent flex-shrink-0" />
+                  <span className="text-sm font-medium">{benefit}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Final Text */}
+          <motion.div 
+            className="text-center mb-12 px-4"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <p className="text-foreground font-bold text-base sm:text-lg max-w-2xl mx-auto mb-2">
+              {t("services.maintenancePack.finalText")}
+            </p>
+            <p className="text-muted-foreground text-sm max-w-xl mx-auto">
+              {t("services.maintenancePack.helpText")}
+            </p>
+          </motion.div>
+
+          {/* Maintenance Packs Title */}
+          <div className="text-center mb-8 flex flex-col items-center justify-center">
+            <motion.h3 
+              className="text-2xl sm:text-3xl font-black text-foreground"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("packsTitle.maintenance.packs")} {t("packsTitle.maintenance.name")}
+            </motion.h3>
+            <motion.div 
+              className="w-16 h-1 bg-accent mt-4 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"

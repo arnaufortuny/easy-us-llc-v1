@@ -242,8 +242,12 @@
     "maintenancePack": {
       "title": "Mantenimiento Anual",
       "badge": "MANTENIMIENTO",
-      "sectionTitle": "Packs Mantenimiento",
-      "sectionSubtitle": "(Lo que incluye tu servicio anual)",
+      "sectionTitle": "Tu LLC siempre en regla,",
+      "sectionTitleHighlight": "sin preocupaciones ni sorpresas",
+      "sectionSubtitle": "Nos ocupamos de todas las obligaciones legales, fiscales y administrativas de tu empresa para que puedas centrarte en hacer crecer tu negocio con total tranquilidad.",
+      "trustText": "Sabemos que gestionar una empresa en Estados Unidos puede generar dudas, especialmente si operas desde otro país. Por eso creamos un sistema de mantenimiento completo donde revisamos cada requisito legal y fiscal por ti, asegurándonos de que todo esté presentado correctamente y dentro de plazo.",
+      "trustGoal": "Nuestro objetivo es simple: que tu empresa funcione sin interrupciones y sin estrés.",
+      "whatWeDoTitle": "Qué haremos por ti durante todo el año",
       "includes": [
         "Presentación Form 1120 ante el IRS",
         "Presentación Form 5472 ante el IRS",
@@ -258,30 +262,41 @@
       "choosePack": "Elegir Pack",
       "details": {
         "fiscal": {
-          "title": "Gestión Fiscal",
-          "desc": "Preparación y presentación de los formularios 1120 y 5472 ante el IRS, asegurando el cumplimiento tributario anual de tu LLC."
+          "title": "Gestión fiscal obligatoria",
+          "desc": "Nos encargamos de preparar y presentar los formularios fiscales necesarios ante el IRS, controlando plazos y requisitos para evitar sanciones o problemas con tu empresa."
         },
         "agent": {
-          "title": "Registered Agent",
-          "desc": "Renovación del servicio de Agente Registrado por un año más, manteniendo tu dirección legal y la recepción de notificaciones oficiales."
+          "title": "Renovación del agente registrado",
+          "desc": "Tu LLC necesita mantener un agente registrado activo para seguir operando legalmente. Nosotros gestionamos su renovación anual para que tu empresa nunca quede fuera de cumplimiento."
         },
         "annual": {
-          "title": "Annual Report",
-          "desc": "Gestión y presentación del Informe Anual ante el Secretario de Estado correspondiente, incluyendo el pago de las tasas estatales obligatorias."
+          "title": "Presentación del informe anual estatal",
+          "desc": "Cada estado exige mantener la empresa activa mediante informes periódicos. Controlamos fechas, preparamos la documentación y realizamos la presentación correspondiente."
         },
         "boi": {
-          "title": "BOI Report",
-          "desc": "Actualización y mantenimiento del Beneficial Ownership Information Report ante FinCEN para reflejar cualquier cambio en la estructura."
+          "title": "Supervisión y actualización del BOI Report",
+          "desc": "Si cambian datos relevantes de tu empresa o estructura, actualizamos la información requerida por FinCEN para mantener el cumplimiento federal."
+        },
+        "deadlines": {
+          "title": "Seguimiento y control de plazos",
+          "desc": "Monitorizamos todas las fechas importantes relacionadas con tu LLC y te avisamos con antelación para que nunca pierdas una obligación legal."
         },
         "support": {
-          "title": "Soporte Continuo",
-          "desc": "Acceso ilimitado a nuestro equipo de soporte para resolver dudas sobre la operativa, impuestos y mantenimiento de tu empresa."
-        },
-        "updates": {
-          "title": "Actualizaciones",
-          "desc": "Incluye una actualización anual de tus Articles of Organization en caso de cambios menores en la estructura de la empresa."
+          "title": "Soporte continuo especializado",
+          "desc": "Tendrás acceso a nuestro equipo para resolver dudas fiscales, bancarias o administrativas relacionadas con tu empresa, siempre con un enfoque práctico y claro."
         }
-      }
+      },
+      "emotionalTitle": "Más que mantenimiento, tranquilidad real",
+      "emotionalText": "Queremos que tengas la seguridad de que tu empresa está correctamente gestionada, incluso cuando tú estás enfocado en vender, escalar o desarrollar tu negocio. Nosotros vigilamos la parte legal y administrativa para que tú puedas centrarte en lo que realmente importa.",
+      "benefits": [
+        "Evitas sanciones fiscales innecesarias",
+        "Mantienes tu empresa activa y en cumplimiento",
+        "Proteges la operativa bancaria de tu LLC",
+        "No tienes que preocuparte por fechas ni formularios",
+        "Tienes acompañamiento real cuando lo necesites"
+      ],
+      "finalText": "Tu empresa no solo se crea, se mantiene. Y estamos aquí para asegurarnos de que todo siga funcionando correctamente año tras año.",
+      "helpText": "Si tienes dudas, no te preocupes. Estamos aquí para ayudarte y explicarte todo de forma sencilla, sin tecnicismos ni procesos complicados."
     },
     "whatWeDo": {
       "badge": "SERVICIOS",

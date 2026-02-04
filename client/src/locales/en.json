@@ -242,8 +242,12 @@
     "maintenancePack": {
       "title": "Annual Maintenance",
       "badge": "MAINTENANCE",
-      "sectionTitle": "Maintenance Packs",
-      "sectionSubtitle": "(What your annual service includes)",
+      "sectionTitle": "Your LLC always compliant,",
+      "sectionTitleHighlight": "without worries or surprises",
+      "sectionSubtitle": "We handle all legal, tax and administrative obligations of your company so you can focus on growing your business with complete peace of mind.",
+      "trustText": "We know that managing a company in the United States can raise questions, especially if you operate from another country. That's why we created a complete maintenance system where we review every legal and tax requirement for you, ensuring everything is filed correctly and on time.",
+      "trustGoal": "Our goal is simple: for your company to run without interruptions and without stress.",
+      "whatWeDoTitle": "What we'll do for you throughout the year",
       "includes": [
         "Form 1120 filing with IRS",
         "Form 5472 filing with IRS",
@@ -258,30 +262,41 @@
       "choosePack": "Choose Pack",
       "details": {
         "fiscal": {
-          "title": "Tax Management",
-          "desc": "Preparation and filing of forms 1120 and 5472 with the IRS, ensuring your LLC's annual tax compliance."
+          "title": "Mandatory tax management",
+          "desc": "We prepare and file the necessary tax forms with the IRS, controlling deadlines and requirements to avoid penalties or problems with your company."
         },
         "agent": {
-          "title": "Registered Agent",
-          "desc": "Renewal of the Registered Agent service for one more year, maintaining your legal address and receiving official notifications."
+          "title": "Registered agent renewal",
+          "desc": "Your LLC needs to maintain an active registered agent to continue operating legally. We manage its annual renewal so your company never falls out of compliance."
         },
         "annual": {
-          "title": "Annual Report",
-          "desc": "Management and filing of the Annual Report with the corresponding Secretary of State, including payment of mandatory state fees."
+          "title": "State annual report filing",
+          "desc": "Each state requires keeping the company active through periodic reports. We control dates, prepare documentation and file accordingly."
         },
         "boi": {
-          "title": "BOI Report",
-          "desc": "Update and maintenance of the Beneficial Ownership Information Report with FinCEN to reflect any changes in the structure."
+          "title": "BOI Report supervision and update",
+          "desc": "If relevant data about your company or structure changes, we update the information required by FinCEN to maintain federal compliance."
+        },
+        "deadlines": {
+          "title": "Deadline tracking and control",
+          "desc": "We monitor all important dates related to your LLC and notify you in advance so you never miss a legal obligation."
         },
         "support": {
-          "title": "Continuous Support",
-          "desc": "Unlimited access to our support team to resolve questions about operations, taxes and maintenance of your company."
-        },
-        "updates": {
-          "title": "Updates",
-          "desc": "Includes an annual update of your Articles of Organization in case of minor changes to the company structure."
+          "title": "Specialized continuous support",
+          "desc": "You'll have access to our team to resolve tax, banking or administrative questions related to your company, always with a practical and clear approach."
         }
-      }
+      },
+      "emotionalTitle": "More than maintenance, real peace of mind",
+      "emotionalText": "We want you to have the security that your company is properly managed, even when you're focused on selling, scaling or developing your business. We watch over the legal and administrative side so you can focus on what really matters.",
+      "benefits": [
+        "Avoid unnecessary tax penalties",
+        "Keep your company active and compliant",
+        "Protect your LLC's banking operations",
+        "Don't worry about dates or forms",
+        "Have real support when you need it"
+      ],
+      "finalText": "Your company is not just created, it's maintained. And we're here to make sure everything keeps working correctly year after year.",
+      "helpText": "If you have questions, don't worry. We're here to help and explain everything simply, without technicalities or complicated processes."
     },
     "whatWeDo": {
       "badge": "SERVICES",
