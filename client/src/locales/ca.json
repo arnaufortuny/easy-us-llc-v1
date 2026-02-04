@@ -464,6 +464,7 @@
       "welcomeBack": "Benvingut!",
       "welcomeBackDesc": "Has iniciat sessió correctament",
       "signIn": "Iniciar sessió",
+      "register": "Registra't",
       "securityOtpSent": "Codi de verificació enviat",
       "securityOtpDesc": "Per seguretat, hem enviat un codi al teu email",
       "securityVerification": "Verificació de seguretat",
@@ -1089,9 +1090,46 @@
       }
     },
     "documents": {
-      "title": "Els meus Documents",
+      "title": "Centre de Documentació",
+      "subtitle": "Gestiona els teus documents i arxius",
+      "requestedDocuments": "Documents Sol·licitats",
       "upload": "Pujar document",
-      "download": "Descarregar"
+      "uploadDocument": "Pujar Document",
+      "documentType": "Tipus de document",
+      "description": "Descripció",
+      "passport": "Passaport / Document d'Identitat",
+      "addressProof": "Prova de Domicili",
+      "taxId": "Identificació Fiscal (NIF/CIF)",
+      "otherDocument": "Altre Document",
+      "download": "Descarregar",
+      "maxSize": "PDF, JPG o PNG (màx. 10MB)"
+    },
+    "payments": {
+      "title": "Historial de Pagaments",
+      "subtitle": "Les teves factures i rebuts",
+      "empty": "Sense pagaments registrats",
+      "emptyDesc": "Les teves factures i rebuts apareixeran aquí.",
+      "invoice": "Factura",
+      "receipt": "Rebut",
+      "viewServices": "Veure serveis"
+    },
+    "calendar": {
+      "title": "El Meu Calendari Fiscal",
+      "subtitle": "Dates importants i venciments de la teva LLC",
+      "cancelled": "Cancel·lada",
+      "inReview": "En revisió",
+      "completed": "Completat",
+      "pendingDates": "Dates pendents de configuració"
+    },
+    "tools": {
+      "title": "Eines",
+      "subtitle": "Utilitats per gestionar el teu negoci",
+      "priceCalculator": "Calculadora de Preus",
+      "operatingAgreement": "Operating Agreement"
+    },
+    "admin": {
+      "title": "Panell d'Administració",
+      "newClient": "Nou Client"
     },
     "notifications": {
       "title": "Notificacions",

@@ -464,6 +464,7 @@
       "welcomeBack": "¡Bienvenido!",
       "welcomeBackDesc": "Has iniciado sesión correctamente",
       "signIn": "Iniciar sesión",
+      "register": "Regístrate",
       "securityOtpSent": "Código de verificación enviado",
       "securityOtpDesc": "Por seguridad, hemos enviado un código a tu email",
       "securityVerification": "Verificación de seguridad",
@@ -1089,9 +1090,46 @@
       }
     },
     "documents": {
-      "title": "Mis Documentos",
+      "title": "Centro de Documentación",
+      "subtitle": "Gestiona tus documentos y archivos",
+      "requestedDocuments": "Documentos Solicitados",
       "upload": "Subir documento",
-      "download": "Descargar"
+      "uploadDocument": "Subir Documento",
+      "documentType": "Tipo de documento",
+      "description": "Descripción",
+      "passport": "Pasaporte / Documento de Identidad",
+      "addressProof": "Prueba de Domicilio",
+      "taxId": "Identificación Fiscal (NIF/CIF)",
+      "otherDocument": "Otro Documento",
+      "download": "Descargar",
+      "maxSize": "PDF, JPG o PNG (máx. 10MB)"
+    },
+    "payments": {
+      "title": "Historial de Pagos",
+      "subtitle": "Tus facturas y recibos",
+      "empty": "Sin pagos registrados",
+      "emptyDesc": "Tus facturas y recibos aparecerán aquí.",
+      "invoice": "Factura",
+      "receipt": "Recibo",
+      "viewServices": "Ver servicios"
+    },
+    "calendar": {
+      "title": "Mi Calendario Fiscal",
+      "subtitle": "Fechas importantes y vencimientos de tu LLC",
+      "cancelled": "Cancelada",
+      "inReview": "En revisión",
+      "completed": "Completado",
+      "pendingDates": "Fechas pendientes de configuración"
+    },
+    "tools": {
+      "title": "Herramientas",
+      "subtitle": "Utilidades para gestionar tu negocio",
+      "priceCalculator": "Calculadora de Precios",
+      "operatingAgreement": "Operating Agreement"
+    },
+    "admin": {
+      "title": "Panel de Administración",
+      "newClient": "Nuevo Cliente"
     },
     "notifications": {
       "title": "Notificaciones",

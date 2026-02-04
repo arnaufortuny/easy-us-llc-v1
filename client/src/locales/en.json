@@ -1090,9 +1090,46 @@
       }
     },
     "documents": {
-      "title": "My Documents",
+      "title": "Documentation Center",
+      "subtitle": "Manage your documents and files",
+      "requestedDocuments": "Requested Documents",
       "upload": "Upload document",
-      "download": "Download"
+      "uploadDocument": "Upload Document",
+      "documentType": "Document type",
+      "description": "Description",
+      "passport": "Passport / ID Document",
+      "addressProof": "Address Proof",
+      "taxId": "Tax ID (NIF/CIF)",
+      "otherDocument": "Other Document",
+      "download": "Download",
+      "maxSize": "PDF, JPG or PNG (max. 10MB)"
+    },
+    "payments": {
+      "title": "Payment History",
+      "subtitle": "Your invoices and receipts",
+      "empty": "No payments recorded",
+      "emptyDesc": "Your invoices and receipts will appear here.",
+      "invoice": "Invoice",
+      "receipt": "Receipt",
+      "viewServices": "View services"
+    },
+    "calendar": {
+      "title": "My Tax Calendar",
+      "subtitle": "Important dates and deadlines for your LLC",
+      "cancelled": "Cancelled",
+      "inReview": "In review",
+      "completed": "Completed",
+      "pendingDates": "Dates pending configuration"
+    },
+    "tools": {
+      "title": "Tools",
+      "subtitle": "Utilities to manage your business",
+      "priceCalculator": "Price Calculator",
+      "operatingAgreement": "Operating Agreement"
+    },
+    "admin": {
+      "title": "Administration Panel",
+      "newClient": "New Client"
     },
     "notifications": {
       "title": "Notifications",

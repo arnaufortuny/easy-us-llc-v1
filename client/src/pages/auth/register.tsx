@@ -122,10 +122,14 @@ export default function Register() {
             return;
           }
         } catch (err: any) {
-          const errorData = err.message ? JSON.parse(err.message) : {};
-          if (errorData.code === "ACCOUNT_DEACTIVATED") {
-            setIsAccountDeactivated(true);
-            return;
+          try {
+            const errorData = err.message ? JSON.parse(err.message) : {};
+            if (errorData.code === "ACCOUNT_DEACTIVATED") {
+              setIsAccountDeactivated(true);
+              return;
+            }
+          } catch {
+            // Error message is not JSON, ignore parsing
           }
         } finally {
           setIsCheckingEmail(false);

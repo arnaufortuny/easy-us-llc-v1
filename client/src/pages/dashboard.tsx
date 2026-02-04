@@ -973,18 +973,18 @@ export default function Dashboard() {
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-              <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">Área de Clientes</p>
+              <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
-                Bienvenido, {(user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase()}
+                {t('dashboard.welcome', { name: (user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase() })}
               </h1>
               <p className="text-muted-foreground text-sm md:text-base mt-1 md:mt-2">
-                Gestiona tu LLC de forma simple y clara.
+                {t('dashboard.subtitle')}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
               <Link href="/llc/formation">
                 <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
-                  <PlusCircle className="w-5 h-5" /> Nueva LLC
+                  <PlusCircle className="w-5 h-5" /> {t('dashboard.newLLC')}
                 </Button>
               </Link>
             </div>
@@ -1049,8 +1049,8 @@ export default function Dashboard() {
                 data-testid="button-tab-admin"
               >
                 <Shield className="w-4 h-4" />
-                <span className="hidden md:inline">Panel de Administración</span>
-                <span className="md:hidden">Admin</span>
+                <span className="hidden md:inline">{t('dashboard.menu.admin')}</span>
+                <span className="md:hidden">{t('dashboard.menu.admin')}</span>
               </Button>
             </div>
           )}
@@ -1096,8 +1096,8 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <div key="documents" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Centro de Documentación</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Gestiona tus documentos y archivos</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
                   {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && user?.accountStatus !== 'deactivated' && (
@@ -1105,7 +1105,7 @@ export default function Dashboard() {
                       <div className="flex items-start gap-3">
                         <FileUp className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5" />
                         <div className="flex-1">
-                          <h4 className="font-bold text-orange-800 dark:text-orange-300 text-sm">Documentos Solicitados</h4>
+                          <h4 className="font-bold text-orange-800 dark:text-orange-300 text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
                           <div className="mt-2 space-y-1">
                             {notifications?.filter((n: any) => n.type === 'action_required' && !n.isRead).map((n: any) => (
                               <p key={n.id} className="text-xs text-orange-700 dark:text-orange-400">{n.message}</p>
@@ -1174,8 +1174,8 @@ export default function Dashboard() {
                             <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground text-base md:text-lg">Subir Documento</h3>
-                            <p className="text-xs md:text-sm text-muted-foreground">PDF, JPG o PNG (máx. 10MB)</p>
+                            <h3 className="font-semibold text-foreground text-base md:text-lg">{t('dashboard.documents.uploadDocument')}</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.documents.maxSize')}</p>
                           </div>
                           <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0" asChild>
                             <span>
@@ -1205,23 +1205,23 @@ export default function Dashboard() {
                         </div>
                         
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-2 block">Tipo de documento</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-2 block">{t('dashboard.documents.documentType')}</Label>
                           <NativeSelect 
                             value={uploadDocType} 
                             onValueChange={setUploadDocType}
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-muted"
                             data-testid="select-upload-doc-type-inline"
                           >
-                            <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
-                            <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
-                            <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
-                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                            <NativeSelectItem value="passport">{t('dashboard.documents.passport')}</NativeSelectItem>
+                            <NativeSelectItem value="address_proof">{t('dashboard.documents.addressProof')}</NativeSelectItem>
+                            <NativeSelectItem value="tax_id">{t('dashboard.documents.taxId')}</NativeSelectItem>
+                            <NativeSelectItem value="other">{t('dashboard.documents.otherDocument')}</NativeSelectItem>
                           </NativeSelect>
                         </div>
                         
                         {uploadDocType === "other" && (
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-2 block">Descripción</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-2 block">{t('dashboard.documents.description')}</Label>
                             <Textarea 
                               value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
@@ -1299,8 +1299,8 @@ export default function Dashboard() {
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Historial de Pagos</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Tus facturas y recibos</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
                   </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
@@ -1308,12 +1308,12 @@ export default function Dashboard() {
                         <div className="flex flex-col items-center gap-3 md:gap-4">
                           <img src={pagosIconPath} alt="Pagos" className="w-12 h-12 md:w-16 md:h-16" />
                           <div>
-                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin pagos registrados</h3>
-                            <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
+                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.payments.empty')}</h3>
+                            <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.payments.emptyDesc')}</p>
                           </div>
                           <Link href="/servicios#pricing">
                             <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
-                              <PlusCircle className="w-4 h-4 mr-2" /> Ver servicios
+                              <PlusCircle className="w-4 h-4 mr-2" /> {t('dashboard.payments.viewServices')}
                             </Button>
                           </Link>
                         </div>
@@ -1326,8 +1326,8 @@ export default function Dashboard() {
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">
-                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>Factura</Button>
-                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>Recibo</Button>
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>{t('dashboard.payments.invoice')}</Button>
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/receipt`, '_blank')}>{t('dashboard.payments.receipt')}</Button>
                           </div>
                         </Card>
                       ))
@@ -1340,8 +1340,8 @@ export default function Dashboard() {
                 <div key="calendar" className="space-y-4 md:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Calendario Fiscal</h2>
-                      <p className="text-sm text-muted-foreground mt-1">Fechas importantes y vencimientos de tu LLC</p>
+                      <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
+                      <p className="text-sm text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
                     </div>
                   </div>
                   {orders && orders.length > 0 ? (
@@ -1377,8 +1377,8 @@ export default function Dashboard() {
                                   </div>
                                 </CardTitle>
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  {isCancelled && <Badge variant="destructive" className="text-[9px] md:text-[10px]">Cancelada</Badge>}
-                                  {isInReview && <Badge className="text-[9px] md:text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">En revisión</Badge>}
+                                  {isCancelled && <Badge variant="destructive" className="text-[9px] md:text-[10px]">{t('dashboard.calendar.cancelled')}</Badge>}
+                                  {isInReview && <Badge className="text-[9px] md:text-[10px] bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400">{t('dashboard.calendar.inReview')}</Badge>}
                                   {!isCancelled && !isInReview && nextDeadline && (
                                     <Badge className={`text-[9px] md:text-[10px] ${nextDeadline.bgColor} ${nextDeadline.textColor}`}>
                                       Próximo: {nextDeadline.label}
@@ -1428,7 +1428,7 @@ export default function Dashboard() {
                                         {isPast ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
                                             <CheckCircle className="w-3 h-3 text-green-500" />
-                                            <span className="text-[9px] md:text-[10px] text-green-600 dark:text-green-400 font-medium">Completado</span>
+                                            <span className="text-[9px] md:text-[10px] text-green-600 dark:text-green-400 font-medium">{t('dashboard.calendar.completed')}</span>
                                           </div>
                                         ) : isUrgent ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
@@ -1452,7 +1452,7 @@ export default function Dashboard() {
                               ) : (
                                 <div className="text-center py-6 md:py-8">
                                   <img src={calendarIconPath} alt="Calendar" className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3" />
-                                  <p className="text-xs md:text-sm text-muted-foreground">Fechas pendientes de configuración</p>
+                                  <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.calendar.pendingDates')}</p>
                                 </div>
                               )}
                             </CardContent>
@@ -1482,8 +1482,8 @@ export default function Dashboard() {
               {activeTab === 'tools' && (
                 <div key="tools" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Herramientas</h2>
-                    <p className="text-sm text-muted-foreground mt-1">Utilidades para gestionar tu negocio</p>
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
+                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
@@ -1505,7 +1505,7 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <img src={calculadoraIconPath} alt="Calculadora" className="w-6 h-6" />
-                          <h3 className="font-bold text-foreground">Calculadora de Precios</h3>
+                          <h3 className="font-bold text-foreground">{t('dashboard.tools.priceCalculator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
                         <Link href="/tools/price-calculator">
@@ -1520,7 +1520,7 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <img src={tramitesIconPath} alt="Operating Agreement" className="w-6 h-6" />
-                          <h3 className="font-bold text-foreground">Operating Agreement</h3>
+                          <h3 className="font-bold text-foreground">{t('dashboard.tools.operatingAgreement')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">Genera el documento legal de tu LLC con todos los datos requeridos.</p>
                         <Link href="/tools/operating-agreement">
@@ -1599,8 +1599,8 @@ export default function Dashboard() {
                   <div className="flex gap-2 mb-4">
                     <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
                       <Plus className="w-3 h-3 mr-1" />
-                      <span className="hidden sm:inline">Nuevo Cliente</span>
-                      <span className="sm:hidden">Cliente</span>
+                      <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
+                      <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
                     </Button>
                     <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
                       <Plus className="w-3 h-3 mr-1" />
