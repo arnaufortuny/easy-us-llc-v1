@@ -92,7 +92,12 @@ export interface InvoiceData {
   paymentLink?: string;
   notes?: string;
   isMaintenance?: boolean;
-  maintenanceApplication?: any;
+  maintenanceApplication?: {
+    requestCode?: string | null;
+    companyName?: string | null;
+    ein?: string | null;
+    state?: string | null;
+  } | null;
 }
 
 export interface CustomInvoiceData {

@@ -95,6 +95,7 @@ export async function createUser(data: {
     lastName: data.lastName,
     phone: data.phone,
     businessActivity: data.businessActivity || null,
+    preferredLanguage: data.preferredLanguage || "es",
     emailVerified: false,
     isAdmin: isAdmin,
     accountStatus: "pending",
