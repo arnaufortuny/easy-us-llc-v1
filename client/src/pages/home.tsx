@@ -10,7 +10,6 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
 import type { Product } from "@shared/schema";
-import howWeWorkImage from "@assets/how-we-work-process.png";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 
 export default function Home() {
@@ -292,15 +291,6 @@ function HowWeWorkSection() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.3, delay: 0.1, ease: [0.25, 0.1, 0.25, 1] }}
-            />
-          </div>
-          
-          <div className="mb-10 sm:mb-14">
-            <img 
-              src={howWeWorkImage} 
-              alt="How we work process" 
-              className="w-full max-w-2xl mx-auto mix-blend-multiply dark:mix-blend-screen dark:invert"
-              loading="lazy"
             />
           </div>
           
