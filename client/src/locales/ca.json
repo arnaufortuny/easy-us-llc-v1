@@ -301,8 +301,8 @@
     },
     "whatWeDo": {
       "badge": "SERVEIS",
-      "title": "<span class='text-accent'>LA NOSTRA FORMA</span> <span class='text-foreground'>DE TREBALLAR</span>",
-      "subtitle": "Com constituïm la teva LLC",
+      "title": "<span class='text-foreground'>CONSTITUÏM LA TEVA LLC</span><br/><span class='text-accent'>AMB VISIÓ LEGAL, BANCÀRIA I FISCAL</span>",
+      "subtitle": "Ens ocupem de tot el procés perquè tinguis una empresa preparada per operar, créixer i optimitzar la seva càrrega fiscal amb total seguretat.",
       "items": {
         "formation": {
           "title": "Constitució oficial",

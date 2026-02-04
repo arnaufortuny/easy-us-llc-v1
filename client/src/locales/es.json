@@ -300,9 +300,8 @@
     },
     "whatWeDo": {
       "badge": "SERVICIOS",
-      "title": "<span class='text-foreground'>CÓMO</span> <span class='text-accent'>TE AYUDAMOS</span>",
-      "subtitle": "Constituimos tu LLC con visión legal, bancaria y fiscal",
-      "subtitleDesc": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
+      "title": "<span class='text-foreground'>CONSTITUIMOS TU LLC</span><br/><span class='text-accent'>CON VISIÓN LEGAL, BANCARIA Y FISCAL</span>",
+      "subtitle": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
       "items": {
         "formation": {
           "title": "Constitución oficial",

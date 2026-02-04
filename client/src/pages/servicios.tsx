@@ -156,22 +156,13 @@ export default function Servicios() {
             />
             
             <motion.p
-              className="text-lg sm:text-xl text-accent font-bold mt-4"
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
               {t("services.whatWeDo.subtitle")}
-            </motion.p>
-            <motion.p
-              className="text-base sm:text-lg text-muted-foreground mt-2 max-w-2xl"
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-            >
-              {t("services.whatWeDo.subtitleDesc")}
             </motion.p>
             <motion.div 
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"

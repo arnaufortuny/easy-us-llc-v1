@@ -301,8 +301,8 @@
     },
     "whatWeDo": {
       "badge": "SERVICES",
-      "title": "<span class='text-accent'>OUR WAY</span> <span class='text-foreground'>OF WORKING</span>",
-      "subtitle": "How we form your LLC",
+      "title": "<span class='text-foreground'>WE BUILD YOUR LLC</span><br/><span class='text-accent'>WITH LEGAL, BANKING AND TAX VISION</span>",
+      "subtitle": "We handle the entire process so you have a company ready to operate, grow and optimize its tax burden with complete security.",
       "items": {
         "formation": {
           "title": "Official formation",
