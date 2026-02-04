@@ -130,8 +130,18 @@ export default function ForgotPassword() {
         <Navbar />
         <main className="flex-1 flex flex-col items-center justify-center px-5 sm:px-6">
           <div className="w-full max-w-md text-center">
-            <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle2 className="w-8 h-8 text-primary" />
+            <div className="flex items-center justify-center mx-auto mb-6">
+              <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="successGlow" cx="50%" cy="50%" r="60%">
+                    <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35"/>
+                    <stop offset="100%" stopColor="#22c55e" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="60" cy="60" r="50" fill="url(#successGlow)"/>
+                <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#22c55e" strokeWidth="3"/>
+                <path d="M45 62 L55 72 L78 48" stroke="#22c55e" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight mb-4">
               {t("auth.forgotPassword.successTitle")} <span className="text-accent">{t("auth.forgotPassword.successTitleHighlight")}</span>

@@ -220,8 +220,18 @@ export default function Contacto() {
         <Navbar />
         <main className="pt-20 sm:pt-28 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
-            <div className="w-14 h-14 sm:w-20 sm:h-20 bg-accent rounded-full flex items-center justify-center mx-auto shadow-lg shadow-[#6EDC8A]/20">
-              <span className="text-2xl sm:text-3xl font-black text-black">✓</span>
+            <div className="flex items-center justify-center mx-auto">
+              <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <radialGradient id="successGlowContact" cx="50%" cy="50%" r="60%">
+                    <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35"/>
+                    <stop offset="100%" stopColor="#22c55e" stopOpacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="60" cy="60" r="50" fill="url(#successGlowContact)"/>
+                <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#22c55e" strokeWidth="3"/>
+                <path d="M45 62 L55 72 L78 48" stroke="#22c55e" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
             
             <div className="space-y-2 sm:space-y-3">

@@ -698,8 +698,19 @@ export default function Dashboard() {
             <Card className="rounded-2xl sm:rounded-[2rem] border-0 shadow-2xl overflow-hidden bg-white dark:bg-card">
               <div className="bg-red-500 h-2 w-full" />
               <CardContent className="p-6 sm:p-8 md:p-12 text-center">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 bg-red-50 dark:bg-red-950/30 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <span className="text-2xl sm:text-3xl font-black text-red-500">!</span>
+                <div className="flex items-center justify-center mx-auto mb-4 sm:mb-6">
+                  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                      <radialGradient id="dangerGlow" cx="50%" cy="50%" r="60%">
+                        <stop offset="0%" stopColor="#ff4d4d" stopOpacity="0.35"/>
+                        <stop offset="100%" stopColor="#ff4d4d" stopOpacity="0"/>
+                      </radialGradient>
+                    </defs>
+                    <circle cx="60" cy="60" r="50" fill="url(#dangerGlow)"/>
+                    <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#ff4d4d" strokeWidth="3"/>
+                    <line x1="60" y1="40" x2="60" y2="65" stroke="#ff4d4d" strokeWidth="5" strokeLinecap="round"/>
+                    <circle cx="60" cy="78" r="3.5" fill="#ff4d4d"/>
+                  </svg>
                 </div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
                   {t("dashboard.accountDeactivated.title")}
