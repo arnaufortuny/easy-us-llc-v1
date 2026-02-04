@@ -218,7 +218,7 @@ export default function Servicios() {
             />
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-4 sm:px-0">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
             {/* New Mexico */}
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-5 sm:p-6 flex-grow text-center">

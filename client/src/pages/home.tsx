@@ -121,7 +121,7 @@ export default function Home() {
       <PorQueEasyUSLLC />
 
       <section className="bg-background py-16 sm:py-20 relative" id="ventajas">
-        <div className="w-full px-5 sm:px-8">
+        <div className="w-full px-6 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
               className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
@@ -416,7 +416,7 @@ function PorQueEasyUSLLC() {
 
   return (
     <section className="py-16 sm:py-20 bg-background relative">
-      <div className="w-full px-5 sm:px-8">
+      <div className="w-full px-6 sm:px-8">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
           <motion.h2 
             className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]" 
