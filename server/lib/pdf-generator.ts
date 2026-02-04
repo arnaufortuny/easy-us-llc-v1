@@ -673,7 +673,9 @@ export function generateOrderInvoice(orderData: {
   order: { id: number; invoiceNumber?: string | null; amount: number; originalAmount?: number | null; discountCode?: string | null; discountAmount?: number | null; currency: string; status: string; createdAt?: Date | null; };
   product: { name: string; description: string; features?: string[]; };
   user: { firstName?: string | null; lastName?: string | null; email: string; phone?: string | null; idType?: string | null; idNumber?: string | null; streetType?: string | null; address?: string | null; city?: string | null; province?: string | null; postalCode?: string | null; country?: string | null; };
-  application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerIdType?: string | null; ownerIdNumber?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerProvince?: string | null; ownerPostalCode?: string | null; ownerCountry?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; ein?: string | null; llcCreatedDate?: string | Date | null; registeredAgent?: string | null; };
+  application?: { ownerFullName?: string | null; ownerEmail?: string | null; ownerPhone?: string | null; ownerIdType?: string | null; ownerIdNumber?: string | null; ownerStreetType?: string | null; ownerAddress?: string | null; ownerCity?: string | null; ownerProvince?: string | null; ownerPostalCode?: string | null; ownerCountry?: string | null; companyName?: string | null; designator?: string | null; state?: string | null; ein?: string | null; llcCreatedDate?: string | Date | null; registeredAgent?: string | null; } | null;
+  maintenanceApplication?: { requestCode?: string | null; companyName?: string | null; ein?: string | null; state?: string | null; } | null;
+  paymentLink?: string;
   isMaintenance?: boolean;
 }): Promise<Buffer> {
   const invoiceData: InvoiceData = {
