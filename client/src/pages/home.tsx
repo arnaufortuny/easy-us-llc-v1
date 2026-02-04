@@ -48,11 +48,11 @@ export default function Home() {
       <Navbar />
       <HeroSection 
         className="flex flex-col items-center justify-center text-center min-h-[400px] sm:min-h-[70vh] w-full"
-        mobilePaddingTop="pt-14 sm:pt-36 lg:pt-40"
+        mobilePaddingTop="pt-20 sm:pt-36 lg:pt-40"
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
-            <div className="mb-4 sm:hidden flex justify-center mt-7">
+            <div className="mb-4 sm:hidden flex justify-center mt-4">
               <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
                 <div className="flex gap-0.5">
