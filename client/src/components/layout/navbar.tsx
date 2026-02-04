@@ -216,13 +216,13 @@ export function Navbar() {
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#pricing")}
-                className="text-left px-3 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors font-bold text-lg tracking-tighter border border-transparent hover:border-accent/20 ml-3"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.pricing")}
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#comparador")}
-                className="text-left px-3 py-3 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors font-bold text-lg tracking-tighter border border-transparent hover:border-accent/20 ml-3"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
               >
                 {t("nav.savings")}
               </button>
