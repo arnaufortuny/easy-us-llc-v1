@@ -9,7 +9,7 @@ export default function NotFound() {
   const { t } = useTranslation();
   
   return (
-    <div className="min-h-screen flex flex-col bg-background bg-green-gradient-subtle">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
       
       <main className="flex-1 flex items-center justify-center p-4">

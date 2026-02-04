@@ -243,7 +243,7 @@ export default function Register() {
 
   if (isAccountDeactivated) {
     return (
-      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
+      <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
           <div className="w-full max-w-md text-center">
@@ -269,7 +269,7 @@ export default function Register() {
 
   if (isRegistered) {
     return (
-      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
+      <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-8 pb-16 px-5 sm:px-6 flex flex-col items-center min-h-[calc(100vh-80px)]">
           <div className="w-full max-w-md">
@@ -351,7 +351,7 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
+    <div className="min-h-screen bg-background font-sans">
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">

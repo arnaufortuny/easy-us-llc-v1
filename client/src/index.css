@@ -2,21 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Professional green gradient - Light Mode */
+/* Clean background - Light Mode (Pearl White) */
 html {
-  background: 
-    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(110, 220, 138, 0.25) 0%, rgba(110, 220, 138, 0.12) 35%, transparent 70%),
-    linear-gradient(180deg, #F7F7F5 0%, #FAFAFA 100%);
-  background-attachment: fixed;
+  background: #F8F8F6;
   min-height: 100dvh;
 }
 
-/* Professional green gradient - Dark Mode */
+/* Clean background - Dark Mode (Pure Black) */
 html.dark {
-  background: 
-    radial-gradient(ellipse 120% 80% at 50% 0%, rgba(110, 220, 138, 0.12) 0%, rgba(110, 220, 138, 0.05) 35%, transparent 70%),
-    linear-gradient(180deg, #0E1215 0%, #0a0d0f 100%);
-  background-attachment: fixed;
+  background: #0A0A0A;
 }
 
 /* Ensure smooth page transitions without visual glitches */
@@ -99,8 +93,8 @@ body {
 }
 
 :root {
-  /* Brand Colors - Light Mode - Refined Professional Palette */
-  --background: 210 20% 98%; /* Soft off-white with slight cool tint */
+  /* Brand Colors - Light Mode - Clean Pearl White */
+  --background: 60 7% 97%; /* Pearl white #F8F8F6 */
   --foreground: 220 25% 12%; /* Deep charcoal, easier on eyes than pure black */
 
   /* Primary - Rich Dark */
@@ -158,9 +152,9 @@ body {
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Dark Mode - Refined Professional Dark Theme */
+/* Dark Mode - Clean Pure Black */
 .dark {
-  --background: 225 18% 8%; /* Rich dark navy */
+  --background: 0 0% 4%; /* Pure black #0A0A0A */
   --foreground: 210 20% 98%; /* Crisp white text */
 
   --primary: 210 20% 98%;
@@ -257,36 +251,7 @@ body {
     border-color: #6EDC8A;
   }
   
-  /* Professional green gradient backgrounds - Light mode */
-  .bg-green-gradient {
-    background: transparent !important;
-  }
-  
-  .bg-green-gradient-subtle {
-    background: transparent !important;
-  }
-  
-  .bg-green-gradient-hero {
-    background: transparent !important;
-  }
-  
-  .bg-green-dots {
-    background-image: radial-gradient(rgba(110, 220, 138, 0.08) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  
-  /* Dark mode variants - gradient comes from html element */
-  .dark .bg-green-gradient,
-  .dark .bg-green-gradient-subtle,
-  .dark .bg-green-gradient-hero {
-    background: transparent !important;
-  }
-  
-  .dark .bg-green-dots {
-    background-image: radial-gradient(rgba(110, 220, 138, 0.05) 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  
+    
   .gpu-accelerated {
     transform: translateZ(0);
     backface-visibility: hidden;

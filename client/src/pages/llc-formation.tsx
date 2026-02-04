@@ -628,7 +628,7 @@ export default function LlcFormation() {
   };
 
   return (
-    <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans w-full">
+    <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
       <main className="pt-20 md:pt-24 pb-16 max-w-4xl mx-auto px-4 md:px-6">
         {isEditMode && (
