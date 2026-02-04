@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu as MenuIcon, X as XIcon, User as UserIcon, LogOut } from "lucide-react";
 import logoIcon from "@/assets/logo-icon.png";
 import { useAuth } from "@/hooks/use-auth";
@@ -17,15 +17,22 @@ export function Navbar() {
   const { t } = useTranslation();
 
   const resetScrollLock = () => {
-    const scrollY = document.body.style.top;
     document.body.style.overflow = '';
     document.body.style.position = '';
     document.body.style.width = '';
     document.body.style.top = '';
-    if (scrollY) {
-      window.scrollTo(0, parseInt(scrollY) * -1);
-    }
   };
+
+  // Auto-close menu and reset scroll when route changes
+  useEffect(() => {
+    setIsOpen(false);
+    resetScrollLock();
+  }, [location]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => resetScrollLock();
+  }, []);
 
   const scrollToSection = (id: string) => {
     setIsOpen(false);
@@ -174,16 +181,8 @@ export function Navbar() {
                   setIsOpen(newIsOpen);
                   if (newIsOpen) {
                     document.body.style.overflow = 'hidden';
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                    document.body.style.top = `-${window.scrollY}px`;
                   } else {
-                    const scrollY = document.body.style.top;
                     document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
-                    document.body.style.top = '';
-                    window.scrollTo(0, parseInt(scrollY || '0') * -1);
                   }
                 }}
                 aria-label={isOpen ? t("nav.closeMenu") : t("nav.openMenu")}
