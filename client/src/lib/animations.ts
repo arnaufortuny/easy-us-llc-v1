@@ -12,12 +12,12 @@ export const easing = {
 
 // Elegant transitions - optimized for 60fps with smoother motion
 export const transitions = {
-  instant: { duration: 0.15, ease: easing.elegant } as Transition,
-  fast: { duration: 0.3, ease: easing.professional } as Transition,
-  normal: { duration: 0.5, ease: easing.elegant } as Transition,
-  slow: { duration: 0.7, ease: easing.smooth } as Transition,
-  spring: { type: "spring", stiffness: 280, damping: 30, mass: 0.9 } as Transition,
-  springBounce: { type: "spring", stiffness: 220, damping: 24, mass: 0.7 } as Transition,
+  instant: { duration: 0.18, ease: easing.elegant } as Transition,
+  fast: { duration: 0.35, ease: easing.professional } as Transition,
+  normal: { duration: 0.55, ease: easing.elegant } as Transition,
+  slow: { duration: 0.8, ease: easing.smooth } as Transition,
+  spring: { type: "spring", stiffness: 260, damping: 28, mass: 0.9 } as Transition,
+  springBounce: { type: "spring", stiffness: 200, damping: 22, mass: 0.7 } as Transition,
 };
 
 // Fade animations - smooth with elegant timing

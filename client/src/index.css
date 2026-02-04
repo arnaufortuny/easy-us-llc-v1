@@ -463,11 +463,11 @@ button {
 
 /* Page transitions - smooth fade */
 .animate-page-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.4s ease-out forwards;
 }
 
 .animate-section-in {
-  animation: fadeIn 0.35s ease-out forwards;
+  animation: fadeIn 0.45s ease-out forwards;
 }
 
 /* GPU acceleration utility - minimal */
