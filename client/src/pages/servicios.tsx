@@ -13,7 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
-import { ChevronDown, Check, ArrowRight } from "lucide-react";
+import { ChevronDown, Check, ArrowRight, FileText, CreditCard, Building2, FileCheck, Shield, Headphones } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
@@ -67,12 +67,12 @@ export default function Servicios() {
   ];
 
   const whatWeDoItems = [
-    { key: "formation" },
-    { key: "ein" },
-    { key: "banking" },
-    { key: "boi" },
-    { key: "agent" },
-    { key: "support" }
+    { key: "formation", icon: FileText },
+    { key: "ein", icon: FileCheck },
+    { key: "banking", icon: CreditCard },
+    { key: "boi", icon: Building2 },
+    { key: "agent", icon: Shield },
+    { key: "support", icon: Headphones }
   ];
 
   const bankItems = [
@@ -188,22 +188,28 @@ export default function Servicios() {
             />
           </div>
           
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
-            {whatWeDoItems.map((item, i) => (
-              <motion.div 
-                key={i} 
-                className="p-6 bg-accent/5 rounded-2xl border border-accent/10 sm:border-accent/10 border-accent/30 hover:bg-accent/10 text-left transition-colors will-change-[transform,opacity]"
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-              >
-                <span className="inline-flex items-center px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4">
-                  {t(`services.whatWeDo.items.${item.key}.title`)}
-                </span>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-left">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 max-w-5xl mx-auto">
+            {whatWeDoItems.map((item, i) => {
+              const IconComponent = item.icon;
+              return (
+                <motion.div 
+                  key={i} 
+                  className="group p-5 sm:p-6 bg-card rounded-2xl border border-border hover:border-accent/40 text-left transition-all duration-200 will-change-[transform,opacity] hover:shadow-lg"
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={viewportOnce}
+                >
+                  <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                    <IconComponent className="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent" />
+                  </div>
+                  <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 leading-tight">
+                    {t(`services.whatWeDo.items.${item.key}.title`)}
+                  </h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </section>
