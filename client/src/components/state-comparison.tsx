@@ -121,34 +121,36 @@ export function StateComparison() {
                   </div>
                 </div>
 
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Check className="w-5 h-5 text-accent" />
-                    <h4 className="font-black text-base text-foreground">{t("stateComparison.pros")}</h4>
+                <div className="grid grid-cols-2 gap-4 mb-5">
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <Check className="w-5 h-5 text-accent" />
+                      <h4 className="font-black text-base text-foreground">{t("stateComparison.pros")}</h4>
+                    </div>
+                    <ul className="space-y-2">
+                      {pros.map((pro, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                          <span>{pro}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-2">
-                    {pros.map((pro, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
-                        <span>{pro}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
 
-                <div className="mb-5">
-                  <div className="flex items-center gap-2 mb-3">
-                    <AlertCircle className="w-5 h-5 text-orange-500" />
-                    <h4 className="font-black text-base text-foreground">{t("stateComparison.cons")}</h4>
+                  <div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <AlertCircle className="w-5 h-5 text-orange-500" />
+                      <h4 className="font-black text-base text-foreground">{t("stateComparison.cons")}</h4>
+                    </div>
+                    <ul className="space-y-2">
+                      {cons.map((con, idx) => (
+                        <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <AlertCircle className="w-4 h-4 text-orange-500/70 flex-shrink-0 mt-0.5" />
+                          <span>{con}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-2">
-                    {cons.map((con, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <AlertCircle className="w-4 h-4 text-orange-500/70 flex-shrink-0 mt-0.5" />
-                        <span>{con}</span>
-                      </li>
-                    ))}
-                  </ul>
                 </div>
 
                 <div className="mt-auto">
@@ -157,9 +159,9 @@ export function StateComparison() {
                       <Lightbulb className="w-5 h-5 text-accent" />
                       <h4 className="font-black text-sm text-foreground">{t("stateComparison.idealIf")}</h4>
                     </div>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{idealIf}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed text-left">{idealIf}</p>
                   </div>
-                  <div className="text-center">
+                  <div className="text-left">
                     <p className="text-base font-black text-accent">{tagline}</p>
                   </div>
                 </div>
