@@ -312,9 +312,9 @@
     "banks": {
       "badge": "BANCOS",
       "title": "Asistencia Bancaria",
-      "sectionTitle": "APERTURA DE",
-      "sectionTitleHighlight": "CUENTA BANCARIA",
-      "subtitle": "(Ayudamos a abrir cuentas en fintech y bancos, si el cliente lo requiere)",
+      "sectionTitle": "NOS ENCARGAMOS DE",
+      "sectionTitleHighlight": "LOS BANCOS",
+      "subtitle": "Te ayudaremos con tu infraestructura bancaria",
       "mercury": {
         "title": "Mercury",
         "desc": "Te acompañamos en todo el proceso de solicitud de cuenta en Mercury, ayudándote a presentar correctamente la información de tu LLC."
@@ -339,8 +339,8 @@
       "subtitle": "(Lo que incluye tu mantenimiento)"
     },
     "process": {
-      "title": "QUÉ HAREMOS POR TI",
-      "titleHighlight": "CON EL PACK DE MANTENIMIENTO",
+      "title": "QUÉ HAREMOS",
+      "titleHighlight": "POR TI CON EL PACK DE MANTENIMIENTO",
       "subtitle": "Lo que incluye tu mantenimiento anual",
       "steps": {
         "1": {
@@ -374,6 +374,8 @@
   "packsTitle": {
     "packs": "NUESTRAS PROPUESTAS",
     "formation": "PARA OPTIMIZAR TU FISCALIDAD",
+    "packsLine1": "NUESTRAS PROPUESTAS",
+    "packsLine2": "PARA OPTIMIZAR TU FISCALIDAD",
     "maintenance": {
       "packs": "NUESTRAS PROPUESTAS DE",
       "name": "MANTENIMIENTO",
@@ -383,6 +385,8 @@
   "stateComparison": {
     "title": "COMPARA",
     "titleHighlight": "NUESTRAS PROPUESTAS",
+    "titleLine1": "COMPARA",
+    "titleLine2": "NUESTRAS PROPUESTAS",
     "subtitle": "Cada estado tiene sus ventajas. Encuentra el que mejor se adapta a tu negocio.",
     "characteristic": "Característica",
     "popular": "Más Popular",
@@ -1508,8 +1512,9 @@
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
     "title": "¿Cuánto puedes ahorrar?",
-    "titlePart1": "CALCULEMOS CUÁNTO TE AHORRARÍAS",
-    "titlePart2": "CON TU LLC",
+    "titlePart1": "CALCULEMOS",
+    "titlePart2": "CUÁNTO TE AHORRARÍAS CON",
+    "titlePart3": "TU LLC",
     "subtitle": "Compara tu situación fiscal actual vs una LLC en Estados Unidos",
     "taxes": "IMPUESTOS",
     "selectCountry": "¿DESDE QUÉ PAÍS TRABAJAS?",
