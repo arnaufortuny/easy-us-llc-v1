@@ -678,7 +678,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div className="grid grid-cols-3 gap-2 md:gap-3">
                         {[
                           { name: "New Mexico", price: getFormationPriceFormatted("newMexico"), desc: t("application.states.newMexicoDesc") },
                           { name: "Wyoming", price: getFormationPriceFormatted("wyoming"), desc: t("application.states.wyomingDesc") },
@@ -690,22 +690,20 @@ export default function LlcFormation() {
                               field.onChange(opt.name);
                               setStep(1);
                             }}
-                            className={`flex flex-col items-center justify-between p-5 rounded-2xl border-2 cursor-pointer transition-all active:scale-[0.98] aspect-square ${
+                            className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl border-2 cursor-pointer transition-all active:scale-[0.98] min-h-[120px] md:min-h-[140px] ${
                               field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                 : 'border-gray-200 dark:border-border bg-white dark:bg-muted hover:border-accent/50'
                             }`}
                           >
-                            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                            <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 mb-2 ${
                               field.value === opt.name ? 'border-accent bg-accent' : 'border-gray-300 dark:border-border'
                             }`}>
-                              {field.value === opt.name && <div className="w-2.5 h-2.5 rounded-full bg-white" />}
+                              {field.value === opt.name && <div className="w-2 h-2 rounded-full bg-white" />}
                             </div>
-                            <div className="flex flex-col items-center text-center flex-1 justify-center py-3">
-                              <span className="font-black text-foreground text-base md:text-lg">{opt.name}</span>
-                              <span className="text-xs text-muted-foreground mt-1 leading-relaxed">{opt.desc}</span>
-                            </div>
-                            <span className="font-black text-accent text-xl">{opt.price}</span>
+                            <span className="font-black text-foreground text-xs md:text-sm text-center">{opt.name}</span>
+                            <span className="text-[10px] md:text-xs text-muted-foreground text-center mt-1 leading-tight line-clamp-2">{opt.desc}</span>
+                            <span className="font-black text-accent text-sm md:text-base mt-2">{opt.price}</span>
                           </label>
                         ))}
                       </div>
