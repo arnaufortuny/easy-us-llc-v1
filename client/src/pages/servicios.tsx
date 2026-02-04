@@ -501,7 +501,7 @@ export default function Servicios() {
                     <h4 className="font-bold text-foreground text-sm sm:text-base mb-1">
                       {t(`services.maintenancePack.details.${key}.title`)}
                     </h4>
-                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed">
+                    <p className="text-muted-foreground text-xs sm:text-sm leading-relaxed font-medium">
                       {t(`services.maintenancePack.details.${key}.desc`)}
                     </p>
                   </div>
@@ -518,11 +518,11 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="bg-accent/10 rounded-2xl p-6 sm:p-8 text-center">
+            <div className="bg-accent/10 rounded-2xl p-6 sm:p-8 text-left">
               <h4 className="text-xl sm:text-2xl font-black text-foreground mb-4">
                 {t("services.maintenancePack.emotionalTitle")}
               </h4>
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed max-w-2xl mx-auto">
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
                 {t("services.maintenancePack.emotionalText")}
               </p>
             </div>
@@ -540,7 +540,7 @@ export default function Servicios() {
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
                 <div key={i} className="flex items-center gap-2 text-foreground">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
-                  <span className="text-sm font-medium">{benefit}</span>
+                  <span className="text-sm font-bold">{benefit}</span>
                 </div>
               ))}
             </div>
