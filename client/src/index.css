@@ -307,38 +307,44 @@ img {
   }
 }
 
-/* Loading bar animation */
+/* Loading bar animation - smooth and visible */
 @keyframes loading-bar {
   0% {
     width: 0%;
+    opacity: 1;
+  }
+  70% {
+    width: 85%;
+    opacity: 1;
   }
   100% {
     width: 100%;
+    opacity: 1;
   }
 }
 
 .animate-loading-bar {
-  animation: loading-bar 0.4s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  animation: loading-bar 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Infinite loading bar for page transitions */
+/* Infinite loading bar for longer page transitions */
 @keyframes loading-bar-infinite {
   0% {
     width: 0%;
     opacity: 1;
   }
   50% {
-    width: 80%;
+    width: 75%;
     opacity: 1;
   }
   100% {
     width: 100%;
-    opacity: 0.8;
+    opacity: 1;
   }
 }
 
 .loading-bar-animation {
-  animation: loading-bar-infinite 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: loading-bar-infinite 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* Reduce motion for users who prefer it */

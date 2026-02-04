@@ -264,7 +264,7 @@ export default function CsvGenerator() {
               {transactions.map((transaction, index) => (
                 <div 
                   key={transaction.id} 
-                  className="p-4 rounded-xl border border-border bg-muted/30 dark:bg-muted/10"
+                  className="p-4 rounded-xl border border-border bg-muted/30 dark:bg-[#1A1A1A]/10"
                   data-testid={`transaction-row-${index}`}
                 >
                   <div className="flex items-center justify-between mb-4">

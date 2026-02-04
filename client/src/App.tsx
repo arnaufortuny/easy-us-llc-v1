@@ -180,8 +180,8 @@ function LoadingScreen() {
         alt="Easy US LLC" 
         className="w-16 h-16 mb-6 opacity-90"
       />
-      <div className="w-[280px] h-1 bg-muted/30 rounded-full overflow-hidden">
-        <div className="h-full bg-gradient-to-r from-accent to-accent/80 rounded-full animate-loading-bar" />
+      <div className="w-[280px] h-1.5 bg-border rounded-full overflow-hidden">
+        <div className="h-full bg-gradient-to-r from-[#6EDC8A] to-[#4FCF70] rounded-full loading-bar-animation" />
       </div>
     </div>
   );

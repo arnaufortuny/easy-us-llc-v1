@@ -63,7 +63,7 @@ function _NewsletterToggleLegacy() {
     }
   });
 
-  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-muted animate-pulse rounded-full" />;
+  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-[#1A1A1A] animate-pulse rounded-full" />;
 
   return (
     <Switch 
@@ -1226,7 +1226,7 @@ export default function Dashboard() {
                       </label>
                     ) : (
                       <div className="space-y-4">
-                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-muted rounded-xl">
+                        <div className="flex items-center gap-3 p-3 bg-white dark:bg-[#1A1A1A] rounded-xl">
                           <FileUp className="w-8 h-8 text-accent shrink-0" />
                           <div className="flex-1 min-w-0">
                             <p className="font-medium text-sm truncate text-foreground">{uploadDialog.file.name}</p>
@@ -1248,7 +1248,7 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={uploadDocType} 
                             onValueChange={setUploadDocType}
-                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-muted"
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="select-upload-doc-type-inline"
                           >
                             <NativeSelectItem value="passport">{t('dashboard.documents.passport')}</NativeSelectItem>
@@ -1651,12 +1651,12 @@ export default function Dashboard() {
                   </div>
                   <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-[#1A1A1A] shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
                         <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
                       </Button>
-                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-muted shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-[#1A1A1A] shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">Nuevo Pedido</span>
                         <span className="sm:hidden">Pedido</span>
@@ -1668,7 +1668,7 @@ export default function Dashboard() {
                         placeholder={t('dashboard.admin.searchPlaceholder')}
                         value={adminSearchQuery}
                         onChange={(e) => setAdminSearchQuery(e.target.value)}
-                        className="pl-9 rounded-full text-xs bg-white dark:bg-muted border-border"
+                        className="pl-9 rounded-full text-xs bg-white dark:bg-[#1A1A1A] border-border"
                         data-testid="input-admin-search"
                       />
                     </div>
@@ -2011,7 +2011,7 @@ export default function Dashboard() {
                           if (!app) return null;
                           const fiscalOrderCode = app?.requestCode || order.invoiceNumber;
                           return (
-                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-muted/50">
+                            <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-[#1A1A1A]/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
                                   <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
@@ -2672,7 +2672,7 @@ export default function Dashboard() {
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
                   <>
-                    <div className="bg-gray-50 dark:bg-muted rounded-xl p-3 mb-4">
+                    <div className="bg-gray-50 dark:bg-[#1A1A1A] rounded-xl p-3 mb-4">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
                           <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">Pedido: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
@@ -2743,7 +2743,7 @@ export default function Dashboard() {
               <div className="space-y-4">
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted" data-testid="input-note-title" />
+                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
