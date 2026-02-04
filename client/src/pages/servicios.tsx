@@ -563,18 +563,29 @@ export default function Servicios() {
           </motion.div>
 
           {/* Maintenance Packs Title */}
-          <div className="text-center mb-8 flex flex-col items-center justify-center">
-            <motion.h3 
-              className="text-2xl sm:text-3xl font-black text-foreground"
+          <div className="text-center mb-10 flex flex-col items-center justify-center">
+            <motion.h2 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1]"
+              style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
-              {t("packsTitle.maintenance.packs")} {t("packsTitle.maintenance.name")}
-            </motion.h3>
+              <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
+              <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
+            </motion.h2>
+            <motion.p
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("packsTitle.maintenance.subtitle")}
+            </motion.p>
             <motion.div 
-              className="w-16 h-1 bg-accent mt-4 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
