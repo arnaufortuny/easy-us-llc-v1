@@ -244,7 +244,7 @@ export default function Servicios() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0">
             {/* New Mexico */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">New Mexico</h3>
@@ -270,7 +270,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("New Mexico")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-9 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} New Mexico
                 </Button>
@@ -288,7 +288,7 @@ export default function Servicios() {
             </div>
 
             {/* Wyoming */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Wyoming</h3>
@@ -314,7 +314,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Wyoming")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-9 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Wyoming
                 </Button>
@@ -332,7 +332,7 @@ export default function Servicios() {
             </div>
 
             {/* Delaware */}
-            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group mx-auto w-full sm:max-w-none">
+            <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group mx-auto w-full sm:max-w-none">
               <div className="p-4 sm:p-5 flex-grow text-center">
                 <div className="flex items-center justify-between mb-3 gap-2 sm:flex-col sm:items-center sm:justify-center">
                   <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">Delaware</h3>
@@ -358,7 +358,7 @@ export default function Servicios() {
               <div className="p-4 sm:p-5 pt-0">
                 <Button 
                   onClick={() => handleSelectProduct("Delaware")}
-                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-9 shadow-accent/20"
+                  className="w-full bg-accent text-primary font-black text-xs rounded-full py-2.5 border-0 shadow-md hover:bg-accent/90 transition-colors h-9"
                 >
                   {t("services.formation.choose")} Delaware
                 </Button>
@@ -381,7 +381,7 @@ export default function Servicios() {
               onClick={() => {
                 window.open("https://wa.me/34614916910?text=" + encodeURIComponent("Hola! He revisado vuestros servicios y precios. Me gustaría resolver algunas dudas antes de decidirme. ¿Podemos hablar?"), "_blank");
               }}
-              className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-all transform hover:scale-105 active:scale-95 shadow-accent/20"
+              className="group bg-accent text-primary font-black text-sm rounded-full px-8 py-6 h-14 shadow-md hover:bg-accent/90 transition-colors"
             >
               {t("services.questions")} →
             </Button>
@@ -584,7 +584,7 @@ export default function Servicios() {
               { state: "Wyoming", price: getMaintenancePriceFormatted("wyoming"), annual: true },
               { state: "Delaware", price: getMaintenancePriceFormatted("delaware"), annual: true }
             ].map((item, i) => (
-              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transform transition-all hover:scale-[1.01] hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
+              <div key={i} className="border-[2px] border-accent rounded-xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full transition-shadow hover:shadow-xl group text-center mx-auto w-full sm:max-w-none">
                 <div className="p-4 sm:p-5 flex-grow text-center">
                   <div className="flex flex-col items-center justify-center mb-3 gap-1">
                     <h3 className="text-lg sm:text-xl font-black text-primary tracking-tight">{item.state}</h3>
@@ -606,7 +606,7 @@ export default function Servicios() {
                 <div className="p-4 sm:p-5 pt-0 mt-auto">
                   <Button 
                     onClick={() => handleSelectMaintenance(item.state)}
-                    className="w-full bg-accent text-primary font-black text-xs sm:text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-all transform active:scale-95 h-9 sm:h-10 shadow-accent/20"
+                    className="w-full bg-accent text-primary font-black text-xs sm:text-sm rounded-full border-0 shadow-md hover:bg-accent/90 transition-colors h-9 sm:h-10"
                   >
                     {t("services.maintenancePack.choosePack")} {item.state}
                   </Button>
