@@ -487,3 +487,30 @@ export type InsertConsultationType = z.infer<typeof insertConsultationTypeSchema
 export type InsertConsultationAvailability = z.infer<typeof insertConsultationAvailabilitySchema>;
 export type InsertConsultationBookedDate = z.infer<typeof insertConsultationBlockedDateSchema>;
 export type InsertConsultationBooking = z.infer<typeof insertConsultationBookingSchema>;
+
+// Accounting Transactions
+export const accountingTransactions = pgTable("accounting_transactions", {
+  id: serial("id").primaryKey(),
+  type: text("type").notNull(), // income, expense
+  category: text("category").notNull(), // llc_formation, maintenance, consultation, state_fees, etc.
+  amount: integer("amount").notNull(), // in cents (positive for income, negative for expenses)
+  currency: varchar("currency", { length: 3 }).notNull().default("EUR"),
+  description: text("description"),
+  orderId: integer("order_id").references(() => orders.id), // optional link to order
+  userId: varchar("user_id").references(() => users.id), // optional link to user/client
+  reference: text("reference"), // invoice number, receipt, etc.
+  transactionDate: timestamp("transaction_date").notNull().defaultNow(),
+  createdBy: varchar("created_by").references(() => users.id), // admin who created it
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => ({
+  typeIdx: index("accounting_tx_type_idx").on(table.type),
+  categoryIdx: index("accounting_tx_category_idx").on(table.category),
+  dateIdx: index("accounting_tx_date_idx").on(table.transactionDate),
+  orderIdIdx: index("accounting_tx_order_id_idx").on(table.orderId),
+}));
+
+export const insertAccountingTransactionSchema = createInsertSchema(accountingTransactions).omit({ id: true, createdAt: true, updatedAt: true });
+export type AccountingTransaction = typeof accountingTransactions.$inferSelect;
+export type InsertAccountingTransaction = z.infer<typeof insertAccountingTransactionSchema>;

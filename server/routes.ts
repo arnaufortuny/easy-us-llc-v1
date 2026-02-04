@@ -8,7 +8,7 @@ import { insertLlcApplicationSchema, insertApplicationDocumentSchema } from "@sh
 import type { Request, Response } from "express";
 import { db } from "./db";
 import { sendEmail, sendTrustpilotEmail, getOtpEmailTemplate, getConfirmationEmailTemplate, getWelcomeEmailTemplate, getNewsletterWelcomeTemplate, getAutoReplyTemplate, getEmailFooter, getEmailHeader, getOrderUpdateTemplate, getNoteReceivedTemplate, getAccountDeactivatedTemplate, getAccountUnderReviewTemplate, getOrderCompletedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getDocumentUploadedTemplate, getMessageReplyTemplate, getPasswordChangeOtpTemplate, getOrderEventTemplate, getAdminLLCOrderTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate, getAdminPasswordResetTemplate } from "./lib/email";
-import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings } from "@shared/schema";
+import { contactOtps, products as productsTable, users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, messageReplies, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, calculatorConsultations, consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, accountingTransactions } from "@shared/schema";
 import { and, eq, gt, desc, sql, isNotNull, inArray } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml, logAudit, getSystemHealth, getClientIp, getRecentAuditLogs, validatePassword } from "./lib/security";
 import { generateOrderInvoice, generateOrderReceipt, type InvoiceData, type ReceiptData } from "./lib/pdf-generator";
@@ -971,6 +971,82 @@ export async function registerRoutes(
       message: `Se ha registrado el pedido ${invoiceNumber} para ${product.name}`,
       type: 'info',
       isRead: false
+    });
+    
+    res.json({ success: true, orderId: order.id, invoiceNumber });
+  }));
+
+  // Admin create maintenance order
+  app.post("/api/admin/orders/create-maintenance", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const validStates = ["New Mexico", "Wyoming", "Delaware"] as const;
+    const schema = z.object({
+      userId: z.string().uuid(),
+      state: z.enum(validStates),
+      amount: z.string().or(z.number()).refine(val => Number(val) > 0, { message: "El importe debe ser mayor que 0" })
+    });
+    const { userId, state, amount } = schema.parse(req.body);
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    
+    // Maintenance product IDs: NM=4, WY=5, DE=6
+    const productMap: Record<string, { id: number; name: string }> = {
+      "New Mexico": { id: 4, name: "Mantenimiento Anual New Mexico" },
+      "Wyoming": { id: 5, name: "Mantenimiento Anual Wyoming" },
+      "Delaware": { id: 6, name: "Mantenimiento Anual Delaware" }
+    };
+    const product = productMap[state];
+    const amountCents = Math.round(Number(amount) * 100);
+    
+    const statePrefix = state === "Wyoming" ? "WY" : state === "Delaware" ? "DE" : "NM";
+    const year = new Date().getFullYear().toString().slice(-2);
+    const timestamp = Date.now().toString(36).toUpperCase().slice(-4);
+    const randomSuffix = Math.random().toString(36).substring(2, 6).toUpperCase();
+    const invoiceNumber = `M-${statePrefix}-${year}${timestamp}-${randomSuffix}`;
+    
+    const [order] = await db.insert(ordersTable).values({
+      userId,
+      productId: product.id,
+      amount: amountCents,
+      status: 'pending',
+      invoiceNumber
+    }).returning();
+    
+    // Create maintenance application so order shows in client dashboard
+    await db.insert(maintenanceApplications).values({
+      orderId: order.id,
+      requestCode: invoiceNumber,
+      ownerFullName: user.firstName && user.lastName ? `${user.firstName} ${user.lastName}` : null,
+      ownerEmail: user.email,
+      ownerPhone: user.phone,
+      state,
+      status: 'submitted'
+    });
+    
+    await db.insert(orderEvents).values({
+      orderId: order.id,
+      eventType: 'order_created',
+      description: `Pedido de mantenimiento ${invoiceNumber} creado por administrador`
+    });
+    
+    await db.insert(userNotifications).values({
+      userId,
+      orderId: order.id,
+      orderCode: invoiceNumber,
+      title: 'Nuevo pedido de mantenimiento registrado',
+      message: `Se ha registrado el pedido de mantenimiento ${invoiceNumber} para ${product.name}`,
+      type: 'info',
+      isRead: false
+    });
+    
+    // Audit log
+    logAudit({
+      action: 'admin_create_maintenance_order',
+      userId: req.session?.userId,
+      targetId: String(order.id),
+      details: { userId, state, amount: amountCents, invoiceNumber }
     });
     
     res.json({ success: true, orderId: order.id, invoiceNumber });
@@ -5678,6 +5754,240 @@ export async function registerRoutes(
       res.status(500).json({ message: "Error al obtener estadísticas" });
     }
   });
+
+  // ==================== ACCOUNTING ROUTES ====================
+  
+  // Get all transactions with filters
+  app.get("/api/admin/accounting/transactions", isAdmin, async (req, res) => {
+    try {
+      const { type, category, startDate, endDate } = req.query;
+      
+      let query = db.select().from(accountingTransactions);
+      const conditions: any[] = [];
+      
+      if (type && typeof type === 'string') {
+        conditions.push(eq(accountingTransactions.type, type));
+      }
+      if (category && typeof category === 'string') {
+        conditions.push(eq(accountingTransactions.category, category));
+      }
+      if (startDate && typeof startDate === 'string') {
+        conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(startDate)}`);
+      }
+      if (endDate && typeof endDate === 'string') {
+        conditions.push(sql`${accountingTransactions.transactionDate} <= ${new Date(endDate)}`);
+      }
+      
+      const transactions = await db.select()
+        .from(accountingTransactions)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(desc(accountingTransactions.transactionDate));
+      
+      res.json(transactions);
+    } catch (err) {
+      console.error("Error fetching accounting transactions:", err);
+      res.status(500).json({ message: "Error al obtener transacciones" });
+    }
+  });
+  
+  // Get accounting summary/stats
+  app.get("/api/admin/accounting/summary", isAdmin, async (req, res) => {
+    try {
+      const { period } = req.query; // 'month', 'year', 'all'
+      
+      let startDate: Date | null = null;
+      const now = new Date();
+      
+      if (period === 'month') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+      } else if (period === 'year') {
+        startDate = new Date(now.getFullYear(), 0, 1);
+      }
+      
+      const dateCondition = startDate 
+        ? sql`${accountingTransactions.transactionDate} >= ${startDate}`
+        : sql`1=1`;
+      
+      const [incomeResult] = await db.select({ total: sql<number>`COALESCE(SUM(amount), 0)` })
+        .from(accountingTransactions)
+        .where(and(eq(accountingTransactions.type, 'income'), dateCondition));
+      
+      const [expenseResult] = await db.select({ total: sql<number>`COALESCE(SUM(ABS(amount)), 0)` })
+        .from(accountingTransactions)
+        .where(and(eq(accountingTransactions.type, 'expense'), dateCondition));
+      
+      const totalIncome = Number(incomeResult?.total || 0);
+      const totalExpenses = Number(expenseResult?.total || 0);
+      
+      // Get breakdown by category
+      const categoryBreakdown = await db.select({
+        category: accountingTransactions.category,
+        type: accountingTransactions.type,
+        total: sql<number>`SUM(ABS(amount))`
+      })
+        .from(accountingTransactions)
+        .where(dateCondition)
+        .groupBy(accountingTransactions.category, accountingTransactions.type);
+      
+      res.json({
+        totalIncome,
+        totalExpenses,
+        netBalance: totalIncome - totalExpenses,
+        categoryBreakdown
+      });
+    } catch (err) {
+      console.error("Error fetching accounting summary:", err);
+      res.status(500).json({ message: "Error al obtener resumen contable" });
+    }
+  });
+  
+  // Create transaction
+  app.post("/api/admin/accounting/transactions", isAdmin, async (req: any, res) => {
+    try {
+      const { type, category, amount, currency, description, orderId, userId, reference, transactionDate, notes } = req.body;
+      
+      if (!type || !category || amount === undefined) {
+        return res.status(400).json({ message: "Faltan datos requeridos" });
+      }
+      
+      const amountCents = Math.round(Number(amount) * 100);
+      
+      const [transaction] = await db.insert(accountingTransactions).values({
+        type,
+        category,
+        amount: type === 'expense' ? -Math.abs(amountCents) : Math.abs(amountCents),
+        currency: currency || 'EUR',
+        description,
+        orderId: orderId || null,
+        userId: userId || null,
+        reference,
+        transactionDate: transactionDate ? new Date(transactionDate) : new Date(),
+        createdBy: req.session?.userId,
+        notes
+      }).returning();
+      
+      logAudit({
+        action: 'accounting_transaction_created',
+        userId: req.session?.userId,
+        targetId: String(transaction.id),
+        details: { type, category, amount: amountCents }
+      });
+      
+      res.json(transaction);
+    } catch (err) {
+      console.error("Error creating transaction:", err);
+      res.status(500).json({ message: "Error al crear transacción" });
+    }
+  });
+  
+  // Update transaction
+  app.patch("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
+    try {
+      const txId = Number(req.params.id);
+      const { type, category, amount, currency, description, reference, transactionDate, notes } = req.body;
+      
+      const updateData: Record<string, any> = { updatedAt: new Date() };
+      if (type) updateData.type = type;
+      if (category) updateData.category = category;
+      if (amount !== undefined) {
+        const amountCents = Math.round(Number(amount) * 100);
+        updateData.amount = type === 'expense' ? -Math.abs(amountCents) : Math.abs(amountCents);
+      }
+      if (currency) updateData.currency = currency;
+      if (description !== undefined) updateData.description = description;
+      if (reference !== undefined) updateData.reference = reference;
+      if (transactionDate) updateData.transactionDate = new Date(transactionDate);
+      if (notes !== undefined) updateData.notes = notes;
+      
+      const [updated] = await db.update(accountingTransactions)
+        .set(updateData)
+        .where(eq(accountingTransactions.id, txId))
+        .returning();
+      
+      logAudit({
+        action: 'accounting_transaction_updated',
+        userId: req.session?.userId,
+        targetId: String(txId),
+        details: updateData
+      });
+      
+      res.json(updated);
+    } catch (err) {
+      console.error("Error updating transaction:", err);
+      res.status(500).json({ message: "Error al actualizar transacción" });
+    }
+  });
+  
+  // Delete transaction
+  app.delete("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
+    try {
+      const txId = Number(req.params.id);
+      
+      await db.delete(accountingTransactions).where(eq(accountingTransactions.id, txId));
+      
+      logAudit({
+        action: 'accounting_transaction_deleted',
+        userId: req.session?.userId,
+        targetId: String(txId)
+      });
+      
+      res.json({ success: true });
+    } catch (err) {
+      console.error("Error deleting transaction:", err);
+      res.status(500).json({ message: "Error al eliminar transacción" });
+    }
+  });
+  
+  // Export transactions to CSV
+  app.get("/api/admin/accounting/export-csv", isAdmin, async (req, res) => {
+    try {
+      const { startDate, endDate, type, category } = req.query;
+      
+      const conditions: any[] = [];
+      if (type && typeof type === 'string') {
+        conditions.push(eq(accountingTransactions.type, type));
+      }
+      if (category && typeof category === 'string') {
+        conditions.push(eq(accountingTransactions.category, category));
+      }
+      if (startDate && typeof startDate === 'string') {
+        conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(startDate)}`);
+      }
+      if (endDate && typeof endDate === 'string') {
+        conditions.push(sql`${accountingTransactions.transactionDate} <= ${new Date(endDate)}`);
+      }
+      
+      const transactions = await db.select()
+        .from(accountingTransactions)
+        .where(conditions.length > 0 ? and(...conditions) : undefined)
+        .orderBy(desc(accountingTransactions.transactionDate));
+      
+      // Build CSV
+      const headers = ['ID', 'Fecha', 'Tipo', 'Categoría', 'Importe (€)', 'Descripción', 'Referencia', 'Notas'];
+      const rows = transactions.map(tx => [
+        tx.id,
+        tx.transactionDate ? new Date(tx.transactionDate).toLocaleDateString('es-ES') : '',
+        tx.type === 'income' ? 'Ingreso' : 'Gasto',
+        tx.category,
+        (tx.amount / 100).toFixed(2),
+        tx.description || '',
+        tx.reference || '',
+        tx.notes || ''
+      ]);
+      
+      const csvContent = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+      
+      res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+      res.setHeader('Content-Disposition', `attachment; filename="transacciones_${new Date().toISOString().slice(0, 10)}.csv"`);
+      res.send('\uFEFF' + csvContent); // BOM for Excel UTF-8
+    } catch (err) {
+      console.error("Error exporting CSV:", err);
+      res.status(500).json({ message: "Error al exportar CSV" });
+    }
+  });
+  
+  // Auto-create income transaction when order is marked as paid
+  // (This is a helper that can be called from the payment status update route)
 
   // Seed Data
   await seedDatabase();

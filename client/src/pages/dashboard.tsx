@@ -43,6 +43,7 @@ import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
 import { ConsultationsTab } from "@/components/dashboard/consultations-tab";
 import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultations-panel";
+import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 
 function _NewsletterToggleLegacy() {
   const { toast } = useToast();
@@ -120,7 +121,7 @@ export default function Dashboard() {
   const [createUserDialog, setCreateUserDialog] = useState(false);
   const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
   const [createOrderDialog, setCreateOrderDialog] = useState(false);
-  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
+  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' as 'llc' | 'maintenance' });
   const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [deleteOwnAccountDialog, setDeleteOwnAccountDialog] = useState(false);
   const [uploadDialog, setUploadDialog] = useState<{ open: boolean; file: File | null }>({ open: false, file: null });
@@ -597,11 +598,12 @@ export default function Dashboard() {
 
   const createOrderMutation = useMutation({
     mutationFn: async (data: typeof newOrderData) => {
-      const { userId, state, amount } = data;
+      const { userId, state, amount, orderType } = data;
       if (!userId || !state || !amount) {
         throw new Error(t("dashboard.toasts.missingRequiredData"));
       }
-      const res = await apiRequest("POST", "/api/admin/orders/create", { userId, state, amount });
+      const endpoint = orderType === 'maintenance' ? "/api/admin/orders/create-maintenance" : "/api/admin/orders/create";
+      const res = await apiRequest("POST", endpoint, { userId, state, amount });
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
         throw new Error(errorData.message || t("dashboard.toasts.couldNotCreate"));
@@ -612,7 +614,7 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       toast({ title: t("dashboard.toasts.orderCreated"), description: t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' }) });
       setCreateOrderDialog(false);
-      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
+      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' });
     },
     onError: (error: any) => {
       toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
@@ -1570,6 +1572,7 @@ export default function Dashboard() {
                       { id: 'incomplete', label: 'Incompletas', mobileLabel: 'Incompl.', icon: AlertCircle },
                       { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
                       { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
+                      { id: 'accounting', label: 'Contabilidad', mobileLabel: 'Contab.', icon: Calculator },
                       { id: 'calendar', label: 'Fechas', mobileLabel: 'Fechas', icon: Calendar },
                       { id: 'docs', label: 'Docs', mobileLabel: 'Docs', icon: FileText },
                       { id: 'newsletter', label: 'News', mobileLabel: 'News', icon: Mail },
@@ -2464,6 +2467,10 @@ export default function Dashboard() {
                     </div>
                   )}
 
+                  {adminSubTab === 'accounting' && (
+                    <AdminAccountingPanel />
+                  )}
+
                   {adminSubTab === 'descuentos' && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
@@ -3098,16 +3105,35 @@ export default function Dashboard() {
       <Sheet open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
         <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
           <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Pedido</SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">Configura el pedido para el cliente</SheetDescription>
+            <SheetTitle className="text-xl font-semibold text-foreground">{t('dashboard.admin.createOrder')}</SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</SheetDescription>
           </SheetHeader>
           <div className="space-y-4">
             <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Cliente</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.orderType')}</Label>
+              <NativeSelect 
+                value={newOrderData.orderType} 
+                onValueChange={val => {
+                  const type = val as 'llc' | 'maintenance';
+                  const defaultAmount = type === 'maintenance' 
+                    ? (newOrderData.state === 'Wyoming' ? '699' : newOrderData.state === 'Delaware' ? '999' : '539')
+                    : (newOrderData.state === 'Wyoming' ? '899' : newOrderData.state === 'Delaware' ? '1399' : '739');
+                  setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount }));
+                }}
+                placeholder={t('dashboard.admin.selectOrderType')}
+                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
+                data-testid="select-order-type"
+              >
+                <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
+                <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
+              </NativeSelect>
+            </div>
+            <div>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.client')}</Label>
               <NativeSelect 
                 value={newOrderData.userId} 
                 onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
-                placeholder="Seleccionar cliente..."
+                placeholder={t('dashboard.admin.selectClient')}
                 className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="select-order-user"
               >
@@ -3117,29 +3143,44 @@ export default function Dashboard() {
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Estado (LLC)</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
               <NativeSelect 
                 value={newOrderData.state} 
-                onValueChange={val => setNewOrderData(p => ({ ...p, state: val }))}
-                placeholder="Seleccionar estado"
+                onValueChange={val => {
+                  const prices = newOrderData.orderType === 'maintenance'
+                    ? { 'New Mexico': '539', 'Wyoming': '699', 'Delaware': '999' }
+                    : { 'New Mexico': '739', 'Wyoming': '899', 'Delaware': '1399' };
+                  setNewOrderData(p => ({ ...p, state: val, amount: prices[val as keyof typeof prices] || p.amount }));
+                }}
+                placeholder={t('dashboard.admin.selectState')}
                 className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
                 data-testid="select-order-state"
               >
-                <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
-                <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
-                <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
+                {newOrderData.orderType === 'maintenance' ? (
+                  <>
+                    <NativeSelectItem value="New Mexico">New Mexico - 539€</NativeSelectItem>
+                    <NativeSelectItem value="Wyoming">Wyoming - 699€</NativeSelectItem>
+                    <NativeSelectItem value="Delaware">Delaware - 999€</NativeSelectItem>
+                  </>
+                ) : (
+                  <>
+                    <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
+                    <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
+                    <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
+                  </>
+                )}
               </NativeSelect>
             </div>
             <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Importe (€)</Label>
+              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
               <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-order-amount" />
             </div>
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
             <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
-              {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Pedido'}
+              {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
             </Button>
-            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-order">Cancelar</Button>
+            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
           </div>
         </SheetContent>
       </Sheet>
