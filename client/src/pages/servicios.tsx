@@ -199,7 +199,7 @@ export default function Servicios() {
         <div className="w-full px-4 sm:px-8">
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -209,6 +209,15 @@ export default function Servicios() {
               <span className="text-foreground">{t("packsTitle.packs")}</span>{" "}
               <span className="text-accent">{t("packsTitle.formation")}</span>
             </motion.h2>
+            <motion.p
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              {t("packsTitle.subtitle")}
+            </motion.p>
             <motion.div 
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
@@ -371,7 +380,7 @@ export default function Servicios() {
         <div className="w-full px-5 sm:px-8">
           <div className="text-center mb-8 sm:mb-12 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -382,7 +391,7 @@ export default function Servicios() {
               <span className="text-accent">{t("services.banks.sectionTitleHighlight")}</span>
             </motion.h2>
             <motion.p 
-              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center will-change-opacity"
+              className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-opacity"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={viewportOnce}
@@ -391,7 +400,7 @@ export default function Servicios() {
               {t("services.banks.subtitle")}
             </motion.p>
             <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
+              className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
               variants={lineExpand}
               initial="hidden"
               whileInView="visible"
@@ -425,7 +434,7 @@ export default function Servicios() {
 
           <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center relative">
             <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
+              className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
               style={{ fontWeight: 900 }}
               variants={fadeInUp}
               initial="hidden"
@@ -436,7 +445,7 @@ export default function Servicios() {
               <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
             </motion.h2>
             <motion.p
-              className="text-lg sm:text-xl text-muted-foreground mt-4"
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"

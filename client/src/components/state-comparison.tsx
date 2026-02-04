@@ -54,7 +54,7 @@ export function StateComparison() {
       <div className="w-full px-4 sm:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-12 sm:mb-16 flex flex-col items-center justify-center">
           <motion.h2
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1]"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1]"
             style={{ fontWeight: 900 }}
             variants={fadeInUp}
             initial="hidden"
@@ -65,7 +65,7 @@ export function StateComparison() {
             <span className="text-accent">{t("stateComparison.titleHighlight")}</span>
           </motion.h2>
           <motion.p
-            className="text-muted-foreground text-lg sm:text-xl mt-4 sm:mt-6 text-center max-w-3xl font-medium"
+            className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={viewportOnce}
@@ -73,6 +73,13 @@ export function StateComparison() {
           >
             {t("stateComparison.subtitle")}
           </motion.p>
+          <motion.div 
+            className="w-24 h-1 bg-accent mt-6 rounded-full"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={viewportOnce}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">

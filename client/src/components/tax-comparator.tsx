@@ -278,7 +278,7 @@ export function TaxComparator() {
       <div className="w-full px-4 sm:px-8 relative z-10">
         <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
           <motion.h2 
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
+            className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
             style={{ fontWeight: 900 }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -289,7 +289,7 @@ export function TaxComparator() {
             <span className="text-accent">{t("taxComparator.titlePart2")}</span>
           </motion.h2>
           <motion.p 
-            className="text-muted-foreground font-bold text-base sm:text-lg mt-4 text-center max-w-xl will-change-transform"
+            className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-transform"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -297,6 +297,13 @@ export function TaxComparator() {
           >
             {t("taxComparator.subtitle")}
           </motion.p>
+          <motion.div 
+            className="w-24 h-1 bg-accent mt-6 rounded-full"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+          />
         </div>
         
         <motion.div 
