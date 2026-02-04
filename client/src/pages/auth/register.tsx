@@ -550,24 +550,21 @@ export default function Register() {
                     <div className="p-4 bg-accent/5 border border-accent/20 rounded-2xl" data-testid="section-language-selector">
                       <div className="flex items-center gap-2 mb-3">
                         <Globe className="w-4 h-4 text-accent" data-testid="icon-language-globe" />
-                        <span className="font-bold text-foreground text-sm" data-testid="text-language-title">{t('profile.language.title', 'Idioma preferido')}</span>
+                        <span className="font-bold text-foreground text-sm" data-testid="text-language-title">{t('profile.language.title')}</span>
                       </div>
-                      <p className="text-xs text-muted-foreground mb-3" data-testid="text-language-description">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
-                      <div className="flex gap-2 flex-wrap">
+                      <p className="text-xs text-muted-foreground mb-3" data-testid="text-language-description">{t('profile.language.description')}</p>
+                      <select
+                        value={selectedLanguage}
+                        onChange={(e) => handleLanguageChange(e.target.value)}
+                        className="w-full p-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+                        data-testid="select-language"
+                      >
                         {languages.map((lang) => (
-                          <Button
-                            key={lang.code}
-                            type="button"
-                            variant={selectedLanguage === lang.code ? "default" : "outline"}
-                            className={`rounded-full ${selectedLanguage === lang.code ? 'toggle-elevate toggle-elevated' : ''}`}
-                            onClick={() => handleLanguageChange(lang.code)}
-                            data-testid={`button-language-${lang.code}`}
-                          >
-                            <lang.Flag className="w-5 h-5" data-testid={`icon-flag-${lang.code}`} />
-                            <span data-testid={`text-language-label-${lang.code}`}>{lang.label}</span>
-                          </Button>
+                          <option key={lang.code} value={lang.code}>
+                            {lang.label}
+                          </option>
                         ))}
-                      </div>
+                      </select>
                     </div>
 
                     <div className="space-y-3">

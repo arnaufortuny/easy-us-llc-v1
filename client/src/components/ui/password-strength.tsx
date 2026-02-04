@@ -15,13 +15,14 @@ interface PasswordRequirement {
 function getPasswordStrength(password: string): { score: number; requirements: PasswordRequirement[] } {
   const requirements: PasswordRequirement[] = [
     { label: "minLength", met: password.length >= 8 },
-    { label: "hasUppercase", met: /[A-Z]/.test(password) },
-    { label: "hasLowercase", met: /[a-z]/.test(password) },
-    { label: "hasNumber", met: /[0-9]/.test(password) },
-    { label: "hasSymbol", met: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password) },
   ];
 
-  const score = requirements.filter(r => r.met).length;
+  let score = 0;
+  if (password.length >= 8) score = 2;
+  if (password.length >= 10) score = 3;
+  if (password.length >= 12) score = 4;
+  if (password.length >= 14) score = 5;
+  
   return { score, requirements };
 }
 
