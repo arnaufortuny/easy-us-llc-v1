@@ -13,11 +13,57 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
-import { ChevronDown, Check, ArrowRight, FileText, CreditCard, Building2, FileCheck, Shield, Headphones } from "lucide-react";
+import { ChevronDown, Check, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
+
+const FormationIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M7 3h7l5 5v13H7z"/>
+    <path d="M14 3v5h5"/>
+    <path d="M9 13h6M9 17h6"/>
+  </svg>
+);
+
+const EinIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="4" width="18" height="16" rx="2"/>
+    <path d="M8 9h8M8 13h5"/>
+    <circle cx="18" cy="17" r="2"/>
+  </svg>
+);
+
+const BankingIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="6" width="20" height="12" rx="2"/>
+    <path d="M2 10h20"/>
+    <circle cx="16" cy="14" r="1"/>
+  </svg>
+);
+
+const BoiIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M6 2h9l5 5v15H6z"/>
+    <path d="M14 2v5h5"/>
+    <path d="M9 13l2 2 4-4"/>
+  </svg>
+);
+
+const AgentIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10z"/>
+    <path d="M9 12l2 2 4-4"/>
+  </svg>
+);
+
+const SupportIcon = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>
+    <path d="M9 10h6M9 14h4"/>
+  </svg>
+);
 
 export default function Servicios() {
   const [, setLocation] = useLocation();
@@ -67,12 +113,12 @@ export default function Servicios() {
   ];
 
   const whatWeDoItems = [
-    { key: "formation", icon: FileText },
-    { key: "ein", icon: FileCheck },
-    { key: "banking", icon: CreditCard },
-    { key: "boi", icon: Building2 },
-    { key: "agent", icon: Shield },
-    { key: "support", icon: Headphones }
+    { key: "formation", icon: FormationIcon },
+    { key: "ein", icon: EinIcon },
+    { key: "banking", icon: BankingIcon },
+    { key: "boi", icon: BoiIcon },
+    { key: "agent", icon: AgentIcon },
+    { key: "support", icon: SupportIcon }
   ];
 
   const bankItems = [
