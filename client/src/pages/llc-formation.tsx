@@ -678,11 +678,11 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="state" render={({ field }) => (
                   <FormItem>
                     <FormControl>
-                      <div className="flex flex-col gap-3">
+                      <div className="flex flex-col gap-2">
                         {[
-                          { name: "New Mexico", price: getFormationPriceFormatted("newMexico"), desc: t("application.states.newMexicoDesc") },
-                          { name: "Wyoming", price: getFormationPriceFormatted("wyoming"), desc: t("application.states.wyomingDesc") },
-                          { name: "Delaware", price: getFormationPriceFormatted("delaware"), desc: t("application.states.delawareDesc") }
+                          { name: "New Mexico", price: getFormationPriceFormatted("newMexico") },
+                          { name: "Wyoming", price: getFormationPriceFormatted("wyoming") },
+                          { name: "Delaware", price: getFormationPriceFormatted("delaware") }
                         ].map(opt => (
                           <label 
                             key={opt.name} 
@@ -690,24 +690,21 @@ export default function LlcFormation() {
                               field.onChange(opt.name);
                               setStep(1);
                             }}
-                            className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
+                            className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border-2 cursor-pointer transition-colors ${
                               field.value === opt.name 
                                 ? 'border-accent bg-accent/10 dark:bg-accent/20' 
                                 : 'border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent/50'
                             }`}
                           >
                             <div className="flex items-center gap-3">
-                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${
+                              <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${
                                 field.value === opt.name ? 'border-accent bg-accent' : 'border-gray-300 dark:border-border'
                               }`}>
-                                {field.value === opt.name && <div className="w-2 h-2 rounded-full bg-white" />}
+                                {field.value === opt.name && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
                               </div>
-                              <div className="flex flex-col">
-                                <span className="font-bold text-foreground text-sm md:text-base">{opt.name}</span>
-                                <span className="text-xs text-muted-foreground">{opt.desc}</span>
-                              </div>
+                              <span className="font-bold text-foreground text-sm">{opt.name}</span>
                             </div>
-                            <span className="font-black text-accent text-lg">{opt.price}</span>
+                            <span className="font-black text-accent text-base">{opt.price}</span>
                           </label>
                         ))}
                       </div>

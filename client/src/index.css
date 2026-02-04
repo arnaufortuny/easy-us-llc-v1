@@ -504,6 +504,17 @@ img[loading="lazy"] {
   background: hsl(var(--muted) / 0.3);
 }
 
+/* Native select styling for dark mode */
+select option {
+  background-color: white;
+  color: black;
+}
+
+.dark select option {
+  background-color: #1A1A1A;
+  color: white;
+}
+
 /* Button and interactive element optimizations */
 button, a, [role="button"] {
   touch-action: manipulation;
