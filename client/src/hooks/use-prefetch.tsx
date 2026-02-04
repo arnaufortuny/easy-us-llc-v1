@@ -8,22 +8,22 @@ export function usePrefetch() {
   const prefetch = useCallback((path: string) => {
     if (prefetchedRoutes.has(path)) return;
 
-    timeoutRef.current = setTimeout(() => {
-      const routeLoaders: Record<string, () => Promise<unknown>> = {
-        "/": () => import("../pages/home"),
-        "/servicios": () => import("../pages/servicios"),
-        "/precios": () => import("../pages/servicios"),
-        "/faq": () => import("../pages/faq"),
-        "/contacto": () => import("../pages/contacto"),
-        "/llc/maintenance": () => import("../pages/maintenance"),
-        "/llc/formation": () => import("../pages/llc-formation"),
-        "/dashboard": () => import("../pages/dashboard"),
-        "/auth/login": () => import("../pages/auth/login"),
-        "/auth/register": () => import("../pages/auth/register"),
-        "/legal/terminos": () => import("../pages/legal/terminos"),
-        "/legal/privacidad": () => import("../pages/legal/privacidad"),
-      };
+    const routeLoaders: Record<string, () => Promise<unknown>> = {
+      "/": () => import("../pages/home"),
+      "/servicios": () => import("../pages/servicios"),
+      "/precios": () => import("../pages/servicios"),
+      "/faq": () => import("../pages/faq"),
+      "/contacto": () => import("../pages/contacto"),
+      "/llc/maintenance": () => import("../pages/maintenance"),
+      "/llc/formation": () => import("../pages/llc-formation"),
+      "/dashboard": () => import("../pages/dashboard"),
+      "/auth/login": () => import("../pages/auth/login"),
+      "/auth/register": () => import("../pages/auth/register"),
+      "/legal/terminos": () => import("../pages/legal/terminos"),
+      "/legal/privacidad": () => import("../pages/legal/privacidad"),
+    };
 
+    timeoutRef.current = setTimeout(() => {
       const loader = routeLoaders[path];
       if (loader) {
         loader()
@@ -32,7 +32,7 @@ export function usePrefetch() {
           })
           .catch(() => {});
       }
-    }, 150);
+    }, 50);
   }, []);
 
   const cancelPrefetch = useCallback(() => {

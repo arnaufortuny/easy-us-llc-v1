@@ -1,6 +1,6 @@
 import { Variants, Transition } from "framer-motion";
 
-// Optimized easing curves for professional feel
+// Optimized easing curves for professional feel - GPU accelerated
 export const easing = {
   smooth: [0.25, 0.1, 0.25, 1.0] as const,
   snappy: [0.4, 0, 0.2, 1] as const,
@@ -9,16 +9,17 @@ export const easing = {
   accelerate: [0.4, 0, 1, 1] as const,
 };
 
-// Optimized transitions - reduced durations for snappier feel
+// Optimized transitions - faster durations for instant feel
 export const transitions = {
-  fast: { duration: 0.15, ease: easing.snappy } as Transition,
-  normal: { duration: 0.25, ease: easing.smooth } as Transition,
-  slow: { duration: 0.4, ease: easing.smooth } as Transition,
-  spring: { type: "spring", stiffness: 400, damping: 30 } as Transition,
-  springBounce: { type: "spring", stiffness: 300, damping: 20 } as Transition,
+  instant: { duration: 0.1, ease: easing.snappy } as Transition,
+  fast: { duration: 0.12, ease: easing.snappy } as Transition,
+  normal: { duration: 0.2, ease: easing.smooth } as Transition,
+  slow: { duration: 0.3, ease: easing.smooth } as Transition,
+  spring: { type: "spring", stiffness: 500, damping: 35, mass: 0.8 } as Transition,
+  springBounce: { type: "spring", stiffness: 400, damping: 25, mass: 0.8 } as Transition,
 };
 
-// Fade animations
+// Fade animations - optimized with smaller movements for snappier feel
 export const fadeIn: Variants = {
   hidden: { opacity: 0 },
   visible: { 
@@ -28,7 +29,7 @@ export const fadeIn: Variants = {
 };
 
 export const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, y: 8 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -37,7 +38,7 @@ export const fadeInUp: Variants = {
 };
 
 export const fadeInDown: Variants = {
-  hidden: { opacity: 0, y: -12 },
+  hidden: { opacity: 0, y: -8 },
   visible: { 
     opacity: 1, 
     y: 0,
@@ -46,7 +47,7 @@ export const fadeInDown: Variants = {
 };
 
 export const fadeInLeft: Variants = {
-  hidden: { opacity: 0, x: -20 },
+  hidden: { opacity: 0, x: -12 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -55,7 +56,7 @@ export const fadeInLeft: Variants = {
 };
 
 export const fadeInRight: Variants = {
-  hidden: { opacity: 0, x: 20 },
+  hidden: { opacity: 0, x: 12 },
   visible: { 
     opacity: 1, 
     x: 0,
@@ -91,14 +92,14 @@ export const lineExpand: Variants = {
   },
 };
 
-// Container with stagger children
+// Container with stagger children - faster stagger for fluidity
 export const staggerContainer: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
+      staggerChildren: 0.04,
+      delayChildren: 0.05,
     },
   },
 };
@@ -108,8 +109,8 @@ export const staggerContainerFast: Variants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05,
-      delayChildren: 0.05,
+      staggerChildren: 0.02,
+      delayChildren: 0.02,
     },
   },
 };
@@ -173,9 +174,9 @@ export const buttonTap = {
   transition: { duration: 0.1 },
 };
 
-// Viewport settings optimized for performance
-export const viewportOnce = { once: true, amount: 0.2 };
-export const viewportRepeat = { once: false, amount: 0.3 };
+// Viewport settings optimized for performance - trigger earlier for smoother feel
+export const viewportOnce = { once: true, amount: 0.1, margin: "-50px" };
+export const viewportRepeat = { once: false, amount: 0.15 };
 
 // Utility function for staggered delays
 export const getStaggerDelay = (index: number, baseDelay = 0.05) => ({

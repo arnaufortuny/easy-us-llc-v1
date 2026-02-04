@@ -500,35 +500,41 @@ img {
   }
 }
 
-/* Optimized animation classes - snappier durations */
+/* Optimized animation classes - GPU accelerated, snappy durations */
 .animate-fade-in {
   animation: fadeIn 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-fade-in-up {
   animation: fadeInUp 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-fade-in-down {
   animation: fadeInDown 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-scale-in {
   animation: scaleIn 0.2s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-slide-left {
   animation: slideInLeft 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-slide-right {
   animation: slideInRight 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* Staggered animation delays - tighter timing */
@@ -539,31 +545,35 @@ img {
 .animate-delay-5 { animation-delay: 0.15s; opacity: 0; }
 .animate-delay-6 { animation-delay: 0.18s; opacity: 0; }
 
-/* Card entrance animation - optimized */
+/* Card entrance animation - GPU accelerated */
 .animate-card-in {
   animation: fadeInUp 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
-/* Button press animation - faster response */
+/* Button press animation - instant response */
 .animate-press {
-  transition: transform 0.08s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: transform 0.06s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-press:active {
-  transform: scale3d(0.97, 0.97, 1);
+  transform: scale3d(0.97, 0.97, 1) translateZ(0);
 }
 
 /* Page transitions - instant feel */
 .animate-page-in {
-  animation: fadeIn 0.15s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: opacity;
+  animation: fadeIn 0.12s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-section-in {
-  animation: fadeInUp 0.3s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
-  will-change: transform, opacity;
+  animation: fadeInUp 0.25s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* GPU acceleration utility */
@@ -596,7 +606,6 @@ img {
 
 /* GPU acceleration for animations - critical for 0 lag */
 .gpu-accelerated {
-  will-change: transform, opacity;
   transform: translateZ(0);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
@@ -606,7 +615,6 @@ img {
 /* Optimized motion elements - instant GPU compositing */
 [data-motion],
 .motion-element {
-  will-change: transform, opacity;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: translateZ(0);

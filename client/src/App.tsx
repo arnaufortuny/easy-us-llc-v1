@@ -4,7 +4,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/hooks/use-theme";
-import { useState, useEffect, Suspense, lazy, Component, type ReactNode } from "react";
+import { useEffect, Suspense, lazy, Component, memo, type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import i18n from "@/lib/i18n";
 import NotFound from "@/pages/not-found";
@@ -171,40 +171,15 @@ function ScrollToTop() {
 }
 
 function LoadingScreen() {
-  const [progress, setProgress] = useState(0);
-  
-  useEffect(() => {
-    const duration = 400; // Faster loading animation
-    const steps = 15;
-    const increment = 100 / steps;
-    const interval = duration / steps;
-    
-    let current = 0;
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= 100) {
-        setProgress(100);
-        clearInterval(timer);
-      } else {
-        setProgress(current);
-      }
-    }, interval);
-    
-    return () => clearInterval(timer);
-  }, []);
-  
   return (
-    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 gpu-accelerated">
       <img 
         src={logoIcon} 
         alt="Easy US LLC" 
         className="w-16 h-16 sm:w-20 sm:h-20 mb-8 opacity-90"
       />
       <div className="w-64 sm:w-72 h-2 bg-muted/50 rounded-full overflow-hidden border border-border">
-        <div 
-          className="h-full bg-accent rounded-full transition-all duration-75 ease-out"
-          style={{ width: `${progress}%` }}
-        />
+        <div className="h-full bg-accent rounded-full animate-loading-bar" />
       </div>
     </div>
   );
