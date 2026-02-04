@@ -152,46 +152,46 @@ body {
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Dark Mode - Clean Pure Black */
+/* Dark Mode - Clean Pure Black (no blue tint) */
 .dark {
   --background: 0 0% 4%; /* Pure black #0A0A0A */
-  --foreground: 210 20% 98%; /* Crisp white text */
+  --foreground: 0 0% 98%; /* Pure white text */
 
-  --primary: 210 20% 98%;
-  --primary-foreground: 225 18% 8%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 4%;
 
-  --secondary: 225 15% 15%;
-  --secondary-foreground: 210 20% 98%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 98%;
 
-  --accent: 145 70% 48%; /* Slightly brighter green for dark mode */
-  --accent-foreground: 225 20% 8%;
+  --accent: 145 70% 48%; /* Green accent */
+  --accent-foreground: 0 0% 4%;
 
-  --muted: 225 15% 13%;
-  --muted-foreground: 220 15% 65%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 65%;
 
   --destructive: 0 65% 55%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 225 15% 20%;
-  --input: 225 15% 13%;
-  --ring: 220 15% 50%;
+  --border: 0 0% 18%;
+  --input: 0 0% 10%;
+  --ring: 0 0% 50%;
 
-  --card: 225 16% 11%;
-  --card-foreground: 210 20% 98%;
-  --card-border: 225 15% 20%;
+  --card: 0 0% 8%;
+  --card-foreground: 0 0% 98%;
+  --card-border: 0 0% 18%;
 
-  --popover: 225 16% 11%;
-  --popover-foreground: 210 20% 98%;
-  --popover-border: 225 15% 22%;
+  --popover: 0 0% 8%;
+  --popover-foreground: 0 0% 98%;
+  --popover-border: 0 0% 20%;
 
-  --sidebar: 225 18% 6%;
-  --sidebar-foreground: 210 20% 98%;
-  --sidebar-border: 225 15% 18%;
-  --sidebar-ring: 220 15% 50%;
-  --sidebar-primary: 210 20% 98%;
-  --sidebar-primary-foreground: 225 18% 8%;
+  --sidebar: 0 0% 6%;
+  --sidebar-foreground: 0 0% 98%;
+  --sidebar-border: 0 0% 16%;
+  --sidebar-ring: 0 0% 50%;
+  --sidebar-primary: 0 0% 98%;
+  --sidebar-primary-foreground: 0 0% 4%;
   --sidebar-accent: 145 70% 48%;
-  --sidebar-accent-foreground: 225 20% 8%;
+  --sidebar-accent-foreground: 0 0% 4%;
 }
 
 @layer base {
