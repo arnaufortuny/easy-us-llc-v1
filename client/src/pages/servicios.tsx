@@ -390,6 +390,13 @@ export default function Servicios() {
             >
               {t("services.banks.subtitle")}
             </motion.p>
+            <motion.div 
+              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
+              variants={lineExpand}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            />
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-4 sm:gap-5 mb-5 sm:mb-6 max-w-4xl mx-auto">
             {bankItems.map((item, i) => (
@@ -507,6 +514,13 @@ export default function Servicios() {
             >
               {t("services.process.subtitle")}
             </motion.p>
+            <motion.div 
+              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
+              variants={lineExpand}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            />
           </div>
 
           <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">

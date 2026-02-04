@@ -292,15 +292,15 @@
         },
         "boi": {
           "title": "BOI Report",
-          "desc": "Preparamos y presentamos el Beneficial Ownership Information Report ante FinCEN, cumpliendo con la obligación federal vigente para las LLC en Estados Unidos."
+          "desc": "Preparem i presentem el Beneficial Ownership Information Report davant FinCEN, complint amb l'obligació federal vigent per a les LLC als Estats Units."
         },
         "agent": {
           "title": "Registered Agent",
-          "desc": "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales."
+          "desc": "Incloem el servei de Registered Agent oficial durant el primer any complet, proporcionant adreça legal als Estats Units i recepció de notificacions oficials."
         },
         "support": {
-          "title": "Soporte experto",
-          "desc": "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC."
+          "title": "Suport expert",
+          "desc": "Oferim atenció directa i personalitzada per resoldre els teus dubtes fiscals i operatius, acompanyant-te en l'ús i manteniment de la teva LLC."
         }
       }
     },
@@ -344,32 +344,32 @@
       "subtitle": "El que inclou el teu manteniment anual",
       "steps": {
         "1": {
-          "title": "Gestión Fiscal",
-          "desc": "Formularios 1120 y 5472 ante el IRS."
+          "title": "Gestió Fiscal",
+          "desc": "Formularis 1120 i 5472 davant l'IRS."
         },
         "2": {
           "title": "Registered Agent",
-          "desc": "Renovación del agente registrado 12 meses."
+          "desc": "Renovació de l'agent registrat 12 mesos."
         },
         "3": {
           "title": "Annual Report",
-          "desc": "Informe anual ante el Secretario de Estado."
+          "desc": "Informe anual davant el Secretari d'Estat."
         },
         "4": {
           "title": "BOI Report",
-          "desc": "Actualización del informe ante FinCEN."
+          "desc": "Actualització de l'informe davant FinCEN."
         },
         "5": {
-          "title": "Soporte Continuo",
-          "desc": "Acceso ilimitado a nuestro equipo."
+          "title": "Suport Continu",
+          "desc": "Accés il·limitat al nostre equip."
         },
         "6": {
-          "title": "Actualizaciones",
-          "desc": "Una actualización anual de Articles."
+          "title": "Actualitzacions",
+          "desc": "Una actualització anual d'Articles."
         }
       }
     },
-    "questions": "¿Alguna duda? Hablemos"
+    "questions": "Algun dubte? Parlem"
   },
   "packsTitle": {
     "packs": "LES NOSTRES PROPOSTES",
