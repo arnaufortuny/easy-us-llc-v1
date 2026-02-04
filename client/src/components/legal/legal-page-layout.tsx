@@ -32,7 +32,7 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e8f5eb] via-white to-[#f7f7f5] dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950 font-sans selection:bg-brand-lime selection:text-brand-dark print:bg-white">
+    <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-accent-foreground print:bg-white">
       <div className="print:hidden">
         <Navbar />
       </div>
@@ -95,11 +95,8 @@ export function LegalSection({ number, title, children }: LegalSectionProps) {
   return (
     <section className="print:break-inside-avoid">
       <div className="flex items-center gap-3 sm:gap-4 mb-4 sm:mb-5">
-        <div 
-          className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl flex items-center justify-center print:w-8 print:h-8"
-          style={{ backgroundColor: '#6EDC8A' }}
-        >
-          <span className="font-black text-sm sm:text-base print:text-xs" style={{ color: '#0A0A0A' }}>{number}</span>
+        <div className="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center print:w-8 print:h-8 bg-accent">
+          <span className="font-black text-sm sm:text-base print:text-xs text-accent-foreground">{number}</span>
         </div>
         <h2 className="text-lg sm:text-xl lg:text-2xl font-bold text-brand-dark dark:text-white tracking-tight print:text-base">
           {title}
@@ -136,10 +133,7 @@ export function LegalList({ items, ordered = false }: LegalListProps) {
     <ul className="space-y-2 sm:space-y-2.5 print:space-y-1">
       {items.map((item, index) => (
         <li key={index} className="flex items-start gap-2.5 sm:gap-3">
-          <span 
-            className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-2 sm:mt-2.5" 
-            style={{ backgroundColor: '#6EDC8A' }}
-          />
+          <span className="flex-shrink-0 w-1.5 h-1.5 rounded-full mt-2 sm:mt-2.5 bg-accent" />
           <span className="text-brand-dark/80 dark:text-zinc-300">{item}</span>
         </li>
       ))}
