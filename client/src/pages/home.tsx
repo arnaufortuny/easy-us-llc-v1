@@ -47,7 +47,8 @@ export default function Home() {
     <div className="min-h-screen font-sans text-left bg-background w-full relative animate-page-in">
       <Navbar />
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center pt-20 sm:pt-8 min-h-[400px] sm:min-h-[70vh] w-full"
+        className="flex flex-col items-center justify-center text-center min-h-[400px] sm:min-h-[70vh] w-full"
+        mobilePaddingTop="pt-20 sm:pt-28 lg:pt-32"
         showOverlay={false}
         title={
           <div className="flex flex-col items-center w-full">
