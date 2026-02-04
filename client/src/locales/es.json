@@ -944,6 +944,15 @@
       "title": "Cuenta desactivada",
       "message": "Tu cuenta ha sido desactivada. Contacta con soporte si tienes dudas."
     },
+    "accountStatus": {
+      "pendingReview": {
+        "message": "Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.",
+        "description": "Tu cuenta está en revisión hasta que verifiques tu email."
+      },
+      "deactivated": {
+        "message": "Tu cuenta ha sido desactivada. No puedes modificar tu perfil ni enviar solicitudes."
+      }
+    },
     "menu": {
       "services": "Mis trámites",
       "servicesMobile": "Trámites",
@@ -1077,7 +1086,16 @@
     },
     "profile": {
       "title": "Mi Perfil",
+      "subtitle": "Tus datos personales y configuración de cuenta",
+      "personalData": "Datos Personales",
       "personalInfo": "Información Personal",
+      "status": "Estado",
+      "statusValues": {
+        "verified": "Verificado",
+        "pending": "En revisión",
+        "deactivated": "Desactivada",
+        "vip": "VIP"
+      },
       "security": "Seguridad",
       "preferences": "Preferencias",
       "saveChanges": "Guardar cambios",

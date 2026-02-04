@@ -285,6 +285,7 @@ export function setupCustomAuth(app: Express) {
               emailVerified: user.emailVerified,
               isAdmin: user.isAdmin,
               accountStatus: user.accountStatus,
+              preferredLanguage: user.preferredLanguage || 'es',
             },
           });
         });
@@ -467,6 +468,7 @@ export function setupCustomAuth(app: Express) {
         accountStatus: user.accountStatus,
         profileImageUrl: user.profileImageUrl,
         googleId: user.googleId ? true : false,
+        preferredLanguage: user.preferredLanguage || 'es',
         createdAt: user.createdAt,
       });
     } catch (error) {
@@ -484,7 +486,7 @@ export function setupCustomAuth(app: Express) {
         return res.status(401).json({ message: "No autenticado" });
       }
 
-      const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity } = req.body;
+      const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity, preferredLanguage } = req.body;
       
       // Get current user to check for significant changes
       const [currentUser] = await db.select().from(users).where(eq(users.id, userId)).limit(1);
@@ -533,6 +535,7 @@ export function setupCustomAuth(app: Express) {
         idNumber,
         idType,
         businessActivity,
+        preferredLanguage,
         updatedAt: new Date(),
       };
       

@@ -31,6 +31,7 @@ export const users = pgTable("users", {
   idType: text("id_type"),
   birthDate: text("birth_date"),
   emailVerified: boolean("email_verified").notNull().default(false),
+  preferredLanguage: varchar("preferred_language", { length: 5 }).default("es"), // es, en, ca
   isAdmin: boolean("is_admin").notNull().default(false),
   isActive: boolean("is_active").notNull().default(true),
   accountStatus: text("account_status").notNull().default("active"), // active (Verificado), pending (En revisión), deactivated (Desactivada), vip

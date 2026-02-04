@@ -945,6 +945,15 @@
       "title": "Account Deactivated",
       "message": "Your account has been deactivated. Contact support if you have any questions."
     },
+    "accountStatus": {
+      "pendingReview": {
+        "message": "Your account is under review. You cannot modify your profile until it is verified.",
+        "description": "Your account is under review until you verify your email."
+      },
+      "deactivated": {
+        "message": "Your account has been deactivated. You cannot modify your profile or submit requests."
+      }
+    },
     "menu": {
       "services": "My applications status",
       "servicesMobile": "Status",
@@ -1078,7 +1087,16 @@
     },
     "profile": {
       "title": "My Profile",
+      "subtitle": "Your personal data and account settings",
+      "personalData": "Personal Data",
       "personalInfo": "Personal Information",
+      "status": "Status",
+      "statusValues": {
+        "verified": "Verified",
+        "pending": "Under review",
+        "deactivated": "Deactivated",
+        "vip": "VIP"
+      },
       "security": "Security",
       "preferences": "Preferences",
       "saveChanges": "Save changes",

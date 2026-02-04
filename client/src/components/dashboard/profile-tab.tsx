@@ -76,9 +76,14 @@ export function ProfileTab({
   const currentLangCode = i18n.language?.split('-')[0] || 'es';
   const currentLang = languages.find(l => l.code === currentLangCode) || languages[0];
 
-  const handleLanguageChange = (langCode: string) => {
+  const handleLanguageChange = async (langCode: string) => {
     i18n.changeLanguage(langCode);
     localStorage.setItem('i18nextLng', langCode);
+    try {
+      await updateProfile.mutateAsync({ ...profileData, preferredLanguage: langCode } as any);
+    } catch (error) {
+      console.error('Error saving language preference:', error);
+    }
   };
   
   const copyIdToClipboard = () => {
@@ -91,14 +96,14 @@ export function ProfileTab({
   return (
     <div key="profile" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">Mi Perfil</h2>
-        <p className="text-sm text-muted-foreground mt-1">Tus datos personales y configuración de cuenta</p>
+        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
+        <p className="text-sm text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
       </div>
       <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-6 md:p-8 bg-white dark:bg-card">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg md:text-xl font-semibold text-foreground">Datos Personales</h3>
+          <h3 className="text-lg md:text-xl font-semibold text-foreground">{t('profile.personalData', 'Datos Personales')}</h3>
           {canEdit && (
-            <Button variant="ghost" size="sm" className="rounded-full" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? 'Cancelar' : 'Editar'}</Button>
+            <Button variant="ghost" size="sm" className="rounded-full" onClick={() => setIsEditing(!isEditing)} data-testid="button-toggle-edit">{isEditing ? t('common.cancel', 'Cancelar') : t('common.edit', 'Editar')}</Button>
           )}
         </div>
         <p className="text-sm text-muted-foreground mb-6">Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.</p>
@@ -106,8 +111,8 @@ export function ProfileTab({
           <div className={`mb-4 p-3 rounded-lg ${user?.accountStatus === 'pending' ? 'bg-orange-50 border border-orange-200' : 'bg-red-50 border border-red-200'}`}>
             <p className={`text-sm ${user?.accountStatus === 'pending' ? 'text-orange-700' : 'text-red-700'}`}>
               {user?.accountStatus === 'pending' 
-                ? 'Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.' 
-                : 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil ni enviar solicitudes.'}
+                ? t('dashboard.accountStatus.pendingReview.message', 'Tu cuenta está en revisión. No puedes modificar tu perfil hasta que sea verificada.')
+                : t('dashboard.accountStatus.deactivated.message', 'Tu cuenta ha sido desactivada. No puedes modificar tu perfil ni enviar solicitudes.')}
             </p>
           </div>
         )}
@@ -130,9 +135,9 @@ export function ProfileTab({
               </div>
             </div>
             <div className="p-4 bg-accent/5 rounded-xl border border-accent/10">
-              <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">Estado</p>
+              <p className="text-[10px] font-black uppercase text-muted-foreground mb-1">{t('profile.status', 'Estado')}</p>
               <p className={`text-lg font-black ${user?.accountStatus === 'active' ? 'text-green-600' : user?.accountStatus === 'pending' ? 'text-orange-500' : user?.accountStatus === 'deactivated' ? 'text-red-600' : user?.accountStatus === 'vip' ? 'text-yellow-600' : 'text-green-600'}`}>
-                {user?.accountStatus === 'active' ? 'Verificado' : user?.accountStatus === 'pending' ? 'En revisión' : user?.accountStatus === 'deactivated' ? 'Desactivada' : user?.accountStatus === 'vip' ? 'VIP' : 'Verificado'}
+                {user?.accountStatus === 'active' ? t('profile.statusValues.verified', 'Verificado') : user?.accountStatus === 'pending' ? t('profile.statusValues.pending', 'En revisión') : user?.accountStatus === 'deactivated' ? t('profile.statusValues.deactivated', 'Desactivada') : user?.accountStatus === 'vip' ? t('profile.statusValues.vip', 'VIP') : t('profile.statusValues.verified', 'Verificado')}
               </p>
             </div>
           </div>
@@ -165,7 +170,7 @@ export function ProfileTab({
               )}
             </div>
             {!user?.emailVerified && (
-              <p className="text-xs text-orange-600 mt-1">Tu cuenta está en revisión hasta que verifiques tu email.</p>
+              <p className="text-xs text-orange-600 mt-1">{t('dashboard.accountStatus.pendingReview.description', 'Tu cuenta está en revisión hasta que verifiques tu email.')}</p>
             )}
           </div>
           <div className="space-y-1">
@@ -341,7 +346,7 @@ export function ProfileTab({
                     <p className="text-xs text-red-500">Las contraseñas no coinciden</p>
                   )}
                   <div className="flex gap-2 pt-2">
-                    <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>Cancelar</Button>
+                    <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>{t('common.cancel', 'Cancelar')}</Button>
                     <Button 
                       className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
                       onClick={() => requestPasswordOtpMutation.mutate()}

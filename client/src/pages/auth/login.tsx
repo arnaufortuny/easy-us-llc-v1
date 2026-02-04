@@ -6,6 +6,7 @@ import { Link, useLocation } from "wouter";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useTranslation } from "react-i18next";
+import i18n from "@/lib/i18n";
 
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -64,6 +65,10 @@ export default function Login() {
       }
       
       if (result.success) {
+        if (result.user?.preferredLanguage && result.user.preferredLanguage !== i18n.language) {
+          await i18n.changeLanguage(result.user.preferredLanguage);
+          localStorage.setItem('i18nextLng', result.user.preferredLanguage);
+        }
         await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
         toast({ title: t("auth.login.welcomeBack"), description: t("auth.login.welcomeBackDesc") });
         setLocation("/dashboard");

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { EmailLanguage, getEmailTranslations, getCommonDoubtsText, getDefaultClientName } from "./email-translations";
 
 const domain = "easyusllc.com";
 const companyAddress = `Easy US LLC
@@ -29,7 +30,8 @@ function getSimpleFooter() {
   `;
 }
 
-function getEmailWrapper(content: string) {
+function getEmailWrapper(content: string, lang: EmailLanguage = 'es') {
+  const doubtsText = getCommonDoubtsText(lang);
   return `
     <!DOCTYPE html>
     <html>
@@ -44,7 +46,7 @@ function getEmailWrapper(content: string) {
           ${getSimpleHeader()}
           <div style="padding: 40px 35px;">
             ${content}
-            <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 35px; padding-top: 25px; border-top: 1px solid #E6E9EC;">Si tienes cualquier duda, responde directamente a este correo.</p>
+            <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 35px; padding-top: 25px; border-top: 1px solid #E6E9EC;">${doubtsText}</p>
           </div>
           ${getSimpleFooter()}
         </div>
@@ -55,132 +57,144 @@ function getEmailWrapper(content: string) {
 }
 
 // 1. OTP - Código de verificación
-export function getOtpEmailTemplate(otp: string, name: string = "Cliente") {
+export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 20px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 20px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 10px;">Gracias por continuar con tu proceso en Easy US LLC.</p>
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">Para garantizar la seguridad de tu cuenta, utiliza el siguiente código de verificación:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 10px;">${t.otp.thanks}</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.otp.forSecurity}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">Tu código OTP:</p>
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0E1215; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
     <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">Importante:</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0E1215; text-transform: uppercase;">${t.otp.important}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
-        <li style="margin-bottom: 6px;">Este código es personal y confidencial</li>
-        <li style="margin-bottom: 6px;">Tiene una validez limitada a <strong>15 minutos</strong> por motivos de seguridad</li>
-        <li>No lo compartas con nadie</li>
+        <li style="margin-bottom: 6px;">${t.otp.personalAndConfidential}</li>
+        <li style="margin-bottom: 6px;">${t.otp.validFor}</li>
+        <li>${t.otp.doNotShare}</li>
       </ul>
     </div>
 
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">Si no has solicitado este código, puedes ignorar este mensaje con total tranquilidad.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">${t.otp.ignoreMessage}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 2. Bienvenida - Cuenta creada
-export function getWelcomeEmailTemplate(name: string = "Cliente") {
+export function getWelcomeEmailTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">¡Bienvenido a Easy US LLC! Nos alegra mucho tenerte con nosotros.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.welcome.welcomeMessage}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido creada correctamente y ya puedes empezar a explorar todo lo que podemos hacer juntos. Desde tu Área Cliente tendrás acceso a:</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.welcome.accountCreated}</p>
     
     <ul style="margin: 0 0 25px 0; padding-left: 20px; color: #444; font-size: 14px; line-height: 1.8;">
-      <li>Seguimiento en tiempo real de tus solicitudes</li>
-      <li>Centro de documentación para descargar todos tus archivos</li>
-      <li>Herramientas profesionales como generador de facturas</li>
-      <li>Calendario fiscal con tus fechas importantes</li>
-      <li>Comunicación directa con nuestro equipo de soporte</li>
+      <li>${t.welcome.realTimeTracking}</li>
+      <li>${t.welcome.documentCenter}</li>
+      <li>${t.welcome.professionalTools}</li>
+      <li>${t.welcome.fiscalCalendar}</li>
+      <li>${t.welcome.directSupport}</li>
     </ul>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Estamos aquí para ayudarte en cada paso de tu aventura empresarial en Estados Unidos. Si tienes cualquier pregunta, no dudes en escribirnos.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.welcome.hereToHelp}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Explorar Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.welcome.exploreButton}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 2b. Cuenta creada - Pendiente verificación email
-export function getAccountPendingVerificationTemplate(name: string = "Cliente") {
+export function getAccountPendingVerificationTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido creada correctamente, pero necesitas verificar tu email para activarla completamente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountPendingVerification.accountCreatedBut}</p>
     
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">Acción requerida:</p>
-      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Accede a tu Área Cliente y verifica tu email para activar tu cuenta y acceder a todas las funciones.</p>
+      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #92400E; text-transform: uppercase;">${t.accountPendingVerification.actionRequired}</p>
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.accountPendingVerification.accessAndVerify}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Verificar mi email</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountPendingVerification.verifyButton}</a>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Mientras tu email no esté verificado, tu cuenta permanecerá en estado de revisión.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.accountPendingVerification.whileUnverified}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 3. Cuenta en revisión
-export function getAccountUnderReviewTemplate(name: string = "Cliente") {
+export function getAccountUnderReviewTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te informamos de que tu cuenta se encuentra actualmente en revisión.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountUnderReview.underReview}</p>
     
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
-      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">Durante este proceso de validación, no será posible realizar nuevos pedidos ni modificar información existente en tu Área Cliente. Esta medida es temporal y forma parte de nuestros procedimientos de verificación.</p>
+      <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.accountUnderReview.duringProcess}</p>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Nuestro equipo está revisando la información proporcionada y te notificaremos por este mismo medio en cuanto el proceso haya finalizado o si fuera necesario aportar documentación adicional.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountUnderReview.teamReviewing}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 3b. Cuenta actualizada a VIP
-export function getAccountVipTemplate(name: string = "Cliente") {
+export function getAccountVipTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido actualizada al estado VIP.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountVip.updatedToVip}</p>
     
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #6EDC8A;">
-      <p style="margin: 0 0 15px 0; font-size: 15px; color: #0E1215; font-weight: 600;">Beneficios VIP:</p>
+      <p style="margin: 0 0 15px 0; font-size: 15px; color: #0E1215; font-weight: 600;">${t.accountVip.benefits}</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.8;">
-        <li>Atención prioritaria y gestión acelerada</li>
-        <li>Seguimiento preferente por nuestro equipo</li>
-        <li>Acceso completo a todos los servicios</li>
+        <li>${t.accountVip.priorityAttention}</li>
+        <li>${t.accountVip.preferentialTracking}</li>
+        <li>${t.accountVip.fullAccess}</li>
       </ul>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountVip.viewDashboard}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 3c. Cuenta reactivada
-export function getAccountReactivatedTemplate(name: string = "Cliente") {
+export function getAccountReactivatedTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Tu cuenta ha sido reactivada correctamente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountReactivated.reactivated}</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">Ya puedes acceder a tu Área Cliente y utilizar todos nuestros servicios con normalidad.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountReactivated.canAccess}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">Ver Mi Área Cliente</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #6EDC8A; color: #0E1215; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(110,220,138,0.35);">${t.accountReactivated.viewDashboard}</a>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 4. Confirmación de Solicitud (LLC / Mantenimiento)
@@ -466,19 +480,21 @@ export function getOrderEventTemplate(name: string, orderId: string, eventType: 
 }
 
 // 9. Cuenta Desactivada
-export function getAccountDeactivatedTemplate(name: string = "Cliente") {
+export function getAccountDeactivatedTemplate(name?: string, lang: EmailLanguage = 'es') {
+  const t = getEmailTranslations(lang);
+  const clientName = name || t.common.client;
   const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">Hola ${name},</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${clientName},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">Te informamos de que tu cuenta ha sido desactivada temporalmente.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountDeactivated.deactivated}</p>
     
     <div style="background: #FEE2E2; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #EF4444;">
-      <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.7;">Mientras la cuenta permanezca desactivada no será posible realizar solicitudes ni acceder a formularios.</p>
+      <p style="margin: 0; font-size: 14px; color: #B91C1C; line-height: 1.7;">${t.accountDeactivated.cannotAccess}</p>
     </div>
     
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">Si consideras que se trata de un error o necesitas más información, responde directamente a este correo.</p>
+    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.accountDeactivated.contactSupport}</p>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 10. Newsletter Bienvenida
