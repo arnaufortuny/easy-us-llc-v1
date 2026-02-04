@@ -1,5 +1,5 @@
 import { db } from "../db";
-import { users, llcApplications, maintenanceApplications, messages, userNotifications, applicationDocuments } from "@shared/schema";
+import { users, llcApplications, maintenanceApplications, messages, userNotifications, applicationDocuments, consultationBookings } from "@shared/schema";
 import { eq } from "drizzle-orm";
 
 export function generate8DigitId(): string {
@@ -121,4 +121,25 @@ export function formatOrderDisplay(requestCode: string | null | undefined): stri
     return requestCode;
   }
   return 'N/A';
+}
+
+export async function generateUniqueBookingCode(): Promise<string> {
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const bookingCode = `CON-${generate8DigitId()}`;
+    
+    const existing = await db.select({ id: consultationBookings.id })
+      .from(consultationBookings)
+      .where(eq(consultationBookings.bookingCode, bookingCode))
+      .limit(1);
+    
+    if (existing.length === 0) {
+      return bookingCode;
+    }
+    attempts++;
+  }
+  
+  return `CON-${Date.now().toString().slice(-8)}`;
 }

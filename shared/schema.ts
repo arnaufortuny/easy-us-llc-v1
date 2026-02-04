@@ -382,3 +382,108 @@ export type CreateOrderRequest = {
 };
 export type UpdateLlcApplicationRequest = Partial<z.infer<typeof insertLlcApplicationSchema>>;
 export type CreateDocumentRequest = z.infer<typeof insertApplicationDocumentSchema>;
+
+// ============ CONSULTATION BOOKING SYSTEM ============
+
+// Consultation service types that admin can create
+export const consultationTypes = pgTable("consultation_types", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(), // Fiscal, Banking, Strategy, etc.
+  nameEs: text("name_es").notNull(),
+  nameEn: text("name_en").notNull(),
+  nameCa: text("name_ca").notNull(),
+  description: text("description"),
+  descriptionEs: text("description_es"),
+  descriptionEn: text("description_en"),
+  descriptionCa: text("description_ca"),
+  duration: integer("duration").notNull().default(30), // in minutes
+  price: integer("price").notNull().default(0), // in cents (EUR)
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  isActiveIdx: index("consultation_types_is_active_idx").on(table.isActive),
+}));
+
+// Availability slots that admin configures
+export const consultationAvailability = pgTable("consultation_availability", {
+  id: serial("id").primaryKey(),
+  dayOfWeek: integer("day_of_week").notNull(), // 0=Sunday, 1=Monday, etc.
+  startTime: text("start_time").notNull(), // "09:00"
+  endTime: text("end_time").notNull(), // "10:00"
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  dayOfWeekIdx: index("consultation_avail_day_idx").on(table.dayOfWeek),
+}));
+
+// Blocked dates (holidays, vacations, etc.)
+export const consultationBlockedDates = pgTable("consultation_blocked_dates", {
+  id: serial("id").primaryKey(),
+  date: timestamp("date").notNull(),
+  reason: text("reason"),
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => ({
+  dateIdx: index("consultation_blocked_date_idx").on(table.date),
+}));
+
+// Actual consultation bookings
+export const consultationBookings = pgTable("consultation_bookings", {
+  id: serial("id").primaryKey(),
+  bookingCode: text("booking_code").unique().notNull(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  consultationTypeId: integer("consultation_type_id").notNull().references(() => consultationTypes.id),
+  scheduledDate: timestamp("scheduled_date").notNull(),
+  scheduledTime: text("scheduled_time").notNull(), // "10:00"
+  duration: integer("duration").notNull(), // in minutes
+  status: text("status").notNull().default("pending"), // pending, confirmed, completed, cancelled, no_show, rescheduled
+  // Pre-consultation questionnaire
+  hasLlc: text("has_llc"), // yes, no
+  llcState: text("llc_state"),
+  estimatedRevenue: text("estimated_revenue"),
+  countryOfResidence: text("country_of_residence"),
+  mainTopic: text("main_topic"),
+  additionalNotes: text("additional_notes"),
+  // Admin notes
+  adminNotes: text("admin_notes"),
+  // Meeting info
+  meetingLink: text("meeting_link"),
+  // Timestamps
+  confirmedAt: timestamp("confirmed_at"),
+  completedAt: timestamp("completed_at"),
+  cancelledAt: timestamp("cancelled_at"),
+  cancelReason: text("cancel_reason"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => ({
+  userIdIdx: index("consultation_bookings_user_id_idx").on(table.userId),
+  typeIdIdx: index("consultation_bookings_type_id_idx").on(table.consultationTypeId),
+  statusIdx: index("consultation_bookings_status_idx").on(table.status),
+  scheduledDateIdx: index("consultation_bookings_date_idx").on(table.scheduledDate),
+  bookingCodeIdx: index("consultation_bookings_code_idx").on(table.bookingCode),
+}));
+
+// Relations
+export const consultationTypesRelations = relations(consultationTypes, ({ many }) => ({
+  bookings: many(consultationBookings),
+}));
+
+export const consultationBookingsRelations = relations(consultationBookings, ({ one }) => ({
+  user: one(users, { fields: [consultationBookings.userId], references: [users.id] }),
+  consultationType: one(consultationTypes, { fields: [consultationBookings.consultationTypeId], references: [consultationTypes.id] }),
+}));
+
+// Insert schemas
+export const insertConsultationTypeSchema = createInsertSchema(consultationTypes).omit({ id: true, createdAt: true });
+export const insertConsultationAvailabilitySchema = createInsertSchema(consultationAvailability).omit({ id: true, createdAt: true });
+export const insertConsultationBlockedDateSchema = createInsertSchema(consultationBlockedDates).omit({ id: true, createdAt: true });
+export const insertConsultationBookingSchema = createInsertSchema(consultationBookings).omit({ id: true, createdAt: true, updatedAt: true });
+
+// Types
+export type ConsultationType = typeof consultationTypes.$inferSelect;
+export type ConsultationAvailability = typeof consultationAvailability.$inferSelect;
+export type ConsultationBlockedDate = typeof consultationBlockedDates.$inferSelect;
+export type ConsultationBooking = typeof consultationBookings.$inferSelect;
+export type InsertConsultationType = z.infer<typeof insertConsultationTypeSchema>;
+export type InsertConsultationAvailability = z.infer<typeof insertConsultationAvailabilitySchema>;
+export type InsertConsultationBookedDate = z.infer<typeof insertConsultationBlockedDateSchema>;
+export type InsertConsultationBooking = z.infer<typeof insertConsultationBookingSchema>;

@@ -1,4 +1,51 @@
-export type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools';
+export type Tab = 'services' | 'profile' | 'payments' | 'documents' | 'messages' | 'notifications' | 'admin' | 'calendar' | 'tools' | 'consultations';
+
+export interface ConsultationType {
+  id: number;
+  name: string;
+  nameEs: string;
+  nameEn: string;
+  nameCa: string;
+  description?: string | null;
+  descriptionEs?: string | null;
+  descriptionEn?: string | null;
+  descriptionCa?: string | null;
+  duration: number;
+  price: number;
+  isActive: boolean;
+}
+
+export interface ConsultationBooking {
+  id: number;
+  bookingCode: string;
+  userId: string;
+  consultationTypeId: number;
+  scheduledDate: string;
+  scheduledTime: string;
+  duration: number;
+  status: 'pending' | 'confirmed' | 'completed' | 'cancelled' | 'no_show' | 'rescheduled';
+  hasLlc?: string | null;
+  llcState?: string | null;
+  estimatedRevenue?: string | null;
+  countryOfResidence?: string | null;
+  mainTopic?: string | null;
+  additionalNotes?: string | null;
+  adminNotes?: string | null;
+  meetingLink?: string | null;
+  createdAt: string;
+}
+
+export function getConsultationStatusLabel(status: string, t: (key: string) => string): { label: string; className: string } {
+  const statusMap: Record<string, { label: string; className: string }> = {
+    pending: { label: t('consultations.status.pending'), className: 'bg-yellow-100 dark:bg-yellow-900/50 text-yellow-800 dark:text-yellow-300' },
+    confirmed: { label: t('consultations.status.confirmed'), className: 'bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300' },
+    completed: { label: t('consultations.status.completed'), className: 'bg-green-100 dark:bg-green-900/50 text-green-800 dark:text-green-300' },
+    cancelled: { label: t('consultations.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' },
+    no_show: { label: t('consultations.status.noShow'), className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' },
+    rescheduled: { label: t('consultations.status.rescheduled'), className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
+  };
+  return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' };
+}
 
 export interface User {
   id: string;

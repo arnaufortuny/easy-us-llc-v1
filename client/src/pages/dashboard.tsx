@@ -41,6 +41,8 @@ import { ServicesTab } from "@/components/dashboard/services-tab";
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
+import { ConsultationsTab } from "@/components/dashboard/consultations-tab";
+import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultations-panel";
 
 function _NewsletterToggleLegacy() {
   const { toast } = useToast();
@@ -948,15 +950,16 @@ export default function Dashboard() {
   );
 
   const menuItems = useMemo(() => [
-    { id: 'services', label: 'Mis trámites', icon: Package, mobileLabel: 'Trámites', tour: 'orders' },
-    { id: 'notifications', label: 'Notificaciones', icon: BellRing, mobileLabel: 'Notific.' },
-    { id: 'messages', label: 'Soporte', icon: Mail, mobileLabel: 'Soporte', tour: 'messages' },
-    { id: 'documents', label: 'Documentos', icon: FileText, mobileLabel: 'Docs' },
-    { id: 'payments', label: 'Pagos', icon: CreditCard, mobileLabel: 'Pagos' },
-    { id: 'calendar', label: 'Calendario', icon: Calendar, mobileLabel: 'Fechas', tour: 'calendar' },
-    { id: 'tools', label: 'Herramientas', icon: Calculator, mobileLabel: 'Tools' },
-    { id: 'profile', label: 'Mi Perfil', icon: UserIcon, mobileLabel: 'Perfil', tour: 'profile' },
-  ], []);
+    { id: 'services', label: t('dashboard.tabs.services'), icon: Package, mobileLabel: t('dashboard.tabs.servicesMobile'), tour: 'orders' },
+    { id: 'consultations', label: t('dashboard.tabs.consultations'), icon: MessageSquare, mobileLabel: t('dashboard.tabs.consultationsMobile') },
+    { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
+    { id: 'messages', label: t('dashboard.tabs.messages'), icon: Mail, mobileLabel: t('dashboard.tabs.messagesMobile'), tour: 'messages' },
+    { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText, mobileLabel: t('dashboard.tabs.documentsMobile') },
+    { id: 'payments', label: t('dashboard.tabs.payments'), icon: CreditCard, mobileLabel: t('dashboard.tabs.paymentsMobile') },
+    { id: 'calendar', label: t('dashboard.tabs.calendar'), icon: Calendar, mobileLabel: t('dashboard.tabs.calendarMobile'), tour: 'calendar' },
+    { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
+    { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
+  ], [t]);
   
   const isAdmin = user?.isAdmin;
 
@@ -1071,6 +1074,10 @@ export default function Dashboard() {
                   deleteNotification={deleteNotification}
                   setActiveTab={setActiveTab}
                 />
+              )}
+
+              {activeTab === 'consultations' && (
+                <ConsultationsTab setActiveTab={setActiveTab} />
               )}
 
               {activeTab === 'messages' && (
@@ -1559,6 +1566,7 @@ export default function Dashboard() {
                     {[
                       { id: 'dashboard', label: 'Métricas', mobileLabel: 'Métricas', icon: BarChart3 },
                       { id: 'orders', label: 'Pedidos', mobileLabel: 'Pedidos', icon: Package },
+                      { id: 'consultations', label: 'Consultas', mobileLabel: 'Consult.', icon: MessageSquare },
                       { id: 'incomplete', label: 'Incompletas', mobileLabel: 'Incompl.', icon: AlertCircle },
                       { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
                       { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
@@ -1779,6 +1787,9 @@ export default function Dashboard() {
                         )})}
                       </div>
                     </Card>
+                  )}
+                  {adminSubTab === 'consultations' && (
+                    <AdminConsultationsPanel />
                   )}
                   {adminSubTab === 'incomplete' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">

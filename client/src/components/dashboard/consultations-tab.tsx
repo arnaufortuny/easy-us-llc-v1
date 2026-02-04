@@ -1,0 +1,444 @@
+import { useTranslation } from "react-i18next";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient, apiRequest } from "@/lib/queryClient";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Calendar, Clock, Video, XCircle, ExternalLink, MessageSquare } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { ConsultationType, ConsultationBooking, getConsultationStatusLabel, Tab } from "./types";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
+
+interface ConsultationsTabProps {
+  setActiveTab: (tab: Tab) => void;
+}
+
+export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
+  const { t, i18n } = useTranslation();
+  const { toast } = useToast();
+  const [showBookingDialog, setShowBookingDialog] = useState(false);
+  const [selectedType, setSelectedType] = useState<ConsultationType | null>(null);
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [formData, setFormData] = useState({
+    hasLlc: "",
+    llcState: "",
+    estimatedRevenue: "",
+    countryOfResidence: "",
+    mainTopic: "",
+    additionalNotes: ""
+  });
+
+  const { data: consultationTypes = [] } = useQuery<ConsultationType[]>({
+    queryKey: ["/api/consultations/types"],
+  });
+
+  const { data: myBookings = [] } = useQuery<{ booking: ConsultationBooking; consultationType: ConsultationType }[]>({
+    queryKey: ["/api/consultations/my"],
+  });
+
+  const { data: availability } = useQuery<{ available: boolean; slots: { startTime: string; endTime: string }[] }>({
+    queryKey: ["/api/consultations/availability", selectedDate],
+    queryFn: async () => {
+      const res = await apiRequest("GET", `/api/consultations/availability?date=${selectedDate}`);
+      return res.json();
+    },
+    enabled: !!selectedDate,
+  });
+
+  const bookMutation = useMutation({
+    mutationFn: async (data: any) => {
+      return await apiRequest("POST", "/api/consultations/book", data);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
+      toast({ title: t("consultations.bookingSuccess"), description: t("consultations.bookingSuccessDesc") });
+      setShowBookingDialog(false);
+      resetForm();
+    },
+    onError: (err: any) => {
+      toast({ title: t("consultations.bookingError"), description: err.message, variant: "destructive" });
+    }
+  });
+
+  const cancelMutation = useMutation({
+    mutationFn: async (bookingId: number) => {
+      return await apiRequest("PATCH", `/api/consultations/${bookingId}/cancel`, { reason: "Cancelled by user" });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
+      toast({ title: t("consultations.cancelSuccess") });
+    },
+    onError: (err: any) => {
+      toast({ title: t("consultations.cancelError"), description: err.message, variant: "destructive" });
+    }
+  });
+
+  const resetForm = () => {
+    setSelectedType(null);
+    setSelectedDate("");
+    setSelectedTime("");
+    setFormData({
+      hasLlc: "",
+      llcState: "",
+      estimatedRevenue: "",
+      countryOfResidence: "",
+      mainTopic: "",
+      additionalNotes: ""
+    });
+  };
+
+  const getLocalizedName = (type: ConsultationType) => {
+    const lang = i18n.language;
+    if (lang === 'es') return type.nameEs;
+    if (lang === 'ca') return type.nameCa;
+    return type.nameEn;
+  };
+
+  const getLocalizedDescription = (type: ConsultationType) => {
+    const lang = i18n.language;
+    if (lang === 'es') return type.descriptionEs;
+    if (lang === 'ca') return type.descriptionCa;
+    return type.descriptionEn;
+  };
+
+  const handleBook = () => {
+    if (!selectedType || !selectedDate || !selectedTime) {
+      toast({ title: t("consultations.selectAll"), variant: "destructive" });
+      return;
+    }
+
+    bookMutation.mutate({
+      consultationTypeId: selectedType.id,
+      scheduledDate: selectedDate,
+      scheduledTime: selectedTime,
+      ...formData
+    });
+  };
+
+  const upcomingBookings = myBookings.filter(b => 
+    ['pending', 'confirmed'].includes(b.booking.status) && 
+    new Date(b.booking.scheduledDate) >= new Date()
+  );
+
+  const pastBookings = myBookings.filter(b => 
+    !['pending', 'confirmed'].includes(b.booking.status) || 
+    new Date(b.booking.scheduledDate) < new Date()
+  );
+
+  const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString(i18n.language, {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const getTomorrowDate = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return tomorrow.toISOString().split('T')[0];
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+            {t("consultations.title")}
+          </h2>
+          <p className="text-sm text-muted-foreground mt-1">
+            {t("consultations.subtitle")}
+          </p>
+        </div>
+        <Button 
+          onClick={() => setShowBookingDialog(true)}
+          className="bg-accent text-primary font-black rounded-full"
+          data-testid="button-book-consultation"
+        >
+          <Calendar className="w-4 h-4 mr-2" />
+          {t("consultations.bookNew")}
+        </Button>
+      </div>
+
+      {upcomingBookings.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="font-bold text-lg">{t("consultations.upcoming")}</h3>
+          <div className="grid gap-4">
+            {upcomingBookings.map(({ booking, consultationType }) => {
+              const statusInfo = getConsultationStatusLabel(booking.status, t);
+              return (
+                <Card key={booking.id} className="overflow-hidden" data-testid={`card-consultation-${booking.id}`}>
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 flex-wrap mb-2">
+                          <h4 className="font-bold text-base sm:text-lg">
+                            {getLocalizedName(consultationType)}
+                          </h4>
+                          <Badge className={statusInfo.className}>
+                            {statusInfo.label}
+                          </Badge>
+                        </div>
+                        <div className="space-y-1 text-sm text-muted-foreground">
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4" />
+                            <span>{formatDate(booking.scheduledDate)}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4" />
+                            <span>{booking.scheduledTime} ({booking.duration} min)</span>
+                          </div>
+                          <div className="text-xs mt-2">
+                            {t("consultations.code")}: <span className="font-mono font-bold">{booking.bookingCode}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        {booking.meetingLink && (
+                          <Button 
+                            variant="outline" 
+                            size="sm"
+                            className="rounded-full"
+                            onClick={() => window.open(booking.meetingLink!, '_blank')}
+                          >
+                            <Video className="w-4 h-4 mr-1" />
+                            {t("consultations.joinMeeting")}
+                          </Button>
+                        )}
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="rounded-full text-destructive border-destructive hover:bg-destructive hover:text-destructive-foreground"
+                          onClick={() => cancelMutation.mutate(booking.id)}
+                          disabled={cancelMutation.isPending}
+                        >
+                          <XCircle className="w-4 h-4 mr-1" />
+                          {t("consultations.cancel")}
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {pastBookings.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="font-bold text-lg">{t("consultations.past")}</h3>
+          <div className="grid gap-3">
+            {pastBookings.map(({ booking, consultationType }) => {
+              const statusInfo = getConsultationStatusLabel(booking.status, t);
+              return (
+                <Card key={booking.id} className="opacity-75">
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-bold">{getLocalizedName(consultationType)}</span>
+                          <Badge className={statusInfo.className} variant="secondary">
+                            {statusInfo.label}
+                          </Badge>
+                        </div>
+                        <div className="text-sm text-muted-foreground mt-1">
+                          {formatDate(booking.scheduledDate)} - {booking.scheduledTime}
+                        </div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {myBookings.length === 0 && (
+        <Card className="text-center py-12">
+          <CardContent>
+            <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+            <h3 className="font-bold text-lg mb-2">{t("consultations.noBookings")}</h3>
+            <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
+            <Button 
+              onClick={() => setShowBookingDialog(true)}
+              className="bg-accent text-primary font-black rounded-full"
+            >
+              {t("consultations.bookFirst")}
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+
+      <Dialog open={showBookingDialog} onOpenChange={setShowBookingDialog}>
+        <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="font-black">{t("consultations.bookNew")}</DialogTitle>
+            <DialogDescription>{t("consultations.bookingDescription")}</DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4 py-4">
+            <div className="space-y-2">
+              <Label className="font-bold">{t("consultations.selectType")}</Label>
+              <div className="grid gap-2">
+                {consultationTypes.map(type => (
+                  <Button
+                    key={type.id}
+                    variant={selectedType?.id === type.id ? "default" : "outline"}
+                    className={`justify-start h-auto py-3 px-4 ${selectedType?.id === type.id ? 'bg-accent text-primary' : ''}`}
+                    onClick={() => setSelectedType(type)}
+                    data-testid={`button-select-type-${type.id}`}
+                  >
+                    <div className="text-left">
+                      <div className="font-bold">{getLocalizedName(type)}</div>
+                      <div className="text-xs opacity-75">{type.duration} min</div>
+                    </div>
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            {selectedType && (
+              <>
+                <div className="space-y-2">
+                  <Label className="font-bold">{t("consultations.selectDate")}</Label>
+                  <Input
+                    type="date"
+                    min={getTomorrowDate()}
+                    value={selectedDate}
+                    onChange={(e) => {
+                      setSelectedDate(e.target.value);
+                      setSelectedTime("");
+                    }}
+                    data-testid="input-consultation-date"
+                  />
+                </div>
+
+                {selectedDate && availability && (
+                  <div className="space-y-2">
+                    <Label className="font-bold">{t("consultations.selectTime")}</Label>
+                    {availability.slots.length > 0 ? (
+                      <div className="grid grid-cols-3 gap-2">
+                        {availability.slots.map(slot => (
+                          <Button
+                            key={slot.startTime}
+                            variant={selectedTime === slot.startTime ? "default" : "outline"}
+                            size="sm"
+                            className={selectedTime === slot.startTime ? 'bg-accent text-primary' : ''}
+                            onClick={() => setSelectedTime(slot.startTime)}
+                            data-testid={`button-time-${slot.startTime}`}
+                          >
+                            {slot.startTime}
+                          </Button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">{t("consultations.noAvailability")}</p>
+                    )}
+                  </div>
+                )}
+
+                <div className="border-t pt-4 space-y-4">
+                  <h4 className="font-bold">{t("consultations.questionnaire")}</h4>
+                  
+                  <div className="space-y-2">
+                    <Label>{t("consultations.form.hasLlc")}</Label>
+                    <NativeSelect
+                      value={formData.hasLlc}
+                      onChange={(e) => setFormData({ ...formData, hasLlc: e.target.value })}
+                    >
+                      <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                      <NativeSelectItem value="yes">{t("common.yes")}</NativeSelectItem>
+                      <NativeSelectItem value="no">{t("common.no")}</NativeSelectItem>
+                    </NativeSelect>
+                  </div>
+
+                  {formData.hasLlc === 'yes' && (
+                    <div className="space-y-2">
+                      <Label>{t("consultations.form.llcState")}</Label>
+                      <NativeSelect
+                        value={formData.llcState}
+                        onChange={(e) => setFormData({ ...formData, llcState: e.target.value })}
+                      >
+                        <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                        <NativeSelectItem value="New Mexico">New Mexico</NativeSelectItem>
+                        <NativeSelectItem value="Wyoming">Wyoming</NativeSelectItem>
+                        <NativeSelectItem value="Delaware">Delaware</NativeSelectItem>
+                        <NativeSelectItem value="Other">{t("consultations.form.other")}</NativeSelectItem>
+                      </NativeSelect>
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label>{t("consultations.form.estimatedRevenue")}</Label>
+                    <NativeSelect
+                      value={formData.estimatedRevenue}
+                      onChange={(e) => setFormData({ ...formData, estimatedRevenue: e.target.value })}
+                    >
+                      <NativeSelectItem value="">{t("consultations.form.select")}</NativeSelectItem>
+                      <NativeSelectItem value="0-50k">$0 - $50,000</NativeSelectItem>
+                      <NativeSelectItem value="50k-100k">$50,000 - $100,000</NativeSelectItem>
+                      <NativeSelectItem value="100k-500k">$100,000 - $500,000</NativeSelectItem>
+                      <NativeSelectItem value="500k+">$500,000+</NativeSelectItem>
+                    </NativeSelect>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("consultations.form.countryOfResidence")}</Label>
+                    <Input
+                      value={formData.countryOfResidence}
+                      onChange={(e) => setFormData({ ...formData, countryOfResidence: e.target.value })}
+                      placeholder={t("consultations.form.countryPlaceholder")}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("consultations.form.mainTopic")}</Label>
+                    <Textarea
+                      value={formData.mainTopic}
+                      onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
+                      placeholder={t("consultations.form.topicPlaceholder")}
+                      rows={2}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label>{t("consultations.form.additionalNotes")}</Label>
+                    <Textarea
+                      value={formData.additionalNotes}
+                      onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
+                      placeholder={t("consultations.form.notesPlaceholder")}
+                      rows={2}
+                    />
+                  </div>
+                </div>
+              </>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2">
+            <Button variant="outline" onClick={() => setShowBookingDialog(false)}>
+              {t("common.cancel")}
+            </Button>
+            <Button 
+              onClick={handleBook}
+              disabled={!selectedType || !selectedDate || !selectedTime || bookMutation.isPending}
+              className="bg-accent text-primary font-black"
+              data-testid="button-confirm-booking"
+            >
+              {bookMutation.isPending ? t("common.loading") : t("consultations.confirmBooking")}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+}
