@@ -72,7 +72,7 @@ export function Navbar() {
           if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
-        }, 300);
+        }, 500);
       }
     }, 10);
   };
