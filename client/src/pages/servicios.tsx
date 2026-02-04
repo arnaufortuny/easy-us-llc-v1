@@ -536,7 +536,7 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
                 <div key={i} className="flex items-center gap-2 text-foreground">
                   <Check className="w-5 h-5 text-accent flex-shrink-0" />
