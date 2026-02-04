@@ -1037,7 +1037,8 @@
       "createAgreement": "Create Agreement",
       "priceCalculator": "Savings Calculator",
       "calculatorDescription": "Calculate how much you can save with your LLC.",
-      "calculate": "Calculate"
+      "calculate": "Calculate",
+      "generateDocument": "Generate Document"
     },
     "services": {
       "title": "My applications status",

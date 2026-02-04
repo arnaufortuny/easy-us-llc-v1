@@ -1037,7 +1037,8 @@
       "createAgreement": "Crear Acord",
       "priceCalculator": "Calculadora d'Estalvi",
       "calculatorDescription": "Calcula quant pots estalviar amb la teva LLC.",
-      "calculate": "Calcular"
+      "calculate": "Calcular",
+      "generateDocument": "Generar Document"
     },
     "services": {
       "title": "Els meus tràmits",

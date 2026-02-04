@@ -1037,7 +1037,8 @@
       "createAgreement": "Crear Acuerdo",
       "priceCalculator": "Calculadora de Ahorro",
       "calculatorDescription": "Calcula cuánto puedes ahorrar con tu LLC.",
-      "calculate": "Calcular"
+      "calculate": "Calcular",
+      "generateDocument": "Generar Documento"
     },
     "services": {
       "title": "Mis trámites",

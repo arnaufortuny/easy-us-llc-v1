@@ -1563,7 +1563,7 @@ export default function Dashboard() {
                         <p className="text-sm text-muted-foreground mb-4">{t('tools.operatingAgreement.subtitle')}</p>
                         <Link href="/tools/operating-agreement">
                           <Button className="bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
-                            {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
+                            {t('dashboard.clientTools.generateDocument')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
                       </div>
