@@ -92,6 +92,12 @@ export const llcApplications = pgTable("llc_applications", {
   hasTaxExtension: boolean("has_tax_extension").notNull().default(false),
   // EIN (Employer Identification Number) - set by admin when order completed
   ein: text("ein"),
+  // Registration number from state (set by admin when filed)
+  registrationNumber: text("registration_number"),
+  // LLC registered address (set by admin)
+  llcAddress: text("llc_address"),
+  // Owner share/capital percentage (set by admin)
+  ownerSharePercentage: text("owner_share_percentage"),
   // Abandoned application tracking
   abandonedAt: timestamp("abandoned_at"),
   remindersSent: integer("reminders_sent").notNull().default(0),
