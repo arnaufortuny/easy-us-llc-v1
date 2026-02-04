@@ -41,7 +41,7 @@ export function LegalPageLayout({ title, titleHighlight, lastUpdated, pdfUrl, ch
         <div className="container max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
           <div className="text-center w-full flex flex-col items-center">
             <h1 
-              className="font-black tracking-tighter text-foreground mb-4 sm:mb-5 w-full block [text-wrap:balance] text-center print:text-2xl"
+              className="font-black tracking-tighter text-foreground mb-4 sm:mb-5 w-full block [text-wrap:balance] text-center print:text-2xl uppercase"
               style={{ fontSize: 'clamp(24px, 7vw, 62px)', lineHeight: '0.85' }}
             >
               {title}<br />
