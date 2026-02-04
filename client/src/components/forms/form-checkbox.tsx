@@ -25,7 +25,7 @@ export function FormCheckbox<T extends FieldValues>({
             <Checkbox
               checked={field.value}
               onCheckedChange={field.onChange}
-              className="mt-1 border-gray-200 data-[state=checked]:bg-accent data-[state=checked]:border-accent"
+              className="mt-1 border-border data-[state=checked]:bg-accent data-[state=checked]:border-accent"
             />
           </FormControl>
           <span className="text-[10px] md:text-xs font-black text-primary">

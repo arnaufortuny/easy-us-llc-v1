@@ -58,7 +58,7 @@ export function FormRadioGroup<T extends FieldValues>({
                   />
                   <div
                     className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                      field.value === opt ? "border-accent" : "border-gray-200"
+                      field.value === opt ? "border-accent" : "border-border"
                     }`}
                   >
                     {field.value === opt && (

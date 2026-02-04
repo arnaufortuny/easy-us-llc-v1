@@ -1265,7 +1265,7 @@ export default function Dashboard() {
                               value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
                               placeholder="Describe el documento..."
-                              className="min-h-[70px] rounded-xl border-gray-200 text-base"
+                              className="min-h-[70px] rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-base"
                               style={{ fontSize: '16px' }}
                               data-testid="input-upload-notes-inline"
                             />
@@ -2747,7 +2747,7 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-gray-200 focus:border-accent" data-testid="input-note-message" />
+                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A] focus:border-accent" data-testid="input-note-message" />
                 </div>
               </div>
               <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
@@ -2866,7 +2866,7 @@ export default function Dashboard() {
                   </div>
                   <div>
                     <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
-                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-gray-200 text-sm" data-testid="input-edit-notes" />
+                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
                   </div>
                   {user?.email === 'afortuny07@gmail.com' && (
                     <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
@@ -3026,7 +3026,7 @@ export default function Dashboard() {
                 </div>
                 <div>
                   <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-gray-200" data-testid="input-doc-message" />
+                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
                 </div>
               </div>
               <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
@@ -3418,7 +3418,7 @@ export default function Dashboard() {
               <Input
                 value={emailVerificationCode}
                 onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-xl text-center text-2xl font-black border-gray-200 h-14 tracking-[0.5em]"
+                className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-[#1A1A1A] h-14 tracking-[0.5em]"
                 maxLength={6}
                 inputMode="numeric"
                 autoComplete="one-time-code"
@@ -3526,7 +3526,7 @@ export default function Dashboard() {
                 value={paymentLinkMessage}
                 onChange={(e) => setPaymentLinkMessage(e.target.value)}
                 placeholder="Mensaje adicional para el cliente..."
-                className="rounded-xl border-gray-200"
+                className="rounded-xl border-border bg-background dark:bg-[#1A1A1A]"
                 rows={3}
                 data-testid="input-payment-link-message"
               />
@@ -3700,7 +3700,7 @@ export default function Dashboard() {
                 value={newAdminPassword}
                 onChange={(e) => setNewAdminPassword(e.target.value)}
                 placeholder="Mínimo 8 caracteres"
-                className="rounded-xl h-12 border-gray-200"
+                className="rounded-xl h-12 border-border bg-background dark:bg-[#1A1A1A]"
                 data-testid="input-admin-new-password"
               />
             </div>

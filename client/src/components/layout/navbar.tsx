@@ -156,7 +156,7 @@ export function Navbar() {
                 <LanguageToggle />
               </div>
             )}
-            <Link href={isAuthenticated ? "/dashboard" : "/auth/login"}>
+            <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
               <Button 
                 variant="outline"
                 className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
