@@ -9,6 +9,12 @@ import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, P
 import calendarIconPath from "@/assets/icons/calendar-icon.svg";
 import moneyIconPath from "@/assets/icons/money-icon.svg";
 import trackingIconPath from "@/assets/icons/tracking-icon.svg";
+import tramitesIconPath from "@/assets/icons/tramites-icon.svg";
+import notificationsIconPath from "@/assets/icons/notifications-icon.svg";
+import soporteIconPath from "@/assets/icons/soporte-icon.svg";
+import pagosIconPath from "@/assets/icons/pagos-icon.svg";
+import facturasIconPath from "@/assets/icons/facturas-icon.svg";
+import calculadoraIconPath from "@/assets/icons/calculadora-icon.svg";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -882,7 +888,7 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <BellRing className="w-10 h-10 text-muted-foreground/30 mx-auto mb-2" />
+                    <img src={notificationsIconPath} alt="Notificaciones" className="w-10 h-10 mx-auto mb-2 opacity-30" />
                     <p className="text-sm text-muted-foreground">{t("dashboard.notifications.empty")}</p>
                   </div>
                 )}
@@ -950,11 +956,6 @@ export default function Dashboard() {
               <Link href="/llc/formation">
                 <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
                   <PlusCircle className="w-5 h-5" /> Nueva LLC
-                </Button>
-              </Link>
-              <Link href="/tools/calculator">
-                <Button variant="outline" className="w-full md:w-auto font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2">
-                  Comparador Fiscal
                 </Button>
               </Link>
             </div>
@@ -1272,9 +1273,7 @@ export default function Dashboard() {
                     {(!orders || orders.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
-                          <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                            <CreditCard className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-                          </div>
+                          <img src={pagosIconPath} alt="Pagos" className="w-12 h-12 md:w-16 md:h-16" />
                           <div>
                             <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin pagos registrados</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Tus facturas y recibos aparecerán aquí.</p>
@@ -1456,7 +1455,10 @@ export default function Dashboard() {
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-foreground mb-1">Generador de Facturas</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <img src={facturasIconPath} alt="Facturas" className="w-6 h-6" />
+                          <h3 className="font-bold text-foreground">Generador de Facturas</h3>
+                        </div>
                         <p className="text-sm text-muted-foreground mb-4">Crea facturas profesionales en PDF con los datos de tu LLC americana.</p>
                         <Link href="/tools/invoice">
                           <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
@@ -1468,7 +1470,10 @@ export default function Dashboard() {
                     
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-foreground mb-1">Calculadora de Precios</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <img src={calculadoraIconPath} alt="Calculadora" className="w-6 h-6" />
+                          <h3 className="font-bold text-foreground">Calculadora de Precios</h3>
+                        </div>
                         <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
                         <Link href="/tools/price-calculator">
                           <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
@@ -1480,7 +1485,10 @@ export default function Dashboard() {
                     
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-foreground mb-1">Operating Agreement</h3>
+                        <div className="flex items-center gap-2 mb-1">
+                          <img src={tramitesIconPath} alt="Operating Agreement" className="w-6 h-6" />
+                          <h3 className="font-bold text-foreground">Operating Agreement</h3>
+                        </div>
                         <p className="text-sm text-muted-foreground mb-4">Genera el documento legal de tu LLC con todos los datos requeridos.</p>
                         <Link href="/tools/operating-agreement">
                           <Button className="bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
@@ -2602,7 +2610,7 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><AlertCircle className="w-8 h-8 text-gray-200 dark:text-zinc-600 mx-auto mb-2" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
+                  <div className="text-center py-4"><img src={tramitesIconPath} alt="Trámites" className="w-8 h-8 mx-auto mb-2 opacity-30" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
                 )}
               </div>
             </section>

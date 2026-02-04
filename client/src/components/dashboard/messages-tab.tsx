@@ -1,8 +1,9 @@
 import { Link } from "wouter";
-import { MessageSquare, Loader2 } from "lucide-react";
+import { MessageSquare, Loader2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import soporteIconPath from "@/assets/icons/soporte-icon.svg";
 
 interface MessagesTabProps {
   messagesData: any[] | undefined;
@@ -38,9 +39,7 @@ export function MessagesTab({
         {(!messagesData || messagesData.length === 0) ? (
           <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-support-empty">
             <div className="flex flex-col items-center gap-3 md:gap-4">
-              <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-                <MessageSquare className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-              </div>
+              <img src={soporteIconPath} alt="Soporte" className="w-12 h-12 md:w-16 md:h-16" />
               <div>
                 <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Sin consultas activas</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Te responderá una persona, no un bot.</p>
@@ -60,7 +59,9 @@ export function MessagesTab({
                   <MessageSquare className="w-4 h-4 text-accent" />
                   <h4 className="font-semibold text-foreground">{msg.subject || 'Sin asunto'}</h4>
                 </div>
-                <span className="text-[10px] text-muted-foreground">{msg.messageId || msg.id}</span>
+                <Button variant="ghost" size="sm" className="text-accent hover:text-accent/80 text-xs px-2 h-7" onClick={(e) => { e.stopPropagation(); setSelectedMessage(selectedMessage?.id === msg.id ? null : msg); }}>
+                  <Eye className="w-3 h-3 mr-1" /> Ver
+                </Button>
               </div>
               <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{msg.content}</p>
               {selectedMessage?.id === msg.id && (

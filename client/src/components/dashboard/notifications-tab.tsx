@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import type { Tab } from "./types";
 import { useTranslation } from "react-i18next";
+import notificationsIconPath from "@/assets/icons/notifications-icon.svg";
 
 interface NotificationsTabProps {
   notifications: any[] | undefined;
@@ -36,9 +37,7 @@ export function NotificationsTab({
       ) : notifications?.length === 0 ? (
         <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-              <BellRing className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-            </div>
+            <img src={notificationsIconPath} alt="Notificaciones" className="w-12 h-12 md:w-16 md:h-16" />
             <div>
               <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t("dashboard.notifications.empty")}</h3>
               <p className="text-xs md:text-sm text-muted-foreground text-center">{t("dashboard.tracking.subtitle")}</p>

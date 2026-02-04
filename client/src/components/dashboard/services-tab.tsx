@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { getOrderStatusLabel } from "./types";
+import tramitesIconPath from "@/assets/icons/tramites-icon.svg";
 
 interface ServicesTabProps {
   orders: any[] | undefined;
@@ -66,9 +67,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       {(!orders || orders.length === 0) ? (
         <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <div className="w-12 h-12 md:w-16 md:h-16 bg-accent/10 rounded-full flex items-center justify-center">
-              <Package className="w-6 h-6 md:w-8 md:h-8 text-accent" />
-            </div>
+            <img src={tramitesIconPath} alt="Mis trámites" className="w-12 h-12 md:w-16 md:h-16" />
             <div>
               <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">Aún no tienes servicios activos</h3>
               <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.</p>
