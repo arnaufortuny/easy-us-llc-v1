@@ -60,10 +60,6 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
 
   const requirementLabels: Record<string, string> = {
     minLength: t("auth.passwordStrength.minLength"),
-    hasUppercase: t("auth.passwordStrength.hasUppercase"),
-    hasLowercase: t("auth.passwordStrength.hasLowercase"),
-    hasNumber: t("auth.passwordStrength.hasNumber"),
-    hasSymbol: t("auth.passwordStrength.hasSymbol"),
   };
 
   if (password.length === 0) {

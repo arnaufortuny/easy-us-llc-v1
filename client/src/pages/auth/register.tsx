@@ -252,13 +252,6 @@ export default function Register() {
                   {t("auth.accountDeactivated.contactSupport", "Contactar Soporte")}
                 </Button>
               </Link>
-              <Button 
-                variant="outline" 
-                className="w-full rounded-full h-12"
-                onClick={() => setIsAccountDeactivated(false)}
-              >
-                {t("auth.accountDeactivated.back", "Volver")}
-              </Button>
             </div>
           </div>
         </main>

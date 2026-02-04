@@ -32,6 +32,7 @@ export default function Login() {
   const [loginError, setLoginError] = useState<string | null>(null);
   const [requiresSecurityOtp, setRequiresSecurityOtp] = useState(false);
   const [securityOtp, setSecurityOtp] = useState("");
+  const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
   const { toast } = useToast();
 
   const loginSchema = useMemo(() => createLoginSchema(t), [t]);
@@ -74,6 +75,10 @@ export default function Login() {
         setLocation("/dashboard");
       }
     } catch (err: any) {
+      if (err.message?.includes("desactivada") || err.message?.includes("deactivated") || err.message?.includes("403")) {
+        setIsAccountDeactivated(true);
+        return;
+      }
       let errorMsg = t("auth.login.genericError");
       if (err.message?.includes("401")) {
         errorMsg = t("auth.login.invalidCredentials");
@@ -92,6 +97,39 @@ export default function Login() {
       setIsLoading(false);
     }
   };
+
+  if (isAccountDeactivated) {
+    return (
+      <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">
+        <Navbar />
+        <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+          <div className="w-full max-w-md text-center">
+            <div className="mb-8">
+              <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
+                <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
+                <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
+                <circle cx="60" cy="80" r="5" fill="#EF4444"/>
+              </svg>
+              <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight">
+                {t("auth.accountDeactivated.title")}
+              </h1>
+              <p className="text-muted-foreground mt-4 text-sm sm:text-base">
+                {t("auth.accountDeactivated.description")}
+              </p>
+            </div>
+            <div className="space-y-4">
+              <Link href="/contacto">
+                <Button className="w-full bg-accent text-primary font-black rounded-full h-12">
+                  {t("auth.accountDeactivated.contactSupport")}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background bg-green-gradient-subtle font-sans">

@@ -21,12 +21,7 @@ const createEmailSchema = (t: (key: string) => string) => z.object({
 });
 
 const createResetSchema = (t: (key: string) => string) => z.object({
-  password: z.string()
-    .min(8, t("validation.passwordMin"))
-    .refine((val) => /[A-Z]/.test(val), { message: t("auth.passwordStrength.hasUppercase") })
-    .refine((val) => /[a-z]/.test(val), { message: t("auth.passwordStrength.hasLowercase") })
-    .refine((val) => /[0-9]/.test(val), { message: t("auth.passwordStrength.hasNumber") })
-    .refine((val) => /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(val), { message: t("auth.passwordStrength.hasSymbol") }),
+  password: z.string().min(8, t("validation.passwordMin")),
   confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
   message: t("validation.passwordMatch"),
