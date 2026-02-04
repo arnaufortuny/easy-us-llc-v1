@@ -38,6 +38,7 @@ import { ProfileTab } from "@/components/dashboard/profile-tab";
 
 function _NewsletterToggleLegacy() {
   const { toast } = useToast();
+  const { t } = useTranslation();
   const { data: status, isLoading } = useQuery<{ isSubscribed: boolean }>({
     queryKey: ["/api/newsletter/status"],
   });
@@ -49,7 +50,7 @@ function _NewsletterToggleLegacy() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/newsletter/status"] });
-      toast({ title: "Preferencias actualizadas", description: "Gracias por quedarte con nosotros" });
+      toast({ title: t("dashboard.toasts.preferencesUpdated"), description: t("dashboard.toasts.preferencesUpdatedDesc") });
     }
   });
 
@@ -175,7 +176,7 @@ export default function Dashboard() {
   const updateProfile = useMutation({
     mutationFn: async (data: typeof profileData) => {
       if (!canEdit) {
-        throw new Error("No puedes modificar tus datos en el estado actual de tu cuenta.");
+        throw new Error(t("dashboard.toasts.cannotModifyAccountState"));
       }
       // Age validation - must be at least 18 years old
       if (data.birthDate) {
@@ -193,16 +194,16 @@ export default function Dashboard() {
       const res = await apiRequest("PATCH", "/api/user/profile", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error al guardar");
+        throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
       setIsEditing(false);
-      toast({ title: "Cambios guardados", description: "Tu información se ha actualizado correctamente" });
+      toast({ title: t("dashboard.toasts.changesSaved"), description: t("dashboard.toasts.changesSavedDesc") });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
     }
   });
 
@@ -242,7 +243,7 @@ export default function Dashboard() {
       const res = await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Error al enviar");
+        throw new Error(data.message || t("dashboard.toasts.couldNotSend"));
       }
       return res.json();
     },
@@ -251,10 +252,10 @@ export default function Dashboard() {
       setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-      toast({ title: user?.isAdmin ? "Respuesta enviada" : "Mensaje enviado", description: user?.isAdmin ? "El cliente recibirá un email con la información" : "Te responderemos personalmente lo antes posible" });
+      toast({ title: user?.isAdmin ? t("dashboard.toasts.messageReplied") : t("dashboard.toasts.messageSent"), description: user?.isAdmin ? t("dashboard.toasts.messageRepliedDesc") : t("dashboard.toasts.messageSentDesc") });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo enviar la respuesta", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
     }
   });
 
@@ -268,7 +269,7 @@ export default function Dashboard() {
   const markNotificationRead = useMutation({
     mutationFn: async (id: string) => {
       const res = await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
-      if (!res.ok) throw new Error("Error al marcar notificación");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotMarkNotification"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
@@ -279,13 +280,13 @@ export default function Dashboard() {
   const deleteNotification = useMutation({
     mutationFn: async (id: string) => {
       const res = await apiRequest("DELETE", `/api/user/notifications/${id}`);
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo eliminar", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
 
@@ -304,15 +305,15 @@ export default function Dashboard() {
   const deleteIncompleteAppMutation = useMutation({
     mutationFn: async ({ type, id }: { type: string; id: number }) => {
       const res = await apiRequest("DELETE", `/api/admin/incomplete-applications/${type}/${id}`);
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/incomplete-applications"] });
-      toast({ title: "Eliminada", description: "Solicitud incompleta eliminada correctamente" });
+      toast({ title: t("dashboard.toasts.incompleteDeleted"), description: t("dashboard.toasts.incompleteDeletedDesc") });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo eliminar la solicitud", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
 
@@ -380,15 +381,15 @@ export default function Dashboard() {
   const broadcastMutation = useMutation({
     mutationFn: async ({ subject, message }: { subject: string, message: string }) => {
       const res = await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
-      if (!res.ok) throw new Error("Error al enviar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotSend"));
     },
     onSuccess: () => {
-      toast({ title: "Emails enviados", description: "Se ha enviado a todos los suscriptores del newsletter" });
+      toast({ title: t("dashboard.toasts.emailsSent"), description: t("dashboard.toasts.emailsSentDesc") });
       setBroadcastSubject("");
       setBroadcastMessage("");
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudieron enviar los emails", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
     }
   });
 
@@ -402,46 +403,46 @@ export default function Dashboard() {
       const res = await apiRequest("POST", "/api/admin/documents", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error al subir documento");
+        throw new Error(err.message || t("dashboard.toasts.couldNotUpload"));
       }
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: "Documento subido", description: "El cliente ya puede verlo en su panel." });
+      toast({ title: t("dashboard.toasts.documentUploaded"), description: t("dashboard.toasts.documentUploadedDesc") });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo subir el documento", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
     }
   });
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number, status: string }) => {
       const res = await apiRequest("PATCH", `/api/admin/orders/${id}/status`, { status });
-      if (!res.ok) throw new Error("Error al actualizar estado");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      toast({ title: "Estado actualizado" });
+      toast({ title: t("dashboard.toasts.statusUpdated") });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo actualizar el estado", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
     }
   });
 
   const updateLlcDatesMutation = useMutation({
     mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string }) => {
       const res = await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
-      if (!res.ok) throw new Error("Error al actualizar fecha");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      toast({ title: "Fecha actualizada" });
+      toast({ title: t("dashboard.toasts.dateUpdated") });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo actualizar la fecha", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
     }
   });
 
@@ -450,18 +451,18 @@ export default function Dashboard() {
       const res = await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Error al enviar");
+        throw new Error(data.message || t("dashboard.toasts.couldNotSend"));
       }
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: "Nota enviada", description: "El cliente recibirá notificación y email" });
+      toast({ title: t("dashboard.toasts.notesSent"), description: t("dashboard.toasts.notesSentDesc") });
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
       setNoteMessage("");
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo enviar la nota", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
     }
   });
 
@@ -493,31 +494,31 @@ export default function Dashboard() {
       const res = await apiRequest("PATCH", `/api/admin/users/${id}`, cleanData);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error al actualizar");
+        throw new Error(err.message || t("dashboard.toasts.couldNotUpdate"));
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: "Usuario actualizado" });
+      toast({ title: t("dashboard.toasts.userUpdated") });
       setEditingUser(null);
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo actualizar", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
     }
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
       const res = await apiRequest("DELETE", `/api/admin/users/${userId}`);
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: "Usuario eliminado" });
+      toast({ title: t("dashboard.toasts.userDeleted") });
       setDeleteConfirm({ open: false, user: null });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo eliminar el usuario", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
   
@@ -529,7 +530,7 @@ export default function Dashboard() {
   const deleteOrderMutation = useMutation({
     mutationFn: async (orderId: number) => {
       const res = await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       // Invalidate all related queries
@@ -537,28 +538,28 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: "Pedido eliminado", description: "El pedido y sus datos asociados han sido eliminados." });
+      toast({ title: t("dashboard.toasts.orderDeleted"), description: t("dashboard.toasts.orderDeletedDesc") });
       setDeleteOrderConfirm({ open: false, order: null });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo eliminar el pedido", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
 
   const createInvoiceMutation = useMutation({
     mutationFn: async ({ userId, concept, amount, currency }: { userId: string, concept: string, amount: number, currency: string }) => {
       if (!amount || isNaN(amount) || amount < 1) {
-        throw new Error("Importe inválido (mínimo 1 céntimo)");
+        throw new Error(t("dashboard.toasts.invalidAmount"));
       }
       const res = await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || "Error al crear factura");
+        throw new Error(data.message || t("dashboard.toasts.couldNotCreate"));
       }
       return res.json();
     },
     onSuccess: (data) => {
-      toast({ title: "Factura creada", description: `Factura ${data?.invoiceNumber || ''} añadida al cliente` });
+      toast({ title: t("dashboard.toasts.invoiceCreated"), description: t("dashboard.toasts.invoiceCreatedDesc", { number: data?.invoiceNumber || '' }) });
       setInvoiceDialog({ open: false, user: null });
       setInvoiceConcept("");
       setInvoiceAmount("");
@@ -566,7 +567,7 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo crear la factura", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
     }
   });
 
@@ -577,12 +578,12 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: "Usuario creado", description: "El usuario ha sido registrado correctamente" });
+      toast({ title: t("dashboard.toasts.userCreated"), description: t("dashboard.toasts.userCreatedDesc") });
       setCreateUserDialog(false);
       setNewUserData({ firstName: '', lastName: '', email: '', phone: '', password: '' });
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo crear el usuario", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
     }
   });
 
@@ -590,65 +591,65 @@ export default function Dashboard() {
     mutationFn: async (data: typeof newOrderData) => {
       const { userId, state, amount } = data;
       if (!userId || !state || !amount) {
-        throw new Error("Faltan datos requeridos");
+        throw new Error(t("dashboard.toasts.missingRequiredData"));
       }
       const res = await apiRequest("POST", "/api/admin/orders/create", { userId, state, amount });
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Error al crear pedido");
+        throw new Error(errorData.message || t("dashboard.toasts.couldNotCreate"));
       }
       return res.json();
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      toast({ title: "Pedido creado", description: `Pedido ${data?.invoiceNumber || ''} registrado correctamente` });
+      toast({ title: t("dashboard.toasts.orderCreated"), description: t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' }) });
       setCreateOrderDialog(false);
       setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico' });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo crear el pedido", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
     }
   });
 
   const deleteDocMutation = useMutation({
     mutationFn: async (docId: number) => {
       const res = await apiRequest("DELETE", `/api/user/documents/${docId}`);
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: "Documento eliminado" });
+      toast({ title: t("dashboard.toasts.documentDeleted") });
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error?.message || "No se pudo eliminar el documento", variant: "destructive" });
+      toast({ title: t("common.error"), description: error?.message || t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
 
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
       const res = await apiRequest("DELETE", "/api/user/account");
-      if (!res.ok) throw new Error("Error al eliminar");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
-      toast({ title: "Cuenta eliminada", description: "Tu cuenta ha sido eliminada correctamente." });
+      toast({ title: t("dashboard.toasts.accountDeleted"), description: t("dashboard.toasts.accountDeletedDesc") });
       window.location.href = "/";
     },
     onError: () => {
-      toast({ title: "Error", description: "No se pudo eliminar la cuenta", variant: "destructive" });
+      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
     }
   });
 
   const requestPasswordOtpMutation = useMutation({
     mutationFn: async () => {
       const res = await apiRequest("POST", "/api/user/request-password-otp");
-      if (!res.ok) throw new Error("Error al solicitar código");
+      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotSend"));
     },
     onSuccess: () => {
-      toast({ title: "Código enviado", description: "Revisa tu email para obtener el código de verificación." });
+      toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
       setPasswordStep('otp');
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo enviar el código", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
     }
   });
 
@@ -657,11 +658,11 @@ export default function Dashboard() {
       const res = await apiRequest("POST", "/api/user/change-password", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error al cambiar contraseña");
+        throw new Error(err.message || t("dashboard.toasts.couldNotUpdate"));
       }
     },
     onSuccess: () => {
-      toast({ title: "Contraseña actualizada", description: "Tu contraseña ha sido cambiada correctamente." });
+      toast({ title: t("dashboard.toasts.passwordUpdated"), description: t("dashboard.toasts.passwordUpdatedDesc") });
       setShowPasswordForm(false);
       setPasswordStep('form');
       setCurrentPassword("");
@@ -670,7 +671,7 @@ export default function Dashboard() {
       setPasswordOtp("");
     },
     onError: (error: any) => {
-      toast({ title: "Error", description: error.message || "No se pudo cambiar la contraseña", variant: "destructive" });
+      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
     }
   });
 
@@ -1074,14 +1075,14 @@ export default function Dashboard() {
                                       credentials: 'include'
                                     });
                                     if (res.ok) {
-                                      toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                                      toast({ title: t("dashboard.toasts.documentUploadedClient"), description: t("dashboard.toasts.documentUploadedClientDesc") });
                                       queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
                                       queryClient.invalidateQueries({ queryKey: ['/api/user/notifications'] });
                                     } else {
-                                      toast({ title: "Error", description: "No se pudo subir el documento", variant: "destructive" });
+                                      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
                                     }
                                   } catch {
-                                    toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                                    toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
                                   }
                                 }}
                                 data-testid="input-upload-document"
@@ -1194,15 +1195,15 @@ export default function Dashboard() {
                                 credentials: 'include'
                               });
                               if (res.ok) {
-                                toast({ title: "Documento subido", description: "Tu documento ha sido enviado correctamente." });
+                                toast({ title: t("dashboard.toasts.documentUploadedClient"), description: t("dashboard.toasts.documentUploadedClientDesc") });
                                 queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
                                 setUploadDialog({ open: false, file: null });
                               } else {
                                 const data = await res.json();
-                                toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
+                                toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
                               }
                             } catch {
-                              toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                              toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
                             }
                           }}
                           disabled={uploadDocType === 'other' && !uploadNotes.trim()}
@@ -1981,7 +1982,7 @@ export default function Dashboard() {
                                         });
                                       }
                                     } catch {
-                                      toast({ title: "Error", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   data-testid={`button-tax-extension-${app.id}`}
@@ -2013,9 +2014,9 @@ export default function Dashboard() {
                                         apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'annualReportDueDate', value: null }),
                                       ]);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                                      toast({ title: "Calendario limpiado", description: "Todas las fechas han sido eliminadas" });
+                                      toast({ title: t("dashboard.toasts.calendarCleared"), description: t("dashboard.toasts.calendarClearedDesc") });
                                     } catch {
-                                      toast({ title: "Error al limpiar calendario", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   data-testid={`button-clear-calendar-${app.id}`}
@@ -2117,8 +2118,8 @@ export default function Dashboard() {
                                   try {
                                     await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
                                     queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                    toast({ title: "Estado actualizado" });
-                                  } catch { toast({ title: "Error", variant: "destructive" }); }
+                                    toast({ title: t("dashboard.toasts.statusUpdated") });
+                                  } catch { toast({ title: t("common.error"), variant: "destructive" }); }
                                 }}
                                 className="h-7 text-[10px] rounded-full px-2 flex-1 max-w-[120px]"
                               >
@@ -2140,8 +2141,8 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                      toast({ title: "Documento eliminado" });
-                                    } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
+                                      toast({ title: t("dashboard.toasts.documentDeleted") });
+                                    } catch { toast({ title: t("common.error"), variant: "destructive" }); }
                                   }
                                 }}
                                 data-testid={`btn-delete-doc-${doc.id}`}
@@ -2178,9 +2179,9 @@ export default function Dashboard() {
                                   try {
                                     await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
                                     refetchNewsletterSubs();
-                                    toast({ title: "Suscriptor eliminado" });
+                                    toast({ title: t("dashboard.toasts.subscriberDeleted") });
                                   } catch (e) {
-                                    toast({ title: "Error al eliminar", variant: "destructive" });
+                                    toast({ title: t("common.error"), variant: "destructive" });
                                   }
                                 }}
                                 data-testid={`button-delete-subscriber-${sub.id}`}
@@ -2224,8 +2225,8 @@ export default function Dashboard() {
                                       try {
                                         await apiRequest("PATCH", `/api/admin/messages/${msg.id}/archive`);
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        toast({ title: "Mensaje archivado" });
-                                      } catch { toast({ title: "Error al archivar", variant: "destructive" }); }
+                                        toast({ title: t("dashboard.toasts.messageArchived") });
+                                      } catch { toast({ title: t("common.error"), variant: "destructive" }); }
                                     }}
                                     data-testid={`btn-archive-msg-${msg.id}`}
                                     title="Archivar"
@@ -2243,8 +2244,8 @@ export default function Dashboard() {
                                       try {
                                         await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        toast({ title: "Mensaje eliminado" });
-                                      } catch { toast({ title: "Error al eliminar", variant: "destructive" }); }
+                                        toast({ title: t("dashboard.toasts.messageDeleted") });
+                                      } catch { toast({ title: t("common.error"), variant: "destructive" }); }
                                     }
                                   }}
                                   data-testid={`btn-delete-msg-${msg.id}`}
@@ -2336,9 +2337,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      toast({ title: "Estado actualizado" });
+                                      toast({ title: t("dashboard.toasts.statusUpdated") });
                                     } catch {
-                                      toast({ title: "Error al actualizar estado", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
@@ -2381,9 +2382,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      toast({ title: "Factura eliminada" });
+                                      toast({ title: t("dashboard.toasts.invoiceDeleted") });
                                     } catch {
-                                      toast({ title: "Error al eliminar", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   data-testid={`button-delete-invoice-${inv.id}`}
@@ -2480,9 +2481,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
                                       refetchDiscountCodes();
-                                      toast({ title: dc.isActive ? "Código desactivado" : "Código activado" });
+                                      toast({ title: dc.isActive ? t("dashboard.toasts.discountCodeDeactivated") : t("dashboard.toasts.discountCodeActivated") });
                                     } catch (e) {
-                                      toast({ title: "Error", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   data-testid={`button-toggle-discount-${dc.code}`}
@@ -2498,9 +2499,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
                                       refetchDiscountCodes();
-                                      toast({ title: "Código eliminado" });
+                                      toast({ title: t("dashboard.toasts.discountCodeDeleted") });
                                     } catch (e) {
-                                      toast({ title: "Error al eliminar", variant: "destructive" });
+                                      toast({ title: t("common.error"), variant: "destructive" });
                                     }
                                   }}
                                   data-testid={`button-delete-discount-${dc.code}`}
@@ -2820,7 +2821,7 @@ export default function Dashboard() {
                     try {
                       const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
                       if (amountCents <= 0) {
-                        toast({ title: "Error", description: "El importe debe ser mayor que 0", variant: "destructive" });
+                        toast({ title: t("common.error"), description: t("dashboard.toasts.amountMustBeGreater"), variant: "destructive" });
                         return;
                       }
                       const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
@@ -2829,16 +2830,16 @@ export default function Dashboard() {
                       });
                       if (!res.ok) {
                         const data = await res.json().catch(() => ({}));
-                        throw new Error(data.message || "Error al generar factura");
+                        throw new Error(data.message || t("dashboard.toasts.couldNotGenerate"));
                       }
-                      toast({ title: "Factura generada", description: `Factura creada por ${orderInvoiceAmount} ${orderInvoiceCurrency}` });
+                      toast({ title: t("dashboard.toasts.invoiceGenerated"), description: t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
                       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
                       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
                       window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
                       setGenerateInvoiceDialog({ open: false, order: null });
                       setOrderInvoiceAmount("");
                     } catch (err: any) {
-                      toast({ title: "Error", description: err.message || "No se pudo generar la factura", variant: "destructive" });
+                      toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotGenerate"), variant: "destructive" });
                     } finally {
                       setIsGeneratingInvoice(false);
                     }
@@ -3193,15 +3194,15 @@ export default function Dashboard() {
                     };
                     if (discountCodeDialog.code) {
                       await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
-                      toast({ title: "Código actualizado" });
+                      toast({ title: t("dashboard.toasts.discountCodeUpdated") });
                     } else {
                       await apiRequest("POST", "/api/admin/discount-codes", payload);
-                      toast({ title: "Código creado" });
+                      toast({ title: t("dashboard.toasts.discountCodeCreated") });
                     }
                     refetchDiscountCodes();
                     setDiscountCodeDialog({ open: false, code: null });
                   } catch (e: any) {
-                    toast({ title: "Error", description: e.message || "No se pudo guardar el código", variant: "destructive" });
+                    toast({ title: t("common.error"), description: e.message || t("dashboard.toasts.couldNotSave"), variant: "destructive" });
                   }
                 }} 
                 disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
@@ -3243,7 +3244,7 @@ export default function Dashboard() {
             <Button
               onClick={async () => {
                 if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                  toast({ title: "Introduce el código de 6 dígitos", variant: "destructive" });
+                  toast({ title: t("dashboard.toasts.enter6DigitCode"), variant: "destructive" });
                   return;
                 }
                 setIsVerifyingEmail(true);
@@ -3252,14 +3253,14 @@ export default function Dashboard() {
                   const result = await res.json();
                   if (result.success) {
                     await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                    toast({ title: "Email verificado correctamente" });
+                    toast({ title: t("dashboard.toasts.emailVerified") });
                     setShowEmailVerification(false);
                     setEmailVerificationCode("");
                   }
                 } catch (err: any) {
                   toast({ 
-                    title: "Código incorrecto", 
-                    description: err.message || "Inténtalo de nuevo o solicita un nuevo código", 
+                    title: t("dashboard.toasts.incorrectCode"), 
+                    description: err.message || t("dashboard.toasts.incorrectCodeDesc"), 
                     variant: "destructive" 
                   });
                 } finally {
@@ -3281,9 +3282,9 @@ export default function Dashboard() {
                   setIsResendingCode(true);
                   try {
                     await apiRequest("POST", "/api/auth/resend-verification");
-                    toast({ title: "Código enviado", description: "Revisa tu email" });
+                    toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
                   } catch (err) {
-                    toast({ title: "Error", description: "No se pudo enviar el código", variant: "destructive" });
+                    toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
                   } finally {
                     setIsResendingCode(false);
                   }
@@ -3351,7 +3352,7 @@ export default function Dashboard() {
             <Button
               onClick={async () => {
                 if (!paymentLinkUrl || !paymentLinkAmount) {
-                  toast({ title: "Completa todos los campos requeridos", variant: "destructive" });
+                  toast({ title: t("form.validation.requiredFields"), variant: "destructive" });
                   return;
                 }
                 setIsSendingPaymentLink(true);
@@ -3362,13 +3363,13 @@ export default function Dashboard() {
                     amount: paymentLinkAmount,
                     message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
                   });
-                  toast({ title: "Link de pago enviado", description: `Se ha enviado el link a ${paymentLinkDialog.user?.email}` });
+                  toast({ title: t("dashboard.toasts.paymentLinkSent"), description: t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
                   setPaymentLinkDialog({ open: false, user: null });
                   setPaymentLinkUrl("");
                   setPaymentLinkAmount("");
                   setPaymentLinkMessage("");
                 } catch (err: any) {
-                  toast({ title: "Error", description: err.message || "No se pudo enviar el link", variant: "destructive" });
+                  toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotSendLink"), variant: "destructive" });
                 } finally {
                   setIsSendingPaymentLink(false);
                 }
@@ -3473,17 +3474,17 @@ export default function Dashboard() {
                     credentials: 'include'
                   });
                   if (res.ok) {
-                    toast({ title: "Documento subido", description: "El documento ha sido añadido al expediente del cliente." });
+                    toast({ title: t("dashboard.toasts.adminDocUploaded"), description: t("dashboard.toasts.adminDocUploadedDesc") });
                     queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
                     queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
                     setAdminDocUploadDialog({ open: false, order: null });
                     setAdminDocFile(null);
                   } else {
                     const data = await res.json();
-                    toast({ title: "Error", description: data.message || "No se pudo subir el documento", variant: "destructive" });
+                    toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
                   }
                 } catch {
-                  toast({ title: "Error", description: "Error de conexión", variant: "destructive" });
+                  toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
                 } finally {
                   setIsUploadingAdminDoc(false);
                 }
@@ -3528,11 +3529,11 @@ export default function Dashboard() {
                 setIsResettingPassword(true);
                 try {
                   await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
-                  toast({ title: "Contraseña actualizada", description: "El cliente recibirá un email notificando el cambio." });
+                  toast({ title: t("dashboard.toasts.adminPasswordUpdated"), description: t("dashboard.toasts.adminPasswordUpdatedDesc") });
                   setResetPasswordDialog({ open: false, user: null });
                   setNewAdminPassword("");
                 } catch {
-                  toast({ title: "Error", description: "No se pudo actualizar la contraseña", variant: "destructive" });
+                  toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdatePassword"), variant: "destructive" });
                 } finally {
                   setIsResettingPassword(false);
                 }
