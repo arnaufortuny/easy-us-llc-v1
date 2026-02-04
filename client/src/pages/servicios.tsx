@@ -52,9 +52,11 @@ const BoiIcon = ({ className }: { className?: string }) => (
 );
 
 const AgentIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22s7-4 7-10V5l-7-3-7 3v7c0 6 7 10 7 10z"/>
-    <path d="M9 12l2 2 4-4"/>
+  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="8" r="3"/>
+    <path d="M5 19C5 15.8 7.8 14 12 14C16.2 14 19 15.8 19 19"/>
+    <path d="M12 14V18"/>
+    <path d="M18.5 5.5H16.5C15.95 5.5 15.5 5.95 15.5 6.5V8.5C15.5 9.05 15.95 9.5 16.5 9.5H18.5C19.05 9.5 19.5 9.05 19.5 8.5V6.5C19.5 5.95 19.05 5.5 18.5 5.5Z" strokeWidth="1.4"/>
   </svg>
 );
 
