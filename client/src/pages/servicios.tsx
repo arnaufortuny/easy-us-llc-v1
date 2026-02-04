@@ -615,64 +615,6 @@ export default function Servicios() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-20 bg-background relative" id="proceso">
-        <div className="w-full px-5 sm:px-8">
-          <div className="text-center mb-10 sm:mb-16 flex flex-col items-center justify-center relative">
-            <motion.h2 
-              className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]" 
-              style={{ fontWeight: 900 }}
-              variants={fadeInUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-            >
-              <span className="text-foreground">{t("services.process.title")}</span>{" "}
-              <span className="text-accent">{t("services.process.titleHighlight")}</span>
-            </motion.h2>
-            <motion.p 
-              className="text-muted-foreground text-base sm:text-lg mt-2 sm:mt-3 text-center will-change-opacity"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={viewportOnce}
-              transition={transitions.fast}
-            >
-              {t("services.process.subtitle")}
-            </motion.p>
-            <motion.div 
-              className="w-24 h-1 bg-foreground mt-6 rounded-full will-change-transform"
-              variants={lineExpand}
-              initial="hidden"
-              whileInView="visible"
-              viewport={viewportOnce}
-            />
-          </div>
-
-          <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-8 sm:gap-x-6 sm:gap-y-10">
-            {[1, 2, 3, 4, 5, 6].map((step) => (
-              <motion.div 
-                key={step}
-                className="flex flex-col items-center text-center h-full"
-                variants={fadeInUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={viewportOnce}
-                transition={{ delay: step * 0.08 }}
-              >
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent flex items-center justify-center mb-3 shadow-lg shadow-accent/30 flex-shrink-0">
-                  <span className="text-lg sm:text-xl font-black text-primary-foreground">{step}</span>
-                </div>
-                <h4 className="text-xs sm:text-sm font-black text-foreground mb-1 leading-tight min-h-[2.5rem] flex items-center justify-center">
-                  {t(`services.process.steps.${step}.title`)}
-                </h4>
-                <p className="text-[11px] sm:text-xs text-muted-foreground leading-relaxed flex-grow">
-                  {t(`services.process.steps.${step}.desc`)}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <Footer />
     </div>
   );
