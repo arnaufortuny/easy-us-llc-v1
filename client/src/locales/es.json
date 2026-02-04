@@ -110,9 +110,9 @@
     "button": "Hablemos por WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>NUESTRA FORMA</span><br/><span class='text-accent'>DE TRABAJAR</span>",
-    "subtitle": "Construimos tu LLC con visión legal, bancaria y fiscal",
-    "subtitleDesc": "Nos ocupamos de todo el proceso para que tengas una empresa preparada para operar, crecer y optimizar su carga fiscal con total seguridad.",
+    "title": "<span class='text-foreground'>TU EMPRESA EN ESTADOS UNIDOS,</span><br/><span class='text-accent'>BIEN HECHA DESDE EL INICIO</span>",
+    "subtitle": "Analizamos tu caso, creamos la estructura adecuada y gestionamos todos los trámites para que tu LLC nazca lista para operar, crecer y optimizar impuestos.",
+    "subtitleDesc": "",
     "steps": {
       "listen": {
         "number": "1",

@@ -110,9 +110,9 @@
     "button": "Parlem per WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>LA NOSTRA FORMA</span><br/><span class='text-accent'>DE TREBALLAR</span>",
-    "subtitle": "Construïm la teva LLC amb visió legal, bancària i fiscal",
-    "subtitleDesc": "Ens ocupem de tot el procés perquè tinguis una empresa preparada per operar, créixer i optimitzar la seva càrrega fiscal amb total seguretat.",
+    "title": "<span class='text-foreground'>LA TEVA EMPRESA ALS ESTATS UNITS,</span><br/><span class='text-accent'>BEN FETA DES DE L'INICI</span>",
+    "subtitle": "Analitzem el teu cas, creem l'estructura adequada i gestionem tots els tràmits perquè la teva LLC neixi llesta per operar, créixer i optimitzar impostos.",
+    "subtitleDesc": "",
     "steps": {
       "listen": {
         "number": "1",

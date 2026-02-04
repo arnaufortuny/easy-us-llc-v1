@@ -268,22 +268,13 @@ function HowWeWorkSection() {
               transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
             />
             <motion.p
-              className="text-lg sm:text-xl text-accent font-bold mt-4"
+              className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.3, delay: 0.05, ease: [0.25, 0.1, 0.25, 1] }}
             >
               {t("howWeWork.subtitle")}
-            </motion.p>
-            <motion.p
-              className="text-base sm:text-lg text-muted-foreground mt-2 max-w-2xl"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.3, delay: 0.08, ease: [0.25, 0.1, 0.25, 1] }}
-            >
-              {t("howWeWork.subtitleDesc")}
             </motion.p>
             <motion.div 
               className="w-24 h-1 bg-accent mt-6 rounded-full"

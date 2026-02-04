@@ -110,9 +110,9 @@
     "button": "Let's talk on WhatsApp"
   },
   "howWeWork": {
-    "title": "<span class='text-foreground'>OUR WAY</span><br/><span class='text-accent'>OF WORKING</span>",
-    "subtitle": "We build your LLC with legal, banking and tax vision",
-    "subtitleDesc": "We handle the entire process so you have a company ready to operate, grow and optimize its tax burden with complete security.",
+    "title": "<span class='text-foreground'>YOUR US COMPANY,</span><br/><span class='text-accent'>DONE RIGHT FROM THE START</span>",
+    "subtitle": "We analyze your case, create the right structure and handle all the paperwork so your LLC is born ready to operate, grow and optimize taxes.",
+    "subtitleDesc": "",
     "steps": {
       "listen": {
         "number": "1",
