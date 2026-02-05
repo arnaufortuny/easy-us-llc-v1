@@ -1180,14 +1180,14 @@ export default function Dashboard() {
                     <p className="text-sm text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
-                  {notifications?.some((n: any) => n.type === 'action_required' && !n.isRead) && user?.accountStatus !== 'deactivated' && (
+                  {notifications?.some((n: any) => n.type === 'action_required') && user?.accountStatus !== 'deactivated' && (
                     <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800 p-4 mb-4">
                       <div className="flex items-start gap-3">
                         <FileUp className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5" />
                         <div className="flex-1">
                           <h4 className="font-bold text-orange-800 dark:text-orange-300 text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
                           <div className="mt-2 space-y-1">
-                            {notifications?.filter((n: any) => n.type === 'action_required' && !n.isRead).map((n: any) => (
+                            {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
                               <p key={n.id} className="text-xs text-orange-700 dark:text-orange-400">{n.message}</p>
                             ))}
                           </div>
@@ -1222,7 +1222,7 @@ export default function Dashboard() {
                                 data-testid="input-upload-document"
                               />
                               <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
-                                <span><FileUp className="w-3 h-3 mr-1" /> Subir Documento</span>
+                                <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument', 'Subir Documento')}</span>
                               </Button>
                             </label>
                           </div>

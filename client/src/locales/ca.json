@@ -1,8 +1,83 @@
 {
   "profile": {
+    "title": "El Meu Perfil",
+    "subtitle": "Les teves dades personals i configuració de compte",
+    "personalData": "Dades Personals",
+    "infoDescription": "Aquesta informació ens permet acompanyar-te millor i complir amb els requisits legals quan sigui necessari.",
+    "notProvided": "No proporcionat",
+    "verifyEmail": "Verificar email",
+    "saveChanges": "Desar canvis",
+    "reviewNote": "El nostre equip revisarà qualsevol canvi abans d'avançar per assegurar-nos que tot estigui correcte.",
+    "currentPassword": "Contrasenya actual",
+    "newPassword": "Nova contrasenya",
+    "confirmNewPassword": "Confirmar nova contrasenya",
+    "passwordMismatch": "Les contrasenyes no coincideixen",
+    "sendCode": "Enviar codi",
+    "enterCode": "Introdueix el codi de 6 dígits enviat al teu email",
+    "deleteAccountDesc": "Aquesta acció és irreversible. S'eliminaran totes les teves dades.",
+    "status": "Estat",
+    "statusValues": {
+      "verified": "Verificat",
+      "pending": "En revisió",
+      "deactivated": "Desactivat",
+      "vip": "VIP"
+    },
+    "fields": {
+      "firstName": "Nom",
+      "lastName": "Cognoms",
+      "phone": "Telèfon",
+      "idType": "Tipus de document",
+      "idNumber": "Número de document",
+      "birthDate": "Data de naixement",
+      "businessActivity": "Activitat professional",
+      "streetType": "Tipus de via",
+      "address": "Adreça",
+      "city": "Ciutat",
+      "province": "Província",
+      "postalCode": "C.P.",
+      "country": "País"
+    },
+    "placeholders": {
+      "firstName": "El teu nom real",
+      "lastName": "Tal com apareixen al teu document",
+      "phone": "Per contactar-te si és necessari",
+      "idType": "DNI · NIE · Passaport",
+      "idNumber": "Document d'identificació",
+      "businessActivity": "A què et dediques",
+      "streetType": "Carrer · Avinguda · Passeig · Plaça",
+      "address": "Carrer i número",
+      "city": "Ciutat de residència",
+      "province": "Província o regió",
+      "postalCode": "Codi postal",
+      "country": "País de residència"
+    },
+    "idTypes": {
+      "passport": "Passaport"
+    },
+    "streetTypes": {
+      "street": "Carrer",
+      "avenue": "Avinguda",
+      "promenade": "Passeig",
+      "square": "Plaça"
+    },
+    "sections": {
+      "residenceAddress": "Adreça de residència"
+    },
+    "changePassword": {
+      "title": "Canviar Contrasenya",
+      "description": "Actualitza la teva contrasenya d'accés."
+    },
+    "connectedAccounts": {
+      "title": "Comptes Connectats",
+      "description": "Vincula els teus comptes socials per iniciar sessió més ràpid."
+    },
+    "newsletter": {
+      "title": "Subscripció Newsletter",
+      "description": "Rep notícies i consells per a la teva LLC."
+    },
     "language": {
       "title": "Idioma preferit",
-      "description": "Rebràs comunicacions i documents en aquest idioma."
+      "description": "Selecciona l'idioma de la plataforma i documents."
     }
   },
   "notFound": {
@@ -39,7 +114,9 @@
     "sending": "Enviant...",
     "processing": "Processant...",
     "verifying": "Verificant...",
-    "yourEmail": "EL TEU EMAIL"
+    "yourEmail": "EL TEU EMAIL",
+    "change": "Canviar",
+    "saving": "Desant..."
   },
   "helpSection": {
     "title": "ALGUNA",

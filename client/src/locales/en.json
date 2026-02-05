@@ -1,8 +1,83 @@
 {
   "profile": {
+    "title": "My Profile",
+    "subtitle": "Your personal information and account settings",
+    "personalData": "Personal Data",
+    "infoDescription": "This information helps us assist you better and comply with legal requirements when necessary.",
+    "notProvided": "Not provided",
+    "verifyEmail": "Verify email",
+    "saveChanges": "Save changes",
+    "reviewNote": "Our team will review any changes before proceeding to ensure everything is correct.",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmNewPassword": "Confirm new password",
+    "passwordMismatch": "Passwords do not match",
+    "sendCode": "Send code",
+    "enterCode": "Enter the 6-digit code sent to your email",
+    "deleteAccountDesc": "This action is irreversible. All your data will be deleted.",
+    "status": "Status",
+    "statusValues": {
+      "verified": "Verified",
+      "pending": "Under review",
+      "deactivated": "Deactivated",
+      "vip": "VIP"
+    },
+    "fields": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "phone": "Phone",
+      "idType": "ID type",
+      "idNumber": "ID number",
+      "birthDate": "Date of birth",
+      "businessActivity": "Business activity",
+      "streetType": "Street type",
+      "address": "Address",
+      "city": "City",
+      "province": "Province",
+      "postalCode": "Postal code",
+      "country": "Country"
+    },
+    "placeholders": {
+      "firstName": "Your real name",
+      "lastName": "As it appears on your document",
+      "phone": "To contact you if necessary",
+      "idType": "DNI · NIE · Passport",
+      "idNumber": "Identification document",
+      "businessActivity": "What you do",
+      "streetType": "Street · Avenue · Boulevard · Square",
+      "address": "Street and number",
+      "city": "City of residence",
+      "province": "Province or region",
+      "postalCode": "Postal code",
+      "country": "Country of residence"
+    },
+    "idTypes": {
+      "passport": "Passport"
+    },
+    "streetTypes": {
+      "street": "Street",
+      "avenue": "Avenue",
+      "promenade": "Boulevard",
+      "square": "Square"
+    },
+    "sections": {
+      "residenceAddress": "Residence address"
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "description": "Update your access password."
+    },
+    "connectedAccounts": {
+      "title": "Connected Accounts",
+      "description": "Link your social accounts for faster login."
+    },
+    "newsletter": {
+      "title": "Newsletter Subscription",
+      "description": "Receive news and tips for your LLC."
+    },
     "language": {
       "title": "Preferred language",
-      "description": "You will receive communications and documents in this language."
+      "description": "Select the platform and documents language."
     }
   },
   "notFound": {
@@ -39,7 +114,9 @@
     "sending": "Sending...",
     "processing": "Processing...",
     "verifying": "Verifying...",
-    "yourEmail": "YOUR EMAIL"
+    "yourEmail": "YOUR EMAIL",
+    "change": "Change",
+    "saving": "Saving..."
   },
   "helpSection": {
     "title": "HAVE A",

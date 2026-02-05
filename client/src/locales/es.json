@@ -1,8 +1,83 @@
 {
   "profile": {
+    "title": "Mi Perfil",
+    "subtitle": "Tus datos personales y configuración de cuenta",
+    "personalData": "Datos Personales",
+    "infoDescription": "Esta información nos permite acompañarte mejor y cumplir con los requisitos legales cuando sea necesario.",
+    "notProvided": "No proporcionado",
+    "verifyEmail": "Verificar email",
+    "saveChanges": "Guardar cambios",
+    "reviewNote": "Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.",
+    "currentPassword": "Contraseña actual",
+    "newPassword": "Nueva contraseña",
+    "confirmNewPassword": "Confirmar nueva contraseña",
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "sendCode": "Enviar código",
+    "enterCode": "Ingresa el código de 6 dígitos enviado a tu email",
+    "deleteAccountDesc": "Esta acción es irreversible. Se eliminarán todos tus datos.",
+    "status": "Estado",
+    "statusValues": {
+      "verified": "Verificado",
+      "pending": "En revisión",
+      "deactivated": "Desactivada",
+      "vip": "VIP"
+    },
+    "fields": {
+      "firstName": "Nombre",
+      "lastName": "Apellidos",
+      "phone": "Teléfono",
+      "idType": "Tipo de documento",
+      "idNumber": "Número de documento",
+      "birthDate": "Fecha de nacimiento",
+      "businessActivity": "Actividad profesional",
+      "streetType": "Tipo de vía",
+      "address": "Dirección",
+      "city": "Ciudad",
+      "province": "Provincia",
+      "postalCode": "C.P.",
+      "country": "País"
+    },
+    "placeholders": {
+      "firstName": "Tu nombre real",
+      "lastName": "Tal y como aparecen en tu documento",
+      "phone": "Para contactarte si es necesario",
+      "idType": "DNI · NIE · Pasaporte",
+      "idNumber": "Documento de identificación",
+      "businessActivity": "A qué te dedicas",
+      "streetType": "Calle · Avenida · Paseo · Plaza",
+      "address": "Calle y número",
+      "city": "Ciudad de residencia",
+      "province": "Provincia o región",
+      "postalCode": "Código postal",
+      "country": "País de residencia"
+    },
+    "idTypes": {
+      "passport": "Pasaporte"
+    },
+    "streetTypes": {
+      "street": "Calle",
+      "avenue": "Avenida",
+      "promenade": "Paseo",
+      "square": "Plaza"
+    },
+    "sections": {
+      "residenceAddress": "Dirección de residencia"
+    },
+    "changePassword": {
+      "title": "Cambiar Contraseña",
+      "description": "Actualiza tu contraseña de acceso."
+    },
+    "connectedAccounts": {
+      "title": "Cuentas Conectadas",
+      "description": "Vincula tus cuentas sociales para iniciar sesión más rápido."
+    },
+    "newsletter": {
+      "title": "Suscripción Newsletter",
+      "description": "Recibe noticias y consejos para tu LLC."
+    },
     "language": {
       "title": "Idioma preferido",
-      "description": "Recibirás comunicaciones y documentos en este idioma."
+      "description": "Selecciona el idioma de la plataforma y documentos."
     }
   },
   "notFound": {
@@ -39,7 +114,9 @@
     "sending": "Enviando...",
     "processing": "Procesando...",
     "verifying": "Verificando...",
-    "yourEmail": "TU EMAIL"
+    "yourEmail": "TU EMAIL",
+    "change": "Cambiar",
+    "saving": "Guardando..."
   },
   "helpSection": {
     "title": "¿ALGUNA",
