@@ -1028,6 +1028,7 @@
     },
     "confirmation": {
       "title": "Last step: Confirmation",
+      "subtitle": "Review your information and confirm your request",
       "name": "Name",
       "email": "Email",
       "llc": "LLC",

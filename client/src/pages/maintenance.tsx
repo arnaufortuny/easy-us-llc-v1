@@ -6,7 +6,7 @@ import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { PRICING } from "@shared/config/pricing";
 
-import { Check, Loader2, Eye, EyeOff } from "lucide-react";
+import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
@@ -1066,9 +1066,13 @@ export default function MaintenanceApplication() {
                 {/* STEP 12: Autorización y Consentimiento */}
                 {step === 12 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      {t("maintenance.confirmation.title")}
-                    </h2>
+                    <div className="text-center mb-6">
+                      <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <CheckCircle2 className="w-8 h-8 text-accent" />
+                      </div>
+                      <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight">{t("maintenance.confirmation.title")}</h2>
+                      <p className="text-sm text-muted-foreground mt-2">{t("maintenance.confirmation.subtitle")}</p>
+                    </div>
                     <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
                       <p><span className="opacity-50">{t("maintenance.confirmation.name")}:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
                       <p><span className="opacity-50">{t("maintenance.confirmation.email")}:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>

@@ -1028,6 +1028,7 @@
     },
     "confirmation": {
       "title": "Último paso: Confirmación",
+      "subtitle": "Revisa la información y confirma tu solicitud",
       "name": "Nombre",
       "email": "Email",
       "llc": "LLC",
