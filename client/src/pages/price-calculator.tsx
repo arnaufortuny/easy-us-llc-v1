@@ -146,7 +146,7 @@ export default function PriceCalculator() {
                       value={productName}
                       onChange={(e) => setProductName(e.target.value)}
                       placeholder="Ej: Consultoría de marketing"
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-full"
                       data-testid="input-product-name"
                     />
                   </div>
@@ -175,7 +175,7 @@ export default function PriceCalculator() {
                       min="1"
                       value={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-full"
                       data-testid="input-quantity"
                     />
                   </div>
@@ -185,7 +185,7 @@ export default function PriceCalculator() {
                     <NativeSelect
                       value={currency}
                       onChange={(e) => setCurrency(e.target.value)}
-                      className="h-11 rounded-xl"
+                      className="h-11 rounded-full"
                       data-testid="select-currency"
                     >
                       <option value="USD">USD - Dólar</option>

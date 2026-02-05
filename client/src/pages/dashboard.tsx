@@ -1074,8 +1074,8 @@ export default function Dashboard() {
                 size="sm"
                 className={`flex items-center gap-1.5 sm:gap-2 rounded-full font-semibold text-[11px] sm:text-xs md:text-sm tracking-normal whitespace-nowrap shrink-0 h-10 px-4 md:px-5 transition-all duration-200 ${
                   activeTab === 'admin' 
-                  ? 'bg-orange-500 text-white shadow-md' 
-                  : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 hover:bg-orange-200 dark:hover:bg-orange-900/50'
+                  ? 'bg-accent text-accent-foreground shadow-md' 
+                  : 'bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent/20 dark:hover:bg-accent/30'
                 }`}
                 data-testid="button-tab-admin"
               >
@@ -3165,9 +3165,9 @@ export default function Dashboard() {
           </div>
           <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
             <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
-              {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Crear Cliente'}
+              {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createClient')}
             </Button>
-            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-user">Cancelar</Button>
+            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-user">{t('common.cancel')}</Button>
           </div>
         </SheetContent>
       </Sheet>

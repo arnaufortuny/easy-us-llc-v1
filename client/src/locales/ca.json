@@ -1268,6 +1268,7 @@
     "admin": {
       "title": "Panell d'Administració",
       "newClient": "Nou Client",
+      "createClient": "Crear Client",
       "searchPlaceholder": "Cercar ID client, comanda o tiquet..."
     },
     "notifications": {

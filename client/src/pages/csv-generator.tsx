@@ -302,7 +302,7 @@ export default function CsvGenerator() {
                         type="date"
                         value={transaction.date}
                         onChange={(e) => updateTransaction(transaction.id, 'date', e.target.value)}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`input-date-${index}`}
                       />
                     </div>
@@ -313,7 +313,7 @@ export default function CsvGenerator() {
                         value={transaction.description}
                         onChange={(e) => updateTransaction(transaction.id, 'description', e.target.value)}
                         placeholder={t("tools.csvGenerator.descriptionPlaceholder")}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`input-description-${index}`}
                       />
                     </div>
@@ -327,7 +327,7 @@ export default function CsvGenerator() {
                         value={transaction.amount}
                         onChange={(e) => updateTransaction(transaction.id, 'amount', e.target.value)}
                         placeholder="0.00"
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`input-amount-${index}`}
                       />
                     </div>
@@ -337,7 +337,7 @@ export default function CsvGenerator() {
                       <NativeSelect
                         value={transaction.currency}
                         onChange={(e) => updateTransaction(transaction.id, 'currency', e.target.value)}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`select-currency-${index}`}
                       >
                         {CURRENCIES.map(c => (
@@ -351,7 +351,7 @@ export default function CsvGenerator() {
                       <NativeSelect
                         value={transaction.type}
                         onChange={(e) => updateTransaction(transaction.id, 'type', e.target.value as 'income' | 'expense' | 'transfer')}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`select-type-${index}`}
                       >
                         <NativeSelectItem value="income">{t("tools.csvGenerator.income")}</NativeSelectItem>
@@ -365,7 +365,7 @@ export default function CsvGenerator() {
                       <NativeSelect
                         value={transaction.category}
                         onChange={(e) => updateTransaction(transaction.id, 'category', e.target.value)}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`select-category-${index}`}
                       >
                         {getCategoriesForType(transaction.type).map(cat => (
@@ -379,7 +379,7 @@ export default function CsvGenerator() {
                       <NativeSelect
                         value={transaction.paymentMethod}
                         onChange={(e) => updateTransaction(transaction.id, 'paymentMethod', e.target.value)}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`select-payment-method-${index}`}
                       >
                         {PAYMENT_METHODS.map(pm => (
@@ -394,7 +394,7 @@ export default function CsvGenerator() {
                         value={transaction.bankAccount}
                         onChange={(e) => updateTransaction(transaction.id, 'bankAccount', e.target.value)}
                         placeholder={t("tools.csvGenerator.bankAccountPlaceholder")}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`input-bank-account-${index}`}
                       />
                     </div>
@@ -405,7 +405,7 @@ export default function CsvGenerator() {
                         value={transaction.invoiceNumber}
                         onChange={(e) => updateTransaction(transaction.id, 'invoiceNumber', e.target.value)}
                         placeholder={t("tools.csvGenerator.invoiceNumberPlaceholder")}
-                        className="rounded-lg text-sm"
+                        className="rounded-full text-sm"
                         data-testid={`input-invoice-number-${index}`}
                       />
                     </div>

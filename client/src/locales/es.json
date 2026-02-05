@@ -1268,6 +1268,7 @@
     "admin": {
       "title": "Panel de Administración",
       "newClient": "Nuevo Cliente",
+      "createClient": "Crear Cliente",
       "searchPlaceholder": "Buscar ID cliente, pedido o ticket..."
     },
     "notifications": {
