@@ -13,6 +13,8 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Esta regla tiene máxima prioridad
 
 ## Recent Changes (February 2026)
+- **Comprehensive System Review (Feb 5):** Verified all 26 database tables match schema definitions, fixed broken navigation links, confirmed no LSP errors.
+- **Navigation Fix:** Fixed broken `/recuperar` link in maintenance.tsx → now correctly points to `/auth/forgot-password`.
 - **DashboardIcon Component:** Created reusable SVG icon component (`client/src/components/ui/dashboard-icon.tsx`) that adapts to light/dark themes using `currentColor` with proper foreground color defaults for consistent rendering.
 - **Consultation Booking:** Replaced Dialog-based consultation booking with accessible Collapsible panel UI component with proper accessibility (CollapsibleTrigger with aria-label).
 - **Dark Mode Form Styling:** Unified dark mode styling across all form components (inputs, textareas, selects) using consistent colors (`dark:bg-[#1A1A1A]`, `dark:border-[#2A2A2A]`, `dark:text-white`).
@@ -72,6 +74,43 @@ The application features a modern UI/UX with a consistent design system (Primary
     - **Operating Agreement Generator:** Creates legal Operating Agreements for completed LLCs with EIN, 16-section template, auto-saves to Document Center.
     - **Price Calculator:** Tax comparison tool for Spanish freelancers vs US LLC.
 
+## Database Schema (26 Tables)
+- **users:** User accounts with client IDs, authentication, profile data, admin flags
+- **sessions:** User session management
+- **orders:** Order records with payment status, invoices, discounts
+- **products:** LLC formation and maintenance products
+- **llc_applications:** Complete LLC formation data with 60+ fields
+- **maintenance_applications:** Annual maintenance requests
+- **application_documents:** Uploaded documents with encryption metadata
+- **consultation_types:** Admin-configurable consultation service types
+- **consultation_availability:** Weekly availability slots
+- **consultation_blocked_dates:** Blocked dates for holidays/vacations
+- **consultation_bookings:** User consultation reservations
+- **messages:** Contact form and support messages
+- **message_replies:** Threaded message responses
+- **newsletter_subscribers:** Email newsletter subscriptions
+- **calculator_consultations:** Tax calculator consultation requests
+- **contact_otps:** OTP verification codes
+- **email_verification_tokens:** Email verification tokens
+- **password_reset_tokens:** Password reset tokens
+- **discount_codes:** Promotional discount codes
+- **order_events:** Order timeline events
+- **rate_limit_entries:** API rate limiting records
+- **audit_logs:** Security audit trail
+- **document_access_logs:** Document access tracking
+- **encrypted_fields:** Encrypted sensitive data storage
+- **accounting_transactions:** Financial transaction records
+- **user_notifications:** User notification preferences
+
+## Security Configuration
+- **Required Secrets:**
+  - `SESSION_SECRET`: Express session encryption
+  - `ENCRYPTION_KEY`: AES-256-CBC encryption (32+ chars, REQUIRED for production)
+  - `DATABASE_URL`: PostgreSQL connection string
+- **Rate Limiting:** In-memory for development, database-backed for production
+- **Encryption:** AES-256-CBC with SHA-256 file integrity verification
+- **Headers:** HSTS, COOP, CORP, CSP, X-Frame-Options
+
 ## External Dependencies
 - **Drizzle ORM:** Database interaction.
 - **Zod:** Data validation.
@@ -87,3 +126,23 @@ The application features a modern UI/UX with a consistent design system (Primary
 - **Stripe:** Payment processing portal integration.
 - **Google Fonts:** Typography (Inter).
 - **nodemailer:** Email sending.
+
+## Routes (Client-side)
+- `/` - Home page
+- `/servicios` - Services page with pricing
+- `/faq` - Frequently Asked Questions
+- `/contacto` - Contact form
+- `/llc/formation` - LLC formation wizard (16 steps)
+- `/llc/maintenance` - Maintenance request form
+- `/dashboard` - User/Admin dashboard
+- `/auth/login` - Login page
+- `/auth/register` - Registration page
+- `/auth/forgot-password` - Password recovery
+- `/tools/invoice` - Invoice generator
+- `/tools/price-calculator` - Tax comparison calculator
+- `/tools/operating-agreement` - Operating agreement generator
+- `/tools/csv-generator` - CSV data export
+- `/legal/terminos` - Terms of service
+- `/legal/privacidad` - Privacy policy
+- `/legal/reembolsos` - Refund policy
+- `/legal/cookies` - Cookie policy
