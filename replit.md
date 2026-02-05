@@ -17,6 +17,10 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - **Consultation Booking:** Replaced Dialog-based consultation booking with accessible Collapsible panel UI component with proper accessibility (CollapsibleTrigger with aria-label).
 - **Dark Mode Form Styling:** Unified dark mode styling across all form components (inputs, textareas, selects) using consistent colors (`dark:bg-[#1A1A1A]`, `dark:border-[#2A2A2A]`, `dark:text-white`).
 - **Dashboard Icons:** Updated all dashboard icon references to use the new DashboardIcon component for proper theme adaptation.
+- **Phone Validation:** Updated validation across LLC formation, registration, and maintenance forms to require + prefix with minimum 6 digits after it. Error message shows only "Teléfono inválido" without reason.
+- **LLC Formation Review Page:** Redesigned step 16 (Final Review) with organized card-based layout showing personal info, LLC info, and payment info sections with CheckCircle2 icons.
+- **Tools Pages Consistency:** Standardized "Volver al Dashboard" buttons across all tools pages (invoice generator, CSV generator, price calculator, operating agreement) with consistent styling and translation key.
+- **Translation Keys:** Added comprehensive translation keys for review/confirmation page across Spanish, English, and Catalan (reviewTitle, reviewSubtitle, personalInfo, llcInfo, paymentInfo, confirmInfo, acceptTerms, etc.).
 
 ## System Architecture
 The application features a modern UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and Inter typography, with UI animations powered by Framer Motion.
