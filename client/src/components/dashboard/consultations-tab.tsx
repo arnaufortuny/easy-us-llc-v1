@@ -441,9 +441,9 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
       )}
 
       {myBookings.length === 0 && !showBookingPanel && (
-        <Card className="text-center py-12">
-          <CardContent>
-            <MessageSquare className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+        <Card className="py-12">
+          <CardContent className="flex flex-col items-center justify-center text-center">
+            <MessageSquare className="w-12 h-12 text-muted-foreground mb-4" />
             <h3 className="font-bold text-lg mb-2">{t("consultations.noBookings")}</h3>
             <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
             <Button 

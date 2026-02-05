@@ -1176,7 +1176,7 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <div key="documents" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
+                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
                     <p className="text-sm text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
@@ -1379,7 +1379,7 @@ export default function Dashboard() {
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
+                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
                     <p className="text-sm text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
                   </div>
                   <div className="space-y-4">
@@ -1419,7 +1419,7 @@ export default function Dashboard() {
                 <div key="calendar" className="space-y-4 md:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
-                      <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
+                      <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
                       <p className="text-sm text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
                     </div>
                   </div>
@@ -1561,7 +1561,7 @@ export default function Dashboard() {
               {activeTab === 'tools' && (
                 <div key="tools" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
+                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
                     <p className="text-sm text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -3761,9 +3761,9 @@ export default function Dashboard() {
             <section className="bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm">
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
-                  <Clock className="w-5 h-5 text-accent" /> Notificaciones
+                  <Clock className="w-5 h-5 text-accent" /> {t('dashboard.tracking.title')}
                 </h3>
-                <p className="text-xs text-muted-foreground mt-1">El progreso de tu LLC, paso a paso</p>
+                <p className="text-xs text-muted-foreground mt-1">{t('dashboard.tracking.subtitle')}</p>
               </div>
               <div className="space-y-5">
                 {orders && orders.length > 0 ? (
@@ -3807,21 +3807,21 @@ export default function Dashboard() {
                     ))
                     ) : (
                       <div className="space-y-4">
-                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center"><CheckCircle2 className="w-3 h-3" /></div><p className="text-xs font-black">Pedido Recibido</p></div>
-                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-gray-100" /><p className="text-xs text-gray-400">Verificación de Datos</p></div>
+                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center"><CheckCircle2 className="w-3 h-3" /></div><p className="text-xs font-black">{t('dashboard.tracking.orderReceived')}</p></div>
+                        <div className="flex gap-4"><div className="w-6 h-6 rounded-full bg-gray-100" /><p className="text-xs text-gray-400">{t('dashboard.tracking.dataVerification')}</p></div>
                       </div>
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><DashboardIcon name="tramites" size={32} className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">No hay trámites en curso</p><p className="text-[10px] text-muted-foreground/70 mt-1">Cuando contrates un servicio, aquí podrás seguir todo el proceso.</p></div>
+                  <div className="text-center py-4"><DashboardIcon name="tramites" size={32} className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.empty')}</p><p className="text-[10px] text-muted-foreground/70 mt-1">{t('dashboard.tracking.emptyDescription')}</p></div>
                 )}
               </div>
             </section>
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-16 md:mb-12">
-              <h3 className="text-base font-semibold text-foreground mb-2">¿Tienes alguna duda?</h3>
-              <p className="text-xs text-primary/70 mb-5 leading-relaxed">Estamos aquí para ayudarte, escríbenos y te responderemos lo antes posible!</p>
+              <h3 className="text-base font-semibold text-foreground mb-2">{t('dashboard.support.haveQuestion')}</h3>
+              <p className="text-xs text-primary/70 mb-5 leading-relaxed">{t('dashboard.support.hereToHelp')}</p>
               <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20duda%20sobre%20el%20estado%20de%20mi%20LLC%20o%20documentaci%C3%B3n.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">Hablar con un asesor</Button>
+                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
               </a>
             </section>
           </div>
