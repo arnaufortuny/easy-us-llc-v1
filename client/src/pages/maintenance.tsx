@@ -1198,9 +1198,9 @@ export default function MaintenanceApplication() {
                     </div>
 
                     <div className="text-center">
-                      <a href="/recuperar" className="text-xs text-[#6EDC8A] hover:underline">
+                      <Link href="/auth/forgot-password" className="text-xs text-[#6EDC8A] hover:underline">
                         {t("maintenance.login.forgotPassword")}
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 )}
