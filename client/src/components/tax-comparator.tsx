@@ -304,7 +304,7 @@ export function TaxComparator() {
         </div>
         
         <motion.div 
-          className="max-w-4xl mx-auto will-change-transform"
+          className="max-w-4xl lg:max-w-2xl mx-auto will-change-transform"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
