@@ -16,7 +16,6 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
@@ -1630,6 +1629,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'profile' && (
+                <>
                 <ProfileTab
                   user={user ?? null}
                   canEdit={canEdit}
@@ -1655,6 +1655,120 @@ export default function Dashboard() {
                   setShowEmailVerification={setShowEmailVerification}
                   setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
                 />
+                
+                {/* Inline Email Verification Panel */}
+                {showEmailVerification && (
+                  <Card className="mt-6 rounded-2xl border-accent/30 shadow-lg animate-in slide-in-from-top-2 duration-300">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.profile.verifyEmail')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.profile.verifyEmailDesc')}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setShowEmailVerification(false); setEmailVerificationCode(""); }} className="rounded-full" data-testid="button-close-email-verification">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.profile.verificationCode')}</Label>
+                          <Input
+                            value={emailVerificationCode}
+                            onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
+                            className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-[#1A1A1A] h-14 tracking-[0.5em]"
+                            maxLength={6}
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            placeholder="000000"
+                            data-testid="input-email-verification-code"
+                          />
+                        </div>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <Button
+                            onClick={async () => {
+                              if (!emailVerificationCode || emailVerificationCode.length < 6) {
+                                toast({ title: t("dashboard.toasts.enter6DigitCode"), variant: "destructive" });
+                                return;
+                              }
+                              setIsVerifyingEmail(true);
+                              try {
+                                const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
+                                const result = await res.json();
+                                if (result.success) {
+                                  await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+                                  toast({ title: t("dashboard.toasts.emailVerified") });
+                                  setShowEmailVerification(false);
+                                  setEmailVerificationCode("");
+                                }
+                              } catch (err: any) {
+                                toast({ title: t("dashboard.toasts.incorrectCode"), description: err.message || t("dashboard.toasts.incorrectCodeDesc"), variant: "destructive" });
+                              } finally {
+                                setIsVerifyingEmail(false);
+                              }
+                            }}
+                            disabled={isVerifyingEmail || emailVerificationCode.length < 6}
+                            className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                            data-testid="button-verify-email-code"
+                          >
+                            {isVerifyingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.verifyEmail')}
+                          </Button>
+                          <Button
+                            variant="outline"
+                            onClick={async () => {
+                              setIsResendingCode(true);
+                              try {
+                                await apiRequest("POST", "/api/auth/resend-verification");
+                                toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
+                              } catch {
+                                toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+                              } finally {
+                                setIsResendingCode(false);
+                              }
+                            }}
+                            disabled={isResendingCode}
+                            className="rounded-full"
+                            data-testid="button-resend-verification-code"
+                          >
+                            {isResendingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.resendCode')}
+                          </Button>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                
+                {/* Inline Delete Own Account Panel */}
+                {deleteOwnAccountDialog && (
+                  <Card className="mt-6 rounded-2xl border-red-500/30 shadow-lg animate-in slide-in-from-top-2 duration-300">
+                    <CardContent className="p-4 sm:p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-red-600">{t('dashboard.profile.deleteAccount')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.profile.deleteAccountWarning')}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteOwnAccountDialog(false)} className="rounded-full" data-testid="button-close-delete-account">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-xl mb-4">
+                        <p className="text-sm text-red-600 dark:text-red-400">{t('dashboard.profile.deleteAccountConfirm')}</p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2">
+                        <Button 
+                          variant="destructive" 
+                          onClick={() => deleteOwnAccountMutation.mutate()} 
+                          disabled={deleteOwnAccountMutation.isPending} 
+                          className="flex-1 rounded-full font-black" 
+                          data-testid="button-confirm-delete-account"
+                        >
+                          {deleteOwnAccountMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.deleteAccount')}
+                        </Button>
+                        <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)} className="rounded-full">{t('common.cancel')}</Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                </>
               )}
 
               {activeTab === 'admin' && user?.isAdmin && (
@@ -1693,12 +1807,12 @@ export default function Dashboard() {
                   </div>
                   <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-[#1A1A1A] shadow-sm" onClick={() => setCreateUserDialog(true)} data-testid="button-create-user">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-semibold shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
                         <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
                       </Button>
-                      <Button variant="ghost" size="sm" className="rounded-full text-xs font-semibold bg-white dark:bg-[#1A1A1A] shadow-sm" onClick={() => setCreateOrderDialog(true)} data-testid="button-create-order">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-semibold shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">Nuevo Pedido</span>
                         <span className="sm:hidden">Pedido</span>
@@ -1715,6 +1829,946 @@ export default function Dashboard() {
                       />
                     </div>
                   </div>
+
+                  {/* Inline Admin Panels - Replace Sheets */}
+                  {createUserDialog && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.newClient')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setCreateUserDialog(false)} className="rounded-full" data-testid="button-close-create-user">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
+                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-firstname" />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
+                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-lastname" />
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
+                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-email" />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
+                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-phone" />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
+                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-password" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
+                          {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createClient')}
+                        </Button>
+                        <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-user">{t('common.cancel')}</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {createOrderDialog && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.createOrder')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setCreateOrderDialog(false)} className="rounded-full" data-testid="button-close-create-order">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.orderType')}</Label>
+                          <NativeSelect 
+                            value={newOrderData.orderType} 
+                            onValueChange={val => {
+                              const type = val as 'llc' | 'maintenance';
+                              const defaultAmount = type === 'maintenance' 
+                                ? (newOrderData.state === 'Wyoming' ? '699' : newOrderData.state === 'Delaware' ? '999' : '539')
+                                : (newOrderData.state === 'Wyoming' ? '899' : newOrderData.state === 'Delaware' ? '1399' : '739');
+                              setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount }));
+                            }}
+                            placeholder={t('dashboard.admin.selectOrderType')}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="select-order-type"
+                          >
+                            <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
+                            <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.client')}</Label>
+                          <NativeSelect 
+                            value={newOrderData.userId} 
+                            onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
+                            placeholder={t('dashboard.admin.selectClient')}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="select-order-user"
+                          >
+                            {adminUsers?.map((u: any) => (
+                              <NativeSelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</NativeSelectItem>
+                            ))}
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
+                          <NativeSelect 
+                            value={newOrderData.state} 
+                            onValueChange={val => {
+                              const prices = newOrderData.orderType === 'maintenance'
+                                ? { 'New Mexico': '539', 'Wyoming': '699', 'Delaware': '999' }
+                                : { 'New Mexico': '739', 'Wyoming': '899', 'Delaware': '1399' };
+                              setNewOrderData(p => ({ ...p, state: val, amount: prices[val as keyof typeof prices] || p.amount }));
+                            }}
+                            placeholder={t('dashboard.admin.selectState')}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="select-order-state"
+                          >
+                            {newOrderData.orderType === 'maintenance' ? (
+                              <>
+                                <NativeSelectItem value="New Mexico">New Mexico - 539€</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">Wyoming - 699€</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">Delaware - 999€</NativeSelectItem>
+                              </>
+                            ) : (
+                              <>
+                                <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
+                              </>
+                            )}
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
+                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
+                          {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
+                        </Button>
+                        <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Send Note to Client */}
+                  {noteDialog.open && noteDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Enviar Mensaje al Cliente</h3>
+                          <p className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setNoteDialog({ open: false, user: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
+                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
+                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
+                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Edit User */}
+                  {editingUser && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Editar Usuario</h3>
+                          <p className="text-sm text-muted-foreground">Modifica los datos del cliente</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setEditingUser(null)} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nombre</Label>
+                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-firstname" />
+                          </div>
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Apellidos</Label>
+                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-lastname" />
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>
+                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-email" />
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Teléfono</Label>
+                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-phone" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Tipo ID</Label>
+                            <NativeSelect 
+                              value={editingUser.idType || ''} 
+                              onValueChange={val => setEditingUser({...editingUser, idType: val})}
+                              placeholder="Seleccionar"
+                              className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]"
+                            >
+                              <NativeSelectItem value="dni">DNI</NativeSelectItem>
+                              <NativeSelectItem value="nie">NIE</NativeSelectItem>
+                              <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
+                            </NativeSelect>
+                          </div>
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Número ID</Label>
+                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-idnumber" />
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Fecha Nacimiento</Label>
+                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-birthdate" />
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Actividad de Negocio</Label>
+                          <NativeSelect 
+                            value={editingUser.businessActivity || ''} 
+                            onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
+                            placeholder={t("common.select")}
+                            className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]"
+                            data-testid="select-edit-activity"
+                          >
+                            <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
+                            <NativeSelectItem value="dropshipping">{t("auth.register.businessActivities.dropshipping")}</NativeSelectItem>
+                            <NativeSelectItem value="consulting">{t("auth.register.businessActivities.consulting")}</NativeSelectItem>
+                            <NativeSelectItem value="marketing">{t("auth.register.businessActivities.marketing")}</NativeSelectItem>
+                            <NativeSelectItem value="software">{t("auth.register.businessActivities.software")}</NativeSelectItem>
+                            <NativeSelectItem value="saas">{t("auth.register.businessActivities.saas")}</NativeSelectItem>
+                            <NativeSelectItem value="apps">{t("auth.register.businessActivities.apps")}</NativeSelectItem>
+                            <NativeSelectItem value="ai">{t("auth.register.businessActivities.ai")}</NativeSelectItem>
+                            <NativeSelectItem value="investments">{t("auth.register.businessActivities.investments")}</NativeSelectItem>
+                            <NativeSelectItem value="tradingEducation">{t("auth.register.businessActivities.tradingEducation")}</NativeSelectItem>
+                            <NativeSelectItem value="financial">{t("auth.register.businessActivities.financial")}</NativeSelectItem>
+                            <NativeSelectItem value="crypto">{t("auth.register.businessActivities.crypto")}</NativeSelectItem>
+                            <NativeSelectItem value="realestate">{t("auth.register.businessActivities.realestate")}</NativeSelectItem>
+                            <NativeSelectItem value="import">{t("auth.register.businessActivities.import")}</NativeSelectItem>
+                            <NativeSelectItem value="coaching">{t("auth.register.businessActivities.coaching")}</NativeSelectItem>
+                            <NativeSelectItem value="content">{t("auth.register.businessActivities.content")}</NativeSelectItem>
+                            <NativeSelectItem value="affiliate">{t("auth.register.businessActivities.affiliate")}</NativeSelectItem>
+                            <NativeSelectItem value="freelance">{t("auth.register.businessActivities.freelance")}</NativeSelectItem>
+                            <NativeSelectItem value="gaming">{t("auth.register.businessActivities.gaming")}</NativeSelectItem>
+                            <NativeSelectItem value="digitalProducts">{t("auth.register.businessActivities.digitalProducts")}</NativeSelectItem>
+                            <NativeSelectItem value="other">{t("auth.register.businessActivities.other")}</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Dirección</Label>
+                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-address" />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Ciudad</Label>
+                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-city" />
+                          </div>
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">CP</Label>
+                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-postal" />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Provincia</Label>
+                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-province" />
+                          </div>
+                          <div>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">País</Label>
+                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-country" />
+                          </div>
+                        </div>
+                        <div>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
+                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
+                        </div>
+                        {user?.email === 'afortuny07@gmail.com' && (
+                          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-xs font-black text-purple-700 dark:text-purple-300">Permisos de Administrador</p>
+                                <p className="text-[10px] text-purple-600 dark:text-purple-400">Solo tú puedes cambiar esto</p>
+                              </div>
+                              <Switch
+                                checked={editingUser.isAdmin || false}
+                                onCheckedChange={(checked) => setEditingUser({...editingUser, isAdmin: checked})}
+                                data-testid="switch-admin-toggle"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
+                        <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
+                          {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setEditingUser(null)} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Delete User Confirmation */}
+                  {deleteConfirm.open && deleteConfirm.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-black text-red-600">Eliminar Usuario</h3>
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteConfirm({ open: false, user: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="py-4">
+                        <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
+                        <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                        <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete">
+                          {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Delete Order Confirmation */}
+                  {deleteOrderConfirm.open && deleteOrderConfirm.order && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-lg font-black text-red-600">Eliminar Pedido</h3>
+                        <Button variant="ghost" size="icon" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="py-4">
+                        <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
+                        <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
+                        <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                        <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete-order">
+                          {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Generate Invoice */}
+                  {generateInvoiceDialog.open && generateInvoiceDialog.order && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Generar Factura</h3>
+                          <p className="text-sm text-muted-foreground">Pedido: {generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
+                          <Input 
+                            type="number" 
+                            step="0.01" 
+                            value={orderInvoiceAmount} 
+                            onChange={e => setOrderInvoiceAmount(e.target.value)}
+                            className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                            placeholder="739.00"
+                            data-testid="input-invoice-amount"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Divisa</Label>
+                          <NativeSelect 
+                            value={orderInvoiceCurrency} 
+                            onValueChange={setOrderInvoiceCurrency}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                          >
+                            <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
+                            <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button 
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
+                          onClick={async () => {
+                            setIsGeneratingInvoice(true);
+                            try {
+                              const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
+                              if (amountCents <= 0) {
+                                toast({ title: t("common.error"), description: t("dashboard.toasts.amountMustBeGreater"), variant: "destructive" });
+                                return;
+                              }
+                              const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
+                                amount: amountCents,
+                                currency: orderInvoiceCurrency
+                              });
+                              if (!res.ok) {
+                                const data = await res.json().catch(() => ({}));
+                                throw new Error(data.message || t("dashboard.toasts.couldNotGenerate"));
+                              }
+                              toast({ title: t("dashboard.toasts.invoiceGenerated"), description: t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
+                              queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+                              queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+                              window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
+                              setGenerateInvoiceDialog({ open: false, order: null });
+                              setOrderInvoiceAmount("");
+                            } catch (err: any) {
+                              toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotGenerate"), variant: "destructive" });
+                            } finally {
+                              setIsGeneratingInvoice(false);
+                            }
+                          }}
+                          data-testid="button-confirm-generate-invoice"
+                        >
+                          {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generar Factura'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Request Documents */}
+                  {docDialog.open && docDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Solicitar Documentos</h3>
+                          <p className="text-sm text-muted-foreground">Solicita documentos al cliente</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setDocDialog({ open: false, user: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
+                          <NativeSelect 
+                            value={docType} 
+                            onValueChange={setDocType}
+                            placeholder="Seleccionar tipo..."
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                          >
+                            <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
+                            <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
+                            <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
+                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
+                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button onClick={() => {
+                          if (docDialog.user?.id && docDialog.user?.email) {
+                            const docTypeLabels: Record<string, string> = {
+                              passport: 'Pasaporte / Documento de Identidad',
+                              address_proof: 'Prueba de Domicilio',
+                              tax_id: 'Identificación Fiscal (NIF/CIF)',
+                              other: 'Documento Adicional'
+                            };
+                            const docLabel = docTypeLabels[docType] || docType;
+                            sendNoteMutation.mutate({ 
+                              userId: docDialog.user.id, 
+                              title: `Solicitud de Documento: ${docLabel}`, 
+                              message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
+                              type: 'action_required' 
+                            });
+                            setDocDialog({ open: false, user: null });
+                            setDocType('');
+                            setDocMessage('');
+                          }
+                        }} disabled={!docType || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
+                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Create Invoice */}
+                  {invoiceDialog.open && invoiceDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Crear Factura</h3>
+                          <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setInvoiceDialog({ open: false, user: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Concepto</Label>
+                          <Input 
+                            value={invoiceConcept} 
+                            onChange={e => setInvoiceConcept(e.target.value)} 
+                            placeholder="Ej: Servicio de consultoría" 
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="input-invoice-concept"
+                          />
+                        </div>
+                        <div className="grid grid-cols-3 gap-3">
+                          <div className="col-span-2">
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
+                            <Input 
+                              type="number" 
+                              value={invoiceAmount} 
+                              onChange={e => setInvoiceAmount(e.target.value)} 
+                              placeholder="739" 
+                              className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              data-testid="input-invoice-amount"
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Moneda</Label>
+                            <NativeSelect 
+                              value={invoiceCurrency} 
+                              onValueChange={setInvoiceCurrency}
+                              className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              data-testid="select-invoice-currency"
+                            >
+                              <NativeSelectItem value="EUR">EUR</NativeSelectItem>
+                              <NativeSelectItem value="USD">USD</NativeSelectItem>
+                            </NativeSelect>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button 
+                          onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
+                            userId: invoiceDialog.user.id, 
+                            concept: invoiceConcept, 
+                            amount: Math.round(parseFloat(invoiceAmount) * 100),
+                            currency: invoiceCurrency
+                          })} 
+                          disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          data-testid="button-create-invoice"
+                        >
+                          {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Discount Code */}
+                  {discountCodeDialog.open && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">
+                            {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
+                          </h3>
+                          <p className="text-sm text-muted-foreground">
+                            {discountCodeDialog.code ? 'Modifica los datos del código' : 'Configura un nuevo código de descuento'}
+                          </p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">Código</Label>
+                          <Input 
+                            value={newDiscountCode.code} 
+                            onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
+                            className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border uppercase bg-white dark:bg-[#1A1A1A]" 
+                            disabled={!!discountCodeDialog.code}
+                            data-testid="input-discount-code" 
+                          />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo</Label>
+                            <NativeSelect 
+                              value={newDiscountCode.discountType} 
+                              onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
+                              className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                              data-testid="select-discount-type"
+                            >
+                              <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
+                              <NativeSelectItem value="fixed">Fijo (centimos)</NativeSelectItem>
+                            </NativeSelect>
+                          </div>
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">
+                              Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
+                            </Label>
+                            <Input 
+                              type="number" 
+                              value={newDiscountCode.discountValue} 
+                              onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-discount-value" 
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Min. (EUR)</Label>
+                            <Input 
+                              type="number" 
+                              value={newDiscountCode.minOrderAmount} 
+                              onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-discount-min-amount" 
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Usos max.</Label>
+                            <Input 
+                              type="number" 
+                              value={newDiscountCode.maxUses} 
+                              onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-discount-max-uses" 
+                            />
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Desde</Label>
+                            <Input 
+                              type="date" 
+                              value={newDiscountCode.validFrom} 
+                              onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-discount-valid-from" 
+                            />
+                          </div>
+                          <div>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">Hasta</Label>
+                            <Input 
+                              type="date" 
+                              value={newDiscountCode.validUntil} 
+                              onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
+                              className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
+                              data-testid="input-discount-valid-until" 
+                            />
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <Switch 
+                            checked={newDiscountCode.isActive} 
+                            onCheckedChange={(checked) => setNewDiscountCode(p => ({ ...p, isActive: checked }))}
+                            data-testid="switch-discount-active"
+                          />
+                          <Label className="text-sm font-semibold">Código activo</Label>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t mt-4">
+                        <Button 
+                          onClick={async () => {
+                            try {
+                              const payload = {
+                                code: newDiscountCode.code,
+                                discountType: newDiscountCode.discountType,
+                                discountValue: parseInt(newDiscountCode.discountValue),
+                                minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
+                                maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
+                                validFrom: newDiscountCode.validFrom || null,
+                                validUntil: newDiscountCode.validUntil || null,
+                                isActive: newDiscountCode.isActive
+                              };
+                              if (discountCodeDialog.code) {
+                                await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
+                                toast({ title: t("dashboard.toasts.discountCodeUpdated") });
+                              } else {
+                                await apiRequest("POST", "/api/admin/discount-codes", payload);
+                                toast({ title: t("dashboard.toasts.discountCodeCreated") });
+                              }
+                              refetchDiscountCodes();
+                              setDiscountCodeDialog({ open: false, code: null });
+                            } catch (e: any) {
+                              toast({ title: t("common.error"), description: e.message || t("dashboard.toasts.couldNotSave"), variant: "destructive" });
+                            }
+                          }} 
+                          disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" 
+                          data-testid="button-save-discount"
+                        >
+                          {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
+                        </Button>
+                        <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="flex-1 rounded-full" data-testid="button-cancel-discount">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Payment Link */}
+                  {paymentLinkDialog.open && paymentLinkDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">Enviar Link de Pago</h3>
+                          <p className="text-sm text-muted-foreground">Envía un enlace de pago a {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Link de pago (URL)</Label>
+                          <Input
+                            value={paymentLinkUrl}
+                            onChange={(e) => setPaymentLinkUrl(e.target.value)}
+                            placeholder="https://..."
+                            className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="input-payment-link-url"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Importe</Label>
+                          <Input
+                            value={paymentLinkAmount}
+                            onChange={(e) => setPaymentLinkAmount(e.target.value)}
+                            placeholder="Ej: 739€"
+                            className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                            data-testid="input-payment-link-amount"
+                          />
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Mensaje (opcional)</Label>
+                          <Textarea
+                            value={paymentLinkMessage}
+                            onChange={(e) => setPaymentLinkMessage(e.target.value)}
+                            placeholder="Mensaje adicional para el cliente..."
+                            className="rounded-xl border-border bg-background dark:bg-[#1A1A1A]"
+                            rows={3}
+                            data-testid="input-payment-link-message"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button
+                          onClick={async () => {
+                            if (!paymentLinkUrl || !paymentLinkAmount) {
+                              toast({ title: t("form.validation.requiredFields"), variant: "destructive" });
+                              return;
+                            }
+                            setIsSendingPaymentLink(true);
+                            try {
+                              await apiRequest("POST", "/api/admin/send-payment-link", {
+                                userId: paymentLinkDialog.user?.id,
+                                paymentLink: paymentLinkUrl,
+                                amount: paymentLinkAmount,
+                                message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
+                              });
+                              toast({ title: t("dashboard.toasts.paymentLinkSent"), description: t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
+                              setPaymentLinkDialog({ open: false, user: null });
+                              setPaymentLinkUrl("");
+                              setPaymentLinkAmount("");
+                              setPaymentLinkMessage("");
+                            } catch (err: any) {
+                              toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotSendLink"), variant: "destructive" });
+                            } finally {
+                              setIsSendingPaymentLink(false);
+                            }
+                          }}
+                          disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          data-testid="button-send-payment-link"
+                        >
+                          {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Admin Document Upload */}
+                  {adminDocUploadDialog.open && adminDocUploadDialog.order && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-semibold text-foreground">Subir Documento para Cliente</h3>
+                          <p className="text-sm text-muted-foreground">
+                            {adminDocUploadDialog.order?.userId 
+                              ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
+                              : `Pedido: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
+                            }
+                          </p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); setAdminDocType("articles_of_organization"); }} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Tipo de Documento</Label>
+                          <NativeSelect
+                            value={adminDocType}
+                            onValueChange={setAdminDocType}
+                            className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
+                          >
+                            <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
+                            <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
+                            <NativeSelectItem value="boir">BOIR</NativeSelectItem>
+                            <NativeSelectItem value="ein_document">Documento EIN</NativeSelectItem>
+                            <NativeSelectItem value="operating_agreement">Acuerdo Operativo</NativeSelectItem>
+                            <NativeSelectItem value="invoice">Factura</NativeSelectItem>
+                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                          </NativeSelect>
+                        </div>
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Archivo</Label>
+                          <label className="cursor-pointer block">
+                            <input 
+                              type="file" 
+                              className="hidden" 
+                              accept=".pdf,.jpg,.jpeg,.png"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) setAdminDocFile(file);
+                              }}
+                            />
+                            <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-gray-200 dark:border-border'}`}>
+                              {adminDocFile ? (
+                                <div className="flex items-center justify-center gap-2">
+                                  <FileUp className="w-5 h-5 text-accent" />
+                                  <span className="text-sm font-medium truncate max-w-[200px]">{adminDocFile.name}</span>
+                                </div>
+                              ) : (
+                                <div className="text-muted-foreground text-sm">
+                                  <Upload className="w-8 h-8 mx-auto mb-2 opacity-50" />
+                                  Haz clic para seleccionar archivo
+                                </div>
+                              )}
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button
+                          disabled={!adminDocFile || isUploadingAdminDoc}
+                          onClick={async () => {
+                            if (!adminDocFile || !adminDocUploadDialog.order) return;
+                            setIsUploadingAdminDoc(true);
+                            try {
+                              const formData = new FormData();
+                              formData.append('file', adminDocFile);
+                              formData.append('documentType', adminDocType);
+                              if (adminDocUploadDialog.order.userId) {
+                                formData.append('userId', adminDocUploadDialog.order.userId);
+                              } else {
+                                formData.append('orderId', adminDocUploadDialog.order.id);
+                              }
+                              const res = await fetch('/api/admin/documents/upload', {
+                                method: 'POST',
+                                body: formData,
+                                credentials: 'include'
+                              });
+                              if (res.ok) {
+                                toast({ title: t("dashboard.toasts.adminDocUploaded"), description: t("dashboard.toasts.adminDocUploadedDesc") });
+                                queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
+                                setAdminDocUploadDialog({ open: false, order: null });
+                                setAdminDocFile(null);
+                              } else {
+                                const data = await res.json();
+                                toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
+                              }
+                            } catch {
+                              toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
+                            } finally {
+                              setIsUploadingAdminDoc(false);
+                            }
+                          }}
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          data-testid="button-admin-upload-doc"
+                        >
+                          {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); }} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
+
+                  {/* Inline Panel: Reset Password */}
+                  {resetPasswordDialog.open && resetPasswordDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">Restablecer Contraseña</h3>
+                          <p className="text-sm text-muted-foreground">Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">Nueva Contraseña</Label>
+                          <Input
+                            type="password"
+                            value={newAdminPassword}
+                            onChange={(e) => setNewAdminPassword(e.target.value)}
+                            placeholder="Mínimo 8 caracteres"
+                            className="rounded-xl h-12 border-border bg-background dark:bg-[#1A1A1A]"
+                            data-testid="input-admin-new-password"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
+                        <Button
+                          disabled={newAdminPassword.length < 8 || isResettingPassword}
+                          onClick={async () => {
+                            if (!resetPasswordDialog.user?.id || newAdminPassword.length < 8) return;
+                            setIsResettingPassword(true);
+                            try {
+                              await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
+                              toast({ title: t("dashboard.toasts.adminPasswordUpdated"), description: t("dashboard.toasts.adminPasswordUpdatedDesc") });
+                              setResetPasswordDialog({ open: false, user: null });
+                              setNewAdminPassword("");
+                            } catch {
+                              toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdatePassword"), variant: "destructive" });
+                            } finally {
+                              setIsResettingPassword(false);
+                            }
+                          }}
+                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          data-testid="button-confirm-reset-password"
+                        >
+                          {isResettingPassword ? <Loader2 className="animate-spin" /> : "Restablecer Contraseña"}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="flex-1 rounded-full">Cancelar</Button>
+                      </div>
+                    </Card>
+                  )}
                   
                   {adminSubTab === 'dashboard' && (
                     <div className="space-y-4 md:space-y-6" data-testid="admin-dashboard-metrics">
@@ -2775,1006 +3829,6 @@ export default function Dashboard() {
           </div>
         </div>
       </main>
-
-      {user?.isAdmin && (
-        <>
-          <Sheet open={noteDialog.open} onOpenChange={(open) => setNoteDialog({ open, user: open ? noteDialog.user : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-6">
-                <SheetTitle className="text-xl font-semibold text-foreground">Enviar Mensaje al Cliente</SheetTitle>
-                <SheetDescription className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</SheetDescription>
-              </SheetHeader>
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
-                  <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
-                </div>
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                  <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A] focus:border-accent" data-testid="input-note-message" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-                <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
-                  {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
-                </Button>
-                <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          <Sheet open={!!editingUser} onOpenChange={(open) => !open && setEditingUser(null)}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md overflow-y-auto">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-semibold text-foreground">Editar Usuario</SheetTitle>
-                <SheetDescription className="text-sm text-muted-foreground">Modifica los datos del cliente</SheetDescription>
-              </SheetHeader>
-              {editingUser && (
-                <div className="space-y-3 pb-20">
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nombre</Label>
-                      <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-firstname" />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Apellidos</Label>
-                      <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-lastname" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>
-                    <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-email" />
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Teléfono</Label>
-                    <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-phone" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Tipo ID</Label>
-                      <NativeSelect 
-                        value={editingUser.idType || ''} 
-                        onValueChange={val => setEditingUser({...editingUser, idType: val})}
-                        placeholder="Seleccionar"
-                        className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm"
-                      >
-                        <NativeSelectItem value="dni">DNI</NativeSelectItem>
-                        <NativeSelectItem value="nie">NIE</NativeSelectItem>
-                        <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
-                      </NativeSelect>
-                    </div>
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Número ID</Label>
-                      <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-idnumber" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Fecha Nacimiento</Label>
-                    <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-birthdate" />
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Actividad de Negocio</Label>
-                    <NativeSelect 
-                      value={editingUser.businessActivity || ''} 
-                      onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
-                      placeholder={t("common.select")}
-                      className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm"
-                      data-testid="select-edit-activity"
-                    >
-                      <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
-                      <NativeSelectItem value="dropshipping">{t("auth.register.businessActivities.dropshipping")}</NativeSelectItem>
-                      <NativeSelectItem value="consulting">{t("auth.register.businessActivities.consulting")}</NativeSelectItem>
-                      <NativeSelectItem value="marketing">{t("auth.register.businessActivities.marketing")}</NativeSelectItem>
-                      <NativeSelectItem value="software">{t("auth.register.businessActivities.software")}</NativeSelectItem>
-                      <NativeSelectItem value="saas">{t("auth.register.businessActivities.saas")}</NativeSelectItem>
-                      <NativeSelectItem value="apps">{t("auth.register.businessActivities.apps")}</NativeSelectItem>
-                      <NativeSelectItem value="ai">{t("auth.register.businessActivities.ai")}</NativeSelectItem>
-                      <NativeSelectItem value="investments">{t("auth.register.businessActivities.investments")}</NativeSelectItem>
-                      <NativeSelectItem value="tradingEducation">{t("auth.register.businessActivities.tradingEducation")}</NativeSelectItem>
-                      <NativeSelectItem value="financial">{t("auth.register.businessActivities.financial")}</NativeSelectItem>
-                      <NativeSelectItem value="crypto">{t("auth.register.businessActivities.crypto")}</NativeSelectItem>
-                      <NativeSelectItem value="realestate">{t("auth.register.businessActivities.realestate")}</NativeSelectItem>
-                      <NativeSelectItem value="import">{t("auth.register.businessActivities.import")}</NativeSelectItem>
-                      <NativeSelectItem value="coaching">{t("auth.register.businessActivities.coaching")}</NativeSelectItem>
-                      <NativeSelectItem value="content">{t("auth.register.businessActivities.content")}</NativeSelectItem>
-                      <NativeSelectItem value="affiliate">{t("auth.register.businessActivities.affiliate")}</NativeSelectItem>
-                      <NativeSelectItem value="freelance">{t("auth.register.businessActivities.freelance")}</NativeSelectItem>
-                      <NativeSelectItem value="gaming">{t("auth.register.businessActivities.gaming")}</NativeSelectItem>
-                      <NativeSelectItem value="digitalProducts">{t("auth.register.businessActivities.digitalProducts")}</NativeSelectItem>
-                      <NativeSelectItem value="other">{t("auth.register.businessActivities.other")}</NativeSelectItem>
-                    </NativeSelect>
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Dirección</Label>
-                    <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-address" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Ciudad</Label>
-                      <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-city" />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">CP</Label>
-                      <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-postal" />
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">Provincia</Label>
-                      <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-province" />
-                    </div>
-                    <div>
-                      <Label className="text-xs font-semibold text-foreground mb-1.5 block">País</Label>
-                      <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm" data-testid="input-edit-country" />
-                    </div>
-                  </div>
-                  <div>
-                    <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
-                    <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
-                  </div>
-                  {user?.email === 'afortuny07@gmail.com' && (
-                    <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <p className="text-xs font-black text-purple-700 dark:text-purple-300">Permisos de Administrador</p>
-                          <p className="text-[10px] text-purple-600 dark:text-purple-400">Solo tú puedes cambiar esto</p>
-                        </div>
-                        <Switch
-                          checked={editingUser.isAdmin || false}
-                          onCheckedChange={(checked) => setEditingUser({...editingUser, isAdmin: checked})}
-                          data-testid="switch-admin-toggle"
-                        />
-                      </div>
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-2 pt-4 border-t mt-4">
-                    <Button onClick={() => editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser })} disabled={updateUserMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
-                      {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
-                    </Button>
-                    <Button variant="outline" onClick={() => setEditingUser(null)} className="w-full rounded-full">Cancelar</Button>
-                  </div>
-                </div>
-              )}
-            </SheetContent>
-          </Sheet>
-
-          <Sheet open={deleteConfirm.open} onOpenChange={(open) => setDeleteConfirm({ open, user: open ? deleteConfirm.user : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-black text-red-600">Eliminar Usuario</SheetTitle>
-              </SheetHeader>
-              <div className="py-4">
-                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
-                <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
-              </div>
-              <div className="flex flex-col gap-3 mt-4">
-                <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete">
-                  {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
-                </Button>
-                <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-          
-          <Sheet open={deleteOrderConfirm.open} onOpenChange={(open) => setDeleteOrderConfirm({ open, order: open ? deleteOrderConfirm.order : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-black text-red-600">Eliminar Pedido</SheetTitle>
-              </SheetHeader>
-              <div className="py-4">
-                <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
-                <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
-                <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
-              </div>
-              <div className="flex flex-col gap-3 mt-4">
-                <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete-order">
-                  {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
-                </Button>
-                <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-          
-          <Sheet open={generateInvoiceDialog.open} onOpenChange={(open) => setGenerateInvoiceDialog({ open, order: open ? generateInvoiceDialog.order : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-semibold text-foreground">Generar Factura</SheetTitle>
-              </SheetHeader>
-              <div className="space-y-4">
-                <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-xl">Pedido: <strong>{generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</strong></p>
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
-                  <Input 
-                    type="number" 
-                    step="0.01" 
-                    value={orderInvoiceAmount} 
-                    onChange={e => setOrderInvoiceAmount(e.target.value)}
-                    className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                    placeholder="739.00"
-                    data-testid="input-invoice-amount"
-                  />
-                </div>
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Divisa</Label>
-                  <NativeSelect 
-                    value={orderInvoiceCurrency} 
-                    onValueChange={setOrderInvoiceCurrency}
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                  >
-                    <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
-                    <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
-                  </NativeSelect>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-                <Button 
-                  className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-                  disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
-                  onClick={async () => {
-                    setIsGeneratingInvoice(true);
-                    try {
-                      const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
-                      if (amountCents <= 0) {
-                        toast({ title: t("common.error"), description: t("dashboard.toasts.amountMustBeGreater"), variant: "destructive" });
-                        return;
-                      }
-                      const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
-                        amount: amountCents,
-                        currency: orderInvoiceCurrency
-                      });
-                      if (!res.ok) {
-                        const data = await res.json().catch(() => ({}));
-                        throw new Error(data.message || t("dashboard.toasts.couldNotGenerate"));
-                      }
-                      toast({ title: t("dashboard.toasts.invoiceGenerated"), description: t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
-                      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-                      window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
-                      setGenerateInvoiceDialog({ open: false, order: null });
-                      setOrderInvoiceAmount("");
-                    } catch (err: any) {
-                      toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotGenerate"), variant: "destructive" });
-                    } finally {
-                      setIsGeneratingInvoice(false);
-                    }
-                  }}
-                  data-testid="button-confirm-generate-invoice"
-                >
-                  {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generar Factura'}
-                </Button>
-                <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          <Sheet open={docDialog.open} onOpenChange={(open) => setDocDialog({ open, user: open ? docDialog.user : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-semibold text-foreground">Solicitar Documentos</SheetTitle>
-                <SheetDescription className="text-sm text-muted-foreground">Solicita documentos al cliente</SheetDescription>
-              </SheetHeader>
-              <div className="space-y-4">
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
-                  <NativeSelect 
-                    value={docType} 
-                    onValueChange={setDocType}
-                    placeholder="Seleccionar tipo..."
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                  >
-                    <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
-                    <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
-                    <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
-                    <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
-                  </NativeSelect>
-                </div>
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                  <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-                <Button onClick={() => {
-                  if (docDialog.user?.id && docDialog.user?.email) {
-                    const docTypeLabels: Record<string, string> = {
-                      passport: 'Pasaporte / Documento de Identidad',
-                      address_proof: 'Prueba de Domicilio',
-                      tax_id: 'Identificación Fiscal (NIF/CIF)',
-                      other: 'Documento Adicional'
-                    };
-                    const docLabel = docTypeLabels[docType] || docType;
-                    sendNoteMutation.mutate({ 
-                      userId: docDialog.user.id, 
-                      title: `Solicitud de Documento: ${docLabel}`, 
-                      message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
-                      type: 'action_required' 
-                    });
-                    setDocDialog({ open: false, user: null });
-                    setDocType('');
-                    setDocMessage('');
-                  }
-                }} disabled={!docType || sendNoteMutation.isPending} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
-                  {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
-                </Button>
-                <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-
-          <Sheet open={invoiceDialog.open} onOpenChange={(open) => setInvoiceDialog({ open, user: open ? invoiceDialog.user : null })}>
-            <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-              <SheetHeader className="mb-4">
-                <SheetTitle className="text-xl font-semibold text-foreground">Crear Factura</SheetTitle>
-                <SheetDescription className="text-sm text-muted-foreground">Genera una factura para el cliente</SheetDescription>
-              </SheetHeader>
-              <div className="space-y-4">
-                <p className="text-sm text-muted-foreground bg-muted/50 p-3 rounded-xl">Cliente: <strong>{invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</strong></p>
-                <div>
-                  <Label className="text-sm font-semibold text-foreground mb-2 block">Concepto</Label>
-                  <Input 
-                    value={invoiceConcept} 
-                    onChange={e => setInvoiceConcept(e.target.value)} 
-                    placeholder="Ej: Servicio de consultoría" 
-                    className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                    data-testid="input-invoice-concept"
-                  />
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  <div className="col-span-2">
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
-                    <Input 
-                      type="number" 
-                      value={invoiceAmount} 
-                      onChange={e => setInvoiceAmount(e.target.value)} 
-                      placeholder="739" 
-                      className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                      data-testid="input-invoice-amount"
-                    />
-                  </div>
-                  <div>
-                    <Label className="text-sm font-semibold text-foreground mb-2 block">Moneda</Label>
-                    <NativeSelect 
-                      value={invoiceCurrency} 
-                      onValueChange={setInvoiceCurrency}
-                      className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border"
-                      data-testid="select-invoice-currency"
-                    >
-                      <NativeSelectItem value="EUR">EUR</NativeSelectItem>
-                      <NativeSelectItem value="USD">USD</NativeSelectItem>
-                    </NativeSelect>
-                  </div>
-                </div>
-              </div>
-              <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-                <Button 
-                  onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
-                    userId: invoiceDialog.user.id, 
-                    concept: invoiceConcept, 
-                    amount: Math.round(parseFloat(invoiceAmount) * 100),
-                    currency: invoiceCurrency
-                  })} 
-                  disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                  className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-                  data-testid="button-create-invoice"
-                >
-                  {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
-                </Button>
-                <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
-              </div>
-            </SheetContent>
-          </Sheet>
-        </>
-      )}
-
-      <Sheet open={deleteOwnAccountDialog} onOpenChange={setDeleteOwnAccountDialog}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-black text-red-600">Eliminar Mi Cuenta</SheetTitle>
-          </SheetHeader>
-          <div className="py-4">
-            <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar tu cuenta permanentemente?</p>
-            <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer. Todos tus datos serán eliminados.</p>
-          </div>
-          <div className="flex flex-col gap-3 mt-4">
-            <Button variant="destructive" onClick={() => deleteOwnAccountMutation.mutate()} disabled={deleteOwnAccountMutation.isPending} className="w-full rounded-full font-black" data-testid="button-confirm-delete-account">
-              {deleteOwnAccountMutation.isPending ? 'Eliminando...' : 'Eliminar Mi Cuenta'}
-            </Button>
-            <Button variant="outline" onClick={() => setDeleteOwnAccountDialog(false)} className="w-full rounded-full">Cancelar</Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      
-      <Sheet open={createUserDialog} onOpenChange={setCreateUserDialog}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold text-foreground">Crear Nuevo Cliente</SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">Completa los datos del nuevo cliente</SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
-                <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-firstname" />
-              </div>
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
-                <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-lastname" />
-              </div>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
-              <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-email" />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
-              <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-phone" />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
-              <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-create-user-password" />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
-              {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createClient')}
-            </Button>
-            <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-user">{t('common.cancel')}</Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={createOrderDialog} onOpenChange={setCreateOrderDialog}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold text-foreground">{t('dashboard.admin.createOrder')}</SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.orderType')}</Label>
-              <NativeSelect 
-                value={newOrderData.orderType} 
-                onValueChange={val => {
-                  const type = val as 'llc' | 'maintenance';
-                  const defaultAmount = type === 'maintenance' 
-                    ? (newOrderData.state === 'Wyoming' ? '699' : newOrderData.state === 'Delaware' ? '999' : '539')
-                    : (newOrderData.state === 'Wyoming' ? '899' : newOrderData.state === 'Delaware' ? '1399' : '739');
-                  setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount }));
-                }}
-                placeholder={t('dashboard.admin.selectOrderType')}
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                data-testid="select-order-type"
-              >
-                <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
-                <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.client')}</Label>
-              <NativeSelect 
-                value={newOrderData.userId} 
-                onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
-                placeholder={t('dashboard.admin.selectClient')}
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                data-testid="select-order-user"
-              >
-                {adminUsers?.map((u: any) => (
-                  <NativeSelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</NativeSelectItem>
-                ))}
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
-              <NativeSelect 
-                value={newOrderData.state} 
-                onValueChange={val => {
-                  const prices = newOrderData.orderType === 'maintenance'
-                    ? { 'New Mexico': '539', 'Wyoming': '699', 'Delaware': '999' }
-                    : { 'New Mexico': '739', 'Wyoming': '899', 'Delaware': '1399' };
-                  setNewOrderData(p => ({ ...p, state: val, amount: prices[val as keyof typeof prices] || p.amount }));
-                }}
-                placeholder={t('dashboard.admin.selectState')}
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                data-testid="select-order-state"
-              >
-                {newOrderData.orderType === 'maintenance' ? (
-                  <>
-                    <NativeSelectItem value="New Mexico">New Mexico - 539€</NativeSelectItem>
-                    <NativeSelectItem value="Wyoming">Wyoming - 699€</NativeSelectItem>
-                    <NativeSelectItem value="Delaware">Delaware - 999€</NativeSelectItem>
-                  </>
-                ) : (
-                  <>
-                    <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
-                    <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
-                    <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
-                  </>
-                )}
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-              <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" data-testid="input-order-amount" />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="w-full bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
-              {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
-            </Button>
-            <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="w-full rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={discountCodeDialog.open} onOpenChange={(open) => setDiscountCodeDialog({ open, code: open ? discountCodeDialog.code : null })}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md overflow-y-auto">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold text-foreground">
-              {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
-            </SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">
-              {discountCodeDialog.code ? 'Modifica los datos del código' : 'Configura un nuevo código de descuento'}
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4 pb-20">
-            <div>
-              <Label className="text-sm font-semibold text-foreground mb-2 block">Código</Label>
-              <Input 
-                value={newDiscountCode.code} 
-                onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border uppercase" 
-                disabled={!!discountCodeDialog.code}
-                data-testid="input-discount-code" 
-              />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo</Label>
-                <NativeSelect 
-                  value={newDiscountCode.discountType} 
-                  onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
-                  className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border"
-                  data-testid="select-discount-type"
-                >
-                  <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
-                  <NativeSelectItem value="fixed">Fijo (centimos)</NativeSelectItem>
-                </NativeSelect>
-              </div>
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">
-                  Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
-                </Label>
-                <Input 
-                  type="number" 
-                  value={newDiscountCode.discountValue} 
-                  onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                  data-testid="input-discount-value" 
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Min. (EUR)</Label>
-                <Input 
-                  type="number" 
-                  value={newDiscountCode.minOrderAmount} 
-                  onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                  data-testid="input-discount-min-amount" 
-                />
-              </div>
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Usos max.</Label>
-                <Input 
-                  type="number" 
-                  value={newDiscountCode.maxUses} 
-                  onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                  data-testid="input-discount-max-uses" 
-                />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Desde</Label>
-                <Input 
-                  type="date" 
-                  value={newDiscountCode.validFrom} 
-                  onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                  data-testid="input-discount-valid-from" 
-                />
-              </div>
-              <div>
-                <Label className="text-sm font-semibold text-foreground mb-2 block">Hasta</Label>
-                <Input 
-                  type="date" 
-                  value={newDiscountCode.validUntil} 
-                  onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                  className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border" 
-                  data-testid="input-discount-valid-until" 
-                />
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <Switch 
-                checked={newDiscountCode.isActive} 
-                onCheckedChange={(checked) => setNewDiscountCode(p => ({ ...p, isActive: checked }))}
-                data-testid="switch-discount-active"
-              />
-              <Label className="text-sm font-semibold">Código activo</Label>
-            </div>
-            <div className="flex flex-col gap-3 pt-4 border-t mt-4">
-              <Button 
-                onClick={async () => {
-                  try {
-                    const payload = {
-                      code: newDiscountCode.code,
-                      discountType: newDiscountCode.discountType,
-                      discountValue: parseInt(newDiscountCode.discountValue),
-                      minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
-                      maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
-                      validFrom: newDiscountCode.validFrom || null,
-                      validUntil: newDiscountCode.validUntil || null,
-                      isActive: newDiscountCode.isActive
-                    };
-                    if (discountCodeDialog.code) {
-                      await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
-                      toast({ title: t("dashboard.toasts.discountCodeUpdated") });
-                    } else {
-                      await apiRequest("POST", "/api/admin/discount-codes", payload);
-                      toast({ title: t("dashboard.toasts.discountCodeCreated") });
-                    }
-                    refetchDiscountCodes();
-                    setDiscountCodeDialog({ open: false, code: null });
-                  } catch (e: any) {
-                    toast({ title: t("common.error"), description: e.message || t("dashboard.toasts.couldNotSave"), variant: "destructive" });
-                  }
-                }} 
-                disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-                className="w-full bg-accent text-accent-foreground font-semibold rounded-full" 
-                data-testid="button-save-discount"
-              >
-                {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
-              </Button>
-              <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="w-full rounded-full" data-testid="button-cancel-discount">Cancelar</Button>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={showEmailVerification} onOpenChange={(open) => {
-        setShowEmailVerification(open);
-        if (!open) {
-          setEmailVerificationCode("");
-        }
-      }}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-black">Verifica tu correo electrónico</SheetTitle>
-            <SheetDescription>Te hemos enviado un código de verificación para confirmar tu email</SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Código de verificación</Label>
-              <Input
-                value={emailVerificationCode}
-                onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-[#1A1A1A] h-14 tracking-[0.5em]"
-                maxLength={6}
-                inputMode="numeric"
-                autoComplete="one-time-code"
-                data-testid="input-email-verification-code"
-              />
-            </div>
-            <Button
-              onClick={async () => {
-                if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                  toast({ title: t("dashboard.toasts.enter6DigitCode"), variant: "destructive" });
-                  return;
-                }
-                setIsVerifyingEmail(true);
-                try {
-                  const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
-                  const result = await res.json();
-                  if (result.success) {
-                    await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                    toast({ title: t("dashboard.toasts.emailVerified") });
-                    setShowEmailVerification(false);
-                    setEmailVerificationCode("");
-                  }
-                } catch (err: any) {
-                  toast({ 
-                    title: t("dashboard.toasts.incorrectCode"), 
-                    description: err.message || t("dashboard.toasts.incorrectCodeDesc"), 
-                    variant: "destructive" 
-                  });
-                } finally {
-                  setIsVerifyingEmail(false);
-                }
-              }}
-              disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-              size="lg"
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-              data-testid="button-verify-email-code"
-            >
-              {isVerifyingEmail ? <Loader2 className="animate-spin" /> : "Verificar mi email"}
-            </Button>
-            <div className="text-center">
-              <p className="text-sm text-muted-foreground mb-2">¿No has recibido el código?</p>
-              <Button
-                variant="link"
-                onClick={async () => {
-                  setIsResendingCode(true);
-                  try {
-                    await apiRequest("POST", "/api/auth/resend-verification");
-                    toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
-                  } catch (err) {
-                    toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
-                  } finally {
-                    setIsResendingCode(false);
-                  }
-                }}
-                disabled={isResendingCode}
-                className="text-accent p-0 h-auto"
-                data-testid="button-resend-verification-code"
-              >
-                {isResendingCode ? "Enviando..." : "Reenviar código"}
-              </Button>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={paymentLinkDialog.open} onOpenChange={(open) => {
-        setPaymentLinkDialog({ open, user: open ? paymentLinkDialog.user : null });
-        if (!open) {
-          setPaymentLinkUrl("");
-          setPaymentLinkAmount("");
-          setPaymentLinkMessage("");
-        }
-      }}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-black">Enviar Link de Pago</SheetTitle>
-            <SheetDescription>
-              Envía un enlace de pago a {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Link de pago (URL)</Label>
-              <Input
-                value={paymentLinkUrl}
-                onChange={(e) => setPaymentLinkUrl(e.target.value)}
-                placeholder="https://..."
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                data-testid="input-payment-link-url"
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Importe</Label>
-              <Input
-                value={paymentLinkAmount}
-                onChange={(e) => setPaymentLinkAmount(e.target.value)}
-                placeholder="Ej: 739€"
-                className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-                data-testid="input-payment-link-amount"
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Mensaje (opcional)</Label>
-              <Textarea
-                value={paymentLinkMessage}
-                onChange={(e) => setPaymentLinkMessage(e.target.value)}
-                placeholder="Mensaje adicional para el cliente..."
-                className="rounded-xl border-border bg-background dark:bg-[#1A1A1A]"
-                rows={3}
-                data-testid="input-payment-link-message"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button
-              onClick={async () => {
-                if (!paymentLinkUrl || !paymentLinkAmount) {
-                  toast({ title: t("form.validation.requiredFields"), variant: "destructive" });
-                  return;
-                }
-                setIsSendingPaymentLink(true);
-                try {
-                  await apiRequest("POST", "/api/admin/send-payment-link", {
-                    userId: paymentLinkDialog.user?.id,
-                    paymentLink: paymentLinkUrl,
-                    amount: paymentLinkAmount,
-                    message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
-                  });
-                  toast({ title: t("dashboard.toasts.paymentLinkSent"), description: t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
-                  setPaymentLinkDialog({ open: false, user: null });
-                  setPaymentLinkUrl("");
-                  setPaymentLinkAmount("");
-                  setPaymentLinkMessage("");
-                } catch (err: any) {
-                  toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotSendLink"), variant: "destructive" });
-                } finally {
-                  setIsSendingPaymentLink(false);
-                }
-              }}
-              disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-              data-testid="button-send-payment-link"
-            >
-              {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setPaymentLinkDialog({ open: false, user: null })}
-              className="w-full rounded-full"
-            >
-              Cancelar
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={adminDocUploadDialog.open} onOpenChange={(open) => {
-        setAdminDocUploadDialog({ open, order: open ? adminDocUploadDialog.order : null });
-        if (!open) {
-          setAdminDocFile(null);
-          setAdminDocType("articles_of_organization");
-        }
-      }}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold text-foreground">Subir Documento para Cliente</SheetTitle>
-            <SheetDescription>
-              {adminDocUploadDialog.order?.userId 
-                ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
-                : `Pedido: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
-              }
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Tipo de Documento</Label>
-              <NativeSelect
-                value={adminDocType}
-                onValueChange={setAdminDocType}
-                className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border"
-              >
-                <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
-                <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
-                <NativeSelectItem value="boir">BOIR</NativeSelectItem>
-                <NativeSelectItem value="ein_document">Documento EIN</NativeSelectItem>
-                <NativeSelectItem value="operating_agreement">Acuerdo Operativo</NativeSelectItem>
-                <NativeSelectItem value="invoice">Factura</NativeSelectItem>
-                <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Archivo</Label>
-              <label className="cursor-pointer block">
-                <input 
-                  type="file" 
-                  className="hidden" 
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) setAdminDocFile(file);
-                  }}
-                />
-                <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-gray-200 dark:border-border'}`}>
-                  {adminDocFile ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <FileUp className="w-5 h-5 text-accent" />
-                      <span className="text-sm font-medium truncate max-w-[200px]">{adminDocFile.name}</span>
-                    </div>
-                  ) : (
-                    <div className="text-muted-foreground text-sm">
-                      <Upload className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                      Haz clic para seleccionar archivo
-                    </div>
-                  )}
-                </div>
-              </label>
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button
-              disabled={!adminDocFile || isUploadingAdminDoc}
-              onClick={async () => {
-                if (!adminDocFile || !adminDocUploadDialog.order) return;
-                setIsUploadingAdminDoc(true);
-                try {
-                  const formData = new FormData();
-                  formData.append('file', adminDocFile);
-                  formData.append('documentType', adminDocType);
-                  if (adminDocUploadDialog.order.userId) {
-                    formData.append('userId', adminDocUploadDialog.order.userId);
-                  } else {
-                    formData.append('orderId', adminDocUploadDialog.order.id);
-                  }
-                  const res = await fetch('/api/admin/documents/upload', {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'include'
-                  });
-                  if (res.ok) {
-                    toast({ title: t("dashboard.toasts.adminDocUploaded"), description: t("dashboard.toasts.adminDocUploadedDesc") });
-                    queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                    queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-                    setAdminDocUploadDialog({ open: false, order: null });
-                    setAdminDocFile(null);
-                  } else {
-                    const data = await res.json();
-                    toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
-                  }
-                } catch {
-                  toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
-                } finally {
-                  setIsUploadingAdminDoc(false);
-                }
-              }}
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-              data-testid="button-admin-upload-doc"
-            >
-              {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
-            </Button>
-            <Button variant="outline" onClick={() => setAdminDocUploadDialog({ open: false, order: null })} className="w-full rounded-full">Cancelar</Button>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      <Sheet open={resetPasswordDialog.open} onOpenChange={(open) => {
-        setResetPasswordDialog({ open, user: open ? resetPasswordDialog.user : null });
-        if (!open) setNewAdminPassword("");
-      }}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-black">Restablecer Contraseña</SheetTitle>
-            <SheetDescription>Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4">
-            <div>
-              <Label className="text-sm font-semibold text-foreground block mb-2">Nueva Contraseña</Label>
-              <Input
-                type="password"
-                value={newAdminPassword}
-                onChange={(e) => setNewAdminPassword(e.target.value)}
-                placeholder="Mínimo 8 caracteres"
-                className="rounded-xl h-12 border-border bg-background dark:bg-[#1A1A1A]"
-                data-testid="input-admin-new-password"
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button
-              disabled={newAdminPassword.length < 8 || isResettingPassword}
-              onClick={async () => {
-                if (!resetPasswordDialog.user?.id || newAdminPassword.length < 8) return;
-                setIsResettingPassword(true);
-                try {
-                  await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
-                  toast({ title: t("dashboard.toasts.adminPasswordUpdated"), description: t("dashboard.toasts.adminPasswordUpdatedDesc") });
-                  setResetPasswordDialog({ open: false, user: null });
-                  setNewAdminPassword("");
-                } catch {
-                  toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdatePassword"), variant: "destructive" });
-                } finally {
-                  setIsResettingPassword(false);
-                }
-              }}
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-              data-testid="button-confirm-reset-password"
-            >
-              {isResettingPassword ? <Loader2 className="animate-spin" /> : "Restablecer Contraseña"}
-            </Button>
-            <Button variant="outline" onClick={() => setResetPasswordDialog({ open: false, user: null })} className="w-full rounded-full">Cancelar</Button>
-          </div>
-        </SheetContent>
-      </Sheet>
 
       <Footer />
     </div>

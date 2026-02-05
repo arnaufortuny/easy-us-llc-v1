@@ -1400,7 +1400,14 @@
       "language": {
         "title": "Idioma preferido",
         "description": "Selecciona el idioma de la plataforma y documentos."
-      }
+      },
+      "verifyEmail": "Verificar mi email",
+      "verifyEmailDesc": "Te hemos enviado un código de verificación para confirmar tu correo electrónico",
+      "verificationCode": "Código de verificación",
+      "resendCode": "Reenviar código",
+      "deleteAccount": "Eliminar mi cuenta",
+      "deleteAccountWarning": "Esta acción es permanente y no se puede deshacer",
+      "deleteAccountConfirm": "¿Estás seguro de que deseas eliminar tu cuenta permanentemente? Todos tus datos serán eliminados."
     },
     "toasts": {
       "preferencesUpdated": "¡Genial, tus preferencias están guardadas!",

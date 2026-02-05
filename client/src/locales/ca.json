@@ -1400,7 +1400,14 @@
       "language": {
         "title": "Idioma preferit",
         "description": "Selecciona l'idioma de la plataforma i documents."
-      }
+      },
+      "verifyEmail": "Verifica el meu email",
+      "verifyEmailDesc": "T'hem enviat un codi de verificació per confirmar el teu correu electrònic",
+      "verificationCode": "Codi de verificació",
+      "resendCode": "Reenviar codi",
+      "deleteAccount": "Eliminar el meu compte",
+      "deleteAccountWarning": "Aquesta acció és permanent i no es pot desfer",
+      "deleteAccountConfirm": "Estàs segur que vols eliminar el teu compte permanentment? Totes les teves dades seran eliminades."
     },
     "toasts": {
       "preferencesUpdated": "Genial, les teves preferències estan desades!",
