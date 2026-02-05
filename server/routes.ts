@@ -3142,20 +3142,31 @@ export async function registerRoutes(
 </body>
 </html>`;
 
-    // Store as document for user - requires at least one order
+    // Store as document for user - try to find an order, but allow without one
     const [userOrder] = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
-    if (!userOrder) {
-      return res.status(400).json({ message: "El usuario no tiene pedidos. Primero crea un pedido para poder generar facturas." });
+    
+    // Store invoice as accounting transaction instead of document if no order
+    if (userOrder) {
+      await db.insert(applicationDocumentsTable).values({
+        orderId: userOrder.id,
+        fileName: `Factura ${invoiceNumber} - ${concept}`,
+        fileType: "text/html",
+        fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
+        documentType: "invoice",
+        reviewStatus: "approved",
+        uploadedBy: req.session.userId
+      });
     }
     
-    await db.insert(applicationDocumentsTable).values({
-      orderId: userOrder.id,
-      fileName: `Factura ${invoiceNumber} - ${concept}`,
-      fileType: "text/html",
-      fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
-      documentType: "invoice",
-      reviewStatus: "approved",
-      uploadedBy: req.session.userId
+    // Also record as accounting transaction
+    await db.insert(accountingTransactions).values({
+      type: 'income',
+      category: 'other_income',
+      amount: amount, // amount is already in cents
+      description: `Factura ${invoiceNumber}: ${concept}`,
+      reference: invoiceNumber,
+      transactionDate: new Date(),
+      notes: `Cliente: ${user.firstName} ${user.lastName} (${user.email})`
     });
 
     res.json({ success: true, invoiceNumber });

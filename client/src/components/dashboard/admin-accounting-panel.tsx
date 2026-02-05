@@ -10,8 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
-import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2 } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2, X, ChevronDown } from "lucide-react";
 import type { AccountingTransaction } from "@shared/schema";
 
 const INCOME_CATEGORIES = ['llc_formation', 'maintenance', 'consultation', 'other_income'];
@@ -23,7 +23,8 @@ export function AdminAccountingPanel() {
   const [periodFilter, setPeriodFilter] = useState<'month' | 'year' | 'all'>('month');
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
-  const [transactionDialog, setTransactionDialog] = useState<{ open: boolean; transaction: AccountingTransaction | null }>({ open: false, transaction: null });
+  const [formOpen, setFormOpen] = useState(false);
+  const [editingTransaction, setEditingTransaction] = useState<AccountingTransaction | null>(null);
   const [formData, setFormData] = useState({
     type: 'income' as 'income' | 'expense',
     category: '',
@@ -68,7 +69,8 @@ export function AdminAccountingPanel() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
       toast({ title: t('dashboard.admin.transactionCreated') || "Transacción creada" });
-      setTransactionDialog({ open: false, transaction: null });
+      setFormOpen(false);
+      setEditingTransaction(null);
       resetForm();
     },
     onError: () => {
@@ -86,7 +88,8 @@ export function AdminAccountingPanel() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
       toast({ title: t('dashboard.admin.transactionUpdated') || "Transacción actualizada" });
-      setTransactionDialog({ open: false, transaction: null });
+      setFormOpen(false);
+      setEditingTransaction(null);
       resetForm();
     },
     onError: () => {
@@ -121,7 +124,7 @@ export function AdminAccountingPanel() {
     });
   };
 
-  const openEditDialog = (tx: AccountingTransaction) => {
+  const openEditForm = (tx: AccountingTransaction) => {
     setFormData({
       type: tx.type as 'income' | 'expense',
       category: tx.category,
@@ -131,7 +134,8 @@ export function AdminAccountingPanel() {
       transactionDate: tx.transactionDate ? new Date(tx.transactionDate).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
       notes: tx.notes || ''
     });
-    setTransactionDialog({ open: true, transaction: tx });
+    setEditingTransaction(tx);
+    setFormOpen(true);
   };
 
   const handleSubmit = () => {
@@ -139,8 +143,8 @@ export function AdminAccountingPanel() {
       toast({ title: t('common.requiredFields'), variant: "destructive" });
       return;
     }
-    if (transactionDialog.transaction) {
-      updateMutation.mutate({ id: transactionDialog.transaction.id, data: formData });
+    if (editingTransaction) {
+      updateMutation.mutate({ id: editingTransaction.id, data: formData });
     } else {
       createMutation.mutate(formData);
     }
@@ -247,7 +251,8 @@ export function AdminAccountingPanel() {
             className="rounded-full text-xs bg-accent text-accent-foreground"
             onClick={() => {
               resetForm();
-              setTransactionDialog({ open: true, transaction: null });
+              setEditingTransaction(null);
+              setFormOpen(true);
             }}
           >
             <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.addTransaction')}
@@ -312,7 +317,7 @@ export function AdminAccountingPanel() {
                     variant="outline"
                     size="icon"
                     className="h-8 w-8 rounded-lg"
-                    onClick={() => openEditDialog(tx)}
+                    onClick={() => openEditForm(tx)}
                   >
                     <Edit className="w-3 h-3" />
                   </Button>
@@ -335,107 +340,120 @@ export function AdminAccountingPanel() {
         </div>
       </Card>
 
-      <Sheet open={transactionDialog.open} onOpenChange={(open) => setTransactionDialog({ open, transaction: open ? transactionDialog.transaction : null })}>
-        <SheetContent side="right" className="bg-white dark:bg-card w-full sm:max-w-md overflow-y-auto">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-xl font-semibold">
-              {transactionDialog.transaction ? t('dashboard.admin.editTransaction') : t('dashboard.admin.addTransaction')}
-            </SheetTitle>
-            <SheetDescription className="text-sm text-muted-foreground">
-              {transactionDialog.transaction ? 'Modifica los datos' : 'Añade un ingreso o gasto'}
-            </SheetDescription>
-          </SheetHeader>
-          <div className="space-y-4 pb-20">
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionType')}</Label>
-              <NativeSelect
-                value={formData.type}
-                onValueChange={(val) => setFormData(p => ({ ...p, type: val as 'income' | 'expense', category: '' }))}
-                className="w-full rounded-xl h-11"
-              >
-                <NativeSelectItem value="income">{t('dashboard.admin.income')}</NativeSelectItem>
-                <NativeSelectItem value="expense">{t('dashboard.admin.expenses')}</NativeSelectItem>
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.category')}</Label>
-              <NativeSelect
-                value={formData.category}
-                onValueChange={(val) => setFormData(p => ({ ...p, category: val }))}
-                className="w-full rounded-xl h-11"
-              >
-                <NativeSelectItem value="">{t('dashboard.admin.selectCategory') || 'Seleccionar...'}</NativeSelectItem>
-                {(formData.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => (
-                  <NativeSelectItem key={cat} value={cat}>{getCategoryLabel(cat)}</NativeSelectItem>
-                ))}
-              </NativeSelect>
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-              <Input
-                type="number"
-                step="0.01"
-                value={formData.amount}
-                onChange={(e) => setFormData(p => ({ ...p, amount: e.target.value }))}
-                className="rounded-xl h-11"
-                placeholder="0.00"
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDate')}</Label>
-              <Input
-                type="date"
-                value={formData.transactionDate}
-                onChange={(e) => setFormData(p => ({ ...p, transactionDate: e.target.value }))}
-                className="rounded-xl h-11"
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.description')}</Label>
-              <Input
-                value={formData.description}
-                onChange={(e) => setFormData(p => ({ ...p, description: e.target.value }))}
-                className="rounded-xl h-11"
-                placeholder="Descripción breve..."
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">Referencia</Label>
-              <Input
-                value={formData.reference}
-                onChange={(e) => setFormData(p => ({ ...p, reference: e.target.value }))}
-                className="rounded-xl h-11"
-                placeholder="Nº factura, recibo, etc."
-              />
-            </div>
-            <div>
-              <Label className="text-sm font-semibold mb-2 block">Notas</Label>
-              <Textarea
-                value={formData.notes}
-                onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
-                className="rounded-xl resize-none"
-                rows={3}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col gap-3 mt-6 pt-4 border-t">
-            <Button
-              onClick={handleSubmit}
-              disabled={createMutation.isPending || updateMutation.isPending}
-              className="w-full bg-accent text-accent-foreground font-semibold rounded-full"
-            >
-              {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar'}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => setTransactionDialog({ open: false, transaction: null })}
-              className="w-full rounded-full"
-            >
-              {t('common.cancel')}
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
+      <Collapsible open={formOpen} onOpenChange={setFormOpen}>
+        <CollapsibleContent>
+          <Card className="rounded-2xl border-0 shadow-sm mt-4">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-foreground">
+                  {editingTransaction ? t('dashboard.admin.editTransaction') : t('dashboard.admin.addTransaction')}
+                </h3>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 rounded-full"
+                  onClick={() => { setFormOpen(false); setEditingTransaction(null); }}
+                  aria-label="Cerrar formulario"
+                >
+                  <X className="w-4 h-4" />
+                </Button>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                {editingTransaction ? 'Modifica los datos' : 'Añade un ingreso o gasto'}
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionType')}</Label>
+                  <NativeSelect
+                    value={formData.type}
+                    onValueChange={(val) => setFormData(p => ({ ...p, type: val as 'income' | 'expense', category: '' }))}
+                    className="w-full rounded-xl h-11"
+                  >
+                    <NativeSelectItem value="income">{t('dashboard.admin.income')}</NativeSelectItem>
+                    <NativeSelectItem value="expense">{t('dashboard.admin.expenses')}</NativeSelectItem>
+                  </NativeSelect>
+                </div>
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.category')}</Label>
+                  <NativeSelect
+                    value={formData.category}
+                    onValueChange={(val) => setFormData(p => ({ ...p, category: val }))}
+                    className="w-full rounded-xl h-11"
+                  >
+                    <NativeSelectItem value="">{t('dashboard.admin.selectCategory') || 'Seleccionar...'}</NativeSelectItem>
+                    {(formData.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => (
+                      <NativeSelectItem key={cat} value={cat}>{getCategoryLabel(cat)}</NativeSelectItem>
+                    ))}
+                  </NativeSelect>
+                </div>
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
+                  <Input
+                    type="number"
+                    step="0.01"
+                    value={formData.amount}
+                    onChange={(e) => setFormData(p => ({ ...p, amount: e.target.value }))}
+                    className="rounded-xl h-11"
+                    placeholder="0.00"
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDate')}</Label>
+                  <Input
+                    type="date"
+                    value={formData.transactionDate}
+                    onChange={(e) => setFormData(p => ({ ...p, transactionDate: e.target.value }))}
+                    className="rounded-xl h-11"
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.description')}</Label>
+                  <Input
+                    value={formData.description}
+                    onChange={(e) => setFormData(p => ({ ...p, description: e.target.value }))}
+                    className="rounded-xl h-11"
+                    placeholder="Descripción breve..."
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">Referencia</Label>
+                  <Input
+                    value={formData.reference}
+                    onChange={(e) => setFormData(p => ({ ...p, reference: e.target.value }))}
+                    className="rounded-xl h-11"
+                    placeholder="Nº factura, recibo, etc."
+                  />
+                </div>
+                <div>
+                  <Label className="text-sm font-semibold mb-2 block">Notas</Label>
+                  <Textarea
+                    value={formData.notes}
+                    onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
+                    className="rounded-xl resize-none"
+                    rows={2}
+                  />
+                </div>
+              </div>
+              <div className="flex gap-3 mt-6 pt-4 border-t">
+                <Button
+                  onClick={handleSubmit}
+                  disabled={createMutation.isPending || updateMutation.isPending}
+                  className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
+                >
+                  {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar'}
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={() => { setFormOpen(false); setEditingTransaction(null); }}
+                  className="rounded-full"
+                >
+                  {t('common.cancel')}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }

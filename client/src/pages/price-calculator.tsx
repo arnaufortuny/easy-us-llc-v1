@@ -110,10 +110,10 @@ export default function PriceCalculator() {
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
-      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">
-        <div className="mb-6">
+      <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-4 md:py-6">
+        <div className="mb-4">
           <Link href="/dashboard?tab=tools">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-2 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t('tools.backToTools')}
             </Button>
