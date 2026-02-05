@@ -4,10 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, ArrowLeft, Calculator, TrendingUp, Percent, Package, Truck, PiggyBank } from "lucide-react";
+import { Trash2, Plus, ArrowLeft } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import moneyIconPath from "@/assets/icons/money-icon.svg";
-import calculadoraIconPath from "@/assets/icons/calculadora-icon.svg";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -114,19 +112,16 @@ export default function PriceCalculator() {
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">
         <div className="mb-6">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-dashboard">
+          <Link href="/dashboard?tab=tools">
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t('tools.backToDashboard')}
+              {t('tools.backToTools')}
             </Button>
           </Link>
           
-          <div className="flex items-center gap-3 mb-2">
-            <img src={calculadoraIconPath} alt="Calculadora" className="w-12 h-12" />
-            <div>
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t('tools.priceCalculator.title')}</h1>
-              <p className="text-sm text-muted-foreground">{t('tools.priceCalculator.subtitle')}</p>
-            </div>
+          <div>
+            <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight">{t('tools.priceCalculator.title')}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t('tools.priceCalculator.subtitle')}</p>
           </div>
         </div>
 
@@ -134,25 +129,22 @@ export default function PriceCalculator() {
           <div className="lg:col-span-2 space-y-6">
             <Card className="rounded-2xl border-0 shadow-sm">
               <CardContent className="p-5 md:p-6">
-                <div className="flex items-center gap-2 mb-5">
-                  <Package className="w-5 h-5 text-accent" />
-                  <h2 className="font-bold text-foreground">Producto o Servicio</h2>
-                </div>
+                <h2 className="font-bold text-foreground mb-5">{t('tools.priceCalculator.productSection')}</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="md:col-span-2">
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Nombre del producto/servicio</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.productName')}</Label>
                     <Input 
                       value={productName}
                       onChange={(e) => setProductName(e.target.value)}
-                      placeholder="Ej: Consultoría de marketing"
+                      placeholder={t('tools.priceCalculator.productPlaceholder')}
                       className="h-11 rounded-full"
                       data-testid="input-product-name"
                     />
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Costo base unitario</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.baseCost')}</Label>
                     <div className="relative">
                       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">{currencySymbol}</span>
                       <Input 
@@ -161,7 +153,7 @@ export default function PriceCalculator() {
                         step="0.01"
                         value={baseCost || ""}
                         onChange={(e) => setBaseCost(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-xl pl-8"
+                        className="h-11 rounded-full pl-8"
                         placeholder="0.00"
                         data-testid="input-base-cost"
                       />
@@ -169,7 +161,7 @@ export default function PriceCalculator() {
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Cantidad</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.quantity')}</Label>
                     <Input 
                       type="number"
                       min="1"
@@ -181,16 +173,16 @@ export default function PriceCalculator() {
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Moneda</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.currency')}</Label>
                     <NativeSelect
                       value={currency}
                       onChange={(e) => setCurrency(e.target.value)}
                       className="h-11 rounded-full"
                       data-testid="select-currency"
                     >
-                      <option value="USD">USD - Dólar</option>
+                      <option value="USD">USD - Dollar</option>
                       <option value="EUR">EUR - Euro</option>
-                      <option value="GBP">GBP - Libra</option>
+                      <option value="GBP">GBP - Pound</option>
                     </NativeSelect>
                   </div>
                 </div>
@@ -200,10 +192,7 @@ export default function PriceCalculator() {
             <Card className="rounded-2xl border-0 shadow-sm">
               <CardContent className="p-5 md:p-6">
                 <div className="flex items-center justify-between mb-5">
-                  <div className="flex items-center gap-2">
-                    <Truck className="w-5 h-5 text-blue-500" />
-                    <h2 className="font-bold text-foreground">Costos Adicionales</h2>
-                  </div>
+                  <h2 className="font-bold text-foreground">{t('tools.priceCalculator.additionalCosts')}</h2>
                   <Button 
                     variant="outline" 
                     size="sm" 
@@ -211,15 +200,14 @@ export default function PriceCalculator() {
                     className="rounded-full text-xs"
                     data-testid="button-add-cost"
                   >
-                    <Plus className="w-3 h-3 mr-1" /> Agregar
+                    <Plus className="w-3 h-3 mr-1" /> {t('tools.priceCalculator.addCost')}
                   </Button>
                 </div>
                 
                 {additionalCosts.length === 0 ? (
                   <div className="text-center py-8 text-muted-foreground text-sm">
-                    <Truck className="w-8 h-8 mx-auto mb-2 opacity-30" />
-                    <p>Sin costos adicionales</p>
-                    <p className="text-xs mt-1">Agrega envío, empaque, comisiones, etc.</p>
+                    <p>{t('tools.priceCalculator.noCosts')}</p>
+                    <p className="text-xs mt-1">{t('tools.priceCalculator.noCostsHint')}</p>
                   </div>
                 ) : (
                   <div className="space-y-3">
@@ -229,8 +217,8 @@ export default function PriceCalculator() {
                           <Input 
                             value={cost.name}
                             onChange={(e) => updateCost(cost.id, 'name', e.target.value)}
-                            placeholder="Nombre del costo"
-                            className="h-9 rounded-lg text-sm"
+                            placeholder={t('tools.priceCalculator.costName')}
+                            className="h-9 rounded-full text-sm"
                             data-testid={`input-cost-name-${index}`}
                           />
                           <div className="relative">
@@ -252,8 +240,8 @@ export default function PriceCalculator() {
                             className="h-9 rounded-lg text-sm"
                             data-testid={`select-cost-type-${index}`}
                           >
-                            <option value="fixed">Fijo</option>
-                            <option value="variable">Por unidad</option>
+                            <option value="fixed">{t('tools.priceCalculator.fixed')}</option>
+                            <option value="variable">{t('tools.priceCalculator.perUnit')}</option>
                           </NativeSelect>
                         </div>
                         <Button 
@@ -274,14 +262,11 @@ export default function PriceCalculator() {
 
             <Card className="rounded-2xl border-0 shadow-sm">
               <CardContent className="p-5 md:p-6">
-                <div className="flex items-center gap-2 mb-5">
-                  <TrendingUp className="w-5 h-5 text-green-500" />
-                  <h2 className="font-bold text-foreground">Margen e Impuestos</h2>
-                </div>
+                <h2 className="font-bold text-foreground mb-5">{t('tools.priceCalculator.marginTax')}</h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Margen de ganancia</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.profitMargin')}</Label>
                     <div className="relative">
                       <Input 
                         type="number"
@@ -289,16 +274,16 @@ export default function PriceCalculator() {
                         max="500"
                         value={marginPercent}
                         onChange={(e) => setMarginPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-xl pr-8"
+                        className="h-11 rounded-full pr-8"
                         data-testid="input-margin"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Porcentaje sobre el costo total</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t('tools.priceCalculator.marginHint')}</p>
                   </div>
                   
                   <div>
-                    <Label className="text-sm font-medium text-foreground mb-1.5 block">Impuestos (IVA/Sales Tax)</Label>
+                    <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.taxes')}</Label>
                     <div className="relative">
                       <Input 
                         type="number"
@@ -306,19 +291,18 @@ export default function PriceCalculator() {
                         max="100"
                         value={taxPercent}
                         onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-xl pr-8"
+                        className="h-11 rounded-full pr-8"
                         data-testid="input-tax"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">Opcional - Solo si aplica</p>
+                    <p className="text-xs text-muted-foreground mt-1">{t('tools.priceCalculator.taxHint')}</p>
                   </div>
                 </div>
                 
-                <div className="mt-4 p-3 bg-accent/10 rounded-xl">
+                <div className="mt-4 p-3 bg-accent/10 rounded-full">
                   <div className="flex items-center gap-2 text-sm">
-                    <Percent className="w-4 h-4 text-accent" />
-                    <span className="text-foreground font-medium">Márgenes comunes:</span>
+                    <span className="text-foreground font-medium">{t('tools.priceCalculator.commonMargins')}</span>
                   </div>
                   <div className="flex flex-wrap gap-2 mt-2">
                     {[15, 25, 30, 40, 50, 100].map((m) => (
@@ -343,31 +327,28 @@ export default function PriceCalculator() {
             <div className="sticky top-4 space-y-4">
               <Card className="rounded-2xl border-0 shadow-lg bg-gradient-to-br from-accent to-green-600 text-white overflow-hidden">
                 <CardContent className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <img src={moneyIconPath} alt="" className="w-5 h-5" />
-                    <h2 className="font-bold">Precio Recomendado</h2>
-                  </div>
+                  <h2 className="font-bold mb-4">{t('tools.priceCalculator.recommendedPrice')}</h2>
                   
                   <div className="text-center py-4">
-                    <p className="text-white/70 text-sm mb-1">Precio Final Total</p>
+                    <p className="text-white/70 text-sm mb-1">{t('tools.priceCalculator.finalPrice')}</p>
                     <p className="text-4xl md:text-5xl font-bold">
                       {currencySymbol}{formatNumber(calculations.finalPrice)}
                     </p>
                     {quantity > 1 && (
                       <p className="text-white/80 text-sm mt-2">
-                        {currencySymbol}{formatNumber(calculations.pricePerUnit)} por unidad
+                        {currencySymbol}{formatNumber(calculations.pricePerUnit)} {t('tools.priceCalculator.perUnitLabel')}
                       </p>
                     )}
                   </div>
                   
                   <div className="mt-4 pt-4 border-t border-white/20">
                     <div className="flex items-center justify-between text-sm mb-2">
-                      <span className="text-white/70">Tu ganancia:</span>
+                      <span className="text-white/70">{t('tools.priceCalculator.margin')}:</span>
                       <span className="font-bold">{currencySymbol}{formatNumber(calculations.marginAmount)}</span>
                     </div>
                     {quantity > 1 && (
                       <div className="flex items-center justify-between text-sm">
-                        <span className="text-white/70">Ganancia/unidad:</span>
+                        <span className="text-white/70">{t('tools.priceCalculator.profitPerUnit')}:</span>
                         <span className="font-bold">{currencySymbol}{formatNumber(calculations.profitPerUnit)}</span>
                       </div>
                     )}
@@ -377,59 +358,52 @@ export default function PriceCalculator() {
 
               <Card className="rounded-2xl border-0 shadow-sm">
                 <CardContent className="p-5 md:p-6">
-                  <div className="flex items-center gap-2 mb-4">
-                    <PiggyBank className="w-5 h-5 text-accent" />
-                    <h2 className="font-bold text-foreground text-sm">Desglose de Costos</h2>
-                  </div>
+                  <h2 className="font-bold text-foreground text-sm mb-4">{t('tools.priceCalculator.breakdown')}</h2>
                   
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-muted-foreground">Costo base ({quantity} uds)</span>
+                      <span className="text-muted-foreground">{t('tools.priceCalculator.baseCostTotal')} ({quantity})</span>
                       <span className="font-medium">{currencySymbol}{formatNumber(calculations.baseTotal)}</span>
                     </div>
                     
                     {calculations.fixedCosts > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Costos fijos</span>
+                        <span className="text-muted-foreground">{t('tools.priceCalculator.fixedCostsTotal')}</span>
                         <span className="font-medium">{currencySymbol}{formatNumber(calculations.fixedCosts)}</span>
                       </div>
                     )}
                     
                     {calculations.variableCosts > 0 && (
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">Costos variables</span>
+                        <span className="text-muted-foreground">{t('tools.priceCalculator.variableCostsTotal')}</span>
                         <span className="font-medium">{currencySymbol}{formatNumber(calculations.variableCosts)}</span>
                       </div>
                     )}
                     
                     <div className="flex justify-between pt-2 border-t">
-                      <span className="text-foreground font-medium">Total costos</span>
+                      <span className="text-foreground font-medium">{t('tools.priceCalculator.totalCosts')}</span>
                       <span className="font-bold">{currencySymbol}{formatNumber(calculations.totalCosts)}</span>
                     </div>
                     
                     <div className="flex justify-between text-green-600 dark:text-green-400">
-                      <span>+ Margen ({marginPercent}%)</span>
+                      <span>+ {t('tools.priceCalculator.margin')} ({marginPercent}%)</span>
                       <span className="font-medium">{currencySymbol}{formatNumber(calculations.marginAmount)}</span>
                     </div>
                     
                     {taxPercent > 0 && (
-                      <div className="flex justify-between text-orange-600 dark:text-orange-400">
-                        <span>+ Impuestos ({taxPercent}%)</span>
+                      <div className="flex justify-between text-green-600 dark:text-green-400">
+                        <span>+ {t('tools.priceCalculator.taxAmount')} ({taxPercent}%)</span>
                         <span className="font-medium">{currencySymbol}{formatNumber(calculations.taxAmount)}</span>
                       </div>
                     )}
                     
-                    <div className="flex justify-between pt-2 border-t border-accent/30 bg-accent/5 -mx-5 px-5 py-2 rounded-lg mt-2">
-                      <span className="font-bold text-foreground">Precio final</span>
+                    <div className="flex justify-between pt-2 border-t border-accent/30 bg-accent/5 -mx-5 px-5 py-2 rounded-full mt-2">
+                      <span className="font-bold text-foreground">{t('tools.priceCalculator.finalPrice')}</span>
                       <span className="font-bold text-accent">{currencySymbol}{formatNumber(calculations.finalPrice)}</span>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              
-              <p className="text-xs text-muted-foreground text-center px-2">
-                Esta herramienta es orientativa. Ajusta los valores según las condiciones de tu mercado.
-              </p>
             </div>
           </div>
         </div>

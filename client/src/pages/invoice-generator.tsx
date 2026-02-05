@@ -7,7 +7,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { Trash2, Plus, FileDown, ArrowLeft, Loader2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
-import facturasIconPath from "@/assets/icons/facturas-icon.svg";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
@@ -295,18 +294,15 @@ export default function InvoiceGenerator() {
       
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">
         <div className="mb-6 md:mb-8 animate-fade-in-up">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="link-back">
+          <Link href="/dashboard?tab=tools">
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t('tools.backToDashboard')}
+              {t('tools.backToTools')}
             </Button>
           </Link>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <img src={facturasIconPath} alt="Facturas" className="w-10 h-10 sm:w-12 sm:h-12" />
-            <div className="min-w-0">
-              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground leading-tight">{t('tools.invoiceGenerator.title')}</h1>
-              <p className="text-muted-foreground text-xs sm:text-sm">{t('tools.invoiceGenerator.subtitle')}</p>
-            </div>
+          <div>
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight">{t('tools.invoiceGenerator.title')}</h1>
+            <p className="text-muted-foreground text-xs sm:text-sm mt-1">{t('tools.invoiceGenerator.subtitle')}</p>
           </div>
         </div>
 

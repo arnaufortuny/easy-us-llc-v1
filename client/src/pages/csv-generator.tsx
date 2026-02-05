@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { Trash2, Plus, FileDown, ArrowLeft, Loader2, FileSpreadsheet, AlertCircle } from "lucide-react";
+import { Trash2, Plus, FileDown, ArrowLeft, Loader2 } from "lucide-react";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -205,21 +205,16 @@ export default function CsvGenerator() {
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">
         <div className="mb-6">
-          <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-dashboard">
+          <Link href="/dashboard?tab=tools">
+            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              {t("tools.backToDashboard")}
+              {t("tools.backToTools")}
             </Button>
           </Link>
           
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-accent/10 flex items-center justify-center">
-              <FileSpreadsheet className="w-5 h-5 md:w-6 md:h-6 text-accent" />
-            </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold text-foreground">{t("tools.csvGenerator.title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("tools.csvGenerator.subtitle")}</p>
-            </div>
+          <div>
+            <h1 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t("tools.csvGenerator.title")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("tools.csvGenerator.subtitle")}</p>
           </div>
         </div>
 
@@ -429,7 +424,6 @@ export default function CsvGenerator() {
             <div className="mt-6 pt-6 border-t border-border">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
                   <p>{t("tools.csvGenerator.disclaimer")}</p>
                 </div>
                 <Button 

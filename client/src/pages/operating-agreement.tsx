@@ -6,8 +6,6 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone, Mail } from "lucide-react";
-import moneyIconPath from "@/assets/icons/money-icon.svg";
-import tramitesIconPath from "@/assets/icons/tramites-icon.svg";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -529,26 +527,23 @@ export default function OperatingAgreementGenerator() {
       <main className="flex-1 py-8 px-4">
         <div className="max-w-2xl mx-auto">
           <div className="mb-6">
-            <Link href="/dashboard">
-              <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground -ml-2" data-testid="button-back-dashboard">
+            <Link href="/dashboard?tab=tools">
+              <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground -ml-2" data-testid="button-back-tools">
                 <ArrowLeft className="w-4 h-4 mr-2" />
-                {t("tools.backToDashboard")}
+                {t("tools.backToTools")}
               </Button>
             </Link>
           </div>
           
           <Card className="rounded-2xl border-0 shadow-lg overflow-hidden">
             <CardHeader className="bg-accent/10 border-b border-accent/20 p-6">
-              <div className="flex items-center gap-4">
-                <img src={tramitesIconPath} alt="Operating Agreement" className="w-12 h-12" />
-                <div>
-                  <CardTitle className="text-xl font-black text-foreground">
-                    {t("tools.operatingAgreement.title")}
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {t("tools.operatingAgreement.subtitle")}
-                  </p>
-                </div>
+              <div>
+                <CardTitle className="text-xl font-black text-foreground tracking-tight">
+                  {t("tools.operatingAgreement.title")}
+                </CardTitle>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {t("tools.operatingAgreement.subtitle")}
+                </p>
               </div>
             </CardHeader>
             
@@ -667,8 +662,7 @@ export default function OperatingAgreementGenerator() {
                           </div>
                           
                           <div>
-                            <Label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
-                              <img src={moneyIconPath} alt="" className="w-4 h-4 opacity-60" />
+                            <Label className="text-sm font-medium text-foreground mb-2">
                               {t("tools.operatingAgreement.capitalContribution")}
                             </Label>
                             <Input
