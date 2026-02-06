@@ -1388,6 +1388,11 @@
       "priceCalculator": "Calculadora de Preços",
       "operatingAgreement": "Operating Agreement"
     },
+    "trustpilot": {
+      "title": "Como foi a tua experiência?",
+      "subtitle": "Avalia-nos no Trustpilot. Agradecemos.",
+      "button": "Deixar avaliação"
+    },
     "notifications": {
       "title": "Notificações",
       "empty": "Não tens notificações",

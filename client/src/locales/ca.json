@@ -1410,6 +1410,11 @@
       "priceCalculator": "Calculadora de Preus",
       "operatingAgreement": "Operating Agreement"
     },
+    "trustpilot": {
+      "title": "Com ha estat la teva experiència?",
+      "subtitle": "Valora'ns a Trustpilot. T'ho agrairem.",
+      "button": "Deixar valoració"
+    },
     "notifications": {
       "title": "Notificacions",
       "empty": "No tens notificacions",

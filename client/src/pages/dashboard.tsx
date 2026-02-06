@@ -20,6 +20,7 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { DashboardTour } from "@/components/dashboard-tour";
+import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import { 
   Tab, 
   AdminUserData, 
@@ -86,6 +87,9 @@ export default function Dashboard() {
     birthDate: ''
   });
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+  const [showTrustpilotCard, setShowTrustpilotCard] = useState(() => {
+    return localStorage.getItem('trustpilot_review_dismissed') !== 'true';
+  });
   const { confirm: showConfirm, dialogProps: confirmDialogProps } = useConfirmDialog();
 
   useEffect(() => {
@@ -1223,11 +1227,39 @@ export default function Dashboard() {
               <div className="xl:col-span-2 space-y-6 order-1">
             
               {activeTab === 'services' && (
+                <>
                 <ServicesTab 
                   orders={orders} 
                   draftOrders={draftOrders} 
                   activeOrders={activeOrders} 
                 />
+                {showTrustpilotCard && (
+                  <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
+                    <button 
+                      onClick={() => {
+                        setShowTrustpilotCard(false);
+                        localStorage.setItem('trustpilot_review_dismissed', 'true');
+                      }}
+                      className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+                      data-testid="button-dismiss-trustpilot"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                      <img src={trustpilotLogo} alt="Trustpilot" className="h-8 w-auto" />
+                      <div className="flex-1 text-center sm:text-left">
+                        <p className="font-black text-foreground text-sm tracking-tight">{t('dashboard.trustpilot.title')}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{t('dashboard.trustpilot.subtitle')}</p>
+                      </div>
+                      <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer">
+                        <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full whitespace-nowrap" size="sm" data-testid="button-trustpilot-review">
+                          {t('dashboard.trustpilot.button')}
+                        </Button>
+                      </a>
+                    </div>
+                  </Card>
+                )}
+                </>
               )}
 
               {activeTab === 'notifications' && (
@@ -1651,7 +1683,7 @@ export default function Dashboard() {
                     <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">

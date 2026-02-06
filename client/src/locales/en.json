@@ -1410,6 +1410,11 @@
       "priceCalculator": "Price Calculator",
       "operatingAgreement": "Operating Agreement"
     },
+    "trustpilot": {
+      "title": "How has your experience been?",
+      "subtitle": "Rate us on Trustpilot. We'd really appreciate it.",
+      "button": "Leave a review"
+    },
     "notifications": {
       "title": "Notifications",
       "empty": "No notifications",
