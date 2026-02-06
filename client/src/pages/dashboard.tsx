@@ -977,7 +977,11 @@ export default function Dashboard() {
       const orderId = (order.id?.toString() || '');
       const userName = ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase();
       const userEmail = (order.user?.email || '').toLowerCase();
-      return requestCode.includes(query) || userId.includes(query) || orderId.includes(query) || userName.includes(query) || userEmail.includes(query);
+      const clientId = (order.user?.clientId || '').toLowerCase();
+      const companyName = (app?.companyName || '').toLowerCase();
+      const orderDate = order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
+      const orderDateLong = order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+      return requestCode.includes(query) || userId.includes(query) || orderId.includes(query) || userName.includes(query) || userEmail.includes(query) || clientId.includes(query) || companyName.includes(query) || orderDate.includes(query) || orderDateLong.includes(query);
     });
   }, [adminOrders, adminSearchQuery]);
 
@@ -989,7 +993,9 @@ export default function Dashboard() {
       const email = (u.email || '').toLowerCase();
       const clientId = (u.clientId || '').toLowerCase();
       const id = (u.id?.toString() || '');
-      return fullName.includes(query) || email.includes(query) || clientId.includes(query) || id.includes(query);
+      const phone = (u.phone || '').toLowerCase();
+      const regDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
+      return fullName.includes(query) || email.includes(query) || clientId.includes(query) || id.includes(query) || phone.includes(query) || regDate.includes(query);
     });
   }, [adminUsers, adminSearchQuery]);
 
@@ -1000,7 +1006,9 @@ export default function Dashboard() {
       const messageId = (msg.messageId || '').toLowerCase();
       const userEmail = (msg.email || '').toLowerCase();
       const userName = (msg.name || '').toLowerCase();
-      return messageId.includes(query) || userEmail.includes(query) || userName.includes(query);
+      const subject = (msg.subject || '').toLowerCase();
+      const msgDate = msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
+      return messageId.includes(query) || userEmail.includes(query) || userName.includes(query) || subject.includes(query) || msgDate.includes(query);
     });
   }, [adminMessages, adminSearchQuery]);
   
