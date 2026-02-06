@@ -625,16 +625,14 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left">
-              <ul className="space-y-3">
-                {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
-                  <li key={i} className="flex items-start gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
-                    <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
-                    <span className="text-base font-black tracking-tight">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="space-y-4 text-left max-w-2xl mx-auto">
+              {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
+                <li key={i} className="flex items-start gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
+                  <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
+                  <span className="text-lg font-black tracking-tight">{benefit}</span>
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
           {/* Final Text */}
