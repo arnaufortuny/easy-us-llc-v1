@@ -1150,6 +1150,7 @@
     "welcome": "Bienvenido, {{name}}",
     "subtitle": "Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.",
     "clientArea": "Área de Clientes",
+    "defaultName": "Cliente",
     "newLLC": "Constituir una nueva LLC",
     "tabs": {
       "services": "Mis trámites",
@@ -2442,6 +2443,7 @@
       "readyToGenerate": "Listo para generar",
       "readyDescription": "Todos los datos están validados. Puedes generar tu Operating Agreement.",
       "generating": "Generando...",
+      "generationError": "Error al generar el PDF. Por favor, inténtalo de nuevo.",
       "generateButton": "Descargar Operating Agreement",
       "editableFields": "Información adicional",
       "memberAddress": "Dirección residencial del miembro",

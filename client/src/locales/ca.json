@@ -1150,6 +1150,7 @@
     "welcome": "Benvingut, {{name}}",
     "subtitle": "Aquí gestiones tot el relacionat amb la teva LLC, de forma simple i clara.",
     "clientArea": "Àrea de Clients",
+    "defaultName": "Client",
     "newLLC": "Constituir una nova LLC",
     "tabs": {
       "services": "Els Meus Tràmits",
@@ -2442,6 +2443,7 @@
       "readyToGenerate": "Llest per generar",
       "readyDescription": "Totes les dades estan validades. Pots generar el teu Operating Agreement.",
       "generating": "Generant...",
+      "generationError": "Error en generar el PDF. Si us plau, torna-ho a intentar.",
       "generateButton": "Descarregar Operating Agreement",
       "editableFields": "Informació addicional",
       "memberAddress": "Adreça residencial del membre",

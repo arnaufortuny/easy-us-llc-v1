@@ -1150,6 +1150,7 @@
     "welcome": "Welcome, {{name}}",
     "subtitle": "Manage everything related to your LLC, simply and clearly.",
     "clientArea": "Client Area",
+    "defaultName": "Client",
     "newLLC": "Form a new LLC",
     "tabs": {
       "services": "My Orders",
@@ -2442,6 +2443,7 @@
       "readyToGenerate": "Ready to generate",
       "readyDescription": "All data is validated. You can generate your Operating Agreement.",
       "generating": "Generating...",
+      "generationError": "Error generating PDF. Please try again.",
       "generateButton": "Download Operating Agreement",
       "editableFields": "Additional Information",
       "memberAddress": "Member residential address",

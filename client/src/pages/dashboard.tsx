@@ -800,7 +800,7 @@ export default function Dashboard() {
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
             <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight leading-tight">
-              {t("dashboard.pendingAccount.hello", { name: (user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase() })}
+              {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
             </h1>
           </header>
 
@@ -1074,7 +1074,7 @@ export default function Dashboard() {
             <div>
               <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
-                {t('dashboard.welcome', { name: (user?.firstName || 'Cliente').charAt(0).toUpperCase() + (user?.firstName || 'Cliente').slice(1).toLowerCase() })}
+                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
               </h1>
               <p className="text-muted-foreground text-sm md:text-base mt-1 md:mt-2">
                 {t('dashboard.subtitle')}

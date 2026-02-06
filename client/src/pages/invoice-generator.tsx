@@ -46,6 +46,7 @@ export default function InvoiceGenerator() {
     { id: generateId(), description: "", quantity: 1, price: 0 }
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   
   // Use shared auth hook - same as dashboard
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
@@ -99,7 +100,7 @@ export default function InvoiceGenerator() {
 
   const generatePDF = async () => {
     if (!issuerName || !clientName || items.some(i => !i.description)) {
-      alert(t('tools.invoiceGenerator.validationError'));
+      setFormMessage({ type: 'error', text: t('tools.invoiceGenerator.validationError') });
       return;
     }
 
@@ -282,9 +283,8 @@ export default function InvoiceGenerator() {
       setIsGenerating(false);
 
     } catch (error) {
-      console.error('Error generating PDF:', error);
       setIsGenerating(false);
-      alert(t('tools.invoiceGenerator.generationError'));
+      setFormMessage({ type: 'error', text: t('tools.invoiceGenerator.generationError') });
     }
   };
 
@@ -305,6 +305,16 @@ export default function InvoiceGenerator() {
             <p className="text-muted-foreground text-xs sm:text-sm mt-1">{t('tools.invoiceGenerator.subtitle')}</p>
           </div>
         </div>
+
+        {formMessage && (
+          <div className={`p-3 rounded-xl text-sm font-medium mb-4 ${
+            formMessage.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800' :
+            formMessage.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' :
+            'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+          }`} data-testid="form-message">
+            {formMessage.text}
+          </div>
+        )}
 
         <div className="space-y-4 md:space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">

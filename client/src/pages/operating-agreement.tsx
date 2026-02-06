@@ -49,6 +49,7 @@ export default function OperatingAgreementGenerator() {
   
   const [selectedLlcId, setSelectedLlcId] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const [formData, setFormData] = useState<FormData>({
     memberAddress: "",
     memberPhone: "",
@@ -515,7 +516,7 @@ export default function OperatingAgreementGenerator() {
         console.error('Error saving to Document Center:', saveError);
       }
     } catch (error) {
-      console.error('Error generating PDF:', error);
+      setFormMessage({ type: 'error', text: t('tools.operatingAgreement.generationError', 'Error generating PDF. Please try again.') });
     } finally {
       setIsGenerating(false);
     }
@@ -548,6 +549,15 @@ export default function OperatingAgreementGenerator() {
             </CardHeader>
             
             <CardContent className="p-6">
+              {formMessage && (
+                <div className={`p-3 rounded-xl text-sm font-medium mb-4 ${
+                  formMessage.type === 'error' ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800' :
+                  formMessage.type === 'success' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800' :
+                  'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800'
+                }`} data-testid="form-message">
+                  {formMessage.text}
+                </div>
+              )}
               {llcsLoading ? (
                 <div className="flex items-center justify-center py-12">
                   <Loader2 className="w-8 h-8 animate-spin text-accent" />
