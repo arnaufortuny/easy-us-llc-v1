@@ -517,30 +517,20 @@ export default function Servicios() {
               viewport={viewportOnce}
             />
           </div>
-          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-6 sm:mb-8 max-w-4xl mx-auto">
-            {bankItems.map((item, i) => {
-              const IconComponent = item.icon;
-              return (
-                <div 
-                  key={i} 
-                  className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-accent/10 flex items-center justify-center">
-                      <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
-                        {t(`services.banks.${item.key}.title`)}
-                      </h3>
-                      <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-                        {t(`services.banks.${item.key}.desc`)}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+          <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-16 sm:mb-24 max-w-4xl mx-auto">
+            {bankItems.map((item, i) => (
+              <div 
+                key={i} 
+                className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left"
+              >
+                <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
+                  {t(`services.banks.${item.key}.title`)}
+                </h3>
+                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+                  {t(`services.banks.${item.key}.desc`)}
+                </p>
+              </div>
+            ))}
           </div>
 
           {/* Maintenance Section Header */}
