@@ -13,7 +13,7 @@ const routeTitles: Record<string, PageTitleConfig> = {
     titleKey: "seo.home.title",
     descriptionKey: "seo.home.description",
     fallbackTitle: "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Easy US LLC",
-    fallbackDescription: "En Easy US LLC ayudamos a emprendedores y negocios digitales a constituir y gestionar su LLC en Estados Unidos de forma simple."
+    fallbackDescription: "Constituye tu LLC en Estados Unidos con optimización fiscal internacional, estructura legal eficiente y soporte experto. En Easy US LLC gestionamos todo el proceso, incluyendo cumplimiento normativo, banca empresarial y asesoramiento estratégico para negocios digitales y emprendedores globales."
   },
   "/servicios": {
     titleKey: "seo.servicios.title",
