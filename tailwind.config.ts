@@ -83,6 +83,7 @@ export default {
         },
       },
       fontFamily: {
+        hero: ["var(--font-hero)"],
         display: ["var(--font-display)"],
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],

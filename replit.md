@@ -13,7 +13,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - This rule has maximum priority
 
 ## System Architecture
-The application features a modern, responsive UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and Inter typography, with UI animations powered by Framer Motion. It supports a full dark/light theme system. The project uses two distinct domains: `creamostullc.com` for isolated landing pages and `easyusllc.com` for the main website, which includes home, services, FAQ, legal, dashboard, forms, and authentication with full i18n support.
+The application features a modern, responsive UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and a premium fintech typography hierarchy (Space Grotesk 800 for hero/marketing titles, Inter 700 for UI headings h2-h6, DM Sans for body/forms), with UI animations powered by Framer Motion. It supports a full dark/light theme system. The project uses two distinct domains: `creamostullc.com` for isolated landing pages and `easyusllc.com` for the main website, which includes home, services, FAQ, legal, dashboard, forms, and authentication with full i18n support.
 
 **Technical Implementations:**
 - **Client-side:** Built with React, utilizing Wouter for routing, a modular structure, and native HTML `<select>` elements.
@@ -56,5 +56,5 @@ The application features a modern, responsive UI/UX with a consistent design sys
 - **pdfkit:** Server-side PDF generation.
 - **Mercury / Relay:** Banking assistance integrations.
 - **Stripe:** Payment processing portal integration.
-- **Google Fonts:** Typography (Inter).
+- **Google Fonts:** Typography (Space Grotesk for hero/marketing, Inter for UI headings, DM Sans for body).
 - **nodemailer:** Email sending.

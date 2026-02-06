@@ -134,6 +134,7 @@ html.dark body {
 
   --radius: 0.625rem;
 
+  --font-hero: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
@@ -199,11 +200,19 @@ html.dark body {
     min-height: 100dvh;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-black tracking-tight text-left;
+    @apply font-display tracking-tight text-left;
+    font-weight: 700;
   }
 }
 
 @layer utilities {
+  .hero-title {
+    font-family: var(--font-hero);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+  }
   .bg-brand-green {
     background-color: #6EDC8A;
   }
