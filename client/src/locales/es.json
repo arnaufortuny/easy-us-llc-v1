@@ -91,6 +91,7 @@
     "button": "Volver al Inicio"
   },
   "common": {
+    "swipeHint": "Desliza para ver más",
     "loading": "Cargando...",
     "save": "Guardar",
     "cancel": "Cancelar",

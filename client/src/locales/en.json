@@ -91,6 +91,7 @@
     "button": "Go to Home"
   },
   "common": {
+    "swipeHint": "Swipe to see more",
     "loading": "Loading...",
     "save": "Save",
     "cancel": "Cancel",

@@ -91,6 +91,7 @@
     "button": "Tornar a l'Inici"
   },
   "common": {
+    "swipeHint": "Llisca per veure més",
     "loading": "Carregant...",
     "save": "Desar",
     "cancel": "Cancel·lar",

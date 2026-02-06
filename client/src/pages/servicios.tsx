@@ -334,6 +334,10 @@ export default function Servicios() {
             />
           </div>
           
+          <div className="flex items-center justify-center gap-2 text-muted-foreground text-xs font-medium mb-3 md:hidden">
+            <span>{t("common.swipeHint", "Desliza para ver más")}</span>
+            <ArrowRight className="w-3.5 h-3.5 animate-pulse" />
+          </div>
           <div className="flex md:grid md:grid-cols-3 gap-6 sm:gap-8 max-w-5xl mx-auto px-6 sm:px-0 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scroll-smooth pb-4 md:pb-0 no-scrollbar">
             {/* New Mexico */}
             <div className="border-[2px] border-accent rounded-2xl overflow-hidden relative bg-background shadow-lg flex flex-col h-full group min-w-[280px] w-[85vw] md:w-auto md:min-w-0 flex-shrink-0 md:flex-shrink snap-center">
@@ -530,7 +534,7 @@ export default function Servicios() {
                       <IconComponent className="w-6 h-6 sm:w-7 sm:h-7 text-accent" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-lg sm:text-xl text-foreground mb-2">
+                      <h3 className="font-hero font-extrabold text-lg sm:text-xl text-foreground mb-2 tracking-tight">
                         {t(`services.banks.${item.key}.title`)}
                       </h3>
                       <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
@@ -677,6 +681,10 @@ export default function Servicios() {
               whileInView="visible"
               viewport={viewportOnce}
             />
+          </div>
+          <div className="flex items-center justify-center gap-2 text-muted-foreground text-xs font-medium mb-3 md:hidden">
+            <span>{t("common.swipeHint", "Desliza para ver más")}</span>
+            <ArrowRight className="w-3.5 h-3.5 animate-pulse" />
           </div>
           <div className="flex md:grid md:grid-cols-3 gap-4 sm:gap-6 max-w-5xl mx-auto px-6 sm:px-0 mb-12 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory scroll-smooth pb-4 md:pb-0 -mx-2 md:mx-auto no-scrollbar">
             {[
