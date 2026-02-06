@@ -639,22 +639,6 @@
       "securityVerificationDesc": "Hemos enviado un código de 6 dígitos a tu email. Introdúcelo para continuar.",
       "securityCode": "Código de verificación"
     },
-    "clientArea": {
-      "title": "Tu Área de Cliente",
-      "subtitle": "Al iniciar sesión accederás a tu panel personal con todo lo que necesitas:",
-      "feature1Title": "Estado de tu LLC",
-      "feature1Desc": "Seguimiento en tiempo real de tu formación o mantenimiento",
-      "feature2Title": "Documentos y Archivos",
-      "feature2Desc": "Accede a tu Operating Agreement, EIN, y todos tus documentos",
-      "feature3Title": "Calendario Fiscal",
-      "feature3Desc": "Fechas clave del IRS, informes anuales y renovaciones",
-      "feature4Title": "Mensajes y Soporte",
-      "feature4Desc": "Comunicación directa con nuestro equipo de expertos",
-      "feature5Title": "Herramientas",
-      "feature5Desc": "Generador de facturas, Operating Agreement y calculadora fiscal",
-      "feature6Title": "Gestión de Pagos",
-      "feature6Desc": "Historial de pagos, facturas y enlaces de pago seguros"
-    },
     "register": {
       "title": "Crea tu",
       "titleHighlight": "cuenta",

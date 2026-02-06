@@ -16,7 +16,6 @@ import { apiRequest, queryClient } from "@/lib/queryClient";
 import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
 import { PasswordStrength } from "@/components/ui/password-strength";
-import { ClientAreaPanel } from "@/components/auth/client-area-panel";
 
 const createRegisterSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
@@ -385,34 +384,32 @@ export default function Register() {
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
       <main className="pt-20 md:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
-        <div className="w-full max-w-sm md:max-w-md lg:max-w-4xl xl:max-w-5xl">
-          <div className="lg:grid lg:grid-cols-2 lg:gap-12 xl:gap-16 lg:items-start">
-            <div>
-              <div className="mb-6 md:mb-8 flex flex-col items-center lg:items-start w-full text-center lg:text-left">
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center lg:text-left w-full">
-                  <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
-                </h1>
-                <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center lg:text-left">{t("auth.register.subtitleHighlight")}</p>
-                <p className="text-muted-foreground mt-2 text-sm md:text-base text-center lg:text-left max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
-              </div>
+        <div className="w-full max-w-sm md:max-w-md">
+          <div className="mb-6 md:mb-8 flex flex-col items-center w-full text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
+              <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
+            </h1>
+            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">{t("auth.register.subtitleHighlight")}</p>
+            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
+          </div>
 
-              {step > 0 && (
-                <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
-              )}
+          {step > 0 && (
+            <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-6" />
+          )}
 
-              {formMessage && (
-                <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
-                  formMessage.type === 'error' 
-                    ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
-                    : formMessage.type === 'success'
-                    ? 'bg-accent/10 border border-accent/20 text-accent'
-                    : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
-                }`} data-testid="form-message">
-                  {formMessage.text}
-                </div>
-              )}
+          {formMessage && (
+            <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+              formMessage.type === 'error' 
+                ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                : formMessage.type === 'success'
+                ? 'bg-accent/10 border border-accent/20 text-accent'
+                : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+            }`} data-testid="form-message">
+              {formMessage.text}
+            </div>
+          )}
 
-              <div className="bg-white dark:bg-card rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm lg:bg-transparent lg:dark:bg-transparent lg:border-0 lg:shadow-none lg:p-0">
+          <div className="bg-white dark:bg-card rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
               
@@ -769,7 +766,7 @@ export default function Register() {
               </div>
             )}
 
-            <div className="mt-6 pt-5 border-t border-border text-center lg:text-left">
+            <div className="mt-6 pt-5 border-t border-border text-center">
               <Link href="/auth/login">
                 <div className="hover:underline cursor-pointer" data-testid="link-login">
                   <p className="text-foreground text-sm md:text-base font-bold">{t("auth.register.hasAccount")}</p>
@@ -777,10 +774,6 @@ export default function Register() {
                 </div>
               </Link>
             </div>
-          </div>
-            </div>
-
-            <ClientAreaPanel />
           </div>
         </div>
       </main>
