@@ -168,8 +168,8 @@ export default function Servicios() {
       <Navbar />
       
       <HeroSection 
-        className="flex flex-col items-center justify-center text-center min-h-[350px] sm:min-h-[auto] w-full"
-        mobilePaddingTop="pt-10 sm:pt-16 lg:pt-20"
+        className="flex flex-col items-center justify-center text-center min-h-[450px] sm:min-h-[auto] w-full"
+        mobilePaddingTop="pt-24 sm:pt-20 lg:pt-24"
         showGradient={false}
         title={
           <>
