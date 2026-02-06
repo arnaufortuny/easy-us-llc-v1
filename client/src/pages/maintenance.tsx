@@ -313,7 +313,7 @@ export default function MaintenanceApplication() {
     }
 
     try {
-      const res = await apiRequest("POST", "/api/login", { email, password });
+      const res = await apiRequest("POST", "/api/auth/login", { email, password });
       if (!res.ok) {
         const data = await res.json();
         toast({ title: t("toast.passwordIncorrect"), description: t("toast.passwordIncorrectDesc"), variant: "destructive" });

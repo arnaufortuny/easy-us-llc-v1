@@ -571,7 +571,7 @@ export default function Dashboard() {
       // Invalidate all related queries
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/notifications"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
       toast({ title: t("dashboard.toasts.orderDeleted"), description: t("dashboard.toasts.orderDeletedDesc") });
       setDeleteOrderConfirm({ open: false, order: null });
@@ -742,7 +742,7 @@ export default function Dashboard() {
                 <Button 
                   variant="destructive" 
                   className="w-full sm:w-auto px-8 font-black h-11 sm:h-12 rounded-full shadow-lg hover:shadow-xl transition-all"
-                  onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+                  onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
                   data-testid="button-logout"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
@@ -931,7 +931,7 @@ export default function Dashboard() {
             <Button 
               variant="ghost" 
               className="text-sm text-muted-foreground"
-              onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
+              onClick={() => apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/")}
               data-testid="button-pending-logout"
             >
               {t("dashboard.pendingAccount.logout")}
