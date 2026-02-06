@@ -1385,7 +1385,18 @@
       "clearCalendarDesc": "Eliminar todas las fechas de este calendario",
       "clearCalendarConfirm": "¿Estás seguro de que quieres eliminar todas las fechas de este calendario?",
       "clear": "Limpiar",
-      "dates": "Fechas"
+      "dates": "Fechas",
+      "taxExtension": {
+        "label": "Extensión fiscal (6 meses)",
+        "active": "Activa",
+        "inactive": "Inactiva",
+        "activated": "Extensión activada",
+        "deactivated": "Extensión desactivada",
+        "datesApril": "Vencimiento: 15 de abril",
+        "datesOctober": "Vencimiento: 15 de octubre",
+        "movedToOctober": "El vencimiento se ha movido al 15 de octubre",
+        "movedToApril": "El vencimiento se ha movido al 15 de abril"
+      }
     },
     "tools": {
       "title": "Herramientas",

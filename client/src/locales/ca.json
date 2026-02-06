@@ -1385,7 +1385,18 @@
       "clearCalendarDesc": "Eliminar totes les dates d'aquest calendari",
       "clearCalendarConfirm": "Estàs segur que vols eliminar totes les dates d'aquest calendari?",
       "clear": "Netejar",
-      "dates": "Dates"
+      "dates": "Dates",
+      "taxExtension": {
+        "label": "Extensió fiscal (6 mesos)",
+        "active": "Activa",
+        "inactive": "Inactiva",
+        "activated": "Extensió activada",
+        "deactivated": "Extensió desactivada",
+        "datesApril": "Venciment: 15 d'abril",
+        "datesOctober": "Venciment: 15 d'octubre",
+        "movedToOctober": "El venciment s'ha mogut al 15 d'octubre",
+        "movedToApril": "El venciment s'ha mogut al 15 d'abril"
+      }
     },
     "tools": {
       "title": "Eines",

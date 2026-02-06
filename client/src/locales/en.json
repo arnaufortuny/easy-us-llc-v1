@@ -1385,7 +1385,18 @@
       "clearCalendarDesc": "Delete all dates from this calendar",
       "clearCalendarConfirm": "Are you sure you want to delete all dates from this calendar?",
       "clear": "Clear",
-      "dates": "Dates"
+      "dates": "Dates",
+      "taxExtension": {
+        "label": "Tax extension (6 months)",
+        "active": "Active",
+        "inactive": "Inactive",
+        "activated": "Extension activated",
+        "deactivated": "Extension deactivated",
+        "datesApril": "Due date: April 15",
+        "datesOctober": "Due date: October 15",
+        "movedToOctober": "Due date moved to October 15",
+        "movedToApril": "Due date moved to April 15"
+      }
     },
     "tools": {
       "title": "Tools",
