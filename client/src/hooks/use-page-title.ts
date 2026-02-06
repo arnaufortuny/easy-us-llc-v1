@@ -12,7 +12,7 @@ const routeTitles: Record<string, PageTitleConfig> = {
   "/": {
     titleKey: "seo.home.title",
     descriptionKey: "seo.home.description",
-    fallbackTitle: "Easy US LLC | Constituye tu LLC en Estados Unidos",
+    fallbackTitle: "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Easy US LLC",
     fallbackDescription: "En Easy US LLC ayudamos a emprendedores y negocios digitales a constituir y gestionar su LLC en Estados Unidos de forma simple."
   },
   "/servicios": {
@@ -153,5 +153,5 @@ export function usePageTitle(customTitle?: string) {
 
 export function getPageTitle(pathname: string): string {
   const config = routeTitles[pathname];
-  return config?.fallbackTitle || "Easy US LLC | Constituye tu LLC en Estados Unidos";
+  return config?.fallbackTitle || "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Easy US LLC";
 }
