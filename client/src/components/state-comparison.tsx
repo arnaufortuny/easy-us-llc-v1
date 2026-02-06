@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, AlertCircle, Lightbulb, ArrowRight, Clock, DollarSign, Shield } from "@/components/icons";
+import { Check, AlertCircle, Lightbulb, ArrowRight } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { fadeInUp, viewportOnce, transitions } from "@/lib/animations";
@@ -94,12 +94,12 @@ export function StateComparison() {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2 p-1.5 bg-accent/8 dark:bg-accent/10 border border-accent/20 rounded-full mb-8 sm:mb-10 max-w-xl mx-auto" data-testid="state-selector-tabs">
+          <div className="flex flex-row items-center gap-2 p-1.5 bg-accent/8 dark:bg-accent/10 border border-accent/20 rounded-full mb-8 sm:mb-10 max-w-xl mx-auto" data-testid="state-selector-tabs">
             {states.map((state, index) => (
               <button
                 key={state.key}
                 onClick={() => setActiveIndex(index)}
-                className={`relative flex-1 flex items-center justify-center gap-2 px-4 py-2.5 sm:py-3 rounded-full text-sm font-black tracking-tight transition-all duration-200 ${
+                className={`relative flex-1 flex items-center justify-center gap-1 sm:gap-2 px-2 sm:px-4 py-2.5 sm:py-3 rounded-full text-xs sm:text-sm font-black tracking-tight transition-all duration-200 whitespace-nowrap ${
                   activeIndex === index
                     ? "bg-accent text-white shadow-md shadow-accent/25"
                     : "text-muted-foreground"
@@ -107,7 +107,7 @@ export function StateComparison() {
                 data-testid={`button-select-${state.key}`}
               >
                 <span>{state.name}</span>
-                <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
+                <span className={`hidden sm:inline text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
                   activeIndex === index
                     ? "bg-white/20 text-white"
                     : "bg-transparent text-muted-foreground/60"
@@ -128,20 +128,17 @@ export function StateComparison() {
             >
               <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-5">
                 <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-formation-price-${active.key}`}>
-                  <DollarSign className="w-4 h-4 text-accent mb-0.5" />
                   <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.formationPrice")}</p>
                   <p className="text-xl sm:text-2xl font-black text-accent tracking-tight">{active.formationPrice}</p>
                 </div>
 
                 <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-maintenance-price-${active.key}`}>
-                  <Shield className="w-4 h-4 text-accent mb-0.5" />
                   <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.maintenancePrice")}</p>
                   <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{active.maintenancePrice}</p>
                   <p className="text-[10px] text-muted-foreground">/ {t("stateComparison.perYear", "año")}</p>
                 </div>
 
                 <div className="bg-accent/5 dark:bg-accent/10 border border-accent/15 rounded-2xl p-3 sm:p-4 flex flex-col items-center text-center gap-1" data-testid={`card-processing-time-${active.key}`}>
-                  <Clock className="w-4 h-4 text-accent mb-0.5" />
                   <p className="text-[10px] sm:text-xs text-muted-foreground uppercase tracking-wider font-bold">{t("stateComparison.features.processingTime")}</p>
                   <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{active.processingTime}</p>
                 </div>
