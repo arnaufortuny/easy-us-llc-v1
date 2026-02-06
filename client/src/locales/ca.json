@@ -639,6 +639,22 @@
       "securityVerificationDesc": "Hem enviat un codi de 6 dígits al teu email. Introdueix-lo per continuar.",
       "securityCode": "Codi de verificació"
     },
+    "clientArea": {
+      "title": "La teva Àrea de Client",
+      "subtitle": "En iniciar sessió accediràs al teu panell personal amb tot el que necessites:",
+      "feature1Title": "Estat de la teva LLC",
+      "feature1Desc": "Seguiment en temps real de la teva formació o manteniment",
+      "feature2Title": "Documents i Arxius",
+      "feature2Desc": "Accedeix al teu Operating Agreement, EIN i tots els teus documents",
+      "feature3Title": "Calendari Fiscal",
+      "feature3Desc": "Dates clau de l'IRS, informes anuals i renovacions",
+      "feature4Title": "Missatges i Suport",
+      "feature4Desc": "Comunicació directa amb el nostre equip d'experts",
+      "feature5Title": "Eines",
+      "feature5Desc": "Generador de factures, Operating Agreement i calculadora fiscal",
+      "feature6Title": "Gestió de Pagaments",
+      "feature6Desc": "Historial de pagaments, factures i enllaços de pagament segurs"
+    },
     "register": {
       "title": "Crea el teu",
       "titleHighlight": "compte",

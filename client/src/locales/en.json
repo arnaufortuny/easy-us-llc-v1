@@ -639,6 +639,22 @@
       "securityVerificationDesc": "We've sent a 6-digit code to your email. Enter it to continue.",
       "securityCode": "Verification code"
     },
+    "clientArea": {
+      "title": "Your Client Area",
+      "subtitle": "By signing in you'll access your personal dashboard with everything you need:",
+      "feature1Title": "LLC Status",
+      "feature1Desc": "Real-time tracking of your formation or maintenance",
+      "feature2Title": "Documents & Files",
+      "feature2Desc": "Access your Operating Agreement, EIN, and all your documents",
+      "feature3Title": "Tax Calendar",
+      "feature3Desc": "Key IRS dates, annual reports, and renewals",
+      "feature4Title": "Messages & Support",
+      "feature4Desc": "Direct communication with our expert team",
+      "feature5Title": "Tools",
+      "feature5Desc": "Invoice generator, Operating Agreement, and tax calculator",
+      "feature6Title": "Payment Management",
+      "feature6Desc": "Payment history, invoices, and secure payment links"
+    },
     "register": {
       "title": "Create your",
       "titleHighlight": "account",
