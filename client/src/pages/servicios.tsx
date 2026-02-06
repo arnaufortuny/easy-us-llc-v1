@@ -287,7 +287,7 @@ export default function Servicios() {
                   <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-accent/10 flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
                     <IconComponent className="w-5 h-5 sm:w-5.5 sm:h-5.5 text-accent" />
                   </div>
-                  <h3 className="text-base sm:text-lg font-bold text-foreground mb-2 leading-tight">
+                  <h3 className="text-base sm:text-lg font-hero font-extrabold text-foreground mb-2 leading-tight tracking-tight">
                     {t(`services.whatWeDo.items.${item.key}.title`)}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
