@@ -66,7 +66,7 @@ const SupportIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-import mercuryLogo from "@assets/mercury_logo_transparent_1770401930454.png";
+import mercuryLogo from "@assets/mercury-logo.png";
 const MercuryIcon = ({ className }: { className?: string }) => (
   <img src={mercuryLogo} alt="Mercury" className={className} style={{ objectFit: "contain" }} />
 );
