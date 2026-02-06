@@ -17,6 +17,8 @@ import { ChevronDown, Check, ArrowRight } from "@/components/icons";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
+import mercuryCardImg from "@assets/mercury-card.avif";
+import relayCardImg from "@assets/relay-card.png";
 
 const FormationIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -518,19 +520,32 @@ export default function Servicios() {
             />
           </div>
           <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-16 sm:mb-24 max-w-4xl mx-auto">
-            {bankItems.map((item, i) => (
-              <div 
-                key={i} 
-                className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left"
-              >
-                <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
-                  {t(`services.banks.${item.key}.title`)}
-                </h3>
-                <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
-                  {t(`services.banks.${item.key}.desc`)}
-                </p>
-              </div>
-            ))}
+            {bankItems.map((item, i) => {
+              const hasImage = item.key === "mercury" || item.key === "relay";
+              return (
+                <div 
+                  key={i} 
+                  className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left overflow-hidden"
+                >
+                  {hasImage && (
+                    <div className="flex justify-center mb-5">
+                      <img 
+                        src={item.key === "mercury" ? mercuryCardImg : relayCardImg} 
+                        alt={t(`services.banks.${item.key}.title`)}
+                        className="w-48 sm:w-56 h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
+                  <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
+                    {t(`services.banks.${item.key}.title`)}
+                  </h3>
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+                    {t(`services.banks.${item.key}.desc`)}
+                  </p>
+                </div>
+              );
+            })}
           </div>
 
           {/* Maintenance Section Header */}
@@ -610,17 +625,15 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="bg-card rounded-2xl border border-border p-6 sm:p-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-card rounded-2xl border border-border p-6 sm:p-8 text-left">
+              <ul className="space-y-3">
                 {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
-                  <div key={i} className="flex items-center gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
-                    <div className="w-6 h-6 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3.5 h-3.5 text-accent" />
-                    </div>
+                  <li key={i} className="flex items-start gap-3 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
+                    <Check className="w-5 h-5 text-accent flex-shrink-0 mt-0.5" />
                     <span className="text-base font-black tracking-tight">{benefit}</span>
-                  </div>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </motion.div>
 

@@ -145,55 +145,35 @@ export function StateComparison() {
               </div>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-5">
-                <div className="border border-accent/15 rounded-2xl p-5" data-testid={`card-advantages-${active.key}`}>
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <div className="w-7 h-7 rounded-full bg-accent/10 flex items-center justify-center">
-                      <Check className="w-3.5 h-3.5 text-accent" />
-                    </div>
-                    <h4 className="font-black text-base text-foreground tracking-tight">{t("stateComparison.pros")}</h4>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
+                <div className="border border-accent/15 rounded-2xl p-5 text-left" data-testid={`card-advantages-${active.key}`}>
+                  <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.pros")}</h4>
+                  <ul className="space-y-2.5">
                     {pros.map((pro, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground bg-accent/5 dark:bg-accent/10 rounded-full px-3 py-1.5" data-testid={`text-advantage-${active.key}-${idx}`}>
-                        <Check className="w-3 h-3 text-accent flex-shrink-0" />
-                        {pro}
-                      </span>
+                      <li key={idx} className="flex items-start gap-2.5 text-sm text-muted-foreground" data-testid={`text-advantage-${active.key}-${idx}`}>
+                        <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                        <span className="leading-snug">{pro}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
 
-                <div className="border border-orange-200 dark:border-orange-800/30 rounded-2xl p-5" data-testid={`card-considerations-${active.key}`}>
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <div className="w-7 h-7 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
-                      <AlertCircle className="w-3.5 h-3.5 text-orange-600 dark:text-orange-400" />
-                    </div>
-                    <h4 className="font-black text-base text-foreground tracking-tight">{t("stateComparison.cons")}</h4>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
+                <div className="border border-orange-200 dark:border-orange-800/30 rounded-2xl p-5 text-left" data-testid={`card-considerations-${active.key}`}>
+                  <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.cons")}</h4>
+                  <ul className="space-y-2.5">
                     {cons.map((con, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 text-sm text-muted-foreground bg-orange-50 dark:bg-orange-900/10 rounded-full px-3 py-1.5" data-testid={`text-consideration-${active.key}-${idx}`}>
-                        <AlertCircle className="w-3 h-3 text-orange-500 dark:text-orange-400 flex-shrink-0" />
-                        {con}
-                      </span>
+                      <li key={idx} className="flex items-start gap-2.5 text-sm text-muted-foreground" data-testid={`text-consideration-${active.key}-${idx}`}>
+                        <AlertCircle className="w-4 h-4 text-orange-500 dark:text-orange-400 flex-shrink-0 mt-0.5" />
+                        <span className="leading-snug">{con}</span>
+                      </li>
                     ))}
-                  </div>
+                  </ul>
                 </div>
               </div>
 
-              <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-5" data-testid={`card-ideal-${active.key}`}>
-                <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-                  <div className="flex items-center gap-2.5 flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-accent/15 flex items-center justify-center">
-                      <Lightbulb className="w-4 h-4 text-accent" />
-                    </div>
-                    <h4 className="font-black text-base text-foreground tracking-tight sm:hidden">{t("stateComparison.idealIf")}</h4>
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-black text-base text-foreground tracking-tight mb-1.5 hidden sm:block">{t("stateComparison.idealIf")}</h4>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{idealIf}</p>
-                    <p className="text-sm sm:text-base font-black text-accent mt-2 tracking-tight">{tagline}</p>
-                  </div>
-                </div>
+              <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-5 text-left" data-testid={`card-ideal-${active.key}`}>
+                <h4 className="font-black text-base text-foreground tracking-tight mb-2">{t("stateComparison.idealIf")}</h4>
+                <p className="text-sm text-muted-foreground leading-relaxed">{idealIf}</p>
+                <p className="text-sm sm:text-base font-black text-accent mt-2 tracking-tight">{tagline}</p>
               </div>
             </motion.div>
           </AnimatePresence>
