@@ -495,8 +495,10 @@
     "packsLine2": "MANTENIR LA TEVA LLC AL DIA",
     "subtitle": "Cada pla està dissenyat per cobrir les obligacions reals de la teva empresa i evitar-te problemes futurs.",
     "maintenance": {
-      "packs": "LA TEVA LLC SEMPRE AL DIA,",
-      "name": "SENSE QUE T'HAGIS DE PREOCUPAR",
+      "packs": "LA TEVA LLC",
+      "packsLine2": "SEMPRE AL DIA,",
+      "name": "SENSE QUE T'HAGIS",
+      "nameLine2": "DE PREOCUPAR",
       "subtitle": "La teva empresa no només es crea, es manté. I som aquí per assegurar-nos que tot segueixi funcionant correctament any rere any."
     }
   },

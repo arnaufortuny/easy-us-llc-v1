@@ -495,8 +495,10 @@
     "packsLine2": "MANTENER TU LLC AL DÍA",
     "subtitle": "Cada plan está diseñado para cubrir las obligaciones reales de tu empresa y evitarte problemas futuros.",
     "maintenance": {
-      "packs": "TU LLC SIEMPRE AL DÍA,",
-      "name": "SIN QUE TENGAS QUE PREOCUPARTE",
+      "packs": "TU LLC",
+      "packsLine2": "SIEMPRE AL DÍA,",
+      "name": "SIN QUE TENGAS",
+      "nameLine2": "QUE PREOCUPARTE",
       "subtitle": "Tu empresa no solo se crea, se mantiene. Y estamos aquí para asegurarnos de que todo siga funcionando correctamente año tras año."
     }
   },

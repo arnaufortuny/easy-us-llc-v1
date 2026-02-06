@@ -495,8 +495,10 @@
     "packsLine2": "KEEP YOUR LLC UP TO DATE",
     "subtitle": "Each plan is designed to cover your company's real obligations and prevent future problems.",
     "maintenance": {
-      "packs": "YOUR LLC ALWAYS UP TO DATE,",
-      "name": "WITHOUT YOU HAVING TO WORRY",
+      "packs": "YOUR LLC",
+      "packsLine2": "ALWAYS UP TO DATE,",
+      "name": "WITHOUT YOU",
+      "nameLine2": "HAVING TO WORRY",
       "subtitle": "Your company is not just created, it's maintained. And we're here to make sure everything keeps working correctly year after year."
     }
   },

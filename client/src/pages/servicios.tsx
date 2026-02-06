@@ -548,13 +548,6 @@ export default function Servicios() {
               );
             })}
           </div>
-          <div className="mt-8 mb-12 flex justify-center">
-            <div className="bg-accent px-8 py-3 rounded-full shadow-lg transform -rotate-1">
-              <p className="text-primary font-sans font-black  tracking-[0.2em] text-sm sm:text-base">
-                {t("services.banks.included")}
-              </p>
-            </div>
-          </div>
 
           {/* Maintenance Section Header */}
           <div className="text-center mb-8 sm:mb-10 flex flex-col items-center justify-center relative" id="mantenimiento">
@@ -669,8 +662,10 @@ export default function Servicios() {
               whileInView="visible"
               viewport={viewportOnce}
             >
-              <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span>{" "}
-              <span className="text-accent">{t("packsTitle.maintenance.name")}</span>
+              <span className="text-foreground">{t("packsTitle.maintenance.packs")}</span><br/>
+              <span className="text-foreground">{t("packsTitle.maintenance.packsLine2")}</span><br/>
+              <span className="text-accent">{t("packsTitle.maintenance.name")}</span><br/>
+              <span className="text-accent">{t("packsTitle.maintenance.nameLine2")}</span>
             </motion.h2>
             <motion.p
               className="text-base sm:text-lg text-muted-foreground mt-4 max-w-2xl"
