@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
@@ -67,6 +67,7 @@ export function AdminConsultationsPanel() {
   const [showSlotForm, setShowSlotForm] = useState(false);
   const [expandedBookingId, setExpandedBookingId] = useState<number | null>(null);
   const [meetingLinkValue, setMeetingLinkValue] = useState('');
+  const [bookingSearch, setBookingSearch] = useState('');
   const [typeForm, setTypeForm] = useState({
     name: '', nameEs: '', nameEn: '', nameCa: '',
     description: '', descriptionEs: '', descriptionEn: '', descriptionCa: '',
@@ -228,6 +229,19 @@ export function AdminConsultationsPanel() {
     }
   };
 
+  const filteredBookings = useMemo(() => {
+    if (!bookingSearch.trim()) return bookings;
+    const query = bookingSearch.toLowerCase().trim();
+    return bookings.filter(({ booking, user }) => {
+      const code = (booking.bookingCode || '').toLowerCase();
+      const clientId = (user.clientId || '').toLowerCase();
+      const name = `${user.firstName || ''} ${user.lastName || ''}`.toLowerCase();
+      const email = (user.email || '').toLowerCase();
+      const topic = (booking.mainTopic || '').toLowerCase();
+      return code.includes(query) || clientId.includes(query) || name.includes(query) || email.includes(query) || topic.includes(query);
+    });
+  }, [bookings, bookingSearch]);
+
   return (
     <div className="space-y-4">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -267,9 +281,17 @@ export function AdminConsultationsPanel() {
       </div>
 
       {activeSubTab === 'bookings' && (
+        <div className="space-y-3">
+          <Input
+            placeholder={t('consultations.admin.searchBookings', 'Buscar por código, cliente, email...')}
+            value={bookingSearch}
+            onChange={(e) => setBookingSearch(e.target.value)}
+            className="rounded-full"
+            data-testid="input-booking-search"
+          />
         <Card className="p-0 overflow-hidden">
           <div className="divide-y">
-            {bookings.length === 0 ? (
+            {filteredBookings.length === 0 ? (
               <div className="p-6 text-center text-muted-foreground">
                 {t('consultations.admin.noBookings', 'No hay reservas de consultas')}
               </div>
@@ -406,6 +428,7 @@ export function AdminConsultationsPanel() {
             )}
           </div>
         </Card>
+        </div>
       )}
 
       {activeSubTab === 'types' && (

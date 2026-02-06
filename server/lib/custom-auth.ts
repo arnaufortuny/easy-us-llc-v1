@@ -7,6 +7,7 @@ import { users } from "@shared/models/auth";
 import { userNotifications, messages as messagesTable } from "@shared/schema";
 import { eq, sql, and, inArray, desc, gt } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
+import { generateUniqueClientId } from "./id-generator";
 import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName } from "./email-translations";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
@@ -84,7 +85,7 @@ export function setupCustomAuth(app: Express) {
         return res.status(400).json({ message: "La contraseña debe tener al menos 8 caracteres" });
       }
 
-      const clientId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      const clientId = await generateUniqueClientId();
       const lang = (preferredLanguage === 'en' || preferredLanguage === 'ca') ? preferredLanguage : 'es';
       const { user } = await createUser({
         email,

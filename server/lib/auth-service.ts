@@ -5,7 +5,7 @@ import { users, passwordResetTokens, emailVerificationTokens, messages as messag
 import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
 import { validatePassword } from "./security";
-import { generateUniqueClientId } from "./id-generator";
+import { generateUniqueClientId, generateUniqueMessageId } from "./id-generator";
 export { generateUniqueClientId };
 
 const SALT_ROUNDS = 12;
@@ -205,7 +205,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
       updates.isActive = false;
       updates.lockUntil = null;
       
-      const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
+      const msgId = await generateUniqueMessageId();
 
       // Send deactivation email
       try {

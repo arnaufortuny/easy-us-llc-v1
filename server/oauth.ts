@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import type { Express, Request, Response } from "express";
 import crypto from "crypto";
 import { isAdminEmail } from "./lib/auth-service";
+import { generateUniqueClientId } from "./lib/id-generator";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -16,10 +17,6 @@ declare module "express-session" {
     oauthState?: string;
     oauthAction?: "login" | "connect";
   }
-}
-
-function generateClientId(): string {
-  return Math.floor(10000000 + Math.random() * 90000000).toString();
 }
 
 async function findOrCreateUserByGoogle(profile: {
@@ -52,7 +49,7 @@ async function findOrCreateUserByGoogle(profile: {
     profileImageUrl: profile.profileImageUrl,
     googleId: profile.googleId,
     emailVerified: true,
-    clientId: generateClientId(),
+    clientId: await generateUniqueClientId(),
     isActive: true,
     accountStatus: "active",
     isAdmin: isAdminEmail(profile.email),

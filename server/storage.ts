@@ -8,6 +8,7 @@ import {
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
 import { z } from "zod";
+import { generateUniqueMessageId } from "./lib/id-generator";
 
 type InsertOrder = z.infer<typeof insertOrderSchema>;
 type InsertLlcApplication = z.infer<typeof insertLlcApplicationSchema>;
@@ -203,8 +204,7 @@ export class DatabaseStorage implements IStorage {
   // Messages
   async createMessage(message: any): Promise<any> {
     const { encrypt } = await import("./utils/encryption");
-    // Generate 8-digit message ID (purely numeric for tickets)
-    const msgId = Math.floor(10000000 + Math.random() * 90000000).toString();
+    const msgId = await generateUniqueMessageId();
     
     const encryptedContent = encrypt(message.content);
     const [newMessage] = await db.insert(messagesTable).values({
