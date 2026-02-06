@@ -16,7 +16,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useAuth } from "@/hooks/use-auth";
 import { StepProgress } from "@/components/ui/step-progress";
@@ -47,7 +46,7 @@ export default function Contacto() {
   const [isOtpSent, setIsOtpSent] = useState(false);
   const [isOtpVerified, setIsOtpVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
 
   const SUBJECT_OPTIONS_TRANSLATED = [
     t("contact.subjects.createCompany"),
@@ -105,6 +104,13 @@ export default function Contacto() {
     if (params.get("subject")) form.setValue("subject", params.get("subject") as string);
   }, [form]);
 
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["nombre"],
@@ -145,42 +151,45 @@ export default function Contacto() {
   };
 
   const sendOtp = async () => {
+    setFormMessage(null);
     const email = form.getValues("email");
     if (!email || !email.includes("@")) {
-      toast({ title: t("toast.invalidEmail"), description: t("toast.checkEmailFormat"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.invalidEmail")}. ${t("toast.checkEmailFormat")}` });
       return;
     }
     setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/send-otp", { email });
       setIsOtpSent(true);
-      toast({ title: t("toast.codeSent"), description: t("toast.checkEmail") });
+      setFormMessage({ type: 'success', text: `${t("toast.codeSent")}. ${t("toast.checkEmail")}` });
     } catch (err) {
-      toast({ title: t("toast.errorSending"), description: t("toast.tryAgain"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.errorSending")}. ${t("toast.tryAgain")}` });
     } finally {
       setIsLoading(false);
     }
   };
 
   const verifyOtp = async () => {
+    setFormMessage(null);
     const email = form.getValues("email");
     const otp = form.getValues("otp");
     setIsLoading(true);
     try {
       await apiRequest("POST", "/api/contact/verify-otp", { email, otp });
       setIsOtpVerified(true);
-      toast({ title: t("toast.emailVerified"), description: t("toast.canContinue") });
+      setFormMessage({ type: 'success', text: `${t("toast.emailVerified")}. ${t("toast.canContinue")}` });
       setStep(7);
     } catch (err) {
-      toast({ title: t("toast.invalidCode"), description: t("toast.codeExpiredOrInvalid"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.invalidCode")}. ${t("toast.codeExpiredOrInvalid")}` });
     } finally {
       setIsLoading(false);
     }
   };
 
   const onSubmit = async (values: FormValues) => {
+    setFormMessage(null);
     if (!isOtpVerified) {
-      toast({ title: t("toast.verifyEmail"), description: t("toast.needVerification"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.verifyEmail")}. ${t("toast.needVerification")}` });
       return;
     }
     setIsLoading(true);
@@ -196,10 +205,10 @@ export default function Contacto() {
       const data = await response.json();
       setSubmittedMessageId(data.messageId || data.id);
       setIsSubmitted(true);
-      toast({ title: t("toast.messageSent"), description: t("toast.willRespondSoon") });
+      setFormMessage({ type: 'success', text: `${t("toast.messageSent")}. ${t("toast.willRespondSoon")}` });
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
     } catch (err) {
-      toast({ title: t("toast.somethingWrong"), description: t("toast.tryAgain"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.somethingWrong")}. ${t("toast.tryAgain")}` });
     } finally {
       setIsLoading(false);
     }
@@ -319,6 +328,17 @@ export default function Contacto() {
           <div className="space-y-6">
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                {formMessage && (
+                  <div className={`p-3 rounded-xl text-center text-sm font-medium ${
+                    formMessage.type === 'error' 
+                      ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                      : formMessage.type === 'success'
+                      ? 'bg-accent/10 border border-accent/20 text-accent'
+                      : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+                  }`} data-testid="form-message">
+                    {formMessage.text}
+                  </div>
+                )}
                 
                 {step === 0 && (
                   <div className="space-y-6 text-left">

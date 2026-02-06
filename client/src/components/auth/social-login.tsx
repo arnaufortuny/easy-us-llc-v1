@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
-import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
 interface SocialLoginProps {
@@ -37,8 +36,15 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSeparator = false }: SocialLoginProps) {
   const [isLoadingGoogle, setIsLoadingGoogle] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
 
   const handleGoogleLogin = () => {
     setIsLoadingGoogle(true);
@@ -47,25 +53,35 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
   };
 
   const handleDisconnect = async () => {
+    setFormMessage(null);
     setIsLoadingGoogle(true);
     try {
       await apiRequest("POST", "/api/auth/disconnect/google");
-      toast({ title: t("toast.success"), description: t("auth.google.disconnected") });
+      setFormMessage({ type: 'success', text: `${t("toast.success")}. ${t("auth.google.disconnected")}` });
       onSuccess?.();
     } catch (err: any) {
-      toast({
-        title: t("toast.error"),
-        description: err.message || t("errors.generic"),
-        variant: "destructive",
-      });
+      setFormMessage({ type: 'error', text: `${t("toast.error")}. ${err.message || t("errors.generic")}` });
     } finally {
       setIsLoadingGoogle(false);
     }
   };
 
+  const messageBlock = formMessage && (
+    <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+      formMessage.type === 'error' 
+        ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+        : formMessage.type === 'success'
+        ? 'bg-accent/10 border border-accent/20 text-accent'
+        : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+    }`} data-testid="form-message">
+      {formMessage.text}
+    </div>
+  );
+
   if (mode === "connect") {
     return (
       <div className="space-y-3">
+        {messageBlock}
         <div className="flex items-center justify-between p-3 rounded-lg border border-border bg-card">
           <div className="flex items-center gap-3">
             <GoogleIcon className="w-5 h-5" />
@@ -100,6 +116,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
 
   return (
     <div className="space-y-3">
+      {messageBlock}
       {!hideSeparator && (
         <div className="relative">
           <div className="absolute inset-0 flex items-center">

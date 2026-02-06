@@ -16,7 +16,6 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertMaintenanceApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
@@ -75,7 +74,14 @@ export default function MaintenanceApplication() {
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
   const [requestCode, setRequestCode] = useState<string>("");
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -229,14 +235,15 @@ export default function MaintenanceApplication() {
       return;
     }
     setIsValidatingDiscount(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/discount-codes/validate", { code: code.trim(), orderAmount: maintenancePrice });
       const data = await res.json();
       setDiscountInfo(data);
       if (data.valid) {
-        toast({ title: t("toast.discountApplied"), description: `${t("toast.discountAppliedDesc")} (${(data.discountAmount / 100).toFixed(2)}€)` });
+        setFormMessage({ type: 'success', text: `${t("toast.discountApplied")}. ${t("toast.discountAppliedDesc")} (${(data.discountAmount / 100).toFixed(2)}€)` });
       } else {
-        toast({ title: t("toast.discountInvalid"), description: t("toast.discountInvalidDesc"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: `${t("toast.discountInvalid")}. ${t("toast.discountInvalidDesc")}` });
       }
     } catch {
       setDiscountInfo({ valid: false, discountAmount: 0, message: t("toast.discountValidationError") });
@@ -257,22 +264,23 @@ export default function MaintenanceApplication() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: t("toast.emailMissing"), description: t("toast.emailMissingDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.emailMissing")}. ${t("toast.emailMissingDesc")}` });
       return;
     }
     
     setIsSendingOtp(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: t("toast.codeSent"), description: t("toast.checkEmail") });
+        setFormMessage({ type: 'success', text: `${t("toast.codeSent")}. ${t("toast.checkEmail")}` });
       } else {
         const data = await res.json();
-        toast({ title: t("toast.error"), description: data.message, variant: "destructive" });
+        setFormMessage({ type: 'error', text: `${t("toast.error")}. ${data.message}` });
       }
     } catch (error) {
-      toast({ title: t("toast.errorSending"), description: t("toast.tryAgain"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.errorSending")}. ${t("toast.tryAgain")}` });
     } finally {
       setIsSendingOtp(false);
     }
@@ -282,22 +290,23 @@ export default function MaintenanceApplication() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: t("toast.otpMissing"), description: t("toast.otpMissingDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.otpMissing")}. ${t("toast.otpMissingDesc")}` });
       return;
     }
     
     setIsVerifyingOtp(true);
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: t("toast.emailVerified"), description: t("toast.canContinue") });
+        setFormMessage({ type: 'success', text: `${t("toast.emailVerified")}. ${t("toast.canContinue")}` });
       } else {
         const data = await res.json();
-        toast({ title: t("toast.error"), description: data.message, variant: "destructive" });
+        setFormMessage({ type: 'error', text: `${t("toast.error")}. ${data.message}` });
       }
     } catch (error) {
-      toast({ title: t("toast.invalidCode"), description: t("toast.codeExpiredOrInvalid"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.invalidCode")}. ${t("toast.codeExpiredOrInvalid")}` });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -308,23 +317,24 @@ export default function MaintenanceApplication() {
     const password = form.getValues("password");
     
     if (!password || password.length < 1) {
-      toast({ title: t("toast.passwordMissing"), description: t("toast.passwordMissingDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.passwordMissing")}. ${t("toast.passwordMissingDesc")}` });
       return;
     }
 
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/auth/login", { email, password });
       if (!res.ok) {
         const data = await res.json();
-        toast({ title: t("toast.passwordIncorrect"), description: t("toast.passwordIncorrectDesc"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: `${t("toast.passwordIncorrect")}. ${t("toast.passwordIncorrectDesc")}` });
         return;
       }
       await refetchAuth();
       setIsOtpVerified(true);
-      toast({ title: t("toast.welcomeBack"), description: t("toast.welcomeBackDesc") });
+      setFormMessage({ type: 'success', text: `${t("toast.welcomeBack")}. ${t("toast.welcomeBackDesc")}` });
       setStep(4);
     } catch {
-      toast({ title: t("toast.connectionError"), description: t("toast.connectionErrorDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("toast.connectionError")}. ${t("toast.connectionErrorDesc")}` });
     }
   };
 
@@ -349,10 +359,7 @@ export default function MaintenanceApplication() {
     }
     
     if (step === 0 && form.getValues("creationSource")?.includes("No")) {
-      toast({ 
-        title: t("toast.redirectingToLLC"), 
-        description: t("toast.noLLCYetDesc") 
-      });
+      setFormMessage({ type: 'info', text: `${t("toast.redirectingToLLC")}. ${t("toast.noLLCYetDesc")}` });
       setLocation("/llc/formation");
       return;
     }
@@ -389,6 +396,7 @@ export default function MaintenanceApplication() {
   const onSubmit = async (data: FormValues) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
+    setFormMessage(null);
     
     try {
       const productId = stateFromUrl.includes("Wyoming") ? 2 : stateFromUrl.includes("Delaware") ? 3 : 1;
@@ -413,12 +421,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: t("maintenance.requestReceived"), description: t("maintenance.workingOnIt") });
+        setFormMessage({ type: 'success', text: `${t("maintenance.requestReceived")}. ${t("maintenance.workingOnIt")}` });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       } else {
         if (!data.password || data.password.length < 8) {
-          toast({ title: t("application.validation.passwordTooShort"), description: t("application.validation.passwordMinChars"), variant: "destructive" });
+          setFormMessage({ type: 'error', text: `${t("application.validation.passwordTooShort")}. ${t("application.validation.passwordMinChars")}` });
           setIsSubmitting(false);
           return;
         }
@@ -450,12 +458,12 @@ export default function MaintenanceApplication() {
         });
         
         setRequestCode(orderData.application.requestCode || "");
-        toast({ title: t("maintenance.accountCreatedRequest"), description: t("maintenance.allSetStarting") });
+        setFormMessage({ type: 'success', text: `${t("maintenance.accountCreatedRequest")}. ${t("maintenance.allSetStarting")}` });
         clearDraft();
         setLocation(`/contacto?success=true&type=maintenance&orderId=${encodeURIComponent(orderData.application.requestCode || "")}`);
       }
     } catch (err: any) {
-      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgainSeconds"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("application.messages.somethingWentWrong")}. ${t("application.messages.tryAgainSeconds")}` });
     } finally {
       setIsSubmitting(false);
     }
@@ -477,6 +485,17 @@ export default function MaintenanceApplication() {
           <div className="space-y-6">
             <Form {...form}>
               <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+                {formMessage && (
+                  <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+                    formMessage.type === 'error' 
+                      ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                      : formMessage.type === 'success'
+                      ? 'bg-accent/10 border border-accent/20 text-accent'
+                      : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+                  }`} data-testid="form-message">
+                    {formMessage.text}
+                  </div>
+                )}
                 
                 {/* STEP 0: Ya tienes LLC? */}
                 {step === 0 && (

@@ -5,9 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Calendar, Clock, Video, XCircle, MessageSquare, ChevronDown, ChevronUp } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel, Tab } from "./types";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,7 +19,15 @@ interface ConsultationsTabProps {
 
 export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
   const { t, i18n } = useTranslation();
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const [showBookingPanel, setShowBookingPanel] = useState(false);
   const [selectedType, setSelectedType] = useState<ConsultationType | null>(null);
   const [selectedDate, setSelectedDate] = useState("");
@@ -57,12 +64,12 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
-      toast({ title: t("consultations.bookingSuccess"), description: t("consultations.bookingSuccessDesc") });
+      setFormMessage({ type: 'success', text: t("consultations.bookingSuccess") + ". " + t("consultations.bookingSuccessDesc") });
       setShowBookingPanel(false);
       resetForm();
     },
     onError: (err: any) => {
-      toast({ title: t("consultations.bookingError"), description: err.message, variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("consultations.bookingError") + ". " + err.message });
     }
   });
 
@@ -72,10 +79,10 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/consultations/my"] });
-      toast({ title: t("consultations.cancelSuccess") });
+      setFormMessage({ type: 'success', text: t("consultations.cancelSuccess") });
     },
     onError: (err: any) => {
-      toast({ title: t("consultations.cancelError"), description: err.message, variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("consultations.cancelError") + ". " + err.message });
     }
   });
 
@@ -101,8 +108,9 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
   };
 
   const handleBook = () => {
+    setFormMessage(null);
     if (!selectedType || !selectedDate || !selectedTime) {
-      toast({ title: t("consultations.selectAll"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("consultations.selectAll") });
       return;
     }
 
@@ -141,6 +149,17 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
 
   return (
     <div className="space-y-6">
+      {formMessage && (
+        <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+          formMessage.type === 'error' 
+            ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+            : formMessage.type === 'success'
+            ? 'bg-accent/10 border border-accent/20 text-accent'
+            : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+        }`} data-testid="form-message">
+          {formMessage.text}
+        </div>
+      )}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h2 className="text-xl sm:text-2xl font-black tracking-tight">

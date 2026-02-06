@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "react-i18next";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,7 +18,15 @@ const EXPENSE_CATEGORIES = ['state_fees', 'registered_agent', 'bank_fees', 'mark
 
 export function AdminAccountingPanel() {
   const { t } = useTranslation();
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const [periodFilter, setPeriodFilter] = useState<'month' | 'year' | 'all'>('month');
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
@@ -68,13 +75,13 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionCreated') });
+      setFormMessage({ type: 'success', text: t('dashboard.admin.transactionCreated') });
       setFormOpen(false);
       setEditingTransaction(null);
       resetForm();
     },
     onError: () => {
-      toast({ title: t('common.error'), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t('common.error') });
     }
   });
 
@@ -87,13 +94,13 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionUpdated') });
+      setFormMessage({ type: 'success', text: t('dashboard.admin.transactionUpdated') });
       setFormOpen(false);
       setEditingTransaction(null);
       resetForm();
     },
     onError: () => {
-      toast({ title: t('common.error'), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t('common.error') });
     }
   });
 
@@ -105,10 +112,10 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionDeleted') });
+      setFormMessage({ type: 'success', text: t('dashboard.admin.transactionDeleted') });
     },
     onError: () => {
-      toast({ title: t('common.error'), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t('common.error') });
     }
   });
 
@@ -139,8 +146,9 @@ export function AdminAccountingPanel() {
   };
 
   const handleSubmit = () => {
+    setFormMessage(null);
     if (!formData.category || !formData.amount) {
-      toast({ title: t('common.requiredFields'), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t('common.requiredFields') });
       return;
     }
     if (editingTransaction) {
@@ -151,6 +159,7 @@ export function AdminAccountingPanel() {
   };
 
   const handleExportCSV = async () => {
+    setFormMessage(null);
     try {
       const params = new URLSearchParams();
       if (typeFilter) params.set('type', typeFilter);
@@ -163,9 +172,9 @@ export function AdminAccountingPanel() {
       a.download = `transacciones_${new Date().toISOString().slice(0, 10)}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-      toast({ title: t('dashboard.admin.exportCSV') });
+      setFormMessage({ type: 'success', text: t('dashboard.admin.exportCSV') });
     } catch (err) {
-      toast({ title: t('common.error'), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t('common.error') });
     }
   };
 
@@ -179,6 +188,17 @@ export function AdminAccountingPanel() {
 
   return (
     <div className="space-y-6">
+      {formMessage && (
+        <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+          formMessage.type === 'error' 
+            ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+            : formMessage.type === 'success'
+            ? 'bg-accent/10 border border-accent/20 text-accent'
+            : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+        }`} data-testid="form-message">
+          {formMessage.text}
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Card className="rounded-2xl border-0 shadow-sm">
           <CardContent className="p-4 flex items-center gap-4">

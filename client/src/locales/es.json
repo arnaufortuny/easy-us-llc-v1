@@ -320,7 +320,7 @@
       "stateFeesIncluded": "Tasas estatales incluidas",
       "year1": "/año 1",
       "year": "/año",
-      "popular": "Popular",
+      "popular": "Recomendado",
       "premium": "Premium",
       "startups": "Startups",
       "choose": "Elegir",
@@ -508,7 +508,7 @@
     "titleHighlight": "ES LA QUE MEJOR",
     "titleHighlight2": "FUNCIONA PARA TI.",
     "subtitle": "Comparamos costes, privacidad, fiscalidad y mantenimiento para que elijas con criterio y sin sorpresas.",
-    "popular": "Más Popular",
+    "popular": "Recomendado",
     "premium": "Premium",
     "startups": "Startups",
     "days": "días",
@@ -582,7 +582,7 @@
     "newMexico": {
       "title": "New Mexico",
       "price": "739",
-      "popular": "Más Popular"
+      "popular": "Recomendado"
     },
     "wyoming": {
       "title": "Wyoming",
@@ -829,7 +829,7 @@
     "cancel": "Cancelar",
     "saveChanges": "Guardar Cambios",
     "continue": "Continuar",
-    "helpChoose": "¿No sabes cuál elegir? Te ayudamos",
+    "helpChoose": "¿No sabes cuál es la mejor para ti? Compara aquí",
     "back": "Volver",
     "submit": "Enviar Solicitud",
     "submitting": "Enviando...",

@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
 
 import { useAuth } from "@/hooks/use-auth";
@@ -12,7 +11,14 @@ export function NewsletterSection() {
   const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
 
   // Hide newsletter for logged-in users
   if (isAuthenticated) {
@@ -23,6 +29,7 @@ export function NewsletterSection() {
     e.preventDefault();
     if (!email) return;
 
+    setFormMessage(null);
     setLoading(true);
     try {
       const response = await fetch("/api/newsletter/subscribe", {
@@ -34,17 +41,13 @@ export function NewsletterSection() {
       const data = await response.json();
 
       if (response.ok) {
-        toast({ 
-          title: t("newsletter.success"), 
-          description: t("newsletter.checkInbox"),
-          variant: "success"
-        });
+        setFormMessage({ type: 'success', text: `${t("newsletter.success")}. ${t("newsletter.checkInbox")}` });
         setEmail("");
       } else {
-        toast({ title: t("newsletter.error"), description: data.message || t("newsletter.subscriptionFailed"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: `${t("newsletter.error")}. ${data.message || t("newsletter.subscriptionFailed")}` });
       }
     } catch (err) {
-      toast({ title: t("newsletter.error"), description: t("newsletter.connectionError"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: `${t("newsletter.error")}. ${t("newsletter.connectionError")}` });
     } finally {
       setLoading(false);
     }
@@ -67,6 +70,17 @@ export function NewsletterSection() {
           </div>
 
           <form onSubmit={handleSubscribe} className="max-w-lg w-full mx-auto relative group flex flex-col items-center text-center">
+            {formMessage && (
+              <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium w-full ${
+                formMessage.type === 'error' 
+                  ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                  : formMessage.type === 'success'
+                  ? 'bg-accent/10 border border-accent/20 text-accent'
+                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+              }`} data-testid="form-message">
+                {formMessage.text}
+              </div>
+            )}
             <div className="relative w-full">
               <Input 
                 type="email" 

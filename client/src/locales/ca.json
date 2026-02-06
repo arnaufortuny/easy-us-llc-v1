@@ -320,7 +320,7 @@
       "stateFeesIncluded": "Taxes estatals incloses",
       "year1": "/any 1",
       "year": "/any",
-      "popular": "Popular",
+      "popular": "Recomanat",
       "premium": "Premium",
       "startups": "Startups",
       "choose": "Triar",
@@ -508,7 +508,7 @@
     "titleHighlight": "ÉS LA QUE MILLOR",
     "titleHighlight2": "FUNCIONA PER A TU.",
     "subtitle": "Comparem costos, privacitat, fiscalitat i manteniment perquè triïs amb criteri i sense sorpreses.",
-    "popular": "Més Popular",
+    "popular": "Recomanat",
     "premium": "Premium",
     "startups": "Startups",
     "days": "dies",
@@ -582,7 +582,7 @@
     "newMexico": {
       "title": "New Mexico",
       "price": "739",
-      "popular": "Más Popular"
+      "popular": "Recomanat"
     },
     "wyoming": {
       "title": "Wyoming",
@@ -829,7 +829,7 @@
     "cancel": "Cancel·lar",
     "saveChanges": "Desar Canvis",
     "continue": "Continuar",
-    "helpChoose": "No saps quin triar? T'ajudem",
+    "helpChoose": "No saps quina és la millor per a tu? Compara aquí",
     "back": "Tornar",
     "submit": "Enviar Sol·licitud",
     "submitting": "Enviant...",

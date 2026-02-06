@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { useEffect, useState, useMemo } from "react";
-import { useToast } from "@/hooks/use-toast";
 import logoIcon from "@/assets/logo-icon.png";
 import { getFormationPriceFormatted } from "@shared/config/pricing";
 
@@ -116,8 +115,15 @@ const links = [
 ];
 
 export default function LinktreePage() {
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const [income, setIncome] = useState(50000);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
   const [showDetails, setShowDetails] = useState(false);
   
   const spanishTaxes = useMemo(() => calculateSpanishTaxes(income), [income]);
@@ -135,6 +141,7 @@ export default function LinktreePage() {
   const incomePresets = [30000, 50000, 75000, 100000];
 
   const handleShare = async () => {
+    setFormMessage(null);
     const shareData = {
       title: 'Creamos tu LLC',
       text: 'Optimiza tus impuestos con una LLC en EE. UU.',
@@ -149,10 +156,7 @@ export default function LinktreePage() {
       }
     } else {
       await navigator.clipboard.writeText('https://creamostullc.com');
-      toast({
-        title: "Enlace copiado",
-        description: "El enlace ha sido copiado al portapapeles",
-      });
+      setFormMessage({ type: 'success', text: 'Enlace copiado. El enlace ha sido copiado al portapapeles' });
     }
   };
 
@@ -223,6 +227,17 @@ export default function LinktreePage() {
 
       <div className="flex-1 flex flex-col items-center justify-start px-4 py-8 sm:py-12 sm:justify-center">
         <div className="w-full max-w-md mx-auto">
+          {formMessage && (
+            <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+              formMessage.type === 'error' 
+                ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                : formMessage.type === 'success'
+                ? 'bg-accent/10 border border-accent/20 text-accent'
+                : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+            }`} data-testid="form-message">
+              {formMessage.text}
+            </div>
+          )}
           <div className="text-center mb-8">
             <div className="flex justify-center mb-5">
               <div className="w-20 h-20 rounded-full bg-white shadow-xl flex items-center justify-center">

@@ -9,7 +9,6 @@ import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, Cr
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
-import { useToast } from "@/hooks/use-toast";
 import { Link, useLocation } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -36,7 +35,6 @@ import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultati
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 
 function _NewsletterToggleLegacy() {
-  const { toast } = useToast();
   const { t } = useTranslation();
   const { data: status, isLoading } = useQuery<{ isSubscribed: boolean }>({
     queryKey: ["/api/newsletter/status"],
@@ -49,7 +47,6 @@ function _NewsletterToggleLegacy() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/newsletter/status"] });
-      toast({ title: t("dashboard.toasts.preferencesUpdated"), description: t("dashboard.toasts.preferencesUpdatedDesc") });
     }
   });
 
@@ -86,7 +83,14 @@ export default function Dashboard() {
     idType: '',
     birthDate: ''
   });
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
   
   // Only allow profile editing for active and VIP accounts
   const canEdit = user?.accountStatus === 'active' || user?.accountStatus === 'vip';
@@ -179,6 +183,7 @@ export default function Dashboard() {
 
   const updateProfile = useMutation({
     mutationFn: async (data: typeof profileData & { otpCode?: string }) => {
+      setFormMessage(null);
       if (!canEdit) {
         throw new Error(t("dashboard.toasts.cannotModifyAccountState"));
       }
@@ -202,7 +207,7 @@ export default function Dashboard() {
           const otpRes = await apiRequest("POST", "/api/user/profile/send-otp");
           if (otpRes.ok) {
             setProfileOtpStep('otp');
-            toast({ title: t("profile.otpSentTitle", "Código enviado"), description: t("profile.otpSentDesc", "Hemos enviado un código de verificación a tu email.") });
+            setFormMessage({ type: 'success', text: t("profile.otpSentTitle", "Código enviado") + ". " + t("profile.otpSentDesc", "Hemos enviado un código de verificación a tu email.") });
           }
           return;
         }
@@ -213,16 +218,17 @@ export default function Dashboard() {
       if (profileOtpStep === 'idle') {
         queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
         setIsEditing(false);
-        toast({ title: t("dashboard.toasts.changesSaved"), description: t("dashboard.toasts.changesSavedDesc") });
+        setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") + ". " + t("dashboard.toasts.changesSavedDesc") });
       }
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + error.message });
     }
   });
 
   const confirmProfileWithOtp = useMutation({
     mutationFn: async () => {
+      setFormMessage(null);
       if (!pendingProfileData || !profileOtp) return;
       const res = await apiRequest("PATCH", "/api/user/profile", { ...pendingProfileData, otpCode: profileOtp });
       if (!res.ok) {
@@ -236,10 +242,10 @@ export default function Dashboard() {
       setProfileOtpStep('idle');
       setProfileOtp("");
       setPendingProfileData(null);
-      toast({ title: t("dashboard.toasts.changesSaved"), description: t("dashboard.toasts.changesSavedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") + ". " + t("dashboard.toasts.changesSavedDesc") });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message, variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + error.message });
     }
   });
 
@@ -276,6 +282,7 @@ export default function Dashboard() {
 
   const sendReplyMutation = useMutation({
     mutationFn: async (messageId: number) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", `/api/messages/${messageId}/reply`, { content: replyContent });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -288,10 +295,10 @@ export default function Dashboard() {
       setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-      toast({ title: user?.isAdmin ? t("dashboard.toasts.messageReplied") : t("dashboard.toasts.messageSent"), description: user?.isAdmin ? t("dashboard.toasts.messageRepliedDesc") : t("dashboard.toasts.messageSentDesc") });
+      setFormMessage({ type: 'success', text: (user?.isAdmin ? t("dashboard.toasts.messageReplied") : t("dashboard.toasts.messageSent")) + ". " + (user?.isAdmin ? t("dashboard.toasts.messageRepliedDesc") : t("dashboard.toasts.messageSentDesc")) });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotSend")) });
     }
   });
 
@@ -304,6 +311,7 @@ export default function Dashboard() {
 
   const markNotificationRead = useMutation({
     mutationFn: async (id: string) => {
+      setFormMessage(null);
       const res = await apiRequest("PATCH", `/api/user/notifications/${id}/read`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotMarkNotification"));
     },
@@ -315,6 +323,7 @@ export default function Dashboard() {
 
   const deleteNotification = useMutation({
     mutationFn: async (id: string) => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", `/api/user/notifications/${id}`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
@@ -322,7 +331,7 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
     }
   });
 
@@ -340,16 +349,17 @@ export default function Dashboard() {
 
   const deleteIncompleteAppMutation = useMutation({
     mutationFn: async ({ type, id }: { type: string; id: number }) => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", `/api/admin/incomplete-applications/${type}/${id}`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/incomplete-applications"] });
-      toast({ title: t("dashboard.toasts.incompleteDeleted"), description: t("dashboard.toasts.incompleteDeletedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.incompleteDeleted") + ". " + t("dashboard.toasts.incompleteDeletedDesc") });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
     }
   });
 
@@ -416,16 +426,17 @@ export default function Dashboard() {
 
   const broadcastMutation = useMutation({
     mutationFn: async ({ subject, message }: { subject: string, message: string }) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotSend"));
     },
     onSuccess: () => {
-      toast({ title: t("dashboard.toasts.emailsSent"), description: t("dashboard.toasts.emailsSentDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.emailsSent") + ". " + t("dashboard.toasts.emailsSentDesc") });
       setBroadcastSubject("");
       setBroadcastMessage("");
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotSend") });
     }
   });
 
@@ -436,6 +447,7 @@ export default function Dashboard() {
 
   const uploadDocMutation = useMutation({
     mutationFn: async (data: any) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/admin/documents", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -445,45 +457,48 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: t("dashboard.toasts.documentUploaded"), description: t("dashboard.toasts.documentUploadedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploaded") + ". " + t("dashboard.toasts.documentUploadedDesc") });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotUpload")) });
     }
   });
 
   const updateStatusMutation = useMutation({
     mutationFn: async ({ id, status }: { id: number, status: string }) => {
+      setFormMessage(null);
       const res = await apiRequest("PATCH", `/api/admin/orders/${id}/status`, { status });
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      toast({ title: t("dashboard.toasts.statusUpdated") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdate") });
     }
   });
 
   const updateLlcDatesMutation = useMutation({
     mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string }) => {
+      setFormMessage(null);
       const res = await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      toast({ title: t("dashboard.toasts.dateUpdated") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.dateUpdated") });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdate") });
     }
   });
 
   const sendNoteMutation = useMutation({
     mutationFn: async ({ userId, title, message, type }: { userId: string, title: string, message: string, type: string }) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));
@@ -492,18 +507,19 @@ export default function Dashboard() {
       return res.json();
     },
     onSuccess: () => {
-      toast({ title: t("dashboard.toasts.notesSent"), description: t("dashboard.toasts.notesSentDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.notesSent") + ". " + t("dashboard.toasts.notesSentDesc") });
       setNoteDialog({ open: false, user: null });
       setNoteTitle("");
       setNoteMessage("");
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotSend")) });
     }
   });
 
   const updateUserMutation = useMutation({
     mutationFn: async (data: Partial<AdminUserData> & { id: string }) => {
+      setFormMessage(null);
       const { id, createdAt, ...rest } = data;
       const validIdTypes = ['dni', 'nie', 'passport'];
       const validStatuses = ['active', 'pending', 'deactivated', 'vip'];
@@ -535,26 +551,27 @@ export default function Dashboard() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: t("dashboard.toasts.userUpdated") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.userUpdated") });
       setEditingUser(null);
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotUpdate")) });
     }
   });
 
   const deleteUserMutation = useMutation({
     mutationFn: async (userId: string) => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", `/api/admin/users/${userId}`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: t("dashboard.toasts.userDeleted") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.userDeleted") });
       setDeleteConfirm({ open: false, user: null });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
     }
   });
   
@@ -565,6 +582,7 @@ export default function Dashboard() {
   
   const deleteOrderMutation = useMutation({
     mutationFn: async (orderId: number) => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
@@ -574,16 +592,17 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: t("dashboard.toasts.orderDeleted"), description: t("dashboard.toasts.orderDeletedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.orderDeleted") + ". " + t("dashboard.toasts.orderDeletedDesc") });
       setDeleteOrderConfirm({ open: false, order: null });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
     }
   });
 
   const createInvoiceMutation = useMutation({
     mutationFn: async ({ userId, concept, amount, currency }: { userId: string, concept: string, amount: number, currency: string }) => {
+      setFormMessage(null);
       if (!amount || isNaN(amount) || amount < 1) {
         throw new Error(t("dashboard.toasts.invalidAmount"));
       }
@@ -595,7 +614,7 @@ export default function Dashboard() {
       return res.json();
     },
     onSuccess: (data) => {
-      toast({ title: t("dashboard.toasts.invoiceCreated"), description: t("dashboard.toasts.invoiceCreatedDesc", { number: data?.invoiceNumber || '' }) });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceCreated") + ". " + (t("dashboard.toasts.invoiceCreatedDesc", { number: data?.invoiceNumber || '' })) });
       setInvoiceDialog({ open: false, user: null });
       setInvoiceConcept("");
       setInvoiceAmount("");
@@ -603,28 +622,30 @@ export default function Dashboard() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
     }
   });
 
   const createUserMutation = useMutation({
     mutationFn: async (data: typeof newUserData) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/admin/users/create", data);
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      toast({ title: t("dashboard.toasts.userCreated"), description: t("dashboard.toasts.userCreatedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.userCreated") + ". " + t("dashboard.toasts.userCreatedDesc") });
       setCreateUserDialog(false);
       setNewUserData({ firstName: '', lastName: '', email: '', phone: '', password: '' });
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotCreate") });
     }
   });
 
   const createOrderMutation = useMutation({
     mutationFn: async (data: typeof newOrderData) => {
+      setFormMessage(null);
       const { userId, state, amount, orderType } = data;
       if (!userId || !state || !amount) {
         throw new Error(t("dashboard.toasts.missingRequiredData"));
@@ -639,59 +660,63 @@ export default function Dashboard() {
     },
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      toast({ title: t("dashboard.toasts.orderCreated"), description: t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' }) });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.orderCreated") + ". " + (t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' })) });
       setCreateOrderDialog(false);
       setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotCreate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
     }
   });
 
   const deleteDocMutation = useMutation({
     mutationFn: async (docId: number) => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", `/api/user/documents/${docId}`);
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      toast({ title: t("dashboard.toasts.documentDeleted") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error?.message || t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error?.message || t("dashboard.toasts.couldNotDelete")) });
     }
   });
 
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
+      setFormMessage(null);
       const res = await apiRequest("DELETE", "/api/user/account");
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
     },
     onSuccess: () => {
-      toast({ title: t("dashboard.toasts.accountDeleted"), description: t("dashboard.toasts.accountDeletedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.accountDeleted") + ". " + t("dashboard.toasts.accountDeletedDesc") });
       window.location.href = "/";
     },
     onError: () => {
-      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotDelete"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
     }
   });
 
   const requestPasswordOtpMutation = useMutation({
     mutationFn: async () => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/user/request-password-otp");
       if (!res.ok) throw new Error(t("dashboard.toasts.couldNotSend"));
     },
     onSuccess: () => {
-      toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.codeSent") + ". " + t("dashboard.toasts.codeSentDesc") });
       setPasswordStep('otp');
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotSend")) });
     }
   });
 
   const changePasswordMutation = useMutation({
     mutationFn: async (data: { currentPassword: string; newPassword: string; otp: string }) => {
+      setFormMessage(null);
       const res = await apiRequest("POST", "/api/user/change-password", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
@@ -699,7 +724,7 @@ export default function Dashboard() {
       }
     },
     onSuccess: () => {
-      toast({ title: t("dashboard.toasts.passwordUpdated"), description: t("dashboard.toasts.passwordUpdatedDesc") });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.passwordUpdated") + ". " + t("dashboard.toasts.passwordUpdatedDesc") });
       setShowPasswordForm(false);
       setPasswordStep('form');
       setCurrentPassword("");
@@ -708,7 +733,7 @@ export default function Dashboard() {
       setPasswordOtp("");
     },
     onError: (error: any) => {
-      toast({ title: t("common.error"), description: error.message || t("dashboard.toasts.couldNotUpdate"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotUpdate")) });
     }
   });
 
@@ -813,7 +838,7 @@ export default function Dashboard() {
                     <Button
                       onClick={async () => {
                         if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                          toast({ title: t("dashboard.pendingAccount.enter6DigitCode"), variant: "destructive" });
+                          setFormMessage({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
                           return;
                         }
                         setIsVerifyingEmail(true);
@@ -822,11 +847,11 @@ export default function Dashboard() {
                           const result = await res.json();
                           if (result.success) {
                             await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                            toast({ title: t("dashboard.pendingAccount.emailVerified") });
+                            setFormMessage({ type: 'success', text: t("dashboard.pendingAccount.emailVerified") });
                             setEmailVerificationCode("");
                           }
                         } catch (err: any) {
-                          toast({ title: t("llc.messages.incorrectCode"), variant: "destructive" });
+                          setFormMessage({ type: 'error', text: t("llc.messages.incorrectCode") });
                         } finally {
                           setIsVerifyingEmail(false);
                         }
@@ -843,9 +868,9 @@ export default function Dashboard() {
                         setIsResendingCode(true);
                         try {
                           await apiRequest("POST", "/api/auth/resend-verification");
-                          toast({ title: t("llc.messages.codeSent") });
+                          setFormMessage({ type: 'success', text: t("llc.messages.codeSent") });
                         } catch {
-                          toast({ title: t("common.error"), variant: "destructive" });
+                          setFormMessage({ type: 'error', text: t("common.error") });
                         } finally {
                           setIsResendingCode(false);
                         }
@@ -1172,6 +1197,17 @@ export default function Dashboard() {
 
           {/* Main Content Area */}
           <div className="flex-1 min-w-0">
+            {formMessage && (
+              <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+                formMessage.type === 'error' 
+                  ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                  : formMessage.type === 'success'
+                  ? 'bg-accent/10 border border-accent/20 text-accent'
+                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+              }`} data-testid="form-message">
+                {formMessage.text}
+              </div>
+            )}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
               <div className="xl:col-span-2 space-y-6 order-1">
             
@@ -1247,14 +1283,14 @@ export default function Dashboard() {
                                       credentials: 'include'
                                     });
                                     if (res.ok) {
-                                      toast({ title: t("dashboard.toasts.documentUploadedClient"), description: t("dashboard.toasts.documentUploadedClientDesc") });
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploadedClient") + ". " + t("dashboard.toasts.documentUploadedClientDesc") });
                                       queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
                                       queryClient.invalidateQueries({ queryKey: ['/api/user/notifications'] });
                                     } else {
-                                      toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpload") });
                                     }
                                   } catch {
-                                    toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
+                                    setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.connectionError") });
                                   }
                                 }}
                                 data-testid="input-upload-document"
@@ -1369,15 +1405,15 @@ export default function Dashboard() {
                                 credentials: 'include'
                               });
                               if (res.ok) {
-                                toast({ title: t("dashboard.toasts.documentUploadedClient"), description: t("dashboard.toasts.documentUploadedClientDesc") });
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploadedClient") + ". " + t("dashboard.toasts.documentUploadedClientDesc") });
                                 queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
                                 setUploadDialog({ open: false, file: null });
                               } else {
                                 const data = await res.json();
-                                toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("common.error") + ". " + (data.message || t("dashboard.toasts.couldNotUpload")) });
                               }
                             } catch {
-                              toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.connectionError") });
                             }
                           }}
                           disabled={uploadDocType === 'other' && !uploadNotes.trim()}
@@ -1732,7 +1768,7 @@ export default function Dashboard() {
                           <Button
                             onClick={async () => {
                               if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                                toast({ title: t("dashboard.toasts.enter6DigitCode"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("dashboard.toasts.enter6DigitCode") });
                                 return;
                               }
                               setIsVerifyingEmail(true);
@@ -1741,12 +1777,12 @@ export default function Dashboard() {
                                 const result = await res.json();
                                 if (result.success) {
                                   await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                                  toast({ title: t("dashboard.toasts.emailVerified") });
+                                  setFormMessage({ type: 'success', text: t("dashboard.toasts.emailVerified") });
                                   setShowEmailVerification(false);
                                   setEmailVerificationCode("");
                                 }
                               } catch (err: any) {
-                                toast({ title: t("dashboard.toasts.incorrectCode"), description: err.message || t("dashboard.toasts.incorrectCodeDesc"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("dashboard.toasts.incorrectCode") + ". " + (err.message || t("dashboard.toasts.incorrectCodeDesc")) });
                               } finally {
                                 setIsVerifyingEmail(false);
                               }
@@ -1763,9 +1799,9 @@ export default function Dashboard() {
                               setIsResendingCode(true);
                               try {
                                 await apiRequest("POST", "/api/auth/resend-verification");
-                                toast({ title: t("dashboard.toasts.codeSent"), description: t("dashboard.toasts.codeSentDesc") });
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.codeSent") + ". " + t("dashboard.toasts.codeSentDesc") });
                               } catch {
-                                toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotSend"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotSend") });
                               } finally {
                                 setIsResendingCode(false);
                               }
@@ -2283,7 +2319,7 @@ export default function Dashboard() {
                             try {
                               const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
                               if (amountCents <= 0) {
-                                toast({ title: t("common.error"), description: t("dashboard.toasts.amountMustBeGreater"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.amountMustBeGreater") });
                                 return;
                               }
                               const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
@@ -2294,14 +2330,14 @@ export default function Dashboard() {
                                 const data = await res.json().catch(() => ({}));
                                 throw new Error(data.message || t("dashboard.toasts.couldNotGenerate"));
                               }
-                              toast({ title: t("dashboard.toasts.invoiceGenerated"), description: t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
+                              setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceGenerated") + ". " + t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
                               queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
                               queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
                               window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
                               setGenerateInvoiceDialog({ open: false, order: null });
                               setOrderInvoiceAmount("");
                             } catch (err: any) {
-                              toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotGenerate"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (err.message || t("dashboard.toasts.couldNotGenerate")) });
                             } finally {
                               setIsGeneratingInvoice(false);
                             }
@@ -2565,15 +2601,15 @@ export default function Dashboard() {
                               };
                               if (discountCodeDialog.code) {
                                 await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
-                                toast({ title: t("dashboard.toasts.discountCodeUpdated") });
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeUpdated") });
                               } else {
                                 await apiRequest("POST", "/api/admin/discount-codes", payload);
-                                toast({ title: t("dashboard.toasts.discountCodeCreated") });
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeCreated") });
                               }
                               refetchDiscountCodes();
                               setDiscountCodeDialog({ open: false, code: null });
                             } catch (e: any) {
-                              toast({ title: t("common.error"), description: e.message || t("dashboard.toasts.couldNotSave"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (e.message || t("dashboard.toasts.couldNotSave")) });
                             }
                           }} 
                           disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
@@ -2636,7 +2672,7 @@ export default function Dashboard() {
                         <Button
                           onClick={async () => {
                             if (!paymentLinkUrl || !paymentLinkAmount) {
-                              toast({ title: t("form.validation.requiredFields"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("form.validation.requiredFields") });
                               return;
                             }
                             setIsSendingPaymentLink(true);
@@ -2647,13 +2683,13 @@ export default function Dashboard() {
                                 amount: paymentLinkAmount,
                                 message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
                               });
-                              toast({ title: t("dashboard.toasts.paymentLinkSent"), description: t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
+                              setFormMessage({ type: 'success', text: t("dashboard.toasts.paymentLinkSent") + ". " + t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
                               setPaymentLinkDialog({ open: false, user: null });
                               setPaymentLinkUrl("");
                               setPaymentLinkAmount("");
                               setPaymentLinkMessage("");
                             } catch (err: any) {
-                              toast({ title: t("common.error"), description: err.message || t("dashboard.toasts.couldNotSendLink"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (err.message || t("dashboard.toasts.couldNotSendLink")) });
                             } finally {
                               setIsSendingPaymentLink(false);
                             }
@@ -2754,17 +2790,17 @@ export default function Dashboard() {
                                 credentials: 'include'
                               });
                               if (res.ok) {
-                                toast({ title: t("dashboard.toasts.adminDocUploaded"), description: t("dashboard.toasts.adminDocUploadedDesc") });
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.adminDocUploaded") + ". " + t("dashboard.toasts.adminDocUploadedDesc") });
                                 queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
                                 queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
                                 setAdminDocUploadDialog({ open: false, order: null });
                                 setAdminDocFile(null);
                               } else {
                                 const data = await res.json();
-                                toast({ title: t("common.error"), description: data.message || t("dashboard.toasts.couldNotUpload"), variant: "destructive" });
+                                setFormMessage({ type: 'error', text: t("common.error") + ". " + (data.message || t("dashboard.toasts.couldNotUpload")) });
                               }
                             } catch {
-                              toast({ title: t("common.error"), description: t("dashboard.toasts.connectionError"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.connectionError") });
                             } finally {
                               setIsUploadingAdminDoc(false);
                             }
@@ -2812,11 +2848,11 @@ export default function Dashboard() {
                             setIsResettingPassword(true);
                             try {
                               await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
-                              toast({ title: t("dashboard.toasts.adminPasswordUpdated"), description: t("dashboard.toasts.adminPasswordUpdatedDesc") });
+                              setFormMessage({ type: 'success', text: t("dashboard.toasts.adminPasswordUpdated") + ". " + t("dashboard.toasts.adminPasswordUpdatedDesc") });
                               setResetPasswordDialog({ open: false, user: null });
                               setNewAdminPassword("");
                             } catch {
-                              toast({ title: t("common.error"), description: t("dashboard.toasts.couldNotUpdatePassword"), variant: "destructive" });
+                              setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdatePassword") });
                             } finally {
                               setIsResettingPassword(false);
                             }
@@ -3328,15 +3364,12 @@ export default function Dashboard() {
                                       });
                                       if (res.ok) {
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                                        toast({
-                                          title: !app.hasTaxExtension ? t("dashboard.calendar.taxExtension.activated") : t("dashboard.calendar.taxExtension.deactivated"),
-                                          description: !app.hasTaxExtension 
+                                        setFormMessage({ type: 'success', text: (!app.hasTaxExtension ? t("dashboard.calendar.taxExtension.activated") : t("dashboard.calendar.taxExtension.deactivated")) + ". " + !app.hasTaxExtension 
                                             ? t("dashboard.calendar.taxExtension.movedToOctober")
-                                            : t("dashboard.calendar.taxExtension.movedToApril")
-                                        });
+                                            : t("dashboard.calendar.taxExtension.movedToApril") });
                                       }
                                     } catch {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   data-testid={`button-tax-extension-${app.id}`}
@@ -3368,9 +3401,9 @@ export default function Dashboard() {
                                         apiRequest("PATCH", `/api/admin/llc/${app.id}/dates`, { field: 'annualReportDueDate', value: null }),
                                       ]);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                                      toast({ title: t("dashboard.toasts.calendarCleared"), description: t("dashboard.toasts.calendarClearedDesc") });
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.calendarCleared") + ". " + t("dashboard.toasts.calendarClearedDesc") });
                                     } catch {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   data-testid={`button-clear-calendar-${app.id}`}
@@ -3472,8 +3505,8 @@ export default function Dashboard() {
                                   try {
                                     await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
                                     queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                    toast({ title: t("dashboard.toasts.statusUpdated") });
-                                  } catch { toast({ title: t("common.error"), variant: "destructive" }); }
+                                    setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
+                                  } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
                                 }}
                                 className="h-7 text-[10px] rounded-full px-2 flex-1 max-w-[120px]"
                               >
@@ -3495,8 +3528,8 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                      toast({ title: t("dashboard.toasts.documentDeleted") });
-                                    } catch { toast({ title: t("common.error"), variant: "destructive" }); }
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
+                                    } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
                                   }
                                 }}
                                 data-testid={`btn-delete-doc-${doc.id}`}
@@ -3533,9 +3566,9 @@ export default function Dashboard() {
                                   try {
                                     await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
                                     refetchNewsletterSubs();
-                                    toast({ title: t("dashboard.toasts.subscriberDeleted") });
+                                    setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
                                   } catch (e) {
-                                    toast({ title: t("common.error"), variant: "destructive" });
+                                    setFormMessage({ type: 'error', text: t("common.error") });
                                   }
                                 }}
                                 data-testid={`button-delete-subscriber-${sub.id}`}
@@ -3579,8 +3612,8 @@ export default function Dashboard() {
                                       try {
                                         await apiRequest("PATCH", `/api/admin/messages/${msg.id}/archive`);
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        toast({ title: t("dashboard.toasts.messageArchived") });
-                                      } catch { toast({ title: t("common.error"), variant: "destructive" }); }
+                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.messageArchived") });
+                                      } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
                                     }}
                                     data-testid={`btn-archive-msg-${msg.id}`}
                                     title="Archivar"
@@ -3598,8 +3631,8 @@ export default function Dashboard() {
                                       try {
                                         await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-                                        toast({ title: t("dashboard.toasts.messageDeleted") });
-                                      } catch { toast({ title: t("common.error"), variant: "destructive" }); }
+                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.messageDeleted") });
+                                      } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
                                     }
                                   }}
                                   data-testid={`btn-delete-msg-${msg.id}`}
@@ -3691,9 +3724,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      toast({ title: t("dashboard.toasts.statusUpdated") });
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
                                     } catch {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
@@ -3736,9 +3769,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-                                      toast({ title: t("dashboard.toasts.invoiceDeleted") });
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceDeleted") });
                                     } catch {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   data-testid={`button-delete-invoice-${inv.id}`}
@@ -3839,9 +3872,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
                                       refetchDiscountCodes();
-                                      toast({ title: dc.isActive ? t("dashboard.toasts.discountCodeDeactivated") : t("dashboard.toasts.discountCodeActivated") });
+                                      setFormMessage({ type: 'success', text: dc.isActive ? t("dashboard.toasts.discountCodeDeactivated") : t("dashboard.toasts.discountCodeActivated") });
                                     } catch (e) {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   data-testid={`button-toggle-discount-${dc.code}`}
@@ -3857,9 +3890,9 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
                                       refetchDiscountCodes();
-                                      toast({ title: t("dashboard.toasts.discountCodeDeleted") });
+                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeDeleted") });
                                     } catch (e) {
-                                      toast({ title: t("common.error"), variant: "destructive" });
+                                      setFormMessage({ type: 'error', text: t("common.error") });
                                     }
                                   }}
                                   data-testid={`button-delete-discount-${dc.code}`}

@@ -16,7 +16,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDes
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { insertLlcApplicationSchema } from "@shared/schema";
 import { useAuth } from "@/hooks/use-auth";
@@ -99,7 +98,7 @@ export default function LlcFormation() {
   const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   
   // OTP verification states
   const [otpCode, setOtpCode] = useState("");
@@ -165,6 +164,13 @@ export default function LlcFormation() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
   }, []);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
   
   useEffect(() => {
     prevStepRef.current = step;
@@ -274,7 +280,7 @@ export default function LlcFormation() {
               notes: appData.notes || "",
               idDocumentUrl: appData.idDocumentUrl || ""
             });
-            toast({ title: t("application.messages.dataLoaded"), description: t("application.messages.canEditApplication") });
+            setFormMessage({ type: 'info', text: t("application.messages.dataLoaded") + ". " + t("application.messages.canEditApplication") });
           }
         }
         // Order creation is now deferred to the final submit step
@@ -358,22 +364,23 @@ export default function LlcFormation() {
   const sendOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!email) {
-      toast({ title: t("application.messages.emailMissing"), description: t("application.messages.emailNeeded"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.emailMissing") + ". " + t("application.messages.emailNeeded") });
       return;
     }
     
+    setFormMessage(null);
     setIsSendingOtp(true);
     try {
       const res = await apiRequest("POST", "/api/register/send-otp", { email });
       if (res.ok) {
         setIsOtpSent(true);
-        toast({ title: t("application.messages.codeSent"), description: t("application.messages.checkEmailWaiting") });
+        setFormMessage({ type: 'success', text: t("application.messages.codeSent") + ". " + t("application.messages.checkEmailWaiting") });
       } else {
         const data = await res.json();
-        toast({ title: "Error", description: data.message, variant: "destructive" });
+        setFormMessage({ type: 'error', text: "Error. " + data.message });
       }
     } catch (error) {
-      toast({ title: t("application.messages.errorSending"), description: t("application.messages.tryAgainSeconds"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.errorSending") + ". " + t("application.messages.tryAgainSeconds") });
     } finally {
       setIsSendingOtp(false);
     }
@@ -383,22 +390,23 @@ export default function LlcFormation() {
   const verifyOtp = async () => {
     const email = form.getValues("ownerEmail");
     if (!otpCode || otpCode.length !== 6) {
-      toast({ title: t("application.messages.codeMissing"), description: t("application.messages.enter6DigitCode"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.codeMissing") + ". " + t("application.messages.enter6DigitCode") });
       return;
     }
     
+    setFormMessage(null);
     setIsVerifyingOtp(true);
     try {
       const res = await apiRequest("POST", "/api/register/verify-otp", { email, otp: otpCode });
       if (res.ok) {
         setIsOtpVerified(true);
-        toast({ title: t("application.messages.emailVerified"), description: t("application.messages.canContinue") });
+        setFormMessage({ type: 'success', text: t("application.messages.emailVerified") + ". " + t("application.messages.canContinue") });
       } else {
         const data = await res.json();
-        toast({ title: "Error", description: data.message, variant: "destructive" });
+        setFormMessage({ type: 'error', text: "Error. " + data.message });
       }
     } catch (error) {
-      toast({ title: t("application.messages.incorrectCode"), description: t("application.messages.codeInvalidOrExpired"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.incorrectCode") + ". " + t("application.messages.codeInvalidOrExpired") });
     } finally {
       setIsVerifyingOtp(false);
     }
@@ -423,24 +431,25 @@ export default function LlcFormation() {
     const password = form.getValues("password");
     
     if (!password || password.length < 1) {
-      toast({ title: t("toast.passwordMissing"), description: t("toast.passwordMissingDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("toast.passwordMissing") + ". " + t("toast.passwordMissingDesc") });
       return;
     }
 
+    setFormMessage(null);
     try {
       const res = await apiRequest("POST", "/api/auth/login", { email, password });
       if (!res.ok) {
-        toast({ title: t("toast.passwordIncorrect"), description: t("toast.passwordIncorrectDesc"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: t("toast.passwordIncorrect") + ". " + t("toast.passwordIncorrectDesc") });
         return;
       }
       await refetchAuth();
       setIsOtpVerified(true);
-      toast({ title: t("toast.welcomeBack"), description: t("toast.welcomeBackDesc") });
+      setFormMessage({ type: 'success', text: t("toast.welcomeBack") + ". " + t("toast.welcomeBackDesc") });
       
       // Continue from first empty required field instead of fixed step
       // The useEffect will handle auto-fill and step navigation
     } catch {
-      toast({ title: t("toast.connectionError"), description: t("toast.connectionErrorDesc"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("toast.connectionError") + ". " + t("toast.connectionErrorDesc") });
     }
   };
 
@@ -483,11 +492,11 @@ export default function LlcFormation() {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
-        toast({ title: t("application.validation.passwordTooShort"), description: t("application.validation.passwordMinChars"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: t("application.validation.passwordTooShort") + ". " + t("application.validation.passwordMinChars") });
         return;
       }
       if (password !== confirmPassword) {
-        toast({ title: t("application.validation.passwordMismatch"), description: t("application.messages.tryAgain"), variant: "destructive" });
+        setFormMessage({ type: 'error', text: t("application.validation.passwordMismatch") + ". " + t("application.messages.tryAgain") });
         return;
       }
     }
@@ -506,12 +515,13 @@ export default function LlcFormation() {
   };
 
   const onSubmit = async (data: FormValues) => {
+    setFormMessage(null);
     setIsSubmitting(true);
     try {
       // In edit mode, save changes and redirect to dashboard
       if (isEditMode) {
         await apiRequest("PUT", `/api/llc/${appId}`, data);
-        toast({ title: t("application.messages.changesSaved"), description: t("application.messages.infoUpdated") });
+        setFormMessage({ type: 'success', text: t("application.messages.changesSaved") + ". " + t("application.messages.infoUpdated") });
         clearDraft();
         setLocation("/dashboard");
         return;
@@ -534,12 +544,12 @@ export default function LlcFormation() {
           const res = await apiRequest("POST", "/api/llc/claim-order", orderPayload);
           if (!res.ok) {
             const errorData = await res.json();
-            toast({ title: "Ha habido un problema", description: errorData.message, variant: "destructive" });
+            setFormMessage({ type: 'error', text: "Ha habido un problema. " + errorData.message });
             return;
           }
-          toast({ title: "Cuenta creada", description: "Ya casi terminamos" });
+          setFormMessage({ type: 'success', text: "Cuenta creada. Ya casi terminamos" });
         } catch (err) {
-          toast({ title: "No se pudo crear la cuenta", description: "Inténtalo de nuevo", variant: "destructive" });
+          setFormMessage({ type: 'error', text: "No se pudo crear la cuenta. Inténtalo de nuevo" });
           return;
         }
       }
@@ -576,10 +586,10 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: t("application.messages.changesSaved"), description: t("application.continue") });
+      setFormMessage({ type: 'success', text: t("application.messages.changesSaved") + ". " + t("application.continue") });
       setStep(19); // Payment Step
     } catch {
-      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgain"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.somethingWentWrong") + ". " + t("application.messages.tryAgain") });
     } finally {
       setIsSubmitting(false);
     }
@@ -587,6 +597,7 @@ export default function LlcFormation() {
   
   // Save changes in edit mode
   const handleSaveChanges = async () => {
+    setFormMessage(null);
     const data = form.getValues();
     try {
       await apiRequest("PUT", `/api/llc/${appId}`, data);
@@ -612,19 +623,19 @@ export default function LlcFormation() {
         }
       }
       
-      toast({ title: t("application.messages.changesSaved"), description: t("application.messages.infoUpdated") });
+      setFormMessage({ type: 'success', text: t("application.messages.changesSaved") + ". " + t("application.messages.infoUpdated") });
       clearDraft();
       setLocation("/dashboard");
     } catch {
-      toast({ title: t("application.messages.somethingWentWrong"), description: t("application.messages.tryAgain"), variant: "destructive" });
+      setFormMessage({ type: 'error', text: t("application.messages.somethingWentWrong") + ". " + t("application.messages.tryAgain") });
     }
   };
 
   const handlePayment = async () => {
-    toast({ title: t("application.messages.processingPayment"), description: t("application.messages.momentPlease") });
+    setFormMessage({ type: 'info', text: t("application.messages.processingPayment") + ". " + t("application.messages.momentPlease") });
     setTimeout(async () => {
       await apiRequest("POST", `/api/llc/${appId}/pay`, {});
-      toast({ title: t("application.messages.paymentCompleted"), description: t("application.messages.workingOnRequest") });
+      setFormMessage({ type: 'success', text: t("application.messages.paymentCompleted") + ". " + t("application.messages.workingOnRequest") });
       setLocation("/contacto?success=true");
     }, 2000);
   };
@@ -672,6 +683,17 @@ export default function LlcFormation() {
         
         <Form {...form}>
           <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+            {formMessage && (
+              <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+                formMessage.type === 'error' 
+                  ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+                  : formMessage.type === 'success'
+                  ? 'bg-accent/10 border border-accent/20 text-accent'
+                  : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+              }`} data-testid="form-message">
+                {formMessage.text}
+              </div>
+            )}
             
             {step === 0 && (
               <div key="step-0" className="space-y-6 text-left">
@@ -972,11 +994,11 @@ export default function LlcFormation() {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   if (file.size > 10 * 1024 * 1024) {
-                                    toast({ title: "Error", description: "El archivo no puede superar 10MB", variant: "destructive" });
+                                    setFormMessage({ type: 'error', text: "Error. El archivo no puede superar 10MB" });
                                     return;
                                   }
                                   field.onChange(file.name);
-                                  toast({ title: "Archivo seleccionado", description: `${file.name} - Se guardará con tu solicitud` });
+                                  setFormMessage({ type: 'success', text: "Archivo seleccionado. " + file.name + " - Se guardará con tu solicitud" });
                                 }
                               }}
                             />

@@ -11,7 +11,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Calendar, CheckCircle, XCircle, Plus, Edit, Trash2, User, ChevronUp, X } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import { ConsultationType, ConsultationBooking, getConsultationStatusLabel } from "./types";
 
 interface BookingWithDetails {
@@ -60,7 +59,15 @@ const getDays = (t: any) => [
 
 export function AdminConsultationsPanel() {
   const { t, i18n } = useTranslation();
-  const { toast } = useToast();
+  const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+
+  useEffect(() => {
+    if (formMessage) {
+      const timer = setTimeout(() => setFormMessage(null), 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [formMessage]);
+
   const [activeSubTab, setActiveSubTab] = useState<'bookings' | 'types' | 'availability' | 'blocked'>('bookings');
   const [editingType, setEditingType] = useState<ConsultationType | null>(null);
   const [showTypeForm, setShowTypeForm] = useState(false);
@@ -100,18 +107,18 @@ export function AdminConsultationsPanel() {
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/types", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      toast({ title: t('consultations.admin.toasts.typeCreated', 'Tipo creado correctamente') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeCreated', 'Tipo creado correctamente') });
       setShowTypeForm(false);
       resetTypeForm();
     },
-    onError: (err: any) => toast({ title: t('common.error', 'Error'), description: err.message, variant: "destructive" })
+    onError: (err: any) => setFormMessage({ type: 'error', text: t('common.error', 'Error') + ". " + err.message })
   });
 
   const updateTypeMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: any }) => apiRequest("PATCH", `/api/admin/consultations/types/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      toast({ title: t('consultations.admin.toasts.typeUpdated', 'Tipo actualizado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeUpdated', 'Tipo actualizado') });
       setShowTypeForm(false);
       resetTypeForm();
     }
@@ -121,7 +128,7 @@ export function AdminConsultationsPanel() {
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/types/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      toast({ title: t('consultations.admin.toasts.typeDeleted', 'Tipo eliminado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeDeleted', 'Tipo eliminado') });
     }
   });
 
@@ -129,7 +136,7 @@ export function AdminConsultationsPanel() {
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/availability", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/availability"] });
-      toast({ title: t('consultations.admin.toasts.scheduleAdded', 'Horario añadido') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleAdded', 'Horario añadido') });
       setShowSlotForm(false);
     }
   });
@@ -138,7 +145,7 @@ export function AdminConsultationsPanel() {
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/availability/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/availability"] });
-      toast({ title: t('consultations.admin.toasts.scheduleRemoved', 'Horario eliminado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleRemoved', 'Horario eliminado') });
     }
   });
 
@@ -146,7 +153,7 @@ export function AdminConsultationsPanel() {
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/blocked-dates", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/blocked-dates"] });
-      toast({ title: t('consultations.admin.toasts.dateBlocked', 'Fecha bloqueada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateBlocked', 'Fecha bloqueada') });
       setBlockedDateForm({ date: '', reason: '' });
     }
   });
@@ -155,7 +162,7 @@ export function AdminConsultationsPanel() {
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/blocked-dates/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/blocked-dates"] });
-      toast({ title: t('consultations.admin.toasts.dateUnblocked', 'Fecha desbloqueada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateUnblocked', 'Fecha desbloqueada') });
     }
   });
 
@@ -164,7 +171,7 @@ export function AdminConsultationsPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/bookings"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/stats"] });
-      toast({ title: t('consultations.admin.toasts.bookingUpdated', 'Reserva actualizada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.bookingUpdated', 'Reserva actualizada') });
       setExpandedBookingId(null);
     }
   });
@@ -244,6 +251,17 @@ export function AdminConsultationsPanel() {
 
   return (
     <div className="space-y-4">
+      {formMessage && (
+        <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
+          formMessage.type === 'error' 
+            ? 'bg-destructive/10 border border-destructive/20 text-destructive' 
+            : formMessage.type === 'success'
+            ? 'bg-accent/10 border border-accent/20 text-accent'
+            : 'bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 text-blue-700 dark:text-blue-300'
+        }`} data-testid="form-message">
+          {formMessage.text}
+        </div>
+      )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Card className="p-3">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.pending', 'Pendientes')}</div>
