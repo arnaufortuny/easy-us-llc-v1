@@ -13,6 +13,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Esta regla tiene máxima prioridad
 
 ## Recent Changes (February 2026)
+- **Inline Messages & Label Updates (Feb 6):** Replaced ALL toast notifications across the entire app with inline formMessage state (error/success/info types with 6s auto-clear). Changed "Más Popular"/"Most Popular" labels to "Recomendado"/"Recommended" everywhere. Updated LLC formation "helpChoose" link to "Not sure which is best for you? Compare here". Affected 15+ files (all auth pages, contacto, llc-formation, maintenance, dashboard, admin panels, newsletter, social-login, linktree).
 - **Admin i18n & Search Filters (Feb 6):** Translated entire admin panel to use i18n (200+ keys in es/en/ca). Added admin search filter dropdown (by name, email, date, invoice ID). Removed all hardcoded Spanish from dashboard.tsx admin area, admin-accounting-panel.tsx, and admin-consultations-panel.tsx.
 - **Critical Auth & Cleanup Fixes (Feb 6):** Fixed 3 auth route bugs (login/logout endpoints), unified ID generation into id-generator.ts, removed unused Replit Auth integration folder, deleted 3 unused files (ObjectUploader.tsx, help-section.tsx, sensitive-data-service.ts), fixed notification cache invalidation. All 22 tests passing.
 - **Codebase Cleanup (Feb 6):** Removed 15 unused files (9 UI components, 4 hooks, 1 utility, 1 server module) after verifying zero imports. Build and all 22 tests pass clean.
