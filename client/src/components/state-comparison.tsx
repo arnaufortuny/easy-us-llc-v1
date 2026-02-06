@@ -131,8 +131,8 @@ export function StateComparison() {
                   <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.pros")}</h4>
                   <ul className="space-y-2.5">
                     {pros.map((pro, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-sm text-muted-foreground" data-testid={`text-advantage-${active.key}-${idx}`}>
-                        <Check className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-2.5 text-base text-foreground" data-testid={`text-advantage-${active.key}-${idx}`}>
+                        <Check className="w-4 h-4 text-accent flex-shrink-0 mt-1" />
                         <span className="leading-snug">{pro}</span>
                       </li>
                     ))}
@@ -143,8 +143,8 @@ export function StateComparison() {
                   <h4 className="font-black text-base text-foreground tracking-tight mb-3">{t("stateComparison.cons")}</h4>
                   <ul className="space-y-2.5">
                     {cons.map((con, idx) => (
-                      <li key={idx} className="flex items-start gap-2.5 text-sm text-muted-foreground" data-testid={`text-consideration-${active.key}-${idx}`}>
-                        <AlertCircle className="w-4 h-4 text-orange-500 dark:text-orange-400 flex-shrink-0 mt-0.5" />
+                      <li key={idx} className="flex items-start gap-2.5 text-base text-foreground" data-testid={`text-consideration-${active.key}-${idx}`}>
+                        <AlertCircle className="w-4 h-4 text-orange-500 dark:text-orange-400 flex-shrink-0 mt-1" />
                         <span className="leading-snug">{con}</span>
                       </li>
                     ))}
@@ -154,8 +154,8 @@ export function StateComparison() {
 
               <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-5 text-left" data-testid={`card-ideal-${active.key}`}>
                 <h4 className="font-black text-base text-foreground tracking-tight mb-2">{t("stateComparison.idealIf")}</h4>
-                <p className="text-sm text-muted-foreground leading-relaxed">{idealIf}</p>
-                <p className="text-sm sm:text-base font-black text-accent mt-2 tracking-tight">{tagline}</p>
+                <p className="text-base text-foreground leading-relaxed">{idealIf}</p>
+                <p className="text-base sm:text-lg font-black text-accent mt-2 tracking-tight">{tagline}</p>
               </div>
             </motion.div>
           </AnimatePresence>
