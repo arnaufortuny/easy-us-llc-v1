@@ -589,14 +589,9 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <div className="bg-accent/5 rounded-2xl p-6 sm:p-8 border border-accent/10 text-left">
-              <p className="text-foreground text-sm sm:text-base leading-relaxed mb-4">
-                {t("services.maintenancePack.trustText")}
-              </p>
-              <p className="text-foreground font-bold text-sm sm:text-base">
-                {t("services.maintenancePack.trustGoal")}
-              </p>
-            </div>
+            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight max-w-2xl mx-auto mb-3 text-center">
+              {t("services.maintenancePack.trustGoal")}
+            </p>
           </motion.div>
 
           {/* Emotional Block */}
