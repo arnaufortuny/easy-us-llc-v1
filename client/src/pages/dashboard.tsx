@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest } from "@/lib/queryClient";
+import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -1179,8 +1179,10 @@ export default function Dashboard() {
                                   const formData = new FormData();
                                   formData.append('file', file);
                                   try {
+                                    const csrfToken = await getCsrfToken();
                                     const res = await fetch('/api/user/documents/upload', {
                                       method: 'POST',
+                                      headers: { 'X-CSRF-Token': csrfToken },
                                       body: formData,
                                       credentials: 'include'
                                     });
@@ -1299,8 +1301,10 @@ export default function Dashboard() {
                               formData.append('notes', uploadNotes);
                             }
                             try {
+                              const csrfToken = await getCsrfToken();
                               const res = await fetch('/api/user/documents/upload', {
                                 method: 'POST',
+                                headers: { 'X-CSRF-Token': csrfToken },
                                 body: formData,
                                 credentials: 'include'
                               });
@@ -2663,8 +2667,10 @@ export default function Dashboard() {
                               } else {
                                 formData.append('orderId', adminDocUploadDialog.order.id);
                               }
+                              const csrfToken = await getCsrfToken();
                               const res = await fetch('/api/admin/documents/upload', {
                                 method: 'POST',
+                                headers: { 'X-CSRF-Token': csrfToken },
                                 body: formData,
                                 credentials: 'include'
                               });

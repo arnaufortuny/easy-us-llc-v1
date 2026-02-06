@@ -535,7 +535,7 @@ export default function OperatingAgreementGenerator() {
             </Link>
           </div>
           
-          <Card className="rounded-2xl border-0 shadow-lg overflow-hidden">
+          <Card className="rounded-2xl border-0 shadow-md">
             <CardHeader className="bg-accent/10 border-b border-accent/20 p-6">
               <div>
                 <CardTitle className="text-xl font-black text-foreground tracking-tight">
@@ -581,7 +581,7 @@ export default function OperatingAgreementGenerator() {
                     <NativeSelect
                       value={selectedLlcId}
                       onValueChange={setSelectedLlcId}
-                      className="h-12"
+                      className="h-12 rounded-full"
                       data-testid="select-llc"
                     >
                       <option value="">{t("tools.operatingAgreement.selectPlaceholder")}</option>
@@ -641,7 +641,7 @@ export default function OperatingAgreementGenerator() {
                             value={formData.memberAddress}
                             onChange={(e) => setFormData(prev => ({ ...prev, memberAddress: e.target.value }))}
                             placeholder={t("tools.operatingAgreement.addressPlaceholder")}
-                            className="min-h-[80px] resize-none"
+                            className="min-h-[80px] resize-none rounded-xl"
                             data-testid="input-member-address"
                           />
                         </div>
@@ -656,7 +656,7 @@ export default function OperatingAgreementGenerator() {
                               value={formData.memberPhone}
                               onChange={(e) => setFormData(prev => ({ ...prev, memberPhone: e.target.value }))}
                               placeholder="+34 600 000 000"
-                              className="h-11"
+                              className="h-11 rounded-full"
                               data-testid="input-member-phone"
                             />
                           </div>
@@ -669,7 +669,7 @@ export default function OperatingAgreementGenerator() {
                               value={formData.capitalContribution}
                               onChange={(e) => setFormData(prev => ({ ...prev, capitalContribution: e.target.value }))}
                               placeholder="1,000"
-                              className="h-11"
+                              className="h-11 rounded-full"
                               data-testid="input-capital"
                             />
                           </div>
@@ -683,7 +683,7 @@ export default function OperatingAgreementGenerator() {
                             type="date"
                             value={formData.effectiveDate}
                             onChange={(e) => setFormData(prev => ({ ...prev, effectiveDate: e.target.value }))}
-                            className="h-11"
+                            className="h-11 rounded-full"
                             data-testid="input-effective-date"
                           />
                         </div>
@@ -731,7 +731,7 @@ export default function OperatingAgreementGenerator() {
                       <Button
                         onClick={generatePDF}
                         disabled={!selectedLLC.ein || !isFormValid || isGenerating}
-                        className="w-full bg-accent text-accent-foreground rounded-full h-12 font-bold text-base shadow-lg shadow-accent/30 disabled:opacity-50"
+                        className="w-full bg-accent text-accent-foreground rounded-full h-12 font-bold text-base disabled:opacity-50"
                         data-testid="button-generate-agreement"
                       >
                         {isGenerating ? (
