@@ -13,9 +13,9 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Esta regla tiene máxima prioridad
 
 ## Recent Changes (February 2026)
+- **Codebase Cleanup (Feb 6):** Removed 15 unused files (9 UI components, 4 hooks, 1 utility, 1 server module) after verifying zero imports. Build and all 22 tests pass clean.
 - **Comprehensive System Review (Feb 5):** Verified all 26 database tables match schema definitions, fixed broken navigation links, confirmed no LSP errors.
 - **Navigation Fix:** Fixed broken `/recuperar` link in maintenance.tsx → now correctly points to `/auth/forgot-password`.
-- **DashboardIcon Component:** Created reusable SVG icon component (`client/src/components/ui/dashboard-icon.tsx`) that adapts to light/dark themes using `currentColor` with proper foreground color defaults for consistent rendering.
 - **Consultation Booking:** Replaced Dialog-based consultation booking with accessible Collapsible panel UI component with proper accessibility (CollapsibleTrigger with aria-label).
 - **Dark Mode Form Styling:** Unified dark mode styling across all form components (inputs, textareas, selects) using consistent colors (`dark:bg-[#1A1A1A]`, `dark:border-[#2A2A2A]`, `dark:text-white`).
 - **Dashboard Icons:** Updated all dashboard icon references to use the new DashboardIcon component for proper theme adaptation.
