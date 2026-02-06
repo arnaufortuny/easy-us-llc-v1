@@ -54,16 +54,16 @@ export function NewsletterSection() {
   };
 
   return (
-    <section className="py-16 md:py-20 bg-background relative overflow-hidden font-sans w-full">
+    <section className="py-10 md:py-14 bg-background relative overflow-hidden font-sans w-full">
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-0 pointer-events-none bg-[radial-gradient(circle_at_1px_1px,currentColor_1px,transparent_0)] bg-[length:24px_24px]" />
       
       <div className="w-full px-5 sm:px-8 relative z-10 flex flex-col items-center justify-center">
-        <div className="text-center space-y-4 md:space-y-8 w-full flex flex-col items-center">
-          <div className="space-y-2 md:space-y-4 w-full text-center">
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-foreground leading-[1.1] text-center">
+        <div className="text-center space-y-3 md:space-y-5 w-full flex flex-col items-center">
+          <div className="space-y-1.5 md:space-y-2 w-full text-center">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-foreground leading-[1.1] text-center">
               {t("newsletter.joinOur")} <span className="text-primary-foreground bg-accent px-2 inline-block">{t("newsletter.newsletter")}</span>
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-lg mx-auto leading-relaxed text-center px-2">
+            <p className="text-sm sm:text-base text-muted-foreground max-w-lg mx-auto leading-relaxed text-center px-2">
               {t("newsletter.taxTips")}
               <span className="block mt-1">{t("newsletter.businessNews")}</span>
             </p>
