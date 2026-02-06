@@ -160,8 +160,6 @@ export default function Servicios() {
   const bankItems = [
     { key: "mercury", icon: MercuryIcon },
     { key: "relay", icon: RelayIcon },
-    { key: "strategy", icon: StrategyIcon },
-    { key: "continuous", icon: ContinuousIcon }
   ];
 
   return (
