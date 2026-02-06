@@ -564,13 +564,13 @@ export default function Servicios() {
               <span className="text-accent">{t("services.maintenancePack.sectionTitleLine4")}</span>
             </motion.h2>
             <motion.p
-              className="text-xl sm:text-2xl font-black tracking-tight mt-6 max-w-3xl leading-snug"
+              className="text-muted-foreground text-base sm:text-lg mt-4 max-w-3xl leading-relaxed"
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
             >
-              <span className="text-foreground">{t("services.maintenancePack.sectionSubtitle")}</span>
+              {t("services.maintenancePack.sectionSubtitle")}
             </motion.p>
             <motion.div 
               className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
