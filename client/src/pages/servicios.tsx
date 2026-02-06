@@ -587,8 +587,9 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <p className="text-xl sm:text-2xl font-black text-foreground tracking-tight max-w-2xl mx-auto mb-3 text-center">
-              {t("services.maintenancePack.trustGoal")}
+            <p className="text-xl sm:text-2xl font-black tracking-tight max-w-2xl mx-auto mb-3 text-center">
+              <span className="text-foreground">{t("services.maintenancePack.trustGoal")}</span>{" "}
+              <span className="text-accent">{t("services.maintenancePack.trustGoal2")}</span>
             </p>
           </motion.div>
 
