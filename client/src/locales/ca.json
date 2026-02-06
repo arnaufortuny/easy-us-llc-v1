@@ -329,8 +329,10 @@
     "maintenancePack": {
       "title": "Manteniment Anual",
       "badge": "MANTENIMENT",
-      "sectionTitle": "LA TEVA LLC SEMPRE EN REGLA,",
-      "sectionTitleHighlight": "SENSE PREOCUPACIONS NI SORPRESES",
+      "sectionTitle": "LA TEVA LLC",
+      "sectionTitleLine2": "SEMPRE EN REGLA,",
+      "sectionTitleHighlight": "SENSE PREOCUPACIONS",
+      "sectionTitleLine4": "NI SORPRESES",
       "sectionSubtitle": "Ens ocupem de totes les obligacions legals, fiscals i administratives de la teva empresa perquè puguis centrar-te a fer créixer el teu negoci amb total tranquil·litat.",
       "trustText": "Sabem que gestionar una empresa als Estats Units pot generar dubtes, especialment si operes des d'un altre país. Per això vam crear un sistema de manteniment complet on revisem cada requisit legal i fiscal per tu, assegurant-nos que tot estigui presentat correctament i dins de termini.",
       "trustGoal": "El nostre objectiu és simple: que la teva empresa funcioni sense interrupcions i sense estrès.",

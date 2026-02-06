@@ -329,8 +329,10 @@
     "maintenancePack": {
       "title": "Mantenimiento Anual",
       "badge": "MANTENIMIENTO",
-      "sectionTitle": "TU LLC SIEMPRE EN REGLA,",
-      "sectionTitleHighlight": "SIN PREOCUPACIONES NI SORPRESAS",
+      "sectionTitle": "TU LLC",
+      "sectionTitleLine2": "SIEMPRE EN REGLA,",
+      "sectionTitleHighlight": "SIN PREOCUPACIONES",
+      "sectionTitleLine4": "NI SORPRESAS",
       "sectionSubtitle": "Nos ocupamos de todas las obligaciones legales, fiscales y administrativas de tu empresa para que puedas centrarte en hacer crecer tu negocio con total tranquilidad.",
       "trustText": "Sabemos que gestionar una empresa en Estados Unidos puede generar dudas, especialmente si operas desde otro país. Por eso creamos un sistema de mantenimiento completo donde revisamos cada requisito legal y fiscal por ti, asegurándonos de que todo esté presentado correctamente y dentro de plazo.",
       "trustGoal": "Nuestro objetivo es simple: que tu empresa funcione sin interrupciones y sin estrés.",

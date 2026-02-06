@@ -329,8 +329,10 @@
     "maintenancePack": {
       "title": "Annual Maintenance",
       "badge": "MAINTENANCE",
-      "sectionTitle": "YOUR LLC ALWAYS COMPLIANT,",
-      "sectionTitleHighlight": "WITHOUT WORRIES OR SURPRISES",
+      "sectionTitle": "YOUR LLC",
+      "sectionTitleLine2": "ALWAYS COMPLIANT,",
+      "sectionTitleHighlight": "WITHOUT WORRIES",
+      "sectionTitleLine4": "OR SURPRISES",
       "sectionSubtitle": "We handle all legal, tax and administrative obligations of your company so you can focus on growing your business with complete peace of mind.",
       "trustText": "We know that managing a company in the United States can raise questions, especially if you operate from another country. That's why we created a complete maintenance system where we review every legal and tax requirement for you, ensuring everything is filed correctly and on time.",
       "trustGoal": "Our goal is simple: for your company to run without interruptions and without stress.",
