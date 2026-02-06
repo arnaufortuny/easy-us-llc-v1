@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE = `easyusllc-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `easyusllc-dynamic-${CACHE_VERSION}`;
 const IMAGE_CACHE = `easyusllc-images-${CACHE_VERSION}`;
@@ -8,11 +8,18 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
   '/favicon.png',
-  '/logo-icon.png'
+  '/logo-icon.png',
+  '/benefits-no-vat.png',
+  '/benefits-no-tax.png',
+  '/benefits-no-fees.png',
+  '/benefits-banking.png',
+  '/clear-pricing.png',
+  '/business-specialists.png',
+  '/personal-support.png'
 ];
 
-const MAX_DYNAMIC_CACHE_SIZE = 50;
-const MAX_IMAGE_CACHE_SIZE = 30;
+const MAX_DYNAMIC_CACHE_SIZE = 75;
+const MAX_IMAGE_CACHE_SIZE = 50;
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

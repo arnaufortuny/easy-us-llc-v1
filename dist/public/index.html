@@ -45,21 +45,29 @@
     <meta name="apple-mobile-web-app-title" content="Easy US LLC" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://js.stripe.com">
+    <link rel="preconnect" href="https://api.stripe.com">
+    <link rel="preconnect" href="https://accounts.google.com">
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="preload" href="/logo-icon.png" as="image" type="image/png">
+    <link rel="dns-prefetch" href="https://js.stripe.com">
+    <link rel="dns-prefetch" href="https://api.stripe.com">
+    <link rel="dns-prefetch" href="https://accounts.google.com">
+    <link rel="preload" href="/logo-icon.png" as="image" type="image/png" fetchpriority="high">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
     <style>
       /* Critical CSS for fast initial paint */
       *{box-sizing:border-box;margin:0;padding:0}
       html,body{width:100%;max-width:100vw;overflow-x:hidden;min-height:100dvh}
-      body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F7F7F5;color:#0E1215}
+      body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#F8F8F6;color:#0A0A0A}
       #root{min-height:100dvh;width:100%;max-width:100vw;overflow-x:hidden}
-      .initial-loader{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:#F7F7F5;z-index:9999}
-      .initial-loader-spinner{width:40px;height:40px;border:3px solid #E6E9EC;border-top-color:#6EDC8A;border-radius:50%;animation:spin .8s linear infinite}
-      @keyframes spin{to{transform:rotate(360deg)}}
-      @media(prefers-color-scheme:dark){body,.initial-loader{background:#0E1215}body{color:#F7F7F5}.initial-loader-spinner{border-color:#374151;border-top-color:#6EDC8A}}
+      .initial-loader{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#F8F8F6;z-index:9999;transition:opacity 0.3s cubic-bezier(0.22,0.03,0.26,1)}
+      .initial-loader img{width:64px;height:64px;margin-bottom:24px;opacity:0.9}
+      .initial-loader-bar{width:280px;height:4px;background:#E0E0E0;border-radius:9999px;overflow:hidden}
+      .initial-loader-progress{height:100%;width:0;background:linear-gradient(90deg,#6EDC8A,#4FCF70);border-radius:9999px;animation:loadProgress 0.8s cubic-bezier(0.22,0.03,0.26,1) forwards}
+      @keyframes loadProgress{0%{width:0}100%{width:100%}}
+      html.dark,html.dark body,html.dark .initial-loader{background:#0A0A0A;color:#FAFAFA}html.dark .initial-loader-bar{background:#1A1A1A}@media(prefers-color-scheme:dark){html:not(.light),html:not(.light) body,html:not(.light) .initial-loader{background:#0A0A0A;color:#FAFAFA}html:not(.light) .initial-loader-bar{background:#1A1A1A}}
     </style>
     
     <link rel="alternate" hreflang="es" href="https://easyusllc.com" />
@@ -682,19 +690,21 @@
       ]
     }
     </script>
-    <script type="module" crossorigin src="/assets/index-CWx0gCjU.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/react-core-DkWXFmuS.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-dom-BybFfvUU.js">
-    <link rel="modulepreload" crossorigin href="/assets/i18n-Czt3Ol_y.js">
-    <link rel="modulepreload" crossorigin href="/assets/tanstack-wXeEfay9.js">
-    <link rel="modulepreload" crossorigin href="/assets/radix-ui-kO3FXNWk.js">
-    <link rel="modulepreload" crossorigin href="/assets/forms-DPfMMjh0.js">
-    <link rel="modulepreload" crossorigin href="/assets/ui-components-DKKU6jgR.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-CUzcwC0y.css">
+    <script type="module" crossorigin src="/assets/index-BnUt9mq7.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/react-core-BwXmAyYw.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-dom-lwpWoMhj.js">
+    <link rel="modulepreload" crossorigin href="/assets/pdf-DU6qdRYg.js">
+    <link rel="modulepreload" crossorigin href="/assets/i18n-DfkNketv.js">
+    <link rel="modulepreload" crossorigin href="/assets/tanstack-Bcy__teF.js">
+    <link rel="modulepreload" crossorigin href="/assets/radix-ui-BLFq0uWR.js">
+    <link rel="modulepreload" crossorigin href="/assets/forms-CNlQlKiB.js">
+    <link rel="modulepreload" crossorigin href="/assets/ui-components-CnPFRHmO.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CUl0AWnm.css">
   </head>
   <body>
     <div class="initial-loader" id="initial-loader">
-      <div class="initial-loader-spinner"></div>
+      <img src="/logo-icon.png" alt="Easy US LLC">
+      <div class="initial-loader-bar"><div class="initial-loader-progress"></div></div>
     </div>
     <div id="root"></div>
     <script>

@@ -12,7 +12,7 @@
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://easyusllc.com/"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
@@ -26,7 +26,7 @@
     <loc>https://easyusllc.com/servicios</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/servicios"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/servicios"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
     <image:image>
@@ -39,7 +39,7 @@
     <loc>https://easyusllc.com/llc/formation</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/llc/formation"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/llc/formation"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
   </url>
@@ -48,7 +48,7 @@
     <loc>https://easyusllc.com/llc/maintenance</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/llc/maintenance"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/llc/maintenance"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -57,7 +57,7 @@
     <loc>https://easyusllc.com/faq</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/faq"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/faq"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -66,49 +66,49 @@
     <loc>https://easyusllc.com/contacto</loc>
     <xhtml:link rel="alternate" hreflang="es" href="https://easyusllc.com/contacto"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://easyusllc.com/contacto"/>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   
   <url>
     <loc>https://easyusllc.com/auth/login</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
   
   <url>
     <loc>https://easyusllc.com/auth/register</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.4</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/terminos</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/privacidad</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/cookies</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
 
   <url>
     <loc>https://easyusllc.com/legal/reembolsos</loc>
-    <lastmod>2026-01-30</lastmod>
+    <lastmod>2026-02-01</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
