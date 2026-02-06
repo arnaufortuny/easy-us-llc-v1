@@ -17,7 +17,7 @@ import { ChevronDown, Check, ArrowRight } from "@/components/icons";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
-import mercuryCardImg from "@assets/mercury-card.avif";
+import mercuryCardImg from "@assets/B883568F-4E2F-4619-8F88-C933BC8BFEDF_1770405636773.PNG";
 import relayCardImg from "@assets/relay-card.png";
 
 const FormationIcon = ({ className }: { className?: string }) => (
