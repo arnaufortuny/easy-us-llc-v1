@@ -1,55 +1,89 @@
 import { describe, it, expect } from 'vitest';
 import esTranslations from '../locales/es.json';
 import enTranslations from '../locales/en.json';
+import caTranslations from '../locales/ca.json';
+import frTranslations from '../locales/fr.json';
+import deTranslations from '../locales/de.json';
+
+const allTranslations = {
+  es: esTranslations,
+  en: enTranslations,
+  ca: caTranslations,
+  fr: frTranslations,
+  de: deTranslations,
+};
+
+function getKeys(obj: Record<string, unknown>, prefix = ''): string[] {
+  let keys: string[] = [];
+  for (const k in obj) {
+    const path = prefix ? `${prefix}.${k}` : k;
+    if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+      keys = keys.concat(getKeys(obj[k] as Record<string, unknown>, path));
+    } else {
+      keys.push(path);
+    }
+  }
+  return keys;
+}
 
 describe('Internationalization (i18n)', () => {
-  it('should have Spanish translations', () => {
-    expect(esTranslations).toBeDefined();
-    expect(esTranslations.common).toBeDefined();
-    expect(esTranslations.nav).toBeDefined();
-    expect(esTranslations.hero).toBeDefined();
-  });
+  const langs = ['es', 'en', 'ca', 'fr', 'de'] as const;
 
-  it('should have English translations', () => {
-    expect(enTranslations).toBeDefined();
-    expect(enTranslations.common).toBeDefined();
-    expect(enTranslations.nav).toBeDefined();
-    expect(enTranslations.hero).toBeDefined();
-  });
-
-  it('should have matching translation keys between ES and EN', () => {
-    const esKeys = Object.keys(esTranslations);
-    const enKeys = Object.keys(enTranslations);
-
-    esKeys.forEach(key => {
-      expect(enKeys).toContain(key);
+  langs.forEach(lang => {
+    it(`should have ${lang} translations with required sections`, () => {
+      const t = allTranslations[lang];
+      expect(t).toBeDefined();
+      expect(t.common).toBeDefined();
+      expect(t.nav).toBeDefined();
+      expect(t.hero).toBeDefined();
     });
   });
 
-  it('should have all navigation keys translated', () => {
+  it('should have matching top-level keys across all languages', () => {
+    const enKeys = Object.keys(enTranslations).sort();
+    langs.forEach(lang => {
+      if (lang === 'en') return;
+      const langKeys = Object.keys(allTranslations[lang]).sort();
+      expect(langKeys).toEqual(enKeys);
+    });
+  });
+
+  it('should have matching key count across all languages', () => {
+    const enKeyCount = getKeys(enTranslations as Record<string, unknown>).length;
+    langs.forEach(lang => {
+      if (lang === 'en') return;
+      const langKeyCount = getKeys(allTranslations[lang] as Record<string, unknown>).length;
+      expect(langKeyCount).toBe(enKeyCount);
+    });
+  });
+
+  it('should have all navigation keys translated in all languages', () => {
     const navKeys = ['home', 'services', 'pricing', 'faq', 'contact', 'login', 'register', 'dashboard'];
     
-    navKeys.forEach(key => {
-      expect((esTranslations.nav as Record<string, string>)[key]).toBeDefined();
-      expect((enTranslations.nav as Record<string, string>)[key]).toBeDefined();
+    langs.forEach(lang => {
+      navKeys.forEach(key => {
+        expect((allTranslations[lang].nav as Record<string, string>)[key]).toBeDefined();
+      });
     });
   });
 
-  it('should have all common keys translated', () => {
+  it('should have all common keys translated in all languages', () => {
     const commonKeys = ['loading', 'save', 'cancel', 'confirm', 'delete', 'edit', 'back', 'next'];
     
-    commonKeys.forEach(key => {
-      expect((esTranslations.common as Record<string, string>)[key]).toBeDefined();
-      expect((enTranslations.common as Record<string, string>)[key]).toBeDefined();
+    langs.forEach(lang => {
+      commonKeys.forEach(key => {
+        expect((allTranslations[lang].common as Record<string, string>)[key]).toBeDefined();
+      });
     });
   });
 
-  it('should have order status translations', () => {
+  it('should have order status translations in all languages', () => {
     const statusKeys = ['pending', 'processing', 'paid', 'completed', 'cancelled'];
     
-    statusKeys.forEach(key => {
-      expect((esTranslations.dashboard.orders.status as Record<string, string>)[key]).toBeDefined();
-      expect((enTranslations.dashboard.orders.status as Record<string, string>)[key]).toBeDefined();
+    langs.forEach(lang => {
+      statusKeys.forEach(key => {
+        expect((allTranslations[lang].dashboard.orders.status as Record<string, string>)[key]).toBeDefined();
+      });
     });
   });
 });

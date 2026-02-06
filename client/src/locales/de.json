@@ -1305,7 +1305,6 @@
       "title": "Zahlungsverlauf",
       "subtitle": "Ihre Rechnungen und Belege",
       "empty": "Keine Zahlungen verzeichnet",
-      "emptyDescription": "Wenn Sie einen Service beauftragen, erscheinen alle Ihre Rechnungen und Belege hier.",
       "emptyDesc": "Ihre Rechnungen und Belege erscheinen hier.",
       "invoice": "Rechnung",
       "viewServices": "Services anzeigen"
@@ -1317,7 +1316,6 @@
       "inReview": "In Überprüfung",
       "completed": "Abgeschlossen",
       "pendingDates": "Termine ausstehend zur Konfiguration",
-      "empty": "Keine Steuertermine geplant",
       "emptyDescription": "Ihre Steuerfristen erscheinen hier, sobald Sie Ihre LLC gegründet haben.",
       "createLlc": "Meine LLC gründen",
       "creation": "Gründung",
