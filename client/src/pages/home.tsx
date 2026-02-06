@@ -33,16 +33,6 @@ export default function Home() {
     queryKey: ["/api/products"],
   });
 
-  const heroFeatures = [
-    t("hero.features.fast"),
-    t("hero.features.complete"),
-    t("hero.features.noVat"),
-    t("hero.features.transparent"),
-    t("hero.features.close"),
-    t("hero.features.bank"),
-    t("hero.features.card")
-  ];
-
   return (
     <div className="min-h-screen font-sans text-left bg-background w-full relative animate-page-in">
       <Navbar />
@@ -94,14 +84,6 @@ export default function Home() {
                 </div>
                 <span className="text-black text-lg font-black">5/5</span>
               </a>
-            </div>
-
-            <div className="hidden sm:flex flex-wrap justify-center gap-3 mb-8 px-2">
-              {heroFeatures.map((feature, i) => (
-                <span key={i} className="inline-flex items-center px-4 py-2 rounded-full bg-white dark:bg-card text-primary font-black text-sm border border-primary shadow-sm whitespace-nowrap">
-                  {feature}
-                </span>
-              ))}
             </div>
 
             <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 mb-4 sm:mb-4 w-full">
