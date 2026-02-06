@@ -109,6 +109,7 @@ export default function Dashboard() {
   const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
   const [adminSubTab, setAdminSubTab] = useState("dashboard");
   const [adminSearchQuery, setAdminSearchQuery] = useState("");
+  const [adminSearchFilter, setAdminSearchFilter] = useState<'all' | 'name' | 'email' | 'date' | 'invoiceId'>('all');
   const [createUserDialog, setCreateUserDialog] = useState(false);
   const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
   const [createOrderDialog, setCreateOrderDialog] = useState(false);
@@ -966,51 +967,67 @@ export default function Dashboard() {
     { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
   ], [t]);
 
-  // Admin search filtering
+  const matchesFilter = (fields: Record<string, string>, query: string, filter: typeof adminSearchFilter) => {
+    if (filter === 'all') return Object.values(fields).some(v => v.includes(query));
+    if (filter === 'name') return (fields.name || '').includes(query);
+    if (filter === 'email') return (fields.email || '').includes(query);
+    if (filter === 'date') return (fields.date || '').includes(query) || (fields.dateLong || '').includes(query);
+    if (filter === 'invoiceId') return (fields.invoiceId || '').includes(query) || (fields.orderId || '').includes(query);
+    return false;
+  };
+
   const filteredAdminOrders = useMemo(() => {
     if (!adminSearchQuery.trim() || !adminOrders) return adminOrders;
     const query = adminSearchQuery.toLowerCase().trim();
     return adminOrders.filter((order: any) => {
       const app = order.application || order.maintenanceApplication;
-      const requestCode = (app?.requestCode || order.invoiceNumber || '').toLowerCase();
-      const userId = (order.userId?.toString() || '');
-      const orderId = (order.id?.toString() || '');
-      const userName = ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase();
-      const userEmail = (order.user?.email || '').toLowerCase();
-      const clientId = (order.user?.clientId || '').toLowerCase();
-      const companyName = (app?.companyName || '').toLowerCase();
-      const orderDate = order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
-      const orderDateLong = order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
-      return requestCode.includes(query) || userId.includes(query) || orderId.includes(query) || userName.includes(query) || userEmail.includes(query) || clientId.includes(query) || companyName.includes(query) || orderDate.includes(query) || orderDateLong.includes(query);
+      const fields: Record<string, string> = {
+        name: ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase(),
+        email: (order.user?.email || '').toLowerCase(),
+        date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        dateLong: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+        invoiceId: (order.invoiceNumber || '').toLowerCase(),
+        orderId: (order.id?.toString() || ''),
+        requestCode: (app?.requestCode || '').toLowerCase(),
+        clientId: (order.user?.clientId || '').toLowerCase(),
+        companyName: (app?.companyName || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
     });
-  }, [adminOrders, adminSearchQuery]);
+  }, [adminOrders, adminSearchQuery, adminSearchFilter]);
 
   const filteredAdminUsers = useMemo(() => {
     if (!adminSearchQuery.trim() || !adminUsers) return adminUsers;
     const query = adminSearchQuery.toLowerCase().trim();
     return adminUsers.filter((u: any) => {
-      const fullName = ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase();
-      const email = (u.email || '').toLowerCase();
-      const clientId = (u.clientId || '').toLowerCase();
-      const id = (u.id?.toString() || '');
-      const phone = (u.phone || '').toLowerCase();
-      const regDate = u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
-      return fullName.includes(query) || email.includes(query) || clientId.includes(query) || id.includes(query) || phone.includes(query) || regDate.includes(query);
+      const fields: Record<string, string> = {
+        name: ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase(),
+        email: (u.email || '').toLowerCase(),
+        date: u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        clientId: (u.clientId || '').toLowerCase(),
+        orderId: (u.id?.toString() || ''),
+        invoiceId: '',
+        phone: (u.phone || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
     });
-  }, [adminUsers, adminSearchQuery]);
+  }, [adminUsers, adminSearchQuery, adminSearchFilter]);
 
   const filteredAdminMessages = useMemo(() => {
     if (!adminSearchQuery.trim() || !adminMessages) return adminMessages;
     const query = adminSearchQuery.toLowerCase().trim();
     return adminMessages.filter((msg: any) => {
-      const messageId = (msg.messageId || '').toLowerCase();
-      const userEmail = (msg.email || '').toLowerCase();
-      const userName = (msg.name || '').toLowerCase();
-      const subject = (msg.subject || '').toLowerCase();
-      const msgDate = msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '';
-      return messageId.includes(query) || userEmail.includes(query) || userName.includes(query) || subject.includes(query) || msgDate.includes(query);
+      const fields: Record<string, string> = {
+        name: (msg.name || '').toLowerCase(),
+        email: (msg.email || '').toLowerCase(),
+        date: msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        invoiceId: (msg.messageId || '').toLowerCase(),
+        orderId: '',
+        subject: (msg.subject || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
     });
-  }, [adminMessages, adminSearchQuery]);
+  }, [adminMessages, adminSearchQuery, adminSearchFilter]);
   
   const isAdmin = user?.isAdmin;
 
@@ -1803,18 +1820,18 @@ export default function Dashboard() {
                 <div key="admin" className="space-y-6">
                   <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4 md:mb-6">
                     {[
-                      { id: 'dashboard', label: 'Métricas', mobileLabel: 'Métricas', icon: BarChart3 },
-                      { id: 'orders', label: 'Pedidos', mobileLabel: 'Pedidos', icon: Package },
-                      { id: 'consultations', label: 'Consultas', mobileLabel: 'Consult.', icon: MessageSquare },
-                      { id: 'incomplete', label: 'Incompletas', mobileLabel: 'Incompl.', icon: AlertCircle },
-                      { id: 'users', label: 'Clientes', mobileLabel: 'Clientes', icon: Users },
-                      { id: 'facturas', label: 'Facturas', mobileLabel: 'Facturas', icon: Receipt },
-                      { id: 'accounting', label: 'Contabilidad', mobileLabel: 'Contab.', icon: Calculator },
+                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), mobileLabel: t('dashboard.admin.tabs.metrics'), icon: BarChart3 },
+                      { id: 'orders', label: t('dashboard.admin.tabs.orders'), mobileLabel: t('dashboard.admin.tabs.orders'), icon: Package },
+                      { id: 'consultations', label: t('dashboard.admin.tabs.consultations'), mobileLabel: t('dashboard.admin.tabs.consultations'), icon: MessageSquare },
+                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), mobileLabel: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle },
+                      { id: 'users', label: t('dashboard.admin.tabs.clients'), mobileLabel: t('dashboard.admin.tabs.clients'), icon: Users },
+                      { id: 'facturas', label: t('dashboard.admin.tabs.invoices'), mobileLabel: t('dashboard.admin.tabs.invoices'), icon: Receipt },
+                      { id: 'accounting', label: t('dashboard.admin.tabs.accounting'), mobileLabel: t('dashboard.admin.tabs.accounting'), icon: Calculator },
                       { id: 'calendar', label: t('dashboard.calendar.dates'), mobileLabel: t('dashboard.calendar.dates'), icon: Calendar },
                       { id: 'docs', label: 'Docs', mobileLabel: 'Docs', icon: FileText },
                       { id: 'newsletter', label: 'News', mobileLabel: 'News', icon: Mail },
                       { id: 'inbox', label: 'Inbox', mobileLabel: 'Inbox', icon: MessageSquare },
-                      { id: 'descuentos', label: 'Descuentos', mobileLabel: 'Desc', icon: Tag },
+                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), mobileLabel: t('dashboard.admin.tabs.discounts'), icon: Tag },
                     ].map((item) => (
                       <Button
                         key={item.id}
@@ -1842,19 +1859,33 @@ export default function Dashboard() {
                       </Button>
                       <Button variant="ghost" size="sm" className={`rounded-full text-xs font-semibold shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
-                        <span className="hidden sm:inline">Nuevo Pedido</span>
-                        <span className="sm:hidden">Pedido</span>
+                        <span className="hidden sm:inline">{t('dashboard.admin.newOrder')}</span>
+                        <span className="sm:hidden">{t('dashboard.admin.newOrder')}</span>
                       </Button>
                     </div>
-                    <div className="relative flex-1 max-w-xs min-w-48">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                      <Input
-                        placeholder={t('dashboard.admin.searchPlaceholder')}
-                        value={adminSearchQuery}
-                        onChange={(e) => setAdminSearchQuery(e.target.value)}
-                        className="pl-9 rounded-full text-xs bg-white dark:bg-[#1A1A1A] border-border"
-                        data-testid="input-admin-search"
-                      />
+                    <div className="flex items-center gap-2 flex-1 max-w-md min-w-48">
+                      <NativeSelect
+                        value={adminSearchFilter}
+                        onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
+                        className="rounded-full h-9 text-xs w-28 shrink-0"
+                        data-testid="select-admin-search-filter"
+                      >
+                        <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
+                        <option value="name">{t('dashboard.admin.searchFilters.name')}</option>
+                        <option value="email">{t('dashboard.admin.searchFilters.email')}</option>
+                        <option value="date">{t('dashboard.admin.searchFilters.date')}</option>
+                        <option value="invoiceId">{t('dashboard.admin.searchFilters.invoiceId')}</option>
+                      </NativeSelect>
+                      <div className="relative flex-1">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                        <Input
+                            placeholder={t('dashboard.admin.searchPlaceholder')}
+                          value={adminSearchQuery}
+                          onChange={(e) => setAdminSearchQuery(e.target.value)}
+                          className="pl-9 rounded-full text-xs bg-white dark:bg-[#1A1A1A] border-border"
+                          data-testid="input-admin-search"
+                        />
+                      </div>
                     </div>
                   </div>
 
@@ -1873,25 +1904,25 @@ export default function Dashboard() {
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Nombre</Label>
-                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder="Nombre" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-firstname" />
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.firstName')}</Label>
+                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-firstname" />
                           </div>
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Apellidos</Label>
-                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder="Apellidos" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-lastname" />
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.lastName')}</Label>
+                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-lastname" />
                           </div>
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Email</Label>
-                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder="email@ejemplo.com" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-email" />
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.email')}</Label>
+                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-email" />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Teléfono</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.phone')}</Label>
                           <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-phone" />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Contraseña</Label>
-                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder="Mínimo 8 caracteres" className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-password" />
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.password')}</Label>
+                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-create-user-password" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -1996,8 +2027,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Enviar Mensaje al Cliente</h3>
-                          <p className="text-sm text-muted-foreground">El cliente recibirá notificación en su panel y email</p>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.sendMessageTitle')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.clientNotification')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setNoteDialog({ open: false, user: null })} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2005,19 +2036,19 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Título</Label>
-                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Título del mensaje" className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.messageTitle')}</Label>
+                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-note-title" />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder="Escribe tu mensaje..." rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
+                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
                         <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
-                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Enviar Mensaje'}
+                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.sendMessage')}
                         </Button>
-                        <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2027,8 +2058,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Editar Usuario</h3>
-                          <p className="text-sm text-muted-foreground">Modifica los datos del cliente</p>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.editUser')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.editUserDesc')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setEditingUser(null)} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2037,47 +2068,47 @@ export default function Dashboard() {
                       <div className="space-y-3">
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Nombre</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.firstName')}</Label>
                             <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-firstname" />
                           </div>
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Apellidos</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.lastName')}</Label>
                             <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-lastname" />
                           </div>
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Email</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.email')}</Label>
                           <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-email" />
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Teléfono</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.phone')}</Label>
                           <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-phone" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Tipo ID</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idType')}</Label>
                             <NativeSelect 
                               value={editingUser.idType || ''} 
                               onValueChange={val => setEditingUser({...editingUser, idType: val})}
-                              placeholder="Seleccionar"
+                              placeholder={t('dashboard.admin.select')}
                               className="w-full rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]"
                             >
                               <NativeSelectItem value="dni">DNI</NativeSelectItem>
                               <NativeSelectItem value="nie">NIE</NativeSelectItem>
-                              <NativeSelectItem value="passport">Pasaporte</NativeSelectItem>
+                              <NativeSelectItem value="passport">{t('dashboard.admin.passport')}</NativeSelectItem>
                             </NativeSelect>
                           </div>
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Número ID</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idNumber')}</Label>
                             <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-idnumber" />
                           </div>
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Fecha Nacimiento</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.birthDate')}</Label>
                           <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-birthdate" />
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Actividad de Negocio</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.businessActivity')}</Label>
                           <NativeSelect 
                             value={editingUser.businessActivity || ''} 
                             onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
@@ -2109,39 +2140,39 @@ export default function Dashboard() {
                           </NativeSelect>
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Dirección</Label>
-                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder="Calle y número" className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-address" />
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.address')}</Label>
+                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-address" />
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Ciudad</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.city')}</Label>
                             <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-city" />
                           </div>
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">CP</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.postalCode')}</Label>
                             <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-postal" />
                           </div>
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">Provincia</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.province')}</Label>
                             <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-province" />
                           </div>
                           <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">País</Label>
+                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.country')}</Label>
                             <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-xl h-10 px-3 border border-gray-200 dark:border-border text-sm bg-white dark:bg-[#1A1A1A]" data-testid="input-edit-country" />
                           </div>
                         </div>
                         <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">Notas Internas</Label>
+                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
                           <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
                         </div>
                         {user?.email === 'afortuny07@gmail.com' && (
                           <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-xs font-black text-purple-700 dark:text-purple-300">Permisos de Administrador</p>
-                                <p className="text-[10px] text-purple-600 dark:text-purple-400">Solo tú puedes cambiar esto</p>
+                                <p className="text-xs font-black text-purple-700 dark:text-purple-300">{t('dashboard.admin.adminPermissions')}</p>
+                                <p className="text-[10px] text-purple-600 dark:text-purple-400">{t('dashboard.admin.onlyYouCanChange')}</p>
                               </div>
                               <Switch
                                 checked={editingUser.isAdmin || false}
@@ -2154,9 +2185,9 @@ export default function Dashboard() {
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
                         <Button type="button" onClick={(e) => { e.preventDefault(); editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser }); }} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
-                          {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar Cambios'}
+                          {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
                         </Button>
-                        <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); setEditingUser(null); }} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); setEditingUser(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2165,20 +2196,20 @@ export default function Dashboard() {
                   {deleteConfirm.open && deleteConfirm.user && (
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-black text-red-600">Eliminar Usuario</h3>
+                        <h3 className="text-lg font-black text-red-600">{t('dashboard.admin.deleteUser')}</h3>
                         <Button variant="ghost" size="icon" onClick={() => setDeleteConfirm({ open: false, user: null })} className="rounded-full">
                           <X className="w-4 h-4" />
                         </Button>
                       </div>
                       <div className="py-4">
-                        <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar a <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
-                        <p className="text-xs text-red-500 mt-2">Esta acción no se puede deshacer.</p>
+                        <p className="text-sm text-muted-foreground">{t('dashboard.admin.deleteUserConfirm')} <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
+                        <p className="text-xs text-red-500 mt-2">{t('dashboard.admin.actionIrreversible')}</p>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-4">
                         <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete">
-                          {deleteUserMutation.isPending ? 'Eliminando...' : 'Eliminar'}
+                          {deleteUserMutation.isPending ? t('dashboard.admin.deleting') : t('dashboard.admin.delete')}
                         </Button>
-                        <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2187,21 +2218,21 @@ export default function Dashboard() {
                   {deleteOrderConfirm.open && deleteOrderConfirm.order && (
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-black text-red-600">Eliminar Pedido</h3>
+                        <h3 className="text-lg font-black text-red-600">{t('dashboard.admin.deleteOrder')}</h3>
                         <Button variant="ghost" size="icon" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="rounded-full">
                           <X className="w-4 h-4" />
                         </Button>
                       </div>
                       <div className="py-4">
-                        <p className="text-sm text-muted-foreground">¿Estás seguro de que deseas eliminar el pedido <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
-                        <p className="text-xs text-muted-foreground mt-2">Cliente: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
-                        <p className="text-xs text-red-500 mt-2">Esta acción eliminará el pedido, la solicitud LLC asociada y todos los documentos relacionados.</p>
+                        <p className="text-sm text-muted-foreground">{t('dashboard.admin.deleteUserConfirm')} <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
+                        <p className="text-xs text-muted-foreground mt-2">{t('dashboard.admin.deleteOrderClient')}: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
+                        <p className="text-xs text-red-500 mt-2">{t('dashboard.admin.deleteOrderWarning')}</p>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-4">
                         <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete-order">
-                          {deleteOrderMutation.isPending ? 'Eliminando...' : 'Eliminar Pedido'}
+                          {deleteOrderMutation.isPending ? t('dashboard.admin.deleting') : t('dashboard.admin.deleteOrderBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2211,8 +2242,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Generar Factura</h3>
-                          <p className="text-sm text-muted-foreground">Pedido: {generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</p>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.generateInvoice')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.orderLabel')}: {generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2220,7 +2251,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
                           <Input 
                             type="number" 
                             step="0.01" 
@@ -2232,7 +2263,7 @@ export default function Dashboard() {
                           />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Divisa</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.currency')}</Label>
                           <NativeSelect 
                             value={orderInvoiceCurrency} 
                             onValueChange={setOrderInvoiceCurrency}
@@ -2277,9 +2308,9 @@ export default function Dashboard() {
                           }}
                           data-testid="button-confirm-generate-invoice"
                         >
-                          {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generar Factura'}
+                          {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.generateInvoiceBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2289,8 +2320,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Solicitar Documentos</h3>
-                          <p className="text-sm text-muted-foreground">Solicita documentos al cliente</p>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.requestDocs')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.requestDocsDesc')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setDocDialog({ open: false, user: null })} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2298,32 +2329,32 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo de documento</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.docType')}</Label>
                           <NativeSelect 
                             value={docType} 
                             onValueChange={setDocType}
-                            placeholder="Seleccionar tipo..."
+                            placeholder={t('dashboard.admin.selectDocType')}
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                           >
-                            <NativeSelectItem value="passport">Pasaporte / Documento de Identidad</NativeSelectItem>
-                            <NativeSelectItem value="address_proof">Prueba de Domicilio</NativeSelectItem>
-                            <NativeSelectItem value="tax_id">Identificación Fiscal (NIF/CIF)</NativeSelectItem>
-                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                            <NativeSelectItem value="passport">{t('dashboard.admin.docPassport')}</NativeSelectItem>
+                            <NativeSelectItem value="address_proof">{t('dashboard.admin.docAddressProof')}</NativeSelectItem>
+                            <NativeSelectItem value="tax_id">{t('dashboard.admin.docTaxId')}</NativeSelectItem>
+                            <NativeSelectItem value="other">{t('dashboard.admin.docOther')}</NativeSelectItem>
                           </NativeSelect>
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Mensaje</Label>
-                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder="Mensaje para el cliente" rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
+                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
                         <Button onClick={() => {
                           if (docDialog.user?.id && docDialog.user?.email) {
                             const docTypeLabels: Record<string, string> = {
-                              passport: 'Pasaporte / Documento de Identidad',
-                              address_proof: 'Prueba de Domicilio',
-                              tax_id: 'Identificación Fiscal (NIF/CIF)',
-                              other: 'Documento Adicional'
+                              passport: t('dashboard.admin.docPassport'),
+                              address_proof: t('dashboard.admin.docAddressProof'),
+                              tax_id: t('dashboard.admin.docTaxId'),
+                              other: t('dashboard.admin.docOther')
                             };
                             const docLabel = docTypeLabels[docType] || docType;
                             sendNoteMutation.mutate({ 
@@ -2337,9 +2368,9 @@ export default function Dashboard() {
                             setDocMessage('');
                           }
                         }} disabled={!docType || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
-                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Solicitar Documento'}
+                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.requestDocBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2349,7 +2380,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Crear Factura</h3>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.createInvoice')}</h3>
                           <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setInvoiceDialog({ open: false, user: null })} className="rounded-full">
@@ -2358,18 +2389,18 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Concepto</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept')}</Label>
                           <Input 
                             value={invoiceConcept} 
                             onChange={e => setInvoiceConcept(e.target.value)} 
-                            placeholder="Ej: Servicio de consultoría" 
+                            placeholder={t('dashboard.admin.conceptPlaceholder')} 
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="input-invoice-concept"
                           />
                         </div>
                         <div className="grid grid-cols-3 gap-3">
                           <div className="col-span-2">
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Importe</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
                             <Input 
                               type="number" 
                               value={invoiceAmount} 
@@ -2380,7 +2411,7 @@ export default function Dashboard() {
                             />
                           </div>
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Moneda</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.currencyLabel')}</Label>
                             <NativeSelect 
                               value={invoiceCurrency} 
                               onValueChange={setInvoiceCurrency}
@@ -2405,9 +2436,9 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
                           data-testid="button-create-invoice"
                         >
-                          {createInvoiceMutation.isPending ? 'Creando...' : 'Crear Factura'}
+                          {createInvoiceMutation.isPending ? t('dashboard.admin.creating') : t('dashboard.admin.createInvoiceBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2418,10 +2449,10 @@ export default function Dashboard() {
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-semibold text-foreground">
-                            {discountCodeDialog.code ? 'Editar Código de Descuento' : 'Nuevo Código de Descuento'}
+                            {discountCodeDialog.code ? t('dashboard.admin.editDiscountCode') : t('dashboard.admin.newDiscountCode')}
                           </h3>
                           <p className="text-sm text-muted-foreground">
-                            {discountCodeDialog.code ? 'Modifica los datos del código' : 'Configura un nuevo código de descuento'}
+                            {discountCodeDialog.code ? t('dashboard.admin.editDiscountCodeDesc') : t('dashboard.admin.newDiscountCodeDesc')}
                           </p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="rounded-full">
@@ -2430,7 +2461,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">Código</Label>
+                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.code')}</Label>
                           <Input 
                             value={newDiscountCode.code} 
                             onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
@@ -2441,20 +2472,20 @@ export default function Dashboard() {
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Tipo</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.type')}</Label>
                             <NativeSelect 
                               value={newDiscountCode.discountType} 
                               onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
                               className="w-full rounded-xl h-11 px-3 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                               data-testid="select-discount-type"
                             >
-                              <NativeSelectItem value="percentage">Porcentaje (%)</NativeSelectItem>
-                              <NativeSelectItem value="fixed">Fijo (centimos)</NativeSelectItem>
+                              <NativeSelectItem value="percentage">{t('dashboard.admin.percentage')}</NativeSelectItem>
+                              <NativeSelectItem value="fixed">{t('dashboard.admin.fixed')}</NativeSelectItem>
                             </NativeSelect>
                           </div>
                           <div>
                             <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              Valor {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
+                              {t('dashboard.admin.value')} {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
                             </Label>
                             <Input 
                               type="number" 
@@ -2467,7 +2498,7 @@ export default function Dashboard() {
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Min. (EUR)</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.minAmount')}</Label>
                             <Input 
                               type="number" 
                               value={newDiscountCode.minOrderAmount} 
@@ -2477,7 +2508,7 @@ export default function Dashboard() {
                             />
                           </div>
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Usos max.</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.maxUses')}</Label>
                             <Input 
                               type="number" 
                               value={newDiscountCode.maxUses} 
@@ -2489,7 +2520,7 @@ export default function Dashboard() {
                         </div>
                         <div className="grid grid-cols-2 gap-3">
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Desde</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validFrom')}</Label>
                             <Input 
                               type="date" 
                               value={newDiscountCode.validFrom} 
@@ -2499,7 +2530,7 @@ export default function Dashboard() {
                             />
                           </div>
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">Hasta</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validUntil')}</Label>
                             <Input 
                               type="date" 
                               value={newDiscountCode.validUntil} 
@@ -2515,7 +2546,7 @@ export default function Dashboard() {
                             onCheckedChange={(checked) => setNewDiscountCode(p => ({ ...p, isActive: checked }))}
                             data-testid="switch-discount-active"
                           />
-                          <Label className="text-sm font-semibold">Código activo</Label>
+                          <Label className="text-sm font-semibold">{t('dashboard.admin.activeCode')}</Label>
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t mt-4">
@@ -2549,9 +2580,9 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" 
                           data-testid="button-save-discount"
                         >
-                          {discountCodeDialog.code ? 'Guardar Cambios' : 'Crear Código'}
+                          {discountCodeDialog.code ? t('dashboard.admin.saveDiscountChanges') : t('dashboard.admin.createCode')}
                         </Button>
-                        <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="flex-1 rounded-full" data-testid="button-cancel-discount">Cancelar</Button>
+                        <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="flex-1 rounded-full" data-testid="button-cancel-discount">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2561,8 +2592,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-black text-foreground">Enviar Link de Pago</h3>
-                          <p className="text-sm text-muted-foreground">Envía un enlace de pago a {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}</p>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.sendPaymentLink')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.sendPaymentLinkDesc')} {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2570,7 +2601,7 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Link de pago (URL)</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentLinkUrl')}</Label>
                           <Input
                             value={paymentLinkUrl}
                             onChange={(e) => setPaymentLinkUrl(e.target.value)}
@@ -2580,21 +2611,21 @@ export default function Dashboard() {
                           />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Importe</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentAmount')}</Label>
                           <Input
                             value={paymentLinkAmount}
                             onChange={(e) => setPaymentLinkAmount(e.target.value)}
-                            placeholder="Ej: 739€"
+                            placeholder={t('dashboard.admin.paymentAmountPlaceholder')}
                             className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                             data-testid="input-payment-link-amount"
                           />
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Mensaje (opcional)</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentMessage')}</Label>
                           <Textarea
                             value={paymentLinkMessage}
                             onChange={(e) => setPaymentLinkMessage(e.target.value)}
-                            placeholder="Mensaje adicional para el cliente..."
+                            placeholder={t('dashboard.admin.paymentMessagePlaceholder')}
                             className="rounded-xl border-border bg-background dark:bg-[#1A1A1A]"
                             rows={3}
                             data-testid="input-payment-link-message"
@@ -2631,9 +2662,9 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
                           data-testid="button-send-payment-link"
                         >
-                          {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : "Enviar Link de Pago"}
+                          {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : t('dashboard.admin.sendPaymentLinkBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2643,11 +2674,11 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">Subir Documento para Cliente</h3>
+                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.uploadDocForClient')}</h3>
                           <p className="text-sm text-muted-foreground">
                             {adminDocUploadDialog.order?.userId 
-                              ? `Usuario: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
-                              : `Pedido: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
+                              ? `${t('dashboard.admin.user')}: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
+                              : `${t('dashboard.admin.orderLabel')}: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
                             }
                           </p>
                         </div>
@@ -2657,23 +2688,23 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Tipo de Documento</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.adminDocType')}</Label>
                           <NativeSelect
                             value={adminDocType}
                             onValueChange={setAdminDocType}
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                           >
-                            <NativeSelectItem value="articles_of_organization">Artículos de Organización</NativeSelectItem>
-                            <NativeSelectItem value="certificate_of_formation">Certificado de Formación</NativeSelectItem>
+                            <NativeSelectItem value="articles_of_organization">{t('dashboard.admin.articlesOfOrg')}</NativeSelectItem>
+                            <NativeSelectItem value="certificate_of_formation">{t('dashboard.admin.certOfFormation')}</NativeSelectItem>
                             <NativeSelectItem value="boir">BOIR</NativeSelectItem>
-                            <NativeSelectItem value="ein_document">Documento EIN</NativeSelectItem>
-                            <NativeSelectItem value="operating_agreement">Acuerdo Operativo</NativeSelectItem>
-                            <NativeSelectItem value="invoice">Factura</NativeSelectItem>
-                            <NativeSelectItem value="other">Otro Documento</NativeSelectItem>
+                            <NativeSelectItem value="ein_document">{t('dashboard.admin.einDocument')}</NativeSelectItem>
+                            <NativeSelectItem value="operating_agreement">{t('dashboard.admin.operatingAgreement')}</NativeSelectItem>
+                            <NativeSelectItem value="invoice">{t('dashboard.admin.invoice')}</NativeSelectItem>
+                            <NativeSelectItem value="other">{t('dashboard.admin.otherDoc')}</NativeSelectItem>
                           </NativeSelect>
                         </div>
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Archivo</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.file')}</Label>
                           <label className="cursor-pointer block">
                             <input 
                               type="file" 
@@ -2693,7 +2724,7 @@ export default function Dashboard() {
                               ) : (
                                 <div className="text-muted-foreground text-sm">
                                   <Upload className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                                  Haz clic para seleccionar archivo
+                                  {t('dashboard.admin.clickToSelectFile')}
                                 </div>
                               )}
                             </div>
@@ -2741,9 +2772,9 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
                           data-testid="button-admin-upload-doc"
                         >
-                          {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : "Subir Documento"}
+                          {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : t('dashboard.admin.uploadDocBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); }} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2753,8 +2784,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-black text-foreground">Restablecer Contraseña</h3>
-                          <p className="text-sm text-muted-foreground">Nueva contraseña para {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</p>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.resetPassword')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.newPasswordFor')} {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -2762,12 +2793,12 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">Nueva Contraseña</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.newPassword')}</Label>
                           <Input
                             type="password"
                             value={newAdminPassword}
                             onChange={(e) => setNewAdminPassword(e.target.value)}
-                            placeholder="Mínimo 8 caracteres"
+                            placeholder={t('dashboard.admin.minChars')}
                             className="rounded-xl h-12 border-border bg-background dark:bg-[#1A1A1A]"
                             data-testid="input-admin-new-password"
                           />
@@ -2793,9 +2824,9 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
                           data-testid="button-confirm-reset-password"
                         >
-                          {isResettingPassword ? <Loader2 className="animate-spin" /> : "Restablecer Contraseña"}
+                          {isResettingPassword ? <Loader2 className="animate-spin" /> : t('dashboard.admin.resetPasswordBtn')}
                         </Button>
-                        <Button variant="outline" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="flex-1 rounded-full">Cancelar</Button>
+                        <Button variant="outline" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
                     </Card>
                   )}
@@ -2804,22 +2835,22 @@ export default function Dashboard() {
                     <div className="space-y-4 md:space-y-6" data-testid="admin-dashboard-metrics">
                       {/* Ventas */}
                       <div data-testid="section-sales">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-sales">Ventas</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Total Ventas</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalSales')}</p>
                             <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Pendiente Cobro</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingCollection')}</p>
                             <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Pedidos Totales</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalOrders')}</p>
                             <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Conversión</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.conversion')}</p>
                             <p className="text-lg md:text-2xl font-black text-green-600 dark:text-green-500" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
                           </Card>
                         </div>
@@ -2827,18 +2858,18 @@ export default function Dashboard() {
 
                       {/* Estado Pedidos */}
                       <div data-testid="section-orders">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-orders">Estado de Pedidos</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         <div className="grid grid-cols-3 gap-2 md:gap-3">
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Pendientes</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pending')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">En Proceso</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.inProcess')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Completados</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.completed')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
                           </Card>
                         </div>
@@ -2846,14 +2877,14 @@ export default function Dashboard() {
 
                       {/* Usuarios */}
                       <div data-testid="section-crm">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-crm">Clientes (CRM)</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3">
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Total Usuarios</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalUsers')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Activos</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.active')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
@@ -2861,11 +2892,11 @@ export default function Dashboard() {
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">En Revisión</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.inReview')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Desactivadas</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.deactivated')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
@@ -2873,22 +2904,22 @@ export default function Dashboard() {
 
                       {/* Comunicaciones y Documentos */}
                       <div data-testid="section-communications">
-                        <h3 className="text-sm font-bold mb-3" data-testid="heading-communications">Comunicaciones</h3>
+                        <h3 className="text-sm font-bold mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Suscriptores Newsletter</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.newsletterSubs')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Totales</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.totalMessages')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Mensajes Pendientes</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingMessages')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
                           <Card className="p-3 md:p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
-                            <p className="text-[10px] md:text-xs text-muted-foreground">Docs Pendientes</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground">{t('dashboard.admin.metrics.pendingDocs')}</p>
                             <p className="text-xl md:text-3xl font-black text-green-600 dark:text-green-500" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
                         </div>
@@ -2918,31 +2949,31 @@ export default function Dashboard() {
                                     onValueChange={val => updateStatusMutation.mutate({ id: order.id, status: val })}
                                     className="w-28 h-7 rounded-lg text-xs bg-white dark:bg-card border px-2"
                                   >
-                                    <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
-                                    <NativeSelectItem value="paid">Pagado</NativeSelectItem>
-                                    <NativeSelectItem value="filed">Presentado</NativeSelectItem>
-                                    <NativeSelectItem value="cancelled">Cancelado</NativeSelectItem>
+                                    <NativeSelectItem value="pending">{t('dashboard.admin.orders.pending')}</NativeSelectItem>
+                                    <NativeSelectItem value="paid">{t('dashboard.admin.orders.paid')}</NativeSelectItem>
+                                    <NativeSelectItem value="filed">{t('dashboard.admin.orders.filed')}</NativeSelectItem>
+                                    <NativeSelectItem value="cancelled">{t('dashboard.admin.orders.cancelled')}</NativeSelectItem>
                                   </NativeSelect>
                                   <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
-                                    {isMaintenance ? 'MANTENIMIENTO' : 'LLC'}
+                                    {isMaintenance ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                   </Badge>
-                                  {!isFormComplete && <Badge className="text-[9px] bg-orange-100 text-orange-700">FORMULARIO INCOMPLETO</Badge>}
+                                  {!isFormComplete && <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.orders.formIncomplete')}</Badge>}
                                 </div>
                                 <p className="text-xs font-semibold">{app?.ownerFullName || `${order.user?.firstName || ''} ${order.user?.lastName || ''}`}</p>
                                 <p className="text-xs text-muted-foreground">{app?.ownerEmail || order.user?.email}</p>
                                 {app?.ownerPhone && <p className="text-xs text-muted-foreground">{app.ownerPhone}</p>}
                                 <p className="text-xs text-muted-foreground mt-1">
-                                  <strong>Empresa:</strong> {app?.companyName || 'No especificada'} • <strong>Estado:</strong> {app?.state || 'N/A'}
+                                  <strong>{t('dashboard.admin.orders.company')}:</strong> {app?.companyName || t('dashboard.admin.orders.notSpecified')} • <strong>{t('dashboard.admin.orders.stateLabel')}:</strong> {app?.state || 'N/A'}
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                  <strong>Producto:</strong> {order.product?.name} • <strong>Monto:</strong> {(order.amount / 100).toFixed(2)}€
+                                  <strong>{t('dashboard.admin.orders.product')}:</strong> {order.product?.name} • <strong>{t('dashboard.admin.orders.amount')}:</strong> {(order.amount / 100).toFixed(2)}€
                                   {order.discountCode && (
                                     <span className="text-green-600 ml-2">
-                                      (Descuento: {order.discountCode} -{(order.discountAmount / 100).toFixed(2)}€)
+                                      ({t('dashboard.admin.orders.discount')}: {order.discountCode} -{(order.discountAmount / 100).toFixed(2)}€)
                                     </span>
                                   )}
                                 </p>
-                                {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>Categoría:</strong> {app.businessCategory}</p>}
+                                {app?.businessCategory && <p className="text-xs text-muted-foreground"><strong>{t('dashboard.admin.orders.category')}:</strong> {app.businessCategory}</p>}
                                 {isMaintenance && app?.ein && <p className="text-xs text-muted-foreground"><strong>EIN:</strong> {app.ein}</p>}
                               </div>
                             </div>
@@ -2960,21 +2991,21 @@ export default function Dashboard() {
                                   }}
                                   data-testid={`btn-modify-order-${order.id}`}
                                 >
-                                  <Edit2 className="w-3 h-3 mr-1" /> Modificar
+                                  <Edit2 className="w-3 h-3 mr-1" /> {t('dashboard.admin.orders.modify')}
                                 </Button>
                               )}
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
-                                Ver Factura
+                                {t('dashboard.admin.orders.viewInvoice')}
                               </Button>
                               <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => {
                                 setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
                                 setOrderInvoiceCurrency("EUR");
                                 setGenerateInvoiceDialog({ open: true, order });
                               }} data-testid={`btn-generate-invoice-${order.id}`}>
-                                Generar Factura
+                                {t('dashboard.admin.orders.generateInvoice')}
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteOrderConfirm({ open: true, order })} data-testid={`btn-delete-order-${order.id}`}>
-                                Eliminar
+                                {t('dashboard.admin.orders.deleteBtn')}
                               </Button>
                             </div>
                           </div>
@@ -2990,9 +3021,9 @@ export default function Dashboard() {
                       <div className="p-4 border-b bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
                         <h3 className="font-black text-sm flex items-center gap-2">
                           <AlertCircle className="w-4 h-4 text-yellow-600" />
-                          Solicitudes Incompletas ({(incompleteApps?.llc?.length || 0) + (incompleteApps?.maintenance?.length || 0)})
+                          {t('dashboard.admin.incomplete.title')} ({(incompleteApps?.llc?.length || 0) + (incompleteApps?.maintenance?.length || 0)})
                         </h3>
-                        <p className="text-xs text-muted-foreground mt-1">Formularios no completados - se eliminan automáticamente tras 48h de inactividad</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t('dashboard.admin.incomplete.autoDeleteNotice')}</p>
                       </div>
                       <div className="divide-y">
                         {[...(incompleteApps?.llc || []), ...(incompleteApps?.maintenance || [])].map((app: any) => {
@@ -3005,12 +3036,12 @@ export default function Dashboard() {
                                 <div className="flex-1 min-w-0">
                                   <div className="flex items-center gap-2 flex-wrap mb-1">
                                     <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>
-                                      {app.type === 'maintenance' ? 'MANTENIMIENTO' : 'LLC'}
+                                      {app.type === 'maintenance' ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                     </Badge>
-                                    <Badge className="text-[9px] bg-orange-100 text-orange-700">INCOMPLETA</Badge>
+                                    <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.incomplete.incomplete')}</Badge>
                                     {hoursRemaining !== null && (
                                       <Badge className="text-[9px] bg-red-100 text-red-700">
-                                        {hoursRemaining > 0 ? `Se elimina en ${hoursRemaining}h` : 'Eliminación pendiente'}
+                                        {hoursRemaining > 0 ? t('dashboard.admin.incomplete.deleteInHours', { hours: hoursRemaining }) : t('dashboard.admin.incomplete.deletionPending')}
                                       </Badge>
                                     )}
                                   </div>
@@ -3018,10 +3049,10 @@ export default function Dashboard() {
                                   {app.ownerEmail && <p className="text-xs text-muted-foreground">{app.ownerEmail}</p>}
                                   {app.ownerPhone && <p className="text-xs text-muted-foreground">{app.ownerPhone}</p>}
                                   <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
-                                    {app.companyName && <p><strong>Empresa:</strong> {app.companyName}</p>}
-                                    {app.state && <p><strong>Estado:</strong> {app.state}</p>}
-                                    {app.remindersSent > 0 && <p><strong>Recordatorios:</strong> {app.remindersSent}/3 enviados</p>}
-                                    {app.lastUpdated && <p><strong>Última actividad:</strong> {new Date(app.lastUpdated).toLocaleString('es-ES')}</p>}
+                                    {app.companyName && <p><strong>{t('dashboard.admin.orders.company')}:</strong> {app.companyName}</p>}
+                                    {app.state && <p><strong>{t('dashboard.admin.orders.stateLabel')}:</strong> {app.state}</p>}
+                                    {app.remindersSent > 0 && <p><strong>{t('dashboard.admin.incomplete.reminders')}:</strong> {app.remindersSent}/3 {t('dashboard.admin.incomplete.sent')}</p>}
+                                    {app.lastUpdated && <p><strong>{t('dashboard.admin.incomplete.lastActivity')}:</strong> {new Date(app.lastUpdated).toLocaleString('es-ES')}</p>}
                                   </div>
                                 </div>
                                 <Button 
@@ -3033,7 +3064,7 @@ export default function Dashboard() {
                                   data-testid={`btn-delete-incomplete-${app.type}-${app.id}`}
                                 >
                                   <Trash2 className="w-3 h-3 mr-1" />
-                                  Eliminar
+                                  {t('dashboard.admin.delete')}
                                 </Button>
                               </div>
                             </div>
@@ -3042,7 +3073,7 @@ export default function Dashboard() {
                         {(!incompleteApps?.llc?.length && !incompleteApps?.maintenance?.length) && (
                           <div className="p-8 text-center text-muted-foreground">
                             <CheckCircle className="w-8 h-8 mx-auto mb-2 text-green-500" />
-                            <p className="text-sm font-medium">No hay solicitudes incompletas</p>
+                            <p className="text-sm font-medium">{t('dashboard.admin.incomplete.noIncomplete')}</p>
                           </div>
                         )}
                       </div>
@@ -3057,7 +3088,7 @@ export default function Dashboard() {
                               <div className="flex items-center gap-2 flex-wrap">
                                 <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
                                 <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'deactivated' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
-                                  {u.accountStatus === 'active' ? 'VERIFICADO' : u.accountStatus === 'pending' ? 'EN REVISIÓN' : u.accountStatus === 'deactivated' ? 'DESACTIVADA' : u.accountStatus === 'vip' ? 'VIP' : 'VERIFICADO'}
+                                  {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                 </Badge>
                                 {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
                               </div>
@@ -3080,45 +3111,45 @@ export default function Dashboard() {
                                 )}
                                 {u.securityOtpRequired && (
                                   <span className="flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
-                                    OTP Requerido
+                                    {t('dashboard.admin.users.otpRequired')}
                                   </span>
                                 )}
                               </div>
                               <div className="w-full">
-                                <Label className="text-[10px] text-muted-foreground mb-1 block">Estado de cuenta</Label>
+                                <Label className="text-[10px] text-muted-foreground mb-1 block">{t('dashboard.admin.users.accountStatus')}</Label>
                                 <NativeSelect 
                                   value={u.accountStatus || 'active'} 
                                   onValueChange={val => u.id && updateUserMutation.mutate({ id: u.id, accountStatus: val as any })}
                                   className="w-full h-9 rounded-full text-xs bg-white dark:bg-card border shadow-sm px-3"
                                 >
-                                  <NativeSelectItem value="active">Verificado</NativeSelectItem>
-                                  <NativeSelectItem value="pending">En revisión</NativeSelectItem>
-                                  <NativeSelectItem value="deactivated">Desactivada</NativeSelectItem>
+                                  <NativeSelectItem value="active">{t('dashboard.admin.users.verifiedStatus')}</NativeSelectItem>
+                                  <NativeSelectItem value="pending">{t('dashboard.admin.users.inReviewStatus')}</NativeSelectItem>
+                                  <NativeSelectItem value="deactivated">{t('dashboard.admin.users.deactivatedStatus')}</NativeSelectItem>
                                   <NativeSelectItem value="vip">VIP</NativeSelectItem>
                                 </NativeSelect>
                               </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setEditingUser(u)} data-testid={`button-edit-user-${u.id}`}>
-                                Editar
+                                {t('dashboard.admin.users.edit')}
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
-                                <Key className="w-3 h-3 mr-1" />Contraseña
+                                <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
-                                Mensaje
+                                {t('dashboard.admin.users.messageBtn')}
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
                                 Docs
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
-                                Factura
+                                {t('dashboard.admin.users.invoiceBtn')}
                               </Button>
                               <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
-                                Pago
+                                {t('dashboard.admin.users.paymentBtn')}
                               </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
-                                Eliminar
+                                {t('dashboard.admin.users.deleteBtn')}
                               </Button>
                             </div>
                           </div>
@@ -3129,7 +3160,7 @@ export default function Dashboard() {
                   {adminSubTab === 'calendar' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
                       <h4 className="font-black text-base md:text-lg mb-4 md:mb-6">
-                        Gestión de Fechas Fiscales
+                        {t('dashboard.admin.calendar.title')}
                       </h4>
                       <div className="space-y-4 md:space-y-6">
                         {adminOrders?.map((order: any) => {
@@ -3140,7 +3171,7 @@ export default function Dashboard() {
                             <div key={order.id} className="border-2 rounded-2xl p-4 md:p-5 bg-gray-50/50 dark:bg-[#1A1A1A]/50">
                               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                                 <div>
-                                  <p className="font-black text-base md:text-lg">{app.companyName || 'LLC pendiente'}</p>
+                                  <p className="font-black text-base md:text-lg">{app.companyName || t('dashboard.admin.calendar.llcPending')}</p>
                                   <p className="text-xs md:text-sm text-muted-foreground">{order.user?.firstName} {order.user?.lastName} • {app.state}</p>
                                 </div>
                                 <Badge variant="outline" className="text-xs w-fit">{fiscalOrderCode}</Badge>
@@ -3148,7 +3179,7 @@ export default function Dashboard() {
                               {/* Fechas - Grid compacto en móvil */}
                               <div className="grid grid-cols-2 gap-2 md:gap-4">
                                 <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
-                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Creación LLC</Label>
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.llcCreation')}</Label>
                                   <Input 
                                     type="date" 
                                     className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
@@ -3158,7 +3189,7 @@ export default function Dashboard() {
                                   />
                                 </div>
                                 <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border">
-                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Renovación Agente</Label>
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.agentRenewal')}</Label>
                                   <Input 
                                     type="date" 
                                     className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
@@ -3188,7 +3219,7 @@ export default function Dashboard() {
                                   />
                                 </div>
                                 <div className="bg-white dark:bg-card p-2 md:p-3 rounded-lg md:rounded-xl border col-span-2">
-                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">Reporte Anual</Label>
+                                  <Label className="text-[10px] md:text-xs font-bold text-muted-foreground mb-1 block truncate">{t('dashboard.admin.calendar.annualReport')}</Label>
                                   <Input 
                                     type="date" 
                                     className="h-8 md:h-10 text-xs md:text-sm px-2 md:px-3"
@@ -3288,7 +3319,7 @@ export default function Dashboard() {
                         })}
                         {(!adminOrders || adminOrders.length === 0) && (
                           <div className="text-center py-8 text-muted-foreground text-sm">
-                            No hay pedidos con LLCs para gestionar
+                            {t('dashboard.admin.calendar.noOrders')}
                           </div>
                         )}
                       </div>
@@ -3298,7 +3329,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                       <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
                         <div className="flex items-center gap-2">
-                          <h3 className="font-black text-lg">Documentos</h3>
+                          <h3 className="font-black text-lg">{t('dashboard.admin.documents.title')}</h3>
                           <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0}</Badge>
                         </div>
                         <div className="flex gap-2 flex-wrap">
@@ -3316,7 +3347,7 @@ export default function Dashboard() {
                             }}
                             className="h-9 text-xs rounded-full px-3 bg-accent text-primary font-bold min-w-[120px]"
                           >
-                            <option value="">Por pedido...</option>
+                            <option value="">{t('dashboard.admin.documents.byOrder')}</option>
                             {adminOrders?.map((order: any) => (
                               <option key={order.id} value={order.id}>
                                 {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber} - {order.user?.firstName}
@@ -3337,7 +3368,7 @@ export default function Dashboard() {
                             }}
                             className="h-9 text-xs rounded-full px-3 bg-primary text-white font-bold min-w-[120px]"
                           >
-                            <option value="">Por usuario...</option>
+                            <option value="">{t('dashboard.admin.documents.byUser')}</option>
                             {adminUsers?.map((user: any) => (
                               <option key={user.id} value={user.id}>
                                 {user.firstName} {user.lastName}
@@ -3357,7 +3388,7 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <p className="font-bold text-xs md:text-sm truncate">{doc.fileName}</p>
                                   <Badge variant="outline" className={`text-[8px] md:text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                                    {doc.reviewStatus === 'approved' ? 'Aprobado' : doc.reviewStatus === 'rejected' ? 'Rechazado' : 'Pendiente'}
+                                    {doc.reviewStatus === 'approved' ? t('dashboard.admin.documents.approved') : doc.reviewStatus === 'rejected' ? t('dashboard.admin.documents.rejected') : t('dashboard.admin.documents.pendingStatus')}
                                   </Badge>
                                 </div>
                                 <p className="text-[10px] text-accent font-medium mt-0.5">
@@ -3382,9 +3413,9 @@ export default function Dashboard() {
                                 }}
                                 className="h-7 text-[10px] rounded-full px-2 flex-1 max-w-[120px]"
                               >
-                                <NativeSelectItem value="pending">Pendiente</NativeSelectItem>
-                                <NativeSelectItem value="approved">Aprobar</NativeSelectItem>
-                                <NativeSelectItem value="rejected">Rechazar</NativeSelectItem>
+                                <NativeSelectItem value="pending">{t('dashboard.admin.documents.pendingStatus')}</NativeSelectItem>
+                                <NativeSelectItem value="approved">{t('dashboard.admin.documents.approve')}</NativeSelectItem>
+                                <NativeSelectItem value="rejected">{t('dashboard.admin.documents.reject')}</NativeSelectItem>
                               </NativeSelect>
                               {doc.fileUrl && (
                                 <Button size="icon" variant="outline" className="h-7 w-7 rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
@@ -3396,7 +3427,7 @@ export default function Dashboard() {
                                 variant="outline" 
                                 className="h-7 w-7 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
                                 onClick={async () => {
-                                  if (confirm('¿Eliminar este documento permanentemente?')) {
+                                  if (confirm(t('dashboard.admin.documents.confirmDelete'))) {
                                     try {
                                       await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
@@ -3414,7 +3445,7 @@ export default function Dashboard() {
                         {(!adminDocuments || adminDocuments.length === 0) && (
                           <div className="text-center py-8 text-muted-foreground text-sm">
                             <FileText className="w-12 h-12 mx-auto mb-3 text-muted-foreground/30" />
-                            No hay documentos subidos por clientes
+                            {t('dashboard.admin.documents.noDocs')}
                           </div>
                         )}
                       </div>
@@ -3423,7 +3454,7 @@ export default function Dashboard() {
                   {adminSubTab === 'newsletter' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                       <div className="space-y-6">
-                        <h4 className="font-black text-sm mb-3">Lista de Suscriptores ({adminNewsletterSubs?.length || 0})</h4>
+                        <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.title')} ({adminNewsletterSubs?.length || 0})</h4>
                         <div className="divide-y max-h-80 overflow-y-auto">
                           {adminNewsletterSubs?.map((sub: any) => (
                             <div key={sub.id} className="py-2 flex justify-between items-center gap-2">
@@ -3434,7 +3465,7 @@ export default function Dashboard() {
                                 variant="ghost" 
                                 className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
                                 onClick={async () => {
-                                  if (!confirm(`¿Eliminar suscriptor ${sub.email}?`)) return;
+                                  if (!confirm(t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`)) return;
                                   try {
                                     await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
                                     refetchNewsletterSubs();
@@ -3450,7 +3481,7 @@ export default function Dashboard() {
                             </div>
                           ))}
                           {(!adminNewsletterSubs || adminNewsletterSubs.length === 0) && (
-                            <p className="text-sm text-muted-foreground py-4 text-center">No hay suscriptores</p>
+                            <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.newsletterSection.noSubscribers')}</p>
                           )}
                         </div>
                       </div>
@@ -3473,7 +3504,7 @@ export default function Dashboard() {
                               </div>
                               <div className="flex items-center gap-1 shrink-0">
                                 <Badge variant="outline" className="text-[8px] md:text-[10px] hidden md:inline-flex">{msg.messageId || msg.id}</Badge>
-                                <Badge variant={msg.status === 'archived' ? 'secondary' : 'default'} className="text-[8px] md:text-[10px]">{msg.status === 'archived' ? 'archivado' : msg.status || 'pendiente'}</Badge>
+                                <Badge variant={msg.status === 'archived' ? 'secondary' : 'default'} className="text-[8px] md:text-[10px]">{msg.status === 'archived' ? t('dashboard.admin.inboxSection.archived') : msg.status || t('dashboard.admin.inboxSection.pendingStatus')}</Badge>
                                 {msg.status !== 'archived' && (
                                   <Button 
                                     size="icon" 
@@ -3499,7 +3530,7 @@ export default function Dashboard() {
                                   className="h-6 w-6 md:h-7 md:w-7 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
                                   onClick={async (e) => {
                                     e.stopPropagation();
-                                    if (confirm('¿Eliminar este mensaje y todas sus respuestas?')) {
+                                    if (confirm(t('dashboard.admin.inboxSection.confirmDeleteMsg'))) {
                                       try {
                                         await apiRequest("DELETE", `/api/admin/messages/${msg.id}`);
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
@@ -3521,7 +3552,7 @@ export default function Dashboard() {
                                 {msg.replies.map((reply: any) => (
                                   <div key={reply.id} className="text-xs">
                                     <span className={`font-semibold ${reply.isAdmin ? 'text-accent' : 'text-muted-foreground'}`}>
-                                      {reply.isAdmin ? 'Admin' : 'Cliente'}:
+                                      {reply.isAdmin ? t('dashboard.admin.inboxSection.adminLabel') : t('dashboard.admin.inboxSection.clientLabel')}:
                                     </span>
                                     <span className="ml-2">{reply.content}</span>
                                     <span className="text-[10px] text-muted-foreground ml-2">
@@ -3539,7 +3570,7 @@ export default function Dashboard() {
                                 <Textarea 
                                   value={replyContent} 
                                   onChange={(e) => setReplyContent(e.target.value)} 
-                                  placeholder="Escribe tu respuesta al cliente..." 
+                                  placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
                                   className="rounded-xl min-h-[80px] text-sm"
                                   data-testid="input-admin-reply"
                                 />
@@ -3550,14 +3581,14 @@ export default function Dashboard() {
                                   data-testid="button-send-admin-reply"
                                 >
                                   {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
-                                  Enviar respuesta
+                                  {t('dashboard.admin.inboxSection.sendReply')}
                                 </Button>
                               </div>
                             )}
                           </div>
                         ))}
                         {(!adminMessages || adminMessages.length === 0) && (
-                          <div className="text-center py-8 text-muted-foreground text-sm">No hay mensajes</div>
+                          <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.inboxSection.noMessages')}</div>
                         )}
                       </div>
                     </Card>
@@ -3565,28 +3596,28 @@ export default function Dashboard() {
                   {adminSubTab === 'facturas' && (
                     <div className="space-y-4" data-testid="admin-facturas-section">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-bold">Facturas para Contabilidad</h3>
+                        <h3 className="text-sm font-bold">{t('dashboard.admin.invoicesSection.title')}</h3>
                       </div>
                       <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
                         <div className="divide-y max-h-[60vh] overflow-y-auto">
                           {adminInvoices?.length === 0 && (
-                            <p className="p-4 text-sm text-muted-foreground text-center">No hay facturas generadas</p>
+                            <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.invoicesSection.noInvoices')}</p>
                           )}
                           {adminInvoices?.map((inv: any) => (
                             <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`invoice-row-${inv.id}`}>
                               <div className="space-y-1">
                                 <div className="flex items-center gap-2 flex-wrap">
-                                  <span className="font-black text-sm">{inv.fileName || `Factura ${inv.order?.invoiceNumber}`}</span>
+                                  <span className="font-black text-sm">{inv.fileName || `${t('dashboard.admin.invoicesSection.invoiceLabel')} ${inv.order?.invoiceNumber}`}</span>
                                   <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
-                                    {inv.order?.status === 'paid' ? 'Pagada' : inv.order?.status === 'completed' ? 'Completada' : inv.order?.status === 'pending' ? 'Pendiente' : inv.order?.status || 'N/A'}
+                                    {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || 'N/A'}
                                   </Badge>
                                 </div>
                                 <p className="text-xs text-muted-foreground">
                                   {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
                                 </p>
                                 <p className="text-xs text-muted-foreground">
-                                  Importe: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
-                                  Fecha: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
+                                  {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
+                                  {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
                                 </p>
                               </div>
                               <div className="flex gap-2 flex-wrap">
@@ -3603,11 +3634,11 @@ export default function Dashboard() {
                                   }}
                                   className="h-8 text-[10px] rounded-full px-2 min-w-[90px]"
                                 >
-                                  <option value="pending">Pendiente</option>
-                                  <option value="paid">Pagada</option>
-                                  <option value="completed">Completada</option>
-                                  <option value="cancelled">Cancelada</option>
-                                  <option value="refunded">Reembolsada</option>
+                                  <option value="pending">{t('dashboard.admin.invoicesSection.pendingStatus')}</option>
+                                  <option value="paid">{t('dashboard.admin.invoicesSection.paid')}</option>
+                                  <option value="completed">{t('dashboard.admin.invoicesSection.completedStatus')}</option>
+                                  <option value="cancelled">{t('dashboard.admin.invoicesSection.cancelledStatus')}</option>
+                                  <option value="refunded">{t('dashboard.admin.invoicesSection.refundedStatus')}</option>
                                 </NativeSelect>
                                 <Button 
                                   variant="outline" 
@@ -3616,7 +3647,7 @@ export default function Dashboard() {
                                   onClick={() => window.open(inv.fileUrl || `/api/orders/${inv.orderId}/invoice`, '_blank')}
                                   data-testid={`button-view-invoice-${inv.id}`}
                                 >
-                                  <Eye className="w-3 h-3 mr-1" /> Ver
+                                  <Eye className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.view')}
                                 </Button>
                                 <Button 
                                   variant="outline" 
@@ -3630,14 +3661,14 @@ export default function Dashboard() {
                                   }}
                                   data-testid={`button-download-invoice-${inv.id}`}
                                 >
-                                  <Download className="w-3 h-3 mr-1" /> Descargar
+                                  <Download className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.download')}
                                 </Button>
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
                                   className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={async () => {
-                                    if (!confirm('¿Eliminar esta factura?')) return;
+                                    if (!confirm(t('dashboard.admin.invoicesSection.confirmDeleteInvoice'))) return;
                                     try {
                                       await apiRequest("DELETE", `/api/admin/invoices/${inv.id}`);
                                       queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
@@ -3665,7 +3696,7 @@ export default function Dashboard() {
                   {adminSubTab === 'descuentos' && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-bold">Códigos de Descuento</h3>
+                        <h3 className="text-sm font-bold">{t('dashboard.admin.discountsSection.title')}</h3>
                         <Button 
                           variant="outline" 
                           size="sm" 
@@ -3685,7 +3716,7 @@ export default function Dashboard() {
                           }}
                           data-testid="button-create-discount-code"
                         >
-                          <Plus className="w-3 h-3 mr-1" /> Nuevo Código
+                          <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.discountsSection.newCode')}
                         </Button>
                       </div>
                       <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
@@ -3696,15 +3727,15 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <span className="font-black text-sm">{dc.code}</span>
                                   <Badge variant={dc.isActive ? "default" : "secondary"} className="text-[10px]">
-                                    {dc.isActive ? 'Activo' : 'Inactivo'}
+                                    {dc.isActive ? t('dashboard.admin.discountsSection.activeStatus') : t('dashboard.admin.discountsSection.inactiveStatus')}
                                   </Badge>
                                   <Badge variant="outline" className="text-[10px]">
                                     {dc.discountType === 'percentage' ? `${dc.discountValue}%` : `${(dc.discountValue / 100).toFixed(2)}€`}
                                   </Badge>
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                  Usado: {dc.usedCount}{dc.maxUses ? `/${dc.maxUses}` : ''} veces
-                                  {dc.minOrderAmount && ` | Min: ${(dc.minOrderAmount / 100).toFixed(2)}€`}
+                                  {t('dashboard.admin.discountsSection.used')}: {dc.usedCount}{dc.maxUses ? `/${dc.maxUses}` : ''} {t('dashboard.admin.discountsSection.times')}
+                                  {dc.minOrderAmount && ` | ${t('dashboard.admin.discountsSection.min')}: ${(dc.minOrderAmount / 100).toFixed(2)}€`}
                                 </p>
                                 {(dc.validFrom || dc.validUntil) && (
                                   <p className="text-[9px] md:text-[10px] text-muted-foreground">
@@ -3758,7 +3789,7 @@ export default function Dashboard() {
                                   size="sm" 
                                   className="rounded-lg text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={async () => {
-                                    if (!confirm(`¿Eliminar el código ${dc.code}?`)) return;
+                                    if (!confirm(`${t('dashboard.admin.discountsSection.confirmDeleteCode')} ${dc.code}?`)) return;
                                     try {
                                       await apiRequest("DELETE", `/api/admin/discount-codes/${dc.id}`);
                                       refetchDiscountCodes();
@@ -3775,7 +3806,7 @@ export default function Dashboard() {
                             </div>
                           ))}
                           {(!discountCodes || discountCodes.length === 0) && (
-                            <div className="text-center py-8 text-muted-foreground text-sm">No hay códigos de descuento</div>
+                            <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.discountsSection.noDiscountCodes')}</div>
                           )}
                         </div>
                       </Card>
@@ -3783,9 +3814,7 @@ export default function Dashboard() {
                   )}
                 </div>
               )}
-
-                          
-          </div>
+            </div>
 
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
             {/* Consolidated Action Required Card */}

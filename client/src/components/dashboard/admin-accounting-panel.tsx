@@ -68,7 +68,7 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionCreated') || "Transacción creada" });
+      toast({ title: t('dashboard.admin.transactionCreated') });
       setFormOpen(false);
       setEditingTransaction(null);
       resetForm();
@@ -87,7 +87,7 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionUpdated') || "Transacción actualizada" });
+      toast({ title: t('dashboard.admin.transactionUpdated') });
       setFormOpen(false);
       setEditingTransaction(null);
       resetForm();
@@ -105,7 +105,7 @@ export function AdminAccountingPanel() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/summary"] });
-      toast({ title: t('dashboard.admin.transactionDeleted') || "Transacción eliminada" });
+      toast({ title: t('dashboard.admin.transactionDeleted') });
     },
     onError: () => {
       toast({ title: t('common.error'), variant: "destructive" });
@@ -163,7 +163,7 @@ export function AdminAccountingPanel() {
       a.download = `transacciones_${new Date().toISOString().slice(0, 10)}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-      toast({ title: "CSV descargado" });
+      toast({ title: t('dashboard.admin.exportCSV') });
     } catch (err) {
       toast({ title: t('common.error'), variant: "destructive" });
     }
@@ -326,7 +326,7 @@ export function AdminAccountingPanel() {
                     size="icon"
                     className="h-8 w-8 rounded-lg text-red-600"
                     onClick={() => {
-                      if (confirm('¿Eliminar esta transacción?')) {
+                      if (confirm(t('dashboard.admin.deleteTransaction') + '?')) {
                         deleteMutation.mutate(tx.id);
                       }
                     }}
@@ -353,13 +353,13 @@ export function AdminAccountingPanel() {
                   size="icon"
                   className="h-8 w-8 rounded-full"
                   onClick={() => { setFormOpen(false); setEditingTransaction(null); }}
-                  aria-label="Cerrar formulario"
+                  aria-label={t('common.cancel')}
                 >
                   <X className="w-4 h-4" />
                 </Button>
               </div>
               <p className="text-sm text-muted-foreground mb-4">
-                {editingTransaction ? 'Modifica los datos' : 'Añade un ingreso o gasto'}
+                {editingTransaction ? t('dashboard.admin.editTransaction') : t('dashboard.admin.addTransaction')}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -380,7 +380,7 @@ export function AdminAccountingPanel() {
                     onValueChange={(val) => setFormData(p => ({ ...p, category: val }))}
                     className="w-full rounded-xl h-11"
                   >
-                    <NativeSelectItem value="">{t('dashboard.admin.selectCategory') || 'Seleccionar...'}</NativeSelectItem>
+                    <NativeSelectItem value="">{t('dashboard.admin.selectCategory')}</NativeSelectItem>
                     {(formData.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES).map(cat => (
                       <NativeSelectItem key={cat} value={cat}>{getCategoryLabel(cat)}</NativeSelectItem>
                     ))}
@@ -412,20 +412,20 @@ export function AdminAccountingPanel() {
                     value={formData.description}
                     onChange={(e) => setFormData(p => ({ ...p, description: e.target.value }))}
                     className="rounded-xl h-11"
-                    placeholder="Descripción breve..."
+                    placeholder={t('dashboard.admin.description')}
                   />
                 </div>
                 <div>
-                  <Label className="text-sm font-semibold mb-2 block">Referencia</Label>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.transactionDescription')}</Label>
                   <Input
                     value={formData.reference}
                     onChange={(e) => setFormData(p => ({ ...p, reference: e.target.value }))}
                     className="rounded-xl h-11"
-                    placeholder="Nº factura, recibo, etc."
+                    placeholder={t('dashboard.admin.transactionDescription')}
                   />
                 </div>
                 <div>
-                  <Label className="text-sm font-semibold mb-2 block">Notas</Label>
+                  <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.internalNotes')}</Label>
                   <Textarea
                     value={formData.notes}
                     onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
@@ -440,7 +440,7 @@ export function AdminAccountingPanel() {
                   disabled={createMutation.isPending || updateMutation.isPending}
                   className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
                 >
-                  {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Guardar'}
+                  {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
                 </Button>
                 <Button
                   variant="outline"
