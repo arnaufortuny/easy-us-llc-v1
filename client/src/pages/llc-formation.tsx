@@ -768,9 +768,9 @@ export default function LlcFormation() {
                       {t("application.accessWithGoogle")}
                     </Button>
                     
-                    <p className="text-center text-xs text-muted-foreground">
-                      {t("application.orLoginWithEmail").split("inicia sesión")[0]}<Link href="/auth/login" className="text-accent font-bold underline">{t("auth.login.signIn")}</Link>{t("application.orLoginWithEmail").split("inicia sesión")[1] || ""}
-                    </p>
+                    <Link href="/auth/login" className="block text-center text-xs text-accent font-bold underline" data-testid="link-login-email">
+                      {t("application.orLoginWithEmail")}
+                    </Link>
                   </div>
                 )}
               </div>

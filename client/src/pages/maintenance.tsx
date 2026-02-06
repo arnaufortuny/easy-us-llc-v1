@@ -536,9 +536,9 @@ export default function MaintenanceApplication() {
                           {t("maintenance.steps.accessWithGoogle")}
                         </Button>
                         
-                        <p className="text-center text-xs text-muted-foreground">
+                        <Link href="/auth/login" className="block text-center text-xs text-accent font-bold underline" data-testid="link-login-email-maintenance">
                           {t("maintenance.steps.orLoginWithEmail")}
-                        </p>
+                        </Link>
                       </div>
                     )}
                   </div>
