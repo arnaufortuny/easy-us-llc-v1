@@ -1871,7 +1871,7 @@ export default function Dashboard() {
                       { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users },
                       { id: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt },
                       { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar },
-                      { id: 'docs', label: 'Docs', icon: FileText },
+                      { id: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText },
                       { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag },
                     ].map((item) => (
                       <Button
@@ -3238,7 +3238,7 @@ export default function Dashboard() {
                                           } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
                                         }}
                                         data-testid={`btn-archive-msg-${msg.id}`}
-                                        title="Archivar"
+                                        title={t('dashboard.admin.documents.archive')}
                                       >
                                         <Archive className="w-3 h-3 md:w-3.5 md:h-3.5" />
                                       </Button>
@@ -3399,7 +3399,7 @@ export default function Dashboard() {
                           onClick={() => setUsersSubTab('newsletter')}
                           data-testid="button-users-subtab-newsletter"
                         >
-                          Newsletter
+                          {t('dashboard.admin.clientsSubTabs.newsletter')}
                         </Button>
                       </div>
                       {usersSubTab === 'users' && (
