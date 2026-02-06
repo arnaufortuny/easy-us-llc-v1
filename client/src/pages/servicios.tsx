@@ -523,7 +523,7 @@ export default function Servicios() {
               return (
                 <div 
                   key={i} 
-                  className="text-left"
+                  className="text-center flex flex-col items-center"
                 >
                   {hasImage && (
                     <div className="flex justify-center mb-5">
@@ -538,7 +538,7 @@ export default function Servicios() {
                   <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
                     {t(`services.banks.${item.key}.title`)}
                   </h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed max-w-md">
                     {t(`services.banks.${item.key}.desc`)}
                   </p>
                 </div>
