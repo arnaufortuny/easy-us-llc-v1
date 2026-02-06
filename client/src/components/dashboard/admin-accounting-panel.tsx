@@ -371,7 +371,7 @@ export function AdminAccountingPanel() {
           <Card className="rounded-2xl border-0 shadow-sm mt-4">
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="text-lg font-bold text-foreground">
+                <h3 className="text-lg font-black text-foreground">
                   {editingTransaction ? t('dashboard.admin.editTransaction') : t('dashboard.admin.addTransaction')}
                 </h3>
                 <Button
@@ -464,7 +464,7 @@ export function AdminAccountingPanel() {
                 <Button
                   onClick={handleSubmit}
                   disabled={createMutation.isPending || updateMutation.isPending}
-                  className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
+                  className="bg-accent text-accent-foreground font-black rounded-full px-6"
                 >
                   {(createMutation.isPending || updateMutation.isPending) ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
                 </Button>

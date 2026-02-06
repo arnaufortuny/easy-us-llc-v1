@@ -165,7 +165,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
           <h2 className="text-xl sm:text-2xl font-black tracking-tight">
             {t("consultations.title")}
           </h2>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-base text-muted-foreground mt-1">
             {t("consultations.subtitle")}
           </p>
         </div>
@@ -255,7 +255,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                   </div>
 
                   <div className="border-t border-border pt-4 space-y-4">
-                    <h4 className="font-bold text-sm">{t("consultations.questionnaire")}</h4>
+                    <h4 className="font-black text-sm">{t("consultations.questionnaire")}</h4>
                     
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="space-y-2">
@@ -366,7 +366,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
 
       {upcomingBookings.length > 0 && (
         <div className="space-y-4">
-          <h3 className="font-bold text-lg">{t("consultations.upcoming")}</h3>
+          <h3 className="font-black text-lg">{t("consultations.upcoming")}</h3>
           <div className="grid gap-4">
             {upcomingBookings.map(({ booking, consultationType }) => {
               const statusInfo = getConsultationStatusLabel(booking.status, t);
@@ -376,7 +376,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                     <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                       <div className="flex-1">
                         <div className="flex items-center gap-2 flex-wrap mb-2">
-                          <h4 className="font-bold text-base sm:text-lg">
+                          <h4 className="font-black text-base sm:text-lg">
                             {getLocalizedName(consultationType)}
                           </h4>
                           <Badge className={statusInfo.className}>
@@ -431,7 +431,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
 
       {pastBookings.length > 0 && (
         <div className="space-y-4">
-          <h3 className="font-bold text-lg">{t("consultations.past")}</h3>
+          <h3 className="font-black text-lg">{t("consultations.past")}</h3>
           <div className="grid gap-3">
             {pastBookings.map(({ booking, consultationType }) => {
               const statusInfo = getConsultationStatusLabel(booking.status, t);
@@ -463,7 +463,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
         <Card className="py-12">
           <CardContent className="flex flex-col items-center justify-center text-center">
             <MessageSquare className="w-12 h-12 text-muted-foreground mb-4" />
-            <h3 className="font-bold text-lg mb-2">{t("consultations.noBookings")}</h3>
+            <h3 className="font-black text-lg mb-2">{t("consultations.noBookings")}</h3>
             <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
             <Button 
               onClick={() => setShowBookingPanel(true)}

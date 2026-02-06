@@ -53,8 +53,8 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
   return (
     <div key="services" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>
+        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
+        <p className="text-base text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>
       </div>
       
       {draftOrders.map((order) => {
@@ -70,7 +70,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                   <AlertCircle className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm md:text-base font-semibold text-foreground">{t('dashboard.services.pendingApplication')}</p>
+                  <p className="text-sm md:text-base font-black text-foreground">{t('dashboard.services.pendingApplication')}</p>
                   <p className="text-xs text-muted-foreground mt-0.5">
                     {order.maintenanceApplication 
                       ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
@@ -79,7 +79,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                         : `${order.application?.state || t('dashboard.services.yourLLC')}`
                     }
                     {hoursRemaining !== null && (
-                      <span className="text-yellow-600 dark:text-yellow-400 font-semibold ml-2">
+                      <span className="text-yellow-600 dark:text-yellow-400 font-black ml-2">
                         · {t('dashboard.services.deletedIn', { hours: hoursRemaining })}
                       </span>
                     )}
@@ -87,7 +87,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                 </div>
               </div>
               <Link href={order.maintenanceApplication ? "/llc/maintenance" : "/llc/formation"} data-testid={`link-continue-application-${order.id}`}>
-                <Button className="bg-accent text-primary font-bold rounded-full" size="sm" data-testid={`button-continue-application-${order.id}`}>
+                <Button className="bg-accent text-primary font-black rounded-full" size="sm" data-testid={`button-continue-application-${order.id}`}>
                   {t('dashboard.services.continueApplication')}
                   <ChevronRight className="w-4 h-4 ml-1" />
                 </Button>
@@ -102,11 +102,11 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <Package className="w-12 h-12 md:w-16 md:h-16 text-accent" />
             <div>
-              <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center" data-testid="text-empty-title">{t('dashboard.services.empty')}</h3>
+              <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight" data-testid="text-empty-title">{t('dashboard.services.empty')}</h3>
               <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center" data-testid="text-empty-description">{t('dashboard.services.emptyDescription')}</p>
             </div>
             <Link href="/servicios#pricing" data-testid="link-view-plans">
-              <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
+              <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-packs">
                 {t('dashboard.services.viewPlans')}
               </Button>
             </Link>
@@ -117,7 +117,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
           {/* Completed LLCs - Full Details */}
           {completedOrders.length > 0 && (
             <div className="space-y-4">
-              <h3 className="text-sm font-bold text-foreground flex items-center gap-2">
+              <h3 className="text-sm font-black text-foreground flex items-center gap-2">
                 <Building2 className="w-4 h-4 text-accent" />
                 {t('dashboard.llcDetails.myLLCs')}
               </h3>
@@ -131,7 +131,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                         <div>
                           <div className="flex items-center gap-2 mb-1">
                             <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
-                            <h4 className="text-lg font-bold text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName} LLC</h4>
+                            <h4 className="text-lg font-black text-foreground" data-testid={`text-company-name-${order.id}`}>{app.companyName} LLC</h4>
                           </div>
                           <p className="text-xs text-muted-foreground" data-testid={`text-llc-info-${order.id}`}>
                             <span data-testid={`text-state-${order.id}`}>{app.state}</span> · {t('dashboard.llcDetails.orderCode')}: <span data-testid={`text-order-code-${order.id}`}>{app.requestCode}</span>
@@ -261,7 +261,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
           {/* In Progress Orders */}
           {inProgressOrders.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-xs md:text-sm font-bold text-muted-foreground">{t('dashboard.services.inProgress')}</h3>
+              <h3 className="text-xs md:text-sm font-black text-muted-foreground">{t('dashboard.services.inProgress')}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 {inProgressOrders.map((order) => (
                   <LLCProgressWidget 
@@ -286,7 +286,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
           {/* All Orders List */}
           {orders && orders.length > 0 && (
             <div className="mt-4 md:mt-6">
-              <h3 className="text-xs md:text-sm font-bold text-muted-foreground mb-2 md:mb-3">{t('dashboard.services.allOrders')}</h3>
+              <h3 className="text-xs md:text-sm font-black text-muted-foreground mb-2 md:mb-3">{t('dashboard.services.allOrders')}</h3>
               <div className="space-y-2 md:space-y-3">
                 {orders.map((order) => (
                   <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-card overflow-hidden" data-testid={`card-order-${order.id}`}>
@@ -305,7 +305,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                             </Badge>
                           )}
                         </div>
-                        <p className="text-sm md:text-base font-bold text-primary truncate">
+                        <p className="text-sm md:text-base font-black text-primary truncate">
                           {order.maintenanceApplication 
                             ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || ''}`
                             : order.application?.companyName 

@@ -800,8 +800,8 @@ export default function Dashboard() {
         <Navbar />
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
-            <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight leading-tight">
+            <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
+            <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight leading-tight">
               {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
             </h1>
           </header>
@@ -831,7 +831,7 @@ export default function Dashboard() {
                   <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
                     <div className="flex items-center gap-2 mb-3">
                       <Mail className="w-4 h-4 text-orange-600" />
-                      <span className="font-bold text-sm text-orange-800 dark:text-orange-300">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
+                      <span className="font-black text-sm text-orange-800 dark:text-orange-300">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
                     </div>
                     <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
                       {t("dashboard.pendingAccount.codeSentTo")} <strong>{user?.email}</strong>
@@ -897,7 +897,7 @@ export default function Dashboard() {
                     <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
                         <Shield className="w-5 h-5 text-amber-600" />
-                        <span className="font-bold text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
+                        <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
                       </div>
                       <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
                         {t("dashboard.pendingAccount.adminReviewMessage")}
@@ -933,7 +933,7 @@ export default function Dashboard() {
                             <BellRing className={`w-4 h-4 ${notif.isRead ? 'text-muted-foreground' : 'text-accent'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-semibold text-sm text-foreground">{notif.title}</p>
+                            <p className="font-black text-sm text-foreground">{notif.title}</p>
                             <p className="text-xs text-muted-foreground line-clamp-2">{notif.message}</p>
                             <p className="text-[10px] text-muted-foreground mt-1">
                               {new Date(notif.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
@@ -1074,17 +1074,17 @@ export default function Dashboard() {
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-              <p className="text-accent font-bold tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground tracking-tight leading-tight">
+              <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
                 {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
               </h1>
-              <p className="text-muted-foreground text-sm md:text-base mt-1 md:mt-2">
+              <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
                 {t('dashboard.subtitle')}
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
               <Link href="/llc/formation">
-                <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
+                <Button className="w-full md:w-auto bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-6 h-11 transition-all flex items-center justify-center gap-2 shadow-sm">
                   <PlusCircle className="w-5 h-5" /> {t('dashboard.newLLC')}
                 </Button>
               </Link>
@@ -1098,7 +1098,7 @@ export default function Dashboard() {
                   <Mail className="w-5 h-5 text-orange-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
+                  <p className="font-black text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
                   <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
                 </div>
                 <Button
@@ -1123,7 +1123,7 @@ export default function Dashboard() {
                 variant={activeTab === item.id ? "default" : "ghost"}
                 onClick={() => setActiveTab(item.id as Tab)}
                 size="sm"
-                className={`flex items-center gap-1.5 rounded-full font-semibold text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
                   activeTab === item.id 
                   ? 'bg-accent text-accent-foreground shadow-md' 
                   : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
@@ -1142,7 +1142,7 @@ export default function Dashboard() {
                 variant={activeTab === 'admin' ? "default" : "ghost"}
                 onClick={() => setActiveTab('admin' as Tab)}
                 size="sm"
-                className={`flex items-center gap-1.5 rounded-full font-semibold text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
                   activeTab === 'admin' 
                   ? 'bg-accent text-accent-foreground shadow-md' 
                   : 'bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent/20 dark:hover:bg-accent/30'
@@ -1166,7 +1166,7 @@ export default function Dashboard() {
                   <button
                     key={item.id}
                     onClick={() => setActiveTab(item.id as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-black transition-colors ${
                       activeTab === item.id 
                       ? 'bg-accent text-accent-foreground shadow-sm' 
                       : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
@@ -1187,7 +1187,7 @@ export default function Dashboard() {
                 <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-3 mt-3">
                   <button
                     onClick={() => setActiveTab('admin' as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
+                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-black transition-colors ${
                       activeTab === 'admin' 
                       ? 'bg-accent text-accent-foreground shadow-sm' 
                       : 'text-accent hover:bg-accent/10'
@@ -1259,7 +1259,7 @@ export default function Dashboard() {
                 <div key="documents" className="space-y-6">
                   <div className="mb-4 md:mb-6">
                     <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
-                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
+                    <p className="text-base text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
                   {notifications?.some((n: any) => n.type === 'action_required') && user?.accountStatus !== 'deactivated' && (
@@ -1267,7 +1267,7 @@ export default function Dashboard() {
                       <div className="flex items-start gap-3">
                         <FileUp className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5" />
                         <div className="flex-1">
-                          <h4 className="font-bold text-orange-800 dark:text-orange-300 text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
+                          <h4 className="font-black text-orange-800 dark:text-orange-300 text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
                           <div className="mt-2 space-y-1">
                             {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
                               <p key={n.id} className="text-xs text-orange-700 dark:text-orange-400">{n.message}</p>
@@ -1338,7 +1338,7 @@ export default function Dashboard() {
                             <Upload className="w-7 h-7 md:w-8 md:h-8 text-accent" />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-foreground text-base md:text-lg">{t('dashboard.documents.uploadDocument')}</h3>
+                            <h3 className="font-black text-foreground text-base md:text-lg">{t('dashboard.documents.uploadDocument')}</h3>
                             <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.documents.maxSize')}</p>
                           </div>
                           <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0" asChild>
@@ -1427,7 +1427,7 @@ export default function Dashboard() {
                             }
                           }}
                           disabled={uploadDocType === 'other' && !uploadNotes.trim()}
-                          className="w-full bg-accent text-accent-foreground font-bold rounded-full h-12"
+                          className="w-full bg-accent text-accent-foreground font-black rounded-full h-12"
                           data-testid="button-send-document"
                         >
                           <Send className="w-4 h-4 mr-2" /> Enviar Documento
@@ -1441,13 +1441,13 @@ export default function Dashboard() {
                     {userDocuments?.map((doc: any) => (
                       <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm p-4 md:p-6 flex flex-col items-center text-center bg-white dark:bg-card">
                         <FileUp className="w-10 h-10 md:w-12 md:h-12 text-accent mb-3" />
-                        <h3 className="font-bold text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
+                        <h3 className="font-black text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
                         <p className="text-[9px] md:text-[10px] text-muted-foreground">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
                         {doc.uploader && (
                           <p className="text-[9px] text-accent mb-1">Subido por: {doc.uploader.firstName} {doc.uploader.lastName}</p>
                         )}
                         <div className="flex gap-2 w-full mt-3">
-                          <Button variant="outline" size="sm" className="rounded-full font-bold flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
+                          <Button variant="outline" size="sm" className="rounded-full font-black flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
                             <Download className="w-3 h-3 mr-1" /> Descargar
                           </Button>
                           {canEdit && (
@@ -1466,7 +1466,7 @@ export default function Dashboard() {
                 <div key="payments" className="space-y-6">
                   <div className="mb-4 md:mb-6">
                     <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
-                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
+                    <p className="text-base text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
                   </div>
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) ? (
@@ -1474,11 +1474,11 @@ export default function Dashboard() {
                         <div className="flex flex-col items-center gap-3 md:gap-4">
                           <Wallet className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                           <div>
-                            <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.payments.empty')}</h3>
+                            <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.payments.empty')}</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.payments.emptyDesc')}</p>
                           </div>
                           <Link href="/servicios#pricing">
-                            <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
+                            <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
                               <PlusCircle className="w-4 h-4 mr-2" /> {t('dashboard.payments.viewServices')}
                             </Button>
                           </Link>
@@ -1506,7 +1506,7 @@ export default function Dashboard() {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
                       <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
-                      <p className="text-sm text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
+                      <p className="text-base text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
                     </div>
                   </div>
                   {orders && orders.length > 0 ? (
@@ -1630,11 +1630,11 @@ export default function Dashboard() {
                       <div className="flex flex-col items-center gap-3 md:gap-4">
                         <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent" />
                         <div>
-                          <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.calendar.title')}</h3>
+                          <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.calendar.title')}</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.calendar.emptyDescription')}</p>
                         </div>
                         <Link href="/servicios#pricing">
-                          <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
+                          <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-start-llc-calendar">
                             {t('dashboard.calendar.createLlc')}
                           </Button>
                         </Link>
@@ -1648,18 +1648,18 @@ export default function Dashboard() {
                 <div key="tools" className="space-y-6">
                   <div className="mb-4 md:mb-6">
                     <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
-                    <p className="text-sm text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
+                    <p className="text-base text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Receipt className="w-6 h-6 text-accent" />
-                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.invoiceGenerator')}</h3>
+                          <h3 className="font-black text-foreground tracking-tight">{t('dashboard.clientTools.invoiceGenerator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.invoiceDescription')}</p>
                         <Link href="/tools/invoice">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-invoice-generator">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-invoice-generator">
                             {t('dashboard.clientTools.createInvoice')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1670,11 +1670,11 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Calculator className="w-6 h-6 text-accent" />
-                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.priceCalculator')}</h3>
+                          <h3 className="font-black text-foreground tracking-tight">{t('dashboard.clientTools.priceCalculator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.calculatorDescription')}</p>
                         <Link href="/tools/price-calculator">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-price-calculator">
                             {t('dashboard.clientTools.calculate')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1685,11 +1685,11 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <ClipboardList className="w-6 h-6 text-accent" />
-                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.operatingAgreement')}</h3>
+                          <h3 className="font-black text-foreground tracking-tight">{t('dashboard.clientTools.operatingAgreement')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.operatingDescription')}</p>
                         <Link href="/tools/operating-agreement">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-operating-agreement">
                             {t('dashboard.clientTools.generateDocument')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1700,11 +1700,11 @@ export default function Dashboard() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <FileText className="w-6 h-6 text-accent" />
-                          <h3 className="font-bold text-foreground">{t('tools.csvGenerator.toolTitle')}</h3>
+                          <h3 className="font-black text-foreground tracking-tight">{t('tools.csvGenerator.toolTitle')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('tools.csvGenerator.toolDescription')}</p>
                         <Link href="/tools/csv-generator">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-csv-generator">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-csv-generator">
                             {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1798,7 +1798,7 @@ export default function Dashboard() {
                               }
                             }}
                             disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-                            className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                            className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                             data-testid="button-verify-email-code"
                           >
                             {isVerifyingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.verifyEmail')}
@@ -1881,7 +1881,7 @@ export default function Dashboard() {
                         variant={adminSubTab === item.id ? "default" : "outline"}
                         onClick={() => setAdminSubTab(item.id)}
                         size="sm"
-                        className={`flex items-center justify-center gap-1.5 rounded-full font-bold text-[10px] sm:text-xs h-9 px-3 shrink-0 whitespace-nowrap ${
+                        className={`flex items-center justify-center gap-1.5 rounded-full font-black text-[10px] sm:text-xs h-9 px-3 shrink-0 whitespace-nowrap ${
                           adminSubTab === item.id 
                           ? 'bg-accent text-accent-foreground shadow-md border-accent' 
                           : 'bg-card text-muted-foreground border border-border/60'
@@ -1895,12 +1895,12 @@ export default function Dashboard() {
                   </div>
                   <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-semibold shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">{t('dashboard.admin.newClient')}</span>
                         <span className="sm:hidden">{t('dashboard.admin.newClient')}</span>
                       </Button>
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-semibold shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
                         <span className="hidden sm:inline">{t('dashboard.admin.newOrder')}</span>
                         <span className="sm:hidden">{t('dashboard.admin.newOrder')}</span>
@@ -1937,7 +1937,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.newClient')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.newClient')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setCreateUserDialog(false)} className="rounded-full" data-testid="button-close-create-user">
@@ -1969,7 +1969,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-user">
+                        <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-user">
                           {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createClient')}
                         </Button>
                         <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-user">{t('common.cancel')}</Button>
@@ -1981,7 +1981,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.createOrder')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.createOrder')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setCreateOrderDialog(false)} className="rounded-full" data-testid="button-close-create-order">
@@ -2057,7 +2057,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-confirm-create-order">
+                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-order">
                           {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
@@ -2070,7 +2070,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.sendMessageTitle')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.sendMessageTitle')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.clientNotification')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setNoteDialog({ open: false, user: null })} className="rounded-full">
@@ -2088,7 +2088,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-send-note">
+                        <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-send-note">
                           {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.sendMessage')}
                         </Button>
                         <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
@@ -2101,7 +2101,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.editUser')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.editUser')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.editUserDesc')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setEditingUser(null)} className="rounded-full">
@@ -2227,7 +2227,7 @@ export default function Dashboard() {
                         )}
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
-                        <Button type="button" onClick={(e) => { e.preventDefault(); editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser }); }} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-save-user">
+                        <Button type="button" onClick={(e) => { e.preventDefault(); editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser }); }} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-save-user">
                           {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
                         </Button>
                         <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); setEditingUser(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
@@ -2285,7 +2285,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.generateInvoice')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.generateInvoice')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.orderLabel')}: {generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="rounded-full">
@@ -2319,7 +2319,7 @@ export default function Dashboard() {
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
                         <Button 
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
                           onClick={async () => {
                             setIsGeneratingInvoice(true);
@@ -2363,7 +2363,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.requestDocs')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.requestDocs')}</h3>
                           <p className="text-sm text-muted-foreground">{t('dashboard.admin.requestDocsDesc')}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setDocDialog({ open: false, user: null })} className="rounded-full">
@@ -2410,7 +2410,7 @@ export default function Dashboard() {
                             setDocType('');
                             setDocMessage('');
                           }
-                        }} disabled={!docType || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" data-testid="button-request-doc">
+                        }} disabled={!docType || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-request-doc">
                           {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.requestDocBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
@@ -2423,7 +2423,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.createInvoice')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.createInvoice')}</h3>
                           <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setInvoiceDialog({ open: false, user: null })} className="rounded-full">
@@ -2476,7 +2476,7 @@ export default function Dashboard() {
                             currency: invoiceCurrency
                           })} 
                           disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-create-invoice"
                         >
                           {createInvoiceMutation.isPending ? t('dashboard.admin.creating') : t('dashboard.admin.createInvoiceBtn')}
@@ -2491,7 +2491,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">
+                          <h3 className="text-lg font-black text-foreground tracking-tight">
                             {discountCodeDialog.code ? t('dashboard.admin.editDiscountCode') : t('dashboard.admin.newDiscountCode')}
                           </h3>
                           <p className="text-sm text-muted-foreground">
@@ -2620,7 +2620,7 @@ export default function Dashboard() {
                             }
                           }} 
                           disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full" 
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full" 
                           data-testid="button-save-discount"
                         >
                           {discountCodeDialog.code ? t('dashboard.admin.saveDiscountChanges') : t('dashboard.admin.createCode')}
@@ -2702,7 +2702,7 @@ export default function Dashboard() {
                             }
                           }}
                           disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-send-payment-link"
                         >
                           {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : t('dashboard.admin.sendPaymentLinkBtn')}
@@ -2717,7 +2717,7 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-semibold text-foreground">{t('dashboard.admin.uploadDocForClient')}</h3>
+                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.uploadDocForClient')}</h3>
                           <p className="text-sm text-muted-foreground">
                             {adminDocUploadDialog.order?.userId 
                               ? `${t('dashboard.admin.user')}: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
@@ -2812,7 +2812,7 @@ export default function Dashboard() {
                               setIsUploadingAdminDoc(false);
                             }
                           }}
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-admin-upload-doc"
                         >
                           {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : t('dashboard.admin.uploadDocBtn')}
@@ -2864,7 +2864,7 @@ export default function Dashboard() {
                               setIsResettingPassword(false);
                             }
                           }}
-                          className="flex-1 bg-accent text-accent-foreground font-semibold rounded-full"
+                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-confirm-reset-password"
                         >
                           {isResettingPassword ? <Loader2 className="animate-spin" /> : t('dashboard.admin.resetPasswordBtn')}
@@ -2881,7 +2881,7 @@ export default function Dashboard() {
                           <div className="w-7 h-7 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0">
                             <DollarSign className="w-4 h-4 text-green-600 dark:text-green-400" />
                           </div>
-                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
+                          <h3 className="text-sm font-black tracking-tight" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
@@ -2920,7 +2920,7 @@ export default function Dashboard() {
                           <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0">
                             <ClipboardList className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                           </div>
-                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
+                          <h3 className="text-sm font-black tracking-tight" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         </div>
                         <div className="grid grid-cols-3 gap-3">
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
@@ -2952,7 +2952,7 @@ export default function Dashboard() {
                           <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center flex-shrink-0">
                             <Users className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                           </div>
-                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
+                          <h3 className="text-sm font-black tracking-tight" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
@@ -2998,7 +2998,7 @@ export default function Dashboard() {
                           <div className="w-7 h-7 rounded-lg bg-teal-100 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
                             <Eye className="w-4 h-4 text-teal-600 dark:text-teal-400" />
                           </div>
-                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
+                          <h3 className="text-sm font-black tracking-tight" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
@@ -3069,7 +3069,7 @@ export default function Dashboard() {
                           <div className="w-7 h-7 rounded-lg bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center flex-shrink-0">
                             <Mail className="w-4 h-4 text-orange-600 dark:text-orange-400" />
                           </div>
-                          <h3 className="text-sm font-bold tracking-tight" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
+                          <h3 className="text-sm font-black tracking-tight" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         </div>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
@@ -3197,7 +3197,7 @@ export default function Dashboard() {
                         <Button
                           variant={commSubTab === 'inbox' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${commSubTab === 'inbox' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${commSubTab === 'inbox' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setCommSubTab('inbox')}
                           data-testid="button-comm-inbox"
                         >
@@ -3206,7 +3206,7 @@ export default function Dashboard() {
                         <Button
                           variant={commSubTab === 'agenda' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${commSubTab === 'agenda' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${commSubTab === 'agenda' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setCommSubTab('agenda')}
                           data-testid="button-comm-agenda"
                         >
@@ -3307,7 +3307,7 @@ export default function Dashboard() {
                                     <Button 
                                       onClick={() => sendReplyMutation.mutate(msg.id)} 
                                       disabled={!replyContent.trim() || sendReplyMutation.isPending} 
-                                      className="bg-accent text-accent-foreground font-semibold rounded-full px-6"
+                                      className="bg-accent text-accent-foreground font-black rounded-full px-6"
                                       data-testid="button-send-admin-reply"
                                     >
                                       {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4 mr-2" />}
@@ -3397,7 +3397,7 @@ export default function Dashboard() {
                         <Button
                           variant={usersSubTab === 'users' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${usersSubTab === 'users' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${usersSubTab === 'users' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setUsersSubTab('users')}
                           data-testid="button-users-subtab-users"
                         >
@@ -3406,7 +3406,7 @@ export default function Dashboard() {
                         <Button
                           variant={usersSubTab === 'newsletter' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${usersSubTab === 'newsletter' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${usersSubTab === 'newsletter' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setUsersSubTab('newsletter')}
                           data-testid="button-users-subtab-newsletter"
                         >
@@ -3839,7 +3839,7 @@ export default function Dashboard() {
                         <Button
                           variant={billingSubTab === 'invoices' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${billingSubTab === 'invoices' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${billingSubTab === 'invoices' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setBillingSubTab('invoices')}
                           data-testid="button-billing-subtab-invoices"
                         >
@@ -3848,7 +3848,7 @@ export default function Dashboard() {
                         <Button
                           variant={billingSubTab === 'accounting' ? 'default' : 'outline'}
                           size="sm"
-                          className={`rounded-full text-xs font-bold ${billingSubTab === 'accounting' ? 'bg-accent text-accent-foreground' : ''}`}
+                          className={`rounded-full text-xs font-black ${billingSubTab === 'accounting' ? 'bg-accent text-accent-foreground' : ''}`}
                           onClick={() => setBillingSubTab('accounting')}
                           data-testid="button-billing-subtab-accounting"
                         >
@@ -3858,7 +3858,7 @@ export default function Dashboard() {
                       {billingSubTab === 'invoices' && (
                         <div className="space-y-4" data-testid="admin-facturas-section">
                           <div className="flex justify-between items-center">
-                            <h3 className="text-sm font-bold">{t('dashboard.admin.invoicesSection.title')}</h3>
+                            <h3 className="text-sm font-black">{t('dashboard.admin.invoicesSection.title')}</h3>
                           </div>
                           <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
                             <div className="divide-y max-h-[60vh] overflow-y-auto">
@@ -3964,11 +3964,11 @@ export default function Dashboard() {
                   {adminSubTab === 'descuentos' && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-bold">{t('dashboard.admin.discountsSection.title')}</h3>
+                        <h3 className="text-sm font-black">{t('dashboard.admin.discountsSection.title')}</h3>
                         <Button 
                           variant="outline" 
                           size="sm" 
-                          className="rounded-full text-xs font-semibold"
+                          className="rounded-full text-xs font-black"
                           onClick={() => {
                             setNewDiscountCode({
                               code: '',
@@ -4223,10 +4223,10 @@ export default function Dashboard() {
               </div>
             </section>
             <section className="bg-accent/10 p-6 md:p-8 rounded-[2rem] border-2 border-accent/20 mt-8 mb-16 md:mb-12">
-              <h3 className="text-base font-semibold text-foreground mb-2">{t('dashboard.support.haveQuestion')}</h3>
+              <h3 className="text-base font-black text-foreground tracking-tight mb-2">{t('dashboard.support.haveQuestion')}</h3>
               <p className="text-xs text-primary/70 mb-5 leading-relaxed">{t('dashboard.support.hereToHelp')}</p>
               <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20duda%20sobre%20el%20estado%20de%20mi%20LLC%20o%20documentaci%C3%B3n.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
-                <Button className="w-full bg-accent text-accent-foreground font-semibold rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
+                <Button className="w-full bg-accent text-accent-foreground font-black rounded-full py-5">{t('dashboard.support.talkToSupport')}</Button>
               </a>
             </section>
           </div>

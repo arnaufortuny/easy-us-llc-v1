@@ -110,8 +110,8 @@ export function ProfileTab({
   return (
     <div key="profile" className="space-y-4">
       <div className="mb-2 md:mb-4">
-        <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
-        <p className="text-sm text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
+        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
+        <p className="text-base text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
       </div>
 
       {profileOtpStep === 'otp' && (
@@ -121,7 +121,7 @@ export function ProfileTab({
               <ShieldCheck className="w-5 h-5 text-accent" />
             </div>
             <div>
-              <h3 className="font-bold text-foreground">{t('profile.otpRequired', 'Verificación requerida')}</h3>
+              <h3 className="font-black text-foreground">{t('profile.otpRequired', 'Verificación requerida')}</h3>
               <p className="text-xs text-muted-foreground">{t('profile.otpRequiredDesc', 'Hemos enviado un código de 6 dígitos a tu email para confirmar los cambios.')}</p>
             </div>
           </div>
@@ -149,7 +149,7 @@ export function ProfileTab({
                 {t('common.cancel', 'Cancelar')}
               </Button>
               <Button 
-                className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                className="bg-accent text-accent-foreground font-black rounded-full flex-1"
                 onClick={() => confirmProfileWithOtp.mutate()}
                 disabled={profileOtp.length !== 6 || confirmProfileWithOtp.isPending}
                 data-testid="button-confirm-profile-otp"
@@ -163,7 +163,7 @@ export function ProfileTab({
 
       <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-5 md:p-6 bg-white dark:bg-card">
         <div className="flex justify-between items-center mb-3">
-          <h3 className="text-base md:text-lg font-semibold text-foreground">{t('profile.personalData', 'Datos Personales')}</h3>
+          <h3 className="text-base md:text-lg font-black text-foreground">{t('profile.personalData', 'Datos Personales')}</h3>
           {canEdit && (
             <Button variant="ghost" size="sm" className="rounded-full" onClick={() => { setIsEditing(!isEditing); if (isEditing) setProfileOtpStep('idle'); }} data-testid="button-toggle-edit">{isEditing ? t('common.cancel', 'Cancelar') : t('common.edit', 'Editar')}</Button>
           )}
@@ -296,7 +296,7 @@ export function ProfileTab({
           </div>
 
           <div className="pt-3 border-t border-border">
-            <h4 className="font-bold text-sm mb-2">{t('profile.sections.residenceAddress', 'Dirección de residencia')}</h4>
+            <h4 className="font-black text-sm mb-2">{t('profile.sections.residenceAddress', 'Dirección de residencia')}</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="space-y-1">
                 <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.streetType', 'Tipo de vía')}</Label>
@@ -341,7 +341,7 @@ export function ProfileTab({
           </div>
           {isEditing && canEdit && (
             <div className="mt-4 space-y-2">
-              <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving', 'Guardando...') : t('profile.saveChanges', 'Guardar cambios')}</Button>
+              <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent hover:bg-accent/90 text-black font-black rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving', 'Guardando...') : t('profile.saveChanges', 'Guardar cambios')}</Button>
               <p className="text-[10px] text-center text-muted-foreground">{t('profile.reviewNote', 'Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.')}</p>
             </div>
           )}
@@ -352,7 +352,7 @@ export function ProfileTab({
         <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-semibold text-sm text-foreground">{t('profile.newsletter.title', 'Suscripción Newsletter')}</h4>
+              <h4 className="font-black text-sm text-foreground">{t('profile.newsletter.title', 'Suscripción Newsletter')}</h4>
               <p className="text-[10px] text-muted-foreground">{t('profile.newsletter.description', 'Recibe noticias y consejos para tu LLC.')}</p>
             </div>
             <NewsletterToggle />
@@ -362,7 +362,7 @@ export function ProfileTab({
         <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h4 className="font-semibold text-sm text-foreground flex items-center gap-1.5">
+              <h4 className="font-black text-sm text-foreground flex items-center gap-1.5">
                 <Globe className="w-3.5 h-3.5" />
                 {t('profile.language.title', 'Idioma preferido')}
               </h4>
@@ -394,7 +394,7 @@ export function ProfileTab({
       <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h4 className="font-semibold text-sm text-foreground">{t('profile.changePassword.title', 'Cambiar Contraseña')}</h4>
+            <h4 className="font-black text-sm text-foreground">{t('profile.changePassword.title', 'Cambiar Contraseña')}</h4>
             <p className="text-[10px] text-muted-foreground">{t('profile.changePassword.description', 'Actualiza tu contraseña de acceso.')}</p>
           </div>
           {!showPasswordForm && (
@@ -427,7 +427,7 @@ export function ProfileTab({
                 <div className="flex gap-2 pt-1">
                   <Button variant="outline" className="rounded-full flex-1" onClick={() => { setShowPasswordForm(false); setCurrentPassword(""); setNewPassword(""); setConfirmPassword(""); }}>{t('common.cancel', 'Cancelar')}</Button>
                   <Button 
-                    className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                    className="bg-accent text-accent-foreground font-black rounded-full flex-1"
                     onClick={() => requestPasswordOtpMutation.mutate()}
                     disabled={!currentPassword || !newPassword || newPassword !== confirmPassword || newPassword.length < 8 || requestPasswordOtpMutation.isPending}
                     data-testid="button-request-otp"
@@ -458,7 +458,7 @@ export function ProfileTab({
                 <div className="flex gap-2 pt-1">
                   <Button variant="outline" className="rounded-full flex-1" onClick={() => { setPasswordStep('form'); setPasswordOtp(""); }}>{t('common.back', 'Volver')}</Button>
                   <Button 
-                    className="bg-accent text-accent-foreground font-semibold rounded-full flex-1"
+                    className="bg-accent text-accent-foreground font-black rounded-full flex-1"
                     onClick={() => changePasswordMutation.mutate({ currentPassword, newPassword, otp: passwordOtp })}
                     disabled={passwordOtp.length !== 6 || changePasswordMutation.isPending}
                     data-testid="button-save-password"
@@ -475,7 +475,7 @@ export function ProfileTab({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
           <div className="mb-3">
-            <h4 className="font-semibold text-sm text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
+            <h4 className="font-black text-sm text-foreground">{t('profile.connectedAccounts.title', 'Cuentas Conectadas')}</h4>
             <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description', 'Vincula tus cuentas sociales para iniciar sesión más rápido.')}</p>
           </div>
           <SocialLogin 

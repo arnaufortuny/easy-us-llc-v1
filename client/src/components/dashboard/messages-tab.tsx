@@ -29,11 +29,11 @@ export function MessagesTab({
       <div className="mb-4 md:mb-6">
         <div className="flex justify-between items-center">
           <div>
-            <h2 className="text-xl md:text-2xl font-bold text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
-            <p className="text-sm text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
+            <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.support.title')}</h2>
+            <p className="text-base text-muted-foreground mt-1">{t('dashboard.support.subtitle')}</p>
           </div>
           <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
-            <Button className="bg-accent text-accent-foreground font-semibold rounded-full text-xs">{t('dashboard.support.newQuery')}</Button>
+            <Button className="bg-accent text-accent-foreground font-black rounded-full text-xs">{t('dashboard.support.newQuery')}</Button>
           </a>
         </div>
       </div>
@@ -43,11 +43,11 @@ export function MessagesTab({
             <div className="flex flex-col items-center gap-3 md:gap-4">
               <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-accent" />
               <div>
-                <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.support.empty')}</h3>
+                <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.empty')}</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.emptyDescription')}</p>
               </div>
               <a href="https://wa.me/34614916910?text=Hola!%20Soy%20cliente%20de%20Easy%20US%20LLC%20y%20tengo%20una%20consulta%20sobre%20mi%20cuenta.%20%C2%BFPodr%C3%ADais%20ayudarme%3F" target="_blank" rel="noopener noreferrer">
-                <Button className="bg-accent text-accent-foreground font-semibold rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
+                <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-support-whatsapp">
                   <MessageSquare className="w-4 h-4 mr-2" /> {t('dashboard.support.newQuery')}
                 </Button>
               </a>
@@ -59,7 +59,7 @@ export function MessagesTab({
               <div className="flex justify-between items-start mb-2">
                 <div className="flex items-center gap-2">
                   <MessageSquare className="w-4 h-4 text-accent" />
-                  <h4 className="font-semibold text-foreground">{msg.subject || t('dashboard.support.noSubject')}</h4>
+                  <h4 className="font-black text-foreground">{msg.subject || t('dashboard.support.noSubject')}</h4>
                 </div>
                 <Button variant="ghost" size="sm" className="text-accent hover:text-accent/80 text-xs px-2 h-7" onClick={(e) => { e.stopPropagation(); setSelectedMessage(selectedMessage?.id === msg.id ? null : msg); }}>
                   <Eye className="w-3 h-3 mr-1" /> {t('dashboard.support.view')}
@@ -83,7 +83,7 @@ export function MessagesTab({
                     </div>
                   )}
                   <Textarea value={replyContent} onChange={(e) => setReplyContent(e.target.value)} placeholder={t('dashboard.support.replyPlaceholder')} className="rounded-xl min-h-[80px] text-sm" data-testid="input-user-reply" />
-                  <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-semibold rounded-full px-6" data-testid="button-user-send-reply">
+                  <Button onClick={() => sendReplyMutation.mutate(msg.id)} disabled={!replyContent.trim() || sendReplyMutation.isPending} className="bg-accent text-accent-foreground font-black rounded-full px-6" data-testid="button-user-send-reply">
                     {sendReplyMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-2" /> : null}
                     {t('dashboard.support.sendReply')}
                   </Button>

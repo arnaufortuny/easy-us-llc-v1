@@ -431,7 +431,7 @@ export function AdminConsultationsPanel() {
                               />
                               <Button
                                 onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
-                                className="bg-accent text-primary font-bold rounded-full"
+                                className="bg-accent text-primary font-black rounded-full"
                               >
                                 {t('consultations.admin.save', 'Guardar')}
                               </Button>
@@ -452,7 +452,7 @@ export function AdminConsultationsPanel() {
       {activeSubTab === 'types' && (
         <div className="space-y-4">
           {!showTypeForm && (
-            <Button onClick={() => { resetTypeForm(); setShowTypeForm(true); }} className="bg-accent text-primary font-bold rounded-full">
+            <Button onClick={() => { resetTypeForm(); setShowTypeForm(true); }} className="bg-accent text-primary font-black rounded-full">
               <Plus className="w-4 h-4 mr-2" />
               {t('consultations.admin.newType', 'Nuevo Tipo')}
             </Button>
@@ -542,7 +542,7 @@ export function AdminConsultationsPanel() {
       {activeSubTab === 'availability' && (
         <div className="space-y-4">
           {!showSlotForm && (
-            <Button onClick={() => setShowSlotForm(true)} className="bg-accent text-primary font-bold rounded-full">
+            <Button onClick={() => setShowSlotForm(true)} className="bg-accent text-primary font-black rounded-full">
               <Plus className="w-4 h-4 mr-2" />
               {t('consultations.admin.addSchedule', 'Añadir Horario')}
             </Button>
@@ -635,7 +635,7 @@ export function AdminConsultationsPanel() {
               <Button
                 onClick={() => addBlockedDateMutation.mutate(blockedDateForm)}
                 disabled={!blockedDateForm.date}
-                className="bg-accent text-primary font-bold rounded-full"
+                className="bg-accent text-primary font-black rounded-full"
               >
                 {t('consultations.admin.block', 'Bloquear')}
               </Button>
