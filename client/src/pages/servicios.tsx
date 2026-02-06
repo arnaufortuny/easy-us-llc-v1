@@ -611,7 +611,7 @@ export default function Servicios() {
               <h4 className="text-xl sm:text-2xl font-black text-foreground mb-4">
                 {t("services.maintenancePack.emotionalTitle")}
               </h4>
-              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed font-medium">
+              <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
                 {t("services.maintenancePack.emotionalText")}
               </p>
             </div>
