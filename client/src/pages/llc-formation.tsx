@@ -735,7 +735,7 @@ export default function LlcFormation() {
                   </FormItem>
                 )} />
                 <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-colors" data-testid="button-continue-step0">{t("application.continue")}</Button>
-                <Link href="/servicios#comparador" className="block text-center text-sm text-accent hover:text-accent/80 underline mt-3 font-medium" data-testid="link-help-choose">
+                <Link href="/servicios#state-comparison" className="block text-center text-sm text-accent hover:text-accent/80 underline mt-3 font-medium" data-testid="link-help-choose">
                   {t("application.helpChoose")}
                 </Link>
               </div>

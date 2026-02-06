@@ -21,10 +21,10 @@ const BRAND_LIGHT_GREEN = '#ECFDF5';
 const BRAND_LIGHT_GRAY = '#F9FAFB';
 
 const BANK_INFO = {
-  name: 'Column Bank NA',
+  name: 'Thread Bank NA',
   holder: 'Fortuny Consulting LLC',
-  routing: '121145433',
-  account: '141432778929495',
+  routing: '064209588',
+  account: '200002330558',
   swift: 'CLNOUS66MER',
   address: '1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110'
 };
