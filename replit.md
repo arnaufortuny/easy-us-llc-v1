@@ -11,6 +11,16 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - Always ASK before making destructive changes
 - If there's a problem, PROPOSE the solution and await approval before implementing
 - This rule has maximum priority
+- ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
+
+## Recent Changes
+- **2026-02-06:** Bank account details updated to Thread Bank NA (routing: 064209588, account: 200002330558) in PDF invoice generator
+- **2026-02-06:** Fixed "Compara aquí" link on LLC formation page — now navigates to state comparison section (#state-comparison) instead of tax comparator (#comparador)
+- **2026-02-06:** Animation optimizations — CSS animations slowed from 0.2s to 0.4s, Framer Motion transitions from 0.35s to 0.6s, reduced y-offsets from 15px to 10px for smoother, more premium feel
+- **2026-02-06:** Navigation fixes — hash scrolling works correctly for #pricing/#comparador/#state-comparison, pages scroll to top on route change, eliminated double-scroll race condition by centralizing scroll logic
+- **2026-02-06:** Mobile image cards — replaced fixed h-44 heights with aspect-[16/9] for proper scaling without clipping
+- **2026-02-06:** Removed animate-pulse from swipe hint arrows in servicios page
+- **2026-02-06:** Mercury logo replaced with new brand image in footer
 
 ## System Architecture
 The application features a modern, responsive UI/UX with a consistent design system (Primary Green, Carbon Black, Off White, Soft Gray, Text Gray) and a premium fintech typography hierarchy (Space Grotesk 800 for hero/marketing titles, Inter 700 for UI headings h2-h6, DM Sans for body/forms), with UI animations powered by Framer Motion. It supports a full dark/light theme system. The project uses two distinct domains: `creamostullc.com` for isolated landing pages and `easyusllc.com` for the main website, which includes home, services, FAQ, legal, dashboard, forms, and authentication with full i18n support.
@@ -18,19 +28,21 @@ The application features a modern, responsive UI/UX with a consistent design sys
 **Technical Implementations:**
 - **Client-side:** Built with React, utilizing Wouter for routing, a modular structure, and native HTML `<select>` elements.
 - **Server-side:** Powered by an Express.js backend, providing extensive API endpoints for various functionalities including admin, user management, orders, LLC applications, maintenance, messaging, newsletters, authentication, and PDF generation.
-- **Database:** Uses Drizzle ORM with Zod for type validation and incorporates key indexes.
+- **Database:** PostgreSQL with Drizzle ORM and Zod for type validation. 27 tables including users, orders, llc_applications, maintenance_applications, messages, sessions, audit_logs, and more. Key indexes for performance.
+- **Banking:** Invoice PDFs use Thread Bank NA (routing: 064209588, account: 200002330558) for Fortuny Consulting LLC.
 - **Email System:** Manages professional email templates via IONOS for notifications, support, and review requests.
 - **Authentication:** Features OTP verification, robust session management, secure passwords, Google OAuth with auto-account creation, and CSRF protection. Users must be 18+ for LLC creation.
 - **Form Management:** Implements multi-step wizard forms (LLC, maintenance, contact) with auto-fill for authenticated users, local storage draft saving, and unauthenticated data transfer upon account creation.
 - **Admin Panel:** Integrated within the client dashboard, offering comprehensive control over orders, users, and messages.
-- **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, non-blocking font loading, PWA support, in-memory cache, an email queue system, and optimized Vite build processes.
+- **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, non-blocking font loading, PWA support, in-memory cache, an email queue system, and optimized Vite build processes. Animations use gentle easing (0.4-0.7s durations, 10px offsets).
 - **Security:** Employs enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), CSRF protection, secure API endpoints with validation, HTML sanitization, audit logging, protected file serving, advanced fraud detection, OTP for sensitive changes, LLC data locking, AES-256-CBC encryption for sensitive data, SHA-256 file integrity verification, and document access logging. Password requirements include minimum 8 characters, uppercase, lowercase, number, and symbol.
 - **Internationalization (i18n):** Full 7-language support (Spanish/English/Catalan/French/German/Italian/Portuguese) via react-i18next with over 2200 translation keys per language. WhatsApp pre-filled messages are internationalized via a centralized `whatsapp.ts` helper with per-context translation keys.
 - **PDF Generation:** Supports both client-side and server-side PDF generation for documents like invoices and operating agreements.
-- **Testing:** Utilizes Vitest for an automated test suite covering validation, i18n, theme, and PDF generation.
+- **Testing:** Utilizes Vitest for an automated test suite with 29 tests covering validation, i18n, theme, and PDF generation.
 - **SEO Optimization:** Includes targeted keywords, structured data (JSON-LD), server-side SEO headers, optimized robots.txt, dual sitemaps, and meta tags.
 - **Unified ID System:** Centralized `id-generator.ts` for all unique IDs across the system, ensuring uniqueness against the database.
 - **Document Backup System:** Automated hourly incremental backup of `/uploads/` files to Replit Object Storage with state tracking and audit logging.
+- **Navigation:** ScrollToTop component handles route changes (scrolls to top on new pages, defers to click handlers for hash navigation). Hash scrolling managed by navbar/footer handlers with 500ms/400ms delays for page load.
 
 **Feature Specifications:**
 - **Order & Account System:** Mandatory account creation for orders, flexible payment options, and detection of existing users.
@@ -42,6 +54,18 @@ The application features a modern, responsive UI/UX with a consistent design sys
 - **Progress Widget:** A visual 5-step progress tracker for LLC and Maintenance applications.
 - **Abandoned Application Recovery:** Tracks and recovers incomplete applications with email reminders.
 - **Client Tools:** Provides an Invoice Generator, Operating Agreement Generator, and a Price Calculator (tax comparison tool).
+- **State Comparison:** Interactive comparison of New Mexico, Wyoming, and Delaware with pros, cons, ideal scenarios, pricing, and processing times. Link from LLC formation page ("Compara aquí") navigates to #state-comparison section.
+
+## Database Schema (27 tables)
+- users, sessions, orders, order_events, products
+- llc_applications, maintenance_applications, application_documents
+- messages, message_replies, user_notifications
+- newsletter_subscribers, contact_otps, email_verification_tokens
+- password_reset_tokens, rate_limit_entries
+- audit_logs, document_access_logs, encrypted_fields
+- accounting_transactions, discount_codes
+- consultation_availability, consultation_blocked_dates, consultation_bookings, consultation_types
+- calculator_consultations, guest_visitors
 
 ## External Dependencies
 - **Drizzle ORM:** Database interaction.
