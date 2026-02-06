@@ -5,8 +5,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key, Search } from "lucide-react";
-import { DashboardIcon } from "@/components/ui/dashboard-icon";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Settings, Package, CreditCard, PlusCircle, Download, ExternalLink, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Power, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, TrendingUp, BarChart3, UserCheck, UserX, Star, Eye, FileCheck, Upload, XCircle, Tag, Percent, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -695,18 +694,9 @@ export default function Dashboard() {
               <div className="bg-red-500 h-2 w-full" />
               <CardContent className="p-6 sm:p-8 md:p-12 text-center">
                 <div className="flex items-center justify-center mx-auto mb-4 sm:mb-6">
-                  <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                      <radialGradient id="dangerGlow" cx="50%" cy="50%" r="60%">
-                        <stop offset="0%" stopColor="#ff4d4d" stopOpacity="0.35"/>
-                        <stop offset="100%" stopColor="#ff4d4d" stopOpacity="0"/>
-                      </radialGradient>
-                    </defs>
-                    <circle cx="60" cy="60" r="50" fill="url(#dangerGlow)"/>
-                    <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#ff4d4d" strokeWidth="3"/>
-                    <line x1="60" y1="40" x2="60" y2="65" stroke="#ff4d4d" strokeWidth="5" strokeLinecap="round"/>
-                    <circle cx="60" cy="78" r="3.5" fill="#ff4d4d"/>
-                  </svg>
+                  <div className="w-20 h-20 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                    <ShieldAlert className="w-10 h-10 text-red-500" />
+                  </div>
                 </div>
                 <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight mb-3 sm:mb-4">
                   {t("dashboard.accountDeactivated.title")}
@@ -720,10 +710,7 @@ export default function Dashboard() {
                   onClick={() => apiRequest("POST", "/api/logout").then(() => window.location.href = "/")}
                   data-testid="button-logout"
                 >
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-2">
-                    <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
+                  <LogOut className="w-4 h-4 mr-2" />
                   {t("nav.logout")}
                 </Button>
               </CardContent>
@@ -755,20 +742,9 @@ export default function Dashboard() {
               <CardContent className="p-5 sm:p-6">
                 <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
                   <div className="flex items-center justify-center shrink-0">
-                    <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <defs>
-                        <radialGradient id="reviewGlow" cx="50%" cy="50%" r="60%">
-                          <stop offset="0%" stopColor="#facc15" stopOpacity="0.35"/>
-                          <stop offset="100%" stopColor="#facc15" stopOpacity="0"/>
-                        </radialGradient>
-                      </defs>
-                      <circle cx="60" cy="60" r="50" fill="url(#reviewGlow)"/>
-                      <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#facc15" strokeWidth="3"/>
-                      <circle cx="60" cy="60" r="20" stroke="#facc15" strokeWidth="2"/>
-                      <line x1="60" y1="60" x2="60" y2="48" stroke="#facc15" strokeWidth="3" strokeLinecap="round"/>
-                      <line x1="60" y1="60" x2="70" y2="66" stroke="#facc15" strokeWidth="3" strokeLinecap="round"/>
-                      <circle cx="60" cy="60" r="2.5" fill="#facc15"/>
-                    </svg>
+                    <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                      <Clock className="w-8 h-8 text-amber-500" />
+                    </div>
                   </div>
                   <div>
                     <h2 className="font-black text-lg text-foreground">
@@ -908,7 +884,7 @@ export default function Dashboard() {
                   </div>
                 ) : (
                   <div className="text-center py-8">
-                    <DashboardIcon name="notifications" size={40} className="w-10 h-10 mx-auto mb-2 opacity-30 text-muted-foreground" />
+                    <Bell className="w-10 h-10 mx-auto mb-2 opacity-30 text-muted-foreground" />
                     <p className="text-sm text-muted-foreground">{t("dashboard.notifications.empty")}</p>
                   </div>
                 )}
@@ -1386,7 +1362,7 @@ export default function Dashboard() {
                     {(!orders || orders.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
-                          <DashboardIcon name="pagos" size={48} className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+                          <Wallet className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                           <div>
                             <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.payments.empty')}</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.payments.emptyDesc')}</p>
@@ -1530,7 +1506,7 @@ export default function Dashboard() {
                                 </div>
                               ) : (
                                 <div className="text-center py-6 md:py-8">
-                                  <DashboardIcon name="calendar" size={40} className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3 text-muted-foreground" />
+                                  <Calendar className="w-10 h-10 md:w-12 md:h-12 mx-auto opacity-30 mb-2 md:mb-3 text-muted-foreground" />
                                   <p className="text-xs md:text-sm text-muted-foreground">{t('dashboard.calendar.pendingDates')}</p>
                                 </div>
                               )}
@@ -1542,7 +1518,7 @@ export default function Dashboard() {
                   ) : (
                     <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <DashboardIcon name="calendar" size={40} className="w-10 h-10 md:w-12 md:h-12 text-accent" />
+                        <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent" />
                         <div>
                           <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.calendar.title')}</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.calendar.emptyDescription')}</p>
@@ -1568,7 +1544,7 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <DashboardIcon name="facturas" size={24} className="w-6 h-6 text-accent" />
+                          <Receipt className="w-6 h-6 text-accent" />
                           <h3 className="font-bold text-foreground">{t('dashboard.clientTools.invoiceGenerator')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.invoiceDescription')}</p>
@@ -1583,13 +1559,13 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <DashboardIcon name="calculadora" size={24} className="w-6 h-6 text-blue-500" />
-                          <h3 className="font-bold text-foreground">{t('dashboard.tools.priceCalculator')}</h3>
+                          <Calculator className="w-6 h-6 text-accent" />
+                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.priceCalculator')}</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">Calcula precios con márgenes y costos para tus productos o servicios.</p>
+                        <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.calculatorDescription')}</p>
                         <Link href="/tools/price-calculator">
-                          <Button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
-                            Calcular Precio <ChevronRight className="w-4 h-4 ml-1" />
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-price-calculator">
+                            {t('dashboard.clientTools.calculate')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
                       </div>
@@ -1598,12 +1574,12 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <DashboardIcon name="tramites" size={24} className="w-6 h-6 text-purple-500" />
-                          <h3 className="font-bold text-foreground">{t('dashboard.tools.operatingAgreement')}</h3>
+                          <ClipboardList className="w-6 h-6 text-accent" />
+                          <h3 className="font-bold text-foreground">{t('dashboard.clientTools.operatingAgreement')}</h3>
                         </div>
-                        <p className="text-sm text-muted-foreground mb-4">{t('tools.operatingAgreement.subtitle')}</p>
+                        <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.operatingDescription')}</p>
                         <Link href="/tools/operating-agreement">
-                          <Button className="bg-purple-500 hover:bg-purple-600 text-white font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-operating-agreement">
                             {t('dashboard.clientTools.generateDocument')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1613,12 +1589,12 @@ export default function Dashboard() {
                     <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <FileText className="w-6 h-6 text-teal-600" />
+                          <FileText className="w-6 h-6 text-accent" />
                           <h3 className="font-bold text-foreground">{t('tools.csvGenerator.toolTitle')}</h3>
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('tools.csvGenerator.toolDescription')}</p>
                         <Link href="/tools/csv-generator">
-                          <Button className="bg-teal-500 hover:bg-teal-600 text-white font-semibold rounded-full" size="sm" data-testid="button-csv-generator">
+                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full" size="sm" data-testid="button-csv-generator">
                             {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -3886,7 +3862,7 @@ export default function Dashboard() {
                     )}
                   </>
                 ) : (
-                  <div className="text-center py-4"><DashboardIcon name="tramites" size={32} className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.empty')}</p><p className="text-[10px] text-muted-foreground/70 mt-1">{t('dashboard.tracking.emptyDescription')}</p></div>
+                  <div className="text-center py-4"><ClipboardList className="w-8 h-8 mx-auto mb-2 opacity-30 text-muted-foreground" /><p className="text-xs text-muted-foreground">{t('dashboard.tracking.empty')}</p><p className="text-[10px] text-muted-foreground/70 mt-1">{t('dashboard.tracking.emptyDescription')}</p></div>
                 )}
               </div>
             </section>

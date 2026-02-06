@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { getOrderStatusLabel } from "./types";
-import { DashboardIcon } from "@/components/ui/dashboard-icon";
+import { Package } from "lucide-react";
 
 interface ServicesTabProps {
   orders: any[] | undefined;
@@ -101,7 +101,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       {(!orders || orders.length === 0) ? (
         <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-services">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <DashboardIcon name="tramites" size={48} className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+            <Package className="w-12 h-12 md:w-16 md:h-16 text-accent" />
             <div>
               <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center" data-testid="text-empty-title">{t('dashboard.services.empty')}</h3>
               <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center" data-testid="text-empty-description">{t('dashboard.services.emptyDescription')}</p>

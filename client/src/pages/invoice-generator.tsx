@@ -289,11 +289,11 @@ export default function InvoiceGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col animate-page-in">
+    <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 md:py-10 pb-20">
-        <div className="mb-6 md:mb-8 animate-fade-in-up">
+        <div className="mb-6 md:mb-8">
           <Link href="/dashboard?tab=tools">
             <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
@@ -308,7 +308,7 @@ export default function InvoiceGenerator() {
 
         <div className="space-y-4 md:space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-            <Card className="border-0 shadow-md animate-card-in animate-delay-1">
+            <Card className="border-0 shadow-md rounded-2xl">
               <CardHeader className="pb-3 md:pb-4">
                 <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.issuer')}</CardTitle>
               </CardHeader>
@@ -320,7 +320,7 @@ export default function InvoiceGenerator() {
                     value={issuerName}
                     onChange={(e) => setIssuerName(e.target.value)}
                     placeholder={t('tools.invoiceGenerator.namePlaceholder')}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="input-issuer-name"
                   />
                 </div>
@@ -332,7 +332,7 @@ export default function InvoiceGenerator() {
                     onChange={(e) => setIssuerAddress(e.target.value)}
                     placeholder={t('tools.invoiceGenerator.addressPlaceholder')}
                     rows={2}
-                    className="mt-1 resize-none"
+                    className="mt-1 resize-none rounded-lg"
                     data-testid="input-issuer-address"
                   />
                 </div>
@@ -345,7 +345,7 @@ export default function InvoiceGenerator() {
                       value={issuerEmail}
                       onChange={(e) => setIssuerEmail(e.target.value)}
                       placeholder={t('tools.invoiceGenerator.emailPlaceholder')}
-                      className="mt-1"
+                      className="mt-1 rounded-full"
                       data-testid="input-issuer-email"
                     />
                   </div>
@@ -356,7 +356,7 @@ export default function InvoiceGenerator() {
                       value={issuerTaxId}
                       onChange={(e) => setIssuerTaxId(e.target.value)}
                       placeholder={t('tools.invoiceGenerator.taxIdPlaceholder')}
-                      className="mt-1"
+                      className="mt-1 rounded-full"
                       data-testid="input-issuer-tax-id"
                     />
                   </div>
@@ -364,7 +364,7 @@ export default function InvoiceGenerator() {
               </CardContent>
             </Card>
 
-            <Card className="border-0 shadow-sm">
+            <Card className="border-0 shadow-sm rounded-2xl">
               <CardHeader className="pb-3 md:pb-4">
                 <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.client')}</CardTitle>
               </CardHeader>
@@ -376,7 +376,7 @@ export default function InvoiceGenerator() {
                     value={clientName}
                     onChange={(e) => setClientName(e.target.value)}
                     placeholder={t('tools.invoiceGenerator.clientNamePlaceholder')}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="input-client-name"
                   />
                 </div>
@@ -388,7 +388,7 @@ export default function InvoiceGenerator() {
                     onChange={(e) => setClientAddress(e.target.value)}
                     placeholder={t('tools.invoiceGenerator.addressPlaceholder')}
                     rows={2}
-                    className="mt-1 resize-none"
+                    className="mt-1 resize-none rounded-lg"
                     data-testid="input-client-address"
                   />
                 </div>
@@ -401,7 +401,7 @@ export default function InvoiceGenerator() {
                       value={clientEmail}
                       onChange={(e) => setClientEmail(e.target.value)}
                       placeholder={t('tools.invoiceGenerator.emailPlaceholder')}
-                      className="mt-1"
+                      className="mt-1 rounded-full"
                       data-testid="input-client-email"
                     />
                   </div>
@@ -412,7 +412,7 @@ export default function InvoiceGenerator() {
                       value={clientTaxId}
                       onChange={(e) => setClientTaxId(e.target.value)}
                       placeholder={t('tools.invoiceGenerator.taxIdPlaceholder')}
-                      className="mt-1"
+                      className="mt-1 rounded-full"
                       data-testid="input-client-tax-id"
                     />
                   </div>
@@ -421,7 +421,7 @@ export default function InvoiceGenerator() {
             </Card>
           </div>
 
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm rounded-2xl">
             <CardHeader className="pb-3 md:pb-4">
               <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.invoiceDetails')}</CardTitle>
             </CardHeader>
@@ -434,7 +434,7 @@ export default function InvoiceGenerator() {
                     value={invoiceNumber}
                     onChange={(e) => setInvoiceNumber(e.target.value)}
                     placeholder="2024-001"
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="input-invoice-number"
                   />
                 </div>
@@ -445,7 +445,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="input-invoice-date"
                   />
                 </div>
@@ -456,7 +456,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="input-due-date"
                   />
                 </div>
@@ -465,7 +465,7 @@ export default function InvoiceGenerator() {
                   <NativeSelect
                     value={currency}
                     onChange={(e) => setCurrency(e.target.value)}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="select-currency"
                   >
                     <option value="EUR">EUR</option>
@@ -478,7 +478,7 @@ export default function InvoiceGenerator() {
                   <NativeSelect
                     value={String(taxRate)}
                     onChange={(e) => setTaxRate(Number(e.target.value))}
-                    className="mt-1"
+                    className="mt-1 rounded-full"
                     data-testid="select-tax-rate"
                   >
                     <option value="0">Sin IVA (0%)</option>
@@ -491,7 +491,7 @@ export default function InvoiceGenerator() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm rounded-2xl">
             <CardHeader className="pb-3 md:pb-4 flex flex-row items-center justify-between gap-2">
               <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.items')}</CardTitle>
               <Button
@@ -499,7 +499,7 @@ export default function InvoiceGenerator() {
                 variant="outline"
                 size="sm"
                 onClick={addItem}
-                className="h-8 text-xs"
+                className="h-8 text-xs rounded-full"
                 data-testid="button-add-item"
               >
                 <Plus className="w-3.5 h-3.5 mr-1" />
@@ -521,6 +521,7 @@ export default function InvoiceGenerator() {
                         value={item.description}
                         onChange={(e) => updateItem(item.id, 'description', e.target.value)}
                         placeholder={t('tools.invoiceGenerator.descriptionPlaceholder')}
+                        className="rounded-full"
                         data-testid={`input-item-description-${index}`}
                       />
                     </div>
@@ -530,6 +531,7 @@ export default function InvoiceGenerator() {
                         min="1"
                         value={item.quantity}
                         onChange={(e) => updateItem(item.id, 'quantity', parseInt(e.target.value) || 1)}
+                        className="rounded-full"
                         data-testid={`input-item-quantity-${index}`}
                       />
                     </div>
@@ -540,6 +542,7 @@ export default function InvoiceGenerator() {
                         step="0.01"
                         value={item.price}
                         onChange={(e) => updateItem(item.id, 'price', parseFloat(e.target.value) || 0)}
+                        className="rounded-full"
                         data-testid={`input-item-price-${index}`}
                       />
                     </div>
@@ -550,7 +553,7 @@ export default function InvoiceGenerator() {
                         size="icon"
                         onClick={() => removeItem(item.id)}
                         disabled={items.length === 1}
-                        className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                        className="h-9 w-9 text-muted-foreground hover:text-destructive rounded-full"
                         data-testid={`button-remove-item-${index}`}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -580,7 +583,7 @@ export default function InvoiceGenerator() {
             </CardContent>
           </Card>
 
-          <Card className="border-0 shadow-sm">
+          <Card className="border-0 shadow-sm rounded-2xl">
             <CardHeader className="pb-3 md:pb-4">
               <CardTitle className="text-sm md:text-base font-semibold text-accent">{t('tools.invoiceGenerator.notes')}</CardTitle>
             </CardHeader>
@@ -590,7 +593,7 @@ export default function InvoiceGenerator() {
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder={t('tools.invoiceGenerator.notesPlaceholder')}
                 rows={2}
-                className="resize-none"
+                className="resize-none rounded-lg"
                 data-testid="input-notes"
               />
             </CardContent>
@@ -601,7 +604,7 @@ export default function InvoiceGenerator() {
               size="lg"
               onClick={generatePDF}
               disabled={isGenerating}
-              className="w-full md:w-auto px-8 h-12 text-base font-semibold"
+              className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-6"
               data-testid="button-generate-pdf"
             >
               <FileDown className="w-5 h-5 mr-2" />

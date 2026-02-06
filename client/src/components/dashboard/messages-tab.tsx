@@ -3,7 +3,7 @@ import { MessageSquare, Loader2, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { DashboardIcon } from "@/components/ui/dashboard-icon";
+import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 interface MessagesTabProps {
@@ -42,7 +42,7 @@ export function MessagesTab({
         {(!messagesData || messagesData.length === 0) ? (
           <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-support-empty">
             <div className="flex flex-col items-center gap-3 md:gap-4">
-              <DashboardIcon name="soporte" size={48} className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+              <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-accent" />
               <div>
                 <h3 className="text-base md:text-lg font-semibold text-foreground mb-1 md:mb-2 text-center">{t('dashboard.support.empty')}</h3>
                 <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.emptyDescription')}</p>
