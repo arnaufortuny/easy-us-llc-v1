@@ -66,13 +66,9 @@ const SupportIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
+import mercuryLogo from "@assets/mercury_logo_transparent_1770401930454.png";
 const MercuryIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="9"/>
-    <path d="M12 3v18"/>
-    <path d="M3 12h18"/>
-    <circle cx="12" cy="12" r="4"/>
-  </svg>
+  <img src={mercuryLogo} alt="Mercury" className={className} style={{ objectFit: "contain" }} />
 );
 
 const RelayIcon = ({ className }: { className?: string }) => (
