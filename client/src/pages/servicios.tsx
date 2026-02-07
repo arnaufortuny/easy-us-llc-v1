@@ -109,7 +109,7 @@ export default function Servicios() {
 
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash === '#pricing' || hash === '#comparador' || hash === '#state-comparison') {
+    if (hash === '#pricing' || hash === '#comparador' || hash === '#state-comparison' || hash === '#bancos') {
       const elementId = hash.replace('#', '');
       const element = document.getElementById(elementId);
       if (element) {
