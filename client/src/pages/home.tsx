@@ -318,33 +318,33 @@ function HowWeWorkSection() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center overflow-hidden">
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
                 <img src={llcFormationImg} alt="LLC Formation" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
-                <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
+                <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step1.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed text-left">{t("timing.steps.step1.text")}</p>
               </div>
             </div>
 
-            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10 overflow-hidden">
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
                 <img src={einIncludedImg} alt="EIN Included" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
-                <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
+                <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step2.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed text-left">{t("timing.steps.step2.text")}</p>
               </div>
             </div>
 
-            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center overflow-hidden">
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col text-left overflow-hidden">
               <div className="w-full aspect-[16/9] overflow-hidden">
                 <img src={bankAccountImg} alt="Bank Account" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
               <div className="p-6 sm:p-8">
-                <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
+                <h3 className="text-xl font-black mb-3 text-left">{t("timing.steps.step3.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed text-left">{t("timing.steps.step3.text")}</p>
               </div>
             </div>
           </div>
