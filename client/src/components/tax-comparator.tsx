@@ -21,7 +21,7 @@ interface TaxBreakdown {
 }
 
 type Country = "spain" | "uk" | "germany" | "france" | "bulgaria";
-type ActivityType = "digital" | "consulting" | "ecommerce" | "saas" | "marketing" | "other";
+type ActivityType = "ecommerce" | "dropshipping" | "consulting" | "marketing" | "software" | "saas" | "apps" | "ai" | "investments" | "tradingEducation" | "financial" | "crypto" | "realestate" | "import" | "coaching" | "content" | "affiliate" | "freelance" | "gaming" | "digitalProducts" | "other";
 
 interface CountryInfo {
   id: Country;
@@ -41,11 +41,26 @@ const countryData: Omit<CountryInfo, 'name'>[] = [
 
 function getDeductibleExpenses(grossIncome: number, activity: ActivityType): number {
   const rates: Record<ActivityType, number> = {
-    digital: 0.15,
-    consulting: 0.10,
     ecommerce: 0.35,
-    saas: 0.20,
+    dropshipping: 0.40,
+    consulting: 0.10,
     marketing: 0.18,
+    software: 0.15,
+    saas: 0.20,
+    apps: 0.22,
+    ai: 0.20,
+    investments: 0.05,
+    tradingEducation: 0.12,
+    financial: 0.08,
+    crypto: 0.05,
+    realestate: 0.25,
+    import: 0.45,
+    coaching: 0.12,
+    content: 0.15,
+    affiliate: 0.08,
+    freelance: 0.10,
+    gaming: 0.25,
+    digitalProducts: 0.15,
     other: 0.15,
   };
   return grossIncome * (rates[activity] || 0.15);
@@ -62,11 +77,31 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
 
   switch (country) {
     case "spain": {
-      const monthlyQuota = Math.min(Math.max(taxableIncome / 12 * 0.306, 300), 1300);
+      const monthlyIncome = taxableIncome / 12;
+      let monthlyQuota: number;
+      if (monthlyIncome <= 670) monthlyQuota = 230;
+      else if (monthlyIncome <= 900) monthlyQuota = 260;
+      else if (monthlyIncome <= 1166.70) monthlyQuota = 275;
+      else if (monthlyIncome <= 1300) monthlyQuota = 291;
+      else if (monthlyIncome <= 1500) monthlyQuota = 294;
+      else if (monthlyIncome <= 1700) monthlyQuota = 294;
+      else if (monthlyIncome <= 1850) monthlyQuota = 310;
+      else if (monthlyIncome <= 2030) monthlyQuota = 315;
+      else if (monthlyIncome <= 2330) monthlyQuota = 320;
+      else if (monthlyIncome <= 2760) monthlyQuota = 330;
+      else if (monthlyIncome <= 3190) monthlyQuota = 350;
+      else if (monthlyIncome <= 3620) monthlyQuota = 370;
+      else if (monthlyIncome <= 4050) monthlyQuota = 390;
+      else if (monthlyIncome <= 6000) monthlyQuota = 400;
+      else monthlyQuota = 530;
       socialSecurity = monthlyQuota * 12;
 
       const beneficioBruto = Math.max(taxableIncome - socialSecurity, 0);
-      corporateTax = beneficioBruto * 0.25;
+      if (beneficioBruto <= 50000) {
+        corporateTax = beneficioBruto * 0.23;
+      } else {
+        corporateTax = 50000 * 0.23 + (beneficioBruto - 50000) * 0.25;
+      }
 
       const beneficioNeto = Math.max(beneficioBruto - corporateTax, 0);
       const dividendos = beneficioNeto * 0.8;
@@ -75,7 +110,8 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
       if (restante > 0) { const t1 = Math.min(restante, 6000); irpfDividendos += t1 * 0.19; restante -= t1; }
       if (restante > 0) { const t2 = Math.min(restante, 44000); irpfDividendos += t2 * 0.21; restante -= t2; }
       if (restante > 0) { const t3 = Math.min(restante, 150000); irpfDividendos += t3 * 0.23; restante -= t3; }
-      if (restante > 0) { irpfDividendos += restante * 0.27; }
+      if (restante > 0) { const t4 = Math.min(restante, 100000); irpfDividendos += t4 * 0.27; restante -= t4; }
+      if (restante > 0) { irpfDividendos += restante * 0.28; }
       incomeTax = irpfDividendos;
       vatRate = 0.21;
       break;
@@ -84,24 +120,27 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
     case "uk": {
       const class2NI = 3.45 * 52;
       const profitsForNI = Math.max(Math.min(taxableIncome, 50270) - 12570, 0);
-      const class4NI = profitsForNI * 0.09;
-      socialSecurity = class2NI + class4NI;
+      const class4NI = profitsForNI * 0.06;
+      const upperNI = Math.max(taxableIncome - 50270, 0) * 0.02;
+      socialSecurity = class2NI + class4NI + upperNI;
 
       if (taxableIncome <= 50000) {
         corporateTax = taxableIncome * 0.19;
       } else if (taxableIncome >= 250000) {
         corporateTax = taxableIncome * 0.25;
       } else {
-        corporateTax = taxableIncome * 0.25 - ((250000 - taxableIncome) * 0.015);
+        const marginalRelief = (250000 - taxableIncome) * 1.5 / 100;
+        corporateTax = taxableIncome * 0.25 - marginalRelief;
       }
 
       const netProfit = Math.max(taxableIncome - corporateTax - socialSecurity, 0);
       const dividends = netProfit * 0.8;
-      const taxableDividends = Math.max(dividends - 1000, 0);
+      const taxableDividends = Math.max(dividends - 500, 0);
       let dividendTax = 0;
       let rem = taxableDividends;
-      if (rem > 0) { const b = Math.min(rem, 37700); dividendTax += b * 0.0875; rem -= b; }
-      if (rem > 0) { const h = Math.min(rem, 125140); dividendTax += h * 0.3375; rem -= h; }
+      const basicBand = Math.max(37700 - 12570, 0);
+      if (rem > 0) { const b = Math.min(rem, basicBand); dividendTax += b * 0.0875; rem -= b; }
+      if (rem > 0) { const h = Math.min(rem, 87440); dividendTax += h * 0.3375; rem -= h; }
       if (rem > 0) { dividendTax += rem * 0.3935; }
       incomeTax = dividendTax;
       vatRate = 0.20;
@@ -110,8 +149,12 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
 
     case "germany": {
       const beitragsBemessungsgrenze = 90600;
-      const ssBase = Math.min(taxableIncome, beitragsBemessungsgrenze);
-      socialSecurity = ssBase * 0.205;
+      const healthInsBase = Math.min(taxableIncome, 62100);
+      const pensionBase = Math.min(taxableIncome, beitragsBemessungsgrenze);
+      const healthIns = healthInsBase * 0.146 * 0.5 + healthInsBase * 0.017;
+      const pensionIns = pensionBase * 0.186 * 0.5;
+      const unemploymentIns = Math.min(taxableIncome, beitragsBemessungsgrenze) * 0.026 * 0.5;
+      socialSecurity = healthIns + pensionIns + unemploymentIns;
 
       const koerperschaftsteuer = taxableIncome * 0.1583;
       const gewerbesteuer = taxableIncome * 0.14;
@@ -126,7 +169,15 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
 
     case "france": {
       const remuneration = taxableIncome * 0.5;
-      socialSecurity = remuneration * 0.45;
+      const csgsNonDeductible = remuneration * 0.024;
+      const csgDeductible = remuneration * 0.068;
+      const crds = remuneration * 0.005;
+      const maladie = remuneration * 0.065;
+      const retraiteBase = Math.min(remuneration, 46368) * 0.1775;
+      const retraiteCompl = remuneration * 0.07;
+      const allocFamiliales = remuneration > 46368 ? remuneration * 0.031 : 0;
+      const formationPro = remuneration * 0.0025;
+      socialSecurity = csgsNonDeductible + csgDeductible + crds + maladie + retraiteBase + retraiteCompl + allocFamiliales + formationPro;
 
       const benefice = taxableIncome - remuneration;
       if (benefice <= 42500) {
@@ -137,14 +188,21 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
 
       const netProfit = Math.max(benefice - corporateTax, 0);
       const dividends = netProfit * 0.8;
-      incomeTax = dividends * 0.30;
+      const flatTax = dividends * 0.128;
+      const socialLevy = dividends * 0.172;
+      incomeTax = flatTax + socialLevy;
       vatRate = 0.20;
       break;
     }
 
     case "bulgaria": {
-      const maxSSBase = 3400 * 12;
-      socialSecurity = Math.min(taxableIncome, maxSSBase) * 0.327;
+      const maxSSBase = 3750 * 12;
+      const minSSBase = 933 * 12;
+      const ssIncome = Math.min(Math.max(taxableIncome, minSSBase), maxSSBase);
+      const pension = ssIncome * 0.1958;
+      const health = ssIncome * 0.032;
+      const unemployment = ssIncome * 0.004;
+      socialSecurity = pension + health + unemployment;
 
       corporateTax = taxableIncome * 0.10;
 
@@ -196,7 +254,7 @@ export function TaxComparator() {
   const [, setLocation] = useLocation();
   const [income, setIncome] = useState(50000);
   const [selectedCountry, setSelectedCountry] = useState<Country>("spain");
-  const [selectedActivity, setSelectedActivity] = useState<ActivityType>("digital");
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType>("ecommerce");
   const [showDetails, setShowDetails] = useState(false);
   const [email, setEmail] = useState("");
   const [isCalculating, setIsCalculating] = useState(false);
@@ -272,7 +330,7 @@ export function TaxComparator() {
     setIncome(parseInt(e.target.value));
   };
 
-  const activityTypes: ActivityType[] = ["digital", "consulting", "ecommerce", "saas", "marketing", "other"];
+  const activityTypes: ActivityType[] = ["ecommerce", "dropshipping", "consulting", "marketing", "software", "saas", "apps", "ai", "investments", "tradingEducation", "financial", "crypto", "realestate", "import", "coaching", "content", "affiliate", "freelance", "gaming", "digitalProducts", "other"];
   
   const formatInputCurrency = (value: number) => {
     return value.toLocaleString('es-ES');

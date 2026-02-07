@@ -80,7 +80,7 @@ export default function Home() {
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (
-                    <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#00b67a">
+                    <svg key={star} className="w-5 h-5" viewBox="0 0 24 24" fill="#FFD700">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
                   ))}
