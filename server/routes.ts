@@ -1662,10 +1662,11 @@ export async function registerRoutes(
   // Calculator consultations - Save consultation + guest record
   app.post("/api/calculator/consultation", async (req, res) => {
     try {
-      const { email, income, country, savings } = z.object({
+      const { email, income, country, activity, savings } = z.object({
         email: z.string().email(),
         income: z.number().min(1),
         country: z.string(),
+        activity: z.string().optional(),
         savings: z.number().optional()
       }).parse(req.body);
 
@@ -1673,6 +1674,7 @@ export async function registerRoutes(
         email,
         income,
         country,
+        activity: activity || null,
         savings: savings || 0,
         isRead: false
       });
@@ -1685,7 +1687,7 @@ export async function registerRoutes(
         language: req.headers['accept-language']?.split(',')[0] || null,
         page: '/tools/price-calculator',
         referrer: req.headers['referer'] || null,
-        metadata: JSON.stringify({ income, country, savings: savings || 0 }),
+        metadata: JSON.stringify({ income, country, activity: activity || null, savings: savings || 0 }),
       });
 
       res.json({ success: true });

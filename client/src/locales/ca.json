@@ -1042,7 +1042,8 @@
       "maxLength": "Màxim {{max}} caràcters",
       "passwordMismatch": "Les contrasenyes no coincideixen",
       "passwordTooShort": "Contrasenya massa curta",
-      "passwordMinChars": "Ha de tenir almenys 8 caràcters"
+      "passwordMinChars": "Ha de tenir almenys 8 caràcters",
+      "fileTooLarge": "L'arxiu no pot superar 10MB"
     },
     "messages": {
       "dataLoaded": "Datos cargados",
@@ -1066,7 +1067,8 @@
       "emailVerified": "Email verificado",
       "canContinue": "Perfecto. Ya puedes continuar",
       "incorrectCode": "Código incorrecto",
-      "codeInvalidOrExpired": "El código no es válido o ha caducado"
+      "codeInvalidOrExpired": "El código no es válido o ha caducado",
+      "fileSelected": "Arxiu seleccionat"
     },
     "discountCode": "Código de descuento",
     "applyCode": "Aplicar",
@@ -1809,7 +1811,8 @@
         "date": "Data",
         "page": "Pàgina",
         "ip": "IP",
-        "details": "Detalls"
+        "details": "Detalls",
+        "savingsLabel": "Estalvi"
       },
       "communicationsSubTabs": {
         "inbox": "Safata",

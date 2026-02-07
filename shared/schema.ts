@@ -147,6 +147,7 @@ export const calculatorConsultations = pgTable("calculator_consultations", {
   email: text("email").notNull(),
   income: integer("income").notNull(),
   country: text("country").notNull(),
+  activity: text("activity"),
   savings: integer("savings"),
   isRead: boolean("is_read").default(false),
   createdAt: timestamp("created_at").defaultNow(),

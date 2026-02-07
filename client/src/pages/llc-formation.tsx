@@ -394,7 +394,7 @@ export default function LlcFormation() {
         setFormMessage({ type: 'success', text: t("application.messages.codeSent") + ". " + t("application.messages.checkEmailWaiting") });
       } else {
         const data = await res.json();
-        setFormMessage({ type: 'error', text: "Error. " + data.message });
+        setFormMessage({ type: 'error', text: t("common.error") + ". " + data.message });
       }
     } catch (error) {
       setFormMessage({ type: 'error', text: t("application.messages.errorSending") + ". " + t("application.messages.tryAgainSeconds") });
@@ -420,7 +420,7 @@ export default function LlcFormation() {
         setFormMessage({ type: 'success', text: t("application.messages.emailVerified") + ". " + t("application.messages.canContinue") });
       } else {
         const data = await res.json();
-        setFormMessage({ type: 'error', text: "Error. " + data.message });
+        setFormMessage({ type: 'error', text: t("common.error") + ". " + data.message });
       }
     } catch (error) {
       setFormMessage({ type: 'error', text: t("application.messages.incorrectCode") + ". " + t("application.messages.codeInvalidOrExpired") });
@@ -1004,11 +1004,11 @@ export default function LlcFormation() {
                                 const file = e.target.files?.[0];
                                 if (file) {
                                   if (file.size > 10 * 1024 * 1024) {
-                                    setFormMessage({ type: 'error', text: "Error. El archivo no puede superar 10MB" });
+                                    setFormMessage({ type: 'error', text: t("common.error") + ". " + t("application.validation.fileTooLarge") });
                                     return;
                                   }
                                   field.onChange(file.name);
-                                  setFormMessage({ type: 'success', text: "Archivo seleccionado. " + file.name + " - Se guardará con tu solicitud" });
+                                  setFormMessage({ type: 'success', text: t("application.messages.fileSelected") + ". " + file.name });
                                 }
                               }}
                             />

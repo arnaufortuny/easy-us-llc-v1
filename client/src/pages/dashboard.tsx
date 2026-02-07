@@ -3213,19 +3213,55 @@ export default function Dashboard() {
                           </Card>
                         </div>
                         <Card className="rounded-xl border border-border/50 shadow-sm mt-3 p-0 overflow-hidden">
-                          <div className="divide-y max-h-60 overflow-y-auto">
-                            {(guestVisitors as any[])?.slice(0, 20)?.map((guest: any) => (
-                              <div key={guest.id} className="px-4 py-2.5 flex items-center justify-between gap-2">
+                          <div className="divide-y max-h-80 overflow-y-auto">
+                            {(guestVisitors as any[])?.slice(0, 30)?.map((guest: any) => {
+                              let meta: any = null;
+                              try {
+                                if (guest.metadata) {
+                                  meta = typeof guest.metadata === 'string' ? JSON.parse(guest.metadata) : guest.metadata;
+                                }
+                              } catch {}
+                              return (
+                              <div key={guest.id} className="px-4 py-3 flex items-start justify-between gap-2">
                                 <div className="min-w-0 flex-1">
-                                  <p className="text-xs font-bold truncate">{guest.email || '-'}</p>
-                                  <p className="text-[10px] text-muted-foreground">
-                                    {t(`dashboard.admin.guestSection.${guest.source}`, guest.source)} · {guest.page || '-'} · {guest.createdAt ? new Date(guest.createdAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : i18n.language === 'ca' ? 'ca-ES' : 'es-ES') : ''}
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <p className="text-xs font-bold truncate">{guest.email || '-'}</p>
+                                    {guest.source === 'calculator' && (
+                                      <Badge className="text-[8px] bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300">{t('dashboard.admin.guestSection.calculator')}</Badge>
+                                    )}
+                                  </div>
+                                  <p className="text-[10px] text-muted-foreground mt-0.5">
+                                    {guest.source !== 'calculator' && <>{t(`dashboard.admin.guestSection.${guest.source}`, guest.source)} · </>}{guest.page || '-'} · {guest.createdAt ? new Date(guest.createdAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : i18n.language === 'ca' ? 'ca-ES' : 'es-ES') : ''}
                                   </p>
+                                  {meta && guest.source === 'calculator' && (
+                                    <div className="mt-1.5 flex flex-wrap gap-1.5">
+                                      {meta.income && (
+                                        <span className="text-[9px] bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 px-1.5 py-0.5 rounded-full font-medium">
+                                          ${Number(meta.income).toLocaleString('en-US')}
+                                        </span>
+                                      )}
+                                      {meta.country && (
+                                        <span className="text-[9px] bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 px-1.5 py-0.5 rounded-full font-medium">
+                                          {meta.country}
+                                        </span>
+                                      )}
+                                      {meta.activity && (
+                                        <span className="text-[9px] bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 px-1.5 py-0.5 rounded-full font-medium">
+                                          {meta.activity}
+                                        </span>
+                                      )}
+                                      {meta.savings !== undefined && meta.savings !== 0 && (
+                                        <span className={`text-[9px] px-1.5 py-0.5 rounded-full font-medium ${meta.savings > 0 ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400' : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'}`}>
+                                          {meta.savings > 0 ? '+' : ''}{t('dashboard.admin.guestSection.savingsLabel')}: ${Math.abs(meta.savings).toLocaleString('en-US')}
+                                        </span>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                                 <Button
                                   size="icon"
                                   variant="ghost"
-                                  className="h-7 w-7 text-destructive shrink-0"
+                                  className="text-destructive shrink-0"
                                   onClick={() => {
                                     showConfirm({
                                       title: t('common.confirmAction', 'Confirmar'),
@@ -3245,7 +3281,7 @@ export default function Dashboard() {
                                   <Trash2 className="w-3 h-3" />
                                 </Button>
                               </div>
-                            ))}
+                            );})}
                             {(!guestVisitors || (guestVisitors as any[]).length === 0) && (
                               <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.guestSection.noGuests')}</p>
                             )}
@@ -3610,11 +3646,11 @@ export default function Dashboard() {
                                 <div className="flex flex-col gap-2">
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <p className="font-black text-sm">{u.firstName} {u.lastName}</p>
-                                    <Badge variant={u.accountStatus === 'active' ? 'default' : u.accountStatus === 'vip' ? 'default' : 'secondary'} className={`text-[9px] ${u.accountStatus === 'deactivated' ? 'bg-red-100 text-red-700' : u.accountStatus === 'vip' ? 'bg-yellow-100 text-yellow-700' : u.accountStatus === 'pending' ? 'bg-orange-100 text-orange-700' : ''}`}>
+                                    <Badge className={`text-[9px] rounded-full ${u.accountStatus === 'deactivated' ? 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700' : u.accountStatus === 'vip' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-500 dark:border-green-500' : u.accountStatus === 'pending' ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-300 border border-yellow-300 dark:border-yellow-700' : 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600'}`}>
                                       {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                     </Badge>
-                                    {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
-                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] bg-blue-100 text-blue-700">{t('dashboard.admin.users.supportBadge', 'SOPORTE')}</Badge>}
+                                    {u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">ADMIN</Badge>}
+                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge', 'SOPORTE')}</Badge>}
                                   </div>
                                   <p className="text-xs text-muted-foreground">{u.email}</p>
                                   <p className="text-[10px] text-muted-foreground">

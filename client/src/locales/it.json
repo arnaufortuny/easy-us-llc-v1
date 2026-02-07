@@ -1042,7 +1042,8 @@
       "maxLength": "Massimo {{max}} caratteri",
       "passwordMismatch": "Le password non corrispondono",
       "passwordTooShort": "Password troppo corta",
-      "passwordMinChars": "Deve contenere almeno 8 caratteri"
+      "passwordMinChars": "Deve contenere almeno 8 caratteri",
+      "fileTooLarge": "Il file non può superare 10MB"
     },
     "messages": {
       "dataLoaded": "Dati caricati",
@@ -1066,7 +1067,8 @@
       "emailVerified": "Email verificata",
       "canContinue": "Perfetto. Ora puoi continuare",
       "incorrectCode": "Codice errato",
-      "codeInvalidOrExpired": "Il codice non è valido o è scaduto"
+      "codeInvalidOrExpired": "Il codice non è valido o è scaduto",
+      "fileSelected": "File selezionato"
     },
     "discountCode": "Codice sconto",
     "applyCode": "Applica",
@@ -1772,7 +1774,8 @@
         "date": "Data",
         "page": "Pagina",
         "ip": "IP",
-        "details": "Dettagli"
+        "details": "Dettagli",
+        "savingsLabel": "Risparmio"
       },
       "communicationsSubTabs": {
         "inbox": "Posta in arrivo",
