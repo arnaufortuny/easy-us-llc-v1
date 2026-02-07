@@ -172,7 +172,7 @@ function BenefitsCards() {
   ];
 
   return (
-    <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
       {benefits.map((card, i) => (
         <div key={i} className="bg-background rounded-2xl shadow-md overflow-hidden border border-foreground/5 sm:border-foreground/5 border-accent/20 flex flex-col text-left">
           {card.image && (
@@ -186,13 +186,13 @@ function BenefitsCards() {
               />
             </div>
           )}
-          <div className="p-6 flex-grow text-left">
-            <span className="inline-block px-4 py-2 rounded-full bg-accent text-accent-foreground font-black text-sm shadow-sm mb-4 text-left">{card.badge}</span>
-            <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight text-left">{card.title}</h3>
-            <p className="text-muted-foreground text-base sm:text-lg leading-relaxed text-left">{card.text}</p>
+          <div className="p-4 lg:p-5 flex-grow text-left">
+            <span className="inline-block px-3 py-1.5 rounded-full bg-accent text-accent-foreground font-black text-xs shadow-sm mb-3 text-left">{card.badge}</span>
+            <h3 className="text-lg lg:text-base xl:text-lg font-black tracking-tighter text-foreground mb-2 leading-tight text-left">{card.title}</h3>
+            <p className="text-muted-foreground text-sm leading-relaxed text-left">{card.text}</p>
           </div>
-          <div className="bg-accent/10 px-6 py-4 border-t border-accent/20 mt-auto text-left">
-            <p className="text-sm font-black text-foreground text-left">{card.footer}</p>
+          <div className="bg-accent/10 px-4 lg:px-5 py-3 border-t border-accent/20 mt-auto text-left">
+            <p className="text-xs font-black text-foreground text-left">{card.footer}</p>
           </div>
         </div>
       ))}
