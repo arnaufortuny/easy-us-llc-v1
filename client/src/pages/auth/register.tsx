@@ -447,7 +447,8 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.firstNamePlaceholder")}
-                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-firstName"
                             />
                           </FormControl>
@@ -466,7 +467,8 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.lastNamePlaceholder")}
-                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-lastName"
                             />
                           </FormControl>
@@ -478,10 +480,10 @@ export default function Register() {
                 )}
 
                 {step === 1 && (
-                  <div key="step-1" className="space-y-6">
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">{t("auth.register.step1Title")}</h2>
-                      <p className="text-sm text-muted-foreground">{t("auth.register.step1Subtitle")}</p>
+                  <div key="step-1" className="space-y-4">
+                    <div className="text-left mb-2">
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step1Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step1Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -489,13 +491,14 @@ export default function Register() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">{t("auth.register.email")}</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.email")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type="email"
                               inputMode="email"
-                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-email"
                             />
                           </FormControl>
@@ -507,10 +510,10 @@ export default function Register() {
                 )}
 
                 {step === 2 && (
-                  <div key="step-2" className="space-y-6">
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">{t("auth.register.step2Title")}</h2>
-                      <p className="text-sm text-muted-foreground">{t("auth.register.step2Subtitle")}</p>
+                  <div key="step-2" className="space-y-4">
+                    <div className="text-left mb-2">
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step2Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step2Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -518,14 +521,15 @@ export default function Register() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">{t("auth.register.phone")}</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.phone")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type="tel"
                               inputMode="tel"
                               placeholder={t("auth.register.phonePlaceholder")}
-                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-phone"
                             />
                           </FormControl>
@@ -537,10 +541,10 @@ export default function Register() {
                 )}
 
                 {step === 3 && (
-                  <div key="step-3" className="space-y-6">
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">{t("auth.register.step3Title")}</h2>
-                      <p className="text-sm text-muted-foreground">{t("auth.register.step3Subtitle")}</p>
+                  <div key="step-3" className="space-y-4">
+                    <div className="text-left mb-2">
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step3Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step3Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -555,7 +559,7 @@ export default function Register() {
                           <FormControl>
                             <select
                               {...field}
-                              className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
+                              className="w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20"
                               data-testid="select-businessActivity"
                             >
                               <option value="">{t("common.select")}</option>
@@ -574,10 +578,10 @@ export default function Register() {
                 )}
 
                 {step === 4 && (
-                  <div key="step-4" className="space-y-6">
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">{t("auth.register.step4Title")}</h2>
-                      <p className="text-sm text-muted-foreground">{t("auth.register.step4Subtitle")}</p>
+                  <div key="step-4" className="space-y-4">
+                    <div className="text-left mb-2">
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step4Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step4Subtitle")}</p>
                     </div>
 
                     <FormField
@@ -585,14 +589,15 @@ export default function Register() {
                       name="password"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">{t("auth.register.password")}</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.password")}</FormLabel>
                           <FormControl>
                             <div className="relative">
                               <Input
                                 {...field}
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
-                                className="rounded-full h-11 md:h-12 px-5 pr-12 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                                className="rounded-full h-11 md:h-12 px-5 pr-12 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                                style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                                 data-testid="input-password"
                               />
                               <Button
@@ -621,13 +626,14 @@ export default function Register() {
                       name="confirmPassword"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="font-black text-primary">{t("auth.register.confirmPassword")}</FormLabel>
+                          <FormLabel className="text-xs md:text-sm font-bold text-foreground">{t("auth.register.confirmPassword")}</FormLabel>
                           <FormControl>
                             <Input
                               {...field}
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
-                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base placeholder:text-muted-foreground"
+                              className="rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground"
+                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                               data-testid="input-confirmPassword"
                             />
                           </FormControl>
@@ -639,10 +645,10 @@ export default function Register() {
                 )}
 
                 {step === 5 && (
-                  <div key="step-5" className="space-y-6">
-                    <div className="mb-4">
-                      <h2 className="text-xl font-black text-primary">{t("auth.register.step5Title")}</h2>
-                      <p className="text-sm text-muted-foreground">{t("auth.register.step5Subtitle")}</p>
+                  <div key="step-5" className="space-y-4">
+                    <div className="text-left mb-2">
+                      <h2 className="text-base font-bold text-foreground">{t("auth.register.step5Title")}</h2>
+                      <p className="text-xs text-muted-foreground">{t("auth.register.step5Subtitle")}</p>
                     </div>
 
                     <div className="space-y-4 p-4 bg-gray-50 dark:bg-[#1A1A1A] rounded-2xl">
