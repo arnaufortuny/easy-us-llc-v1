@@ -1342,9 +1342,9 @@
       "operatingAgreement": "Acordo Operativo",
       "operatingDescription": "Gera o teu Operating Agreement personalizado.",
       "createAgreement": "Criar Acordo",
-      "priceCalculator": "Calculadora de Poupança",
-      "calculatorDescription": "Calcula quanto podes poupar com a tua LLC.",
-      "calculate": "Calcular",
+      "priceCalculator": "Calculadora de Rentabilidade",
+      "calculatorDescription": "Dá preço ao teu trabalho com critério profissional. Calcula custos, margens e rentabilidade real para que o teu negócio cresça com números claros desde o primeiro dia.",
+      "calculate": "Calcular rentabilidade",
       "generateDocument": "Gerar Documento"
     },
     "services": {
@@ -1413,7 +1413,7 @@
       "empty": "Sem consultas ativas",
       "emptyDescription": "Vai responder-te uma pessoa, não um bot.",
       "newQuery": "Nova Consulta",
-      "talkToSupport": "Falar com um assessor",
+      "talkToSupport": "Fala connosco",
       "noSubject": "Sem assunto",
       "view": "Ver",
       "replies": "Respostas",
@@ -1513,7 +1513,7 @@
     "tools": {
       "title": "Ferramentas",
       "subtitle": "Utilitários para gerir o teu negócio",
-      "priceCalculator": "Calculadora de Preços",
+      "priceCalculator": "Calculadora de Rentabilidade",
       "operatingAgreement": "Operating Agreement"
     },
     "trustpilot": {
@@ -2568,9 +2568,9 @@
     },
     "priceCalculator": {
       "loginRequired": "Acesso Necessário",
-      "loginDescription": "Inicia sessão para usar a calculadora de preços.",
-      "title": "Calculadora de Preços",
-      "subtitle": "Calcula preços com margens e custos de forma profissional",
+      "loginDescription": "Inicia sessão para usar a Calculadora de Rentabilidade.",
+      "title": "Calculadora de Rentabilidade",
+      "subtitle": "Calcula custos, margens e rentabilidade real para que o teu negócio cresça com números claros.",
       "backToDashboard": "Voltar ao Dashboard",
       "productSection": "Produto ou Serviço",
       "productName": "Nome do produto/serviço",
@@ -2811,7 +2811,7 @@
       "description": "Cria faturas profissionais para a tua LLC de forma gratuita."
     },
     "calculator": {
-      "title": "Calculadora de Poupança Fiscal | Easy US LLC",
+      "title": "Calculadora de Rentabilidade | Easy US LLC",
       "description": "Calcula quanto podes poupar em impostos com uma LLC nos Estados Unidos."
     },
     "operatingAgreement": {

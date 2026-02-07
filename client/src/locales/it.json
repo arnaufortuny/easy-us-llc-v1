@@ -1342,9 +1342,9 @@
       "operatingAgreement": "Accordo Operativo",
       "operatingDescription": "Genera il tuo Operating Agreement personalizzato.",
       "createAgreement": "Crea Accordo",
-      "priceCalculator": "Calcolatore di Risparmio",
-      "calculatorDescription": "Calcola quanto puoi risparmiare con la tua LLC.",
-      "calculate": "Calcola",
+      "priceCalculator": "Calcolatore di Redditività",
+      "calculatorDescription": "Dai un prezzo al tuo lavoro con criterio professionale. Calcola costi, margini e redditività reale affinché il tuo business cresca con numeri chiari fin dal primo giorno.",
+      "calculate": "Calcola redditività",
       "generateDocument": "Genera Documento"
     },
     "services": {
@@ -1413,7 +1413,7 @@
       "empty": "Nessuna consulenza attiva",
       "emptyDescription": "Ti risponderà una persona, non un bot.",
       "newQuery": "Nuova Consulenza",
-      "talkToSupport": "Parla con un consulente",
+      "talkToSupport": "Parla con noi",
       "noSubject": "Senza oggetto",
       "view": "Vedi",
       "replies": "Risposte",
@@ -1472,7 +1472,7 @@
     "tools": {
       "title": "Strumenti",
       "subtitle": "Utilità per gestire il tuo business",
-      "priceCalculator": "Calcolatore di Prezzi",
+      "priceCalculator": "Calcolatore di Redditività",
       "operatingAgreement": "Operating Agreement"
     },
     "trustpilot": {
@@ -2568,9 +2568,9 @@
     },
     "priceCalculator": {
       "loginRequired": "Accesso Richiesto",
-      "loginDescription": "Accedi per utilizzare il calcolatore di prezzi.",
-      "title": "Calcolatore di Prezzi",
-      "subtitle": "Calcola prezzi con margini e costi in modo professionale",
+      "loginDescription": "Accedi per utilizzare il Calcolatore di Redditività.",
+      "title": "Calcolatore di Redditività",
+      "subtitle": "Calcola costi, margini e redditività reale affinché il tuo business cresca con numeri chiari.",
       "backToDashboard": "Torna alla Dashboard",
       "productSection": "Prodotto o Servizio",
       "productName": "Nome del prodotto/servizio",
@@ -2811,7 +2811,7 @@
       "description": "Crea fatture professionali per la tua LLC gratuitamente."
     },
     "calculator": {
-      "title": "Calcolatore di Risparmio Fiscale | Easy US LLC",
+      "title": "Calcolatore di Redditività | Easy US LLC",
       "description": "Calcola quanto puoi risparmiare in imposte con una LLC negli Stati Uniti."
     },
     "operatingAgreement": {

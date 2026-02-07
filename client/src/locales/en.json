@@ -1342,9 +1342,9 @@
       "operatingAgreement": "Operating Agreement",
       "operatingDescription": "Generate your personalized Operating Agreement.",
       "createAgreement": "Create Agreement",
-      "priceCalculator": "Savings Calculator",
-      "calculatorDescription": "Calculate how much you can save with your LLC.",
-      "calculate": "Calculate",
+      "priceCalculator": "Profitability Calculator",
+      "calculatorDescription": "Price your work with professional criteria. Calculate costs, margins and real profitability so your business grows with clear numbers from day one.",
+      "calculate": "Calculate profitability",
       "generateDocument": "Generate Document"
     },
     "services": {
@@ -1413,7 +1413,7 @@
       "empty": "No active messages",
       "emptyDescription": "A real person will respond, not a bot.",
       "newQuery": "New Message",
-      "talkToSupport": "Talk to an advisor",
+      "talkToSupport": "Talk to us",
       "noSubject": "No subject",
       "view": "View",
       "replies": "Replies",
@@ -1513,7 +1513,7 @@
     "tools": {
       "title": "Tools",
       "subtitle": "Utilities to manage your business",
-      "priceCalculator": "Price Calculator",
+      "priceCalculator": "Profitability Calculator",
       "operatingAgreement": "Operating Agreement"
     },
     "trustpilot": {
@@ -2568,9 +2568,9 @@
     },
     "priceCalculator": {
       "loginRequired": "Login Required",
-      "loginDescription": "Log in to use the price calculator.",
-      "title": "Price Calculator",
-      "subtitle": "Calculate prices with margins and costs professionally",
+      "loginDescription": "Log in to use the Profitability Calculator.",
+      "title": "Profitability Calculator",
+      "subtitle": "Calculate costs, margins and real profitability so your business grows with clear numbers.",
       "backToDashboard": "Back to Dashboard",
       "productSection": "Product or Service",
       "productName": "Product/service name",
@@ -2811,7 +2811,7 @@
       "description": "Create professional invoices for your LLC for free."
     },
     "calculator": {
-      "title": "Tax Savings Calculator | Easy US LLC",
+      "title": "Profitability Calculator | Easy US LLC",
       "description": "Calculate how much you can save on taxes with a US LLC."
     },
     "operatingAgreement": {

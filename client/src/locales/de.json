@@ -1342,9 +1342,9 @@
       "operatingAgreement": "Operating Agreement",
       "operatingDescription": "Erstellen Sie Ihr personalisiertes Operating Agreement.",
       "createAgreement": "Agreement erstellen",
-      "priceCalculator": "Sparpotenzialrechner",
-      "calculatorDescription": "Berechnen Sie, wie viel Sie mit Ihrer LLC sparen können.",
-      "calculate": "Berechnen",
+      "priceCalculator": "Rentabilitätsrechner",
+      "calculatorDescription": "Bepreisen Sie Ihre Arbeit mit professionellen Kriterien. Berechnen Sie Kosten, Margen und reale Rentabilität, damit Ihr Geschäft von Anfang an mit klaren Zahlen wächst.",
+      "calculate": "Rentabilität berechnen",
       "generateDocument": "Dokument generieren"
     },
     "services": {
@@ -1413,7 +1413,7 @@
       "empty": "Keine aktiven Nachrichten",
       "emptyDescription": "Eine echte Person wird antworten, kein Bot.",
       "newQuery": "Neue Nachricht",
-      "talkToSupport": "Mit einem Berater sprechen",
+      "talkToSupport": "Sprechen Sie mit uns",
       "noSubject": "Kein Betreff",
       "view": "Anzeigen",
       "replies": "Antworten",
@@ -1513,7 +1513,7 @@
     "tools": {
       "title": "Tools",
       "subtitle": "Hilfsmittel zur Verwaltung Ihres Geschäfts",
-      "priceCalculator": "Preisrechner",
+      "priceCalculator": "Rentabilitätsrechner",
       "operatingAgreement": "Operating Agreement"
     },
     "trustpilot": {
@@ -2568,9 +2568,9 @@
     },
     "priceCalculator": {
       "loginRequired": "Anmeldung erforderlich",
-      "loginDescription": "Melden Sie sich an, um den Preisrechner zu nutzen.",
-      "title": "Preisrechner",
-      "subtitle": "Berechnen Sie Preise mit Margen und Kosten professionell",
+      "loginDescription": "Melden Sie sich an, um den Rentabilitätsrechner zu nutzen.",
+      "title": "Rentabilitätsrechner",
+      "subtitle": "Berechnen Sie Kosten, Margen und reale Rentabilität, damit Ihr Geschäft mit klaren Zahlen wächst.",
       "backToDashboard": "Zurück zum Dashboard",
       "productSection": "Produkt oder Dienstleistung",
       "productName": "Produkt-/Dienstleistungsname",
@@ -2811,7 +2811,7 @@
       "description": "Erstellen Sie kostenlos professionelle Rechnungen für Ihre LLC."
     },
     "calculator": {
-      "title": "Steuerersparnisrechner | Easy US LLC",
+      "title": "Rentabilitätsrechner | Easy US LLC",
       "description": "Berechnen Sie, wie viel Sie mit einer US LLC an Steuern sparen können."
     },
     "operatingAgreement": {

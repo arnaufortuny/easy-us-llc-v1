@@ -1342,9 +1342,9 @@
       "operatingAgreement": "Acord Operatiu",
       "operatingDescription": "Genera el teu Operating Agreement personalitzat.",
       "createAgreement": "Crear Acord",
-      "priceCalculator": "Calculadora d'Estalvi",
-      "calculatorDescription": "Calcula quant pots estalviar amb la teva LLC.",
-      "calculate": "Calcular",
+      "priceCalculator": "Calculadora de Rendibilitat",
+      "calculatorDescription": "Posa preu al teu treball amb criteri professional. Calcula costos, marges i rendibilitat real perquè el teu negoci creixi amb números clars des del primer dia.",
+      "calculate": "Calcular rendibilitat",
       "generateDocument": "Generar Document"
     },
     "services": {
@@ -1413,7 +1413,7 @@
       "empty": "Sense consultes actives",
       "emptyDescription": "Et respondrà una persona, no un bot.",
       "newQuery": "Nova Consulta",
-      "talkToSupport": "Parlar amb un assessor",
+      "talkToSupport": "Parla amb nosaltres",
       "noSubject": "Sense assumpte",
       "view": "Veure",
       "replies": "Respostes",
@@ -1513,7 +1513,7 @@
     "tools": {
       "title": "Eines",
       "subtitle": "Utilitats per gestionar el teu negoci",
-      "priceCalculator": "Calculadora de Preus",
+      "priceCalculator": "Calculadora de Rendibilitat",
       "operatingAgreement": "Operating Agreement"
     },
     "trustpilot": {
@@ -2568,9 +2568,9 @@
     },
     "priceCalculator": {
       "loginRequired": "Accés Requerit",
-      "loginDescription": "Inicia sessió per fer servir la calculadora de preus.",
-      "title": "Calculadora de Preus",
-      "subtitle": "Calcula preus amb marges i costos de forma professional",
+      "loginDescription": "Inicia sessió per fer servir la Calculadora de Rendibilitat.",
+      "title": "Calculadora de Rendibilitat",
+      "subtitle": "Calcula costos, marges i rendibilitat real perquè el teu negoci creixi amb números clars.",
       "backToDashboard": "Tornar al Dashboard",
       "productSection": "Producte o Servei",
       "productName": "Nom del producte/servei",
@@ -2811,7 +2811,7 @@
       "description": "Crea facturas profesionales para tu LLC de forma gratuita."
     },
     "calculator": {
-      "title": "Calculadora de Ahorro Fiscal | Easy US LLC",
+      "title": "Calculadora de Rendibilitat | Easy US LLC",
       "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
     },
     "operatingAgreement": {

@@ -78,8 +78,8 @@ const routeTitles: Record<string, PageTitleConfig> = {
   "/tools/price-calculator": {
     titleKey: "seo.calculator.title",
     descriptionKey: "seo.calculator.description",
-    fallbackTitle: "Calculadora de Ahorro Fiscal | Easy US LLC",
-    fallbackDescription: "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
+    fallbackTitle: "Calculadora de Rentabilidad | Easy US LLC",
+    fallbackDescription: "Calcula costes, márgenes y rentabilidad real para que tu negocio crezca con números claros."
   },
   "/tools/operating-agreement": {
     titleKey: "seo.operatingAgreement.title",
