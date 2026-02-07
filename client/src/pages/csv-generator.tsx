@@ -8,7 +8,6 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Trash2, Plus, FileDown, ArrowLeft, Loader2 } from "@/components/icons";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
@@ -76,7 +75,7 @@ function createEmptyTransaction(): Transaction {
     date: new Date().toISOString().split('T')[0],
     description: '',
     amount: '',
-    currency: 'USD',
+    currency: 'EUR',
     type: 'income',
     category: 'Sales',
     paymentMethod: 'Bank Transfer',
@@ -219,27 +218,27 @@ export default function CsvGenerator() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          <Card className="p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-green-50 to-white dark:from-green-950/20 dark:to-background">
+          <Card className="p-4 rounded-2xl border-0 shadow-sm bg-accent/10 dark:bg-accent/5">
             <p className="text-[10px] md:text-xs text-muted-foreground">{t("tools.csvGenerator.totalIncome")}</p>
-            <p className="text-lg md:text-xl font-black text-green-600 dark:text-green-500" data-testid="stat-total-income">
-              ${totalIncome.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <p className="text-lg md:text-xl font-black text-accent" data-testid="stat-total-income">
+              {totalIncome.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} &euro;
             </p>
           </Card>
-          <Card className="p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-red-50 to-white dark:from-red-950/20 dark:to-background">
+          <Card className="p-4 rounded-2xl border-0 shadow-sm bg-accent/10 dark:bg-accent/5">
             <p className="text-[10px] md:text-xs text-muted-foreground">{t("tools.csvGenerator.totalExpenses")}</p>
-            <p className="text-lg md:text-xl font-black text-red-600 dark:text-red-500" data-testid="stat-total-expenses">
-              ${totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <p className="text-lg md:text-xl font-black text-accent" data-testid="stat-total-expenses">
+              {totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} &euro;
             </p>
           </Card>
-          <Card className="p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-blue-50 to-white dark:from-blue-950/20 dark:to-background">
+          <Card className="p-4 rounded-2xl border-0 shadow-sm bg-accent/10 dark:bg-accent/5">
             <p className="text-[10px] md:text-xs text-muted-foreground">{t("tools.csvGenerator.netBalance")}</p>
-            <p className={`text-lg md:text-xl font-black ${(totalIncome - totalExpenses) >= 0 ? 'text-blue-600 dark:text-blue-500' : 'text-red-600 dark:text-red-500'}`} data-testid="stat-net-balance">
-              ${(totalIncome - totalExpenses).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <p className="text-lg md:text-xl font-black text-accent" data-testid="stat-net-balance">
+              {(totalIncome - totalExpenses).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} &euro;
             </p>
           </Card>
-          <Card className="p-4 rounded-xl border-0 shadow-sm bg-gradient-to-br from-purple-50 to-white dark:from-purple-950/20 dark:to-background">
+          <Card className="p-4 rounded-2xl border-0 shadow-sm bg-accent/10 dark:bg-accent/5">
             <p className="text-[10px] md:text-xs text-muted-foreground">{t("tools.csvGenerator.transactions")}</p>
-            <p className="text-lg md:text-xl font-black text-purple-600 dark:text-purple-500" data-testid="stat-transactions-count">
+            <p className="text-lg md:text-xl font-black text-accent" data-testid="stat-transactions-count">
               {transactions.length}
             </p>
           </Card>
@@ -307,7 +306,6 @@ export default function CsvGenerator() {
                       <Input
                         value={transaction.description}
                         onChange={(e) => updateTransaction(transaction.id, 'description', e.target.value)}
-                        placeholder={t("tools.csvGenerator.descriptionPlaceholder")}
                         className="rounded-full text-sm"
                         data-testid={`input-description-${index}`}
                       />
@@ -321,7 +319,6 @@ export default function CsvGenerator() {
                         min="0"
                         value={transaction.amount}
                         onChange={(e) => updateTransaction(transaction.id, 'amount', e.target.value)}
-                        placeholder="0.00"
                         className="rounded-full text-sm"
                         data-testid={`input-amount-${index}`}
                       />
@@ -388,7 +385,6 @@ export default function CsvGenerator() {
                       <Input
                         value={transaction.bankAccount}
                         onChange={(e) => updateTransaction(transaction.id, 'bankAccount', e.target.value)}
-                        placeholder={t("tools.csvGenerator.bankAccountPlaceholder")}
                         className="rounded-full text-sm"
                         data-testid={`input-bank-account-${index}`}
                       />
@@ -399,7 +395,6 @@ export default function CsvGenerator() {
                       <Input
                         value={transaction.invoiceNumber}
                         onChange={(e) => updateTransaction(transaction.id, 'invoiceNumber', e.target.value)}
-                        placeholder={t("tools.csvGenerator.invoiceNumberPlaceholder")}
                         className="rounded-full text-sm"
                         data-testid={`input-invoice-number-${index}`}
                       />
@@ -410,7 +405,6 @@ export default function CsvGenerator() {
                       <Textarea
                         value={transaction.notes}
                         onChange={(e) => updateTransaction(transaction.id, 'notes', e.target.value)}
-                        placeholder={t("tools.csvGenerator.notesPlaceholder")}
                         className="rounded-lg text-sm resize-none"
                         rows={2}
                         data-testid={`input-notes-${index}`}
@@ -450,7 +444,6 @@ export default function CsvGenerator() {
         </Card>
       </main>
 
-      <Footer />
     </div>
   );
 }

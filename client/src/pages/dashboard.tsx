@@ -19,7 +19,6 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { SocialLogin } from "@/components/auth/social-login";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { DashboardTour } from "@/components/dashboard-tour";
-import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import { 
   Tab, 
   AdminUserData, 
@@ -1125,16 +1124,6 @@ export default function Dashboard() {
       {/* Desktop Sidebar - Sticky below navbar */}
       <aside className="hidden lg:flex lg:flex-col sticky top-20 sm:top-24 h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] w-64 shrink-0 border-r border-border/50 bg-card z-40 self-start">
           <div className="flex flex-col h-full">
-            {/* Logo / Brand */}
-            <div className="px-5 py-5 border-b border-border/30">
-              <Link href="/">
-                <div className="flex items-center gap-2 cursor-pointer" data-testid="link-sidebar-home">
-                  <img src="/logo-icon.png" alt="Easy US LLC" className="w-8 h-8" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
-                  <span className="text-lg font-black text-foreground tracking-tight">Easy US LLC</span>
-                </div>
-              </Link>
-            </div>
-
             {/* Main navigation */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
               {isAdmin ? (
@@ -1390,7 +1379,6 @@ export default function Dashboard() {
                       <X className="w-4 h-4" />
                     </button>
                     <div className="flex flex-col sm:flex-row items-center gap-4">
-                      <img src={trustpilotLogo} alt="Trustpilot" className="h-8 w-auto" />
                       <div className="flex-1 text-center sm:text-left">
                         <p className="font-black text-foreground text-sm tracking-tight">{t('dashboard.trustpilot.title')}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{t('dashboard.trustpilot.subtitle')}</p>

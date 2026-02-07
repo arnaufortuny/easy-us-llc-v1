@@ -8,7 +8,6 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { FileDown, ArrowLeft, Loader2, AlertCircle, CheckCircle, Building2, User, MapPin, Phone } from "@/components/icons";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -563,14 +562,14 @@ export default function OperatingAgreementGenerator() {
                   <Loader2 className="w-8 h-8 animate-spin text-accent" />
                 </div>
               ) : !hasCompletedLLCs ? (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-muted flex items-center justify-center">
-                    <AlertCircle className="w-8 h-8 text-muted-foreground" />
+                <div className="flex flex-col items-center justify-center py-12">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                    <AlertCircle className="w-8 h-8 text-red-500" />
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-2">
+                  <h3 className="text-lg font-bold text-foreground mb-2 text-center">
                     {t("tools.operatingAgreement.noLlc")}
                   </h3>
-                  <p className="text-muted-foreground text-sm mb-6 max-w-sm mx-auto">
+                  <p className="text-muted-foreground text-sm mb-6 max-w-sm text-center">
                     {t("tools.operatingAgreement.noLlcDescription")}
                   </p>
                   <Button 
@@ -650,7 +649,6 @@ export default function OperatingAgreementGenerator() {
                           <Textarea
                             value={formData.memberAddress}
                             onChange={(e) => setFormData(prev => ({ ...prev, memberAddress: e.target.value }))}
-                            placeholder={t("tools.operatingAgreement.addressPlaceholder")}
                             className="min-h-[80px] resize-none rounded-xl"
                             data-testid="input-member-address"
                           />
@@ -665,7 +663,6 @@ export default function OperatingAgreementGenerator() {
                             <Input
                               value={formData.memberPhone}
                               onChange={(e) => setFormData(prev => ({ ...prev, memberPhone: e.target.value }))}
-                              placeholder="+34 600 000 000"
                               className="h-11 rounded-full"
                               data-testid="input-member-phone"
                             />
@@ -678,7 +675,6 @@ export default function OperatingAgreementGenerator() {
                             <Input
                               value={formData.capitalContribution}
                               onChange={(e) => setFormData(prev => ({ ...prev, capitalContribution: e.target.value }))}
-                              placeholder="1,000"
                               className="h-11 rounded-full"
                               data-testid="input-capital"
                             />
@@ -764,7 +760,6 @@ export default function OperatingAgreementGenerator() {
           </Card>
         </div>
       </main>
-      <Footer />
     </div>
   );
 }

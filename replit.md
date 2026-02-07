@@ -14,6 +14,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
 
 ## Recent Changes
+- **2026-02-07:** UX cleanup — removed placeholders from all tool pages, removed footers from tool pages, changed default currency to EUR, replaced language selector buttons with native select dropdown, removed Trustpilot logo from dashboard review card, moved invoice Generate PDF button to header
 - **2026-02-07:** Payment accounts UI fully internationalized — replaced 24+ hardcoded Spanish strings with i18n t() calls, added 22 paymentAccounts translation keys under dashboard.admin in all 7 locale files
 - **2026-02-07:** Added missing support-related translations — supportPermissions, supportPermissionsDesc, users.supportBadge added to all 7 locale files for admin dashboard support role display
 - **2026-02-07:** Admin dashboard restructured — admin users now see admin tabs directly in sidebar (Metrics, Orders, Communications, Incomplete, Users, Billing, Calendar, Docs, Payment Methods, Discounts) instead of nested user+admin structure. Support users retain limited support panel. Mobile navigation updated accordingly.

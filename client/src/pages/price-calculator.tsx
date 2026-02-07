@@ -7,7 +7,6 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Trash2, Plus, ArrowLeft } from "@/components/icons";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 
@@ -32,7 +31,7 @@ export default function PriceCalculator() {
   const [quantity, setQuantity] = useState<number>(1);
   const [marginPercent, setMarginPercent] = useState<number>(30);
   const [taxPercent, setTaxPercent] = useState<number>(0);
-  const [currency, setCurrency] = useState("USD");
+  const [currency, setCurrency] = useState("EUR");
   const [additionalCosts, setAdditionalCosts] = useState<CostItem[]>([]);
   
   if (authLoading) {
@@ -137,7 +136,6 @@ export default function PriceCalculator() {
                     <Input 
                       value={productName}
                       onChange={(e) => setProductName(e.target.value)}
-                      placeholder={t('tools.priceCalculator.productPlaceholder')}
                       className="h-11 rounded-full"
                       data-testid="input-product-name"
                     />
@@ -154,7 +152,6 @@ export default function PriceCalculator() {
                         value={baseCost || ""}
                         onChange={(e) => setBaseCost(parseFloat(e.target.value) || 0)}
                         className="h-11 rounded-full pl-8"
-                        placeholder="0.00"
                         data-testid="input-base-cost"
                       />
                     </div>
@@ -217,7 +214,6 @@ export default function PriceCalculator() {
                           <Input 
                             value={cost.name}
                             onChange={(e) => updateCost(cost.id, 'name', e.target.value)}
-                            placeholder={t('tools.priceCalculator.costName')}
                             className="h-9 rounded-full text-sm"
                             data-testid={`input-cost-name-${index}`}
                           />
@@ -230,7 +226,6 @@ export default function PriceCalculator() {
                               value={cost.cost || ""}
                               onChange={(e) => updateCost(cost.id, 'cost', parseFloat(e.target.value) || 0)}
                               className="h-9 rounded-full pl-6 text-sm"
-                              placeholder="0.00"
                               data-testid={`input-cost-amount-${index}`}
                             />
                           </div>
@@ -409,7 +404,6 @@ export default function PriceCalculator() {
         </div>
       </main>
       
-      <Footer />
     </div>
   );
 }

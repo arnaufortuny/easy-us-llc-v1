@@ -372,25 +372,18 @@ export function ProfileTab({
               </h4>
               <p className="text-[10px] text-muted-foreground">{t('profile.language.description', 'Selecciona el idioma de la plataforma y documentos.')}</p>
             </div>
-            <div className="flex gap-1.5">
+            <NativeSelect
+              value={currentLangCode}
+              onChange={(e) => handleLanguageChange(e.target.value)}
+              className="w-48 rounded-full"
+              data-testid="select-language"
+            >
               {languages.map((lang) => (
-                <Button
-                  key={lang.code}
-                  variant={currentLangCode === lang.code ? "default" : "outline"}
-                  size="sm"
-                  className={`rounded-full h-9 px-3 flex items-center gap-1.5 transition-colors ${
-                    currentLangCode === lang.code 
-                      ? 'bg-accent text-primary shadow-md ring-2 ring-accent/50' 
-                      : 'bg-white dark:bg-muted border border-border'
-                  }`}
-                  onClick={() => handleLanguageChange(lang.code)}
-                  data-testid={`button-language-${lang.code}`}
-                >
-                  <lang.Flag className="w-4 h-4" />
-                  <span className="hidden sm:inline text-xs font-medium">{lang.label}</span>
-                </Button>
+                <NativeSelectItem key={lang.code} value={lang.code}>
+                  {lang.label}
+                </NativeSelectItem>
               ))}
-            </div>
+            </NativeSelect>
           </div>
         </Card>
       </div>
