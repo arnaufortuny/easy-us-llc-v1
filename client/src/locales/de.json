@@ -2602,7 +2602,8 @@
       "subtotalWithMargin": "Zwischensumme + Marge",
       "taxAmount": "Steuern",
       "finalPrice": "Endpreis",
-      "profitPerUnit": "Gewinn pro Einheit"
+      "profitPerUnit": "Gewinn pro Einheit",
+      "reset": "Zurücksetzen"
     },
     "operatingAgreement": {
       "title": "Operating Agreement Generator",

@@ -2602,7 +2602,8 @@
       "subtotalWithMargin": "Subtotal + marge",
       "taxAmount": "Impostos",
       "finalPrice": "Preu final",
-      "profitPerUnit": "Benefici per unitat"
+      "profitPerUnit": "Benefici per unitat",
+      "reset": "Reiniciar"
     },
     "operatingAgreement": {
       "title": "Generador d'Operating Agreement",

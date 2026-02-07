@@ -2602,7 +2602,8 @@
       "subtotalWithMargin": "Subtotal + margin",
       "taxAmount": "Taxes",
       "finalPrice": "Final price",
-      "profitPerUnit": "Profit per unit"
+      "profitPerUnit": "Profit per unit",
+      "reset": "Reset"
     },
     "operatingAgreement": {
       "title": "Operating Agreement Generator",

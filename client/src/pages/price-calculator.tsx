@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect } from "@/components/ui/native-select";
-import { Trash2, Plus, ArrowLeft } from "@/components/icons";
+import { Trash2, Plus, ArrowLeft, TrendingUp, DollarSign, Percent, BarChart3, RotateCcw } from "@/components/icons";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { useAuth } from "@/hooks/use-auth";
@@ -66,6 +66,15 @@ export default function PriceCalculator() {
     ));
   };
 
+  const resetAll = () => {
+    setProductName("");
+    setBaseCost(0);
+    setQuantity(1);
+    setMarginPercent(30);
+    setTaxPercent(0);
+    setAdditionalCosts([]);
+  };
+
   const currencySymbol = currency === "EUR" ? "€" : currency === "USD" ? "$" : "£";
 
   const calculations = useMemo(() => {
@@ -86,6 +95,7 @@ export default function PriceCalculator() {
     const finalPrice = subtotalWithMargin + taxAmount;
     const pricePerUnit = quantity > 0 ? finalPrice / quantity : 0;
     const profitPerUnit = quantity > 0 ? marginAmount / quantity : 0;
+    const roi = totalCosts > 0 ? (marginAmount / totalCosts) * 100 : 0;
     
     return {
       baseTotal,
@@ -97,7 +107,8 @@ export default function PriceCalculator() {
       taxAmount,
       finalPrice,
       pricePerUnit,
-      profitPerUnit
+      profitPerUnit,
+      roi
     };
   }, [baseCost, quantity, additionalCosts, marginPercent, taxPercent]);
 
@@ -105,24 +116,87 @@ export default function PriceCalculator() {
     return num.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
+  const hasData = baseCost > 0;
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-4 md:py-6">
         <div className="mb-4">
-          <Link href="/dashboard?tab=tools">
-            <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-2 -ml-2" data-testid="button-back-tools">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              {t('tools.backToTools')}
+          <div className="flex items-center justify-between">
+            <Link href="/dashboard?tab=tools">
+              <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-2 -ml-2" data-testid="button-back-tools">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                {t('tools.backToTools')}
+              </Button>
+            </Link>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={resetAll}
+              className="rounded-full text-muted-foreground mb-2"
+              data-testid="button-reset-calculator"
+            >
+              <RotateCcw className="w-3.5 h-3.5 mr-1.5" />
+              {t('tools.priceCalculator.reset')}
             </Button>
-          </Link>
+          </div>
           
           <div>
             <h1 className="text-2xl md:text-3xl font-black text-foreground tracking-tight">{t('tools.priceCalculator.title')}</h1>
             <p className="text-sm text-muted-foreground mt-1">{t('tools.priceCalculator.subtitle')}</p>
           </div>
         </div>
+
+        {hasData && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+            <Card className="rounded-xl border-0 shadow-sm">
+              <CardContent className="p-3 md:p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <DollarSign className="w-4 h-4 text-accent" />
+                  <span className="text-xs text-muted-foreground">{t('tools.priceCalculator.finalPrice')}</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-foreground" data-testid="text-summary-price">
+                  {currencySymbol}{formatNumber(calculations.finalPrice)}
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-xl border-0 shadow-sm">
+              <CardContent className="p-3 md:p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <TrendingUp className="w-4 h-4 text-green-600 dark:text-green-400" />
+                  <span className="text-xs text-muted-foreground">{t('tools.priceCalculator.margin')}</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-green-600 dark:text-green-400" data-testid="text-summary-margin">
+                  {currencySymbol}{formatNumber(calculations.marginAmount)}
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-xl border-0 shadow-sm">
+              <CardContent className="p-3 md:p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <Percent className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span className="text-xs text-muted-foreground">ROI</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-blue-600 dark:text-blue-400" data-testid="text-summary-roi">
+                  {formatNumber(calculations.roi)}%
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-xl border-0 shadow-sm">
+              <CardContent className="p-3 md:p-4">
+                <div className="flex items-center gap-2 mb-1">
+                  <BarChart3 className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">{t('tools.priceCalculator.perUnitLabel')}</span>
+                </div>
+                <p className="text-lg md:text-xl font-bold text-foreground" data-testid="text-summary-per-unit">
+                  {currencySymbol}{formatNumber(calculations.pricePerUnit)}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
@@ -188,7 +262,7 @@ export default function PriceCalculator() {
 
             <Card className="rounded-2xl border-0 shadow-sm">
               <CardContent className="p-5 md:p-6">
-                <div className="flex items-center justify-between mb-5">
+                <div className="flex items-center justify-between gap-2 mb-5">
                   <h2 className="font-bold text-foreground">{t('tools.priceCalculator.additionalCosts')}</h2>
                   <Button 
                     variant="outline" 
@@ -243,7 +317,7 @@ export default function PriceCalculator() {
                           variant="ghost" 
                           size="icon" 
                           onClick={() => removeCost(cost.id)}
-                          className="h-9 w-9 text-muted-foreground hover:text-red-500 shrink-0"
+                          className="text-muted-foreground hover:text-red-500 shrink-0"
                           data-testid={`button-remove-cost-${index}`}
                         >
                           <Trash2 className="w-4 h-4" />
@@ -326,7 +400,7 @@ export default function PriceCalculator() {
                   
                   <div className="text-center py-4">
                     <p className="text-white/70 text-sm mb-1">{t('tools.priceCalculator.finalPrice')}</p>
-                    <p className="text-4xl md:text-5xl font-bold">
+                    <p className="text-4xl md:text-5xl font-bold" data-testid="text-final-price">
                       {currencySymbol}{formatNumber(calculations.finalPrice)}
                     </p>
                     {quantity > 1 && (
@@ -336,8 +410,8 @@ export default function PriceCalculator() {
                     )}
                   </div>
                   
-                  <div className="mt-4 pt-4 border-t border-white/20">
-                    <div className="flex items-center justify-between text-sm mb-2">
+                  <div className="mt-4 pt-4 border-t border-white/20 space-y-2">
+                    <div className="flex items-center justify-between text-sm">
                       <span className="text-white/70">{t('tools.priceCalculator.margin')}:</span>
                       <span className="font-bold">{currencySymbol}{formatNumber(calculations.marginAmount)}</span>
                     </div>
@@ -347,6 +421,10 @@ export default function PriceCalculator() {
                         <span className="font-bold">{currencySymbol}{formatNumber(calculations.profitPerUnit)}</span>
                       </div>
                     )}
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-white/70">ROI:</span>
+                      <span className="font-bold">{formatNumber(calculations.roi)}%</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>

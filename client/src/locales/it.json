@@ -2602,7 +2602,8 @@
       "subtotalWithMargin": "Subtotale + margine",
       "taxAmount": "Imposte",
       "finalPrice": "Prezzo finale",
-      "profitPerUnit": "Profitto per unità"
+      "profitPerUnit": "Profitto per unità",
+      "reset": "Ripristina"
     },
     "operatingAgreement": {
       "title": "Generatore di Operating Agreement",
