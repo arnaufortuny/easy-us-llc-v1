@@ -125,7 +125,7 @@ export function Navbar() {
                   onClick={() => logout()} 
                   variant="ghost"
                   size="icon"
-                  className="rounded-full text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300"
+                  className="rounded-full text-red-500 dark:text-red-400"
                   data-testid="button-desktop-logout"
                 >
                   <LogOut className="w-4 h-4" />
