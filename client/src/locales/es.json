@@ -1318,15 +1318,15 @@
     },
     "clientTools": {
       "invoiceGenerator": "Generador de Facturas",
-      "invoiceDescription": "Crea facturas profesionales en PDF con los datos de tu LLC americana.",
-      "createInvoice": "Crear Factura",
+      "invoiceDescription": "Crea facturas claras y profesionales con los datos de tu LLC americana, listas para enviarlas a tus clientes sin complicaciones.",
+      "createInvoice": "Crear factura",
       "operatingAgreement": "Acuerdo Operativo",
-      "operatingDescription": "Genera tu Operating Agreement personalizado.",
+      "operatingDescription": "Genera el Operating Agreement de tu LLC de forma sencilla y adaptado a tu empresa, para que tengas todo en regla desde el principio.",
       "createAgreement": "Crear Acuerdo",
       "priceCalculator": "Calculadora de Ahorro",
-      "calculatorDescription": "Calcula cuánto puedes ahorrar con tu LLC.",
-      "calculate": "Calcular",
-      "generateDocument": "Generar Documento"
+      "calculatorDescription": "Descubre cuánto podrías ahorrar usando una LLC y entiende mejor cómo puede encajar en tu situación.",
+      "calculate": "Calcular ahorro",
+      "generateDocument": "Generar documento"
     },
     "services": {
       "title": "Mis trámites",
@@ -2727,9 +2727,9 @@
       "disclaimer": "Esta herramienta es solo para fines de registro. Easy US LLC no proporciona asesoramiento contable ni fiscal.",
       "downloadCsv": "Descargar CSV",
       "generating": "Generando...",
-      "toolTitle": "Generador CSV Contable",
-      "toolDescription": "Registra tus ingresos y gastos para tu contabilidad profesional.",
-      "openTool": "Crear Registro"
+      "toolTitle": "Registro Contable CSV",
+      "toolDescription": "Anota tus ingresos y gastos de forma simple y descarga un archivo listo para tu contabilidad o para compartir con tu asesor.",
+      "openTool": "Crear registro"
     }
   },
   "seo": {
