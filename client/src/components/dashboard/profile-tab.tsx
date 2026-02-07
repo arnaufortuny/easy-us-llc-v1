@@ -11,7 +11,7 @@ import type { User, ProfileData } from "./types";
 import { queryClient } from "@/lib/queryClient";
 import type { UseMutationResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { SpainFlag, USAFlag, CatalanFlag } from "@/components/ui/flags";
+import { SpainFlag, USAFlag, CatalanFlag, FranceFlag, GermanyFlag, ItalyFlag, PortugalFlag } from "@/components/ui/flags";
 
 interface ProfileTabProps {
   user: User | null;
@@ -80,7 +80,11 @@ export function ProfileTab({
   const languages = [
     { code: 'es', label: 'Español', Flag: SpainFlag },
     { code: 'en', label: 'English', Flag: USAFlag },
-    { code: 'ca', label: 'Català', Flag: CatalanFlag }
+    { code: 'ca', label: 'Català', Flag: CatalanFlag },
+    { code: 'fr', label: 'Français', Flag: FranceFlag },
+    { code: 'de', label: 'Deutsch', Flag: GermanyFlag },
+    { code: 'it', label: 'Italiano', Flag: ItalyFlag },
+    { code: 'pt', label: 'Português', Flag: PortugalFlag },
   ];
   
   const currentLangCode = i18n.language?.split('-')[0] || 'es';

@@ -4168,7 +4168,7 @@ export default function Dashboard() {
                           }}
                           data-testid="button-create-payment-account"
                         >
-                          <Plus className="w-3 h-3 mr-1" /> Nueva cuenta
+                          <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.paymentAccounts.newAccount')}
                         </Button>
                       </div>
                       <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
@@ -4179,12 +4179,12 @@ export default function Dashboard() {
                                 <div className="flex items-center gap-2 flex-wrap">
                                   <span className="font-black text-sm">{acct.label}</span>
                                   <Badge variant={acct.isActive ? "default" : "secondary"} className="text-[10px]">
-                                    {acct.isActive ? 'Activa' : 'Inactiva'}
+                                    {acct.isActive ? t('dashboard.admin.paymentAccounts.active') : t('dashboard.admin.paymentAccounts.inactive')}
                                   </Badge>
                                   <Badge variant="outline" className="text-[10px]">{acct.accountType}</Badge>
                                 </div>
                                 <p className="text-xs text-muted-foreground">{acct.bankName} — {acct.holder}</p>
-                                {acct.accountNumber && <p className="text-[10px] text-muted-foreground">Cuenta: ****{acct.accountNumber.slice(-4)}</p>}
+                                {acct.accountNumber && <p className="text-[10px] text-muted-foreground">{t('dashboard.admin.paymentAccounts.accountLabel')}: ****{acct.accountNumber.slice(-4)}</p>}
                                 {acct.iban && <p className="text-[10px] text-muted-foreground">IBAN: ****{acct.iban.slice(-4)}</p>}
                               </div>
                               <div className="flex gap-2">
@@ -4214,7 +4214,7 @@ export default function Dashboard() {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
                                       refetchPaymentAccounts();
-                                      setFormMessage({ type: 'success', text: acct.isActive ? 'Cuenta desactivada' : 'Cuenta activada' });
+                                      setFormMessage({ type: 'success', text: acct.isActive ? t('dashboard.admin.paymentAccounts.accountDeactivated') : t('dashboard.admin.paymentAccounts.accountActivated') });
                                     } catch (e) {
                                       setFormMessage({ type: 'error', text: t("common.error") });
                                     }
@@ -4230,12 +4230,12 @@ export default function Dashboard() {
                                   onClick={() => {
                                     showConfirm({
                                       title: t('common.confirmAction', 'Confirmar'),
-                                      description: `¿Eliminar cuenta "${acct.label}"?`,
+                                      description: `${t('dashboard.admin.paymentAccounts.confirmDelete')} "${acct.label}"?`,
                                       onConfirm: async () => {
                                         try {
                                           await apiRequest("DELETE", `/api/admin/payment-accounts/${acct.id}`);
                                           refetchPaymentAccounts();
-                                          setFormMessage({ type: 'success', text: 'Cuenta eliminada' });
+                                          setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountDeleted') });
                                         } catch (e) {
                                           setFormMessage({ type: 'error', text: t("common.error") });
                                         }
@@ -4250,7 +4250,7 @@ export default function Dashboard() {
                             </div>
                           ))}
                           {(!paymentAccountsList || paymentAccountsList.length === 0) && (
-                            <div className="text-center py-8 text-muted-foreground text-sm">No hay cuentas configuradas</div>
+                            <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.paymentAccounts.noAccounts')}</div>
                           )}
                         </div>
                       </Card>
@@ -4258,26 +4258,26 @@ export default function Dashboard() {
                       {paymentAccountDialog.open && (
                         <Card className="rounded-2xl p-6 space-y-4">
                           <div className="flex items-center justify-between">
-                            <h4 className="text-sm font-black">{paymentAccountDialog.account ? 'Editar cuenta' : 'Nueva cuenta bancaria'}</h4>
+                            <h4 className="text-sm font-black">{paymentAccountDialog.account ? t('dashboard.admin.paymentAccounts.editAccount') : t('dashboard.admin.paymentAccounts.newBankAccount')}</h4>
                             <Button variant="ghost" size="icon" onClick={() => setPaymentAccountDialog({ open: false, account: null })} className="rounded-full">
                               <X className="w-4 h-4" />
                             </Button>
                           </div>
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Etiqueta *</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.label')} *</label>
                               <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} placeholder="Thread Bank CHECKING" className="rounded-xl text-sm" />
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Titular *</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.holder')} *</label>
                               <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} placeholder="Fortuny Consulting LLC" className="rounded-xl text-sm" />
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Banco *</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.bank')} *</label>
                               <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} placeholder="Thread Bank" className="rounded-xl text-sm" />
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Tipo de cuenta</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountType')}</label>
                               <NativeSelect value={paymentAccountForm.accountType} onValueChange={v => setPaymentAccountForm(f => ({...f, accountType: v}))}>
                                 <option value="checking">Checking</option>
                                 <option value="savings">Savings</option>
@@ -4285,7 +4285,7 @@ export default function Dashboard() {
                               </NativeSelect>
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">N° de cuenta</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountNumber')}</label>
                               <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} placeholder="200002330558" className="rounded-xl text-sm" />
                             </div>
                             <div>
@@ -4301,11 +4301,11 @@ export default function Dashboard() {
                               <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} placeholder="SAXODKKK" className="rounded-xl text-sm" />
                             </div>
                             <div className="sm:col-span-2">
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Dirección</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.address')}</label>
                               <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} placeholder="New York, NY, USA" className="rounded-xl text-sm" />
                             </div>
                             <div>
-                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Orden</label>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.sortOrder')}</label>
                               <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-xl text-sm" />
                             </div>
                           </div>
@@ -4322,10 +4322,10 @@ export default function Dashboard() {
                                   const body = { ...paymentAccountForm };
                                   if (paymentAccountDialog.account) {
                                     await apiRequest("PATCH", `/api/admin/payment-accounts/${paymentAccountDialog.account.id}`, body);
-                                    setFormMessage({ type: 'success', text: 'Cuenta actualizada' });
+                                    setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountUpdated') });
                                   } else {
                                     await apiRequest("POST", "/api/admin/payment-accounts", body);
-                                    setFormMessage({ type: 'success', text: 'Cuenta creada' });
+                                    setFormMessage({ type: 'success', text: t('dashboard.admin.paymentAccounts.accountCreated') });
                                   }
                                   refetchPaymentAccounts();
                                   setPaymentAccountDialog({ open: false, account: null });
@@ -4335,7 +4335,7 @@ export default function Dashboard() {
                               }}
                               data-testid="button-save-payment-account"
                             >
-                              {paymentAccountDialog.account ? t('common.save') : 'Crear cuenta'}
+                              {paymentAccountDialog.account ? t('common.save') : t('dashboard.admin.paymentAccounts.createAccount')}
                             </Button>
                           </div>
                         </Card>
