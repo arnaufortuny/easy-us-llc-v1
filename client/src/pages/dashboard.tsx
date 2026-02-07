@@ -1001,6 +1001,10 @@ export default function Dashboard() {
     );
   }
 
+  const isAdmin = user?.isAdmin;
+  const isSupport = user?.isSupport;
+  const isStaff = isAdmin || isSupport;
+
   // Memoized filtered orders to avoid recalculating on every render
   const draftOrders = useMemo(() => 
     orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft') || [],
@@ -1112,10 +1116,6 @@ export default function Dashboard() {
       return matchesFilter(fields, query, adminSearchFilter);
     });
   }, [adminMessages, adminSearchQuery, adminSearchFilter]);
-  
-  const isAdmin = user?.isAdmin;
-  const isSupport = user?.isSupport;
-  const isStaff = isAdmin || isSupport;
 
   return (
     <div className="min-h-screen bg-background font-sans animate-page-in">
