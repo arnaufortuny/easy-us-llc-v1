@@ -11,6 +11,9 @@ import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
+import llcFormationImg from "@assets/D69A3B61-5493-4DA9-B0CC-F8C4513AA081_1770477081267.png";
+import einIncludedImg from "@assets/8B61DA68-3163-4478-ACA9-8358D58D5022_1770477081267.png";
+import bankAccountImg from "@assets/88401DF0-F1AD-4E9F-9F63-E6145588D90B_1770477081267.jpg";
 
 export default function Home() {
   const [location, setLocation] = useLocation();
@@ -292,51 +295,34 @@ function HowWeWorkSection() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
-              <div className="mb-6">
-                <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="18" y="20" width="60" height="70" rx="10" fill="#E8F7EE"/>
-                  <rect x="24" y="30" width="48" height="6" rx="3" fill="#34C759"/>
-                  <rect x="24" y="44" width="36" height="6" rx="3" fill="#34C759" opacity="0.6"/>
-                  <rect x="24" y="58" width="28" height="6" rx="3" fill="#34C759" opacity="0.4"/>
-                  <circle cx="85" cy="40" r="16" fill="#34C759"/>
-                  <path d="M78 40 L84 46 L92 34" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                  <rect x="78" y="58" width="20" height="14" rx="2" fill="#34C759"/>
-                  <rect x="78" y="58" width="10" height="7" fill="#1F2933"/>
-                </svg>
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center overflow-hidden">
+              <div className="w-full aspect-[16/9] overflow-hidden">
+                <img src={llcFormationImg} alt="LLC Formation" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
+              <div className="p-6 sm:p-8">
+                <h3 className="text-xl font-black mb-3">{t("timing.steps.step1.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step1.text")}</p>
+              </div>
             </div>
 
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10">
-              <div className="mb-6">
-                <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="25" y="30" width="70" height="55" rx="12" fill="#E8F7EE"/>
-                  <rect x="35" y="45" width="50" height="8" rx="4" fill="#34C759"/>
-                  <rect x="35" y="60" width="35" height="8" rx="4" fill="#34C759" opacity="0.6"/>
-                  <path d="M60 20 L75 28 L75 45 C75 55 67 63 60 66 C53 63 45 55 45 45 L45 28 Z" fill="#34C759"/>
-                  <path d="M54 42 L59 47 L67 35" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center relative md:scale-105 z-10 overflow-hidden">
+              <div className="w-full aspect-[16/9] overflow-hidden">
+                <img src={einIncludedImg} alt="EIN Included" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
+              <div className="p-6 sm:p-8">
+                <h3 className="text-xl font-black mb-3">{t("timing.steps.step2.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step2.text")}</p>
+              </div>
             </div>
 
-            <div className="bg-background p-8 rounded-2xl shadow-sm border border-border flex flex-col items-center text-center">
-              <div className="mb-6">
-                <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-20 h-20 sm:w-24 sm:h-24">
-                  <rect x="30" y="40" width="60" height="40" rx="8" fill="#E8F7EE"/>
-                  <rect x="36" y="48" width="48" height="20" rx="4" fill="#34C759"/>
-                  <rect x="40" y="52" width="22" height="4" rx="2" fill="white"/>
-                  <rect x="40" y="60" width="30" height="4" rx="2" fill="white" opacity="0.7"/>
-                  <circle cx="90" cy="75" r="12" fill="#34C759"/>
-                  <text x="86" y="79" fontSize="12" fill="white" fontFamily="Arial">$</text>
-                  <polygon points="25,40 60,20 95,40" fill="#34C759"/>
-                </svg>
+            <div className="bg-background rounded-2xl shadow-sm border border-border flex flex-col items-center text-center overflow-hidden">
+              <div className="w-full aspect-[16/9] overflow-hidden">
+                <img src={bankAccountImg} alt="Bank Account" className="w-full h-full object-cover" loading="eager" decoding="async" />
               </div>
-              <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
+              <div className="p-6 sm:p-8">
+                <h3 className="text-xl font-black mb-3">{t("timing.steps.step3.title")}</h3>
+                <p className="text-muted-foreground text-sm leading-relaxed">{t("timing.steps.step3.text")}</p>
+              </div>
             </div>
           </div>
         </div>
