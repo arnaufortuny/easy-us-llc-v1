@@ -2052,9 +2052,9 @@
     "loginFaster": "o inicia sessió amb email per anar més ràpid"
   },
   "faq": {
-    "title": "CENTRE D'AJUDA",
-    "titleHighlight": "INFORMACIÓ CLARA I TRANSPARENT",
-    "subtitle": "Respostes sobre processos, fiscalitat, banca i manteniment de la teva LLC.",
+    "title": "PREGUNTES",
+    "titleHighlight": "FREQÜENTS",
+    "subtitle": "Aclarim els punts clau sobre la teva LLC als Estats Units.",
     "searchPlaceholder": "Cerca el teu dubte...",
     "noResults": "No hem trobat res",
     "noResultsHint": "Prova amb una altra paraula o contacta'ns directament.",

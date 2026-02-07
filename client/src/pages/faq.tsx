@@ -151,7 +151,7 @@ export default function FAQ() {
                         <div 
                           key={i}
                           id={`${category.key}-${i}`}
-                          className={`group transition-all duration-200 border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
+                          className={`group border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
                             openItems[category.key] === i 
                               ? "border-accent bg-accent/[0.03]" 
                               : "border-primary/5 hover:border-accent/30 bg-white dark:bg-card"
@@ -166,14 +166,14 @@ export default function FAQ() {
                             <span className="font-black text-foreground text-sm sm:text-lg leading-tight tracking-tighter">
                               {item.q}
                             </span>
-                            <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
+                            <span className={`text-xl sm:text-2xl shrink-0 ${
                               openItems[category.key] === i ? "rotate-45 text-[#6EDC8A]" : "text-primary/30"
                             }`}>
                               +
                             </span>
                           </button>
                           {(openItems[category.key] === i || searchQuery !== "") && (
-                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
+                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 font-medium bg-accent/5">
                               {item.a}
                             </div>
                           )}
