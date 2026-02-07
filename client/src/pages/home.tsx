@@ -1,9 +1,10 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { ChevronDown } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
@@ -131,6 +132,8 @@ export default function Home() {
       <PorQueEasyUSLLC />
 
       <HowWeWorkSection />
+
+      <HomeFAQ />
 
       <Footer />
     </div>
@@ -439,6 +442,104 @@ function PorQueEasyUSLLC() {
             );
           })}
         </div>
+      </div>
+    </section>
+  );
+}
+
+function HomeFAQ() {
+  const { t } = useTranslation();
+  const [, setLocation] = useLocation();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqKeys = ["legal", "taxes", "travel", "timeline", "after", "businesses", "contact"];
+
+  return (
+    <section className="py-16 sm:py-20 bg-background">
+      <div className="w-full max-w-3xl mx-auto px-5 sm:px-8">
+        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+          <motion.h2
+            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-[transform,opacity]"
+            style={{ fontWeight: 900 }}
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          >
+            <span className="text-foreground">{t("homeFaq.titlePart1")}</span><br/>
+            <span className="text-accent">{t("homeFaq.titlePart2")}</span>
+          </motion.h2>
+          <motion.div
+            className="w-24 h-1 bg-accent mt-6 rounded-full will-change-transform"
+            variants={lineExpand}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+          />
+        </div>
+
+        <div className="space-y-3">
+          {faqKeys.map((key, index) => (
+            <motion.div
+              key={key}
+              className="border border-border/50 rounded-md overflow-visible"
+              variants={fadeInUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={viewportOnce}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                className="w-full flex items-center justify-between gap-4 p-5 text-left"
+                data-testid={`button-faq-${key}`}
+              >
+                <span className="text-base sm:text-lg font-black text-foreground leading-tight">
+                  {t(`homeFaq.items.${key}.question`)}
+                </span>
+                <ChevronDown
+                  className={`w-5 h-5 text-accent shrink-0 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
+                />
+              </button>
+              <AnimatePresence>
+                {openIndex === index && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="overflow-hidden"
+                  >
+                    <div className="px-5 pb-5">
+                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
+                        {t(`homeFaq.items.${key}.answer`)}
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.div>
+          ))}
+        </div>
+
+        <motion.div
+          className="mt-12 text-center flex flex-col items-center"
+          variants={fadeInUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={viewportOnce}
+        >
+          <p className="text-lg sm:text-xl font-black text-foreground mb-5">
+            {t("homeFaq.ctaText")}
+          </p>
+          <Button
+            size="lg"
+            onClick={() => setLocation("/contacto")}
+            className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full h-12 shadow-md"
+            data-testid="button-faq-cta"
+          >
+            {t("homeFaq.ctaButton")} →
+          </Button>
+        </motion.div>
       </div>
     </section>
   );

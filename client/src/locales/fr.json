@@ -2826,5 +2826,41 @@
       "meetingLink": "Lien de réunion",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "QUESTIONS",
+    "titlePart2": "FRÉQUENTES",
+    "ctaText": "Vous voulez savoir si une LLC convient à votre entreprise ?",
+    "ctaButton": "Évaluer mon cas",
+    "items": {
+      "legal": {
+        "question": "Est-il légal d'avoir une LLC aux États-Unis en tant qu'étranger ?",
+        "answer": "Oui. Créer une LLC aux États-Unis est totalement légal pour les non-résidents. L'important est de la structurer correctement selon votre pays de résidence et votre activité. C'est là que nous vous accompagnons."
+      },
+      "taxes": {
+        "question": "Une LLC peut-elle vraiment aider à optimiser les impôts ?",
+        "answer": "Dans de nombreux cas oui, mais cela dépend de votre situation personnelle et de votre modèle d'affaires. Nous analysons votre profil pour nous assurer que c'est une structure efficace et sûre pour vous."
+      },
+      "travel": {
+        "question": "Dois-je me rendre aux États-Unis pour créer l'entreprise ?",
+        "answer": "Non. Tout le processus se fait en ligne. Nous gérons l'enregistrement, la documentation fiscale et l'accompagnement bancaire sans que vous ayez à vous déplacer."
+      },
+      "timeline": {
+        "question": "Combien de temps faut-il pour que ma LLC soit opérationnelle ?",
+        "answer": "Normalement entre 48 et 72 heures pour la constitution. Ensuite, nous vous aidons avec l'EIN, le compte bancaire et la configuration fiscale pour que vous puissiez opérer normalement."
+      },
+      "after": {
+        "question": "Que se passe-t-il après la création de la LLC ?",
+        "answer": "Nous ne vous laissons pas seul. Nous vous aidons avec la conformité fiscale, les rappels, la documentation, le support continu et les outils pour maintenir votre entreprise en règle."
+      },
+      "businesses": {
+        "question": "Pour quels types d'entreprises une LLC est-elle recommandée ?",
+        "answer": "Les freelances, agences, e-commerce, logiciels, consultants et entreprises numériques qui opèrent à l'international bénéficient généralement de ce type de structure."
+      },
+      "contact": {
+        "question": "Puis-je parler à quelqu'un avant de souscrire ?",
+        "answer": "Bien sûr. Vous pouvez nous parler avant de prendre toute décision. Nous préférons que vous compreniez bien tout avant de commencer."
+      }
+    }
   }
 }

@@ -2826,5 +2826,41 @@
       "meetingLink": "Link della riunione",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "DOMANDE",
+    "titlePart2": "FREQUENTI",
+    "ctaText": "Vuoi sapere se una LLC si adatta al tuo business?",
+    "ctaButton": "Valuta il mio caso",
+    "items": {
+      "legal": {
+        "question": "È legale avere una LLC negli Stati Uniti essendo straniero?",
+        "answer": "Sì. Creare una LLC negli Stati Uniti è totalmente legale per i non residenti. L'importante è strutturarla correttamente secondo il tuo paese di residenza e la tua attività. È qui che ti accompagniamo."
+      },
+      "taxes": {
+        "question": "Una LLC può davvero aiutare a ottimizzare le tasse?",
+        "answer": "In molti casi sì, ma dipende dalla tua situazione personale e dal tuo modello di business. Analizziamo il tuo profilo per assicurarci che sia una struttura efficiente e sicura per te."
+      },
+      "travel": {
+        "question": "Devo viaggiare negli Stati Uniti per creare l'azienda?",
+        "answer": "No. L'intero processo si svolge online. Gestiamo la registrazione, la documentazione fiscale e l'accompagnamento bancario senza che tu debba spostarti."
+      },
+      "timeline": {
+        "question": "Quanto tempo ci vuole perché la mia LLC sia operativa?",
+        "answer": "Normalmente tra 48 e 72 ore per la costituzione. Poi ti aiutiamo con l'EIN, il conto bancario e la configurazione fiscale affinché tu possa operare normalmente."
+      },
+      "after": {
+        "question": "Cosa succede dopo aver creato la LLC?",
+        "answer": "Non ti lasciamo solo. Ti aiutiamo con la conformità fiscale, promemoria, documentazione, supporto continuo e strumenti per mantenere la tua azienda in regola."
+      },
+      "businesses": {
+        "question": "Per quali tipi di attività è consigliata una LLC?",
+        "answer": "Freelancer, agenzie, e-commerce, software, consulenti e aziende digitali che operano a livello internazionale beneficiano generalmente di questo tipo di struttura."
+      },
+      "contact": {
+        "question": "Posso parlare con qualcuno prima di sottoscrivere?",
+        "answer": "Certo. Puoi parlare con noi prima di prendere qualsiasi decisione. Preferiamo che tu capisca bene tutto prima di iniziare."
+      }
+    }
   }
 }

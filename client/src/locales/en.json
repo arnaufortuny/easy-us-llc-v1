@@ -2826,5 +2826,41 @@
       "meetingLink": "Meeting link",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "FREQUENTLY",
+    "titlePart2": "ASKED QUESTIONS",
+    "ctaText": "Want to know if an LLC fits your business?",
+    "ctaButton": "Evaluate my case",
+    "items": {
+      "legal": {
+        "question": "Is it legal for a foreigner to have an LLC in the United States?",
+        "answer": "Yes. Setting up an LLC in the United States is completely legal for non-residents. The key is structuring it correctly based on your country of residence and activity. That's where we help you."
+      },
+      "taxes": {
+        "question": "Can an LLC really help optimize taxes?",
+        "answer": "In many cases yes, but it depends on your personal situation and business model. We analyze your profile to ensure it's an efficient and safe structure for you."
+      },
+      "travel": {
+        "question": "Do I need to travel to the United States to create the company?",
+        "answer": "No. The entire process is done online. We handle the registration, tax documentation and banking support without you having to travel."
+      },
+      "timeline": {
+        "question": "How long does it take for my LLC to be operational?",
+        "answer": "Usually between 48 and 72 hours for incorporation. Then we help you with the EIN, bank account and tax setup so you can operate normally."
+      },
+      "after": {
+        "question": "What happens after creating the LLC?",
+        "answer": "We don't leave you on your own. We help you with tax compliance, reminders, documentation, ongoing support and tools to keep your company in good standing."
+      },
+      "businesses": {
+        "question": "What types of businesses is an LLC recommended for?",
+        "answer": "Freelancers, agencies, e-commerce, software, consultants and digital businesses that operate internationally typically benefit from this type of structure."
+      },
+      "contact": {
+        "question": "Can I talk to someone before signing up?",
+        "answer": "Of course. You can talk to us before making any decision. We prefer that you fully understand everything before getting started."
+      }
+    }
   }
 }

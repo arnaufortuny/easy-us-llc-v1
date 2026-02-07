@@ -2826,5 +2826,41 @@
       "meetingLink": "Link de reunión",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "PREGUNTAS",
+    "titlePart2": "FRECUENTES",
+    "ctaText": "¿Quieres saber si una LLC encaja con tu negocio?",
+    "ctaButton": "Evaluar mi caso",
+    "items": {
+      "legal": {
+        "question": "¿Es legal tener una LLC en Estados Unidos siendo extranjero?",
+        "answer": "Sí. Crear una LLC en Estados Unidos es totalmente legal para no residentes. Lo importante es estructurarla correctamente según tu país de residencia y actividad. Ahí es donde te acompañamos."
+      },
+      "taxes": {
+        "question": "¿Una LLC realmente puede ayudar a optimizar impuestos?",
+        "answer": "En muchos casos sí, pero depende de tu situación personal y modelo de negocio. Analizamos tu perfil para asegurarnos de que sea una estructura eficiente y segura para ti."
+      },
+      "travel": {
+        "question": "¿Necesito viajar a Estados Unidos para crear la empresa?",
+        "answer": "No. Todo el proceso se realiza online. Gestionamos el registro, documentación fiscal y acompañamiento bancario sin que tengas que desplazarte."
+      },
+      "timeline": {
+        "question": "¿Cuánto tarda en estar operativa mi LLC?",
+        "answer": "Normalmente entre 48 y 72 horas para la constitución. Después te ayudamos con el EIN, cuenta bancaria y configuración fiscal para que puedas operar con normalidad."
+      },
+      "after": {
+        "question": "¿Qué pasa después de crear la LLC?",
+        "answer": "No te dejamos solo. Te ayudamos con cumplimiento fiscal, recordatorios, documentación, soporte continuo y herramientas para mantener tu empresa en regla."
+      },
+      "businesses": {
+        "question": "¿Para qué tipo de negocios es recomendable una LLC?",
+        "answer": "Freelancers, agencias, ecommerce, software, consultores y negocios digitales que operan internacionalmente suelen beneficiarse de este tipo de estructura."
+      },
+      "contact": {
+        "question": "¿Puedo hablar con alguien antes de contratar?",
+        "answer": "Claro. Puedes hablar con nosotros antes de tomar cualquier decisión. Preferimos que entiendas bien todo antes de empezar."
+      }
+    }
   }
 }

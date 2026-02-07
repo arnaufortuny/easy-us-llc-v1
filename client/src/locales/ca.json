@@ -2826,5 +2826,41 @@
       "meetingLink": "Enllaç de reunió",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "PREGUNTES",
+    "titlePart2": "FREQÜENTS",
+    "ctaText": "Vols saber si una LLC encaixa amb el teu negoci?",
+    "ctaButton": "Avaluar el meu cas",
+    "items": {
+      "legal": {
+        "question": "És legal tenir una LLC als Estats Units sent estranger?",
+        "answer": "Sí. Crear una LLC als Estats Units és totalment legal per a no residents. L'important és estructurar-la correctament segons el teu país de residència i activitat. Aquí és on t'acompanyem."
+      },
+      "taxes": {
+        "question": "Una LLC realment pot ajudar a optimitzar impostos?",
+        "answer": "En molts casos sí, però depèn de la teva situació personal i model de negoci. Analitzem el teu perfil per assegurar-nos que sigui una estructura eficient i segura per a tu."
+      },
+      "travel": {
+        "question": "Necessito viatjar als Estats Units per crear l'empresa?",
+        "answer": "No. Tot el procés es realitza online. Gestionem el registre, documentació fiscal i acompanyament bancari sense que hagis de desplaçar-te."
+      },
+      "timeline": {
+        "question": "Quant tarda a estar operativa la meva LLC?",
+        "answer": "Normalment entre 48 i 72 hores per a la constitució. Després t'ajudem amb l'EIN, compte bancari i configuració fiscal perquè puguis operar amb normalitat."
+      },
+      "after": {
+        "question": "Què passa després de crear la LLC?",
+        "answer": "No et deixem sol. T'ajudem amb compliment fiscal, recordatoris, documentació, suport continu i eines per mantenir la teva empresa en regla."
+      },
+      "businesses": {
+        "question": "Per a quin tipus de negocis és recomanable una LLC?",
+        "answer": "Freelancers, agències, ecommerce, software, consultors i negocis digitals que operen internacionalment solen beneficiar-se d'aquest tipus d'estructura."
+      },
+      "contact": {
+        "question": "Puc parlar amb algú abans de contractar?",
+        "answer": "Clar. Pots parlar amb nosaltres abans de prendre qualsevol decisió. Preferim que entenguis bé tot abans de començar."
+      }
+    }
   }
 }

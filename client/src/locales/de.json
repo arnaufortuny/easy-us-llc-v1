@@ -2826,5 +2826,41 @@
       "meetingLink": "Meeting-Link",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "HÄUFIG GESTELLTE",
+    "titlePart2": "FRAGEN",
+    "ctaText": "Möchten Sie wissen, ob eine LLC zu Ihrem Geschäft passt?",
+    "ctaButton": "Meinen Fall bewerten",
+    "items": {
+      "legal": {
+        "question": "Ist es legal, als Ausländer eine LLC in den USA zu haben?",
+        "answer": "Ja. Die Gründung einer LLC in den USA ist für Nicht-Ansässige völlig legal. Wichtig ist, sie korrekt nach Ihrem Wohnsitzland und Ihrer Tätigkeit zu strukturieren. Dabei begleiten wir Sie."
+      },
+      "taxes": {
+        "question": "Kann eine LLC wirklich bei der Steueroptimierung helfen?",
+        "answer": "In vielen Fällen ja, aber es hängt von Ihrer persönlichen Situation und Ihrem Geschäftsmodell ab. Wir analysieren Ihr Profil, um sicherzustellen, dass es eine effiziente und sichere Struktur für Sie ist."
+      },
+      "travel": {
+        "question": "Muss ich in die USA reisen, um das Unternehmen zu gründen?",
+        "answer": "Nein. Der gesamte Prozess wird online abgewickelt. Wir kümmern uns um die Registrierung, Steuerdokumentation und Bankbegleitung, ohne dass Sie reisen müssen."
+      },
+      "timeline": {
+        "question": "Wie lange dauert es, bis meine LLC betriebsbereit ist?",
+        "answer": "Normalerweise zwischen 48 und 72 Stunden für die Gründung. Danach helfen wir Ihnen mit der EIN, dem Bankkonto und der Steuereinrichtung, damit Sie normal arbeiten können."
+      },
+      "after": {
+        "question": "Was passiert nach der Gründung der LLC?",
+        "answer": "Wir lassen Sie nicht allein. Wir helfen Ihnen bei der Steuerkonformität, Erinnerungen, Dokumentation, laufender Unterstützung und Werkzeugen, um Ihr Unternehmen in Ordnung zu halten."
+      },
+      "businesses": {
+        "question": "Für welche Art von Unternehmen ist eine LLC empfehlenswert?",
+        "answer": "Freelancer, Agenturen, E-Commerce, Software, Berater und digitale Unternehmen, die international tätig sind, profitieren in der Regel von dieser Art von Struktur."
+      },
+      "contact": {
+        "question": "Kann ich vor der Beauftragung mit jemandem sprechen?",
+        "answer": "Natürlich. Sie können vor jeder Entscheidung mit uns sprechen. Wir ziehen es vor, dass Sie alles gut verstehen, bevor Sie beginnen."
+      }
+    }
   }
 }

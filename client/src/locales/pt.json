@@ -2826,5 +2826,41 @@
       "meetingLink": "Link de reunião",
       "meetingLinkPlaceholder": "https://meet.google.com/..."
     }
+  },
+  "homeFaq": {
+    "titlePart1": "PERGUNTAS",
+    "titlePart2": "FREQUENTES",
+    "ctaText": "Queres saber se uma LLC se adequa ao teu negócio?",
+    "ctaButton": "Avaliar o meu caso",
+    "items": {
+      "legal": {
+        "question": "É legal ter uma LLC nos Estados Unidos sendo estrangeiro?",
+        "answer": "Sim. Criar uma LLC nos Estados Unidos é totalmente legal para não residentes. O importante é estruturá-la corretamente segundo o teu país de residência e atividade. É aí que te acompanhamos."
+      },
+      "taxes": {
+        "question": "Uma LLC pode realmente ajudar a otimizar impostos?",
+        "answer": "Em muitos casos sim, mas depende da tua situação pessoal e modelo de negócio. Analisamos o teu perfil para garantir que é uma estrutura eficiente e segura para ti."
+      },
+      "travel": {
+        "question": "Preciso viajar para os Estados Unidos para criar a empresa?",
+        "answer": "Não. Todo o processo é feito online. Gerimos o registo, documentação fiscal e acompanhamento bancário sem que tenhas que te deslocar."
+      },
+      "timeline": {
+        "question": "Quanto tempo demora até a minha LLC estar operacional?",
+        "answer": "Normalmente entre 48 e 72 horas para a constituição. Depois ajudamos-te com o EIN, conta bancária e configuração fiscal para que possas operar normalmente."
+      },
+      "after": {
+        "question": "O que acontece depois de criar a LLC?",
+        "answer": "Não te deixamos sozinho. Ajudamos-te com cumprimento fiscal, lembretes, documentação, suporte contínuo e ferramentas para manter a tua empresa em dia."
+      },
+      "businesses": {
+        "question": "Para que tipo de negócios é recomendável uma LLC?",
+        "answer": "Freelancers, agências, e-commerce, software, consultores e negócios digitais que operam internacionalmente costumam beneficiar deste tipo de estrutura."
+      },
+      "contact": {
+        "question": "Posso falar com alguém antes de contratar?",
+        "answer": "Claro. Podes falar connosco antes de tomar qualquer decisão. Preferimos que entendas bem tudo antes de começar."
+      }
+    }
   }
 }
