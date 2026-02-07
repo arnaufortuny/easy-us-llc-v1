@@ -403,6 +403,23 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
+  // Save language preference (separate from profile - no OTP needed)
+  app.patch("/api/user/language", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { preferredLanguage } = req.body;
+      if (!preferredLanguage || typeof preferredLanguage !== 'string') {
+        return res.status(400).json({ message: "Invalid language" });
+      }
+      await db.update(usersTable).set({ preferredLanguage }).where(eq(usersTable.id, userId));
+      const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Update language error:", error);
+      res.status(500).json({ message: "Error updating language" });
+    }
+  });
+
   // Client Update Profile
   const updateProfileSchema = z.object({
     firstName: z.string().optional(),
@@ -420,13 +437,15 @@ export function registerUserProfileRoutes(app: Express) {
     birthDate: z.string().optional(),
   });
   
+  // Sensitive fields that require OTP: name, ID/passport, phone only
+  const sensitiveFields = ['firstName', 'lastName', 'idNumber', 'idType', 'phone'];
+  
   app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode, ...profileData } = req.body;
       const validatedData = updateProfileSchema.parse(profileData);
       
-      // Get current user data to detect changes
       const [currentUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       if (!currentUser || !currentUser.email) {
         return res.status(404).json({ message: "User not found" });
@@ -434,32 +453,90 @@ export function registerUserProfileRoutes(app: Express) {
       
       const currentUserEmail = currentUser.email;
       
-      // Define sensitive fields that require OTP verification
-      const sensitiveFields = ['idNumber', 'idType', 'address', 'streetType', 'city', 'province', 'postalCode', 'country', 'phone', 'birthDate'];
-      const changedFields: { field: string; oldValue: any; newValue: any }[] = [];
-      
       // Check which sensitive fields are being changed
+      const changedSensitiveFields: { field: string; oldValue: any; newValue: any }[] = [];
       for (const field of sensitiveFields) {
         if (field in validatedData && validatedData[field as keyof typeof validatedData] !== currentUser[field as keyof typeof currentUser]) {
-          changedFields.push({
+          changedSensitiveFields.push({
             field,
-            oldValue: currentUser[field as keyof typeof currentUser] || '(vacío)',
-            newValue: validatedData[field as keyof typeof validatedData] || '(vacío)'
+            oldValue: currentUser[field as keyof typeof currentUser] || '(empty)',
+            newValue: validatedData[field as keyof typeof validatedData] || '(empty)'
           });
         }
       }
       
-      // If sensitive fields changed, require OTP verification
-      if (changedFields.length > 0) {
+      if (changedSensitiveFields.length > 0) {
         if (!otpCode) {
+          // Separate non-sensitive changes (apply immediately) from sensitive (hold pending)
+          const nonSensitiveData: Record<string, any> = {};
+          const pendingData: Record<string, any> = {};
+          
+          for (const [key, value] of Object.entries(validatedData)) {
+            if (sensitiveFields.includes(key) && changedSensitiveFields.some(f => f.field === key)) {
+              pendingData[key] = value;
+            } else {
+              nonSensitiveData[key] = value;
+            }
+          }
+          
+          // Apply non-sensitive changes immediately
+          if (Object.keys(nonSensitiveData).length > 0) {
+            await db.update(usersTable).set(nonSensitiveData).where(eq(usersTable.id, userId));
+          }
+          
+          // Store pending sensitive changes with 24h expiry
+          const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+          await db.update(usersTable).set({
+            pendingProfileChanges: { fields: pendingData, changedFields: changedSensitiveFields, requestedAt: new Date().toISOString() },
+            pendingChangesExpiresAt: expiresAt,
+          }).where(eq(usersTable.id, userId));
+          
+          // Generate OTP (24h validity)
+          const otp = Math.floor(100000 + Math.random() * 900000).toString();
+          const otpExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+          
+          await db.insert(contactOtps).values({
+            email: currentUserEmail,
+            otp,
+            otpType: "profile_change",
+            expiresAt: otpExpiresAt,
+            verified: false
+          });
+          
+          // Send identity verification email to client
+          sendEmail({
+            to: currentUserEmail,
+            subject: "Identity Verification Required - Profile Changes",
+            html: `
+              <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
+                <div style="text-align: center; margin-bottom: 24px;">
+                  <div style="width: 60px; height: 60px; background: #FEF3C7; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 28px;">🔐</span>
+                  </div>
+                </div>
+                <h2 style="color: #1F2937; text-align: center; margin-bottom: 8px;">Identity Verification</h2>
+                <p style="color: #6B7280; text-align: center; font-size: 14px; margin-bottom: 24px;">
+                  A change to sensitive profile data has been requested. Use this code to confirm:
+                </p>
+                <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 24px;">
+                  <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
+                </div>
+                <p style="color: #9CA3AF; text-align: center; font-size: 12px;">
+                  This code is valid for 24 hours. If you did not request this change, please ignore this email.
+                </p>
+              </div>
+            `
+          }).catch(console.error);
+          
           return res.status(400).json({ 
             message: "OTP verification required for sensitive changes",
             code: "OTP_REQUIRED",
-            changedFields: changedFields.map(f => f.field)
+            changedFields: changedSensitiveFields.map(f => f.field),
+            pendingChanges: pendingData
           });
         }
         
-        // Verify OTP
+        // OTP provided - verify it
         const [otpRecord] = await db.select()
           .from(contactOtps)
           .where(
@@ -475,47 +552,58 @@ export function registerUserProfileRoutes(app: Express) {
           .limit(1);
         
         if (!otpRecord) {
-          return res.status(400).json({ message: "Invalid or expired OTP code" });
+          return res.status(400).json({ message: "Invalid or expired OTP code", code: "OTP_INVALID" });
         }
         
         // Mark OTP as used
         await db.update(contactOtps).set({ verified: true }).where(eq(contactOtps.id, otpRecord.id));
         
+        // Apply ALL changes (including previously pending sensitive ones)
+        await db.update(usersTable).set({
+          ...validatedData,
+          pendingProfileChanges: null,
+          pendingChangesExpiresAt: null,
+        }).where(eq(usersTable.id, userId));
+        
         // Log audit for admin visibility
         logAudit({
-          action: 'password_change', // Using existing action type for profile changes
+          action: 'password_change',
           userId,
           details: {
-            type: 'profile_update',
-            changedFields,
+            type: 'profile_update_verified',
+            changedFields: changedSensitiveFields,
             email: currentUser.email,
             clientId: currentUser.clientId
           }
         });
         
-        // Send alert to admin about profile changes
+        // Send alert to admin about verified profile changes
         const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
-        const changesHtml = changedFields.map(f => 
+        const changesHtml = changedSensitiveFields.map(f => 
           `<li><strong>${f.field}:</strong> "${f.oldValue}" → "${f.newValue}"</li>`
         ).join('');
         
         sendEmail({
           to: adminEmail,
-          subject: `[ALERTA] Cambios de perfil - Cliente ${currentUser.clientId}`,
+          subject: `[ALERTA] Cambios de perfil verificados - Cliente ${currentUser.clientId}`,
           html: `
             <div style="font-family: sans-serif; padding: 20px;">
-              <h2 style="color: #F59E0B;">⚠️ Cambios de perfil detectados</h2>
-              <p><strong>Cliente:</strong> ${currentUser.firstName} ${currentUser.lastName}</p>
+              <h2 style="color: #10B981;">Profile changes verified with OTP</h2>
+              <p><strong>Client:</strong> ${currentUser.firstName} ${currentUser.lastName}</p>
               <p><strong>Email:</strong> ${currentUser.email}</p>
-              <p><strong>ID Cliente:</strong> ${currentUser.clientId}</p>
-              <p><strong>Campos modificados:</strong></p>
+              <p><strong>Client ID:</strong> ${currentUser.clientId}</p>
+              <p><strong>Fields modified:</strong></p>
               <ul>${changesHtml}</ul>
-              <p style="color: #6B7280; font-size: 12px;">Cambio verificado con OTP</p>
+              <p style="color: #6B7280; font-size: 12px;">Change verified with OTP</p>
             </div>
           `
         }).catch(console.error);
+        
+        const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        return res.json(updatedUser);
       }
       
+      // No sensitive fields changed - apply immediately
       await db.update(usersTable).set(validatedData).where(eq(usersTable.id, userId));
       
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -529,8 +617,119 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
   
-  // Send OTP for profile changes
-  app.post("/api/user/profile/send-otp", isAuthenticated, async (req: any, res) => {
+  // Confirm pending profile changes with OTP
+  app.post("/api/user/profile/confirm-otp", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const { otpCode } = req.body;
+      
+      if (!otpCode || typeof otpCode !== 'string' || otpCode.length !== 6) {
+        return res.status(400).json({ message: "Invalid OTP code" });
+      }
+      
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user || !user.email) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      const pendingChanges = user.pendingProfileChanges as any;
+      if (!pendingChanges || !pendingChanges.fields) {
+        return res.status(400).json({ message: "No pending changes to confirm" });
+      }
+      
+      // Check if pending changes have expired
+      if (user.pendingChangesExpiresAt && new Date(user.pendingChangesExpiresAt) < new Date()) {
+        await db.update(usersTable).set({ pendingProfileChanges: null, pendingChangesExpiresAt: null }).where(eq(usersTable.id, userId));
+        return res.status(400).json({ message: "Pending changes have expired. Please make the changes again." });
+      }
+      
+      const userEmail = user.email;
+      
+      // Verify OTP
+      const [otpRecord] = await db.select()
+        .from(contactOtps)
+        .where(
+          and(
+            eq(contactOtps.email, userEmail),
+            eq(contactOtps.otpType, "profile_change"),
+            eq(contactOtps.otp, otpCode),
+            eq(contactOtps.verified, false),
+            gt(contactOtps.expiresAt, new Date())
+          )
+        )
+        .orderBy(sql`${contactOtps.expiresAt} DESC`)
+        .limit(1);
+      
+      if (!otpRecord) {
+        return res.status(400).json({ message: "Invalid or expired OTP code", code: "OTP_INVALID" });
+      }
+      
+      // Mark OTP as used
+      await db.update(contactOtps).set({ verified: true }).where(eq(contactOtps.id, otpRecord.id));
+      
+      // Apply pending changes
+      await db.update(usersTable).set({
+        ...pendingChanges.fields,
+        pendingProfileChanges: null,
+        pendingChangesExpiresAt: null,
+      }).where(eq(usersTable.id, userId));
+      
+      // Log audit
+      logAudit({
+        action: 'password_change',
+        userId,
+        details: {
+          type: 'profile_update_verified',
+          changedFields: pendingChanges.changedFields,
+          email: user.email,
+          clientId: user.clientId
+        }
+      });
+      
+      // Notify admin
+      const adminEmail = process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
+      const changesHtml = (pendingChanges.changedFields || []).map((f: any) => 
+        `<li><strong>${f.field}:</strong> "${f.oldValue}" → "${f.newValue}"</li>`
+      ).join('');
+      
+      sendEmail({
+        to: adminEmail,
+        subject: `[ALERTA] Profile changes verified - Client ${user.clientId}`,
+        html: `
+          <div style="font-family: sans-serif; padding: 20px;">
+            <h2 style="color: #10B981;">Profile changes verified with OTP</h2>
+            <p><strong>Client:</strong> ${user.firstName} ${user.lastName}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+            <p><strong>Client ID:</strong> ${user.clientId}</p>
+            <p><strong>Fields modified:</strong></p>
+            <ul>${changesHtml}</ul>
+          </div>
+        `
+      }).catch(console.error);
+      
+      const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      res.json({ success: true, user: updatedUser });
+    } catch (error) {
+      console.error("Confirm profile OTP error:", error);
+      res.status(500).json({ message: "Error confirming changes" });
+    }
+  });
+  
+  // Cancel pending profile changes
+  app.post("/api/user/profile/cancel-pending", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      await db.update(usersTable).set({ pendingProfileChanges: null, pendingChangesExpiresAt: null }).where(eq(usersTable.id, userId));
+      const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      res.json({ success: true, user: updatedUser });
+    } catch (error) {
+      console.error("Cancel pending changes error:", error);
+      res.status(500).json({ message: "Error cancelling changes" });
+    }
+  });
+  
+  // Resend OTP for pending profile changes
+  app.post("/api/user/profile/resend-otp", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -539,35 +738,47 @@ export function registerUserProfileRoutes(app: Express) {
         return res.status(404).json({ message: "User not found" });
       }
       
+      const pendingChanges = user.pendingProfileChanges as any;
+      if (!pendingChanges) {
+        return res.status(400).json({ message: "No pending changes" });
+      }
+      
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('otp', ip);
       if (!rateCheck.allowed) {
         return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
       }
       
-      // Generate OTP
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const expiresAt = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+      const otpExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
       const userEmail = user.email;
       
       await db.insert(contactOtps).values({
         email: userEmail,
         otp,
         otpType: "profile_change",
-        expiresAt,
+        expiresAt: otpExpiresAt,
         verified: false
       });
       
-      // Send OTP email
       sendEmail({
         to: userEmail,
-        subject: "Código de verificación - Cambio de perfil",
-        html: getOtpEmailTemplate(otp, user.firstName || "Cliente")
+        subject: "Identity Verification - New Code",
+        html: `
+          <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
+            <h2 style="color: #1F2937; text-align: center;">Identity Verification</h2>
+            <p style="color: #6B7280; text-align: center; font-size: 14px;">Use this code to confirm your profile changes:</p>
+            <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
+              <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
+            </div>
+            <p style="color: #9CA3AF; text-align: center; font-size: 12px;">Valid for 24 hours.</p>
+          </div>
+        `
       }).catch(console.error);
       
-      res.json({ success: true, message: "OTP code sent to your email" });
+      res.json({ success: true, message: "New OTP code sent" });
     } catch (error) {
-      console.error("Send profile OTP error:", error);
+      console.error("Resend OTP error:", error);
       res.status(500).json({ message: "Error sending OTP" });
     }
   });

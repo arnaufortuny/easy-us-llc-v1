@@ -22,9 +22,19 @@ function generateId() {
   return Math.random().toString(36).substr(2, 9);
 }
 
+const EXPORT_LANGUAGES = [
+  { code: "es", label: "Español" },
+  { code: "en", label: "English" },
+  { code: "ca", label: "Català" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "pt", label: "Português" },
+];
+
 export default function InvoiceGenerator() {
   const [, setLocation] = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   
   // All hooks must be called before any conditional returns
   const [issuerName, setIssuerName] = useState("");
@@ -45,6 +55,7 @@ export default function InvoiceGenerator() {
     { id: generateId(), description: "", quantity: 1, price: 0 }
   ]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [exportLang, setExportLang] = useState(i18n.language?.split('-')[0] || 'es');
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   
   // Use shared auth hook - same as dashboard
@@ -104,6 +115,7 @@ export default function InvoiceGenerator() {
     }
 
     setIsGenerating(true);
+    const tPdf = i18n.getFixedT(exportLang);
 
     try {
       const { default: jsPDF } = await import("jspdf");
@@ -122,7 +134,7 @@ export default function InvoiceGenerator() {
         doc.setTextColor(150, 150, 150);
         doc.setFontSize(7);
         doc.setFont('helvetica', 'normal');
-        doc.text(`${t('tools.invoiceGenerator.title')} — easyusllc.com`, margin, pageHeight - 12);
+        doc.text(`${tPdf('tools.invoiceGenerator.title')} — easyusllc.com`, margin, pageHeight - 12);
         doc.text(`${pageNum}`, pageWidth - margin, pageHeight - 12, { align: 'right' });
       };
 
@@ -143,14 +155,14 @@ export default function InvoiceGenerator() {
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(28);
       doc.setFont('helvetica', 'bold');
-      doc.text(t('tools.invoiceGenerator.title').toUpperCase(), margin, 30);
+      doc.text(tPdf('tools.invoiceGenerator.title').toUpperCase(), margin, 30);
 
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(80, 80, 80);
       const detailsX = pageWidth - margin;
       let detailY = 22;
-      doc.text(`${t('tools.invoiceGenerator.invoiceNumber')}:`, detailsX - 55, detailY);
+      doc.text(`${tPdf('tools.invoiceGenerator.invoiceNumber')}:`, detailsX - 55, detailY);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text(invoiceNumber || '-', detailsX, detailY, { align: 'right' });
@@ -158,7 +170,7 @@ export default function InvoiceGenerator() {
       detailY += 6;
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(80, 80, 80);
-      doc.text(`${t('tools.invoiceGenerator.invoiceDate')}:`, detailsX - 55, detailY);
+      doc.text(`${tPdf('tools.invoiceGenerator.invoiceDate')}:`, detailsX - 55, detailY);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(0, 0, 0);
       doc.text(formatDate(invoiceDate), detailsX, detailY, { align: 'right' });
@@ -167,7 +179,7 @@ export default function InvoiceGenerator() {
         detailY += 6;
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(80, 80, 80);
-        doc.text(`${t('tools.invoiceGenerator.dueDate')}:`, detailsX - 55, detailY);
+        doc.text(`${tPdf('tools.invoiceGenerator.dueDate')}:`, detailsX - 55, detailY);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
         doc.text(formatDate(dueDate), detailsX, detailY, { align: 'right' });
@@ -181,8 +193,8 @@ export default function InvoiceGenerator() {
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(7);
       doc.setFont('helvetica', 'bold');
-      doc.text(t('tools.invoiceGenerator.issuer').toUpperCase(), margin, yPos);
-      doc.text(t('tools.invoiceGenerator.client').toUpperCase(), pageWidth / 2 + 5, yPos);
+      doc.text(tPdf('tools.invoiceGenerator.issuer').toUpperCase(), margin, yPos);
+      doc.text(tPdf('tools.invoiceGenerator.client').toUpperCase(), pageWidth / 2 + 5, yPos);
 
       yPos += 7;
       doc.setFontSize(11);
@@ -200,7 +212,7 @@ export default function InvoiceGenerator() {
         issuerY += lines.length * 4;
       }
       if (issuerEmail) { doc.text(issuerEmail, margin, issuerY); issuerY += 4; }
-      if (issuerTaxId) { doc.text(`${t('tools.invoiceGenerator.taxId')}: ${issuerTaxId}`, margin, issuerY); issuerY += 4; }
+      if (issuerTaxId) { doc.text(`${tPdf('tools.invoiceGenerator.taxId')}: ${issuerTaxId}`, margin, issuerY); issuerY += 4; }
       
       let clientY = yPos + 6;
       if (clientAddress) {
@@ -209,7 +221,7 @@ export default function InvoiceGenerator() {
         clientY += lines.length * 4;
       }
       if (clientEmail) { doc.text(clientEmail, pageWidth / 2 + 5, clientY); clientY += 4; }
-      if (clientTaxId) { doc.text(`${t('tools.invoiceGenerator.taxId')}: ${clientTaxId}`, pageWidth / 2 + 5, clientY); clientY += 4; }
+      if (clientTaxId) { doc.text(`${tPdf('tools.invoiceGenerator.taxId')}: ${clientTaxId}`, pageWidth / 2 + 5, clientY); clientY += 4; }
 
       yPos = Math.max(issuerY, clientY) + 10;
       yPos = checkPageBreak(20, yPos);
@@ -224,10 +236,10 @@ export default function InvoiceGenerator() {
       doc.setTextColor(0, 0, 0);
       doc.setFontSize(8);
       doc.setFont('helvetica', 'bold');
-      doc.text(t('tools.invoiceGenerator.description').toUpperCase(), margin + 4, yPos + 7);
-      doc.text(t('tools.invoiceGenerator.quantity').toUpperCase(), 120, yPos + 7, { align: 'center' });
-      doc.text(t('tools.invoiceGenerator.price').toUpperCase(), 150, yPos + 7, { align: 'right' });
-      doc.text(t('tools.invoiceGenerator.total').toUpperCase(), pageWidth - margin - 2, yPos + 7, { align: 'right' });
+      doc.text(tPdf('tools.invoiceGenerator.description').toUpperCase(), margin + 4, yPos + 7);
+      doc.text(tPdf('tools.invoiceGenerator.quantity').toUpperCase(), 120, yPos + 7, { align: 'center' });
+      doc.text(tPdf('tools.invoiceGenerator.price').toUpperCase(), 150, yPos + 7, { align: 'right' });
+      doc.text(tPdf('tools.invoiceGenerator.total').toUpperCase(), pageWidth - margin - 2, yPos + 7, { align: 'right' });
 
       doc.line(margin, yPos + 11, pageWidth - margin, yPos + 11);
       yPos += 16;
@@ -265,14 +277,14 @@ export default function InvoiceGenerator() {
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(80, 80, 80);
-      doc.text(`${t('tools.invoiceGenerator.subtotal')}:`, summaryX, yPos);
+      doc.text(`${tPdf('tools.invoiceGenerator.subtotal')}:`, summaryX, yPos);
       doc.setTextColor(0, 0, 0);
       doc.text(`${subtotal.toFixed(2)} ${currencySymbol}`, pageWidth - margin - 2, yPos, { align: 'right' });
       
       if (taxRate > 0) {
         yPos += 7;
         doc.setTextColor(80, 80, 80);
-        doc.text(`${t('tools.invoiceGenerator.tax')} (${taxRate}%):`, summaryX, yPos);
+        doc.text(`${tPdf('tools.invoiceGenerator.tax')} (${taxRate}%):`, summaryX, yPos);
         doc.setTextColor(0, 0, 0);
         doc.text(`${taxAmount.toFixed(2)} ${currencySymbol}`, pageWidth - margin - 2, yPos, { align: 'right' });
       }
@@ -287,7 +299,7 @@ export default function InvoiceGenerator() {
       doc.setTextColor(255, 255, 255);
       doc.setFontSize(10);
       doc.setFont('helvetica', 'bold');
-      doc.text(t('tools.invoiceGenerator.total').toUpperCase(), summaryX + 3, yPos + 3);
+      doc.text(tPdf('tools.invoiceGenerator.total').toUpperCase(), summaryX + 3, yPos + 3);
       doc.setFontSize(13);
       doc.text(`${total.toFixed(2)} ${currencySymbol}`, pageWidth - margin - 2, yPos + 3, { align: 'right' });
 
@@ -301,7 +313,7 @@ export default function InvoiceGenerator() {
         doc.setTextColor(0, 0, 0);
         doc.setFontSize(7);
         doc.setFont('helvetica', 'bold');
-        doc.text(t('tools.invoiceGenerator.notes').toUpperCase(), margin, yPos);
+        doc.text(tPdf('tools.invoiceGenerator.notes').toUpperCase(), margin, yPos);
         yPos += 5;
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8.5);
@@ -342,15 +354,25 @@ export default function InvoiceGenerator() {
               <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight">{t('tools.invoiceGenerator.title')}</h1>
               <p className="text-muted-foreground text-xs sm:text-sm mt-1">{t('tools.invoiceGenerator.subtitle')}</p>
             </div>
-            <Button
-              onClick={generatePDF}
-              disabled={isGenerating}
-              className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 shrink-0"
-              data-testid="button-generate-pdf"
-            >
-              <FileDown className="w-4 h-4 mr-2" />
-              {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
-            </Button>
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-2">
+                <Label className="text-xs text-muted-foreground whitespace-nowrap hidden sm:block">{t("tools.exportLanguage", "PDF language")}:</Label>
+                <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang">
+                  {EXPORT_LANGUAGES.map(lang => (
+                    <option key={lang.code} value={lang.code}>{lang.label}</option>
+                  ))}
+                </NativeSelect>
+              </div>
+              <Button
+                onClick={generatePDF}
+                disabled={isGenerating}
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5"
+                data-testid="button-generate-pdf"
+              >
+                <FileDown className="w-4 h-4 mr-2" />
+                {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
+              </Button>
+            </div>
           </div>
         </div>
 

@@ -45,6 +45,8 @@ export const users = pgTable("users", {
   loginCount: integer("login_count").notNull().default(0),
   securityOtpRequired: boolean("security_otp_required").notNull().default(false),
   lastSecurityOtpAt: timestamp("last_security_otp_at"),
+  pendingProfileChanges: jsonb("pending_profile_changes"),
+  pendingChangesExpiresAt: timestamp("pending_changes_expires_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

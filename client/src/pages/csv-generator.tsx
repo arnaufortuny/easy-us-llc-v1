@@ -94,11 +94,22 @@ function createEmptyTransaction(): Transaction {
   };
 }
 
+const EXPORT_LANGUAGES = [
+  { code: "es", label: "Español" },
+  { code: "en", label: "English" },
+  { code: "ca", label: "Català" },
+  { code: "fr", label: "Français" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "pt", label: "Português" },
+];
+
 export default function CsvGenerator() {
   const [, setLocation] = useLocation();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [transactions, setTransactions] = useState<Transaction[]>([createEmptyTransaction()]);
   const [isGenerating, setIsGenerating] = useState(false);
+  const [exportLang, setExportLang] = useState(i18n.language?.split('-')[0] || 'es');
   
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
@@ -159,17 +170,18 @@ export default function CsvGenerator() {
     setIsGenerating(true);
     
     setTimeout(() => {
+      const tExport = i18n.getFixedT(exportLang);
       const headers = [
-        t('tools.csvGenerator.csvHeaders.date'),
-        t('tools.csvGenerator.csvHeaders.description'),
-        t('tools.csvGenerator.csvHeaders.amount'),
-        t('tools.csvGenerator.csvHeaders.currency'),
-        t('tools.csvGenerator.csvHeaders.type'),
-        t('tools.csvGenerator.csvHeaders.category'),
-        t('tools.csvGenerator.csvHeaders.paymentMethod'),
-        t('tools.csvGenerator.csvHeaders.bankAccount'),
-        t('tools.csvGenerator.csvHeaders.invoiceNumber'),
-        t('tools.csvGenerator.csvHeaders.notes'),
+        tExport('tools.csvGenerator.csvHeaders.date'),
+        tExport('tools.csvGenerator.csvHeaders.description'),
+        tExport('tools.csvGenerator.csvHeaders.amount'),
+        tExport('tools.csvGenerator.csvHeaders.currency'),
+        tExport('tools.csvGenerator.csvHeaders.type'),
+        tExport('tools.csvGenerator.csvHeaders.category'),
+        tExport('tools.csvGenerator.csvHeaders.paymentMethod'),
+        tExport('tools.csvGenerator.csvHeaders.bankAccount'),
+        tExport('tools.csvGenerator.csvHeaders.invoiceNumber'),
+        tExport('tools.csvGenerator.csvHeaders.notes'),
       ];
       
       const rows = transactions.map(tx => [
@@ -177,8 +189,8 @@ export default function CsvGenerator() {
         `"${tx.description.replace(/"/g, '""')}"`,
         tx.amount,
         tx.currency,
-        t("tools.csvGenerator." + tx.type),
-        CATEGORY_LABEL_MAP[tx.category] ? t(CATEGORY_LABEL_MAP[tx.category]) : tx.category,
+        tExport("tools.csvGenerator." + tx.type),
+        CATEGORY_LABEL_MAP[tx.category] ? tExport(CATEGORY_LABEL_MAP[tx.category]) : tx.category,
         tx.paymentMethod,
         `"${tx.bankAccount.replace(/"/g, '""')}"`,
         `"${tx.invoiceNumber.replace(/"/g, '""')}"`,
@@ -440,24 +452,34 @@ export default function CsvGenerator() {
                 <div className="flex items-start gap-2 text-xs text-muted-foreground">
                   <p>{t("tools.csvGenerator.disclaimer")}</p>
                 </div>
-                <Button 
-                  onClick={downloadCSV}
-                  disabled={!hasValidTransactions || isGenerating}
-                  className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6"
-                  data-testid="button-download-csv"
-                >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      {t("tools.csvGenerator.generating")}
-                    </>
-                  ) : (
-                    <>
-                      <FileDown className="w-4 h-4 mr-2" />
-                      {t("tools.csvGenerator.downloadCsv")}
-                    </>
-                  )}
-                </Button>
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "Export language")}:</Label>
+                    <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-csv-export-lang">
+                      {EXPORT_LANGUAGES.map(lang => (
+                        <NativeSelectItem key={lang.code} value={lang.code}>{lang.label}</NativeSelectItem>
+                      ))}
+                    </NativeSelect>
+                  </div>
+                  <Button 
+                    onClick={downloadCSV}
+                    disabled={!hasValidTransactions || isGenerating}
+                    className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6"
+                    data-testid="button-download-csv"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        {t("tools.csvGenerator.generating")}
+                      </>
+                    ) : (
+                      <>
+                        <FileDown className="w-4 h-4 mr-2" />
+                        {t("tools.csvGenerator.downloadCsv")}
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>

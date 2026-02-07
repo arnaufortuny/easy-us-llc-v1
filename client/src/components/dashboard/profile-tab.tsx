@@ -3,12 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck } from "@/components/icons";
-import { useState } from "react";
+import { CheckCircle2, Trash2, Mail, Copy, Check, Globe, ShieldCheck, RotateCcw, X, AlertTriangle } from "@/components/icons";
+import { useState, useEffect } from "react";
 import { NewsletterToggle } from "./";
 import { SocialLogin } from "@/components/auth/social-login";
 import type { User, ProfileData } from "./types";
-import { queryClient } from "@/lib/queryClient";
+import { queryClient, apiRequest } from "@/lib/queryClient";
 import type { UseMutationResult } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { SpainFlag, USAFlag, CatalanFlag, FranceFlag, GermanyFlag, ItalyFlag, PortugalFlag } from "@/components/ui/flags";
@@ -42,6 +42,8 @@ interface ProfileTabProps {
   profileOtp: string;
   setProfileOtp: (otp: string) => void;
   confirmProfileWithOtp: UseMutationResult<any, Error, void>;
+  cancelPendingChanges: UseMutationResult<any, Error, void>;
+  resendProfileOtp: UseMutationResult<any, Error, void>;
 }
 
 export function ProfileTab({
@@ -73,6 +75,8 @@ export function ProfileTab({
   profileOtp,
   setProfileOtp,
   confirmProfileWithOtp,
+  cancelPendingChanges,
+  resendProfileOtp,
 }: ProfileTabProps) {
   const [copiedId, setCopiedId] = useState(false);
   const { t, i18n } = useTranslation();
@@ -93,11 +97,22 @@ export function ProfileTab({
     i18n.changeLanguage(langCode);
     localStorage.setItem('i18nextLng', langCode);
     try {
-      await updateProfile.mutateAsync({ ...profileData, preferredLanguage: langCode } as any);
+      await apiRequest("PATCH", "/api/user/language", { preferredLanguage: langCode });
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
     } catch (error) {
       console.error('Error saving language preference:', error);
     }
   };
+  
+  const hasPendingChanges = !!(user as any)?.pendingProfileChanges;
+  const pendingChangesData = (user as any)?.pendingProfileChanges as { fields: Record<string, any>; changedFields: { field: string; oldValue: any; newValue: any }[] } | null;
+  const pendingExpiresAt = (user as any)?.pendingChangesExpiresAt;
+  
+  useEffect(() => {
+    if (hasPendingChanges && profileOtpStep === 'idle') {
+      setProfileOtpStep('otp');
+    }
+  }, [hasPendingChanges]);
   
   const copyIdToClipboard = () => {
     const clientId = user?.clientId || user?.id?.slice(0, 8).toUpperCase() || '';
@@ -117,25 +132,54 @@ export function ProfileTab({
         <p className="text-base text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
       </div>
 
-      {profileOtpStep === 'otp' && (
-        <Card className="rounded-2xl border-accent/30 shadow-md p-5 md:p-6 bg-white dark:bg-card animate-in slide-in-from-top-2 duration-300">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5 text-accent" />
+      {(profileOtpStep === 'otp' || hasPendingChanges) && (
+        <Card className="rounded-2xl border-orange-300 dark:border-orange-700 shadow-md p-5 md:p-6 bg-orange-50 dark:bg-orange-950/30 animate-in slide-in-from-top-2 duration-300">
+          <div className="flex items-start gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
             </div>
-            <div>
-              <h3 className="font-black text-foreground">{t('profile.otpRequired', 'Verificación requerida')}</h3>
-              <p className="text-xs text-muted-foreground">{t('profile.otpRequiredDesc', 'Hemos enviado un código de 6 dígitos a tu email para confirmar los cambios.')}</p>
+            <div className="flex-1">
+              <h3 className="font-black text-foreground">{t('profile.actionRequired', 'Action Required')}</h3>
+              <p className="text-xs text-muted-foreground mt-0.5">{t('profile.otpRequiredDesc', 'A 6-digit verification code has been sent to your email. Enter it below to confirm your identity changes.')}</p>
             </div>
           </div>
+          
+          {pendingChangesData?.changedFields && (
+            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-orange-200 dark:border-orange-800">
+              <p className="text-xs font-bold text-muted-foreground mb-2">{t('profile.pendingChanges', 'Pending changes')}:</p>
+              <div className="space-y-1">
+                {pendingChangesData.changedFields.map((change, i) => {
+                  const fieldLabels: Record<string, string> = {
+                    firstName: t('profile.fields.firstName', 'First name'),
+                    lastName: t('profile.fields.lastName', 'Last name'),
+                    idNumber: t('profile.fields.idNumber', 'ID number'),
+                    idType: t('profile.fields.idType', 'ID type'),
+                    phone: t('profile.fields.phone', 'Phone'),
+                  };
+                  return (
+                    <div key={i} className="flex items-center gap-2 text-xs">
+                      <span className="font-bold text-foreground">{fieldLabels[change.field] || change.field}:</span>
+                      <span className="text-muted-foreground line-through">{change.oldValue}</span>
+                      <span className="text-foreground">→</span>
+                      <span className="font-bold text-orange-700 dark:text-orange-300">{change.newValue}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              {pendingExpiresAt && (
+                <p className="text-[10px] text-muted-foreground mt-2">{t('profile.expiresIn', 'Expires')}: {new Date(pendingExpiresAt).toLocaleString()}</p>
+              )}
+            </div>
+          )}
+          
           <div className="space-y-3">
             <div>
-              <Label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.profile.verificationCode', 'Código de verificación')}</Label>
+              <Label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.profile.verificationCode', 'Verification code')}</Label>
               <Input 
                 type="text" 
                 value={profileOtp} 
                 onChange={e => setProfileOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} 
-                className="text-center text-lg tracking-[0.3em] font-mono"
+                className="text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
                 maxLength={6}
                 inputMode="numeric"
                 placeholder="------"
@@ -146,10 +190,11 @@ export function ProfileTab({
               <Button 
                 variant="outline" 
                 className="rounded-full flex-1" 
-                onClick={() => { setProfileOtpStep('idle'); setProfileOtp(""); }}
+                onClick={() => cancelPendingChanges.mutate()}
+                disabled={cancelPendingChanges.isPending}
                 data-testid="button-cancel-profile-otp"
               >
-                {t('common.cancel', 'Cancelar')}
+                {cancelPendingChanges.isPending ? '...' : t('profile.cancelChanges', 'Cancel changes')}
               </Button>
               <Button 
                 className="bg-accent text-accent-foreground font-black rounded-full flex-1"
@@ -157,7 +202,20 @@ export function ProfileTab({
                 disabled={profileOtp.length !== 6 || confirmProfileWithOtp.isPending}
                 data-testid="button-confirm-profile-otp"
               >
-                {confirmProfileWithOtp.isPending ? t('common.saving', 'Guardando...') : t('common.confirm', 'Confirmar')}
+                {confirmProfileWithOtp.isPending ? t('common.saving', 'Saving...') : t('profile.confirmChanges', 'Confirm changes')}
+              </Button>
+            </div>
+            <div className="flex justify-center">
+              <Button 
+                variant="link" 
+                size="sm" 
+                className="text-xs text-muted-foreground"
+                onClick={() => resendProfileOtp.mutate()}
+                disabled={resendProfileOtp.isPending}
+                data-testid="button-resend-profile-otp"
+              >
+                <RotateCcw className="w-3 h-3 mr-1" />
+                {resendProfileOtp.isPending ? t('common.sending', 'Sending...') : t('profile.resendCode', 'Resend code')}
               </Button>
             </div>
           </div>

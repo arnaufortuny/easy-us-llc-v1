@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback } from "react";
@@ -148,7 +148,7 @@ export default function Dashboard() {
   const [passwordOtp, setPasswordOtp] = useState("");
   const [profileOtpStep, setProfileOtpStep] = useState<'idle' | 'otp'>('idle');
   const [profileOtp, setProfileOtp] = useState("");
-  const [pendingProfileData, setPendingProfileData] = useState<typeof profileData | null>(null);
+  const [pendingProfileData, setPendingProfileData] = useState<Record<string, any> | null>(null);
   const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
   const [paymentLinkDialog, setPaymentLinkDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [paymentLinkUrl, setPaymentLinkUrl] = useState("");
@@ -163,6 +163,9 @@ export default function Dashboard() {
   const [resetPasswordDialog, setResetPasswordDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [newAdminPassword, setNewAdminPassword] = useState("");
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [otpRequestDialog, setOtpRequestDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
+  const [otpRequestReason, setOtpRequestReason] = useState("");
+  const [isSendingOtpRequest, setIsSendingOtpRequest] = useState(false);
   const [showEmailVerification, setShowEmailVerification] = useState(false);
   const [emailVerificationCode, setEmailVerificationCode] = useState("");
   const [isVerifyingEmail, setIsVerifyingEmail] = useState(false);
@@ -199,7 +202,7 @@ export default function Dashboard() {
   }, [user]);
 
   const updateProfile = useMutation({
-    mutationFn: async (data: typeof profileData & { otpCode?: string }) => {
+    mutationFn: async (data: typeof profileData) => {
       setFormMessage(null);
       if (!canEdit) {
         throw new Error(t("dashboard.toasts.cannotModifyAccountState"));
@@ -220,25 +223,21 @@ export default function Dashboard() {
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         if (err.code === "OTP_REQUIRED") {
-          setPendingProfileData(data);
-          const otpRes = await apiRequest("POST", "/api/user/profile/send-otp");
-          if (otpRes.ok) {
-            setProfileOtpStep('otp');
-            setFormMessage({ type: 'success', text: t("profile.otpSentTitle", "Código enviado") + ". " + t("profile.otpSentDesc", "Hemos enviado un código de verificación a tu email.") });
-          }
-          return;
+          setPendingProfileData(err.pendingChanges || {});
+          setProfileOtpStep('otp');
+          setFormMessage({ type: 'info', text: t("profile.otpSentTitle", "Action required") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
+          throw new Error("OTP_REQUIRED_SILENT");
         }
         throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
       }
     },
     onSuccess: () => {
-      if (profileOtpStep === 'idle') {
-        queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-        setIsEditing(false);
-        setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") + ". " + t("dashboard.toasts.changesSavedDesc") });
-      }
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setIsEditing(false);
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") + ". " + t("dashboard.toasts.changesSavedDesc") });
     },
     onError: (error: any) => {
+      if (error.message === "OTP_REQUIRED_SILENT") return;
       setFormMessage({ type: 'error', text: t("common.error") + ". " + error.message });
     }
   });
@@ -246,8 +245,8 @@ export default function Dashboard() {
   const confirmProfileWithOtp = useMutation({
     mutationFn: async () => {
       setFormMessage(null);
-      if (!pendingProfileData || !profileOtp) return;
-      const res = await apiRequest("PATCH", "/api/user/profile", { ...pendingProfileData, otpCode: profileOtp });
+      if (!profileOtp || profileOtp.length !== 6) throw new Error("Invalid OTP code");
+      const res = await apiRequest("POST", "/api/user/profile/confirm-otp", { otpCode: profileOtp });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
         throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
@@ -263,6 +262,36 @@ export default function Dashboard() {
     },
     onError: (error: any) => {
       setFormMessage({ type: 'error', text: t("common.error") + ". " + error.message });
+    }
+  });
+
+  const cancelPendingChanges = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/user/profile/cancel-pending");
+      if (!res.ok) throw new Error("Failed to cancel");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      setProfileOtpStep('idle');
+      setProfileOtp("");
+      setPendingProfileData(null);
+      setFormMessage(null);
+    }
+  });
+
+  const resendProfileOtp = useMutation({
+    mutationFn: async () => {
+      const res = await apiRequest("POST", "/api/user/profile/resend-otp");
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Error");
+      }
+    },
+    onSuccess: () => {
+      setFormMessage({ type: 'success', text: t("profile.otpResent", "New verification code sent to your email.") });
+    },
+    onError: (error: any) => {
+      setFormMessage({ type: 'error', text: error.message });
     }
   });
 
@@ -1910,6 +1939,8 @@ export default function Dashboard() {
                   profileOtp={profileOtp}
                   setProfileOtp={setProfileOtp}
                   confirmProfileWithOtp={confirmProfileWithOtp}
+                  cancelPendingChanges={cancelPendingChanges}
+                  resendProfileOtp={resendProfileOtp}
                 />
                 
                 {/* Inline Email Verification Panel */}
@@ -3053,6 +3084,57 @@ export default function Dashboard() {
                       </div>
                     </Card>
                   )}
+
+                  {otpRequestDialog.open && otpRequestDialog.user && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestOtpTitle', 'Request identity verification')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestOtpDesc', 'Send a verification code to')} {otpRequestDialog.user?.firstName} {otpRequestDialog.user?.lastName} ({otpRequestDialog.user?.email})</p>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="rounded-full">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <div>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.otpReason', 'Reason (optional)')}</Label>
+                          <Textarea
+                            value={otpRequestReason}
+                            onChange={(e) => setOtpRequestReason(e.target.value)}
+                            placeholder={t('dashboard.admin.users.otpReasonPlaceholder', 'e.g. We need to verify your identity before processing your LLC application')}
+                            className="rounded-xl border-border bg-white dark:bg-card"
+                            rows={3}
+                            data-testid="input-otp-reason"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-orange-200 dark:border-orange-800">
+                        <Button
+                          disabled={isSendingOtpRequest}
+                          onClick={async () => {
+                            if (!otpRequestDialog.user?.id) return;
+                            setIsSendingOtpRequest(true);
+                            try {
+                              await apiRequest("POST", `/api/admin/users/${otpRequestDialog.user.id}/request-otp`, { reason: otpRequestReason || undefined });
+                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.otpSent', 'Verification code sent successfully') });
+                              setOtpRequestDialog({ open: false, user: null });
+                              setOtpRequestReason("");
+                            } catch {
+                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.otpSendError', 'Could not send verification code') });
+                            } finally {
+                              setIsSendingOtpRequest(false);
+                            }
+                          }}
+                          className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full"
+                          data-testid="button-confirm-otp-request"
+                        >
+                          {isSendingOtpRequest ? <Loader2 className="animate-spin" /> : t('dashboard.admin.users.sendOtpBtn', 'Send verification code')}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
+                      </div>
+                    </Card>
+                  )}
                   
                   {adminSubTab === 'dashboard' && (
                     <div className="space-y-5 md:space-y-7" data-testid="admin-dashboard-metrics">
@@ -3686,6 +3768,9 @@ export default function Dashboard() {
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setResetPasswordDialog({ open: true, user: u })} data-testid={`button-reset-pwd-${u.id}`}>
                                     <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
+                                  </Button>
+                                  <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => { setOtpRequestDialog({ open: true, user: u }); setOtpRequestReason(""); }} data-testid={`button-request-otp-${u.id}`}>
+                                    <ShieldCheck className="w-3 h-3 mr-1" />{t('dashboard.admin.users.requestOtpBtn', 'Verify identity')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
                                     {t('dashboard.admin.users.messageBtn')}

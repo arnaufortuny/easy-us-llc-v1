@@ -83,7 +83,13 @@
     "otpSentTitle": "Codi enviat",
     "otpSentDesc": "Hem enviat un codi de verificació al teu email per confirmar els canvis.",
     "otpRequired": "Verificació requerida",
-    "otpRequiredDesc": "Hem enviat un codi de 6 dígits al teu email per confirmar els canvis."
+    "otpRequiredDesc": "Hem enviat un codi de 6 dígits al teu email per confirmar els canvis.",
+    "actionRequired": "Acció requerida",
+    "pendingChanges": "Canvis pendents",
+    "expiresIn": "Expira",
+    "cancelChanges": "Cancel·lar canvis",
+    "confirmChanges": "Confirmar canvis",
+    "resendCode": "Reenviar codi"
   },
   "notFound": {
     "title": "Pàgina No Trobada",
@@ -536,13 +542,22 @@
         "title": "Consulta Personalitzada",
         "description": "Videotrucada privada de 30 minuts amb un expert en formació d'empreses als EUA",
         "duration": "30 min",
-        "features": ["Assessorament fiscal personalitzat", "Estratègia de formació LLC", "Resolució de dubtes específics"],
+        "features": [
+          "Assessorament fiscal personalitzat",
+          "Estratègia de formació LLC",
+          "Resolució de dubtes específics"
+        ],
         "cta": "Programar consulta"
       },
       "dissolution": {
         "title": "Dissolució de LLC",
         "description": "Tancament complet i ordenat de la teva LLC incloent tots els tràmits estatals i federals",
-        "features": ["Dissolució estatal completa", "Cancel·lació de l'EIN", "Notificació a l'IRS", "Documentació oficial"],
+        "features": [
+          "Dissolució estatal completa",
+          "Cancel·lació de l'EIN",
+          "Notificació a l'IRS",
+          "Documentació oficial"
+        ],
         "cta": "Sol·licitar dissolució"
       }
     }
@@ -1795,7 +1810,15 @@
         "paymentBtn": "Pagament",
         "deleteBtn": "Eliminar",
         "otpRequired": "OTP Requerit",
-        "logins": "Logins"
+        "logins": "Logins",
+        "requestOtpBtn": "Verificar identitat",
+        "requestOtpTitle": "Sol·licitar verificació d'identitat",
+        "requestOtpDesc": "Enviar un codi de verificació a",
+        "otpReason": "Motiu (opcional)",
+        "otpReasonPlaceholder": "Ex: Necessitem verificar la teva identitat abans de processar la teva sol·licitud de LLC",
+        "sendOtpBtn": "Enviar codi de verificació",
+        "otpSent": "Codi de verificació enviat correctament",
+        "otpSendError": "No s'ha pogut enviar el codi de verificació"
       },
       "calendar": {
         "title": "Gestió de Dates Fiscals",
@@ -2809,7 +2832,8 @@
         "invoiceNumber": "Nº Factura",
         "notes": "Notes"
       }
-    }
+    },
+    "exportLanguage": "Idioma d'exportació"
   },
   "seo": {
     "home": {

@@ -83,7 +83,13 @@
     "otpSentTitle": "Código enviado",
     "otpSentDesc": "Enviámos um código de verificação para o teu email para confirmar as alterações.",
     "otpRequired": "Verificação necessária",
-    "otpRequiredDesc": "Enviámos um código de 6 dígitos para o teu email para confirmar as alterações."
+    "otpRequiredDesc": "Enviámos um código de 6 dígitos para o teu email para confirmar as alterações.",
+    "actionRequired": "Ação necessária",
+    "pendingChanges": "Alterações pendentes",
+    "expiresIn": "Expira",
+    "cancelChanges": "Cancelar alterações",
+    "confirmChanges": "Confirmar alterações",
+    "resendCode": "Reenviar código"
   },
   "notFound": {
     "title": "Página Não Encontrada",
@@ -536,13 +542,22 @@
         "title": "Consulta Personalizada",
         "description": "Videochamada privada de 30 minutos com um especialista em formação de empresas nos EUA",
         "duration": "30 min",
-        "features": ["Consultoria fiscal personalizada", "Estratégia de formação LLC", "Resolução de dúvidas específicas"],
+        "features": [
+          "Consultoria fiscal personalizada",
+          "Estratégia de formação LLC",
+          "Resolução de dúvidas específicas"
+        ],
         "cta": "Agendar consulta"
       },
       "dissolution": {
         "title": "Dissolução de LLC",
         "description": "Encerramento completo e ordenado da sua LLC incluindo todos os trâmites estaduais e federais",
-        "features": ["Dissolução estadual completa", "Cancelamento do EIN", "Notificação ao IRS", "Documentação oficial"],
+        "features": [
+          "Dissolução estadual completa",
+          "Cancelamento do EIN",
+          "Notificação ao IRS",
+          "Documentação oficial"
+        ],
         "cta": "Solicitar dissolução"
       }
     }
@@ -1795,7 +1810,15 @@
         "paymentBtn": "Pagamento",
         "deleteBtn": "Eliminar",
         "otpRequired": "OTP Necessário",
-        "logins": "Logins"
+        "logins": "Logins",
+        "requestOtpBtn": "Verificar identidade",
+        "requestOtpTitle": "Solicitar verificação de identidade",
+        "requestOtpDesc": "Enviar um código de verificação para",
+        "otpReason": "Motivo (opcional)",
+        "otpReasonPlaceholder": "Ex: Precisamos verificar a sua identidade antes de processar o seu pedido de LLC",
+        "sendOtpBtn": "Enviar código de verificação",
+        "otpSent": "Código de verificação enviado com sucesso",
+        "otpSendError": "Não foi possível enviar o código de verificação"
       },
       "calendar": {
         "title": "Gestão de Datas Fiscais",
@@ -2809,7 +2832,8 @@
         "invoiceNumber": "N.º Fatura",
         "notes": "Notas"
       }
-    }
+    },
+    "exportLanguage": "Idioma de exportação"
   },
   "seo": {
     "home": {

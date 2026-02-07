@@ -48,6 +48,7 @@ export default function OperatingAgreementGenerator() {
   
   const [selectedLlcId, setSelectedLlcId] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
+  const [exportLang, setExportLang] = useState(i18n.language?.split('-')[0] || 'es');
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
   const [formData, setFormData] = useState<FormData>({
     memberAddress: "",
@@ -117,6 +118,7 @@ export default function OperatingAgreementGenerator() {
     if (!selectedLLC || !selectedLLC.ein || !isFormValid) return;
     
     setIsGenerating(true);
+    const tPdf = i18n.getFixedT(exportLang);
     
     try {
       const { default: jsPDF } = await import("jspdf");
@@ -141,8 +143,8 @@ export default function OperatingAgreementGenerator() {
         
         doc.setFontSize(8);
         doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-        doc.text(t("tools.operatingAgreement.pdf.footer1"), margin, pageHeight - 10);
-        doc.text(`${t("tools.operatingAgreement.pdf.page")} ${pageNumber}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
+        doc.text(tPdf("tools.operatingAgreement.pdf.footer1"), margin, pageHeight - 10);
+        doc.text(`${tPdf("tools.operatingAgreement.pdf.page")} ${pageNumber}`, pageWidth - margin, pageHeight - 10, { align: 'right' });
       };
       
       const addPageHeader = () => {
@@ -152,7 +154,7 @@ export default function OperatingAgreementGenerator() {
         doc.setFontSize(8);
         doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
         doc.text(companyFullName, margin, 12);
-        doc.text(t("tools.operatingAgreement.pdf.title"), pageWidth - margin, 12, { align: 'right' });
+        doc.text(tPdf("tools.operatingAgreement.pdf.title"), pageWidth - margin, 12, { align: 'right' });
         
         doc.setDrawColor(lightGray[0], lightGray[1], lightGray[2]);
         doc.setLineWidth(0.3);
@@ -184,7 +186,7 @@ export default function OperatingAgreementGenerator() {
         doc.setFontSize(10);
         doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
         doc.setFont('helvetica', 'bold');
-        doc.text(t("tools.operatingAgreement.pdf.easyUsLlc"), pageWidth / 2, 47, { align: 'center' });
+        doc.text(tPdf("tools.operatingAgreement.pdf.easyUsLlc"), pageWidth / 2, 47, { align: 'center' });
       }
       
       let yPos = 80;
@@ -192,12 +194,12 @@ export default function OperatingAgreementGenerator() {
       doc.setTextColor(darkColor[0], darkColor[1], darkColor[2]);
       doc.setFontSize(28);
       doc.setFont('helvetica', 'bold');
-      doc.text(t("tools.operatingAgreement.pdf.title"), pageWidth / 2, yPos, { align: 'center' });
+      doc.text(tPdf("tools.operatingAgreement.pdf.title"), pageWidth / 2, yPos, { align: 'center' });
       
       yPos += 12;
       doc.setFontSize(14);
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.of"), pageWidth / 2, yPos, { align: 'center' });
+      doc.text(tPdf("tools.operatingAgreement.pdf.of"), pageWidth / 2, yPos, { align: 'center' });
       
       yPos += 16;
       doc.setFontSize(22);
@@ -214,7 +216,7 @@ export default function OperatingAgreementGenerator() {
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(11);
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      const introText = t("tools.operatingAgreement.pdf.intro");
+      const introText = tPdf("tools.operatingAgreement.pdf.intro");
       const introLines = doc.splitTextToSize(introText, contentWidth - 40);
       doc.text(introLines, pageWidth / 2, yPos, { align: 'center' });
       
@@ -225,7 +227,7 @@ export default function OperatingAgreementGenerator() {
       
       doc.setFontSize(10);
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.effectiveDate"), pageWidth / 2, yPos + 12, { align: 'center' });
+      doc.text(tPdf("tools.operatingAgreement.pdf.effectiveDate"), pageWidth / 2, yPos + 12, { align: 'center' });
       
       doc.setFontSize(14);
       doc.setTextColor(darkColor[0], darkColor[1], darkColor[2]);
@@ -303,126 +305,126 @@ export default function OperatingAgreementGenerator() {
       };
       
       // Section 1 - Company Overview
-      addSectionTitle(1, t("tools.operatingAgreement.pdf.section1Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section1Content", { companyName: companyFullName, state: selectedLLC.state }));
+      addSectionTitle(1, tPdf("tools.operatingAgreement.pdf.section1Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section1Content", { companyName: companyFullName, state: selectedLLC.state }));
       
       // Section 2 - Company Details
-      addSectionTitle(2, t("tools.operatingAgreement.pdf.section2Title"));
+      addSectionTitle(2, tPdf("tools.operatingAgreement.pdf.section2Title"));
       yPos += 2;
-      addLabelValue(t("tools.operatingAgreement.pdf.legalName"), companyFullName);
-      addLabelValue(t("tools.operatingAgreement.pdf.stateOfFormation"), selectedLLC.state);
-      addLabelValue(t("tools.operatingAgreement.pdf.formationDate"), formatDate(selectedLLC.llcCreatedDate));
-      addLabelValue(t("tools.operatingAgreement.pdf.ein"), selectedLLC.ein || '');
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.legalName"), companyFullName);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.stateOfFormation"), selectedLLC.state);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.formationDate"), formatDate(selectedLLC.llcCreatedDate));
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.ein"), selectedLLC.ein || '');
       yPos += 4;
-      addLabelValue(t("tools.operatingAgreement.pdf.registeredAddress"), "");
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.registeredAddress"), "");
       doc.setFontSize(9);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(darkColor[0], darkColor[1], darkColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.registeredAddressLine1"), margin + 8, yPos);
+      doc.text(tPdf("tools.operatingAgreement.pdf.registeredAddressLine1"), margin + 8, yPos);
       yPos += 5;
-      doc.text(t("tools.operatingAgreement.pdf.registeredAddressLine2"), margin + 8, yPos);
+      doc.text(tPdf("tools.operatingAgreement.pdf.registeredAddressLine2"), margin + 8, yPos);
       yPos += 5;
-      doc.text(t("tools.operatingAgreement.pdf.registeredAddressLine3"), margin + 8, yPos);
+      doc.text(tPdf("tools.operatingAgreement.pdf.registeredAddressLine3"), margin + 8, yPos);
       yPos += 5;
-      doc.text(t("tools.operatingAgreement.pdf.unitedStates"), margin + 8, yPos);
+      doc.text(tPdf("tools.operatingAgreement.pdf.unitedStates"), margin + 8, yPos);
       yPos += 10;
       
       // Section 3 - Ownership
-      addSectionTitle(3, t("tools.operatingAgreement.pdf.section3Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section3Intro"));
+      addSectionTitle(3, tPdf("tools.operatingAgreement.pdf.section3Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section3Intro"));
       yPos += 2;
-      addLabelValue(t("tools.operatingAgreement.pdf.memberName"), selectedLLC.ownerFullName);
-      addLabelValue(t("tools.operatingAgreement.pdf.govId"), `${selectedLLC.ownerIdType} ${selectedLLC.ownerIdNumber}`);
-      addLabelValue(t("tools.operatingAgreement.pdf.residentialAddress"), formData.memberAddress);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.memberName"), selectedLLC.ownerFullName);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.govId"), `${selectedLLC.ownerIdType} ${selectedLLC.ownerIdNumber}`);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.residentialAddress"), formData.memberAddress);
       if (formData.memberPhone) {
-        addLabelValue(t("tools.operatingAgreement.pdf.telephone"), formData.memberPhone);
+        addLabelValue(tPdf("tools.operatingAgreement.pdf.telephone"), formData.memberPhone);
       }
-      addLabelValue(t("tools.operatingAgreement.pdf.email"), selectedLLC.ownerEmail);
-      addLabelValue(t("tools.operatingAgreement.pdf.ownership"), "100%");
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.email"), selectedLLC.ownerEmail);
+      addLabelValue(tPdf("tools.operatingAgreement.pdf.ownership"), "100%");
       yPos += 4;
-      addParagraph(t("tools.operatingAgreement.pdf.section3Outro"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section3Outro"));
       
       // Section 4 - Business Purpose
-      addSectionTitle(4, t("tools.operatingAgreement.pdf.section4Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section4Intro"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.purpose1"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.purpose2"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.purpose3"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.purpose4"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.purpose5"));
-      addParagraph(t("tools.operatingAgreement.pdf.section4Outro"));
+      addSectionTitle(4, tPdf("tools.operatingAgreement.pdf.section4Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section4Intro"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.purpose1"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.purpose2"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.purpose3"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.purpose4"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.purpose5"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section4Outro"));
       
       // Section 5 - Management Structure
-      addSectionTitle(5, t("tools.operatingAgreement.pdf.section5Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section5Intro"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management1"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management2"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management3"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management4"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management5"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.management6"));
+      addSectionTitle(5, tPdf("tools.operatingAgreement.pdf.section5Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section5Intro"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management1"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management2"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management3"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management4"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management5"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.management6"));
       
       // Section 6 - Capital Contribution
-      addSectionTitle(6, t("tools.operatingAgreement.pdf.section6Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section6Content"));
+      addSectionTitle(6, tPdf("tools.operatingAgreement.pdf.section6Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section6Content"));
       if (formData.capitalContribution) {
-        addLabelValue(t("tools.operatingAgreement.pdf.initialContribution"), `$${formData.capitalContribution} USD`);
+        addLabelValue(tPdf("tools.operatingAgreement.pdf.initialContribution"), `$${formData.capitalContribution} USD`);
       }
-      addParagraph(t("tools.operatingAgreement.pdf.section6Outro"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section6Outro"));
       
       // Section 7 - Profits and Distributions
-      addSectionTitle(7, t("tools.operatingAgreement.pdf.section7Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section7Content"));
+      addSectionTitle(7, tPdf("tools.operatingAgreement.pdf.section7Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section7Content"));
       
       // Section 8 - Tax Treatment
-      addSectionTitle(8, t("tools.operatingAgreement.pdf.section8Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section8Intro"));
+      addSectionTitle(8, tPdf("tools.operatingAgreement.pdf.section8Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section8Intro"));
       addBulletPoint("IRS Form 1120");
       addBulletPoint("IRS Form 5472");
-      addBulletPoint(t("tools.operatingAgreement.pdf.federalState"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.federalState"));
       
       // Section 9 - Financial Responsibility
-      addSectionTitle(9, t("tools.operatingAgreement.pdf.section9Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section9Content"));
+      addSectionTitle(9, tPdf("tools.operatingAgreement.pdf.section9Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section9Content"));
       
       // Section 10 - Liability Protection
-      addSectionTitle(10, t("tools.operatingAgreement.pdf.section10Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section10Content"));
+      addSectionTitle(10, tPdf("tools.operatingAgreement.pdf.section10Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section10Content"));
       
       // Section 11 - Record Keeping
-      addSectionTitle(11, t("tools.operatingAgreement.pdf.section11Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section11Intro"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.record1"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.record2"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.record3"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.record4"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.record5"));
-      addParagraph(t("tools.operatingAgreement.pdf.section11Outro"));
+      addSectionTitle(11, tPdf("tools.operatingAgreement.pdf.section11Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section11Intro"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.record1"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.record2"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.record3"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.record4"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.record5"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section11Outro"));
       
       // Section 12 - Transfer of Ownership
-      addSectionTitle(12, t("tools.operatingAgreement.pdf.section12Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section12Content"));
+      addSectionTitle(12, tPdf("tools.operatingAgreement.pdf.section12Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section12Content"));
       
       // Section 13 - Dissolution
-      addSectionTitle(13, t("tools.operatingAgreement.pdf.section13Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section13Content"));
+      addSectionTitle(13, tPdf("tools.operatingAgreement.pdf.section13Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section13Content"));
       
       // Section 14 - Source of Funds
-      addSectionTitle(14, t("tools.operatingAgreement.pdf.section14Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section14Intro"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.funds1"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.funds2"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.funds3"));
-      addBulletPoint(t("tools.operatingAgreement.pdf.funds4"));
-      addParagraph(t("tools.operatingAgreement.pdf.section14Outro"));
+      addSectionTitle(14, tPdf("tools.operatingAgreement.pdf.section14Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section14Intro"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.funds1"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.funds2"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.funds3"));
+      addBulletPoint(tPdf("tools.operatingAgreement.pdf.funds4"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section14Outro"));
       
       // Section 15 - Preparation
-      addSectionTitle(15, t("tools.operatingAgreement.pdf.section15Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section15Content"));
+      addSectionTitle(15, tPdf("tools.operatingAgreement.pdf.section15Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section15Content"));
       
       // Section 16 - Governing Law
-      addSectionTitle(16, t("tools.operatingAgreement.pdf.section16Title"));
-      addParagraph(t("tools.operatingAgreement.pdf.section16Content", { state: selectedLLC.state }));
+      addSectionTitle(16, tPdf("tools.operatingAgreement.pdf.section16Title"));
+      addParagraph(tPdf("tools.operatingAgreement.pdf.section16Content", { state: selectedLLC.state }));
       
       // ===== SIGNATURE PAGE =====
       yPos = checkNewPage(100);
@@ -437,13 +439,13 @@ export default function OperatingAgreementGenerator() {
       doc.setFontSize(14);
       doc.setFont('helvetica', 'bold');
       doc.setTextColor(darkColor[0], darkColor[1], darkColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.memberConfirmation"), margin, yPos);
+      doc.text(tPdf("tools.operatingAgreement.pdf.memberConfirmation"), margin, yPos);
       
       yPos += 8;
       doc.setFontSize(10);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      const confirmText = t("tools.operatingAgreement.pdf.confirmationText");
+      const confirmText = tPdf("tools.operatingAgreement.pdf.confirmationText");
       const confirmLines = doc.splitTextToSize(confirmText, contentWidth);
       doc.text(confirmLines, margin, yPos);
       yPos += confirmLines.length * 5 + 15;
@@ -455,19 +457,19 @@ export default function OperatingAgreementGenerator() {
       
       doc.setFontSize(9);
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.memberNameLabel"), margin + 8, yPos + 12);
+      doc.text(tPdf("tools.operatingAgreement.pdf.memberNameLabel"), margin + 8, yPos + 12);
       doc.setTextColor(darkColor[0], darkColor[1], darkColor[2]);
       doc.setFont('helvetica', 'bold');
       doc.text(selectedLLC.ownerFullName, margin + 8, yPos + 20);
       
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.signature"), margin + 8, yPos + 35);
+      doc.text(tPdf("tools.operatingAgreement.pdf.signature"), margin + 8, yPos + 35);
       doc.setDrawColor(darkColor[0], darkColor[1], darkColor[2]);
-      doc.line(margin + 8 + doc.getTextWidth(t("tools.operatingAgreement.pdf.signature")) + 5, yPos + 35, margin + contentWidth / 2 - 10, yPos + 35);
+      doc.line(margin + 8 + doc.getTextWidth(tPdf("tools.operatingAgreement.pdf.signature")) + 5, yPos + 35, margin + contentWidth / 2 - 10, yPos + 35);
       
-      doc.text(t("tools.operatingAgreement.pdf.dateLabel"), margin + contentWidth / 2 + 10, yPos + 35);
-      doc.line(margin + contentWidth / 2 + 10 + doc.getTextWidth(t("tools.operatingAgreement.pdf.dateLabel")) + 5, yPos + 35, margin + contentWidth - 8, yPos + 35);
+      doc.text(tPdf("tools.operatingAgreement.pdf.dateLabel"), margin + contentWidth / 2 + 10, yPos + 35);
+      doc.line(margin + contentWidth / 2 + 10 + doc.getTextWidth(tPdf("tools.operatingAgreement.pdf.dateLabel")) + 5, yPos + 35, margin + contentWidth - 8, yPos + 35);
       
       yPos += 70;
       
@@ -477,20 +479,20 @@ export default function OperatingAgreementGenerator() {
       
       doc.setFontSize(9);
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.preparedBy"), margin + 8, yPos + 10);
+      doc.text(tPdf("tools.operatingAgreement.pdf.preparedBy"), margin + 8, yPos + 10);
       
       doc.setFontSize(12);
       doc.setTextColor(accentColor[0], accentColor[1], accentColor[2]);
       doc.setFont('helvetica', 'bold');
-      doc.text(t("tools.operatingAgreement.pdf.easyUsLlc"), margin + 8, yPos + 20);
+      doc.text(tPdf("tools.operatingAgreement.pdf.easyUsLlc"), margin + 8, yPos + 20);
       
       doc.setFontSize(8);
       doc.setFont('helvetica', 'normal');
       doc.setTextColor(grayColor[0], grayColor[1], grayColor[2]);
-      doc.text(t("tools.operatingAgreement.pdf.corporateServices"), margin + 8, yPos + 27);
+      doc.text(tPdf("tools.operatingAgreement.pdf.corporateServices"), margin + 8, yPos + 27);
       
-      const contactEmail = t("tools.operatingAgreement.pdf.contactEmail");
-      const contactPhone = t("tools.operatingAgreement.pdf.contactPhone");
+      const contactEmail = tPdf("tools.operatingAgreement.pdf.contactEmail");
+      const contactPhone = tPdf("tools.operatingAgreement.pdf.contactPhone");
       doc.text(contactEmail, margin + contentWidth - 8 - doc.getTextWidth(contactPhone) - 40, yPos + 20, { align: 'left' });
       doc.text(contactPhone, margin + contentWidth - 8, yPos + 20, { align: 'right' });
       
@@ -734,6 +736,22 @@ export default function OperatingAgreementGenerator() {
                         </div>
                       )}
                       
+                      <div className="flex items-center gap-2 mb-3">
+                        <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "PDF language")}:</Label>
+                        <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-agreement-export-lang">
+                          {[
+                            { code: "es", label: "Español" },
+                            { code: "en", label: "English" },
+                            { code: "ca", label: "Català" },
+                            { code: "fr", label: "Français" },
+                            { code: "de", label: "Deutsch" },
+                            { code: "it", label: "Italiano" },
+                            { code: "pt", label: "Português" },
+                          ].map(lang => (
+                            <option key={lang.code} value={lang.code}>{lang.label}</option>
+                          ))}
+                        </NativeSelect>
+                      </div>
                       <Button
                         onClick={generatePDF}
                         disabled={!selectedLLC.ein || !isFormValid || isGenerating}

@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
-import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies } from "@shared/schema";
+import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies, contactOtps } from "@shared/schema";
 import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate } from "../lib/email";
 import { validatePassword } from "../lib/security";
 
@@ -414,5 +414,59 @@ export function registerAdminUserRoutes(app: Express) {
     });
     
     res.json({ success: true, message: "User reactivated successfully" });
+  }));
+
+  // Admin: Request OTP verification from a client
+  app.post("/api/admin/users/:userId/request-otp", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    const { userId } = req.params;
+    const { reason } = req.body;
+    
+    const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+    if (!user || !user.email) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    const userEmail = user.email;
+    
+    await db.insert(contactOtps).values({
+      email: userEmail,
+      otp,
+      otpType: "profile_change",
+      expiresAt,
+      verified: false
+    });
+    
+    sendEmail({
+      to: userEmail,
+      subject: "Identity Verification Required - Easy US LLC",
+      html: `
+        <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="width: 60px; height: 60px; background: #FEF3C7; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
+              <span style="font-size: 28px;">🔐</span>
+            </div>
+          </div>
+          <h2 style="color: #1F2937; text-align: center;">Identity Verification Required</h2>
+          <p style="color: #6B7280; text-align: center; font-size: 14px;">
+            ${reason || 'Our team requires identity verification for your account. Please enter this code in your profile to confirm your identity.'}
+          </p>
+          <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
+            <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
+          </div>
+          <p style="color: #9CA3AF; text-align: center; font-size: 12px;">This code is valid for 24 hours.</p>
+        </div>
+      `
+    }).catch(console.error);
+    
+    logActivity("OTP Verification Requested", {
+      "Admin": (req as any).session?.userId || "unknown",
+      "Target User": userId,
+      "Email": user.email,
+      "Reason": reason || "Admin request"
+    });
+    
+    res.json({ success: true, message: "OTP verification email sent to client" });
   }));
 }

@@ -83,7 +83,13 @@
     "otpSentTitle": "Code sent",
     "otpSentDesc": "We have sent a verification code to your email to confirm the changes.",
     "otpRequired": "Verification required",
-    "otpRequiredDesc": "We have sent a 6-digit code to your email to confirm the changes."
+    "otpRequiredDesc": "We have sent a 6-digit code to your email to confirm the changes.",
+    "actionRequired": "Action required",
+    "pendingChanges": "Pending changes",
+    "expiresIn": "Expires",
+    "cancelChanges": "Cancel changes",
+    "confirmChanges": "Confirm changes",
+    "resendCode": "Resend code"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -536,13 +542,22 @@
         "title": "Personalized Consultation",
         "description": "Private 30-minute video call with a US business formation expert",
         "duration": "30 min",
-        "features": ["Personalized tax advice", "LLC formation strategy", "Specific questions resolved"],
+        "features": [
+          "Personalized tax advice",
+          "LLC formation strategy",
+          "Specific questions resolved"
+        ],
         "cta": "Book consultation"
       },
       "dissolution": {
         "title": "LLC Dissolution",
         "description": "Complete and orderly closure of your LLC including all state and federal procedures",
-        "features": ["Full state dissolution", "EIN cancellation", "IRS notification", "Official documentation"],
+        "features": [
+          "Full state dissolution",
+          "EIN cancellation",
+          "IRS notification",
+          "Official documentation"
+        ],
         "cta": "Request dissolution"
       }
     }
@@ -1795,7 +1810,15 @@
         "paymentBtn": "Payment",
         "deleteBtn": "Delete",
         "otpRequired": "OTP Required",
-        "logins": "Logins"
+        "logins": "Logins",
+        "requestOtpBtn": "Verify identity",
+        "requestOtpTitle": "Request identity verification",
+        "requestOtpDesc": "Send a verification code to",
+        "otpReason": "Reason (optional)",
+        "otpReasonPlaceholder": "e.g. We need to verify your identity before processing your LLC application",
+        "sendOtpBtn": "Send verification code",
+        "otpSent": "Verification code sent successfully",
+        "otpSendError": "Could not send verification code"
       },
       "calendar": {
         "title": "Fiscal Date Management",
@@ -2809,7 +2832,8 @@
         "invoiceNumber": "Invoice Number",
         "notes": "Notes"
       }
-    }
+    },
+    "exportLanguage": "Export language"
   },
   "seo": {
     "home": {
