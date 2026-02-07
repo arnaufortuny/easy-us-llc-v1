@@ -189,9 +189,16 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                       onClick={() => setSelectedType(type)}
                       data-testid={`button-select-type-${type.id}`}
                     >
-                      <div className="text-left">
-                        <div className="font-bold">{getLocalizedName(type)}</div>
-                        <div className="text-xs opacity-75">{type.duration} min</div>
+                      <div className="flex items-center justify-between w-full gap-3">
+                        <div className="text-left">
+                          <div className="font-bold">{getLocalizedName(type)}</div>
+                          <div className="text-xs opacity-75">{type.duration} min</div>
+                        </div>
+                        {type.price > 0 && (
+                          <div className="text-right flex-shrink-0">
+                            <div className="font-black text-sm">{type.price}€</div>
+                          </div>
+                        )}
                       </div>
                     </Button>
                   ))}
