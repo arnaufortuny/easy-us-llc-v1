@@ -266,7 +266,7 @@ export default function Login() {
             </div>
 
             <div className="hidden lg:flex lg:flex-col">
-              <div className="bg-accent/5 dark:bg-accent/10 border border-accent/20 rounded-2xl p-7 xl:p-8 flex-1 flex flex-col justify-center">
+              <div className="p-7 xl:p-8 flex-1 flex flex-col justify-center">
                 <div className="mb-5">
                   <h2 className="text-2xl xl:text-3xl font-black text-foreground tracking-tight">
                     {t("auth.login.infoCard.title")}
