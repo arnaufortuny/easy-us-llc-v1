@@ -215,6 +215,7 @@ function HowWeWorkSection() {
     { key: "banking" },
     { key: "compliance" },
     { key: "followup" },
+    { key: "growth" },
   ];
 
   return (

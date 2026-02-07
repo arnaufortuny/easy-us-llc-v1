@@ -232,6 +232,11 @@
         "number": "7",
         "title": "Seguiment continu",
         "text": "Estem al teu costat per resoldre dubtes i donar-te suport en el creixement del teu negoci als EUA."
+      },
+      "growth": {
+        "number": "8",
+        "title": "Suport al creixement empresarial",
+        "text": "T'acompanyem en la teva expansió amb assessorament sobre estructura, banca i operacions internacionals a mesura que la teva empresa evoluciona."
       }
     }
   },

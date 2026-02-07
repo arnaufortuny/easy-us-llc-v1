@@ -232,6 +232,11 @@
         "number": "7",
         "title": "Suivi continu",
         "text": "Nous sommes à vos côtés pour répondre à vos questions et soutenir la croissance de votre activité aux États-Unis."
+      },
+      "growth": {
+        "number": "8",
+        "title": "Accompagnement à la croissance",
+        "text": "Nous accompagnons votre expansion avec des conseils sur la structure, la banque et les opérations internationales à mesure que votre entreprise évolue."
       }
     }
   },
