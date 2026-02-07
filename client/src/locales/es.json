@@ -669,21 +669,20 @@
       "infoCard": {
         "title": "Tu espacio privado",
         "subtitle": "Empieza a gestionar tu LLC de forma sencilla, segura y con acompañamiento profesional desde el primer momento.",
-        "feature1": {
-          "title": "Acceso a tu área privada",
-          "desc": "Centraliza tus servicios, documentos y seguimiento empresarial en un solo lugar diseñado para simplificar la gestión de tu empresa en Estados Unidos."
+        "service1": {
+          "label": "Registro Estatal",
+          "title": "REGISTRO ESTATAL",
+          "desc": "Creamos tu LLC contigo y para ti. Nos ocupamos del proceso legal completo para que empieces tu negocio sin estrés ni burocracia."
         },
-        "feature2": {
-          "title": "Gestión clara y organizada",
-          "desc": "Controla el estado de tu constitución, cumplimiento fiscal y servicios activos sin complicaciones ni procesos confusos."
+        "service2": {
+          "label": "EIN Incluido",
+          "title": "EIN INCLUIDO",
+          "desc": "Conseguimos tu número fiscal en EE.UU. para que tu empresa pueda operar con total tranquilidad y respaldo legal."
         },
-        "feature3": {
-          "title": "Documentación siempre disponible",
-          "desc": "Accede a tus documentos legales y corporativos cuando los necesites, de forma segura y ordenada."
-        },
-        "feature4": {
-          "title": "Acompañamiento experto",
-          "desc": "Nuestro equipo te guía durante todo el proceso, resolviendo dudas legales, fiscales y operativas para que tomes decisiones con confianza."
+        "service3": {
+          "label": "Cuenta Bancaria",
+          "title": "CUENTA BANCARIA",
+          "desc": "Te acompañamos para abrir tu cuenta internacional y empezar a mover tu negocio sin límites ni barreras."
         }
       },
       "firstName": "Nombre",

@@ -669,21 +669,20 @@
       "infoCard": {
         "title": "Your private space",
         "subtitle": "Start managing your LLC simply, securely, and with professional guidance from the very first moment.",
-        "feature1": {
-          "title": "Access your private area",
-          "desc": "Centralize your services, documents, and business tracking in one place designed to simplify managing your US company."
+        "service1": {
+          "label": "State Registration",
+          "title": "STATE REGISTRATION",
+          "desc": "We create your LLC with you and for you. We handle the complete legal process so you can start your business stress-free."
         },
-        "feature2": {
-          "title": "Clear and organized management",
-          "desc": "Track the status of your formation, tax compliance, and active services without complications or confusing processes."
+        "service2": {
+          "label": "EIN Included",
+          "title": "EIN INCLUDED",
+          "desc": "We obtain your US tax number so your company can operate with complete peace of mind and legal backing."
         },
-        "feature3": {
-          "title": "Documents always available",
-          "desc": "Access your legal and corporate documents whenever you need them, securely and neatly organized."
-        },
-        "feature4": {
-          "title": "Expert guidance",
-          "desc": "Our team guides you through the entire process, resolving legal, tax, and operational questions so you can make decisions with confidence."
+        "service3": {
+          "label": "Bank Account",
+          "title": "BANK ACCOUNT",
+          "desc": "We guide you through opening your international account so you can run your business without limits or barriers."
         }
       },
       "firstName": "First Name",
