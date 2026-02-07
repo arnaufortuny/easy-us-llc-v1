@@ -3,7 +3,9 @@ import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
+import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
+import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
@@ -530,11 +532,19 @@ function HomeFAQ() {
           </p>
           <Button
             size="lg"
-            onClick={() => setLocation("/contacto")}
-            className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full h-12 shadow-md"
+            asChild
+            className="bg-[#25D366] hover:bg-[#25D366]/90 text-white font-black text-sm px-8 border-0 rounded-full h-12 shadow-lg"
             data-testid="button-faq-cta"
           >
-            {t("homeFaq.ctaButton")} →
+            <a
+              href={getWhatsAppUrl("homeFaq")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2"
+            >
+              <SiWhatsapp className="w-5 h-5" />
+              {t("homeFaq.ctaButton")} →
+            </a>
           </Button>
         </motion.div>
       </div>

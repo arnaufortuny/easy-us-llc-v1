@@ -2300,7 +2300,8 @@
     "faq": "Hi! I've been reviewing the FAQ but I have a question I can't find. Can we talk?",
     "contactForm": "Hi! I just submitted a contact form and would like to speak directly with you about creating my LLC. Do you have a moment?",
     "contactDirect": "Hi! I'm on the contact page and prefer to talk directly. Can we discuss how to create my LLC?",
-    "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?"
+    "llcFormation": "Hi! I'm on the LLC creation form and I need an LLC with multiple partners. Can we talk about the options?",
+    "homeFaq": "Hi! I want to evaluate my case and see if an LLC fits my business. Can we talk?"
   },
   "taxComparator": {
     "badge": "SAVINGS CALCULATOR",

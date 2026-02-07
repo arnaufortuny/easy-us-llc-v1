@@ -2300,7 +2300,8 @@
     "faq": "Hola! He estat revisant les FAQ però tinc un dubte que no trobo. Podem parlar?",
     "contactForm": "Hola! Acabo d'enviar un formulari de contacte i m'agradaria parlar directament amb vosaltres sobre crear la meva LLC. Teniu un moment?",
     "contactDirect": "Hola! Estic a la pàgina de contacte i prefereixo parlar directament. Podem conversar sobre com crear la meva LLC?",
-    "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?"
+    "llcFormation": "Hola! Estic al formulari de creació de LLC i necessito una LLC amb diversos socis. Podem parlar sobre les opcions?",
+    "homeFaq": "Hola! Vull avaluar el meu cas i veure si una LLC encaixa amb el meu negoci. Podem parlar?"
   },
   "taxComparator": {
     "badge": "CALCULADORA D'ESTALVI",

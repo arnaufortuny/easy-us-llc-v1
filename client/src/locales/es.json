@@ -2300,7 +2300,8 @@
     "faq": "Hola! He estado revisando las FAQ pero tengo una duda que no encuentro. ¿Podemos hablar?",
     "contactForm": "Hola! Acabo de enviar un formulario de contacto y me gustaría hablar directamente con vosotros sobre crear mi LLC. ¿Tenéis un momento?",
     "contactDirect": "Hola! Estoy en la página de contacto y prefiero hablar directamente. ¿Podemos conversar sobre cómo crear mi LLC?",
-    "llcFormation": "Hola! Estoy en el formulario de creación de LLC y necesito una LLC con varios socios. ¿Podemos hablar sobre las opciones?"
+    "llcFormation": "Hola! Estoy en el formulario de creación de LLC y necesito una LLC con varios socios. ¿Podemos hablar sobre las opciones?",
+    "homeFaq": "Hola! Quiero evaluar mi caso y ver si una LLC encaja con mi negocio. ¿Podemos hablar?"
   },
   "taxComparator": {
     "badge": "CALCULADORA DE AHORRO",
