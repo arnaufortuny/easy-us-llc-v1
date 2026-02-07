@@ -641,23 +641,23 @@
       "securityVerificationDesc": "We've sent a 6-digit code to your email. Enter it to continue.",
       "securityCode": "Verification code",
       "infoCard": {
-        "title": "Private Control Center",
-        "subtitle": "Manage your LLC with clarity, security, and strategic fiscal oversight from one centralized platform designed for global entrepreneurs.",
+        "title": "Client Area",
+        "subtitle": "Manage your LLC, access your documents, and stay tax-compliant from a private space designed for global entrepreneurs.",
         "feature1": {
-          "title": "Smart Dashboard",
-          "desc": "Monitor the status of your formation, services, compliance, and orders in real time. Always know where your company stands and what comes next."
+          "title": "Control panel",
+          "desc": "Check the status of your company, active services, and every procedure in real time. You'll always know where your LLC stands and what comes next."
         },
         "feature2": {
-          "title": "Secure Document Vault",
-          "desc": "Access your legal, fiscal, and corporate documents anytime with enterprise-grade security. Everything organized, protected, and ready when you need it."
+          "title": "Secure corporate documents",
+          "desc": "Access your Operating Agreement, EIN, certificates, and legal documents anytime. Everything organized and protected so it's always available."
         },
         "feature3": {
-          "title": "Direct Expert Support",
-          "desc": "Talk directly with our team through messages and consultations. Clear answers, strategic guidance, and real human support whenever you need it."
+          "title": "Direct expert support",
+          "desc": "Talk to our team to resolve legal, operational, or tax questions. Real guidance throughout the entire life of your company."
         },
         "feature4": {
-          "title": "Tax & Compliance Calendar",
-          "desc": "Stay ahead of deadlines, filings, and obligations. We help you maintain compliance while optimizing your international tax structure."
+          "title": "Tax calendar & compliance",
+          "desc": "Stay up to date with reports, obligations, and key dates. We help you reduce risks while optimizing your international tax structure."
         }
       }
     },

@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Wir haben einen 6-stelligen Code an Ihre E-Mail gesendet. Geben Sie ihn ein, um fortzufahren.",
       "securityCode": "Bestätigungscode",
       "infoCard": {
-        "title": "Privates Kontrollzentrum",
-        "subtitle": "Verwalten Sie Ihre LLC mit Klarheit, Sicherheit und strategischer Steueraufsicht von einer zentralen Plattform für globale Unternehmer.",
+        "title": "Kundenbereich",
+        "subtitle": "Verwalten Sie Ihre LLC, greifen Sie auf Ihre Dokumente zu und bleiben Sie steuerkonform – in einem privaten Bereich für globale Unternehmer.",
         "feature1": {
-          "title": "Intelligentes Dashboard",
-          "desc": "Überwachen Sie den Status Ihrer Gründung, Dienstleistungen, Compliance und Bestellungen in Echtzeit. Wissen Sie immer, wo Ihr Unternehmen steht."
+          "title": "Kontrollpanel",
+          "desc": "Prüfen Sie den Status Ihres Unternehmens, aktiver Dienste und jedes Verfahrens in Echtzeit. Sie wissen immer, wo Ihre LLC steht und was als Nächstes kommt."
         },
         "feature2": {
-          "title": "Sicherer Dokumententresor",
-          "desc": "Greifen Sie jederzeit mit Sicherheit auf Unternehmensebene auf Ihre rechtlichen, steuerlichen und unternehmerischen Dokumente zu."
+          "title": "Sichere Unternehmensdokumente",
+          "desc": "Greifen Sie jederzeit auf Ihr Operating Agreement, EIN, Zertifikate und Rechtsdokumente zu. Alles organisiert und geschützt, damit es immer verfügbar ist."
         },
         "feature3": {
           "title": "Direkter Expertensupport",
-          "desc": "Sprechen Sie direkt mit unserem Team über Nachrichten und Beratungen. Klare Antworten, strategische Beratung und echte menschliche Unterstützung."
+          "desc": "Sprechen Sie mit unserem Team, um rechtliche, operative oder steuerliche Fragen zu klären. Echte Begleitung während der gesamten Lebensdauer Ihres Unternehmens."
         },
         "feature4": {
-          "title": "Steuer- und Compliance-Kalender",
-          "desc": "Bleiben Sie Fristen, Einreichungen und Verpflichtungen voraus. Wir helfen Ihnen, die Compliance zu wahren und Ihre internationale Steuerstruktur zu optimieren."
+          "title": "Steuerkalender & Compliance",
+          "desc": "Bleiben Sie auf dem Laufenden mit Berichten, Pflichten und wichtigen Terminen. Wir helfen Ihnen, Risiken zu minimieren und Ihre internationale Steuerstruktur zu optimieren."
         }
       }
     },

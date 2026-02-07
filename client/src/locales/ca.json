@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Hem enviat un codi de 6 dígits al teu email. Introdueix-lo per continuar.",
       "securityCode": "Codi de verificació",
       "infoCard": {
-        "title": "Centre de Control Privat",
-        "subtitle": "Gestiona la teva LLC amb claredat, seguretat i supervisió fiscal estratègica des d'una plataforma centralitzada dissenyada per a emprenedors globals.",
+        "title": "Àrea de Clients",
+        "subtitle": "Gestiona la teva LLC, accedeix a la teva documentació i mantén el compliment fiscal des d'un espai privat pensat per a emprenedors globals.",
         "feature1": {
-          "title": "Tauler Intel·ligent",
-          "desc": "Monitoritza l'estat de la teva formació, serveis, compliment i comandes en temps real. Sempre sabràs on es troba la teva empresa."
+          "title": "Tauler de control",
+          "desc": "Consulta l'estat de la teva empresa, serveis actius i cada tràmit en temps real. Sempre sabràs en quin punt està la teva LLC i quins són els següents passos."
         },
         "feature2": {
-          "title": "Cambra de Documents Segura",
-          "desc": "Accedeix als teus documents legals, fiscals i corporatius en qualsevol moment amb seguretat de nivell empresarial."
+          "title": "Documentació corporativa segura",
+          "desc": "Accedeix al teu Operating Agreement, EIN, certificats i documents legals en qualsevol moment. Tot organitzat i protegit perquè ho tinguis sempre disponible."
         },
         "feature3": {
-          "title": "Suport Expert Directe",
-          "desc": "Parla directament amb el nostre equip a través de missatges i consultes. Respostes clares, orientació estratègica i suport humà real."
+          "title": "Suport expert directe",
+          "desc": "Parla amb el nostre equip per resoldre dubtes legals, operatius o fiscals. Acompanyament real durant tota la vida de la teva empresa."
         },
         "feature4": {
-          "title": "Calendari Fiscal i de Compliment",
-          "desc": "Avança't als terminis, declaracions i obligacions. T'ajudem a mantenir el compliment mentre optimitzes la teva estructura fiscal internacional."
+          "title": "Calendari fiscal i compliment",
+          "desc": "Mantén-te al dia amb informes, obligacions i dates clau. T'ajudem a reduir riscos mentre optimitzes la teva estructura fiscal internacional."
         }
       }
     },

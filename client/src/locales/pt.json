@@ -641,23 +641,23 @@
       "securityVerificationDesc": "Enviámos um código de 6 dígitos para o teu email. Introduz-o para continuar.",
       "securityCode": "Código de verificação",
       "infoCard": {
-        "title": "Centro de Controle Privado",
-        "subtitle": "Gerencie sua LLC com clareza, segurança e supervisão fiscal estratégica a partir de uma plataforma centralizada projetada para empreendedores globais.",
+        "title": "Área de Clientes",
+        "subtitle": "Gerencie sua LLC, acesse sua documentação e mantenha a conformidade fiscal a partir de um espaço privado pensado para empreendedores globais.",
         "feature1": {
-          "title": "Painel Inteligente",
-          "desc": "Monitore o status da sua formação, serviços, conformidade e pedidos em tempo real. Saiba sempre onde sua empresa está."
+          "title": "Painel de controle",
+          "desc": "Consulte o status da sua empresa, serviços ativos e cada procedimento em tempo real. Você sempre saberá em que ponto está sua LLC e quais são os próximos passos."
         },
         "feature2": {
-          "title": "Cofre de Documentos Seguro",
-          "desc": "Acesse seus documentos legais, fiscais e corporativos a qualquer momento com segurança de nível empresarial."
+          "title": "Documentação corporativa segura",
+          "desc": "Acesse seu Operating Agreement, EIN, certificados e documentos legais a qualquer momento. Tudo organizado e protegido para estar sempre disponível."
         },
         "feature3": {
-          "title": "Suporte Especializado Direto",
-          "desc": "Fale diretamente com nossa equipe através de mensagens e consultas. Respostas claras, orientação estratégica e suporte humano real."
+          "title": "Suporte especializado direto",
+          "desc": "Fale com nossa equipe para resolver dúvidas legais, operacionais ou fiscais. Acompanhamento real durante toda a vida da sua empresa."
         },
         "feature4": {
-          "title": "Calendário Fiscal e de Conformidade",
-          "desc": "Fique à frente de prazos, declarações e obrigações. Ajudamos você a manter a conformidade enquanto otimiza sua estrutura fiscal internacional."
+          "title": "Calendário fiscal e conformidade",
+          "desc": "Mantenha-se atualizado com relatórios, obrigações e datas-chave. Ajudamos você a reduzir riscos enquanto otimiza sua estrutura fiscal internacional."
         }
       }
     },
