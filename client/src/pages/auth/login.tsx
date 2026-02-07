@@ -266,12 +266,12 @@ export default function Login() {
             </div>
 
             <div className="hidden lg:flex lg:flex-col">
-              <div className="p-7 xl:p-8 flex-1 flex flex-col justify-center">
+              <div className="flex-1 flex flex-col justify-center">
                 <div className="mb-5">
-                  <h2 className="text-2xl xl:text-3xl font-black text-foreground tracking-tight">
-                    {t("auth.login.infoCard.title")}
+                  <h2 className="text-2xl xl:text-3xl font-black tracking-tight">
+                    <span className="text-foreground">{t("auth.login.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.login.infoCard.title").split(' ').slice(-1)[0]}</span>
                   </h2>
-                  <p className="text-muted-foreground mt-2 text-xs leading-relaxed">
+                  <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed">
                     {t("auth.login.infoCard.subtitle")}
                   </p>
                 </div>
@@ -279,7 +279,7 @@ export default function Login() {
                 <div className="space-y-0">
                   {infoFeatureKeys.map((feature, idx) => (
                     <div key={idx} data-testid={`info-feature-${idx}`}>
-                      {idx > 0 && <div className="border-t border-accent/15 my-3" />}
+                      {idx > 0 && <div className="border-t border-foreground/10 my-3" />}
                       <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
                       <p className="text-[11px] text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
                     </div>
