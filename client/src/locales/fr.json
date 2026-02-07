@@ -2763,7 +2763,52 @@
       "generating": "Génération en cours...",
       "toolTitle": "Générateur CSV comptable",
       "toolDescription": "Enregistrez vos revenus et dépenses pour une comptabilité professionnelle.",
-      "openTool": "Créer un enregistrement"
+      "openTool": "Créer un enregistrement",
+      "categories": {
+        "sales": "Ventes",
+        "services": "Services",
+        "consulting": "Conseil",
+        "affiliateIncome": "Revenus d'affiliation",
+        "digitalProducts": "Produits numériques",
+        "otherIncome": "Autres revenus",
+        "softwareSaas": "Logiciel / SaaS",
+        "advertisingMarketing": "Publicité / Marketing",
+        "contractorsFreelancers": "Prestataires / Freelances",
+        "bankingFees": "Frais bancaires",
+        "officeExpenses": "Frais de bureau",
+        "travel": "Voyages",
+        "professionalServices": "Services professionnels",
+        "education": "Formation",
+        "hostingDomains": "Hébergement / Domaines",
+        "equipment": "Équipement",
+        "other": "Autres",
+        "transfer": "Virement"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Virement bancaire",
+        "creditCard": "Carte de crédit",
+        "debitCard": "Carte de débit",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Espèces",
+        "check": "Chèque",
+        "crypto": "Crypto",
+        "other": "Autres"
+      },
+      "csvHeaders": {
+        "date": "Date",
+        "description": "Description",
+        "amount": "Montant",
+        "currency": "Devise",
+        "type": "Type",
+        "category": "Catégorie",
+        "paymentMethod": "Mode de paiement",
+        "bankAccount": "Compte bancaire",
+        "invoiceNumber": "N° de facture",
+        "notes": "Notes"
+      }
     }
   },
   "seo": {

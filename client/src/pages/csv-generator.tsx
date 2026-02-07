@@ -27,43 +27,52 @@ interface Transaction {
 }
 
 const INCOME_CATEGORIES = [
-  'Sales',
-  'Services',
-  'Consulting',
-  'Affiliate income',
-  'Digital products',
-  'Other income'
+  { value: 'Sales', labelKey: 'tools.csvGenerator.categories.sales' },
+  { value: 'Services', labelKey: 'tools.csvGenerator.categories.services' },
+  { value: 'Consulting', labelKey: 'tools.csvGenerator.categories.consulting' },
+  { value: 'Affiliate income', labelKey: 'tools.csvGenerator.categories.affiliateIncome' },
+  { value: 'Digital products', labelKey: 'tools.csvGenerator.categories.digitalProducts' },
+  { value: 'Other income', labelKey: 'tools.csvGenerator.categories.otherIncome' },
 ];
 
 const EXPENSE_CATEGORIES = [
-  'Software / SaaS',
-  'Advertising / Marketing',
-  'Contractors / Freelancers',
-  'Banking fees',
-  'Office expenses',
-  'Travel',
-  'Professional services',
-  'Education',
-  'Hosting / Domains',
-  'Equipment',
-  'Other'
+  { value: 'Software / SaaS', labelKey: 'tools.csvGenerator.categories.softwareSaas' },
+  { value: 'Advertising / Marketing', labelKey: 'tools.csvGenerator.categories.advertisingMarketing' },
+  { value: 'Contractors / Freelancers', labelKey: 'tools.csvGenerator.categories.contractorsFreelancers' },
+  { value: 'Banking fees', labelKey: 'tools.csvGenerator.categories.bankingFees' },
+  { value: 'Office expenses', labelKey: 'tools.csvGenerator.categories.officeExpenses' },
+  { value: 'Travel', labelKey: 'tools.csvGenerator.categories.travel' },
+  { value: 'Professional services', labelKey: 'tools.csvGenerator.categories.professionalServices' },
+  { value: 'Education', labelKey: 'tools.csvGenerator.categories.education' },
+  { value: 'Hosting / Domains', labelKey: 'tools.csvGenerator.categories.hostingDomains' },
+  { value: 'Equipment', labelKey: 'tools.csvGenerator.categories.equipment' },
+  { value: 'Other', labelKey: 'tools.csvGenerator.categories.other' },
+];
+
+const TRANSFER_CATEGORIES = [
+  { value: 'Transfer', labelKey: 'tools.csvGenerator.categories.transfer' },
 ];
 
 const CURRENCIES = ['USD', 'EUR', 'GBP', 'CAD', 'AUD', 'MXN'];
 
 const PAYMENT_METHODS = [
-  'Bank Transfer',
-  'Credit Card',
-  'Debit Card',
-  'PayPal',
-  'Stripe',
-  'Wise',
-  'Mercury',
-  'Cash',
-  'Check',
-  'Crypto',
-  'Other'
+  { value: 'Bank Transfer', labelKey: 'tools.csvGenerator.paymentMethods.bankTransfer' },
+  { value: 'Credit Card', labelKey: 'tools.csvGenerator.paymentMethods.creditCard' },
+  { value: 'Debit Card', labelKey: 'tools.csvGenerator.paymentMethods.debitCard' },
+  { value: 'PayPal', labelKey: 'tools.csvGenerator.paymentMethods.paypal' },
+  { value: 'Stripe', labelKey: 'tools.csvGenerator.paymentMethods.stripe' },
+  { value: 'Wise', labelKey: 'tools.csvGenerator.paymentMethods.wise' },
+  { value: 'Mercury', labelKey: 'tools.csvGenerator.paymentMethods.mercury' },
+  { value: 'Cash', labelKey: 'tools.csvGenerator.paymentMethods.cash' },
+  { value: 'Check', labelKey: 'tools.csvGenerator.paymentMethods.check' },
+  { value: 'Crypto', labelKey: 'tools.csvGenerator.paymentMethods.crypto' },
+  { value: 'Other', labelKey: 'tools.csvGenerator.paymentMethods.other' },
 ];
+
+const CATEGORY_LABEL_MAP: Record<string, string> = {};
+[...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES, ...TRANSFER_CATEGORIES].forEach(cat => {
+  CATEGORY_LABEL_MAP[cat.value] = cat.labelKey;
+});
 
 function generateId() {
   return Math.random().toString(36).substr(2, 9);
@@ -127,11 +136,11 @@ export default function CsvGenerator() {
         const updated = { ...t, [field]: value };
         if (field === 'type') {
           if (value === 'income') {
-            updated.category = INCOME_CATEGORIES[0];
+            updated.category = INCOME_CATEGORIES[0].value;
           } else if (value === 'expense') {
-            updated.category = EXPENSE_CATEGORIES[0];
+            updated.category = EXPENSE_CATEGORIES[0].value;
           } else {
-            updated.category = 'Transfer';
+            updated.category = TRANSFER_CATEGORIES[0].value;
           }
         }
         return updated;
@@ -143,26 +152,37 @@ export default function CsvGenerator() {
   const getCategoriesForType = (type: string) => {
     if (type === 'income') return INCOME_CATEGORIES;
     if (type === 'expense') return EXPENSE_CATEGORIES;
-    return ['Transfer'];
+    return TRANSFER_CATEGORIES;
   };
 
   const downloadCSV = () => {
     setIsGenerating(true);
     
     setTimeout(() => {
-      const headers = ['Date', 'Description', 'Amount', 'Currency', 'Type', 'Category', 'Payment Method', 'Bank Account', 'Invoice Number', 'Notes'];
+      const headers = [
+        t('tools.csvGenerator.csvHeaders.date'),
+        t('tools.csvGenerator.csvHeaders.description'),
+        t('tools.csvGenerator.csvHeaders.amount'),
+        t('tools.csvGenerator.csvHeaders.currency'),
+        t('tools.csvGenerator.csvHeaders.type'),
+        t('tools.csvGenerator.csvHeaders.category'),
+        t('tools.csvGenerator.csvHeaders.paymentMethod'),
+        t('tools.csvGenerator.csvHeaders.bankAccount'),
+        t('tools.csvGenerator.csvHeaders.invoiceNumber'),
+        t('tools.csvGenerator.csvHeaders.notes'),
+      ];
       
-      const rows = transactions.map(t => [
-        t.date,
-        `"${t.description.replace(/"/g, '""')}"`,
-        t.amount,
-        t.currency,
-        t.type.charAt(0).toUpperCase() + t.type.slice(1),
-        t.category,
-        t.paymentMethod,
-        `"${t.bankAccount.replace(/"/g, '""')}"`,
-        `"${t.invoiceNumber.replace(/"/g, '""')}"`,
-        `"${t.notes.replace(/"/g, '""')}"`
+      const rows = transactions.map(tx => [
+        tx.date,
+        `"${tx.description.replace(/"/g, '""')}"`,
+        tx.amount,
+        tx.currency,
+        t("tools.csvGenerator." + tx.type),
+        CATEGORY_LABEL_MAP[tx.category] ? t(CATEGORY_LABEL_MAP[tx.category]) : tx.category,
+        tx.paymentMethod,
+        `"${tx.bankAccount.replace(/"/g, '""')}"`,
+        `"${tx.invoiceNumber.replace(/"/g, '""')}"`,
+        `"${tx.notes.replace(/"/g, '""')}"`
       ]);
 
       const csvContent = [
@@ -361,7 +381,7 @@ export default function CsvGenerator() {
                         data-testid={`select-category-${index}`}
                       >
                         {getCategoriesForType(transaction.type).map(cat => (
-                          <NativeSelectItem key={cat} value={cat}>{cat}</NativeSelectItem>
+                          <NativeSelectItem key={cat.value} value={cat.value}>{t(cat.labelKey)}</NativeSelectItem>
                         ))}
                       </NativeSelect>
                     </div>
@@ -375,7 +395,7 @@ export default function CsvGenerator() {
                         data-testid={`select-payment-method-${index}`}
                       >
                         {PAYMENT_METHODS.map(pm => (
-                          <NativeSelectItem key={pm} value={pm}>{pm}</NativeSelectItem>
+                          <NativeSelectItem key={pm.value} value={pm.value}>{t(pm.labelKey)}</NativeSelectItem>
                         ))}
                       </NativeSelect>
                     </div>

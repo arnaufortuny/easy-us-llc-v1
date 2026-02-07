@@ -2763,7 +2763,52 @@
       "generating": "Generant...",
       "toolTitle": "Generador CSV Comptable",
       "toolDescription": "Registra els teus ingressos i despeses per a la teva comptabilitat professional.",
-      "openTool": "Crear Registre"
+      "openTool": "Crear Registre",
+      "categories": {
+        "sales": "Vendes",
+        "services": "Serveis",
+        "consulting": "Consultoria",
+        "affiliateIncome": "Ingressos d'afiliats",
+        "digitalProducts": "Productes digitals",
+        "otherIncome": "Altres ingressos",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Publicitat / Màrqueting",
+        "contractorsFreelancers": "Contractistes / Freelancers",
+        "bankingFees": "Comissions bancàries",
+        "officeExpenses": "Despeses d'oficina",
+        "travel": "Viatges",
+        "professionalServices": "Serveis professionals",
+        "education": "Formació",
+        "hostingDomains": "Hosting / Dominis",
+        "equipment": "Equipament",
+        "other": "Altres",
+        "transfer": "Transferència"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Transferència bancària",
+        "creditCard": "Targeta de crèdit",
+        "debitCard": "Targeta de dèbit",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Efectiu",
+        "check": "Xec",
+        "crypto": "Cripto",
+        "other": "Altres"
+      },
+      "csvHeaders": {
+        "date": "Data",
+        "description": "Descripció",
+        "amount": "Import",
+        "currency": "Moneda",
+        "type": "Tipus",
+        "category": "Categoria",
+        "paymentMethod": "Mètode de Pagament",
+        "bankAccount": "Compte Bancari",
+        "invoiceNumber": "Nº Factura",
+        "notes": "Notes"
+      }
     }
   },
   "seo": {

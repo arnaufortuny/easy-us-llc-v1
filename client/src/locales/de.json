@@ -2763,7 +2763,52 @@
       "generating": "Wird erstellt...",
       "toolTitle": "Buchhaltungs-CSV-Generator",
       "toolDescription": "Erfassen Sie Ihre Einnahmen und Ausgaben für die professionelle Buchführung.",
-      "openTool": "Datensatz erstellen"
+      "openTool": "Datensatz erstellen",
+      "categories": {
+        "sales": "Verkäufe",
+        "services": "Dienstleistungen",
+        "consulting": "Beratung",
+        "affiliateIncome": "Affiliate-Einnahmen",
+        "digitalProducts": "Digitale Produkte",
+        "otherIncome": "Sonstige Einnahmen",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Werbung / Marketing",
+        "contractorsFreelancers": "Auftragnehmer / Freelancer",
+        "bankingFees": "Bankgebühren",
+        "officeExpenses": "Bürokosten",
+        "travel": "Reisen",
+        "professionalServices": "Professionelle Dienstleistungen",
+        "education": "Weiterbildung",
+        "hostingDomains": "Hosting / Domains",
+        "equipment": "Ausrüstung",
+        "other": "Sonstiges",
+        "transfer": "Überweisung"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Banküberweisung",
+        "creditCard": "Kreditkarte",
+        "debitCard": "Debitkarte",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Bargeld",
+        "check": "Scheck",
+        "crypto": "Krypto",
+        "other": "Sonstiges"
+      },
+      "csvHeaders": {
+        "date": "Datum",
+        "description": "Beschreibung",
+        "amount": "Betrag",
+        "currency": "Währung",
+        "type": "Typ",
+        "category": "Kategorie",
+        "paymentMethod": "Zahlungsmethode",
+        "bankAccount": "Bankkonto",
+        "invoiceNumber": "Rechnungsnr.",
+        "notes": "Anmerkungen"
+      }
     }
   },
   "seo": {

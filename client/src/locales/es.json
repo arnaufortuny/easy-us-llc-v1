@@ -2763,7 +2763,52 @@
       "generating": "Generando...",
       "toolTitle": "Registro Contable CSV",
       "toolDescription": "Anota tus ingresos y gastos de forma simple y descarga un archivo listo para tu contabilidad o para compartir con tu asesor.",
-      "openTool": "Crear registro"
+      "openTool": "Crear registro",
+      "categories": {
+        "sales": "Ventas",
+        "services": "Servicios",
+        "consulting": "Consultoría",
+        "affiliateIncome": "Ingresos de afiliados",
+        "digitalProducts": "Productos digitales",
+        "otherIncome": "Otros ingresos",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Publicidad / Marketing",
+        "contractorsFreelancers": "Contratistas / Freelancers",
+        "bankingFees": "Comisiones bancarias",
+        "officeExpenses": "Gastos de oficina",
+        "travel": "Viajes",
+        "professionalServices": "Servicios profesionales",
+        "education": "Formación",
+        "hostingDomains": "Hosting / Dominios",
+        "equipment": "Equipamiento",
+        "other": "Otros",
+        "transfer": "Transferencia"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Transferencia bancaria",
+        "creditCard": "Tarjeta de crédito",
+        "debitCard": "Tarjeta de débito",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Efectivo",
+        "check": "Cheque",
+        "crypto": "Cripto",
+        "other": "Otros"
+      },
+      "csvHeaders": {
+        "date": "Fecha",
+        "description": "Descripción",
+        "amount": "Importe",
+        "currency": "Moneda",
+        "type": "Tipo",
+        "category": "Categoría",
+        "paymentMethod": "Método de Pago",
+        "bankAccount": "Cuenta Bancaria",
+        "invoiceNumber": "Nº Factura",
+        "notes": "Notas"
+      }
     }
   },
   "seo": {

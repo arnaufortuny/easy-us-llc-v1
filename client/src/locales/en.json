@@ -2763,7 +2763,52 @@
       "generating": "Generating...",
       "toolTitle": "Accounting CSV Generator",
       "toolDescription": "Record your income and expenses for professional bookkeeping.",
-      "openTool": "Create Record"
+      "openTool": "Create Record",
+      "categories": {
+        "sales": "Sales",
+        "services": "Services",
+        "consulting": "Consulting",
+        "affiliateIncome": "Affiliate income",
+        "digitalProducts": "Digital products",
+        "otherIncome": "Other income",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Advertising / Marketing",
+        "contractorsFreelancers": "Contractors / Freelancers",
+        "bankingFees": "Banking fees",
+        "officeExpenses": "Office expenses",
+        "travel": "Travel",
+        "professionalServices": "Professional services",
+        "education": "Education",
+        "hostingDomains": "Hosting / Domains",
+        "equipment": "Equipment",
+        "other": "Other",
+        "transfer": "Transfer"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Bank Transfer",
+        "creditCard": "Credit Card",
+        "debitCard": "Debit Card",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Cash",
+        "check": "Check",
+        "crypto": "Crypto",
+        "other": "Other"
+      },
+      "csvHeaders": {
+        "date": "Date",
+        "description": "Description",
+        "amount": "Amount",
+        "currency": "Currency",
+        "type": "Type",
+        "category": "Category",
+        "paymentMethod": "Payment Method",
+        "bankAccount": "Bank Account",
+        "invoiceNumber": "Invoice Number",
+        "notes": "Notes"
+      }
     }
   },
   "seo": {

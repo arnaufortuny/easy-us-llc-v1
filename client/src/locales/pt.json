@@ -2763,7 +2763,52 @@
       "generating": "A gerar...",
       "toolTitle": "Gerador CSV Contabilístico",
       "toolDescription": "Regista as tuas receitas e despesas para a tua contabilidade profissional.",
-      "openTool": "Criar Registo"
+      "openTool": "Criar Registo",
+      "categories": {
+        "sales": "Vendas",
+        "services": "Serviços",
+        "consulting": "Consultoria",
+        "affiliateIncome": "Receitas de afiliados",
+        "digitalProducts": "Produtos digitais",
+        "otherIncome": "Outras receitas",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Publicidade / Marketing",
+        "contractorsFreelancers": "Contratantes / Freelancers",
+        "bankingFees": "Comissões bancárias",
+        "officeExpenses": "Despesas de escritório",
+        "travel": "Viagens",
+        "professionalServices": "Serviços profissionais",
+        "education": "Formação",
+        "hostingDomains": "Hosting / Domínios",
+        "equipment": "Equipamento",
+        "other": "Outros",
+        "transfer": "Transferência"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Transferência bancária",
+        "creditCard": "Cartão de crédito",
+        "debitCard": "Cartão de débito",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Dinheiro",
+        "check": "Cheque",
+        "crypto": "Cripto",
+        "other": "Outros"
+      },
+      "csvHeaders": {
+        "date": "Data",
+        "description": "Descrição",
+        "amount": "Montante",
+        "currency": "Moeda",
+        "type": "Tipo",
+        "category": "Categoria",
+        "paymentMethod": "Método de Pagamento",
+        "bankAccount": "Conta Bancária",
+        "invoiceNumber": "N.º Fatura",
+        "notes": "Notas"
+      }
     }
   },
   "seo": {

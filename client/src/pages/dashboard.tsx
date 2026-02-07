@@ -26,6 +26,7 @@ import {
   getOrderStatusLabel,
   NewsletterToggle 
 } from "@/components/dashboard";
+import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
 import { ActivityLogPanel } from "@/components/dashboard/activity-log-panel";
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
@@ -2158,9 +2159,10 @@ export default function Dashboard() {
                             value={newOrderData.orderType} 
                             onValueChange={val => {
                               const type = val as 'llc' | 'maintenance';
+                              const stateKey = newOrderData.state === 'Wyoming' ? 'wyoming' : newOrderData.state === 'Delaware' ? 'delaware' : 'newMexico';
                               const defaultAmount = type === 'maintenance' 
-                                ? (newOrderData.state === 'Wyoming' ? '699' : newOrderData.state === 'Delaware' ? '999' : '539')
-                                : (newOrderData.state === 'Wyoming' ? '899' : newOrderData.state === 'Delaware' ? '1399' : '739');
+                                ? String(PRICING.maintenance[stateKey as keyof typeof PRICING.maintenance].price)
+                                : String(PRICING.formation[stateKey as keyof typeof PRICING.formation].price);
                               setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount }));
                             }}
                             placeholder={t('dashboard.admin.selectOrderType')}
@@ -2190,10 +2192,10 @@ export default function Dashboard() {
                           <NativeSelect 
                             value={newOrderData.state} 
                             onValueChange={val => {
-                              const prices = newOrderData.orderType === 'maintenance'
-                                ? { 'New Mexico': '539', 'Wyoming': '699', 'Delaware': '999' }
-                                : { 'New Mexico': '739', 'Wyoming': '899', 'Delaware': '1399' };
-                              setNewOrderData(p => ({ ...p, state: val, amount: prices[val as keyof typeof prices] || p.amount }));
+                              const sk = val === 'Wyoming' ? 'wyoming' : val === 'Delaware' ? 'delaware' : 'newMexico';
+                              const priceConfig = newOrderData.orderType === 'maintenance' ? PRICING.maintenance : PRICING.formation;
+                              const amount = String(priceConfig[sk as keyof typeof priceConfig].price);
+                              setNewOrderData(p => ({ ...p, state: val, amount }));
                             }}
                             placeholder={t('dashboard.admin.selectState')}
                             className="w-full rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
@@ -2201,15 +2203,15 @@ export default function Dashboard() {
                           >
                             {newOrderData.orderType === 'maintenance' ? (
                               <>
-                                <NativeSelectItem value="New Mexico">New Mexico - 539€</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">Wyoming - 699€</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">Delaware - 999€</NativeSelectItem>
+                                <NativeSelectItem value="New Mexico">New Mexico - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">Wyoming - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">Delaware - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
                               </>
                             ) : (
                               <>
-                                <NativeSelectItem value="New Mexico">New Mexico - 739€</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">Wyoming - 899€</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">Delaware - 1399€</NativeSelectItem>
+                                <NativeSelectItem value="New Mexico">New Mexico - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">Wyoming - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">Delaware - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
                               </>
                             )}
                           </NativeSelect>

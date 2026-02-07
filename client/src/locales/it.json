@@ -2763,7 +2763,52 @@
       "generating": "Generazione...",
       "toolTitle": "Generatore CSV Contabile",
       "toolDescription": "Registra le tue entrate e uscite per la tua contabilità professionale.",
-      "openTool": "Crea Registro"
+      "openTool": "Crea Registro",
+      "categories": {
+        "sales": "Vendite",
+        "services": "Servizi",
+        "consulting": "Consulenza",
+        "affiliateIncome": "Entrate da affiliazione",
+        "digitalProducts": "Prodotti digitali",
+        "otherIncome": "Altre entrate",
+        "softwareSaas": "Software / SaaS",
+        "advertisingMarketing": "Pubblicità / Marketing",
+        "contractorsFreelancers": "Appaltatori / Freelancer",
+        "bankingFees": "Commissioni bancarie",
+        "officeExpenses": "Spese d'ufficio",
+        "travel": "Viaggi",
+        "professionalServices": "Servizi professionali",
+        "education": "Formazione",
+        "hostingDomains": "Hosting / Domini",
+        "equipment": "Attrezzatura",
+        "other": "Altro",
+        "transfer": "Trasferimento"
+      },
+      "paymentMethods": {
+        "bankTransfer": "Bonifico bancario",
+        "creditCard": "Carta di credito",
+        "debitCard": "Carta di debito",
+        "paypal": "PayPal",
+        "stripe": "Stripe",
+        "wise": "Wise",
+        "mercury": "Mercury",
+        "cash": "Contanti",
+        "check": "Assegno",
+        "crypto": "Cripto",
+        "other": "Altro"
+      },
+      "csvHeaders": {
+        "date": "Data",
+        "description": "Descrizione",
+        "amount": "Importo",
+        "currency": "Valuta",
+        "type": "Tipo",
+        "category": "Categoria",
+        "paymentMethod": "Metodo di Pagamento",
+        "bankAccount": "Conto Bancario",
+        "invoiceNumber": "N° Fattura",
+        "notes": "Note"
+      }
     }
   },
   "seo": {
