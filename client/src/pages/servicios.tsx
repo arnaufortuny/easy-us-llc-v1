@@ -18,8 +18,7 @@ import { ChevronDown, Check, ArrowRight } from "@/components/icons";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
-import mercuryCardImg from "@assets/B883568F-4E2F-4619-8F88-C933BC8BFEDF_1770405636773.PNG";
-import relayCardImg from "@assets/8AEBDBD6-AEB3-456C-BC93-696EEAEB20AB_1770405783019.PNG";
+import relayLogo from "@assets/relay-logo.png";
 
 const FormationIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
@@ -520,18 +519,20 @@ export default function Servicios() {
           </div>
           <div className="grid md:grid-cols-2 gap-5 sm:gap-6 mb-16 sm:mb-24 max-w-4xl mx-auto">
             {bankItems.map((item, i) => {
-              const hasImage = item.key === "mercury" || item.key === "relay";
+              const isMercury = item.key === "mercury";
+              const isRelay = item.key === "relay";
+              const hasLogo = isMercury || isRelay;
               return (
                 <div 
                   key={i} 
-                  className="text-center flex flex-col items-center"
+                  className="rounded-2xl border-2 border-accent bg-transparent p-6 sm:p-8 text-center flex flex-col items-center"
                 >
-                  {hasImage && (
+                  {hasLogo && (
                     <div className="flex justify-center mb-5">
                       <img 
-                        src={item.key === "mercury" ? mercuryCardImg : relayCardImg} 
+                        src={isMercury ? mercuryLogo : relayLogo} 
                         alt={t(`services.banks.${item.key}.title`)}
-                        className="w-48 sm:w-56 h-auto object-contain"
+                        className="h-8 sm:h-10 w-auto object-contain"
                         loading="lazy"
                       />
                     </div>
