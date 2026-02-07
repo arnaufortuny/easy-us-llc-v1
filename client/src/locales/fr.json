@@ -167,25 +167,29 @@
       "badge": "PAS DE TVA",
       "title": "Pas de TVA sur la LLC",
       "text": "La LLC n'applique pas la TVA lors de la facturation de services numériques, que ce soit à des consommateurs finaux ou à des clients B2B internationaux. Nous structurons votre activité afin que la facturation soit effectuée correctement depuis la société américaine, sans TVA, conformément aux réglementations applicables et au type d'opération.",
-      "footer": "Vos services sont exonérés."
+      "footer": "Vos services sont exonérés.",
+      "button": "Quels impôts vais-je payer"
     },
     "taxes": {
       "badge": "0% IMPÔT",
       "title": "0% d'impôt sur les sociétés",
       "text": "Dans des États comme New Mexico ou Wyoming, la LLC n'est pas soumise à l'impôt sur les sociétés au niveau de l'État. La société ne paie pas d'impôt en tant que corporation aux États-Unis ; les bénéfices sont directement attribués au propriétaire, selon la structure fiscale de la LLC.",
-      "footer": "0% d'impôt sur les sociétés."
+      "footer": "0% d'impôt sur les sociétés.",
+      "button": "Quels impôts existent aux USA"
     },
     "fees": {
       "badge": "Cotisations",
       "title": "Pas de cotisations fixes",
       "text": "Aux États-Unis, il n'y a pas de cotisation sociale mensuelle liée à la LLC. Il n'y a pas de paiements périodiques obligatoires simplement pour avoir une entreprise active, qu'il y ait une activité ou non. La structure maintient des coûts fixes bas et une gestion allégée.",
-      "footer": "Pas de cotisations sociales."
+      "footer": "Pas de cotisations sociales.",
+      "button": "Impôts locaux aux USA"
     },
     "banking": {
       "badge": "Banque",
       "title": "Comptes bancaires",
       "text": "Nous vous guidons dans le processus d'ouverture de comptes bancaires chez Mercury et Relay. Accédez à un compte professionnel en USD, avec la possibilité de recevoir et d'envoyer des virements internationaux et de disposer d'une carte de débit et de crédit physique pour opérer à l'échelle mondiale.",
-      "footer": "Carte physique internationale."
+      "footer": "Carte physique internationale.",
+      "button": "Dans quelles banques puis-je ouvrir un compte"
     }
   },
   "ctaSection": {

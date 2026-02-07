@@ -167,25 +167,29 @@
       "badge": "SENZA IVA",
       "title": "Senza IVA nella LLC",
       "text": "La LLC non applica IVA nella fatturazione di servizi digitali, sia ai clienti finali che ai clienti B2B internazionali. Strutturiamo l'attività affinché la fatturazione avvenga correttamente dalla società americana, senza IVA, nel rispetto della normativa applicabile e del tipo di operazione.",
-      "footer": "I tuoi servizi sono esenti."
+      "footer": "I tuoi servizi sono esenti.",
+      "button": "Quali tasse pagherò"
     },
     "taxes": {
       "badge": "0% SOCIETÀ",
       "title": "0% Imposta sulle Società",
       "text": "In stati come il New Mexico o il Wyoming, la LLC non è soggetta all'imposta sulle società statale. L'impresa non paga imposte come società negli Stati Uniti: gli utili vengono attribuiti direttamente al proprietario, secondo la struttura fiscale della LLC.",
-      "footer": "Imposta sulle Società allo 0%."
+      "footer": "Imposta sulle Società allo 0%.",
+      "button": "Quali tasse ci sono negli USA"
     },
     "fees": {
       "badge": "Contributi",
       "title": "Nessuna quota fissa",
       "text": "Negli Stati Uniti non esiste un contributo mensile per lavoratori autonomi associato alla LLC. Non ci sono pagamenti periodici obbligatori per il semplice fatto di avere la società attiva, indipendentemente dall'esistenza o meno di attività. La struttura mantiene costi fissi ridotti e una gestione più snella.",
-      "footer": "Nessun contributo previdenziale."
+      "footer": "Nessun contributo previdenziale.",
+      "button": "Tasse locali negli USA"
     },
     "banking": {
       "badge": "Banca",
       "title": "Per banche e pagamenti, ci pensiamo noi",
       "text": "Ti accompagniamo nel processo di apertura dei conti bancari su Mercury e Relay. Accedi a un conto aziendale in USD, con la possibilità di ricevere e inviare bonifici internazionali e disporre di carta fisica di debito e credito per operare a livello globale.",
-      "footer": "Carta fisica internazionale."
+      "footer": "Carta fisica internazionale.",
+      "button": "In quali banche posso aprire un conto"
     }
   },
   "ctaSection": {

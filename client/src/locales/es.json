@@ -167,25 +167,29 @@
       "badge": "SIN IVA",
       "title": "Sin IVA en la LLC",
       "text": "La LLC no aplica IVA en la facturación de servicios digitales, tanto a clientes finales como a clientes B2B internacionales. Estructuramos la actividad para que la facturación se realice correctamente desde la empresa americana, sin IVA, conforme a la normativa aplicable y al tipo de operación.",
-      "footer": "Tus servicios están exentos."
+      "footer": "Tus servicios están exentos.",
+      "button": "Qué impuestos pagaré"
     },
     "taxes": {
       "badge": "0% SOCIEDADES",
       "title": "0% Impuesto de Sociedades",
       "text": "En estados como New Mexico o Wyoming, la LLC no está sujeta a impuesto de sociedades estatal. La empresa no tributa como sociedad en Estados Unidos, sino que los beneficios se atribuyen directamente al propietario, según la estructura fiscal de la LLC.",
-      "footer": "Impuesto de Sociedades al 0%."
+      "footer": "Impuesto de Sociedades al 0%.",
+      "button": "Qué impuestos hay en USA"
     },
     "fees": {
       "badge": "Cuotas",
       "title": "Sin cuota fija",
       "text": "En Estados Unidos no existe una cuota mensual de autónomos asociada a la LLC. No hay pagos periódicos obligatorios por el simple hecho de tener la empresa activa, independientemente de que exista o no actividad. La estructura mantiene costes fijos reducidos y una gestión más ligera.",
-      "footer": "Sin cuota de autónomos."
+      "footer": "Sin cuota de autónomos.",
+      "button": "Impuestos locales en USA"
     },
     "banking": {
       "badge": "Banca",
       "title": "Sobre bancos y pagos, nosotros nos encargamos",
       "text": "Te acompañamos en el proceso de apertura de cuentas bancarias en Mercury y Relay. Accede a una cuenta empresarial en USD, con capacidad para recibir y enviar transferencias internacionales y disponer de tarjeta física de débito y crédito para operar a nivel global.",
-      "footer": "Tarjeta física internacional."
+      "footer": "Tarjeta física internacional.",
+      "button": "En qué bancos puedo abrir cuenta"
     }
   },
   "ctaSection": {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -11,6 +11,7 @@ import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
+import { ArrowRight } from "@/components/icons";
 import type { Product } from "@shared/schema";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import llcFormationImg from "@assets/D69A3B61-5493-4DA9-B0CC-F8C4513AA081_1770477081267.png";
@@ -146,32 +147,44 @@ function BenefitsCards() {
   
   const benefits = [
     { 
+      key: "vat",
       badge: t("benefits.vat.badge"), 
       title: t("benefits.vat.title"), 
       text: t("benefits.vat.text"), 
       footer: t("benefits.vat.footer"),
-      image: "/benefits-no-vat.png"
+      image: "/benefits-no-vat.png",
+      buttonLabel: t("benefits.vat.button"),
+      buttonHref: "/faq#taxes-0"
     },
     { 
+      key: "taxes",
       badge: t("benefits.taxes.badge"), 
       title: t("benefits.taxes.title"), 
       text: t("benefits.taxes.text"), 
       footer: t("benefits.taxes.footer"),
-      image: "/benefits-no-tax.png"
+      image: "/benefits-no-tax.png",
+      buttonLabel: t("benefits.taxes.button"),
+      buttonHref: "/faq#taxes-5"
     },
     { 
-      badge: t("benefits.fees.badge"), 
-      title: t("benefits.fees.title"), 
-      text: t("benefits.fees.text"), 
-      footer: t("benefits.fees.footer"),
-      image: "/benefits-no-fees.png"
-    },
-    { 
+      key: "banking",
       badge: t("benefits.banking.badge"), 
       title: t("benefits.banking.title"), 
       text: t("benefits.banking.text"), 
       footer: t("benefits.banking.footer"),
-      image: "/benefits-banking.png"
+      image: "/benefits-banking.png",
+      buttonLabel: t("benefits.banking.button"),
+      buttonHref: "/servicios#bancos"
+    },
+    { 
+      key: "fees",
+      badge: t("benefits.fees.badge"), 
+      title: t("benefits.fees.title"), 
+      text: t("benefits.fees.text"), 
+      footer: t("benefits.fees.footer"),
+      image: "/benefits-no-fees.png",
+      buttonLabel: t("benefits.fees.button"),
+      buttonHref: "/faq#taxes-5"
     },
   ];
 
@@ -193,7 +206,15 @@ function BenefitsCards() {
           <div className="p-4 lg:p-5 flex-grow text-left">
             <span className="inline-block px-3 py-1.5 rounded-full bg-accent text-accent-foreground font-black text-xs shadow-sm mb-3 text-left">{card.badge}</span>
             <h3 className="text-lg lg:text-base xl:text-lg font-black tracking-tighter text-foreground mb-2 leading-tight text-left">{card.title}</h3>
-            <p className="text-muted-foreground text-sm leading-relaxed text-left">{card.text}</p>
+            <p className="text-muted-foreground text-sm leading-relaxed text-left mb-4">{card.text}</p>
+            <Link
+              href={card.buttonHref}
+              className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+              data-testid={`button-benefit-${card.key}`}
+            >
+              {card.buttonLabel}
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
           <div className="bg-accent/10 px-4 lg:px-5 py-3 border-t border-accent/20 mt-auto text-left">
             <p className="text-xs font-black text-foreground text-left">{card.footer}</p>

@@ -167,25 +167,29 @@
       "badge": "KEINE UST.",
       "title": "Keine Umsatzsteuer auf LLC",
       "text": "Die LLC erhebt keine Umsatzsteuer bei der Rechnungsstellung für digitale Dienstleistungen, weder an Endverbraucher noch an internationale B2B-Kunden. Wir strukturieren Ihre Tätigkeit so, dass die Rechnungsstellung korrekt über das US-Unternehmen erfolgt, ohne Umsatzsteuer, in Übereinstimmung mit den geltenden Vorschriften und der Art des Geschäfts.",
-      "footer": "Ihre Dienstleistungen sind befreit."
+      "footer": "Ihre Dienstleistungen sind befreit.",
+      "button": "Welche Steuern werde ich zahlen"
     },
     "taxes": {
       "badge": "0% KÖRPERSCHAFTSTEUER",
       "title": "0% Körperschaftsteuer",
       "text": "In Bundesstaaten wie New Mexico oder Wyoming unterliegt die LLC keiner staatlichen Körperschaftsteuer. Das Unternehmen zahlt keine Steuer als Kapitalgesellschaft in den Vereinigten Staaten; stattdessen werden Gewinne direkt dem Eigentümer zugerechnet, gemäß der Steuerstruktur der LLC.",
-      "footer": "0% Körperschaftsteuer."
+      "footer": "0% Körperschaftsteuer.",
+      "button": "Welche Steuern gibt es in den USA"
     },
     "fees": {
       "badge": "Gebühren",
       "title": "Keine festen Gebühren",
       "text": "In den Vereinigten Staaten gibt es keine monatlichen Sozialabgaben im Zusammenhang mit der LLC. Es gibt keine verpflichtenden periodischen Zahlungen allein für den Besitz eines aktiven Unternehmens, unabhängig davon, ob eine Geschäftstätigkeit vorliegt oder nicht. Die Struktur hält die Fixkosten niedrig und die Verwaltung schlank.",
-      "footer": "Keine Sozialabgaben."
+      "footer": "Keine Sozialabgaben.",
+      "button": "Lokale Steuern in den USA"
     },
     "banking": {
       "badge": "Banking",
       "title": "Bankkonten",
       "text": "Wir begleiten Sie durch den Prozess der Eröffnung von Bankkonten bei Mercury und Relay. Erhalten Sie Zugang zu einem Geschäftskonto in USD, mit der Möglichkeit, internationale Überweisungen zu empfangen und zu senden sowie eine physische Debit- und Kreditkarte für den globalen Betrieb zu nutzen.",
-      "footer": "Internationale physische Karte."
+      "footer": "Internationale physische Karte.",
+      "button": "Bei welchen Banken kann ich ein Konto eröffnen"
     }
   },
   "ctaSection": {

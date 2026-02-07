@@ -167,25 +167,29 @@
       "badge": "NO VAT",
       "title": "No VAT on LLC",
       "text": "The LLC does not apply VAT when invoicing digital services, whether to end consumers or international B2B clients. We structure your activity so that invoicing is done correctly from the US company, without VAT, in accordance with applicable regulations and the type of operation.",
-      "footer": "Your services are exempt."
+      "footer": "Your services are exempt.",
+      "button": "What taxes will I pay"
     },
     "taxes": {
       "badge": "0% CORPORATE",
       "title": "0% Corporate Tax",
       "text": "In states like New Mexico or Wyoming, the LLC is not subject to state corporate tax. The company does not pay tax as a corporation in the United States; instead, profits are attributed directly to the owner, according to the LLC's tax structure.",
-      "footer": "0% Corporate Tax."
+      "footer": "0% Corporate Tax.",
+      "button": "What taxes are there in USA"
     },
     "fees": {
       "badge": "Fees",
       "title": "No fixed fees",
       "text": "In the United States, there is no monthly self-employment fee associated with the LLC. There are no mandatory periodic payments simply for having an active company, regardless of whether there is activity or not. The structure maintains low fixed costs and lighter management.",
-      "footer": "No self-employment fees."
+      "footer": "No self-employment fees.",
+      "button": "Local taxes in USA"
     },
     "banking": {
       "badge": "Banking",
       "title": "Bank accounts",
       "text": "We guide you through the process of opening bank accounts at Mercury and Relay. Access a business account in USD, with the ability to receive and send international transfers and have a physical debit and credit card to operate globally.",
-      "footer": "International physical card."
+      "footer": "International physical card.",
+      "button": "Which banks can I open an account at"
     }
   },
   "ctaSection": {

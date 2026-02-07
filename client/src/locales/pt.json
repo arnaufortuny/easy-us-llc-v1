@@ -167,25 +167,29 @@
       "badge": "SEM IVA",
       "title": "Sem IVA na LLC",
       "text": "A LLC não aplica IVA na faturação de serviços digitais, tanto a clientes finais como a clientes B2B internacionais. Estruturamos a atividade para que a faturação seja realizada corretamente a partir da empresa americana, sem IVA, conforme a normativa aplicável e o tipo de operação.",
-      "footer": "Os teus serviços estão isentos."
+      "footer": "Os teus serviços estão isentos.",
+      "button": "Que impostos vou pagar"
     },
     "taxes": {
       "badge": "0% SOCIEDADES",
       "title": "0% Imposto sobre Sociedades",
       "text": "Em estados como New Mexico ou Wyoming, a LLC não está sujeita a imposto sobre sociedades estadual. A empresa não tributa como sociedade nos Estados Unidos, mas sim os benefícios são atribuídos diretamente ao proprietário, segundo a estrutura fiscal da LLC.",
-      "footer": "Imposto sobre Sociedades a 0%."
+      "footer": "Imposto sobre Sociedades a 0%.",
+      "button": "Que impostos existem nos EUA"
     },
     "fees": {
       "badge": "Contribuições",
       "title": "Sem contribuição fixa",
       "text": "Nos Estados Unidos não existe uma contribuição mensal de trabalhador independente associada à LLC. Não há pagamentos periódicos obrigatórios pelo simples facto de ter a empresa ativa, independentemente de existir ou não atividade. A estrutura mantém custos fixos reduzidos e uma gestão mais ligeira.",
-      "footer": "Sem contribuições de trabalhador independente."
+      "footer": "Sem contribuições de trabalhador independente.",
+      "button": "Impostos locais nos EUA"
     },
     "banking": {
       "badge": "Banca",
       "title": "Sobre bancos e pagamentos, nós tratamos de tudo",
       "text": "Acompanhamos-te no processo de abertura de contas bancárias no Mercury e Relay. Acede a uma conta empresarial em USD, com capacidade para receber e enviar transferências internacionais e dispor de cartão físico de débito e crédito para operar a nível global.",
-      "footer": "Cartão físico internacional."
+      "footer": "Cartão físico internacional.",
+      "button": "Em que bancos posso abrir conta"
     }
   },
   "ctaSection": {

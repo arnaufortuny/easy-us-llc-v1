@@ -167,25 +167,29 @@
       "badge": "SENSE IVA",
       "title": "Sense IVA a la LLC",
       "text": "La LLC no aplica IVA en la facturació de serveis digitals, tant a clients finals com a clients B2B internacionals. Estructurem l'activitat perquè la facturació es realitzi correctament des de l'empresa americana, sense IVA, conforme a la normativa aplicable i al tipus d'operació.",
-      "footer": "Els teus serveis estan exempts."
+      "footer": "Els teus serveis estan exempts.",
+      "button": "Quins impostos pagaré"
     },
     "taxes": {
       "badge": "0% SOCIETATS",
       "title": "0% Impost de Societats",
       "text": "En estats com New Mexico o Wyoming, la LLC no està subjecta a impost de societats estatal. L'empresa no tributa com a societat als Estats Units, sinó que els beneficis s'atribueixen directament al propietari, segons l'estructura fiscal de la LLC.",
-      "footer": "Impost de Societats al 0%."
+      "footer": "Impost de Societats al 0%.",
+      "button": "Quins impostos hi ha als EUA"
     },
     "fees": {
       "badge": "Quotes",
       "title": "Sense quota fixa",
       "text": "Als Estats Units no existeix una quota mensual d'autònoms associada a la LLC. No hi ha pagaments periòdics obligatoris pel simple fet de tenir l'empresa activa, independentment de si hi ha activitat o no. L'estructura manté costos fixos reduïts i una gestió més lleugera.",
-      "footer": "Sense quota d'autònoms."
+      "footer": "Sense quota d'autònoms.",
+      "button": "Impostos locals als EUA"
     },
     "banking": {
       "badge": "Banca",
       "title": "Sobre bancs i pagaments, nosaltres ens n'encarreguem",
       "text": "T'acompanyem en el procés d'obertura de comptes bancaris a Mercury i Relay. Accedeix a un compte empresarial en USD, amb capacitat per rebre i enviar transferències internacionals i disposar de targeta física de dèbit i crèdit per operar a nivell global.",
-      "footer": "Targeta física internacional."
+      "footer": "Targeta física internacional.",
+      "button": "A quins bancs puc obrir compte"
     }
   },
   "ctaSection": {
