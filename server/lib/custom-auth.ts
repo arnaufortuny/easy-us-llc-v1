@@ -60,6 +60,7 @@ declare module "express-session" {
     userId: string;
     email: string;
     isAdmin: boolean;
+    isSupport: boolean;
   }
 }
 
@@ -119,6 +120,7 @@ export function setupCustomAuth(app: Express) {
       req.session.userId = user.id;
       req.session.email = user.email!;
       req.session.isAdmin = user.isAdmin;
+      req.session.isSupport = user.isSupport;
 
       // Save session explicitly before responding
       req.session.save((err) => {
@@ -274,6 +276,7 @@ export function setupCustomAuth(app: Express) {
         req.session.userId = user.id;
         req.session.email = user.email!;
         req.session.isAdmin = user.isAdmin;
+        req.session.isSupport = user.isSupport;
 
         // Save session explicitly before responding
         req.session.save((err) => {
@@ -474,6 +477,7 @@ export function setupCustomAuth(app: Express) {
         birthDate: user.birthDate,
         emailVerified: user.emailVerified,
         isAdmin: user.isAdmin,
+        isSupport: user.isSupport,
         accountStatus: user.accountStatus,
         profileImageUrl: user.profileImageUrl,
         googleId: user.googleId ? true : false,
@@ -627,6 +631,20 @@ export const isAdmin: RequestHandler = async (req, res, next) => {
   const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
 
   if (!user || !user.isAdmin) {
+    return res.status(403).json({ message: "Not authorized" });
+  }
+
+  next();
+};
+
+export const isAdminOrSupport: RequestHandler = async (req, res, next) => {
+  if (!req.session.userId) {
+    return res.status(401).json({ message: "Not authenticated" });
+  }
+
+  const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
+
+  if (!user || (!user.isAdmin && !user.isSupport)) {
     return res.status(403).json({ message: "Not authorized" });
   }
 

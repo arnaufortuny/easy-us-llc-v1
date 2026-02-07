@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import type { Server } from "http";
-import { setupCustomAuth, isAuthenticated, isAdmin, isNotUnderReview } from "./lib/custom-auth";
+import { setupCustomAuth, isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview } from "./lib/custom-auth";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
 import { z } from "zod";
@@ -256,7 +256,7 @@ export async function registerRoutes(
   // === API Routes ===
 
   // Admin Orders
-  app.get("/api/admin/orders", isAdmin, async (req, res) => {
+  app.get("/api/admin/orders", isAdminOrSupport, async (req, res) => {
     try {
       const allOrders = await storage.getAllOrders();
       res.json(allOrders);
@@ -266,7 +266,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/orders/:id/status", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  app.patch("/api/admin/orders/:id/status", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);
     const { status } = z.object({ status: z.string() }).parse(req.body);
     
@@ -364,7 +364,7 @@ export async function registerRoutes(
   }));
 
   // Update payment link on order (admin only)
-  app.patch("/api/admin/orders/:id/payment-link", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  app.patch("/api/admin/orders/:id/payment-link", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);
     const { paymentLink, paymentStatus, paymentDueDate } = z.object({
       paymentLink: z.string().url().optional().nullable(),
@@ -438,7 +438,7 @@ export async function registerRoutes(
   }));
 
   // Get incomplete/draft applications for admin
-  app.get("/api/admin/incomplete-applications", isAdmin, async (req, res) => {
+  app.get("/api/admin/incomplete-applications", isAdminOrSupport, async (req, res) => {
     try {
       const llcDrafts = await db.select({
         id: llcApplicationsTable.id,
@@ -527,7 +527,7 @@ export async function registerRoutes(
   }));
 
   // Update LLC important dates with automatic calculation
-  app.patch("/api/admin/llc/:appId/dates", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  app.patch("/api/admin/llc/:appId/dates", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);
     const { field, value } = z.object({ 
       field: z.enum(['llcCreatedDate', 'agentRenewalDate', 'irs1120DueDate', 'irs5472DueDate', 'annualReportDueDate', 'ein', 'registrationNumber', 'llcAddress', 'ownerSharePercentage', 'agentStatus', 'boiStatus', 'boiFiledDate']),
@@ -618,7 +618,7 @@ export async function registerRoutes(
   }));
 
   // Toggle tax extension for LLC application (6 months: Apr 15 -> Oct 15)
-  app.patch("/api/admin/llc/:appId/tax-extension", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  app.patch("/api/admin/llc/:appId/tax-extension", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const appId = Number(req.params.appId);
     const { hasTaxExtension } = z.object({ 
       hasTaxExtension: z.boolean()
@@ -691,17 +691,18 @@ export async function registerRoutes(
       businessActivity: z.string().optional().nullable(),
       isActive: z.boolean().optional(),
       isAdmin: z.boolean().optional(),
+      isSupport: z.boolean().optional(),
       accountStatus: z.enum(['active', 'pending', 'deactivated', 'vip']).optional(),
       internalNotes: z.string().optional().nullable()
     });
     const data = updateSchema.parse(req.body);
     
-    // Only afortuny07@gmail.com can assign admin privileges
+    // Only afortuny07@gmail.com can assign admin/support privileges
     const SUPER_ADMIN_EMAIL = "afortuny07@gmail.com";
-    if (data.isAdmin !== undefined) {
+    if (data.isAdmin !== undefined || data.isSupport !== undefined) {
       const [currentAdmin] = await db.select().from(usersTable).where(eq(usersTable.id, req.session?.userId || '')).limit(1);
       if (!currentAdmin || currentAdmin.email !== SUPER_ADMIN_EMAIL) {
-        return res.status(403).json({ message: "Only the main administrator can assign admin privileges" });
+        return res.status(403).json({ message: "Only the main administrator can assign admin or support privileges" });
       }
     }
     
@@ -929,7 +930,7 @@ export async function registerRoutes(
   }));
 
   // Download all user documents as ZIP
-  app.get("/api/admin/users/:id/documents/download", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+  app.get("/api/admin/users/:id/documents/download", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const userId = req.params.id;
     const archiver = await import("archiver");
     const path = await import("path");
@@ -1772,7 +1773,7 @@ export async function registerRoutes(
   }));
 
   // Admin Messages
-  app.get("/api/admin/messages", isAdmin, async (req, res) => {
+  app.get("/api/admin/messages", isAdminOrSupport, async (req, res) => {
     try {
       const allMessages = await storage.getAllMessages();
       res.json(allMessages);
@@ -1781,7 +1782,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/messages/:id/archive", isAdmin, async (req, res) => {
+  app.patch("/api/admin/messages/:id/archive", isAdminOrSupport, async (req, res) => {
     try {
       const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
       res.json(updated);
@@ -1802,7 +1803,7 @@ export async function registerRoutes(
   });
 
   // Document Management - Upload official docs by Admin
-  app.post("/api/admin/documents", isAdmin, async (req, res) => {
+  app.post("/api/admin/documents", isAdminOrSupport, async (req, res) => {
     try {
       const { orderId, fileName, fileUrl, documentType, applicationId } = req.body;
       const [doc] = await db.insert(applicationDocumentsTable).values({
@@ -1824,7 +1825,7 @@ export async function registerRoutes(
   });
 
   // Admin upload document file for client (supports orderId OR userId)
-  app.post("/api/admin/documents/upload", isAdmin, async (req: any, res) => {
+  app.post("/api/admin/documents/upload", isAdminOrSupport, async (req: any, res) => {
     try {
       const busboy = (await import('busboy')).default;
       const bb = busboy({ 
@@ -1975,7 +1976,7 @@ export async function registerRoutes(
     }
   });
 
-  app.get("/api/admin/documents", isAdmin, async (req, res) => {
+  app.get("/api/admin/documents", isAdminOrSupport, async (req, res) => {
     try {
       const docs = await db.select().from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
@@ -2212,7 +2213,7 @@ export async function registerRoutes(
       const fileUrl = `/uploads/admin-docs/${filename}`;
       
       // Check if user account is under review (non-admin only)
-      if (!req.session.isAdmin) {
+      if (!req.session.isAdmin && !req.session.isSupport) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
           return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
@@ -2228,7 +2229,7 @@ export async function registerRoutes(
       }
       
       // Check ownership: via orderId or direct userId assignment
-      let hasAccess = req.session.isAdmin;
+      let hasAccess = req.session.isAdmin || req.session.isSupport;
       
       if (!hasAccess && doc.orderId) {
         const [order] = await db.select().from(ordersTable)
@@ -2278,8 +2279,8 @@ export async function registerRoutes(
       
       const fileUrl = `/uploads/client-docs/${filename}`;
       
-      // Check if user account is under review (non-admin only)
-      if (!req.session.isAdmin) {
+      // Check if user account is under review (non-admin/support only)
+      if (!req.session.isAdmin && !req.session.isSupport) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
         if (user && user.accountStatus === 'pending') {
           return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
@@ -2295,7 +2296,7 @@ export async function registerRoutes(
       }
       
       // Check ownership: via orderId or direct userId assignment
-      let hasAccess = req.session.isAdmin;
+      let hasAccess = req.session.isAdmin || req.session.isSupport;
       
       if (!hasAccess && doc.orderId) {
         const [order] = await db.select().from(ordersTable)
@@ -2602,6 +2603,7 @@ export async function registerRoutes(
       
       // Update session
       req.session.isAdmin = user.isAdmin;
+      req.session.isSupport = user.isSupport;
       
       // Send welcome email
       sendEmail({
@@ -2954,7 +2956,7 @@ export async function registerRoutes(
   });
 
   // Request document from client
-  app.post("/api/admin/request-document", isAdmin, async (req, res) => {
+  app.post("/api/admin/request-document", isAdminOrSupport, async (req, res) => {
     try {
       const { email, documentType, message, userId } = z.object({
         email: z.string().email(),
@@ -3025,7 +3027,7 @@ export async function registerRoutes(
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
       
-      if (!order || (order.userId !== req.session.userId && !req.session.isAdmin)) {
+      if (!order || (order.userId !== req.session.userId && !req.session.isAdmin && !req.session.isSupport)) {
         return res.status(403).json({ message: "Not authorized" });
       }
 
@@ -3916,7 +3918,7 @@ export async function registerRoutes(
     }
   });
 
-  app.patch("/api/admin/documents/:id/review", isAdmin, async (req, res) => {
+  app.patch("/api/admin/documents/:id/review", isAdminOrSupport, async (req, res) => {
     try {
       const docId = Number(req.params.id);
       const { reviewStatus, rejectionReason } = z.object({ 
@@ -4634,7 +4636,7 @@ export async function registerRoutes(
       if (!message) {
         return res.status(404).json({ message: "Message not found" });
       }
-      if (message.userId !== req.session.userId && !req.session.isAdmin) {
+      if (message.userId !== req.session.userId && !req.session.isAdmin && !req.session.isSupport) {
         return res.status(403).json({ message: "Access denied" });
       }
       
@@ -4660,7 +4662,7 @@ export async function registerRoutes(
       if (!existingMessage) {
         return res.status(404).json({ message: "Message not found" });
       }
-      if (existingMessage.userId !== req.session.userId && !req.session.isAdmin) {
+      if (existingMessage.userId !== req.session.userId && !req.session.isAdmin && !req.session.isSupport) {
         return res.status(403).json({ message: "Access denied" });
       }
       
@@ -4671,13 +4673,13 @@ export async function registerRoutes(
       const [reply] = await db.insert(messageReplies).values({
         messageId,
         content,
-        isAdmin: req.session.isAdmin || false,
+        isAdmin: req.session.isAdmin || req.session.isSupport || false,
         createdBy: req.session.userId,
       }).returning();
       
       // Get message for email notification
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
-      if (message?.email && req.session.isAdmin) {
+      if (message?.email && (req.session.isAdmin || req.session.isSupport)) {
         // Admin reply - notify client by email
         const ticketId = message.messageId || String(messageId);
         sendEmail({
@@ -5626,7 +5628,7 @@ export async function registerRoutes(
   });
   
   // Get all bookings (admin)
-  app.get("/api/admin/consultations/bookings", isAdmin, async (req, res) => {
+  app.get("/api/admin/consultations/bookings", isAdminOrSupport, async (req, res) => {
     try {
       const { status, from, to } = req.query;
       
@@ -5654,7 +5656,7 @@ export async function registerRoutes(
   });
   
   // Update booking status (admin)
-  app.patch("/api/admin/consultations/bookings/:id", isAdmin, async (req, res) => {
+  app.patch("/api/admin/consultations/bookings/:id", isAdminOrSupport, async (req, res) => {
     try {
       const bookingId = parseInt(req.params.id);
       const { status, adminNotes, meetingLink } = req.body;
@@ -5696,7 +5698,7 @@ export async function registerRoutes(
   });
   
   // Reschedule booking (admin)
-  app.patch("/api/admin/consultations/bookings/:id/reschedule", isAdmin, async (req, res) => {
+  app.patch("/api/admin/consultations/bookings/:id/reschedule", isAdminOrSupport, async (req, res) => {
     try {
       const bookingId = parseInt(req.params.id);
       const { scheduledDate, scheduledTime } = req.body;
@@ -5741,7 +5743,7 @@ export async function registerRoutes(
   });
   
   // Get consultation stats (admin)
-  app.get("/api/admin/consultations/stats", isAdmin, async (req, res) => {
+  app.get("/api/admin/consultations/stats", isAdminOrSupport, async (req, res) => {
     try {
       const [pending] = await db.select({ count: sql<number>`count(*)` }).from(consultationBookings).where(eq(consultationBookings.status, 'pending'));
       const [confirmed] = await db.select({ count: sql<number>`count(*)` }).from(consultationBookings).where(eq(consultationBookings.status, 'confirmed'));

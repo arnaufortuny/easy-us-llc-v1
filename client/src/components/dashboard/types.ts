@@ -103,6 +103,7 @@ export interface AdminUserData {
   birthDate?: string | null;
   businessActivity?: string | null;
   isAdmin?: boolean;
+  isSupport?: boolean;
   isActive?: boolean;
   accountStatus?: string;
   internalNotes?: string | null;

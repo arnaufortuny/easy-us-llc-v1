@@ -117,7 +117,7 @@ export default function Dashboard() {
   const [invoiceConcept, setInvoiceConcept] = useState("");
   const [invoiceAmount, setInvoiceAmount] = useState("");
   const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
-  const [adminSubTab, setAdminSubTab] = useState("dashboard");
+  const [adminSubTab, setAdminSubTab] = useState(user?.isSupport && !user?.isAdmin ? "orders" : "dashboard");
   const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
   const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
   const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting'>('invoices');
@@ -304,7 +304,8 @@ export default function Dashboard() {
       setSelectedMessage(null);
       queryClient.invalidateQueries({ queryKey: ["/api/messages"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/messages"] });
-      setFormMessage({ type: 'success', text: (user?.isAdmin ? t("dashboard.toasts.messageReplied") : t("dashboard.toasts.messageSent")) + ". " + (user?.isAdmin ? t("dashboard.toasts.messageRepliedDesc") : t("dashboard.toasts.messageSentDesc")) });
+      const isStaffUser = user?.isAdmin || user?.isSupport;
+      setFormMessage({ type: 'success', text: (isStaffUser ? t("dashboard.toasts.messageReplied") : t("dashboard.toasts.messageSent")) + ". " + (isStaffUser ? t("dashboard.toasts.messageRepliedDesc") : t("dashboard.toasts.messageSentDesc")) });
     },
     onError: (error: any) => {
       setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotSend")) });
@@ -346,7 +347,7 @@ export default function Dashboard() {
 
   const { data: adminOrders } = useQuery<any[]>({
     queryKey: ["/api/admin/orders"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin || !!user?.isSupport,
     refetchInterval: 30000,
   });
 
@@ -385,7 +386,7 @@ export default function Dashboard() {
 
   const { data: adminDocuments } = useQuery<any[]>({
     queryKey: ["/api/admin/documents"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin || !!user?.isSupport,
     refetchInterval: 30000,
   });
 
@@ -422,7 +423,7 @@ export default function Dashboard() {
 
   const { data: adminMessages } = useQuery<any[]>({
     queryKey: ["/api/admin/messages"],
-    enabled: !!user?.isAdmin,
+    enabled: !!user?.isAdmin || !!user?.isSupport,
   });
 
   const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
@@ -554,6 +555,7 @@ export default function Dashboard() {
       if (rest.businessActivity !== undefined) updateData.businessActivity = rest.businessActivity || null;
       if (rest.isActive !== undefined) updateData.isActive = rest.isActive;
       if (rest.isAdmin !== undefined) updateData.isAdmin = rest.isAdmin;
+      if (rest.isSupport !== undefined) updateData.isSupport = rest.isSupport;
       if (rest.accountStatus !== undefined && validStatuses.includes(rest.accountStatus)) updateData.accountStatus = rest.accountStatus;
       if (rest.internalNotes !== undefined) updateData.internalNotes = rest.internalNotes || null;
       const cleanData = Object.fromEntries(Object.entries(updateData).filter(([_, v]) => v !== undefined));
@@ -1073,6 +1075,8 @@ export default function Dashboard() {
   }, [adminMessages, adminSearchQuery, adminSearchFilter]);
   
   const isAdmin = user?.isAdmin;
+  const isSupport = user?.isSupport;
+  const isStaff = isAdmin || isSupport;
 
   return (
     <div className="min-h-screen bg-background font-sans animate-page-in">
@@ -1111,7 +1115,7 @@ export default function Dashboard() {
                 </button>
               ))}
               
-              {isAdmin && (
+              {isStaff && (
                 <>
                   <div className="pt-2 pb-1 px-4">
                     <div className="border-t border-border/30" />
@@ -1126,7 +1130,7 @@ export default function Dashboard() {
                     data-testid="button-sidebar-admin"
                   >
                     <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
-                    <span>{t('dashboard.menu.admin')}</span>
+                    <span>{isSupport && !isAdmin ? t('dashboard.menu.support', 'Soporte') : t('dashboard.menu.admin')}</span>
                   </button>
                 </>
               )}
@@ -1241,7 +1245,7 @@ export default function Dashboard() {
               </Button>
             ))}
           </div>
-          {isAdmin && (
+          {isStaff && (
             <div className="flex -mx-4 px-4">
               <Button
                 variant={activeTab === 'admin' ? "default" : "ghost"}
@@ -1255,7 +1259,7 @@ export default function Dashboard() {
                 data-testid="button-tab-admin-mobile"
               >
                 <Shield className="w-4 h-4" />
-                <span>{t('dashboard.menu.admin')}</span>
+                <span>{isSupport && !isAdmin ? t('dashboard.menu.support', 'Soporte') : t('dashboard.menu.admin')}</span>
               </Button>
             </div>
           )}
@@ -1946,20 +1950,20 @@ export default function Dashboard() {
                 </>
               )}
 
-              {activeTab === 'admin' && user?.isAdmin && (
+              {activeTab === 'admin' && isStaff && (
                 <div key="admin" className="space-y-6">
                   <div className="flex overflow-x-auto pb-3 gap-2 mb-4 md:mb-6 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {[
-                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3 },
-                      { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package },
-                      { id: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare },
-                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle },
-                      { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users },
-                      { id: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt },
-                      { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar },
-                      { id: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText },
-                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag },
-                    ].map((item) => (
+                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3, adminOnly: true },
+                      { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, adminOnly: false },
+                      { id: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, adminOnly: false },
+                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle, adminOnly: true },
+                      { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users, adminOnly: true },
+                      { id: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, adminOnly: true },
+                      { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, adminOnly: false },
+                      { id: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, adminOnly: false },
+                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, adminOnly: true },
+                    ].filter(item => isAdmin || !item.adminOnly).map((item) => (
                       <Button
                         key={item.id}
                         variant={adminSubTab === item.id ? "default" : "outline"}
@@ -1978,6 +1982,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                   <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
+                    {isAdmin && (
                     <div className="flex flex-wrap gap-2">
                       <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
@@ -1990,6 +1995,7 @@ export default function Dashboard() {
                         <span className="sm:hidden">{t('dashboard.admin.newOrder')}</span>
                       </Button>
                     </div>
+                    )}
                     <div className="flex items-center gap-2 flex-1 max-w-md min-w-48">
                       <NativeSelect
                         value={adminSearchFilter}
@@ -2295,6 +2301,7 @@ export default function Dashboard() {
                           <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
                         </div>
                         {user?.email === 'afortuny07@gmail.com' && (
+                          <>
                           <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
                             <div className="flex items-center justify-between">
                               <div>
@@ -2308,6 +2315,20 @@ export default function Dashboard() {
                               />
                             </div>
                           </div>
+                          <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="text-xs font-black text-blue-700 dark:text-blue-300">{t('dashboard.admin.supportPermissions', 'Rol de Soporte')}</p>
+                                <p className="text-[10px] text-blue-600 dark:text-blue-400">{t('dashboard.admin.supportPermissionsDesc', 'Puede ver pedidos, solicitar documentos y responder consultas')}</p>
+                              </div>
+                              <Switch
+                                checked={editingUser.isSupport || false}
+                                onCheckedChange={(checked) => setEditingUser({...editingUser, isSupport: checked})}
+                                data-testid="switch-support-toggle"
+                              />
+                            </div>
+                          </div>
+                          </>
                         )}
                       </div>
                       <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
@@ -3509,6 +3530,7 @@ export default function Dashboard() {
                                       {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                     </Badge>
                                     {u.isAdmin && <Badge className="text-[9px] bg-purple-100 text-purple-700">ADMIN</Badge>}
+                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] bg-blue-100 text-blue-700">{t('dashboard.admin.users.supportBadge', 'SOPORTE')}</Badge>}
                                   </div>
                                   <p className="text-xs text-muted-foreground">{u.email}</p>
                                   <p className="text-[10px] text-muted-foreground">
