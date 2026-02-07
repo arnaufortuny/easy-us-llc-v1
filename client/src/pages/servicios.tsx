@@ -652,7 +652,7 @@ export default function Servicios() {
             </div>
           </motion.div>
 
-          {/* Benefits List */}
+          {/* Y Recuerda + Benefits List */}
           <motion.div 
             className="max-w-4xl mx-auto my-14 sm:my-16 px-4"
             variants={fadeInUp}
@@ -660,11 +660,14 @@ export default function Servicios() {
             whileInView="visible"
             viewport={viewportOnce}
           >
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight text-accent text-center mb-8 sm:mb-10">
+              {t("services.maintenancePack.rememberTitle")}
+            </h3>
             <ul className="space-y-5 sm:space-y-6 text-left max-w-2xl mx-auto">
               {(t("services.maintenancePack.benefits", { returnObjects: true }) as string[]).map((benefit, i) => (
                 <li key={i} className="flex items-start gap-3 sm:gap-4 text-foreground" data-testid={`text-maintenance-benefit-${i}`}>
                   <Check className="w-6 h-6 sm:w-7 sm:h-7 text-accent flex-shrink-0 mt-0.5" />
-                  <span className="text-xl sm:text-2xl font-black tracking-tight">{benefit}</span>
+                  <span className="text-xl sm:text-2xl font-black tracking-tight uppercase">{benefit}</span>
                 </li>
               ))}
             </ul>
@@ -672,17 +675,17 @@ export default function Servicios() {
 
           {/* Final Text */}
           <motion.div 
-            className="text-center mb-8 px-4"
+            className="text-center mb-8 px-4 mt-20 sm:mt-24"
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportOnce}
           >
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto mb-4 text-center uppercase leading-[1.15]">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto mb-4 text-center capitalize leading-[1.15]">
               <span className="text-foreground">{t("services.maintenancePack.finalTextPart1")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.finalTextPart2")}</span>
             </h3>
-            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto text-center uppercase leading-[1.15]">
+            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-tight max-w-5xl mx-auto text-center capitalize leading-[1.15]">
               <span className="text-foreground">{t("services.maintenancePack.helpTextPart1")}</span>{" "}
               <span className="text-accent">{t("services.maintenancePack.helpTextPart2")}</span>
             </h3>
