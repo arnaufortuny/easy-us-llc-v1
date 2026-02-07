@@ -407,27 +407,33 @@
       "items": {
         "formation": {
           "title": "Constitució oficial",
-          "desc": "Gestionem el registre complet de la teva LLC davant el Secretary of State, ocupant-nos de tots els tràmits necessaris perquè la teva empresa quedi correctament constituïda des de l'inici."
+          "desc": "Gestionem el registre complet de la teva LLC davant el Secretary of State, ocupant-nos de tots els tràmits necessaris perquè la teva empresa quedi correctament constituïda des de l'inici.",
+          "button": "Començar"
         },
         "ein": {
           "title": "Obtenció de l'EIN",
-          "desc": "Tramitem el teu Employer Identification Number (EIN) directament davant l'IRS, permetent que la teva LLC quedi identificada fiscalment i preparada per operar."
+          "desc": "Tramitem el teu Employer Identification Number (EIN) directament davant l'IRS, permetent que la teva LLC quedi identificada fiscalment i preparada per operar.",
+          "button": "Què és l'EIN?"
         },
         "banking": {
           "title": "Comptes bancaris",
-          "desc": "T'acompanyem en el procés d'obertura de comptes empresarials a Mercury i Relay, amb accés a banca en USD i targetes físiques de dèbit i crèdit."
+          "desc": "T'acompanyem en el procés d'obertura de comptes empresarials a Mercury i Relay, amb accés a banca en USD i targetes físiques de dèbit i crèdit.",
+          "button": "A quins bancs podré accedir?"
         },
         "boi": {
           "title": "BOI Report",
-          "desc": "Preparem i presentem el Beneficial Ownership Information Report davant FinCEN, complint amb l'obligació federal vigent per a les LLC als Estats Units."
+          "desc": "Preparem i presentem el Beneficial Ownership Information Report davant FinCEN, complint amb l'obligació federal vigent per a les LLC als Estats Units.",
+          "button": "Què és el BOI?"
         },
         "agent": {
           "title": "Registered Agent",
-          "desc": "Incloem el servei de Registered Agent oficial durant el primer any complet, proporcionant adreça legal als Estats Units i recepció de notificacions oficials."
+          "desc": "Incloem el servei de Registered Agent oficial durant el primer any complet, proporcionant adreça legal als Estats Units i recepció de notificacions oficials.",
+          "button": "Què és el Registered Agent?"
         },
         "support": {
           "title": "Suport expert",
-          "desc": "Oferim atenció directa i personalitzada per resoldre els teus dubtes fiscals i operatius, acompanyant-te en l'ús i manteniment de la teva LLC."
+          "desc": "Oferim atenció directa i personalitzada per resoldre els teus dubtes fiscals i operatius, acompanyant-te en l'ús i manteniment de la teva LLC.",
+          "button": "Contacta'ns"
         }
       }
     },

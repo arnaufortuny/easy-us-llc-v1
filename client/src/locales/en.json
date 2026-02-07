@@ -407,27 +407,33 @@
       "items": {
         "formation": {
           "title": "Official formation",
-          "desc": "We handle the complete registration of your LLC with the Secretary of State, taking care of all necessary procedures so your company is correctly formed from the start."
+          "desc": "We handle the complete registration of your LLC with the Secretary of State, taking care of all necessary procedures so your company is correctly formed from the start.",
+          "button": "Get started"
         },
         "ein": {
           "title": "EIN obtainment",
-          "desc": "We process your Employer Identification Number (EIN) directly with the IRS, allowing your LLC to be fiscally identified and ready to operate."
+          "desc": "We process your Employer Identification Number (EIN) directly with the IRS, allowing your LLC to be fiscally identified and ready to operate.",
+          "button": "What is the EIN?"
         },
         "banking": {
           "title": "Bank accounts",
-          "desc": "We guide you through opening business accounts at Mercury and Relay, with access to USD banking and physical debit and credit cards."
+          "desc": "We guide you through opening business accounts at Mercury and Relay, with access to USD banking and physical debit and credit cards.",
+          "button": "Which banks can I access?"
         },
         "boi": {
           "title": "BOI Report",
-          "desc": "We prepare and file the Beneficial Ownership Information Report with FinCEN, complying with current federal requirements for LLCs in the United States."
+          "desc": "We prepare and file the Beneficial Ownership Information Report with FinCEN, complying with current federal requirements for LLCs in the United States.",
+          "button": "What is the BOI?"
         },
         "agent": {
           "title": "Registered Agent",
-          "desc": "We include official Registered Agent service for the first full year, providing a legal address in the United States and receiving official notifications."
+          "desc": "We include official Registered Agent service for the first full year, providing a legal address in the United States and receiving official notifications.",
+          "button": "What is the Registered Agent?"
         },
         "support": {
           "title": "Expert support",
-          "desc": "We offer direct and personalized attention to resolve your tax and operational questions, accompanying you in the use and maintenance of your LLC."
+          "desc": "We offer direct and personalized attention to resolve your tax and operational questions, accompanying you in the use and maintenance of your LLC.",
+          "button": "Contact us"
         }
       }
     },

@@ -1,6 +1,6 @@
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,23 @@ export default function FAQ() {
   usePageTitle();
   const [openItems, setOpenItems] = useState<Record<string, number | null>>({});
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    if (!hash) return;
+    const parts = hash.split("-");
+    if (parts.length >= 2) {
+      const categoryKey = parts.slice(0, -1).join("-");
+      const questionIndex = parseInt(parts[parts.length - 1], 10);
+      if (!isNaN(questionIndex)) {
+        setOpenItems(prev => ({ ...prev, [categoryKey]: questionIndex }));
+        setTimeout(() => {
+          const el = document.getElementById(hash);
+          if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 500);
+      }
+    }
+  }, []);
 
   const faqCategories = useMemo(() => [
     {
@@ -132,7 +149,8 @@ export default function FAQ() {
                     <div className="grid gap-2 sm:gap-3">
                       {category.questions.map((item, i) => (
                         <div 
-                          key={i} 
+                          key={i}
+                          id={`${category.key}-${i}`}
                           className={`group transition-all duration-200 border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
                             openItems[category.key] === i 
                               ? "border-accent bg-accent/[0.03]" 

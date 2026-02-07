@@ -8,13 +8,14 @@ import type { Product } from "@shared/schema";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
 import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { openWhatsApp } from "@/lib/whatsapp";
+import { openWhatsApp, getWhatsAppUrl } from "@/lib/whatsapp";
 import { motion } from "framer-motion";
 import { apiRequest } from "@/lib/queryClient";
 import { ChevronDown, Check, ArrowRight } from "@/components/icons";
+import { SiWhatsapp } from "react-icons/si";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
@@ -149,12 +150,12 @@ export default function Servicios() {
   ];
 
   const whatWeDoItems = [
-    { key: "formation", icon: FormationIcon },
-    { key: "ein", icon: EinIcon },
-    { key: "banking", icon: BankingIcon },
-    { key: "boi", icon: BoiIcon },
-    { key: "agent", icon: AgentIcon },
-    { key: "support", icon: SupportIcon }
+    { key: "formation", icon: FormationIcon, buttonType: "link" as const, buttonHref: "/llc/formation" },
+    { key: "ein", icon: EinIcon, buttonType: "faq" as const, buttonHref: "/faq#keyConcepts-0" },
+    { key: "banking", icon: BankingIcon, buttonType: "anchor" as const, buttonHref: "#bancos" },
+    { key: "boi", icon: BoiIcon, buttonType: "faq" as const, buttonHref: "/faq#keyConcepts-4" },
+    { key: "agent", icon: AgentIcon, buttonType: "faq" as const, buttonHref: "/faq#keyConcepts-3" },
+    { key: "support", icon: SupportIcon, buttonType: "whatsapp" as const, buttonHref: "" }
   ];
 
   const bankItems = [
@@ -286,7 +287,42 @@ export default function Servicios() {
                   <h3 className="text-xl sm:text-2xl font-black tracking-tighter text-foreground mb-3 leading-tight">
                     {t(`services.whatWeDo.items.${item.key}.title`)}
                   </h3>
-                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
+                  <p className="text-muted-foreground text-base sm:text-lg leading-relaxed mb-4">{t(`services.whatWeDo.items.${item.key}.desc`)}</p>
+                  {item.buttonType === "whatsapp" ? (
+                    <a
+                      href={getWhatsAppUrl("services")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 bg-[#25D366] text-white font-bold text-sm px-4 py-2 rounded-full transition-opacity hover:opacity-90"
+                      data-testid={`button-whatwedo-${item.key}`}
+                    >
+                      <SiWhatsapp className="w-4 h-4" />
+                      {t(`services.whatWeDo.items.${item.key}.button`)}
+                    </a>
+                  ) : item.buttonType === "anchor" ? (
+                    <a
+                      href={item.buttonHref}
+                      className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+                      data-testid={`button-whatwedo-${item.key}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(item.buttonHref.replace("#", ""));
+                        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+                      }}
+                    >
+                      {t(`services.whatWeDo.items.${item.key}.button`)}
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
+                  ) : (
+                    <Link
+                      href={item.buttonHref}
+                      className="inline-flex items-center gap-2 text-accent font-bold text-sm hover:underline"
+                      data-testid={`button-whatwedo-${item.key}`}
+                    >
+                      {t(`services.whatWeDo.items.${item.key}.button`)}
+                      <ArrowRight className="w-4 h-4" />
+                    </Link>
+                  )}
                 </motion.div>
               );
             })}

@@ -407,27 +407,33 @@
       "items": {
         "formation": {
           "title": "Constitución oficial",
-          "desc": "Gestionamos el registro completo de tu LLC ante el Secretary of State, ocupándonos de todos los trámites necesarios para que tu empresa quede correctamente constituida desde el inicio."
+          "desc": "Gestionamos el registro completo de tu LLC ante el Secretary of State, ocupándonos de todos los trámites necesarios para que tu empresa quede correctamente constituida desde el inicio.",
+          "button": "Empezar"
         },
         "ein": {
           "title": "Obtención del EIN",
-          "desc": "Tramitamos tu Employer Identification Number (EIN) directamente ante el IRS, permitiendo que tu LLC quede identificada fiscalmente y preparada para operar."
+          "desc": "Tramitamos tu Employer Identification Number (EIN) directamente ante el IRS, permitiendo que tu LLC quede identificada fiscalmente y preparada para operar.",
+          "button": "¿Qué es el EIN?"
         },
         "banking": {
           "title": "Cuentas bancarias",
-          "desc": "Te acompañamos en el proceso de apertura de cuentas empresariales en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito."
+          "desc": "Te acompañamos en el proceso de apertura de cuentas empresariales en Mercury y Relay, con acceso a banca en USD y tarjetas físicas de débito y crédito.",
+          "button": "¿A qué bancos podré acceder?"
         },
         "boi": {
           "title": "BOI Report",
-          "desc": "Preparamos y presentamos el Beneficial Ownership Information Report ante FinCEN, cumpliendo con la obligación federal vigente para las LLC en Estados Unidos."
+          "desc": "Preparamos y presentamos el Beneficial Ownership Information Report ante FinCEN, cumpliendo con la obligación federal vigente para las LLC en Estados Unidos.",
+          "button": "¿Qué es el BOI?"
         },
         "agent": {
           "title": "Registered Agent",
-          "desc": "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales."
+          "desc": "Incluimos el servicio de Registered Agent oficial durante el primer año completo, proporcionando dirección legal en Estados Unidos y recepción de notificaciones oficiales.",
+          "button": "¿Qué es el Registered Agent?"
         },
         "support": {
           "title": "Soporte experto",
-          "desc": "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC."
+          "desc": "Ofrecemos atención directa y personalizada para resolver tus dudas fiscales y operativas, acompañándote en el uso y mantenimiento de tu LLC.",
+          "button": "Contáctanos"
         }
       }
     },

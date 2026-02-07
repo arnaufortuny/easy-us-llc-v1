@@ -407,27 +407,33 @@
       "items": {
         "formation": {
           "title": "Offizielle Gründung",
-          "desc": "Wir übernehmen die vollständige Registrierung Ihrer LLC beim Secretary of State und kümmern uns um alle notwendigen Verfahren, damit Ihr Unternehmen von Anfang an korrekt gegründet ist."
+          "desc": "Wir übernehmen die vollständige Registrierung Ihrer LLC beim Secretary of State und kümmern uns um alle notwendigen Verfahren, damit Ihr Unternehmen von Anfang an korrekt gegründet ist.",
+          "button": "Loslegen"
         },
         "ein": {
           "title": "EIN-Beschaffung",
-          "desc": "Wir beantragen Ihre Employer Identification Number (EIN) direkt beim IRS, damit Ihre LLC steuerlich identifiziert und betriebsbereit ist."
+          "desc": "Wir beantragen Ihre Employer Identification Number (EIN) direkt beim IRS, damit Ihre LLC steuerlich identifiziert und betriebsbereit ist.",
+          "button": "Was ist die EIN?"
         },
         "banking": {
           "title": "Bankkonten",
-          "desc": "Wir begleiten Sie bei der Eröffnung von Geschäftskonten bei Mercury und Relay, mit Zugang zu USD-Banking und physischen Debit- und Kreditkarten."
+          "desc": "Wir begleiten Sie bei der Eröffnung von Geschäftskonten bei Mercury und Relay, mit Zugang zu USD-Banking und physischen Debit- und Kreditkarten.",
+          "button": "Auf welche Banken kann ich zugreifen?"
         },
         "boi": {
           "title": "BOI Report",
-          "desc": "Wir erstellen und reichen den Beneficial Ownership Information Report bei FinCEN ein, in Übereinstimmung mit den aktuellen bundesweiten Anforderungen für LLCs in den Vereinigten Staaten."
+          "desc": "Wir erstellen und reichen den Beneficial Ownership Information Report bei FinCEN ein, in Übereinstimmung mit den aktuellen bundesweiten Anforderungen für LLCs in den Vereinigten Staaten.",
+          "button": "Was ist der BOI?"
         },
         "agent": {
           "title": "Registered Agent",
-          "desc": "Wir beinhalten den offiziellen Registered Agent Service für das erste vollständige Jahr, mit einer rechtlichen Adresse in den Vereinigten Staaten und dem Empfang offizieller Benachrichtigungen."
+          "desc": "Wir beinhalten den offiziellen Registered Agent Service für das erste vollständige Jahr, mit einer rechtlichen Adresse in den Vereinigten Staaten und dem Empfang offizieller Benachrichtigungen.",
+          "button": "Was ist der Registered Agent?"
         },
         "support": {
           "title": "Expertenbetreuung",
-          "desc": "Wir bieten direkte und persönliche Beratung, um Ihre steuerlichen und operativen Fragen zu beantworten und Sie bei der Nutzung und Pflege Ihrer LLC zu begleiten."
+          "desc": "Wir bieten direkte und persönliche Beratung, um Ihre steuerlichen und operativen Fragen zu beantworten und Sie bei der Nutzung und Pflege Ihrer LLC zu begleiten.",
+          "button": "Kontaktieren Sie uns"
         }
       }
     },
