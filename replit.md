@@ -14,6 +14,7 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
 
 ## Recent Changes
+- **2026-02-07:** Comprehensive system audit — verified all 2439 translation keys across 7 languages (zero missing/extra keys). CSV generator categories, payment methods, and CSV headers fully internationalized. Dashboard admin "Create Order" pricing synced with centralized PRICING config (`shared/config/pricing.ts`). Logout icon styled red across desktop navbar, mobile menu, and dashboard sidebar. 15 route modules verified for consistent imports/exports. 222 Zod validations, 120 try-catch blocks, 284 error status responses confirmed across server routes.
 - **2026-02-07:** Major server routes refactoring — split monolithic `server/routes.ts` (6159 lines) into 15 modular route files under `server/routes/`. Orchestrator reduced to ~260 lines. Route modules: admin-orders, admin-users, admin-billing, admin-comms, admin-documents, consultations, user-profile, orders, llc, maintenance, accounting, messages, contact, auth-ext, plus shared.ts utilities. Each module exports `registerXxxRoutes(app)` function. No business logic changes — pure structural refactor.
 - **2026-02-07:** Profitability calculator rebrand — renamed "Calculadora de Ahorro" → "Calculadora de Rentabilidad" across all 7 languages (9 translation keys updated per locale). Added summary KPI cards (price, margin, ROI, per-unit), ROI calculation, and reset button. Dashboard support button changed to "Habla con nosotros". New icons: Percent, RotateCcw.
 - **2026-02-07:** UX cleanup — removed placeholders from all tool pages, removed footers from tool pages, changed default currency to EUR, replaced language selector buttons with native select dropdown, removed Trustpilot logo from dashboard review card, moved invoice Generate PDF button to header
@@ -48,7 +49,7 @@ The application features a modern, responsive UI/UX with a consistent design sys
 - **Admin Panel:** Admin users see admin tabs directly in sidebar (no nested user+admin structure). Includes comprehensive control over orders, users, messages, payment accounts, discounts, and billing. Support users see limited support panel with sub-tabs.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, non-blocking font loading, PWA support, in-memory cache, an email queue system, and optimized Vite build processes. Animations use gentle easing (0.4-0.7s durations, 10px offsets).
 - **Security:** Employs enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), CSRF protection, secure API endpoints with validation, HTML sanitization, audit logging, protected file serving, advanced fraud detection, OTP for sensitive changes, LLC data locking, AES-256-CBC encryption for sensitive data, SHA-256 file integrity verification, and document access logging. Password requirements include minimum 8 characters, uppercase, lowercase, number, and symbol.
-- **Internationalization (i18n):** Full 7-language support (Spanish/English/Catalan/French/German/Italian/Portuguese) via react-i18next with over 2200 translation keys per language. WhatsApp pre-filled messages are internationalized via a centralized `whatsapp.ts` helper with per-context translation keys.
+- **Internationalization (i18n):** Full 7-language support (Spanish/English/Catalan/French/German/Italian/Portuguese) via react-i18next with 2439 translation keys per language (verified zero missing/extra across all locales). CSV generator fully i18n (categories, payment methods, CSV headers). WhatsApp pre-filled messages internationalized via centralized `whatsapp.ts` helper with per-context translation keys.
 - **PDF Generation:** Supports both client-side and server-side PDF generation for documents like invoices and operating agreements.
 - **Testing:** Utilizes Vitest for an automated test suite with 29 tests covering validation, i18n, theme, and PDF generation.
 - **SEO Optimization:** Includes targeted keywords, structured data (JSON-LD), server-side SEO headers, optimized robots.txt, dual sitemaps, and meta tags.
@@ -58,14 +59,14 @@ The application features a modern, responsive UI/UX with a consistent design sys
 
 **Feature Specifications:**
 - **Order & Account System:** Mandatory account creation for orders, flexible payment options, and detection of existing users.
-- **Pricing:** Clearly defined pricing for LLC formation and maintenance in New Mexico, Wyoming, and Delaware, including state fees and first-year services, managed via a centralized configuration.
+- **Pricing:** Clearly defined pricing for LLC formation and maintenance in New Mexico, Wyoming, and Delaware, including state fees and first-year services, managed via centralized `shared/config/pricing.ts` configuration. Dashboard admin "Create Order" dialog, services page, LLC form, and legal pages all reference this single source of truth.
 - **OTP Verification System:** Used for account creation, password resets, sensitive profile changes, and email verification.
 - **Messaging System:** Links messages from authenticated users, sends email notifications, supports threaded replies, and integrates with the user dashboard.
 - **Admin Features:** Includes payment link management, CRUD operations for users and orders, document request management, and invoice generation with status tracking and payment due dates.
 - **Compliance Calendar System:** Automatically calculates IRS deadlines, annual reports, and registered agent renewals, with hourly reminders and intelligent 6-month extensions.
 - **Progress Widget:** A visual 5-step progress tracker for LLC and Maintenance applications.
 - **Abandoned Application Recovery:** Tracks and recovers incomplete applications with email reminders.
-- **Client Tools:** Provides an Invoice Generator, Operating Agreement Generator, and a Price Calculator (tax comparison tool).
+- **Client Tools:** Provides an Invoice Generator, Operating Agreement Generator, CSV Transaction Record Generator (fully i18n with translated categories, payment methods, and CSV export headers), and a Price Calculator (tax comparison tool).
 - **State Comparison:** Interactive comparison of New Mexico, Wyoming, and Delaware with pros, cons, ideal scenarios, pricing, and processing times. Link from LLC formation page ("Compara aquí") navigates to #state-comparison section.
 
 ## Database Schema (28 tables)
