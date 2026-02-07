@@ -274,11 +274,11 @@ export function TaxComparator() {
   };
   
   return (
-    <section className="py-16 sm:py-24 bg-background relative overflow-hidden" id="comparador">
+    <section className="py-16 sm:py-24 lg:py-16 bg-background relative overflow-hidden" id="comparador">
       <div className="w-full px-4 sm:px-8 relative z-10">
-        <div className="text-center mb-10 sm:mb-14 flex flex-col items-center justify-center">
+        <div className="text-center mb-10 sm:mb-14 lg:mb-10 flex flex-col items-center justify-center">
           <motion.h2 
-            className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
+            className="text-4xl sm:text-5xl lg:text-4xl font-black tracking-tight text-center leading-[1.1] will-change-transform"
             style={{ fontWeight: 900 }}
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -291,7 +291,7 @@ export function TaxComparator() {
             <span className="text-accent">{t("taxComparator.titlePart4")}</span>
           </motion.h2>
           <motion.p 
-            className="text-muted-foreground text-base sm:text-lg mt-4 text-center max-w-2xl will-change-transform"
+            className="text-muted-foreground text-base sm:text-lg lg:text-sm mt-4 text-center max-w-2xl lg:max-w-lg will-change-transform"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -300,7 +300,7 @@ export function TaxComparator() {
             {t("taxComparator.subtitle")}
           </motion.p>
           <motion.div 
-            className="w-24 h-1 bg-accent mt-6 rounded-full"
+            className="w-24 h-1 bg-accent mt-6 lg:mt-4 rounded-full"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true, amount: 0.3 }}
@@ -309,7 +309,7 @@ export function TaxComparator() {
         </div>
         
         <motion.div 
-          className="max-w-4xl lg:max-w-2xl mx-auto will-change-transform"
+          className="max-w-4xl lg:max-w-xl mx-auto will-change-transform"
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
@@ -317,8 +317,8 @@ export function TaxComparator() {
         >
           <div className="bg-background rounded-3xl border-2 border-accent/20 shadow-2xl shadow-accent/10 overflow-hidden">
             {/* Country Selection */}
-            <div className="p-6 sm:p-8 border-b border-accent/10">
-              <h3 className="text-xl sm:text-2xl font-black text-foreground mb-4 text-center">
+            <div className="p-6 sm:p-8 lg:p-5 border-b border-accent/10">
+              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center">
                 {t("taxComparator.selectCountry")}
               </h3>
               <div className="flex flex-wrap justify-center gap-2">
@@ -341,11 +341,11 @@ export function TaxComparator() {
             </div>
             
             {/* Income Selection */}
-            <div className="p-6 sm:p-8 bg-background">
-              <div className="flex flex-col items-center gap-4">
-                <div className="flex items-center gap-3">
-                  <img src={moneyIcon} alt="" className="w-10 h-10" />
-                  <label className="text-base font-black text-foreground">
+            <div className="p-6 sm:p-8 lg:p-5 bg-background">
+              <div className="flex flex-col items-center gap-4 lg:gap-3">
+                <div className="flex items-center gap-3 lg:gap-2">
+                  <img src={moneyIcon} alt="" className="w-10 h-10 lg:w-8 lg:h-8" />
+                  <label className="text-base lg:text-sm font-black text-foreground">
                     {t("taxComparator.annualIncome")}
                   </label>
                 </div>
@@ -356,7 +356,7 @@ export function TaxComparator() {
                     value={formatInputCurrency(income)}
                     onChange={(e) => handleIncomeChange(e.target.value)}
                     placeholder="50.000"
-                    className="w-full px-6 py-3 text-2xl sm:text-3xl font-black text-accent text-center bg-white dark:bg-[#1A1A1A] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
+                    className="w-full px-6 py-3 lg:px-4 lg:py-2 text-2xl sm:text-3xl lg:text-xl font-black text-accent text-center bg-white dark:bg-[#1A1A1A] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors"
                     data-testid="input-income"
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
@@ -373,7 +373,7 @@ export function TaxComparator() {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="p-6 sm:p-8 bg-background will-change-transform flex items-center justify-center min-h-[280px] w-full"
+                  className="p-6 sm:p-8 lg:p-5 bg-background will-change-transform flex items-center justify-center min-h-[280px] lg:min-h-[220px] w-full"
                 >
                   <div className="max-w-sm sm:max-w-md w-full mx-auto text-center flex flex-col items-center">
                     <GrowthChartIcon className="w-16 h-16 mb-4" />
