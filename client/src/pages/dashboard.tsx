@@ -1117,12 +1117,13 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-background font-sans animate-page-in">
+    <div className="min-h-screen bg-background font-sans animate-page-in flex flex-col">
       <Navbar />
       <DashboardTour />
 
-      {/* Desktop Sidebar - Below navbar */}
-      <aside className="hidden lg:flex lg:flex-col fixed top-20 sm:top-24 bottom-0 left-0 w-64 border-r border-border/50 bg-card z-40">
+      <div className="flex flex-1 relative">
+      {/* Desktop Sidebar - Sticky below navbar */}
+      <aside className="hidden lg:flex lg:flex-col sticky top-20 sm:top-24 h-[calc(100vh-5rem)] sm:h-[calc(100vh-6rem)] w-64 shrink-0 border-r border-border/50 bg-card z-40 self-start">
           <div className="flex flex-col h-full">
             {/* Logo / Brand */}
             <div className="px-5 py-5 border-b border-border/30">
@@ -1241,7 +1242,7 @@ export default function Dashboard() {
         </aside>
 
         {/* Main content area */}
-        <div className="flex-1 lg:ml-64">
+        <div className="flex-1 min-w-0">
       <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10">
         <header className="mb-6 md:mb-10 animate-fade-in-up">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
@@ -4656,6 +4657,7 @@ export default function Dashboard() {
         </div>
         </div>
       </main>
+      </div>
       </div>
       <ConfirmDialog {...confirmDialogProps} />
     </div>
