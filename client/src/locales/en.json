@@ -1413,7 +1413,8 @@
       "empty": "No payments recorded",
       "emptyDesc": "Your invoices and receipts will appear here.",
       "invoice": "Invoice",
-      "viewServices": "View services"
+      "viewServices": "View services",
+      "invoiceLabel": "Invoice"
     },
     "calendar": {
       "title": "My Tax Calendar",
@@ -1486,7 +1487,11 @@
       "taxId": "Tax ID (NIF/CIF)",
       "otherDocument": "Other Document",
       "download": "Download",
-      "maxSize": "PDF, JPG or PNG (max. 10MB)"
+      "maxSize": "PDF, JPG or PNG (max. 10MB)",
+      "uploadedBy": "Uploaded by:",
+      "sendDocument": "Send Document",
+      "describePlaceholder": "Describe the document...",
+      "uploadButton": "Upload"
     },
     "tools": {
       "title": "Tools",

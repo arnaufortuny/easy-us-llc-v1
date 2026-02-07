@@ -1413,7 +1413,8 @@
       "empty": "Sin pagos registrados",
       "emptyDesc": "Tus facturas y recibos aparecerán aquí.",
       "invoice": "Factura",
-      "viewServices": "Ver servicios"
+      "viewServices": "Ver servicios",
+      "invoiceLabel": "Factura"
     },
     "calendar": {
       "title": "Mi Calendario Fiscal",
@@ -1486,7 +1487,11 @@
       "taxId": "Identificación Fiscal (NIF/CIF)",
       "otherDocument": "Otro Documento",
       "download": "Descargar",
-      "maxSize": "PDF, JPG o PNG (máx. 10MB)"
+      "maxSize": "PDF, JPG o PNG (máx. 10MB)",
+      "uploadedBy": "Subido por:",
+      "sendDocument": "Enviar Documento",
+      "describePlaceholder": "Describe el documento...",
+      "uploadButton": "Subir"
     },
     "tools": {
       "title": "Herramientas",

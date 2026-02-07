@@ -1413,7 +1413,8 @@
       "empty": "Sense pagaments registrats",
       "emptyDesc": "Les teves factures i rebuts apareixeran aquí.",
       "invoice": "Factura",
-      "viewServices": "Veure serveis"
+      "viewServices": "Veure serveis",
+      "invoiceLabel": "Factura"
     },
     "calendar": {
       "title": "El Meu Calendari Fiscal",
@@ -1486,7 +1487,11 @@
       "taxId": "Identificació Fiscal (NIF/CIF)",
       "otherDocument": "Altre Document",
       "download": "Descarregar",
-      "maxSize": "PDF, JPG o PNG (màx. 10MB)"
+      "maxSize": "PDF, JPG o PNG (màx. 10MB)",
+      "uploadedBy": "Pujat per:",
+      "sendDocument": "Enviar Document",
+      "describePlaceholder": "Descriu el document...",
+      "uploadButton": "Pujar"
     },
     "tools": {
       "title": "Eines",

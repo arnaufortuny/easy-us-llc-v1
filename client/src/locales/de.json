@@ -1413,7 +1413,8 @@
       "empty": "Keine Zahlungen verzeichnet",
       "emptyDesc": "Ihre Rechnungen und Belege erscheinen hier.",
       "invoice": "Rechnung",
-      "viewServices": "Services anzeigen"
+      "viewServices": "Services anzeigen",
+      "invoiceLabel": "Rechnung"
     },
     "calendar": {
       "title": "Mein Steuerkalender",
@@ -1486,7 +1487,11 @@
       "taxId": "Steueridentifikation (NIF/CIF)",
       "otherDocument": "Sonstiges Dokument",
       "download": "Herunterladen",
-      "maxSize": "PDF, JPG oder PNG (max. 10MB)"
+      "maxSize": "PDF, JPG oder PNG (max. 10MB)",
+      "uploadedBy": "Hochgeladen von:",
+      "sendDocument": "Dokument senden",
+      "describePlaceholder": "Beschreiben Sie das Dokument...",
+      "uploadButton": "Hochladen"
     },
     "tools": {
       "title": "Tools",

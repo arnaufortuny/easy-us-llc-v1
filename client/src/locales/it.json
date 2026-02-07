@@ -1413,7 +1413,8 @@
       "empty": "Nessun pagamento registrato",
       "emptyDesc": "Le tue fatture e ricevute appariranno qui.",
       "invoice": "Fattura",
-      "viewServices": "Vedi servizi"
+      "viewServices": "Vedi servizi",
+      "invoiceLabel": "Fattura"
     },
     "calendar": {
       "title": "Il Mio Calendario Fiscale",
@@ -2017,7 +2018,11 @@
       "taxId": "Codice Fiscale / Partita IVA",
       "otherDocument": "Altro Documento",
       "download": "Scarica",
-      "maxSize": "PDF, JPG o PNG (max. 10MB)"
+      "maxSize": "PDF, JPG o PNG (max. 10MB)",
+      "uploadedBy": "Caricato da:",
+      "sendDocument": "Invia Documento",
+      "describePlaceholder": "Descrivi il documento...",
+      "uploadButton": "Caricare"
     }
   },
   "tour": {

@@ -1519,7 +1519,7 @@ export default function Dashboard() {
                           <Button size="lg" className="rounded-full font-black bg-accent text-primary shrink-0" asChild>
                             <span>
                               <FileUp className="w-5 h-5 md:mr-2" />
-                              <span className="hidden md:inline">Subir</span>
+                              <span className="hidden md:inline">{t('dashboard.documents.uploadButton')}</span>
                             </span>
                           </Button>
                         </div>
@@ -1564,7 +1564,7 @@ export default function Dashboard() {
                             <Textarea 
                               value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
-                              placeholder="Describe el documento..."
+                              placeholder={t('dashboard.documents.describePlaceholder')}
                               className="min-h-[70px] rounded-xl border-border bg-background dark:bg-[#1A1A1A] text-base"
                               style={{ fontSize: '16px' }}
                               data-testid="input-upload-notes-inline"
@@ -1605,7 +1605,7 @@ export default function Dashboard() {
                           className="w-full bg-accent text-accent-foreground font-black rounded-full h-12"
                           data-testid="button-send-document"
                         >
-                          <Send className="w-4 h-4 mr-2" /> Enviar Documento
+                          <Send className="w-4 h-4 mr-2" /> {t('dashboard.documents.sendDocument')}
                         </Button>
                       </div>
                     )}
@@ -1619,11 +1619,11 @@ export default function Dashboard() {
                         <h3 className="font-black text-primary mb-1 text-xs md:text-sm line-clamp-2">{doc.fileName}</h3>
                         <p className="text-[9px] md:text-[10px] text-muted-foreground">{new Date(doc.createdAt || doc.uploadedAt).toLocaleDateString()}</p>
                         {doc.uploader && (
-                          <p className="text-[9px] text-accent mb-1">Subido por: {doc.uploader.firstName} {doc.uploader.lastName}</p>
+                          <p className="text-[9px] text-accent mb-1">{t('dashboard.documents.uploadedBy')} {doc.uploader.firstName} {doc.uploader.lastName}</p>
                         )}
                         <div className="flex gap-2 w-full mt-3">
                           <Button variant="outline" size="sm" className="rounded-full font-black flex-1 text-[10px] md:text-xs" onClick={() => window.open(doc.fileUrl, "_blank")} data-testid={`button-download-doc-${doc.id}`}>
-                            <Download className="w-3 h-3 mr-1" /> Descargar
+                            <Download className="w-3 h-3 mr-1" /> {t('dashboard.documents.download')}
                           </Button>
                           {canEdit && (
                             <Button variant="outline" size="icon" className="rounded-full text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
@@ -1663,7 +1663,7 @@ export default function Dashboard() {
                       orders.map((order: any) => (
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
                           <div>
-                            <p className="font-black text-xs md:text-sm">Factura {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
+                            <p className="font-black text-xs md:text-sm">{t('dashboard.payments.invoiceLabel')} {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
                             <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
                           </div>
                           <div className="flex gap-2">

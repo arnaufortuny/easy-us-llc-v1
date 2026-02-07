@@ -1382,7 +1382,11 @@
       "taxId": "Identifiant fiscal (NIF/CIF)",
       "otherDocument": "Autre document",
       "download": "Télécharger",
-      "maxSize": "PDF, JPG ou PNG (max. 10 Mo)"
+      "maxSize": "PDF, JPG ou PNG (max. 10 Mo)",
+      "uploadedBy": "Téléchargé par :",
+      "sendDocument": "Envoyer le document",
+      "describePlaceholder": "Décrivez le document...",
+      "uploadButton": "Télécharger"
     },
     "llcDetails": {
       "myLLCs": "Mes LLC actives",
@@ -1450,7 +1454,8 @@
       "empty": "Aucun paiement enregistré",
       "emptyDesc": "Vos factures et reçus apparaîtront ici.",
       "invoice": "Facture",
-      "viewServices": "Voir les services"
+      "viewServices": "Voir les services",
+      "invoiceLabel": "Facture"
     },
     "calendar": {
       "title": "Mon calendrier fiscal",
