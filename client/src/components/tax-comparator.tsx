@@ -1,4 +1,4 @@
-import { useState, useMemo, ComponentType } from "react";
+import { useState, useMemo, ComponentType, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "@/components/icons";
@@ -21,6 +21,7 @@ interface TaxBreakdown {
 }
 
 type Country = "spain" | "uk" | "germany" | "france" | "bulgaria";
+type ActivityType = "digital" | "consulting" | "ecommerce" | "saas" | "marketing" | "other";
 
 interface CountryInfo {
   id: Country;
@@ -38,110 +39,103 @@ const countryData: Omit<CountryInfo, 'name'>[] = [
   { id: "bulgaria", FlagComponent: BulgariaFlag, vatRate: 20, corporateTaxRate: 10 },
 ];
 
-function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
+function getDeductibleExpenses(grossIncome: number, activity: ActivityType): number {
+  const rates: Record<ActivityType, number> = {
+    digital: 0.15,
+    consulting: 0.10,
+    ecommerce: 0.35,
+    saas: 0.20,
+    marketing: 0.18,
+    other: 0.15,
+  };
+  return grossIncome * (rates[activity] || 0.15);
+}
+
+function calculateTaxes(grossIncome: number, country: Country, activity: ActivityType): TaxBreakdown {
   let corporateTax = 0;
   let incomeTax = 0;
   let socialSecurity = 0;
   let vatRate = 0;
 
+  const expenses = getDeductibleExpenses(grossIncome, activity);
+  const taxableIncome = Math.max(grossIncome - expenses, 0);
+
   switch (country) {
     case "spain": {
-      // Spain SL (Sociedad Limitada): IS 25% + Cuota autónomos + IRPF dividendos + IVA 21%
-      // Cuota autónomos 2024: Base mínima ~300€/mes, máxima ~1,300€/mes
-      const monthlyQuota = Math.min(Math.max(grossIncome / 12 * 0.306, 300), 1300);
+      const monthlyQuota = Math.min(Math.max(taxableIncome / 12 * 0.306, 300), 1300);
       socialSecurity = monthlyQuota * 12;
-      
-      // Impuesto de Sociedades 25% (15% primeros 2 años para nuevas empresas)
-      const beneficioBruto = grossIncome - socialSecurity;
-      corporateTax = Math.max(beneficioBruto * 0.25, 0);
-      
-      // Si el socio extrae dividendos: IRPF 19-26% sobre dividendos
-      const beneficioNeto = beneficioBruto - corporateTax;
-      const dividendos = beneficioNeto * 0.8; // Asumimos 80% se reparte
-      // Tramos dividendos: hasta 6000€ (19%), 6000-50000€ (21%), 50000-200000€ (23%), +200000€ (27%)
+
+      const beneficioBruto = Math.max(taxableIncome - socialSecurity, 0);
+      corporateTax = beneficioBruto * 0.25;
+
+      const beneficioNeto = Math.max(beneficioBruto - corporateTax, 0);
+      const dividendos = beneficioNeto * 0.8;
       let irpfDividendos = 0;
       let restante = dividendos;
-      if (restante > 0) {
-        const tramo1 = Math.min(restante, 6000);
-        irpfDividendos += tramo1 * 0.19;
-        restante -= tramo1;
-      }
-      if (restante > 0) {
-        const tramo2 = Math.min(restante, 44000);
-        irpfDividendos += tramo2 * 0.21;
-        restante -= tramo2;
-      }
-      if (restante > 0) {
-        const tramo3 = Math.min(restante, 150000);
-        irpfDividendos += tramo3 * 0.23;
-        restante -= tramo3;
-      }
-      if (restante > 0) {
-        irpfDividendos += restante * 0.27;
-      }
+      if (restante > 0) { const t1 = Math.min(restante, 6000); irpfDividendos += t1 * 0.19; restante -= t1; }
+      if (restante > 0) { const t2 = Math.min(restante, 44000); irpfDividendos += t2 * 0.21; restante -= t2; }
+      if (restante > 0) { const t3 = Math.min(restante, 150000); irpfDividendos += t3 * 0.23; restante -= t3; }
+      if (restante > 0) { irpfDividendos += restante * 0.27; }
       incomeTax = irpfDividendos;
       vatRate = 0.21;
       break;
     }
 
     case "uk": {
-      // UK Ltd: Corporation Tax 25% (19% for profits under £50k) + NI + Dividend Tax + VAT 20%
-      // Class 2 NI: £3.45/week, Class 4 NI: 9% on profits £12,570-£50,270
       const class2NI = 3.45 * 52;
-      const profitsForNI = Math.max(Math.min(grossIncome, 50270) - 12570, 0);
+      const profitsForNI = Math.max(Math.min(taxableIncome, 50270) - 12570, 0);
       const class4NI = profitsForNI * 0.09;
       socialSecurity = class2NI + class4NI;
-      
-      // Corporation Tax: 19% up to £50k, 25% over £250k, marginal between
-      if (grossIncome <= 50000) {
-        corporateTax = grossIncome * 0.19;
-      } else if (grossIncome >= 250000) {
-        corporateTax = grossIncome * 0.25;
+
+      if (taxableIncome <= 50000) {
+        corporateTax = taxableIncome * 0.19;
+      } else if (taxableIncome >= 250000) {
+        corporateTax = taxableIncome * 0.25;
       } else {
-        corporateTax = grossIncome * 0.25 - ((250000 - grossIncome) * 0.015);
+        corporateTax = taxableIncome * 0.25 - ((250000 - taxableIncome) * 0.015);
       }
-      
-      // Dividend tax: 8.75% basic, 33.75% higher, 39.35% additional
-      const netProfit = grossIncome - corporateTax - socialSecurity;
+
+      const netProfit = Math.max(taxableIncome - corporateTax - socialSecurity, 0);
       const dividends = netProfit * 0.8;
-      const taxableDividends = Math.max(dividends - 1000, 0); // £1000 allowance
-      incomeTax = taxableDividends * 0.0875;
+      const taxableDividends = Math.max(dividends - 1000, 0);
+      let dividendTax = 0;
+      let rem = taxableDividends;
+      if (rem > 0) { const b = Math.min(rem, 37700); dividendTax += b * 0.0875; rem -= b; }
+      if (rem > 0) { const h = Math.min(rem, 125140); dividendTax += h * 0.3375; rem -= h; }
+      if (rem > 0) { dividendTax += rem * 0.3935; }
+      incomeTax = dividendTax;
       vatRate = 0.20;
       break;
     }
 
     case "germany": {
-      // Germany GmbH: Körperschaftsteuer 15% + Solidaritätszuschlag 5.5% + Gewerbesteuer ~14% + Sozialversicherung
-      // Total corporate: ~30%
-      // Geschäftsführer (director) must pay social security: ~20% employer + ~20% employee
-      socialSecurity = Math.min(grossIncome * 0.20, 15000); // Capped at Beitragsbemessungsgrenze
-      
-      corporateTax = grossIncome * 0.30; // Combined corporate tax rate
-      
-      // Dividends: Abgeltungssteuer 25% + Soli
-      const netProfit = grossIncome - corporateTax - socialSecurity;
+      const beitragsBemessungsgrenze = 90600;
+      const ssBase = Math.min(taxableIncome, beitragsBemessungsgrenze);
+      socialSecurity = ssBase * 0.205;
+
+      const koerperschaftsteuer = taxableIncome * 0.1583;
+      const gewerbesteuer = taxableIncome * 0.14;
+      corporateTax = koerperschaftsteuer + gewerbesteuer;
+
+      const netProfit = Math.max(taxableIncome - corporateTax - socialSecurity, 0);
       const dividends = netProfit * 0.8;
-      incomeTax = dividends * 0.26375; // 25% + 5.5% Soli
+      incomeTax = dividends * 0.26375;
       vatRate = 0.19;
       break;
     }
 
     case "france": {
-      // France SARL/SAS: IS 25% (15% up to €42,500) + Cotisations sociales + IR dividendes + TVA 20%
-      // Cotisations sociales gérant: ~45% on remuneration
-      const remuneration = grossIncome * 0.5; // Assume 50% as salary
+      const remuneration = taxableIncome * 0.5;
       socialSecurity = remuneration * 0.45;
-      
-      // Impôt sur les sociétés
-      const benefice = grossIncome - remuneration;
+
+      const benefice = taxableIncome - remuneration;
       if (benefice <= 42500) {
         corporateTax = benefice * 0.15;
       } else {
         corporateTax = 42500 * 0.15 + (benefice - 42500) * 0.25;
       }
-      
-      // Prélèvement Forfaitaire Unique (PFU) on dividends: 30% (12.8% IR + 17.2% prélèvements sociaux)
-      const netProfit = benefice - corporateTax;
+
+      const netProfit = Math.max(benefice - corporateTax, 0);
       const dividends = netProfit * 0.8;
       incomeTax = dividends * 0.30;
       vatRate = 0.20;
@@ -149,14 +143,12 @@ function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
     }
 
     case "bulgaria": {
-      // Bulgaria EOOD: Corporate tax 10% + Social security ~32% + Dividend tax 5% + VAT 20%
-      // Very competitive tax regime
-      socialSecurity = Math.min(grossIncome * 0.32, 12000); // Capped
-      
-      corporateTax = grossIncome * 0.10;
-      
-      // Dividend tax: flat 5%
-      const netProfit = grossIncome - corporateTax - socialSecurity;
+      const maxSSBase = 3400 * 12;
+      socialSecurity = Math.min(taxableIncome, maxSSBase) * 0.327;
+
+      corporateTax = taxableIncome * 0.10;
+
+      const netProfit = Math.max(taxableIncome - corporateTax - socialSecurity, 0);
       const dividends = netProfit * 0.8;
       incomeTax = dividends * 0.05;
       vatRate = 0.20;
@@ -181,16 +173,21 @@ function calculateTaxes(grossIncome: number, country: Country): TaxBreakdown {
   };
 }
 
-function calculateUSLLCTaxes(grossIncome: number): TaxBreakdown {
+function calculateUSLLCTaxes(grossIncome: number, activity: ActivityType): TaxBreakdown {
+  const expenses = getDeductibleExpenses(grossIncome, activity);
+  const accountingCost = 1500;
+  const agentFee = 150;
+  const totalCosts = accountingCost + agentFee;
+
   return {
     income: grossIncome,
     corporateTax: 0,
     incomeTax: 0,
     socialSecurity: 0,
     vat: 0,
-    total: 0,
-    netIncome: Math.round(grossIncome),
-    effectiveRate: 0
+    total: Math.round(totalCosts),
+    netIncome: Math.round(grossIncome - totalCosts),
+    effectiveRate: grossIncome > 0 ? Math.round((totalCosts / grossIncome) * 1000) / 10 : 0
   };
 }
 
@@ -199,6 +196,7 @@ export function TaxComparator() {
   const [, setLocation] = useLocation();
   const [income, setIncome] = useState(50000);
   const [selectedCountry, setSelectedCountry] = useState<Country>("spain");
+  const [selectedActivity, setSelectedActivity] = useState<ActivityType>("digital");
   const [showDetails, setShowDetails] = useState(false);
   const [email, setEmail] = useState("");
   const [isCalculating, setIsCalculating] = useState(false);
@@ -210,8 +208,8 @@ export function TaxComparator() {
     [t]
   );
   
-  const countryTaxes = useMemo(() => calculateTaxes(income, selectedCountry), [income, selectedCountry]);
-  const usLLCTaxes = useMemo(() => calculateUSLLCTaxes(income), [income]);
+  const countryTaxes = useMemo(() => calculateTaxes(income, selectedCountry, selectedActivity), [income, selectedCountry, selectedActivity]);
+  const usLLCTaxes = useMemo(() => calculateUSLLCTaxes(income, selectedActivity), [income, selectedActivity]);
   const savings = countryTaxes.total - usLLCTaxes.total;
   const savingsPercentage = countryTaxes.income > 0 ? (savings / countryTaxes.income) * 100 : 0;
   
@@ -252,6 +250,7 @@ export function TaxComparator() {
         email,
         income,
         country: selectedCountry,
+        activity: selectedActivity,
         savings: countryTaxes.total - usLLCTaxes.total
       });
     } catch (error) {
@@ -268,6 +267,12 @@ export function TaxComparator() {
     const numValue = parseInt(value.replace(/[^0-9]/g, '')) || 0;
     setIncome(Math.min(Math.max(numValue, 0), 500000));
   };
+  
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIncome(parseInt(e.target.value));
+  };
+
+  const activityTypes: ActivityType[] = ["digital", "consulting", "ecommerce", "saas", "marketing", "other"];
   
   const formatInputCurrency = (value: number) => {
     return value.toLocaleString('es-ES');
@@ -361,7 +366,43 @@ export function TaxComparator() {
                   />
                   <span className="absolute right-6 top-1/2 -translate-y-1/2 text-xl font-black text-accent/60">€</span>
                 </div>
-                <p className="text-xs text-muted-foreground font-bold">{t("taxComparator.enterIncome")}</p>
+                <div className="w-full max-w-xs sm:max-w-md px-2">
+                  <input
+                    type="range"
+                    min="10000"
+                    max="500000"
+                    step="5000"
+                    value={income}
+                    onChange={handleSliderChange}
+                    className="w-full h-2 rounded-full appearance-none cursor-pointer bg-accent/20 [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-accent [&::-webkit-slider-thumb]:shadow-md [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-accent [&::-moz-range-thumb]:border-0"
+                    data-testid="slider-income"
+                  />
+                  <div className="flex justify-between text-[10px] text-muted-foreground font-bold mt-1">
+                    <span>10.000 €</span>
+                    <span>500.000 €</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Activity Type Selection */}
+            <div className="p-6 sm:p-8 lg:p-5 bg-background border-t border-accent/10">
+              <div className="flex flex-col items-center gap-3">
+                <label className="text-base lg:text-sm font-black text-foreground">
+                  {t("taxComparator.activityType")}
+                </label>
+                <select
+                  value={selectedActivity}
+                  onChange={(e) => setSelectedActivity(e.target.value as ActivityType)}
+                  className="w-full max-w-xs sm:max-w-md px-5 py-3 lg:px-4 lg:py-2 text-sm font-bold bg-white dark:bg-[#1A1A1A] border-2 border-accent/30 rounded-full focus:border-accent outline-none transition-colors text-foreground text-center appearance-none cursor-pointer"
+                  data-testid="select-activity-type"
+                >
+                  {activityTypes.map((act) => (
+                    <option key={act} value={act}>
+                      {t(`taxComparator.activities.${act}`)}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
             
