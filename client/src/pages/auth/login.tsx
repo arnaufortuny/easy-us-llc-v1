@@ -267,7 +267,7 @@ export default function Login() {
 
             <div className="hidden lg:block">
               <div>
-                <div className="mb-5">
+                <div className="mb-7">
                   <h2 className="text-2xl xl:text-3xl font-black tracking-tight">
                     <span className="text-foreground">{t("auth.login.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.login.infoCard.title").split(' ').slice(-1)[0]}</span>
                   </h2>
