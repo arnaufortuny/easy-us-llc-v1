@@ -1438,6 +1438,68 @@ export async function registerRoutes(
     }
   });
 
+  // ===== Payment Accounts Management =====
+  app.get("/api/admin/payment-accounts", isAdmin, async (req, res) => {
+    try {
+      const accounts = await storage.getPaymentAccounts();
+      res.json(accounts);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payment accounts" });
+    }
+  });
+
+  app.post("/api/admin/payment-accounts", isAdmin, async (req, res) => {
+    try {
+      const schema = z.object({
+        label: z.string().min(1),
+        holder: z.string().min(1),
+        bankName: z.string().min(1),
+        accountType: z.string().default("checking"),
+        accountNumber: z.string().optional().nullable(),
+        routingNumber: z.string().optional().nullable(),
+        iban: z.string().optional().nullable(),
+        swift: z.string().optional().nullable(),
+        address: z.string().optional().nullable(),
+        isActive: z.boolean().default(true),
+        sortOrder: z.number().default(0),
+      });
+      const data = schema.parse(req.body);
+      const account = await storage.createPaymentAccount(data);
+      res.json(account);
+    } catch (error: any) {
+      res.status(400).json({ message: error.message || "Error creating payment account" });
+    }
+  });
+
+  app.patch("/api/admin/payment-accounts/:id", isAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const account = await storage.updatePaymentAccount(id, req.body);
+      res.json(account);
+    } catch (error) {
+      res.status(500).json({ message: "Error updating payment account" });
+    }
+  });
+
+  app.delete("/api/admin/payment-accounts/:id", isAdmin, async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      await storage.deletePaymentAccount(id);
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ message: "Error deleting payment account" });
+    }
+  });
+
+  app.get("/api/payment-accounts/active", async (_req, res) => {
+    try {
+      const accounts = await storage.getActivePaymentAccounts();
+      res.json(accounts);
+    } catch (error) {
+      res.status(500).json({ message: "Error fetching payment accounts" });
+    }
+  });
+
   // Validate discount code (public - for checkout)
   app.post("/api/discount-codes/validate", async (req, res) => {
     try {
@@ -3033,6 +3095,7 @@ export async function registerRoutes(
 
       const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
       const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
+      const activeAccounts = await storage.getActivePaymentAccounts();
 
       const pdfBuffer = await generateOrderInvoice({
         order: {
@@ -3058,7 +3121,8 @@ export async function registerRoutes(
         },
         application: llcApp || null,
         maintenanceApplication: maintApp || null,
-        paymentLink: order.paymentLink || undefined
+        paymentLink: order.paymentLink || undefined,
+        bankAccounts: activeAccounts.map(a => ({ label: a.label, holder: a.holder, bankName: a.bankName, accountType: a.accountType, accountNumber: a.accountNumber, routingNumber: a.routingNumber, iban: a.iban, swift: a.swift, address: a.address }))
       });
       
       const invoiceNumber = llcApp?.requestCode || maintApp?.requestCode || order.invoiceNumber || `INV-${orderId}`;

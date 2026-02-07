@@ -68,7 +68,7 @@ export default function Dashboard() {
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   const { t, i18n } = useTranslation();
   usePageTitle();
-  const [activeTab, setActiveTab] = useState<Tab>('services');
+  const [activeTab, setActiveTab] = useState<Tab>(user?.isAdmin ? 'admin' : 'services');
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({ 
     firstName: '', 
@@ -97,6 +97,13 @@ export default function Dashboard() {
       return () => clearTimeout(timer);
     }
   }, [formMessage]);
+
+  useEffect(() => {
+    if (user?.isAdmin && activeTab !== 'admin') {
+      setActiveTab('admin' as Tab);
+      setAdminSubTab('dashboard');
+    }
+  }, [user?.isAdmin]);
   
   // Only allow profile editing for active and VIP accounts
   const canEdit = user?.accountStatus === 'active' || user?.accountStatus === 'vip';
@@ -434,6 +441,16 @@ export default function Dashboard() {
   const { data: guestVisitors, refetch: refetchGuests } = useQuery({
     queryKey: ['/api/admin/guests'],
     enabled: !!user?.isAdmin,
+  });
+
+  const { data: paymentAccountsList, refetch: refetchPaymentAccounts } = useQuery<any[]>({
+    queryKey: ['/api/admin/payment-accounts'],
+    enabled: !!user?.isAdmin,
+  });
+  const [paymentAccountDialog, setPaymentAccountDialog] = useState<{ open: boolean; account: any | null }>({ open: false, account: null });
+  const [paymentAccountForm, setPaymentAccountForm] = useState({
+    label: '', holder: '', bankName: '', accountType: 'checking',
+    accountNumber: '', routingNumber: '', iban: '', swift: '', address: '', isActive: true, sortOrder: 0,
   });
 
   const [broadcastSubject, setBroadcastSubject] = useState("");
@@ -994,7 +1011,7 @@ export default function Dashboard() {
     [orders]
   );
 
-  const menuItems = useMemo(() => [
+  const userMenuItems = useMemo(() => [
     { id: 'services', label: t('dashboard.tabs.services'), icon: Package, mobileLabel: t('dashboard.tabs.servicesMobile'), tour: 'orders' },
     { id: 'consultations', label: t('dashboard.tabs.consultations'), icon: MessageSquare, mobileLabel: t('dashboard.tabs.consultationsMobile') },
     { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
@@ -1006,7 +1023,27 @@ export default function Dashboard() {
     { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
   ], [t]);
 
-  const sidebarMainItems = useMemo(() => menuItems.filter(item => item.id !== 'profile'), [menuItems]);
+  const adminMenuItems = useMemo(() => {
+    const allItems = [
+      { id: 'admin-dashboard', subTab: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3, mobileLabel: t('dashboard.admin.tabs.metrics'), adminOnly: true },
+      { id: 'admin-orders', subTab: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, mobileLabel: t('dashboard.admin.tabs.orders'), adminOnly: false },
+      { id: 'admin-comms', subTab: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, mobileLabel: t('dashboard.admin.tabs.communications'), adminOnly: false },
+      { id: 'admin-incomplete', subTab: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle, mobileLabel: t('dashboard.admin.tabs.incomplete'), adminOnly: true },
+      { id: 'admin-users', subTab: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users, mobileLabel: t('dashboard.admin.tabs.clients'), adminOnly: true },
+      { id: 'admin-billing', subTab: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, mobileLabel: t('dashboard.admin.tabs.billing'), adminOnly: true },
+      { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
+      { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
+      { id: 'admin-payments-config', subTab: 'payment-accounts', label: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), icon: CreditCard, mobileLabel: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), adminOnly: true },
+      { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
+    ];
+    return allItems.filter(item => isAdmin || !item.adminOnly);
+  }, [t, isAdmin]);
+
+  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
+  const sidebarMainItems = useMemo(() => {
+    if (isAdmin) return adminMenuItems;
+    return userMenuItems.filter(item => item.id !== 'profile');
+  }, [isAdmin, adminMenuItems, userMenuItems]);
   
   const handleLogout = useCallback(() => {
     apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
@@ -1098,40 +1135,65 @@ export default function Dashboard() {
 
             {/* Main navigation */}
             <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              {sidebarMainItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => setActiveTab(item.id as Tab)}
-                  className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                    activeTab === item.id 
-                    ? 'bg-accent text-accent-foreground shadow-sm' 
-                    : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                  }`}
-                  data-testid={`button-sidebar-${item.id}`}
-                  {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
-                >
-                  <item.icon className={`w-5 h-5 shrink-0 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
-                  <span>{item.label}</span>
-                </button>
-              ))}
-              
-              {isStaff && (
+              {isAdmin ? (
                 <>
-                  <div className="pt-2 pb-1 px-4">
-                    <div className="border-t border-border/30" />
-                  </div>
-                  <button
-                    onClick={() => setActiveTab('admin' as Tab)}
-                    className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                      activeTab === 'admin' 
-                      ? 'bg-accent text-accent-foreground shadow-sm' 
-                      : 'text-accent hover:bg-accent/10'
-                    }`}
-                    data-testid="button-sidebar-admin"
-                  >
-                    <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
-                    <span>{isSupport && !isAdmin ? t('dashboard.menu.support', 'Soporte') : t('dashboard.menu.admin')}</span>
-                  </button>
+                  {sidebarMainItems.map((item: any) => {
+                    const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
+                    return (
+                      <button
+                        key={item.id}
+                        onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                          isActive 
+                          ? 'bg-accent text-accent-foreground shadow-sm' 
+                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                        }`}
+                        data-testid={`button-sidebar-${item.id}`}
+                      >
+                        <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-accent-foreground' : 'text-accent'}`} />
+                        <span>{item.label}</span>
+                      </button>
+                    );
+                  })}
+                </>
+              ) : (
+                <>
+                  {sidebarMainItems.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => setActiveTab(item.id as Tab)}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                        activeTab === item.id 
+                        ? 'bg-accent text-accent-foreground shadow-sm' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
+                      }`}
+                      data-testid={`button-sidebar-${item.id}`}
+                      {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
+                    >
+                      <item.icon className={`w-5 h-5 shrink-0 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
+                      <span>{item.label}</span>
+                    </button>
+                  ))}
+                  
+                  {isSupport && (
+                    <>
+                      <div className="pt-2 pb-1 px-4">
+                        <div className="border-t border-border/30" />
+                      </div>
+                      <button
+                        onClick={() => setActiveTab('admin' as Tab)}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
+                          activeTab === 'admin' 
+                          ? 'bg-accent text-accent-foreground shadow-sm' 
+                          : 'text-accent hover:bg-accent/10'
+                        }`}
+                        data-testid="button-sidebar-admin"
+                      >
+                        <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
+                        <span>{t('dashboard.menu.support', 'Soporte')}</span>
+                      </button>
+                    </>
+                  )}
                 </>
               )}
             </nav>
@@ -1226,26 +1288,51 @@ export default function Dashboard() {
         {/* Mobile Navigation - Horizontal scroll buttons */}
         <div className="flex flex-col gap-2 mb-6 lg:hidden">
           <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar -mx-4 px-4" style={{ WebkitOverflowScrolling: 'touch' }}>
-            {menuItems.map((item) => (
-              <Button
-                key={item.id}
-                variant={activeTab === item.id ? "default" : "ghost"}
-                onClick={() => setActiveTab(item.id as Tab)}
-                size="sm"
-                className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
-                  activeTab === item.id 
-                  ? 'bg-accent text-accent-foreground shadow-md' 
-                  : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
-                }`}
-                data-testid={`button-tab-${item.id}`}
-                {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
-              >
-                <item.icon className="w-4 h-4" />
-                <span>{item.mobileLabel}</span>
-              </Button>
-            ))}
+            {isAdmin ? (
+              adminMenuItems.map((item: any) => {
+                const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
+                return (
+                  <Button
+                    key={item.id}
+                    variant={isActive ? "default" : "ghost"}
+                    onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
+                    size="sm"
+                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                      isActive 
+                      ? 'bg-accent text-accent-foreground shadow-md' 
+                      : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
+                    }`}
+                    data-testid={`button-tab-${item.id}`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.mobileLabel}</span>
+                  </Button>
+                );
+              })
+            ) : (
+              <>
+                {userMenuItems.map((item) => (
+                  <Button
+                    key={item.id}
+                    variant={activeTab === item.id ? "default" : "ghost"}
+                    onClick={() => setActiveTab(item.id as Tab)}
+                    size="sm"
+                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
+                      activeTab === item.id 
+                      ? 'bg-accent text-accent-foreground shadow-md' 
+                      : 'bg-card text-muted-foreground hover:text-foreground hover:bg-secondary'
+                    }`}
+                    data-testid={`button-tab-${item.id}`}
+                    {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.mobileLabel}</span>
+                  </Button>
+                ))}
+              </>
+            )}
           </div>
-          {isStaff && (
+          {isSupport && !isAdmin && (
             <div className="flex -mx-4 px-4">
               <Button
                 variant={activeTab === 'admin' ? "default" : "ghost"}
@@ -1259,7 +1346,7 @@ export default function Dashboard() {
                 data-testid="button-tab-admin-mobile"
               >
                 <Shield className="w-4 h-4" />
-                <span>{isSupport && !isAdmin ? t('dashboard.menu.support', 'Soporte') : t('dashboard.menu.admin')}</span>
+                <span>{t('dashboard.menu.support', 'Soporte')}</span>
               </Button>
             </div>
           )}
@@ -1952,18 +2039,14 @@ export default function Dashboard() {
 
               {activeTab === 'admin' && isStaff && (
                 <div key="admin" className="space-y-6">
+                  {!isAdmin && (
                   <div className="flex overflow-x-auto pb-3 gap-2 mb-4 md:mb-6 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {[
-                      { id: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3, adminOnly: true },
                       { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, adminOnly: false },
                       { id: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, adminOnly: false },
-                      { id: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle, adminOnly: true },
-                      { id: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users, adminOnly: true },
-                      { id: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, adminOnly: true },
                       { id: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, adminOnly: false },
                       { id: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, adminOnly: false },
-                      { id: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, adminOnly: true },
-                    ].filter(item => isAdmin || !item.adminOnly).map((item) => (
+                    ].map((item) => (
                       <Button
                         key={item.id}
                         variant={adminSubTab === item.id ? "default" : "outline"}
@@ -1981,6 +2064,7 @@ export default function Dashboard() {
                       </Button>
                     ))}
                   </div>
+                  )}
                   <div className="flex flex-col sm:flex-row flex-wrap gap-2 mb-4">
                     {isAdmin && (
                     <div className="flex flex-wrap gap-2">
@@ -4063,6 +4147,198 @@ export default function Dashboard() {
                       )}
                       {billingSubTab === 'accounting' && (
                         <AdminAccountingPanel />
+                      )}
+                    </div>
+                  )}
+
+                  {adminSubTab === 'payment-accounts' && (
+                    <div className="space-y-4">
+                      <div className="flex justify-between items-center flex-wrap gap-2">
+                        <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago')}</h3>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="rounded-full text-xs font-black"
+                          onClick={() => {
+                            setPaymentAccountForm({
+                              label: '', holder: 'Fortuny Consulting LLC', bankName: '', accountType: 'checking',
+                              accountNumber: '', routingNumber: '', iban: '', swift: '', address: '', isActive: true, sortOrder: 0,
+                            });
+                            setPaymentAccountDialog({ open: true, account: null });
+                          }}
+                          data-testid="button-create-payment-account"
+                        >
+                          <Plus className="w-3 h-3 mr-1" /> Nueva cuenta
+                        </Button>
+                      </div>
+                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                        <div className="divide-y">
+                          {paymentAccountsList?.map((acct: any) => (
+                            <div key={acct.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`payment-account-${acct.id}`}>
+                              <div className="space-y-1 flex-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-black text-sm">{acct.label}</span>
+                                  <Badge variant={acct.isActive ? "default" : "secondary"} className="text-[10px]">
+                                    {acct.isActive ? 'Activa' : 'Inactiva'}
+                                  </Badge>
+                                  <Badge variant="outline" className="text-[10px]">{acct.accountType}</Badge>
+                                </div>
+                                <p className="text-xs text-muted-foreground">{acct.bankName} — {acct.holder}</p>
+                                {acct.accountNumber && <p className="text-[10px] text-muted-foreground">Cuenta: ****{acct.accountNumber.slice(-4)}</p>}
+                                {acct.iban && <p className="text-[10px] text-muted-foreground">IBAN: ****{acct.iban.slice(-4)}</p>}
+                              </div>
+                              <div className="flex gap-2">
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="rounded-lg"
+                                  onClick={() => {
+                                    setPaymentAccountForm({
+                                      label: acct.label, holder: acct.holder, bankName: acct.bankName,
+                                      accountType: acct.accountType, accountNumber: acct.accountNumber || '',
+                                      routingNumber: acct.routingNumber || '', iban: acct.iban || '',
+                                      swift: acct.swift || '', address: acct.address || '',
+                                      isActive: acct.isActive, sortOrder: acct.sortOrder || 0,
+                                    });
+                                    setPaymentAccountDialog({ open: true, account: acct });
+                                  }}
+                                  data-testid={`button-edit-payment-${acct.id}`}
+                                >
+                                  <Edit className="w-3 h-3" />
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-green-600'}`}
+                                  onClick={async () => {
+                                    try {
+                                      await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
+                                      refetchPaymentAccounts();
+                                      setFormMessage({ type: 'success', text: acct.isActive ? 'Cuenta desactivada' : 'Cuenta activada' });
+                                    } catch (e) {
+                                      setFormMessage({ type: 'error', text: t("common.error") });
+                                    }
+                                  }}
+                                  data-testid={`button-toggle-payment-${acct.id}`}
+                                >
+                                  {acct.isActive ? <XCircle className="w-3 h-3" /> : <CheckCircle className="w-3 h-3" />}
+                                </Button>
+                                <Button
+                                  variant="outline"
+                                  size="icon"
+                                  className="rounded-lg text-red-600 border-red-200"
+                                  onClick={() => {
+                                    showConfirm({
+                                      title: t('common.confirmAction', 'Confirmar'),
+                                      description: `¿Eliminar cuenta "${acct.label}"?`,
+                                      onConfirm: async () => {
+                                        try {
+                                          await apiRequest("DELETE", `/api/admin/payment-accounts/${acct.id}`);
+                                          refetchPaymentAccounts();
+                                          setFormMessage({ type: 'success', text: 'Cuenta eliminada' });
+                                        } catch (e) {
+                                          setFormMessage({ type: 'error', text: t("common.error") });
+                                        }
+                                      },
+                                    });
+                                  }}
+                                  data-testid={`button-delete-payment-${acct.id}`}
+                                >
+                                  <Trash2 className="w-3 h-3" />
+                                </Button>
+                              </div>
+                            </div>
+                          ))}
+                          {(!paymentAccountsList || paymentAccountsList.length === 0) && (
+                            <div className="text-center py-8 text-muted-foreground text-sm">No hay cuentas configuradas</div>
+                          )}
+                        </div>
+                      </Card>
+
+                      {paymentAccountDialog.open && (
+                        <Card className="rounded-2xl p-6 space-y-4">
+                          <div className="flex items-center justify-between">
+                            <h4 className="text-sm font-black">{paymentAccountDialog.account ? 'Editar cuenta' : 'Nueva cuenta bancaria'}</h4>
+                            <Button variant="ghost" size="icon" onClick={() => setPaymentAccountDialog({ open: false, account: null })} className="rounded-full">
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Etiqueta *</label>
+                              <Input value={paymentAccountForm.label} onChange={e => setPaymentAccountForm(f => ({...f, label: e.target.value}))} placeholder="Thread Bank CHECKING" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Titular *</label>
+                              <Input value={paymentAccountForm.holder} onChange={e => setPaymentAccountForm(f => ({...f, holder: e.target.value}))} placeholder="Fortuny Consulting LLC" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Banco *</label>
+                              <Input value={paymentAccountForm.bankName} onChange={e => setPaymentAccountForm(f => ({...f, bankName: e.target.value}))} placeholder="Thread Bank" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Tipo de cuenta</label>
+                              <NativeSelect value={paymentAccountForm.accountType} onValueChange={v => setPaymentAccountForm(f => ({...f, accountType: v}))}>
+                                <option value="checking">Checking</option>
+                                <option value="savings">Savings</option>
+                                <option value="iban">IBAN</option>
+                              </NativeSelect>
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">N° de cuenta</label>
+                              <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} placeholder="200002330558" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Routing Number</label>
+                              <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} placeholder="064209588" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">IBAN</label>
+                              <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} placeholder="DK2489000045271938" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">SWIFT/BIC</label>
+                              <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} placeholder="SAXODKKK" className="rounded-xl text-sm" />
+                            </div>
+                            <div className="sm:col-span-2">
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Dirección</label>
+                              <Input value={paymentAccountForm.address} onChange={e => setPaymentAccountForm(f => ({...f, address: e.target.value}))} placeholder="New York, NY, USA" className="rounded-xl text-sm" />
+                            </div>
+                            <div>
+                              <label className="text-xs font-bold text-muted-foreground mb-1 block">Orden</label>
+                              <Input type="number" value={paymentAccountForm.sortOrder} onChange={e => setPaymentAccountForm(f => ({...f, sortOrder: parseInt(e.target.value) || 0}))} className="rounded-xl text-sm" />
+                            </div>
+                          </div>
+                          <div className="flex justify-end gap-2 pt-2">
+                            <Button variant="outline" size="sm" className="rounded-full" onClick={() => setPaymentAccountDialog({ open: false, account: null })}>
+                              {t('common.cancel')}
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="rounded-full"
+                              disabled={!paymentAccountForm.label || !paymentAccountForm.holder || !paymentAccountForm.bankName}
+                              onClick={async () => {
+                                try {
+                                  const body = { ...paymentAccountForm };
+                                  if (paymentAccountDialog.account) {
+                                    await apiRequest("PATCH", `/api/admin/payment-accounts/${paymentAccountDialog.account.id}`, body);
+                                    setFormMessage({ type: 'success', text: 'Cuenta actualizada' });
+                                  } else {
+                                    await apiRequest("POST", "/api/admin/payment-accounts", body);
+                                    setFormMessage({ type: 'success', text: 'Cuenta creada' });
+                                  }
+                                  refetchPaymentAccounts();
+                                  setPaymentAccountDialog({ open: false, account: null });
+                                } catch (e) {
+                                  setFormMessage({ type: 'error', text: t("common.error") });
+                                }
+                              }}
+                              data-testid="button-save-payment-account"
+                            >
+                              {paymentAccountDialog.account ? t('common.save') : 'Crear cuenta'}
+                            </Button>
+                          </div>
+                        </Card>
                       )}
                     </div>
                   )}

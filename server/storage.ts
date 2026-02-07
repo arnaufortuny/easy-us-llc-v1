@@ -2,9 +2,10 @@ import { db } from "./db";
 import { sql } from "drizzle-orm";
 import {
   products, orders, llcApplications, applicationDocuments, newsletterSubscribers,
-  maintenanceApplications, messages as messagesTable, users, guestVisitors,
+  maintenanceApplications, messages as messagesTable, users, guestVisitors, paymentAccounts,
   type Product, type Order, type LlcApplication, type ApplicationDocument,
   type GuestVisitor, type InsertGuestVisitor,
+  type PaymentAccount, type InsertPaymentAccount,
   insertLlcApplicationSchema, insertApplicationDocumentSchema, insertOrderSchema
 } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
@@ -269,6 +270,28 @@ export class DatabaseStorage implements IStorage {
       sources[v.source] = (sources[v.source] || 0) + 1;
     }
     return { total: all.length, withEmail, sources };
+  }
+
+  async getPaymentAccounts(): Promise<PaymentAccount[]> {
+    return await db.select().from(paymentAccounts).orderBy(paymentAccounts.sortOrder);
+  }
+
+  async getActivePaymentAccounts(): Promise<PaymentAccount[]> {
+    return await db.select().from(paymentAccounts).where(eq(paymentAccounts.isActive, true)).orderBy(paymentAccounts.sortOrder);
+  }
+
+  async createPaymentAccount(account: InsertPaymentAccount): Promise<PaymentAccount> {
+    const [newAccount] = await db.insert(paymentAccounts).values(account).returning();
+    return newAccount;
+  }
+
+  async updatePaymentAccount(id: number, updates: Partial<InsertPaymentAccount>): Promise<PaymentAccount> {
+    const [updated] = await db.update(paymentAccounts).set(updates).where(eq(paymentAccounts.id, id)).returning();
+    return updated;
+  }
+
+  async deletePaymentAccount(id: number): Promise<void> {
+    await db.delete(paymentAccounts).where(eq(paymentAccounts.id, id));
   }
 }
 

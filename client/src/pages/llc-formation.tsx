@@ -1353,25 +1353,18 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="paymentMethod" render={({ field }) => (
                   <FormControl>
                     <div className="flex flex-col gap-4">
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
-                        <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent mt-1" />
+                      <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                        <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent" />
                         <div className="flex-1">
-                          <span className="font-black text-primary text-sm block mb-2">{t("application.bankTransfer")}</span>
-                          <div className="bg-gray-50 dark:bg-[#1A1A1A] rounded-xl p-4 text-xs space-y-1">
-                            <p><span className="opacity-60">{t("application.beneficiary")}:</span> <span className="font-bold">Fortuny Consulting LLC</span></p>
-                            <p><span className="opacity-60">{t("application.accountNumber")}:</span> <span className="font-bold font-mono">141432778929495</span></p>
-                            <p><span className="opacity-60">{t("application.routingNumber")}:</span> <span className="font-bold font-mono">121145433</span></p>
-                            <p><span className="opacity-60">{t("application.bank")}:</span> <span className="font-bold">Column N.A.</span></p>
-                            <p className="opacity-60 text-[10px] pt-2">1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129</p>
-                            <p className="pt-2 text-accent font-bold">{t("application.concept")}: {form.getValues("state") ? `${form.getValues("state")?.substring(0, 2).toUpperCase() || "XX"}-${Date.now().toString().slice(-8)}` : t("application.yourOrderNumber")}</p>
-                          </div>
+                          <span className="font-black text-primary text-sm block">{t("application.bankTransfer")}</span>
+                          <p className="text-xs text-muted-foreground mt-1">{t("application.bankTransferFormDesc", "Recibirás los datos bancarios en la factura de tu pedido.")}</p>
                         </div>
                       </label>
-                      <label className={`flex items-start gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
-                        <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-accent mt-1" />
+                      <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                        <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-accent" />
                         <div className="flex-1">
-                          <span className="font-black text-primary text-sm block mb-1">{t("application.paymentLink")}</span>
-                          <p className="text-xs text-muted-foreground">{t("application.paymentLinkDesc")}</p>
+                          <span className="font-black text-primary text-sm block">{t("application.paymentLink")}</span>
+                          <p className="text-xs text-muted-foreground mt-1">{t("application.paymentLinkDesc")}</p>
                         </div>
                       </label>
                     </div>

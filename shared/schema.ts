@@ -545,3 +545,23 @@ export const guestVisitors = pgTable("guest_visitors", {
 export const insertGuestVisitorSchema = createInsertSchema(guestVisitors).omit({ id: true, createdAt: true });
 export type GuestVisitor = typeof guestVisitors.$inferSelect;
 export type InsertGuestVisitor = z.infer<typeof insertGuestVisitorSchema>;
+
+export const paymentAccounts = pgTable("payment_accounts", {
+  id: serial("id").primaryKey(),
+  label: text("label").notNull(),
+  holder: text("holder").notNull(),
+  bankName: text("bank_name").notNull(),
+  accountType: text("account_type").notNull().default("checking"),
+  accountNumber: text("account_number"),
+  routingNumber: text("routing_number"),
+  iban: text("iban"),
+  swift: text("swift"),
+  address: text("address"),
+  isActive: boolean("is_active").notNull().default(true),
+  sortOrder: integer("sort_order").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const insertPaymentAccountSchema = createInsertSchema(paymentAccounts).omit({ id: true, createdAt: true });
+export type PaymentAccount = typeof paymentAccounts.$inferSelect;
+export type InsertPaymentAccount = z.infer<typeof insertPaymentAccountSchema>;

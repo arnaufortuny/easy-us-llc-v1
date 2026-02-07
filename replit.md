@@ -14,6 +14,10 @@ I want to be communicated with in a clear and concise manner. I prefer explanati
 - ONLY touch what is explicitly asked — do not modify other sections, components, or spacing unless requested
 
 ## Recent Changes
+- **2026-02-07:** Admin dashboard restructured — admin users now see admin tabs directly in sidebar (Metrics, Orders, Communications, Incomplete, Users, Billing, Calendar, Docs, Payment Methods, Discounts) instead of nested user+admin structure. Support users retain limited support panel. Mobile navigation updated accordingly.
+- **2026-02-07:** Payment accounts management — new `payment_accounts` database table (28th table) with admin CRUD UI panel. Three default accounts seeded: Thread Bank CHECKING, Column N.A. CHECKING, Saxo Payments IBAN. Admin can create, edit, toggle active/inactive, and delete payment accounts.
+- **2026-02-07:** PDF invoice generator updated — now dynamically renders all active payment accounts from database instead of single hardcoded account. Falls back to default accounts when none configured.
+- **2026-02-07:** Payment form simplification — removed detailed bank account information from LLC and Maintenance form payment steps. Now shows only simple radio options ("Transferencia bancaria" / "Link de pago") without displaying actual banking details. Users see bank details only in generated invoice PDFs.
 - **2026-02-07:** LLC form account creation (step 14) — replaced all hardcoded Spanish strings with i18n translation keys, added PasswordStrength indicator, fixed password field sizing to match button height, fixed error handling in claim-order flow, added `application.account` (18 keys) and `auth.accountDeactivated` translations across all 7 languages
 - **2026-02-07:** FAQ answer formatting — removed `**` markdown markers from taxes answer (a6) across all 7 languages, added `whitespace-pre-line` for proper numbered list display
 - **2026-02-06:** Bank account details updated to Thread Bank NA (routing: 064209588, account: 200002330558) in PDF invoice generator
@@ -30,12 +34,12 @@ The application features a modern, responsive UI/UX with a consistent design sys
 **Technical Implementations:**
 - **Client-side:** Built with React, utilizing Wouter for routing, a modular structure, and native HTML `<select>` elements.
 - **Server-side:** Powered by an Express.js backend, providing extensive API endpoints for various functionalities including admin, user management, orders, LLC applications, maintenance, messaging, newsletters, authentication, and PDF generation.
-- **Database:** PostgreSQL with Drizzle ORM and Zod for type validation. 27 tables including users, orders, llc_applications, maintenance_applications, messages, sessions, audit_logs, and more. Key indexes for performance.
-- **Banking:** Invoice PDFs use Thread Bank NA (routing: 064209588, account: 200002330558) for Fortuny Consulting LLC.
+- **Database:** PostgreSQL with Drizzle ORM and Zod for type validation. 28 tables including users, orders, llc_applications, maintenance_applications, messages, sessions, audit_logs, payment_accounts, and more. Key indexes for performance.
+- **Banking:** Invoice PDFs dynamically render all active payment accounts from `payment_accounts` database table. Default accounts: Thread Bank CHECKING, Column N.A. CHECKING, Saxo Payments IBAN. Admin can manage accounts via dashboard.
 - **Email System:** Manages professional email templates via IONOS for notifications, support, and review requests.
 - **Authentication:** Features OTP verification, robust session management, secure passwords, Google OAuth with auto-account creation, and CSRF protection. Users must be 18+ for LLC creation.
 - **Form Management:** Implements multi-step wizard forms (LLC, maintenance, contact) with auto-fill for authenticated users, local storage draft saving, and unauthenticated data transfer upon account creation.
-- **Admin Panel:** Integrated within the client dashboard, offering comprehensive control over orders, users, and messages.
+- **Admin Panel:** Admin users see admin tabs directly in sidebar (no nested user+admin structure). Includes comprehensive control over orders, users, messages, payment accounts, discounts, and billing. Support users see limited support panel with sub-tabs.
 - **Performance Optimizations:** Includes Gzip compression, advanced cache headers, lazy loading, non-blocking font loading, PWA support, in-memory cache, an email queue system, and optimized Vite build processes. Animations use gentle easing (0.4-0.7s durations, 10px offsets).
 - **Security:** Employs enhanced rate limiting, comprehensive security headers (HSTS, COOP, CORP, CSP), CSRF protection, secure API endpoints with validation, HTML sanitization, audit logging, protected file serving, advanced fraud detection, OTP for sensitive changes, LLC data locking, AES-256-CBC encryption for sensitive data, SHA-256 file integrity verification, and document access logging. Password requirements include minimum 8 characters, uppercase, lowercase, number, and symbol.
 - **Internationalization (i18n):** Full 7-language support (Spanish/English/Catalan/French/German/Italian/Portuguese) via react-i18next with over 2200 translation keys per language. WhatsApp pre-filled messages are internationalized via a centralized `whatsapp.ts` helper with per-context translation keys.
@@ -58,14 +62,14 @@ The application features a modern, responsive UI/UX with a consistent design sys
 - **Client Tools:** Provides an Invoice Generator, Operating Agreement Generator, and a Price Calculator (tax comparison tool).
 - **State Comparison:** Interactive comparison of New Mexico, Wyoming, and Delaware with pros, cons, ideal scenarios, pricing, and processing times. Link from LLC formation page ("Compara aquí") navigates to #state-comparison section.
 
-## Database Schema (27 tables)
+## Database Schema (28 tables)
 - users, sessions, orders, order_events, products
 - llc_applications, maintenance_applications, application_documents
 - messages, message_replies, user_notifications
 - newsletter_subscribers, contact_otps, email_verification_tokens
 - password_reset_tokens, rate_limit_entries
 - audit_logs, document_access_logs, encrypted_fields
-- accounting_transactions, discount_codes
+- accounting_transactions, discount_codes, payment_accounts
 - consultation_availability, consultation_blocked_dates, consultation_bookings, consultation_types
 - calculator_consultations, guest_visitors
 

@@ -20,14 +20,47 @@ const BRAND_GRAY = '#6B7280';
 const BRAND_LIGHT_GREEN = '#ECFDF5';
 const BRAND_LIGHT_GRAY = '#F9FAFB';
 
-const BANK_INFO = {
-  name: 'Thread Bank NA',
-  holder: 'Fortuny Consulting LLC',
-  routing: '064209588',
-  account: '200002330558',
-  swift: 'CLNOUS66MER',
-  address: '1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110'
-};
+export interface BankAccountInfo {
+  label: string;
+  holder: string;
+  bankName: string;
+  accountType: string;
+  accountNumber?: string | null;
+  routingNumber?: string | null;
+  iban?: string | null;
+  swift?: string | null;
+  address?: string | null;
+}
+
+const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
+  {
+    label: 'Thread Bank (Checking)',
+    holder: 'Fortuny Consulting LLC',
+    bankName: 'Thread Bank NA',
+    accountType: 'checking',
+    accountNumber: '200002330558',
+    routingNumber: '064209588',
+    swift: 'CLNOUS66MER',
+    address: '1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110'
+  },
+  {
+    label: 'Column N.A. (Checking)',
+    holder: 'Fortuny Consulting LLC',
+    bankName: 'Column N.A.',
+    accountType: 'checking',
+    accountNumber: '141432778929495',
+    routingNumber: '121145433',
+    address: '1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129'
+  },
+  {
+    label: 'Cuenta Internacional (IBAN)',
+    holder: 'Fortuny Consulting LLC',
+    bankName: 'Saxo Payments',
+    accountType: 'iban',
+    iban: 'DK2489000045271938',
+    swift: 'SXPYDKKK',
+  }
+];
 
 let cachedLogoPath: string | null = null;
 let logoChecked = false;
@@ -84,6 +117,7 @@ export interface InvoiceData {
     value?: number;
     amount: number;
   };
+  bankAccounts?: BankAccountInfo[];
   total: number;
   currency: string;
   status: 'pending' | 'paid' | 'cancelled' | 'refunded';
@@ -111,6 +145,7 @@ export interface CustomInvoiceData {
   status: 'pending' | 'paid';
   paymentMethod?: string;
   notes?: string;
+  bankAccounts?: BankAccountInfo[];
 }
 
 function formatCurrency(cents: number, currency: string): string {
@@ -261,25 +296,54 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.fontSize(14).fillColor(BRAND_GREEN).text(formatCurrency(data.total, data.currency), totalX + 80, y + 10, { align: 'right', width: 120 });
       y += 55;
 
-      // Payment Info
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('MÉTODO DE PAGO (TRANSFERENCIA)', 45, y);
-      doc.roundedRect(45, y + 15, 505, 65, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      // Payment Info - Multiple accounts
+      const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
       
-      const px = 60;
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('BANCO', px, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, px, y + 37);
-      
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('TITULAR', px + 120, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.holder, px + 120, y + 37);
-      
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('NÚMERO DE CUENTA', px + 280, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, px + 280, y + 37);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CUENTAS BANCARIAS PARA TRANSFERENCIA', 45, y);
+      y += 18;
 
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('ROUTING / SWIFT', px, y + 55);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(`${BANK_INFO.routing} / ${BANK_INFO.swift}`, px, y + 67);
+      for (const account of accounts) {
+        const boxHeight = 52;
+        doc.roundedRect(45, y, 505, boxHeight, 6).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+        
+        const px = 55;
+        doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GREEN).text(account.label.toUpperCase(), px, y + 6, { width: 490 });
+        
+        let row1Y = y + 18;
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('TITULAR', px, row1Y);
+        doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.holder, px, row1Y + 9);
+        
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('BANCO', px + 150, row1Y);
+        doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.bankName, px + 150, row1Y + 9);
+
+        if (account.iban) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('IBAN', px + 300, row1Y);
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.iban, px + 300, row1Y + 9);
+        } else if (account.accountNumber) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('CUENTA', px + 300, row1Y);
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.accountNumber, px + 300, row1Y + 9);
+        }
+
+        let row2Y = y + 35;
+        if (account.routingNumber) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('ROUTING', px, row2Y);
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.routingNumber, px, row2Y + 9);
+        }
+        if (account.swift) {
+          const swiftX = account.routingNumber ? px + 150 : px;
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('SWIFT/BIC', swiftX, row2Y);
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.swift, swiftX, row2Y + 9);
+        }
+        if (account.accountType) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('TIPO', px + 420, row1Y);
+          doc.font('Helvetica').fontSize(8).fillColor(BRAND_DARK).text(account.accountType.toUpperCase(), px + 420, row1Y + 9);
+        }
+
+        y += boxHeight + 5;
+      }
 
       if (data.status === 'pending' && data.paymentLink) {
-        y += 95;
+        y += 5;
         doc.roundedRect(45, y, 505, 30, 8).fill(BRAND_GREEN);
         doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('PAGAR ONLINE', 60, y + 10);
         doc.font('Helvetica').fontSize(9).fillColor(BRAND_DARK).text(data.paymentLink, 180, y + 10, { link: data.paymentLink, underline: true });
@@ -379,18 +443,41 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       
       y += 65;
 
-      // Payment Info
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('INFORMACIÓN DE PAGO', 45, y);
-      doc.roundedRect(45, y + 15, 505, 60, 8).strokeColor('#E5E7EB').lineWidth(1).stroke();
+      // Payment Info - Multiple accounts
+      const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
       
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('MÉTODO', 60, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(getPaymentMethodText(data.paymentMethod), 60, y + 37);
-      
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('BANCO', 180, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.name, 180, y + 37);
-      
-      doc.font('Helvetica-Bold').fontSize(8).fillColor(BRAND_GRAY).text('CUENTA', 320, y + 25);
-      doc.font('Helvetica-Bold').fontSize(9).fillColor(BRAND_DARK).text(BANK_INFO.account, 320, y + 37);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(BRAND_DARK).text('CUENTAS BANCARIAS', 45, y);
+      y += 16;
+
+      for (const account of customAccounts) {
+        const boxH = 48;
+        doc.roundedRect(45, y, 505, boxH, 5).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
+        const px = 55;
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GREEN).text(account.label.toUpperCase(), px, y + 5, { width: 490 });
+        let rY = y + 16;
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('TITULAR', px, rY);
+        doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.holder, px, rY + 8);
+        doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('BANCO', px + 140, rY);
+        doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.bankName, px + 140, rY + 8);
+        if (account.iban) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('IBAN', px + 280, rY);
+          doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.iban, px + 280, rY + 8);
+        } else if (account.accountNumber) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('CUENTA', px + 280, rY);
+          doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.accountNumber, px + 280, rY + 8);
+        }
+        let r2Y = y + 32;
+        if (account.routingNumber) {
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('ROUTING', px, r2Y);
+          doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.routingNumber, px, r2Y + 8);
+        }
+        if (account.swift) {
+          const sX = account.routingNumber ? px + 140 : px;
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(BRAND_GRAY).text('SWIFT/BIC', sX, r2Y);
+          doc.font('Helvetica').fontSize(7).fillColor(BRAND_DARK).text(account.swift, sX, r2Y + 8);
+        }
+        y += boxH + 4;
+      }
 
       if (data.notes) {
         y += 90;
@@ -677,6 +764,7 @@ export function generateOrderInvoice(orderData: {
   maintenanceApplication?: { requestCode?: string | null; companyName?: string | null; ein?: string | null; state?: string | null; } | null;
   paymentLink?: string;
   isMaintenance?: boolean;
+  bankAccounts?: BankAccountInfo[];
 }): Promise<Buffer> {
   const invoiceData: InvoiceData = {
     orderNumber: orderData.order.invoiceNumber || orderData.order.id.toString(),
@@ -710,6 +798,7 @@ export function generateOrderInvoice(orderData: {
     currency: orderData.order.currency,
     status: orderData.order.status as any,
     isMaintenance: orderData.isMaintenance,
+    bankAccounts: orderData.bankAccounts,
   };
   return generateInvoicePdf(invoiceData);
 }
