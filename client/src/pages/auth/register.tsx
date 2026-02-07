@@ -802,10 +802,10 @@ export default function Register() {
             <div className="hidden lg:block">
               <div>
                 <div className="mb-5">
-                  <h2 className="text-lg xl:text-xl font-black tracking-tight">
+                  <h2 className="text-2xl xl:text-3xl font-black tracking-tight">
                     <span className="text-foreground">{t("auth.register.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.register.infoCard.title").split(' ').slice(-1)[0]}</span>
                   </h2>
-                  <p className="text-muted-foreground mt-1 text-[11px] leading-relaxed">
+                  <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed">
                     {t("auth.register.infoCard.subtitle")}
                   </p>
                 </div>
@@ -813,9 +813,9 @@ export default function Register() {
                 <div className="space-y-0">
                   {infoFeatureKeys.map((feature, idx) => (
                     <div key={idx} data-testid={`register-info-feature-${idx}`}>
-                      {idx > 0 && <div className="border-t border-foreground/10 my-2.5" />}
-                      <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
-                      <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{t(feature.descKey)}</p>
+                      {idx > 0 && <div className="border-t border-foreground/10 my-3.5" />}
+                      <p className="text-base font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
+                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
                     </div>
                   ))}
                 </div>
