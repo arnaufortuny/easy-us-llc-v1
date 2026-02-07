@@ -381,10 +381,10 @@ export default function Register() {
   }
 
   const infoFeatureKeys = [
-    { titleKey: "auth.login.infoCard.feature1.title", descKey: "auth.login.infoCard.feature1.desc" },
-    { titleKey: "auth.login.infoCard.feature2.title", descKey: "auth.login.infoCard.feature2.desc" },
-    { titleKey: "auth.login.infoCard.feature3.title", descKey: "auth.login.infoCard.feature3.desc" },
-    { titleKey: "auth.login.infoCard.feature4.title", descKey: "auth.login.infoCard.feature4.desc" },
+    { titleKey: "auth.register.infoCard.feature1.title", descKey: "auth.register.infoCard.feature1.desc" },
+    { titleKey: "auth.register.infoCard.feature2.title", descKey: "auth.register.infoCard.feature2.desc" },
+    { titleKey: "auth.register.infoCard.feature3.title", descKey: "auth.register.infoCard.feature3.desc" },
+    { titleKey: "auth.register.infoCard.feature4.title", descKey: "auth.register.infoCard.feature4.desc" },
   ];
 
   return (
@@ -396,8 +396,7 @@ export default function Register() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center w-full">
               <span className="text-foreground">{t("auth.register.title")}</span> <span className="text-accent">{t("auth.register.titleHighlight")}</span>
             </h1>
-            <p className="text-accent font-semibold mt-2 text-sm md:text-base text-center">{t("auth.register.subtitleHighlight")}</p>
-            <p className="text-muted-foreground mt-2 text-sm md:text-base text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
+            <p className="text-muted-foreground mt-2 text-xs md:text-sm text-center max-w-xs md:max-w-sm">{t("auth.register.subtitle")}</p>
           </div>
 
           <div className="lg:grid lg:grid-cols-2 lg:gap-10 lg:items-start">
@@ -802,21 +801,21 @@ export default function Register() {
 
             <div className="hidden lg:block">
               <div>
-                <div className="mb-7">
-                  <h2 className="text-2xl xl:text-3xl font-black tracking-tight">
-                    <span className="text-foreground">{t("auth.login.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.login.infoCard.title").split(' ').slice(-1)[0]}</span>
+                <div className="mb-5">
+                  <h2 className="text-lg xl:text-xl font-black tracking-tight">
+                    <span className="text-foreground">{t("auth.register.infoCard.title").split(' ').slice(0, -1).join(' ')}</span> <span className="text-accent">{t("auth.register.infoCard.title").split(' ').slice(-1)[0]}</span>
                   </h2>
-                  <p className="text-muted-foreground mt-1.5 text-xs leading-relaxed">
-                    {t("auth.login.infoCard.subtitle")}
+                  <p className="text-muted-foreground mt-1 text-[11px] leading-relaxed">
+                    {t("auth.register.infoCard.subtitle")}
                   </p>
                 </div>
 
                 <div className="space-y-0">
                   {infoFeatureKeys.map((feature, idx) => (
                     <div key={idx} data-testid={`register-info-feature-${idx}`}>
-                      {idx > 0 && <div className="border-t border-foreground/10 my-3.5" />}
-                      <p className="text-base font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
-                      <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t(feature.descKey)}</p>
+                      {idx > 0 && <div className="border-t border-foreground/10 my-2.5" />}
+                      <p className="text-sm font-bold text-foreground leading-tight">{t(feature.titleKey)}</p>
+                      <p className="text-[11px] text-muted-foreground mt-0.5 leading-relaxed">{t(feature.descKey)}</p>
                     </div>
                   ))}
                 </div>

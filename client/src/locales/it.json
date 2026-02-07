@@ -664,8 +664,28 @@
     "register": {
       "title": "Crea il tuo",
       "titleHighlight": "account",
-      "subtitle": "La tua LLC negli USA, facile e accompagnata.",
-      "subtitleHighlight": "Inizia in meno di 1 minuto",
+      "subtitle": "Inizia a gestire la tua LLC in modo semplice, sicuro e con accompagnamento professionale fin dal primo momento.",
+      "subtitleHighlight": "",
+      "infoCard": {
+        "title": "Il tuo spazio privato",
+        "subtitle": "Inizia a gestire la tua LLC in modo semplice, sicuro e con accompagnamento professionale fin dal primo momento.",
+        "feature1": {
+          "title": "Accesso alla tua area privata",
+          "desc": "Centralizza i tuoi servizi, documenti e monitoraggio aziendale in un unico posto progettato per semplificare la gestione della tua azienda negli Stati Uniti."
+        },
+        "feature2": {
+          "title": "Gestione chiara e organizzata",
+          "desc": "Controlla lo stato della tua costituzione, conformità fiscale e servizi attivi senza complicazioni né processi confusi."
+        },
+        "feature3": {
+          "title": "Documentazione sempre disponibile",
+          "desc": "Accedi ai tuoi documenti legali e aziendali quando ne hai bisogno, in modo sicuro e ordinato."
+        },
+        "feature4": {
+          "title": "Accompagnamento esperto",
+          "desc": "Il nostro team ti guida durante tutto il processo, risolvendo dubbi legali, fiscali e operativi per decidere con fiducia."
+        }
+      },
       "firstName": "Nome",
       "firstNamePlaceholder": "Inserisci il tuo nome",
       "lastName": "Cognome",

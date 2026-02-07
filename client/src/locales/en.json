@@ -664,8 +664,28 @@
     "register": {
       "title": "Create your",
       "titleHighlight": "account",
-      "subtitle": "Your LLC in the US, easy and guided.",
-      "subtitleHighlight": "Start in less than 1 minute",
+      "subtitle": "Start managing your LLC simply, securely, and with professional guidance from the very first moment.",
+      "subtitleHighlight": "",
+      "infoCard": {
+        "title": "Your private space",
+        "subtitle": "Start managing your LLC simply, securely, and with professional guidance from the very first moment.",
+        "feature1": {
+          "title": "Access your private area",
+          "desc": "Centralize your services, documents, and business tracking in one place designed to simplify managing your US company."
+        },
+        "feature2": {
+          "title": "Clear and organized management",
+          "desc": "Track the status of your formation, tax compliance, and active services without complications or confusing processes."
+        },
+        "feature3": {
+          "title": "Documents always available",
+          "desc": "Access your legal and corporate documents whenever you need them, securely and neatly organized."
+        },
+        "feature4": {
+          "title": "Expert guidance",
+          "desc": "Our team guides you through the entire process, resolving legal, tax, and operational questions so you can make decisions with confidence."
+        }
+      },
       "firstName": "First Name",
       "firstNamePlaceholder": "Enter your first name",
       "lastName": "Last Name",

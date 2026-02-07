@@ -664,8 +664,28 @@
     "register": {
       "title": "Cria a tua",
       "titleHighlight": "conta",
-      "subtitle": "A tua LLC nos EUA, fácil e acompanhada.",
-      "subtitleHighlight": "Começa em menos de 1 minuto",
+      "subtitle": "Comece a gerir a sua LLC de forma simples, segura e com acompanhamento profissional desde o primeiro momento.",
+      "subtitleHighlight": "",
+      "infoCard": {
+        "title": "O teu espaço privado",
+        "subtitle": "Comece a gerir a sua LLC de forma simples, segura e com acompanhamento profissional desde o primeiro momento.",
+        "feature1": {
+          "title": "Acesso à tua área privada",
+          "desc": "Centraliza os teus serviços, documentos e acompanhamento empresarial num só lugar desenhado para simplificar a gestão da tua empresa nos Estados Unidos."
+        },
+        "feature2": {
+          "title": "Gestão clara e organizada",
+          "desc": "Controla o estado da tua constituição, cumprimento fiscal e serviços ativos sem complicações nem processos confusos."
+        },
+        "feature3": {
+          "title": "Documentação sempre disponível",
+          "desc": "Acede aos teus documentos legais e corporativos quando precisares, de forma segura e ordenada."
+        },
+        "feature4": {
+          "title": "Acompanhamento especializado",
+          "desc": "A nossa equipa guia-te durante todo o processo, resolvendo dúvidas legais, fiscais e operativas para que tomes decisões com confiança."
+        }
+      },
       "firstName": "Nome",
       "firstNamePlaceholder": "Escreve o teu nome",
       "lastName": "Apelido",

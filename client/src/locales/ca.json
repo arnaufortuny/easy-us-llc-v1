@@ -664,8 +664,28 @@
     "register": {
       "title": "Crea el teu",
       "titleHighlight": "compte",
-      "subtitle": "La teva LLC als EUA, fàcil i acompanyada.",
-      "subtitleHighlight": "Comença en menys d'1 minut",
+      "subtitle": "Comença a gestionar la teva LLC de forma senzilla, segura i amb acompanyament professional des del primer moment.",
+      "subtitleHighlight": "",
+      "infoCard": {
+        "title": "El teu espai privat",
+        "subtitle": "Comença a gestionar la teva LLC de forma senzilla, segura i amb acompanyament professional des del primer moment.",
+        "feature1": {
+          "title": "Accés a la teva àrea privada",
+          "desc": "Centralitza els teus serveis, documents i seguiment empresarial en un sol lloc dissenyat per simplificar la gestió de la teva empresa als Estats Units."
+        },
+        "feature2": {
+          "title": "Gestió clara i organitzada",
+          "desc": "Controla l'estat de la teva constitució, compliment fiscal i serveis actius sense complicacions ni processos confusos."
+        },
+        "feature3": {
+          "title": "Documentació sempre disponible",
+          "desc": "Accedeix als teus documents legals i corporatius quan els necessitis, de forma segura i ordenada."
+        },
+        "feature4": {
+          "title": "Acompanyament expert",
+          "desc": "El nostre equip et guia durant tot el procés, resolent dubtes legals, fiscals i operatius perquè prenguis decisions amb confiança."
+        }
+      },
       "firstName": "Nom",
       "firstNamePlaceholder": "Escriu el teu nom",
       "lastName": "Cognoms",
