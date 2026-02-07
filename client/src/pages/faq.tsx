@@ -173,7 +173,7 @@ export default function FAQ() {
                             </span>
                           </button>
                           {(openItems[category.key] === i || searchQuery !== "") && (
-                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 font-medium bg-accent/5">
+                            <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 font-medium bg-accent/5 whitespace-pre-line">
                               {item.a}
                             </div>
                           )}
