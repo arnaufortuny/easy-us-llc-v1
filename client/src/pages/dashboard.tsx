@@ -771,10 +771,125 @@ export default function Dashboard() {
     }
   });
 
+  const isAdmin = user?.isAdmin;
+  const isSupport = user?.isSupport;
+  const isStaff = isAdmin || isSupport;
+
+  const draftOrders = useMemo(() => 
+    orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft') || [],
+    [orders]
+  );
+  
+  const activeOrders = useMemo(() => 
+    orders?.filter(o => o.status !== 'cancelled' && o.status !== 'completed').slice(0, 4) || [],
+    [orders]
+  );
+
+  const userMenuItems = useMemo(() => [
+    { id: 'services', label: t('dashboard.tabs.services'), icon: Package, mobileLabel: t('dashboard.tabs.servicesMobile'), tour: 'orders' },
+    { id: 'consultations', label: t('dashboard.tabs.consultations'), icon: MessageSquare, mobileLabel: t('dashboard.tabs.consultationsMobile') },
+    { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
+    { id: 'messages', label: t('dashboard.tabs.messages'), icon: Mail, mobileLabel: t('dashboard.tabs.messagesMobile'), tour: 'messages' },
+    { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText, mobileLabel: t('dashboard.tabs.documentsMobile') },
+    { id: 'payments', label: t('dashboard.tabs.payments'), icon: CreditCard, mobileLabel: t('dashboard.tabs.paymentsMobile') },
+    { id: 'calendar', label: t('dashboard.tabs.calendar'), icon: Calendar, mobileLabel: t('dashboard.tabs.calendarMobile'), tour: 'calendar' },
+    { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
+    { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
+  ], [t]);
+
+  const adminMenuItems = useMemo(() => {
+    const allItems = [
+      { id: 'admin-dashboard', subTab: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3, mobileLabel: t('dashboard.admin.tabs.metrics'), adminOnly: true },
+      { id: 'admin-orders', subTab: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, mobileLabel: t('dashboard.admin.tabs.orders'), adminOnly: false },
+      { id: 'admin-comms', subTab: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, mobileLabel: t('dashboard.admin.tabs.communications'), adminOnly: false },
+      { id: 'admin-incomplete', subTab: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle, mobileLabel: t('dashboard.admin.tabs.incomplete'), adminOnly: true },
+      { id: 'admin-users', subTab: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users, mobileLabel: t('dashboard.admin.tabs.clients'), adminOnly: true },
+      { id: 'admin-billing', subTab: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, mobileLabel: t('dashboard.admin.tabs.billing'), adminOnly: true },
+      { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
+      { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
+      { id: 'admin-payments-config', subTab: 'payment-accounts', label: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), icon: CreditCard, mobileLabel: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), adminOnly: true },
+      { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
+      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity', 'Activity Log'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity', 'Activity'), adminOnly: true },
+    ];
+    return allItems.filter(item => isAdmin || !item.adminOnly);
+  }, [t, isAdmin]);
+
+  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
+  const sidebarMainItems = useMemo(() => {
+    if (isAdmin) return adminMenuItems;
+    return userMenuItems.filter(item => item.id !== 'profile');
+  }, [isAdmin, adminMenuItems, userMenuItems]);
+  
+  const handleLogout = useCallback(() => {
+    apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
+  }, []);
+
+  const matchesFilter = (fields: Record<string, string>, query: string, filter: typeof adminSearchFilter) => {
+    if (filter === 'all') return Object.values(fields).some(v => v.includes(query));
+    if (filter === 'name') return (fields.name || '').includes(query);
+    if (filter === 'email') return (fields.email || '').includes(query);
+    if (filter === 'date') return (fields.date || '').includes(query) || (fields.dateLong || '').includes(query);
+    if (filter === 'invoiceId') return (fields.invoiceId || '').includes(query) || (fields.orderId || '').includes(query);
+    return false;
+  };
+
+  const filteredAdminOrders = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminOrders) return adminOrders;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminOrders.filter((order: any) => {
+      const app = order.application || order.maintenanceApplication;
+      const fields: Record<string, string> = {
+        name: ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase(),
+        email: (order.user?.email || '').toLowerCase(),
+        date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        dateLong: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+        invoiceId: (order.invoiceNumber || '').toLowerCase(),
+        orderId: (order.id?.toString() || ''),
+        requestCode: (app?.requestCode || '').toLowerCase(),
+        clientId: (order.user?.clientId || '').toLowerCase(),
+        companyName: (app?.companyName || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
+    });
+  }, [adminOrders, adminSearchQuery, adminSearchFilter]);
+
+  const filteredAdminUsers = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminUsers) return adminUsers;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminUsers.filter((u: any) => {
+      const fields: Record<string, string> = {
+        name: ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase(),
+        email: (u.email || '').toLowerCase(),
+        date: u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        clientId: (u.clientId || '').toLowerCase(),
+        orderId: (u.id?.toString() || ''),
+        invoiceId: '',
+        phone: (u.phone || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
+    });
+  }, [adminUsers, adminSearchQuery, adminSearchFilter]);
+
+  const filteredAdminMessages = useMemo(() => {
+    if (!adminSearchQuery.trim() || !adminMessages) return adminMessages;
+    const query = adminSearchQuery.toLowerCase().trim();
+    return adminMessages.filter((msg: any) => {
+      const fields: Record<string, string> = {
+        name: (msg.name || '').toLowerCase(),
+        email: (msg.email || '').toLowerCase(),
+        date: msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        invoiceId: (msg.messageId || '').toLowerCase(),
+        orderId: '',
+        subject: (msg.subject || '').toLowerCase(),
+      };
+      return matchesFilter(fields, query, adminSearchFilter);
+    });
+  }, [adminMessages, adminSearchQuery, adminSearchFilter]);
+
   if (authLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="w-10 h-10 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-accent border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
@@ -1000,122 +1115,6 @@ export default function Dashboard() {
       </div>
     );
   }
-
-  const isAdmin = user?.isAdmin;
-  const isSupport = user?.isSupport;
-  const isStaff = isAdmin || isSupport;
-
-  // Memoized filtered orders to avoid recalculating on every render
-  const draftOrders = useMemo(() => 
-    orders?.filter(o => o.status === 'draft' || o.application?.status === 'draft' || o.maintenanceApplication?.status === 'draft') || [],
-    [orders]
-  );
-  
-  const activeOrders = useMemo(() => 
-    orders?.filter(o => o.status !== 'cancelled' && o.status !== 'completed').slice(0, 4) || [],
-    [orders]
-  );
-
-  const userMenuItems = useMemo(() => [
-    { id: 'services', label: t('dashboard.tabs.services'), icon: Package, mobileLabel: t('dashboard.tabs.servicesMobile'), tour: 'orders' },
-    { id: 'consultations', label: t('dashboard.tabs.consultations'), icon: MessageSquare, mobileLabel: t('dashboard.tabs.consultationsMobile') },
-    { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
-    { id: 'messages', label: t('dashboard.tabs.messages'), icon: Mail, mobileLabel: t('dashboard.tabs.messagesMobile'), tour: 'messages' },
-    { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText, mobileLabel: t('dashboard.tabs.documentsMobile') },
-    { id: 'payments', label: t('dashboard.tabs.payments'), icon: CreditCard, mobileLabel: t('dashboard.tabs.paymentsMobile') },
-    { id: 'calendar', label: t('dashboard.tabs.calendar'), icon: Calendar, mobileLabel: t('dashboard.tabs.calendarMobile'), tour: 'calendar' },
-    { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
-    { id: 'profile', label: t('dashboard.tabs.profile'), icon: UserIcon, mobileLabel: t('dashboard.tabs.profileMobile'), tour: 'profile' },
-  ], [t]);
-
-  const adminMenuItems = useMemo(() => {
-    const allItems = [
-      { id: 'admin-dashboard', subTab: 'dashboard', label: t('dashboard.admin.tabs.metrics'), icon: BarChart3, mobileLabel: t('dashboard.admin.tabs.metrics'), adminOnly: true },
-      { id: 'admin-orders', subTab: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, mobileLabel: t('dashboard.admin.tabs.orders'), adminOnly: false },
-      { id: 'admin-comms', subTab: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, mobileLabel: t('dashboard.admin.tabs.communications'), adminOnly: false },
-      { id: 'admin-incomplete', subTab: 'incomplete', label: t('dashboard.admin.tabs.incomplete'), icon: AlertCircle, mobileLabel: t('dashboard.admin.tabs.incomplete'), adminOnly: true },
-      { id: 'admin-users', subTab: 'users', label: t('dashboard.admin.tabs.clients'), icon: Users, mobileLabel: t('dashboard.admin.tabs.clients'), adminOnly: true },
-      { id: 'admin-billing', subTab: 'billing', label: t('dashboard.admin.tabs.billing'), icon: Receipt, mobileLabel: t('dashboard.admin.tabs.billing'), adminOnly: true },
-      { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
-      { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
-      { id: 'admin-payments-config', subTab: 'payment-accounts', label: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), icon: CreditCard, mobileLabel: t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago'), adminOnly: true },
-      { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
-      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity', 'Activity Log'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity', 'Activity'), adminOnly: true },
-    ];
-    return allItems.filter(item => isAdmin || !item.adminOnly);
-  }, [t, isAdmin]);
-
-  const menuItems = isAdmin ? adminMenuItems : userMenuItems;
-  const sidebarMainItems = useMemo(() => {
-    if (isAdmin) return adminMenuItems;
-    return userMenuItems.filter(item => item.id !== 'profile');
-  }, [isAdmin, adminMenuItems, userMenuItems]);
-  
-  const handleLogout = useCallback(() => {
-    apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
-  }, []);
-
-  const matchesFilter = (fields: Record<string, string>, query: string, filter: typeof adminSearchFilter) => {
-    if (filter === 'all') return Object.values(fields).some(v => v.includes(query));
-    if (filter === 'name') return (fields.name || '').includes(query);
-    if (filter === 'email') return (fields.email || '').includes(query);
-    if (filter === 'date') return (fields.date || '').includes(query) || (fields.dateLong || '').includes(query);
-    if (filter === 'invoiceId') return (fields.invoiceId || '').includes(query) || (fields.orderId || '').includes(query);
-    return false;
-  };
-
-  const filteredAdminOrders = useMemo(() => {
-    if (!adminSearchQuery.trim() || !adminOrders) return adminOrders;
-    const query = adminSearchQuery.toLowerCase().trim();
-    return adminOrders.filter((order: any) => {
-      const app = order.application || order.maintenanceApplication;
-      const fields: Record<string, string> = {
-        name: ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase(),
-        email: (order.user?.email || '').toLowerCase(),
-        date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
-        dateLong: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
-        invoiceId: (order.invoiceNumber || '').toLowerCase(),
-        orderId: (order.id?.toString() || ''),
-        requestCode: (app?.requestCode || '').toLowerCase(),
-        clientId: (order.user?.clientId || '').toLowerCase(),
-        companyName: (app?.companyName || '').toLowerCase(),
-      };
-      return matchesFilter(fields, query, adminSearchFilter);
-    });
-  }, [adminOrders, adminSearchQuery, adminSearchFilter]);
-
-  const filteredAdminUsers = useMemo(() => {
-    if (!adminSearchQuery.trim() || !adminUsers) return adminUsers;
-    const query = adminSearchQuery.toLowerCase().trim();
-    return adminUsers.filter((u: any) => {
-      const fields: Record<string, string> = {
-        name: ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase(),
-        email: (u.email || '').toLowerCase(),
-        date: u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
-        clientId: (u.clientId || '').toLowerCase(),
-        orderId: (u.id?.toString() || ''),
-        invoiceId: '',
-        phone: (u.phone || '').toLowerCase(),
-      };
-      return matchesFilter(fields, query, adminSearchFilter);
-    });
-  }, [adminUsers, adminSearchQuery, adminSearchFilter]);
-
-  const filteredAdminMessages = useMemo(() => {
-    if (!adminSearchQuery.trim() || !adminMessages) return adminMessages;
-    const query = adminSearchQuery.toLowerCase().trim();
-    return adminMessages.filter((msg: any) => {
-      const fields: Record<string, string> = {
-        name: (msg.name || '').toLowerCase(),
-        email: (msg.email || '').toLowerCase(),
-        date: msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
-        invoiceId: (msg.messageId || '').toLowerCase(),
-        orderId: '',
-        subject: (msg.subject || '').toLowerCase(),
-      };
-      return matchesFilter(fields, query, adminSearchFilter);
-    });
-  }, [adminMessages, adminSearchQuery, adminSearchFilter]);
 
   return (
     <div className="min-h-screen bg-background font-sans animate-page-in">
