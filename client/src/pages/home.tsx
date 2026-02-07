@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
@@ -478,45 +477,40 @@ function HomeFAQ() {
           />
         </div>
 
-        <div className="space-y-3">
+        <div className="grid gap-2 sm:gap-3">
           {faqKeys.map((key, index) => (
             <motion.div
               key={key}
-              className="border border-border/50 rounded-md overflow-visible"
+              className={`group transition-all duration-200 border-2 rounded-2xl sm:rounded-3xl overflow-hidden ${
+                openIndex === index
+                  ? "border-accent bg-accent/[0.03]"
+                  : "border-primary/5 hover:border-accent/30 bg-white dark:bg-card"
+              }`}
               variants={fadeInUp}
               initial="hidden"
               whileInView="visible"
               viewport={viewportOnce}
+              data-testid={`faq-item-home-${key}`}
             >
               <button
                 onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between gap-4 p-5 text-left"
+                className="w-full px-4 sm:px-6 py-4 sm:py-6 text-left flex items-center justify-between gap-3 sm:gap-4 touch-manipulation"
                 data-testid={`button-faq-${key}`}
               >
-                <span className="text-base sm:text-lg font-black text-foreground leading-tight">
+                <span className="font-black text-foreground text-sm sm:text-lg leading-tight tracking-tighter">
                   {t(`homeFaq.items.${key}.question`)}
                 </span>
-                <ChevronDown
-                  className={`w-5 h-5 text-accent shrink-0 transition-transform duration-300 ${openIndex === index ? "rotate-180" : ""}`}
-                />
+                <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
+                  openIndex === index ? "rotate-45 text-[#6EDC8A]" : "text-primary/30"
+                }`}>
+                  +
+                </span>
               </button>
-              <AnimatePresence>
-                {openIndex === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-                    className="overflow-hidden"
-                  >
-                    <div className="px-5 pb-5">
-                      <p className="text-muted-foreground text-sm sm:text-base leading-relaxed">
-                        {t(`homeFaq.items.${key}.answer`)}
-                      </p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              {openIndex === index && (
+                <div className="px-4 sm:px-6 pb-4 sm:pb-6 text-muted-foreground text-sm sm:text-base leading-relaxed border-t border-accent/20 pt-3 sm:pt-4 animate-in fade-in slide-in-from-top-2 font-medium bg-accent/5">
+                  {t(`homeFaq.items.${key}.answer`)}
+                </div>
+              )}
             </motion.div>
           ))}
         </div>
