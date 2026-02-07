@@ -2832,6 +2832,10 @@
     "titlePart1": "DOMANDE",
     "titlePart2": "FREQUENTI",
     "ctaText": "Vuoi sapere se una LLC si adatta al tuo business?",
+    "ctaPart1": "Vuoi sapere",
+    "ctaPart2": "se una LLC",
+    "ctaPart3": "si adatta al",
+    "ctaPart4": "tuo business?",
     "ctaButton": "Valuta il mio caso",
     "items": {
       "legal": {

@@ -528,8 +528,11 @@ function HomeFAQ() {
           whileInView="visible"
           viewport={viewportOnce}
         >
-          <p className="text-lg sm:text-xl font-black text-foreground mb-5">
-            {t("homeFaq.ctaText")}
+          <p className="text-lg sm:text-xl font-black mb-5 uppercase">
+            <span className="text-accent">{t("homeFaq.ctaPart1")}</span>{" "}
+            <span className="text-foreground">{t("homeFaq.ctaPart2")}</span>{" "}
+            <span className="text-accent">{t("homeFaq.ctaPart3")}</span>{" "}
+            <span className="text-foreground">{t("homeFaq.ctaPart4")}</span>
           </p>
           <Button
             size="lg"

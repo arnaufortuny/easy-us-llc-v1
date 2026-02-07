@@ -2832,6 +2832,10 @@
     "titlePart1": "PREGUNTES",
     "titlePart2": "FREQÜENTS",
     "ctaText": "Vols saber si una LLC encaixa amb el teu negoci?",
+    "ctaPart1": "Vols saber",
+    "ctaPart2": "si una LLC",
+    "ctaPart3": "encaixa amb",
+    "ctaPart4": "el teu negoci?",
     "ctaButton": "Avaluar el meu cas",
     "items": {
       "legal": {
