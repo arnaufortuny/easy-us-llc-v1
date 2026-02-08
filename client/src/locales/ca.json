@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "Les Meves Consultes",
-    "subtitle": "Gestiona les teves cites i reserves de consultoria",
-    "bookNew": "Agendar Consulta",
+    "title": "Les teves sessions de consultoria",
+    "subtitle": "Reserva i gestiona les teves reunions amb els nostres especialistes.",
+    "bookNew": "Reservar consultoria",
     "upcoming": "Properes consultes",
     "past": "Consultes anteriors",
-    "noBookings": "Sense consultes agendades",
-    "noBookingsDesc": "Agenda una consulta amb el nostre equip d'experts",
+    "noBookings": "Encara no tens cap sessió reservada",
+    "noBookingsDesc": "Programa una consultoria personalitzada i t'ajudarem a definir la millor estratègia per al teu negoci.",
     "bookFirst": "Agendar la meva primera consulta",
     "bookingSuccess": "Consulta agendada",
     "bookingSuccessDesc": "La teva consulta ha estat reservada correctament. Rebràs confirmació per email.",

@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "Mis Consultas",
-    "subtitle": "Gestiona tus citas y reservas de consultoría",
-    "bookNew": "Agendar Consulta",
+    "title": "Tus sesiones de consultoría",
+    "subtitle": "Reserva y gestiona tus reuniones con nuestros especialistas.",
+    "bookNew": "Reservar consultoría",
     "upcoming": "Próximas consultas",
     "past": "Consultas anteriores",
-    "noBookings": "Sin consultas agendadas",
-    "noBookingsDesc": "Agenda una consulta con nuestro equipo de expertos",
+    "noBookings": "Aún no tienes ninguna sesión reservada",
+    "noBookingsDesc": "Programa una consultoría personalizada y te ayudaremos a definir la mejor estrategia para tu negocio.",
     "bookFirst": "Agendar mi primera consulta",
     "bookingSuccess": "Consulta agendada",
     "bookingSuccessDesc": "Tu consulta ha sido reservada correctamente. Recibirás confirmación por email.",

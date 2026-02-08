@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "Meine Beratungen",
-    "subtitle": "Verwalten Sie Ihre Beratungstermine",
+    "title": "Ihre Beratungssitzungen",
+    "subtitle": "Buchen und verwalten Sie Ihre Meetings mit unseren Spezialisten.",
     "bookNew": "Beratung buchen",
     "upcoming": "Bevorstehende Beratungen",
     "past": "Vergangene Beratungen",
-    "noBookings": "Keine Beratungen geplant",
-    "noBookingsDesc": "Vereinbaren Sie eine Beratung mit unserem Expertenteam",
+    "noBookings": "Sie haben noch keine Sitzung gebucht",
+    "noBookingsDesc": "Planen Sie eine individuelle Beratung und wir helfen Ihnen, die beste Strategie für Ihr Geschäft zu definieren.",
     "bookFirst": "Meine erste Beratung buchen",
     "bookingSuccess": "Beratung gebucht",
     "bookingSuccessDesc": "Ihre Beratung wurde erfolgreich gebucht. Sie erhalten eine Bestätigungs-E-Mail.",

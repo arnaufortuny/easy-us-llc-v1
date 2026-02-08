@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "Le Mie Consulenze",
-    "subtitle": "Gestisci i tuoi appuntamenti e le prenotazioni di consulenza",
-    "bookNew": "Prenota Consulenza",
+    "title": "Le tue sessioni di consulenza",
+    "subtitle": "Prenota e gestisci le tue riunioni con i nostri specialisti.",
+    "bookNew": "Prenotare consulenza",
     "upcoming": "Prossime consulenze",
     "past": "Consulenze precedenti",
-    "noBookings": "Nessuna consulenza prenotata",
-    "noBookingsDesc": "Prenota una consulenza con il nostro team di esperti",
+    "noBookings": "Non hai ancora nessuna sessione prenotata",
+    "noBookingsDesc": "Programma una consulenza personalizzata e ti aiuteremo a definire la migliore strategia per il tuo business.",
     "bookFirst": "Prenota la mia prima consulenza",
     "bookingSuccess": "Consulenza prenotata",
     "bookingSuccessDesc": "La tua consulenza è stata prenotata correttamente. Riceverai conferma via email.",

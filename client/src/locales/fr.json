@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "Mes Consultations",
-    "subtitle": "Gérez vos rendez-vous de consultation",
+    "title": "Vos sessions de conseil",
+    "subtitle": "Réservez et gérez vos réunions avec nos spécialistes.",
     "bookNew": "Réserver une consultation",
     "upcoming": "Consultations à venir",
     "past": "Consultations passées",
-    "noBookings": "Aucune consultation planifiée",
-    "noBookingsDesc": "Planifiez une consultation avec notre équipe d'experts",
+    "noBookings": "Vous n'avez encore aucune session réservée",
+    "noBookingsDesc": "Programmez une consultation personnalisée et nous vous aiderons à définir la meilleure stratégie pour votre activité.",
     "bookFirst": "Réserver ma première consultation",
     "bookingSuccess": "Consultation réservée",
     "bookingSuccessDesc": "Votre consultation a été réservée avec succès. Vous recevrez un email de confirmation.",

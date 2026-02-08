@@ -2926,13 +2926,13 @@
     }
   },
   "consultations": {
-    "title": "My Consultations",
-    "subtitle": "Manage your consultation appointments",
-    "bookNew": "Book Consultation",
+    "title": "Your consulting sessions",
+    "subtitle": "Book and manage your meetings with our specialists.",
+    "bookNew": "Book consultation",
     "upcoming": "Upcoming consultations",
     "past": "Past consultations",
-    "noBookings": "No consultations scheduled",
-    "noBookingsDesc": "Schedule a consultation with our team of experts",
+    "noBookings": "You don't have any sessions booked yet",
+    "noBookingsDesc": "Schedule a personalized consultation and we will help you define the best strategy for your business.",
     "bookFirst": "Book my first consultation",
     "bookingSuccess": "Consultation booked",
     "bookingSuccessDesc": "Your consultation has been booked successfully. You will receive a confirmation email.",
