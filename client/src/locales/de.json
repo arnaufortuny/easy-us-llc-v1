@@ -90,7 +90,8 @@
     "cancelChanges": "Änderungen abbrechen",
     "confirmChanges": "Änderungen bestätigen",
     "resendCode": "Code erneut senden",
-    "changeEmailContact": "Wenn Sie Ihre E-Mail ändern möchten, kontaktieren Sie uns."
+    "changeEmailContact": "Wenn Sie Ihre E-Mail ändern möchten, kontaktieren Sie uns.",
+    "otpResent": "Neuer Bestätigungscode an Ihre E-Mail gesendet."
   },
   "notFound": {
     "title": "Seite nicht gefunden",
@@ -130,7 +131,10 @@
     "yourEmail": "IHRE E-MAIL",
     "change": "Ändern",
     "saving": "Wird gespeichert...",
-    "confirmAction": "Aktion bestätigen"
+    "confirmAction": "Aktion bestätigen",
+    "all": "Alle",
+    "copy": "Kopieren",
+    "email": "E-Mail"
   },
   "helpSection": {
     "title": "HABEN SIE EINE",
@@ -1142,7 +1146,8 @@
       "errorCreating": "Konto konnte nicht erstellt werden. Bitte versuche es erneut",
       "errorGeneric": "Es gab ein Problem",
       "accountCreated": "Konto erstellt. Fast geschafft"
-    }
+    },
+    "bankTransferFormDesc": "Sie erhalten die Bankdaten auf der Rechnung Ihrer Bestellung."
   },
   "maintenance": {
     "title": "Wir kümmern uns um Ihre",
@@ -1261,7 +1266,8 @@
       "bank": "Bank",
       "conceptOrder": "Verwendungszweck: Ihre Bestellnummer",
       "paymentLink": "Zahlungslink",
-      "paymentLinkDesc": "Sie erhalten einen sicheren Zahlungslink per E-Mail, um die Transaktion abzuschließen."
+      "paymentLinkDesc": "Sie erhalten einen sicheren Zahlungslink per E-Mail, um die Transaktion abzuschließen.",
+      "bankTransferFormDesc": "Sie erhalten die Bankdaten auf der Rechnung Ihrer Bestellung."
     },
     "confirmation": {
       "title": "Letzter Schritt: Bestätigung",
@@ -1644,7 +1650,9 @@
         "docs": "Dokumente",
         "discounts": "Rabatte",
         "paymentAccounts": "Zahlungsmethoden",
-        "activity": "Aktivität"
+        "activity": "Aktivität",
+        "accounting": "Buchhaltung",
+        "invoices": "Rechnungen"
       },
       "newOrder": "Neue Bestellung",
       "supportPermissions": "Support-Rolle",
@@ -1851,7 +1859,8 @@
         "approve": "Genehmigen",
         "reject": "Ablehnen",
         "confirmDelete": "Dieses Dokument dauerhaft löschen?",
-        "noDocs": "Keine von Kunden hochgeladenen Dokumente"
+        "noDocs": "Keine von Kunden hochgeladenen Dokumente",
+        "archive": "Archivieren"
       },
       "guestSection": {
         "title": "Besucher",
@@ -1914,7 +1923,8 @@
         "date": "Datum",
         "view": "Anzeigen",
         "download": "Herunterladen",
-        "confirmDeleteInvoice": "Diese Rechnung löschen?"
+        "confirmDeleteInvoice": "Diese Rechnung löschen?",
+        "refundedStatus": "Erstattet"
       },
       "paymentAccounts": {
         "newAccount": "Neues Konto",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Hauptthema",
       "clientNotes": "Kundennotizen",
       "meetingLink": "Meeting-Link",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Suche nach Code, Kunde, E-Mail..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "Der Überweisungsdienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.",
     "received": "Empfangen",
     "sent": "Gesendet"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Füllen Sie alle Pflichtfelder aus"
+    }
   }
 }

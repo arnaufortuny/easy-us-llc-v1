@@ -90,7 +90,8 @@
     "cancelChanges": "Annuler les modifications",
     "confirmChanges": "Confirmer les modifications",
     "resendCode": "Renvoyer le code",
-    "changeEmailContact": "Si vous souhaitez modifier votre email, contactez-nous."
+    "changeEmailContact": "Si vous souhaitez modifier votre email, contactez-nous.",
+    "otpResent": "Nouveau code de vérification envoyé à votre e-mail."
   },
   "notFound": {
     "title": "Page non trouvée",
@@ -130,7 +131,10 @@
     "yourEmail": "VOTRE EMAIL",
     "change": "Modifier",
     "saving": "Enregistrement...",
-    "confirmAction": "Confirmer l'action"
+    "confirmAction": "Confirmer l'action",
+    "all": "Tous",
+    "copy": "Copier",
+    "email": "E-mail"
   },
   "helpSection": {
     "title": "VOUS AVEZ UNE",
@@ -1142,7 +1146,8 @@
       "errorCreating": "Impossible de créer le compte. Veuillez réessayer",
       "errorGeneric": "Il y a eu un problème",
       "accountCreated": "Compte créé. Presque terminé"
-    }
+    },
+    "bankTransferFormDesc": "Vous recevrez les coordonnées bancaires sur la facture de votre commande."
   },
   "maintenance": {
     "title": "Nous nous occupons de votre",
@@ -1261,7 +1266,8 @@
       "bank": "Banque",
       "conceptOrder": "Concept : Votre numéro de commande",
       "paymentLink": "Lien de paiement",
-      "paymentLinkDesc": "Vous recevrez un lien de paiement sécurisé par email pour finaliser la transaction."
+      "paymentLinkDesc": "Vous recevrez un lien de paiement sécurisé par email pour finaliser la transaction.",
+      "bankTransferFormDesc": "Vous recevrez les coordonnées bancaires sur la facture de votre commande."
     },
     "confirmation": {
       "title": "Dernière étape : Confirmation",
@@ -1644,7 +1650,9 @@
         "docs": "Docs",
         "discounts": "Réductions",
         "paymentAccounts": "Méthodes de paiement",
-        "activity": "Activité"
+        "activity": "Activité",
+        "accounting": "Comptabilité",
+        "invoices": "Factures"
       },
       "newOrder": "Nouvelle commande",
       "supportPermissions": "Rôle de support",
@@ -1851,7 +1859,8 @@
         "approve": "Approuver",
         "reject": "Rejeter",
         "confirmDelete": "Supprimer définitivement ce document ?",
-        "noDocs": "Aucun document téléchargé par les clients"
+        "noDocs": "Aucun document téléchargé par les clients",
+        "archive": "Archiver"
       },
       "guestSection": {
         "title": "Visiteurs",
@@ -1914,7 +1923,8 @@
         "date": "Date",
         "view": "Voir",
         "download": "Télécharger",
-        "confirmDeleteInvoice": "Supprimer cette facture ?"
+        "confirmDeleteInvoice": "Supprimer cette facture ?",
+        "refundedStatus": "Remboursé"
       },
       "paymentAccounts": {
         "newAccount": "Nouveau compte",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Sujet principal",
       "clientNotes": "Notes du client",
       "meetingLink": "Lien de réunion",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Rechercher par code, client, e-mail..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "Le service de virements n'est pas disponible actuellement. Veuillez réessayer plus tard.",
     "received": "Reçu",
     "sent": "Envoyé"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Remplissez tous les champs obligatoires"
+    }
   }
 }

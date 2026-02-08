@@ -90,7 +90,8 @@
     "cancelChanges": "Annulla modifiche",
     "confirmChanges": "Conferma modifiche",
     "resendCode": "Reinvia codice",
-    "changeEmailContact": "Se desideri cambiare la tua email, contattaci."
+    "changeEmailContact": "Se desideri cambiare la tua email, contattaci.",
+    "otpResent": "Nuovo codice di verifica inviato alla tua email."
   },
   "notFound": {
     "title": "Pagina Non Trovata",
@@ -130,7 +131,10 @@
     "yourEmail": "LA TUA EMAIL",
     "change": "Cambia",
     "saving": "Salvataggio...",
-    "confirmAction": "Conferma azione"
+    "confirmAction": "Conferma azione",
+    "all": "Tutti",
+    "copy": "Copia",
+    "email": "Email"
   },
   "helpSection": {
     "title": "HAI QUALCHE",
@@ -1142,7 +1146,8 @@
       "errorCreating": "Impossibile creare l'account. Riprova",
       "errorGeneric": "Si è verificato un problema",
       "accountCreated": "Account creato. Ci siamo quasi"
-    }
+    },
+    "bankTransferFormDesc": "Riceverai i dati bancari nella fattura del tuo ordine."
   },
   "maintenance": {
     "title": "Ci prendiamo cura della tua",
@@ -1261,7 +1266,8 @@
       "bank": "Banca",
       "conceptOrder": "Causale: Il tuo numero d'ordine",
       "paymentLink": "Link di Pagamento",
-      "paymentLinkDesc": "Riceverai un link di pagamento sicuro via email per completare la transazione."
+      "paymentLinkDesc": "Riceverai un link di pagamento sicuro via email per completare la transazione.",
+      "bankTransferFormDesc": "Riceverai i dati bancari nella fattura del tuo ordine."
     },
     "confirmation": {
       "title": "Ultimo passaggio: Conferma",
@@ -1603,7 +1609,9 @@
         "docs": "Documenti",
         "discounts": "Sconti",
         "paymentAccounts": "Metodi di pagamento",
-        "activity": "Attività"
+        "activity": "Attività",
+        "accounting": "Contabilità",
+        "invoices": "Fatture"
       },
       "newOrder": "Nuovo Ordine",
       "supportPermissions": "Ruolo di supporto",
@@ -1810,7 +1818,8 @@
         "approve": "Approva",
         "reject": "Rifiuta",
         "confirmDelete": "Eliminare questo documento definitivamente?",
-        "noDocs": "Nessun documento caricato dai clienti"
+        "noDocs": "Nessun documento caricato dai clienti",
+        "archive": "Archivia"
       },
       "guestSection": {
         "title": "Visitatori",
@@ -1873,7 +1882,8 @@
         "date": "Data",
         "view": "Vedi",
         "download": "Scarica",
-        "confirmDeleteInvoice": "Eliminare questa fattura?"
+        "confirmDeleteInvoice": "Eliminare questa fattura?",
+        "refundedStatus": "Rimborsato"
       },
       "paymentAccounts": {
         "newAccount": "Nuovo conto",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Argomento principale",
       "clientNotes": "Note del cliente",
       "meetingLink": "Link della riunione",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Cerca per codice, cliente, email..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "Il servizio di trasferimenti non è attualmente disponibile. Riprova più tardi.",
     "received": "Ricevuto",
     "sent": "Inviato"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Compila tutti i campi obbligatori"
+    }
   }
 }

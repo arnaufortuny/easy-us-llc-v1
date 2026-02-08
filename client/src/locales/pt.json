@@ -90,7 +90,8 @@
     "cancelChanges": "Cancelar alterações",
     "confirmChanges": "Confirmar alterações",
     "resendCode": "Reenviar código",
-    "changeEmailContact": "Se desejas alterar o teu email, contacta-nos."
+    "changeEmailContact": "Se desejas alterar o teu email, contacta-nos.",
+    "otpResent": "Novo código de verificação enviado para o seu email."
   },
   "notFound": {
     "title": "Página Não Encontrada",
@@ -130,7 +131,10 @@
     "yourEmail": "O TEU EMAIL",
     "change": "Alterar",
     "saving": "A guardar...",
-    "confirmAction": "Confirmar ação"
+    "confirmAction": "Confirmar ação",
+    "all": "Todos",
+    "copy": "Copiar",
+    "email": "Email"
   },
   "helpSection": {
     "title": "ALGUMA",
@@ -1142,7 +1146,8 @@
       "errorCreating": "Não foi possível criar a conta. Tenta novamente",
       "errorGeneric": "Houve um problema",
       "accountCreated": "Conta criada. Quase lá"
-    }
+    },
+    "bankTransferFormDesc": "Receberá os dados bancários na fatura do seu pedido."
   },
   "maintenance": {
     "title": "Cuidamos da tua",
@@ -1261,7 +1266,8 @@
       "bank": "Banco",
       "conceptOrder": "Conceito: O teu número de pedido",
       "paymentLink": "Link de Pagamento",
-      "paymentLinkDesc": "Receberás um link de pagamento seguro por email para completar a transação."
+      "paymentLinkDesc": "Receberás um link de pagamento seguro por email para completar a transação.",
+      "bankTransferFormDesc": "Receberá os dados bancários na fatura do seu pedido."
     },
     "confirmation": {
       "title": "Último passo: Confirmação",
@@ -1644,7 +1650,9 @@
         "docs": "Documentos",
         "discounts": "Descontos",
         "paymentAccounts": "Métodos de pagamento",
-        "activity": "Atividade"
+        "activity": "Atividade",
+        "accounting": "Contabilidade",
+        "invoices": "Faturas"
       },
       "newOrder": "Novo Pedido",
       "supportPermissions": "Função de suporte",
@@ -1851,7 +1859,8 @@
         "approve": "Aprovar",
         "reject": "Rejeitar",
         "confirmDelete": "Eliminar este documento permanentemente?",
-        "noDocs": "Não há documentos carregados por clientes"
+        "noDocs": "Não há documentos carregados por clientes",
+        "archive": "Arquivar"
       },
       "guestSection": {
         "title": "Visitantes",
@@ -1914,7 +1923,8 @@
         "date": "Data",
         "view": "Ver",
         "download": "Descarregar",
-        "confirmDeleteInvoice": "Eliminar esta fatura?"
+        "confirmDeleteInvoice": "Eliminar esta fatura?",
+        "refundedStatus": "Reembolsado"
       },
       "paymentAccounts": {
         "newAccount": "Nova conta",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Tema principal",
       "clientNotes": "Notas do cliente",
       "meetingLink": "Link de reunião",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Pesquisar por código, cliente, email..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "O serviço de transferências não está disponível no momento. Tente novamente mais tarde.",
     "received": "Recebido",
     "sent": "Enviado"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Preencha todos os campos obrigatórios"
+    }
   }
 }

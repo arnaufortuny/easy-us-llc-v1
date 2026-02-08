@@ -90,7 +90,8 @@
     "cancelChanges": "Cancel changes",
     "confirmChanges": "Confirm changes",
     "resendCode": "Resend code",
-    "changeEmailContact": "If you wish to change your email, contact us."
+    "changeEmailContact": "If you wish to change your email, contact us.",
+    "otpResent": "New verification code sent to your email."
   },
   "notFound": {
     "title": "Page Not Found",
@@ -130,7 +131,10 @@
     "yourEmail": "YOUR EMAIL",
     "change": "Change",
     "saving": "Saving...",
-    "confirmAction": "Confirm action"
+    "confirmAction": "Confirm action",
+    "all": "All",
+    "copy": "Copy",
+    "email": "Email"
   },
   "helpSection": {
     "title": "HAVE A",
@@ -1142,7 +1146,8 @@
       "errorCreating": "Could not create the account. Please try again",
       "errorGeneric": "There was a problem",
       "accountCreated": "Account created. Almost there"
-    }
+    },
+    "bankTransferFormDesc": "You will receive bank details in your order invoice."
   },
   "maintenance": {
     "title": "We take care of your",
@@ -1261,7 +1266,8 @@
       "bank": "Bank",
       "conceptOrder": "Concept: Your order number",
       "paymentLink": "Payment Link",
-      "paymentLinkDesc": "You'll receive a secure payment link by email to complete the transaction."
+      "paymentLinkDesc": "You'll receive a secure payment link by email to complete the transaction.",
+      "bankTransferFormDesc": "You will receive bank details in your order invoice."
     },
     "confirmation": {
       "title": "Last step: Confirmation",
@@ -1644,7 +1650,9 @@
         "docs": "Docs",
         "discounts": "Discounts",
         "paymentAccounts": "Payment Methods",
-        "activity": "Activity"
+        "activity": "Activity",
+        "accounting": "Accounting",
+        "invoices": "Invoices"
       },
       "newOrder": "New Order",
       "supportPermissions": "Support Role",
@@ -1851,7 +1859,8 @@
         "approve": "Approve",
         "reject": "Reject",
         "confirmDelete": "Delete this document permanently?",
-        "noDocs": "No documents uploaded by clients"
+        "noDocs": "No documents uploaded by clients",
+        "archive": "Archive"
       },
       "guestSection": {
         "title": "Visitors",
@@ -1914,7 +1923,8 @@
         "date": "Date",
         "view": "View",
         "download": "Download",
-        "confirmDeleteInvoice": "Delete this invoice?"
+        "confirmDeleteInvoice": "Delete this invoice?",
+        "refundedStatus": "Refunded"
       },
       "paymentAccounts": {
         "newAccount": "New account",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Main topic",
       "clientNotes": "Client notes",
       "meetingLink": "Meeting link",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Search by code, client, email..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "The transfer service is currently unavailable. Please try again later.",
     "received": "Received",
     "sent": "Sent"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Complete all required fields"
+    }
   }
 }

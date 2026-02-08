@@ -90,7 +90,8 @@
     "cancelChanges": "Cancel·lar canvis",
     "confirmChanges": "Confirmar canvis",
     "resendCode": "Reenviar codi",
-    "changeEmailContact": "Si vols canviar el teu email, contacta'ns."
+    "changeEmailContact": "Si vols canviar el teu email, contacta'ns.",
+    "otpResent": "Nou codi de verificació enviat al teu correu."
   },
   "notFound": {
     "title": "Pàgina No Trobada",
@@ -130,7 +131,10 @@
     "yourEmail": "EL TEU EMAIL",
     "change": "Canviar",
     "saving": "Desant...",
-    "confirmAction": "Confirmar acció"
+    "confirmAction": "Confirmar acció",
+    "all": "Tots",
+    "copy": "Copiar",
+    "email": "Correu electrònic"
   },
   "helpSection": {
     "title": "ALGUNA",
@@ -1142,7 +1146,8 @@
       "errorCreating": "No se pudo crear la cuenta. Inténtalo de nuevo",
       "errorGeneric": "Ha habido un problema",
       "accountCreated": "Cuenta creada. Ya casi terminamos"
-    }
+    },
+    "bankTransferFormDesc": "Rebràs les dades bancàries a la factura de la teva comanda."
   },
   "maintenance": {
     "title": "Cuidem la teva",
@@ -1261,7 +1266,8 @@
       "bank": "Banc",
       "conceptOrder": "Concepte: El teu número de comanda",
       "paymentLink": "Enllaç de Pagament",
-      "paymentLinkDesc": "Rebràs un enllaç de pagament segur per email per completar la transacció."
+      "paymentLinkDesc": "Rebràs un enllaç de pagament segur per email per completar la transacció.",
+      "bankTransferFormDesc": "Rebràs les dades bancàries a la factura de la teva comanda."
     },
     "confirmation": {
       "title": "Últim pas: Confirmació",
@@ -1644,7 +1650,9 @@
         "docs": "Documents",
         "discounts": "Descomptes",
         "paymentAccounts": "Mètodes de pagament",
-        "activity": "Registre"
+        "activity": "Registre",
+        "accounting": "Comptabilitat",
+        "invoices": "Factures"
       },
       "newOrder": "Nova Comanda",
       "supportPermissions": "Rol de Suport",
@@ -1851,7 +1859,8 @@
         "approve": "Aprovar",
         "reject": "Rebutjar",
         "confirmDelete": "Eliminar aquest document permanentment?",
-        "noDocs": "No hi ha documents pujats per clients"
+        "noDocs": "No hi ha documents pujats per clients",
+        "archive": "Arxivar"
       },
       "guestSection": {
         "title": "Visitants",
@@ -1914,7 +1923,8 @@
         "date": "Data",
         "view": "Veure",
         "download": "Descarregar",
-        "confirmDeleteInvoice": "Eliminar aquesta factura?"
+        "confirmDeleteInvoice": "Eliminar aquesta factura?",
+        "refundedStatus": "Reemborsat"
       },
       "paymentAccounts": {
         "newAccount": "Nou compte",
@@ -3038,7 +3048,8 @@
       "mainTopic": "Tema principal",
       "clientNotes": "Notes del client",
       "meetingLink": "Enllaç de reunió",
-      "meetingLinkPlaceholder": "https://meet.google.com/..."
+      "meetingLinkPlaceholder": "https://meet.google.com/...",
+      "searchBookings": "Cercar per codi, client, correu..."
     }
   },
   "homeFaq": {
@@ -3107,5 +3118,10 @@
     "transferUnavailableDesc": "El servei de transferències no està disponible actualment. Torna-ho a provar més tard.",
     "received": "Rebut",
     "sent": "Enviat"
+  },
+  "form": {
+    "validation": {
+      "requiredFields": "Completa tots els camps obligatoris"
+    }
   }
 }

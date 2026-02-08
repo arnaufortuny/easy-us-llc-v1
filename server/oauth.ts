@@ -71,7 +71,7 @@ export function setupOAuth(app: Express) {
     }
 
     const protocol = req.headers["x-forwarded-proto"] || req.protocol;
-    const host = req.headers.host || "localhost:5000";
+    const host = req.headers.host || process.env.REPLIT_DEV_DOMAIN || `localhost:${process.env.PORT || 5000}`;
     const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
 
     const oauthState = crypto.randomBytes(32).toString("hex");
@@ -126,7 +126,7 @@ export function setupOAuth(app: Express) {
       }
 
       const protocol = req.headers["x-forwarded-proto"] || req.protocol;
-      const host = req.headers.host || "localhost:5000";
+      const host = req.headers.host || process.env.REPLIT_DEV_DOMAIN || `localhost:${process.env.PORT || 5000}`;
       const redirectUri = `${protocol}://${host}/api/auth/google/callback`;
 
       const tokenResponse = await fetch("https://oauth2.googleapis.com/token", {
