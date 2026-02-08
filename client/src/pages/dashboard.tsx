@@ -1662,7 +1662,7 @@ export default function Dashboard() {
                           </div>
                           <Link href="/servicios#pricing">
                             <Button className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base" data-testid="button-view-services">
-                              <PlusCircle className="w-4 h-4 mr-2" /> {t('dashboard.payments.viewServices')}
+                              {t('dashboard.payments.viewServices')}
                             </Button>
                           </Link>
                         </div>

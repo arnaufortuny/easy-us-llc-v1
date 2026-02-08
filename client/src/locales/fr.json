@@ -1495,7 +1495,7 @@
       "empty": "Vous n'avez encore aucun paiement enregistré",
       "emptyDesc": "Lorsque vous souscrirez un service chez nous, tous les paiements seront enregistrés dans cet espace pour que vous puissiez les consulter facilement, vérifier votre historique et avoir une vision claire des services souscrits.",
       "invoice": "Facture",
-      "viewServices": "Voir les services",
+      "viewServices": "Voir nos services",
       "invoiceLabel": "Facture"
     },
     "calendar": {
