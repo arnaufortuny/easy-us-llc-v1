@@ -1007,7 +1007,7 @@ export default function Dashboard() {
                       className="w-full bg-accent text-accent-foreground font-black rounded-full h-11"
                       data-testid="button-pending-verify"
                     >
-                      {isVerifyingEmail ? <Loader2 className="animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
+                      {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
                     </Button>
                     <Button
                       variant="link"
@@ -2891,7 +2891,7 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-send-payment-link"
                         >
-                          {isSendingPaymentLink ? <Loader2 className="animate-spin" /> : t('dashboard.admin.sendPaymentLinkBtn')}
+                          {isSendingPaymentLink ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.sendPaymentLinkBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
@@ -3001,7 +3001,7 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-admin-upload-doc"
                         >
-                          {isUploadingAdminDoc ? <Loader2 className="animate-spin" /> : t('dashboard.admin.uploadDocBtn')}
+                          {isUploadingAdminDoc ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.uploadDocBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
@@ -3053,7 +3053,7 @@ export default function Dashboard() {
                           className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
                           data-testid="button-confirm-reset-password"
                         >
-                          {isResettingPassword ? <Loader2 className="animate-spin" /> : t('dashboard.admin.resetPasswordBtn')}
+                          {isResettingPassword ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.resetPasswordBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
@@ -3104,7 +3104,7 @@ export default function Dashboard() {
                           className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full"
                           data-testid="button-confirm-otp-request"
                         >
-                          {isSendingOtpRequest ? <Loader2 className="animate-spin" /> : t('dashboard.admin.users.sendOtpBtn', 'Send verification code')}
+                          {isSendingOtpRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendOtpBtn', 'Send verification code')}
                         </Button>
                         <Button variant="outline" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>

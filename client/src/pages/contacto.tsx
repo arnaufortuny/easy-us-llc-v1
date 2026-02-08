@@ -535,7 +535,7 @@ export default function Contacto() {
                           className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-send-otp"
                         >
-                          {isLoading ? <Loader2 className="animate-spin" /> : t("auth.otp.sendCode")}
+                          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.sendCode")}
                         </Button>
                       </div>
                     ) : (
@@ -562,7 +562,7 @@ export default function Contacto() {
                           className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-verify-otp"
                         >
-                          {isLoading ? <Loader2 className="animate-spin" /> : t("auth.otp.verifyCode")}
+                          {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.verifyCode")}
                         </Button>
                         <button type="button" onClick={sendOtp} className="w-full text-center text-sm text-muted-foreground hover:text-foreground transition-colors">
                           {t("auth.otp.resendCode")}
@@ -618,7 +618,7 @@ export default function Contacto() {
                         className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
-                        {isLoading ? <Loader2 className="animate-spin" /> : t("contact.form.submit")}
+                        {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("contact.form.submit")}
                       </Button>
                     </div>
                   </div>

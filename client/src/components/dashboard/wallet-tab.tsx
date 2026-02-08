@@ -63,9 +63,6 @@ export function WalletTab() {
           <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">
             {t('wallet.title', 'Wallet')}
           </h2>
-          <Badge variant="outline" className="rounded-full text-[10px] font-bold border-orange-300 dark:border-orange-600 text-orange-600 dark:text-orange-400 bg-orange-50 dark:bg-orange-900/20 no-default-hover-elevate no-default-active-elevate">
-            TEST
-          </Badge>
         </div>
         <p className="text-base text-muted-foreground mt-1">
           {t('wallet.subtitle', 'Manage your business account and transactions')}

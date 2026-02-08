@@ -1526,7 +1526,7 @@ export default function LlcFormation() {
                     disabled={!acceptedInfo || !acceptedTerms || isSubmitting}
                     className="w-full bg-accent text-accent-foreground font-bold py-7 rounded-full text-base md:text-lg hover:bg-accent/90 transition-colors shadow-lg shadow-accent/20 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isSubmitting ? <Loader2 className="animate-spin" /> : t("application.submit")}
+                    {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : t("application.submit")}
                   </Button>
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 font-medium border-border">{t("application.back")}</Button>
                 </div>

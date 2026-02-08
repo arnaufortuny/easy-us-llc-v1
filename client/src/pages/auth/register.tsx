@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -61,6 +61,7 @@ export default function Register() {
   const [isVerifying, setIsVerifying] = useState(false);
   const [isResending, setIsResending] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
+  const verifyTopRef = useRef<HTMLDivElement>(null);
   const [acceptedAge, setAcceptedAge] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState(i18n.language?.split('-')[0] || 'es');
   const [isAccountDeactivated, setIsAccountDeactivated] = useState(false);
@@ -260,7 +261,10 @@ export default function Register() {
 
   useEffect(() => {
     if (isRegistered) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        verifyTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
     }
   }, [isRegistered]);
 
@@ -295,7 +299,7 @@ export default function Register() {
       <div className="min-h-screen bg-background font-sans">
         <Navbar />
         <main className="pt-16 md:pt-20 pb-16 px-5 sm:px-6 flex flex-col items-center min-h-[calc(100vh-80px)]">
-          <div className="w-full max-w-md">
+          <div ref={verifyTopRef} className="w-full max-w-md">
             <div className="text-center mb-8">
               <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight text-center mx-auto">
                 {t("auth.verify.title")} <span className="text-accent">{t("auth.verify.titleHighlight")}</span>
@@ -349,7 +353,7 @@ export default function Register() {
                 className="w-full bg-accent text-primary font-black rounded-full h-12"
                 data-testid="button-verify"
               >
-                {isVerifying ? <Loader2 className="animate-spin" /> : t("auth.verify.submit")}
+                {isVerifying ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.verify.submit")}
               </Button>
 
               <div className="text-center">
@@ -779,7 +783,7 @@ export default function Register() {
                     className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-12 text-sm shadow-lg shadow-accent/20 disabled:opacity-50"
                     data-testid="button-register"
                   >
-                    {isLoading ? <Loader2 className="animate-spin" /> : t("auth.register.submit")}
+                    {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.register.submit")}
                   </Button>
                 )}
               </div>
