@@ -1450,7 +1450,7 @@
     },
     "payments": {
       "title": "Historial de Pagos",
-      "subtitle": "Tus facturas y recibos",
+      "subtitle": "Aquí puedes consultar todos los pagos realizados de forma clara y organizada.",
       "empty": "Aún no tienes ningún pago registrado",
       "emptyDesc": "Cuando contrates un servicio con nosotros, todos los pagos quedarán registrados en este espacio para que puedas revisarlos fácilmente, consultar tu historial y tener una visión clara de los servicios contratados.",
       "invoice": "Factura",

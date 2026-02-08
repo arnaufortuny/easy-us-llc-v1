@@ -1450,7 +1450,7 @@
     },
     "payments": {
       "title": "Histórico de Pagamentos",
-      "subtitle": "As tuas faturas e recibos",
+      "subtitle": "Aqui podes consultar todos os pagamentos realizados de forma clara e organizada.",
       "empty": "Ainda não tens nenhum pagamento registado",
       "emptyDesc": "Quando contratares um serviço connosco, todos os pagamentos ficarão registados neste espaço para que possas revisá-los facilmente, consultar o teu histórico e ter uma visão clara dos serviços contratados.",
       "invoice": "Fatura",

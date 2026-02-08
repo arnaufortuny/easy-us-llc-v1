@@ -1450,7 +1450,7 @@
     },
     "payments": {
       "title": "Zahlungsverlauf",
-      "subtitle": "Ihre Rechnungen und Belege",
+      "subtitle": "Hier können Sie alle getätigten Zahlungen klar und übersichtlich einsehen.",
       "empty": "Sie haben noch keine registrierten Zahlungen",
       "emptyDesc": "Wenn Sie einen Service bei uns beauftragen, werden alle Zahlungen in diesem Bereich erfasst, damit Sie sie einfach überprüfen, Ihren Verlauf einsehen und einen klaren Überblick über die beauftragten Dienstleistungen haben können.",
       "invoice": "Rechnung",

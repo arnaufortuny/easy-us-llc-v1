@@ -1450,7 +1450,7 @@
     },
     "payments": {
       "title": "Historial de Pagaments",
-      "subtitle": "Les teves factures i rebuts",
+      "subtitle": "Aquí pots consultar tots els pagaments realitzats de forma clara i organitzada.",
       "empty": "Encara no tens cap pagament registrat",
       "emptyDesc": "Quan contractis un servei amb nosaltres, tots els pagaments quedaran registrats en aquest espai perquè puguis revisar-los fàcilment, consultar el teu historial i tenir una visió clara dels serveis contractats.",
       "invoice": "Factura",

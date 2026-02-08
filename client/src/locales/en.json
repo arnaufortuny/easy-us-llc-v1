@@ -1450,7 +1450,7 @@
     },
     "payments": {
       "title": "Payment History",
-      "subtitle": "Your invoices and receipts",
+      "subtitle": "Here you can view all payments made in a clear and organized way.",
       "empty": "You don't have any payments yet",
       "emptyDesc": "When you hire a service with us, all payments will be recorded in this space so you can easily review them, check your history, and have a clear view of the services contracted.",
       "invoice": "Invoice",
