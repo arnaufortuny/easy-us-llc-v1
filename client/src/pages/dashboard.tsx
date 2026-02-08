@@ -186,6 +186,7 @@ export default function Dashboard() {
   }, [user]);
 
   const updateProfile = useMutation({
+    retry: false,
     mutationFn: async (data: typeof profileData) => {
       setFormMessage(null);
       if (!canEdit) {
@@ -220,11 +221,9 @@ export default function Dashboard() {
           setIsEditing(false);
           queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
           setFormMessage({ type: 'success', text: t("profile.otpSentTitle", "Code sent") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
-          setTimeout(() => {
-            const otpCard = document.querySelector('[data-testid="input-profile-otp"]');
-            if (otpCard) otpCard.closest('.animate-in')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            else window.scrollTo({ top: 0, behavior: 'smooth' });
-          }, 150);
+          requestAnimationFrame(() => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          });
           throw new Error("OTP_REQUIRED_SILENT");
         }
         throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
