@@ -968,10 +968,10 @@ export default function LlcFormation() {
 
             {step === 7 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">8️⃣ Fecha de nacimiento</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">8️⃣ {t("application.steps.birthDate")}</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">Fecha:</FormLabel>
+                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">{t("application.fields.birthDate")}:</FormLabel>
                     <FormControl><Input {...field} type="date" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base max-w-[200px] md:max-w-none" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -985,8 +985,8 @@ export default function LlcFormation() {
 
             {step === 8 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ Documento de identidad</h2>
-                <FormDescription>DNI o pasaporte en vigor (puedes proporcionarlo más tarde)</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ {t("application.steps.idDocument")}</h2>
+                <FormDescription>{t("application.steps.idDocumentDesc")}</FormDescription>
                 <div className="space-y-4">
                   <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
                     <FormItem>
@@ -1054,8 +1054,8 @@ export default function LlcFormation() {
 
             {step === 9 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 ¿A qué se dedicará tu LLC?</h2>
-                <FormDescription>Explícalo con tus palabras, sin tecnicismos</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 {t("application.steps.businessActivity")}</h2>
+                <FormDescription>{t("application.steps.businessActivityDesc")}</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
                     <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
@@ -1073,11 +1073,11 @@ export default function LlcFormation() {
               <div key={"step-" + step} className="space-y-6 text-left">
                 {step === 10 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ ¿Vas a vender online?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ {t("application.steps.sellingOnline")}</h2>
                     <FormField control={form.control} name="isSellingOnline" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
-                          {["Sí", "No", "Aún no lo sé"].map(opt => (
+                          {[t("application.options.yes"), t("application.options.no"), t("application.options.notSure")].map(opt => (
                             <label 
                               key={opt} 
                               onClick={() => field.onChange(opt)}
@@ -1098,11 +1098,11 @@ export default function LlcFormation() {
                 )}
                 {step === 11 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ ¿Necesitas cuenta bancaria?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ {t("application.steps.bankAccount")}</h2>
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
-                          {["Sí, Mercury", "Sí, Relay", "Aún no", "Otro banco"].map(opt => (
+                          {[t("application.options.yesMercury"), t("application.options.yesRelay"), t("application.options.notYet"), t("application.options.otherBank")].map(opt => (
                             <label 
                               key={opt} 
                               onClick={() => field.onChange(opt)}
@@ -1123,11 +1123,11 @@ export default function LlcFormation() {
                 )}
                 {step === 12 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ ¿Usarás Stripe u otra?</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ {t("application.steps.stripePayments")}</h2>
                     <FormField control={form.control} name="willUseStripe" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
-                          {["Stripe", "Otra", "No todavía"].map(opt => (
+                          {["Stripe", t("application.options.other"), t("application.options.notYet")].map(opt => (
                             <label 
                               key={opt} 
                               onClick={() => field.onChange(opt)}
@@ -1148,8 +1148,8 @@ export default function LlcFormation() {
                 )}
                 {step === 13 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ ¿Algo más que debamos saber?</h2>
-                    <FormDescription>El reporte BOI está incluido en tu formación (es obligatorio por ley)</FormDescription>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ {t("application.steps.additionalNotes")}</h2>
+                    <FormDescription>{t("application.steps.additionalNotesDesc")}</FormDescription>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
                         <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent" /></FormControl>

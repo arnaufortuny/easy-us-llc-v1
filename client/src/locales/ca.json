@@ -1063,6 +1063,12 @@
     "options": {
       "yes": "Sí",
       "no": "No",
+      "notSure": "Encara no ho sé",
+      "yesMercury": "Sí, Mercury",
+      "yesRelay": "Sí, Relay",
+      "notYet": "Encara no",
+      "otherBank": "Altre banc",
+      "other": "Altra",
       "oneOwner": "Un propietario (single-member)",
       "multipleOwners": "Varios propietarios (multi-member)"
     },
@@ -1922,6 +1928,10 @@
         "accountNumber": "N° de compte",
         "address": "Adreça",
         "sortOrder": "Ordre",
+        "checkingType": "Compte corrent",
+        "savingsType": "Compte d'estalvi",
+        "routingNumber": "Número de ruta",
+        "swiftBic": "SWIFT/BIC",
         "accountUpdated": "Compte actualitzat",
         "accountCreated": "Compte creat",
         "createAccount": "Crear compte"

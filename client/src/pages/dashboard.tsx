@@ -4374,8 +4374,8 @@ export default function Dashboard() {
                                 <div>
                                   <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.accountType')}</label>
                                   <NativeSelect value={paymentAccountForm.accountType} onValueChange={v => setPaymentAccountForm(f => ({...f, accountType: v}))}>
-                                    <option value="checking">Checking</option>
-                                    <option value="savings">Savings</option>
+                                    <option value="checking">{t('dashboard.admin.paymentAccounts.checkingType')}</option>
+                                    <option value="savings">{t('dashboard.admin.paymentAccounts.savingsType')}</option>
                                     <option value="iban">IBAN</option>
                                   </NativeSelect>
                                 </div>
@@ -4384,7 +4384,7 @@ export default function Dashboard() {
                                   <Input value={paymentAccountForm.accountNumber} onChange={e => setPaymentAccountForm(f => ({...f, accountNumber: e.target.value}))} className="rounded-xl text-sm" />
                                 </div>
                                 <div>
-                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">Routing Number</label>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.routingNumber')}</label>
                                   <Input value={paymentAccountForm.routingNumber} onChange={e => setPaymentAccountForm(f => ({...f, routingNumber: e.target.value}))} className="rounded-xl text-sm" />
                                 </div>
                                 <div>
@@ -4392,7 +4392,7 @@ export default function Dashboard() {
                                   <Input value={paymentAccountForm.iban} onChange={e => setPaymentAccountForm(f => ({...f, iban: e.target.value}))} className="rounded-xl text-sm" />
                                 </div>
                                 <div>
-                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">SWIFT/BIC</label>
+                                  <label className="text-xs font-bold text-muted-foreground mb-1 block">{t('dashboard.admin.paymentAccounts.swiftBic')}</label>
                                   <Input value={paymentAccountForm.swift} onChange={e => setPaymentAccountForm(f => ({...f, swift: e.target.value}))} className="rounded-xl text-sm" />
                                 </div>
                                 <div className="sm:col-span-2">

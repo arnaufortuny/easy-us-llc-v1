@@ -1063,6 +1063,12 @@
     "options": {
       "yes": "Sim",
       "no": "Não",
+      "notSure": "Ainda não sei",
+      "yesMercury": "Sim, Mercury",
+      "yesRelay": "Sim, Relay",
+      "notYet": "Ainda não",
+      "otherBank": "Outro banco",
+      "other": "Outra",
       "oneOwner": "Um proprietário (single-member)",
       "multipleOwners": "Vários proprietários (multi-member)"
     },
@@ -1922,6 +1928,10 @@
         "accountNumber": "N° de conta",
         "address": "Endereço",
         "sortOrder": "Ordem",
+        "checkingType": "Conta corrente",
+        "savingsType": "Conta poupança",
+        "routingNumber": "Número de encaminhamento",
+        "swiftBic": "SWIFT/BIC",
         "accountUpdated": "Conta atualizada",
         "accountCreated": "Conta criada",
         "createAccount": "Criar conta"

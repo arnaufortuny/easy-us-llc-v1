@@ -1063,6 +1063,12 @@
     "options": {
       "yes": "Ja",
       "no": "Nein",
+      "notSure": "Ich bin mir noch nicht sicher",
+      "yesMercury": "Ja, Mercury",
+      "yesRelay": "Ja, Relay",
+      "notYet": "Noch nicht",
+      "otherBank": "Andere Bank",
+      "other": "Andere",
       "oneOwner": "Ein Eigentümer (Single-Member)",
       "multipleOwners": "Mehrere Eigentümer (Multi-Member)"
     },
@@ -1922,6 +1928,10 @@
         "accountNumber": "Kontonummer",
         "address": "Adresse",
         "sortOrder": "Reihenfolge",
+        "checkingType": "Girokonto",
+        "savingsType": "Sparkonto",
+        "routingNumber": "Bankleitzahl",
+        "swiftBic": "SWIFT/BIC",
         "accountUpdated": "Konto aktualisiert",
         "accountCreated": "Konto erstellt",
         "createAccount": "Konto erstellen"
