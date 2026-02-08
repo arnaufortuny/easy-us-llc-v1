@@ -217,8 +217,14 @@ export default function Dashboard() {
         if (err.code === "OTP_REQUIRED") {
           setPendingProfileData(err.pendingChanges || {});
           setProfileOtpStep('otp');
+          setIsEditing(false);
           queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-          setFormMessage({ type: 'info', text: t("profile.otpSentTitle", "Action required") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
+          setFormMessage({ type: 'success', text: t("profile.otpSentTitle", "Code sent") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
+          setTimeout(() => {
+            const otpCard = document.querySelector('[data-testid="input-profile-otp"]');
+            if (otpCard) otpCard.closest('.animate-in')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            else window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 150);
           throw new Error("OTP_REQUIRED_SILENT");
         }
         throw new Error(err.message || t("dashboard.toasts.couldNotSave"));
