@@ -546,7 +546,7 @@ export function ProfileTab({
               <h4 className="font-black text-sm text-red-600 dark:text-red-400">{t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}</h4>
               <p className="text-[10px] text-muted-foreground">{t('profile.deleteAccountDesc', 'Esta acción es irreversible. Se eliminarán todos tus datos.')}</p>
             </div>
-            <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full text-xs shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+            <Button size="sm" variant="destructive" className="font-bold rounded-full text-xs shrink-0" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
               <Trash2 className="w-3.5 h-3.5 mr-1" /> {t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}
             </Button>
           </div>
