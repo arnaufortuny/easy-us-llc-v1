@@ -123,7 +123,7 @@ export function ProfileTab({
 
   const inputClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
   const selectClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
-  const readOnlyClass = "p-2.5 bg-gray-50 dark:bg-muted rounded-lg text-sm";
+  const readOnlyClass = "p-2.5 px-5 bg-gray-50 dark:bg-muted rounded-full text-sm h-11 flex items-center";
 
   return (
     <div key="profile" className="space-y-4">
@@ -279,7 +279,7 @@ export function ProfileTab({
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">Email</Label>
-              <div className="p-2.5 bg-gray-50 dark:bg-muted rounded-lg flex justify-between items-center text-sm">
+              <div className="p-2.5 px-5 bg-gray-50 dark:bg-muted rounded-full flex justify-between items-center text-sm h-11">
                 <span className="truncate">{user?.email}</span>
                 {user?.emailVerified ? (
                   <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
