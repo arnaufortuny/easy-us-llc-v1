@@ -404,7 +404,6 @@ export function ProfileTab({
           {isEditing && canEdit && (
             <div className="mt-4 space-y-2">
               <Button onClick={() => updateProfile.mutate(profileData)} className="w-full bg-accent hover:bg-accent/90 text-black font-black rounded-full h-11 transition-colors" disabled={updateProfile.isPending} data-testid="button-save-profile">{updateProfile.isPending ? t('common.saving', 'Guardando...') : t('profile.saveChanges', 'Guardar cambios')}</Button>
-              <p className="text-[10px] text-center text-muted-foreground">{t('profile.reviewNote', 'Nuestro equipo revisará cualquier cambio antes de avanzar para asegurarnos de que todo esté correcto.')}</p>
             </div>
           )}
         </div>
