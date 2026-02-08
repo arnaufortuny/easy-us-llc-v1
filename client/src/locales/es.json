@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Generador de Facturas",
-      "invoiceDescription": "Genera facturas claras y listas para enviar con los datos de tu LLC americana. Olvídate de plantillas complicadas o errores de formato. Solo introduces la información básica y tendrás un documento profesional listo para tu cliente o para tu contabilidad.",
+      "invoiceDescription": "Crea facturas profesionales con los datos de tu LLC americana en segundos, listas para enviar a clientes o usar en contabilidad.",
       "createInvoice": "Crear factura",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Crea el Operating Agreement de tu LLC de forma sencilla y adaptada a tu estructura empresarial. Este documento define cómo funciona tu empresa, la relación entre socios y la organización interna, todo explicado y preparado para usar.",
+      "operatingDescription": "Genera el Operating Agreement de tu LLC adaptado a tu estructura empresarial, preparado para definir el funcionamiento interno.",
       "createAgreement": "Crear Acuerdo",
-      "priceCalculator": "Calculadora de Rentabilidad",
-      "calculatorDescription": "Define el precio real de tus servicios o productos teniendo en cuenta costes, impuestos y beneficio esperado. Esta herramienta te ayuda a tomar decisiones con números reales para que tu negocio crezca de forma sostenible desde el primer momento.",
+      "priceCalculator": "Calculadora de Beneficios",
+      "calculatorDescription": "Calcula precios, costes y márgenes reales para que puedas tomar decisiones con números claros y hacer crecer tu negocio con seguridad.",
       "calculate": "Calcular rentabilidad",
       "generateDocument": "Generar documento"
     },
@@ -2804,7 +2804,7 @@
       "downloadCsv": "Descargar CSV",
       "generating": "Generando...",
       "toolTitle": "Registro Contable CSV",
-      "toolDescription": "Registra la actividad financiera de tu LLC en un formato claro y compatible con contabilidad profesional. Exporta tus datos cuando lo necesites y mantén un control ordenado para presentar información a gestores o asesores sin complicaciones.",
+      "toolDescription": "Registra ingresos y gastos en un formato compatible con contabilidad profesional y exporta la información cuando lo necesites.",
       "openTool": "Crear registro",
       "categories": {
         "sales": "Ventas",

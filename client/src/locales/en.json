@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Invoice Generator",
-      "invoiceDescription": "Generate clear, ready-to-send invoices with your US LLC details. No complicated templates or formatting errors. Just enter the basic information and get a professional document ready for your client or your bookkeeping.",
+      "invoiceDescription": "Create professional invoices with your US LLC details in seconds, ready to send to clients or use for bookkeeping.",
       "createInvoice": "Create Invoice",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Create your LLC Operating Agreement simply and tailored to your business structure. This document defines how your company works, the relationship between partners, and the internal organization, all explained and ready to use.",
+      "operatingDescription": "Generate your LLC Operating Agreement tailored to your business structure, ready to define your internal operations.",
       "createAgreement": "Create Agreement",
-      "priceCalculator": "Profitability Calculator",
-      "calculatorDescription": "Set the real price of your services or products considering costs, taxes, and expected profit. This tool helps you make decisions with real numbers so your business grows sustainably from day one.",
+      "priceCalculator": "Profit Calculator",
+      "calculatorDescription": "Calculate prices, costs, and real margins so you can make decisions with clear numbers and grow your business with confidence.",
       "calculate": "Calculate profitability",
       "generateDocument": "Generate Document"
     },
@@ -2804,7 +2804,7 @@
       "downloadCsv": "Download CSV",
       "generating": "Generating...",
       "toolTitle": "Accounting CSV Generator",
-      "toolDescription": "Record the financial activity of your LLC in a clear format compatible with professional bookkeeping. Export your data whenever you need it and keep orderly records to present to accountants or advisors without complications.",
+      "toolDescription": "Record income and expenses in a format compatible with professional bookkeeping and export the information whenever you need it.",
       "openTool": "Create Record",
       "categories": {
         "sales": "Sales",

@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Generador de Factures",
-      "invoiceDescription": "Genera factures clares i llestes per enviar amb les dades de la teva LLC americana. Oblida't de plantilles complicades o errors de format. Només introdueixes la informació bàsica i tindràs un document professional llest per al teu client o per a la teva comptabilitat.",
+      "invoiceDescription": "Crea factures professionals amb les dades de la teva LLC americana en segons, llestes per enviar als clients o utilitzar en comptabilitat.",
       "createInvoice": "Crear Factura",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Crea l'Operating Agreement de la teva LLC de forma senzilla i adaptada a la teva estructura empresarial. Aquest document defineix com funciona la teva empresa, la relació entre socis i l'organització interna, tot explicat i preparat per usar.",
+      "operatingDescription": "Genera l'Operating Agreement de la teva LLC adaptat a la teva estructura empresarial, preparat per definir el funcionament intern.",
       "createAgreement": "Crear Acord",
-      "priceCalculator": "Calculadora de Rendibilitat",
-      "calculatorDescription": "Defineix el preu real dels teus serveis o productes tenint en compte costos, impostos i benefici esperat. Aquesta eina t'ajuda a prendre decisions amb números reals perquè el teu negoci creixi de forma sostenible des del primer moment.",
+      "priceCalculator": "Calculadora de Beneficis",
+      "calculatorDescription": "Calcula preus, costos i marges reals perquè puguis prendre decisions amb números clars i fer créixer el teu negoci amb seguretat.",
       "calculate": "Calcular rendibilitat",
       "generateDocument": "Generar Document"
     },
@@ -2804,7 +2804,7 @@
       "downloadCsv": "Descarregar CSV",
       "generating": "Generant...",
       "toolTitle": "Generador CSV Comptable",
-      "toolDescription": "Registra l'activitat financera de la teva LLC en un format clar i compatible amb comptabilitat professional. Exporta les teves dades quan ho necessitis i mantén un control ordenat per presentar informació a gestors o assessors sense complicacions.",
+      "toolDescription": "Registra ingressos i despeses en un format compatible amb comptabilitat professional i exporta la informació quan ho necessitis.",
       "openTool": "Crear Registre",
       "categories": {
         "sales": "Vendes",

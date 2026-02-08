@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Rechnungsgenerator",
-      "invoiceDescription": "Erstellen Sie klare, versandfertige Rechnungen mit den Daten Ihrer US LLC. Vergessen Sie komplizierte Vorlagen oder Formatierungsfehler. Geben Sie einfach die grundlegenden Informationen ein und erhalten Sie ein professionelles Dokument für Ihren Kunden oder Ihre Buchhaltung.",
+      "invoiceDescription": "Erstellen Sie in Sekunden professionelle Rechnungen mit den Daten Ihrer US LLC, fertig zum Versenden an Kunden oder für die Buchhaltung.",
       "createInvoice": "Rechnung erstellen",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Erstellen Sie das Operating Agreement Ihrer LLC einfach und an Ihre Unternehmensstruktur angepasst. Dieses Dokument definiert, wie Ihr Unternehmen funktioniert, die Beziehung zwischen Partnern und die interne Organisation, alles erklärt und einsatzbereit.",
+      "operatingDescription": "Erstellen Sie das Operating Agreement Ihrer LLC, angepasst an Ihre Unternehmensstruktur, bereit zur Definition der internen Abläufe.",
       "createAgreement": "Agreement erstellen",
-      "priceCalculator": "Rentabilitätsrechner",
-      "calculatorDescription": "Bestimmen Sie den realen Preis Ihrer Dienstleistungen oder Produkte unter Berücksichtigung von Kosten, Steuern und erwartetem Gewinn. Dieses Tool hilft Ihnen, Entscheidungen mit realen Zahlen zu treffen, damit Ihr Geschäft von Anfang an nachhaltig wächst.",
+      "priceCalculator": "Gewinnrechner",
+      "calculatorDescription": "Berechnen Sie Preise, Kosten und reale Margen, um Entscheidungen mit klaren Zahlen zu treffen und Ihr Geschäft sicher wachsen zu lassen.",
       "calculate": "Rentabilität berechnen",
       "generateDocument": "Dokument generieren"
     },
@@ -2804,7 +2804,7 @@
       "downloadCsv": "CSV herunterladen",
       "generating": "Wird erstellt...",
       "toolTitle": "Buchhaltungs-CSV-Generator",
-      "toolDescription": "Erfassen Sie die finanzielle Aktivität Ihrer LLC in einem klaren Format, das mit professioneller Buchhaltung kompatibel ist. Exportieren Sie Ihre Daten bei Bedarf und führen Sie eine geordnete Kontrolle, um Informationen ohne Komplikationen an Berater weiterzugeben.",
+      "toolDescription": "Erfassen Sie Einnahmen und Ausgaben in einem Format, das mit professioneller Buchhaltung kompatibel ist, und exportieren Sie die Daten bei Bedarf.",
       "openTool": "Datensatz erstellen",
       "categories": {
         "sales": "Verkäufe",

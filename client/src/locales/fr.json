@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Générateur de factures",
-      "invoiceDescription": "Générez des factures claires et prêtes à envoyer avec les données de votre LLC américaine. Oubliez les modèles compliqués ou les erreurs de format. Entrez simplement les informations de base et obtenez un document professionnel prêt pour votre client ou votre comptabilité.",
+      "invoiceDescription": "Créez des factures professionnelles avec les données de votre LLC américaine en quelques secondes, prêtes à envoyer à vos clients ou à utiliser en comptabilité.",
       "createInvoice": "Créer une facture",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Créez l'Operating Agreement de votre LLC simplement et adapté à votre structure d'entreprise. Ce document définit le fonctionnement de votre entreprise, la relation entre associés et l'organisation interne, le tout expliqué et prêt à utiliser.",
+      "operatingDescription": "Générez l'Operating Agreement de votre LLC adapté à votre structure d'entreprise, prêt à définir le fonctionnement interne.",
       "createAgreement": "Créer un accord",
-      "priceCalculator": "Calculateur de Rentabilité",
-      "calculatorDescription": "Définissez le prix réel de vos services ou produits en tenant compte des coûts, des impôts et du bénéfice attendu. Cet outil vous aide à prendre des décisions avec des chiffres réels pour que votre activité grandisse durablement dès le premier jour.",
+      "priceCalculator": "Calculateur de Bénéfices",
+      "calculatorDescription": "Calculez prix, coûts et marges réelles pour prendre des décisions avec des chiffres clairs et développer votre activité en toute sécurité.",
       "calculate": "Calculer la rentabilité",
       "generateDocument": "Générer le document"
     },
@@ -2804,7 +2804,7 @@
       "downloadCsv": "Télécharger CSV",
       "generating": "Génération en cours...",
       "toolTitle": "Générateur CSV comptable",
-      "toolDescription": "Enregistrez l'activité financière de votre LLC dans un format clair et compatible avec la comptabilité professionnelle. Exportez vos données quand vous en avez besoin et maintenez un contrôle ordonné pour présenter les informations à vos gestionnaires ou conseillers sans complications.",
+      "toolDescription": "Enregistrez revenus et dépenses dans un format compatible avec la comptabilité professionnelle et exportez les informations quand vous en avez besoin.",
       "openTool": "Créer un enregistrement",
       "categories": {
         "sales": "Ventes",
