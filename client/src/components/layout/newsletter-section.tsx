@@ -43,7 +43,7 @@ export function NewsletterSection() {
 
       if (response.status === 403) {
         const body = await response.json().catch(() => ({}));
-        if (body.message && body.message.includes('CSRF')) {
+        if (body.code === 'CSRF_INVALID') {
           token = await getCsrfToken(true);
           response = await fetch("/api/newsletter/subscribe", {
             method: "POST",
@@ -60,7 +60,7 @@ export function NewsletterSection() {
         setFormMessage({ type: 'success', text: `${t("newsletter.success")}. ${t("newsletter.checkInbox")}` });
         setEmail("");
       } else {
-        setFormMessage({ type: 'error', text: `${t("newsletter.error")}. ${data.message || t("newsletter.subscriptionFailed")}` });
+        setFormMessage({ type: 'error', text: t("newsletter.subscriptionFailed") });
       }
     } catch (err) {
       setFormMessage({ type: 'error', text: `${t("newsletter.error")}. ${t("newsletter.connectionError")}` });

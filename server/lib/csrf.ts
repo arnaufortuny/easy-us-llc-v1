@@ -38,6 +38,7 @@ export function validateCsrf(req: Request, res: Response, next: NextFunction) {
   
   if (!submittedToken || submittedToken !== req.session.csrfToken) {
     return res.status(403).json({ 
+      code: "CSRF_INVALID",
       message: "Token CSRF inválido. Por favor, recarga la página e intenta de nuevo." 
     });
   }

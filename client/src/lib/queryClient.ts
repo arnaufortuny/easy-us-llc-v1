@@ -75,7 +75,7 @@ export async function apiRequest(
       const body = await cloned.json();
       if (body.code === 'ACCOUNT_UNDER_REVIEW' || body.code === 'ACCOUNT_DEACTIVATED') {
         queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      } else if (body.message && body.message.includes('CSRF')) {
+      } else if (body.code === 'CSRF_INVALID') {
         csrfToken = null;
         const newToken = await getCsrfToken(true);
         if (newToken) {
