@@ -431,18 +431,21 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
       )}
 
       {myBookings.length === 0 && !showBookingPanel && (
-        <Card className="py-12">
-          <CardContent className="flex flex-col items-center justify-center text-center">
-            <MessageSquare className="w-12 h-12 text-green-600 dark:text-green-400 mb-4" />
-            <h3 className="font-black text-lg mb-2">{t("consultations.noBookings")}</h3>
-            <p className="text-muted-foreground mb-4">{t("consultations.noBookingsDesc")}</p>
+        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-consultations">
+          <div className="flex flex-col items-center gap-3 md:gap-4">
+            <MessageSquare className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+            <div>
+              <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t("consultations.noBookings")}</h3>
+              <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t("consultations.noBookingsDesc")}</p>
+            </div>
             <Button 
               onClick={() => setShowBookingPanel(true)}
-              className="bg-accent text-primary font-black rounded-full"
+              className="bg-accent text-accent-foreground font-black rounded-full px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base"
+              data-testid="button-book-first"
             >
               {t("consultations.bookFirst")}
             </Button>
-          </CardContent>
+          </div>
         </Card>
       )}
     </div>

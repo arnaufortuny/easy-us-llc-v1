@@ -1799,7 +1799,7 @@ export default function Dashboard() {
                   ) : (
                     <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
-                        <Calendar className="w-10 h-10 md:w-12 md:h-12 text-accent" />
+                        <Calendar className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                         <div>
                           <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.calendar.title')}</h3>
                           <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.calendar.emptyDescription')}</p>
