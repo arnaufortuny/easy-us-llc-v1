@@ -1432,11 +1432,11 @@
       "viewCalendar": "Vedi"
     },
     "support": {
-      "title": "Le Mie Consulenze",
-      "subtitle": "Il tuo storico di messaggi con il nostro team",
+      "title": "Le tue consulenze",
+      "subtitle": "Seguimento di tutte le conversazioni con il nostro team.",
       "empty": "Nessuna consulenza attiva",
-      "emptyDescription": "Ti risponderà una persona, non un bot.",
-      "newQuery": "Nuova Consulenza",
+      "emptyDescription": "Se hai qualsiasi dubbio sulla tua LLC o sui nostri servizi, puoi scriverci in qualsiasi momento. Siamo qui per aiutarti.",
+      "newQuery": "Aprire consulenza",
       "talkToSupport": "Parla con noi",
       "noSubject": "Senza oggetto",
       "view": "Vedi",

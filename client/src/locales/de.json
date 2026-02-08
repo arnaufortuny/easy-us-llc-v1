@@ -1432,11 +1432,11 @@
       "viewCalendar": "Anzeigen"
     },
     "support": {
-      "title": "Meine Nachrichten",
-      "subtitle": "Ihr Nachrichtenverlauf mit unserem Team",
-      "empty": "Keine aktiven Nachrichten",
-      "emptyDescription": "Eine echte Person wird antworten, kein Bot.",
-      "newQuery": "Neue Nachricht",
+      "title": "Ihre Anfragen",
+      "subtitle": "Verfolgung aller Gespräche mit unserem Team.",
+      "empty": "Keine aktiven Anfragen",
+      "emptyDescription": "Wenn Sie Fragen zu Ihrer LLC oder unseren Dienstleistungen haben, können Sie uns jederzeit schreiben. Wir sind hier, um Ihnen zu helfen.",
+      "newQuery": "Anfrage öffnen",
       "talkToSupport": "Sprechen Sie mit uns",
       "noSubject": "Kein Betreff",
       "view": "Anzeigen",

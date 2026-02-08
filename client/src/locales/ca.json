@@ -1432,11 +1432,11 @@
       "viewCalendar": "Veure"
     },
     "support": {
-      "title": "Les Meves Consultes",
-      "subtitle": "El teu historial de missatges amb el nostre equip",
-      "empty": "Sense consultes actives",
-      "emptyDescription": "Et respondrà una persona, no un bot.",
-      "newQuery": "Nova Consulta",
+      "title": "Les teves consultes",
+      "subtitle": "Seguiment de totes les converses amb el nostre equip.",
+      "empty": "No hi ha consultes actives",
+      "emptyDescription": "Si tens qualsevol dubte sobre la teva LLC o els nostres serveis, pots escriure'ns en qualsevol moment. Estem aquí per ajudar-te.",
+      "newQuery": "Obrir consulta",
       "talkToSupport": "Parla amb nosaltres",
       "noSubject": "Sense assumpte",
       "view": "Veure",

@@ -1473,11 +1473,11 @@
       "viewCalendar": "Voir"
     },
     "support": {
-      "title": "Mes Messages",
-      "subtitle": "Votre historique de messages avec notre équipe",
-      "empty": "Aucun message actif",
-      "emptyDescription": "Une vraie personne vous répondra, pas un robot.",
-      "newQuery": "Nouveau message",
+      "title": "Vos consultations",
+      "subtitle": "Suivi de toutes les conversations avec notre équipe.",
+      "empty": "Aucune consultation active",
+      "emptyDescription": "Si vous avez la moindre question sur votre LLC ou nos services, vous pouvez nous écrire à tout moment. Nous sommes là pour vous aider.",
+      "newQuery": "Ouvrir une consultation",
       "talkToSupport": "Parlez-nous",
       "noSubject": "Sans objet",
       "view": "Voir",

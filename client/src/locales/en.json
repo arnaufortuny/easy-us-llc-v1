@@ -1432,11 +1432,11 @@
       "viewCalendar": "View"
     },
     "support": {
-      "title": "My Messages",
-      "subtitle": "Your message history with our team",
-      "empty": "No active messages",
-      "emptyDescription": "A real person will respond, not a bot.",
-      "newQuery": "New Message",
+      "title": "Your inquiries",
+      "subtitle": "Follow-up on all conversations with our team.",
+      "empty": "No active inquiries",
+      "emptyDescription": "If you have any questions about your LLC or our services, you can write to us at any time. We are here to help you.",
+      "newQuery": "Open inquiry",
       "talkToSupport": "Talk to us",
       "noSubject": "No subject",
       "view": "View",
