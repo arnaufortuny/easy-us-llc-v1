@@ -147,24 +147,13 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
           {formMessage.text}
         </div>
       )}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h2 className="text-xl sm:text-2xl font-black tracking-tight">
-            {t("consultations.title")}
-          </h2>
-          <p className="text-base text-muted-foreground mt-1">
-            {t("consultations.subtitle")}
-          </p>
-        </div>
-        <Button 
-          onClick={() => setShowBookingPanel(!showBookingPanel)}
-          className="bg-accent text-primary font-black rounded-full"
-          data-testid="button-book-consultation"
-        >
-          <Calendar className="w-4 h-4 mr-2" />
-          {t("consultations.bookNew")}
-          {showBookingPanel ? <ChevronUp className="w-4 h-4 ml-2" /> : <ChevronDown className="w-4 h-4 ml-2" />}
-        </Button>
+      <div>
+        <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+          {t("consultations.title")}
+        </h2>
+        <p className="text-base text-muted-foreground mt-1">
+          {t("consultations.subtitle")}
+        </p>
       </div>
 
       <Collapsible open={showBookingPanel} onOpenChange={setShowBookingPanel}>
