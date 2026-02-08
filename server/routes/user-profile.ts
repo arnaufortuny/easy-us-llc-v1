@@ -3,7 +3,8 @@ import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
-import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate } from "../lib/email";
+import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate } from "../lib/email";
+import { getEmailTranslations } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
 
@@ -503,29 +504,12 @@ export function registerUserProfileRoutes(app: Express) {
             verified: false
           });
           
-          // Send identity verification email to client
+          const userLang = (currentUser.preferredLanguage as any) || 'es';
+          const userName = currentUser.firstName || 'Cliente';
           sendEmail({
             to: currentUserEmail,
-            subject: "Identity Verification Required - Profile Changes",
-            html: `
-              <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
-                <div style="text-align: center; margin-bottom: 24px;">
-                  <div style="width: 60px; height: 60px; background: #FEF3C7; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 28px;">🔐</span>
-                  </div>
-                </div>
-                <h2 style="color: #1F2937; text-align: center; margin-bottom: 8px;">Identity Verification</h2>
-                <p style="color: #6B7280; text-align: center; font-size: 14px; margin-bottom: 24px;">
-                  A change to sensitive profile data has been requested. Use this code to confirm:
-                </p>
-                <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 24px;">
-                  <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
-                </div>
-                <p style="color: #9CA3AF; text-align: center; font-size: 12px;">
-                  This code is valid for 24 hours. If you did not request this change, please ignore this email.
-                </p>
-              </div>
-            `
+            subject: `${getEmailTranslations(userLang).profileChangeOtp.title} - Easy US LLC`,
+            html: getProfileChangeOtpTemplate(userName, otp, userLang)
           }).catch(console.error);
           
           return res.status(400).json({ 
@@ -761,19 +745,12 @@ export function registerUserProfileRoutes(app: Express) {
         verified: false
       });
       
+      const resendLang = (user.preferredLanguage as any) || 'es';
+      const resendName = user.firstName || 'Cliente';
       sendEmail({
         to: userEmail,
-        subject: "Identity Verification - New Code",
-        html: `
-          <div style="font-family: 'Inter', sans-serif; padding: 30px; max-width: 500px; margin: 0 auto;">
-            <h2 style="color: #1F2937; text-align: center;">Identity Verification</h2>
-            <p style="color: #6B7280; text-align: center; font-size: 14px;">Use this code to confirm your profile changes:</p>
-            <div style="background: #F3F4F6; border-radius: 12px; padding: 20px; text-align: center; margin: 20px 0;">
-              <p style="font-size: 32px; font-weight: 800; letter-spacing: 8px; color: #111827; margin: 0;">${otp}</p>
-            </div>
-            <p style="color: #9CA3AF; text-align: center; font-size: 12px;">Valid for 24 hours.</p>
-          </div>
-        `
+        subject: `${getEmailTranslations(resendLang).profileChangeOtp.title} - Easy US LLC`,
+        html: getProfileChangeOtpTemplate(resendName, otp, resendLang)
       }).catch(console.error);
       
       res.json({ success: true, message: "New OTP code sent" });

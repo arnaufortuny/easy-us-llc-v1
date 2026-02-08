@@ -177,6 +177,16 @@ interface EmailTranslations {
     doNotShare: string;
     notRequested: string;
   };
+  profileChangeOtp: {
+    title: string;
+    sensitiveChangeRequest: string;
+    yourCode: string;
+    important: string;
+    personalAndConfidential: string;
+    validFor: string;
+    doNotShare: string;
+    ignoreMessage: string;
+  };
   accountLocked: {
     locked: string;
     attempts: string;
@@ -465,6 +475,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       doNotShare: "No lo compartas con nadie",
       notRequested: "Si no solicitaste este cambio, ignora este mensaje."
     },
+    profileChangeOtp: {
+      title: "Verificación de Identidad",
+      sensitiveChangeRequest: "Se ha solicitado un cambio en los datos sensibles de tu perfil. Para confirmar tu identidad, utiliza el siguiente código de verificación:",
+      yourCode: "Tu código de verificación:",
+      important: "Importante:",
+      personalAndConfidential: "Este código es personal y confidencial",
+      validFor: "Tiene una validez de <strong>24 horas</strong>",
+      doNotShare: "No lo compartas con nadie",
+      ignoreMessage: "Si no has solicitado este cambio, puedes ignorar este mensaje con total tranquilidad."
+    },
     accountLocked: {
       locked: "Por su seguridad, su cuenta ha sido temporalmente bloqueada tras detectar múltiples intentos de acceso fallidos.",
       attempts: "Para desbloquear su cuenta y verificar su identidad, necesitamos que nos envíe:",
@@ -750,6 +770,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       validFor: "This code expires in <strong>10 minutes</strong>",
       doNotShare: "Do not share it with anyone",
       notRequested: "If you did not request this change, ignore this message."
+    },
+    profileChangeOtp: {
+      title: "Identity Verification",
+      sensitiveChangeRequest: "A change to sensitive profile data has been requested. To confirm your identity, use the following verification code:",
+      yourCode: "Your verification code:",
+      important: "Important:",
+      personalAndConfidential: "This code is personal and confidential",
+      validFor: "Valid for <strong>24 hours</strong>",
+      doNotShare: "Do not share it with anyone",
+      ignoreMessage: "If you did not request this change, you can safely ignore this message."
     },
     accountLocked: {
       locked: "For your security, your account has been temporarily locked after detecting multiple failed access attempts.",
@@ -1037,6 +1067,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       doNotShare: "No el comparteixis amb ningú",
       notRequested: "Si no has sol·licitat aquest canvi, ignora aquest missatge."
     },
+    profileChangeOtp: {
+      title: "Verificació d'Identitat",
+      sensitiveChangeRequest: "S'ha sol·licitat un canvi en les dades sensibles del teu perfil. Per confirmar la teva identitat, utilitza el següent codi de verificació:",
+      yourCode: "El teu codi de verificació:",
+      important: "Important:",
+      personalAndConfidential: "Aquest codi és personal i confidencial",
+      validFor: "Té una validesa de <strong>24 hores</strong>",
+      doNotShare: "No el comparteixis amb ningú",
+      ignoreMessage: "Si no has sol·licitat aquest canvi, pots ignorar aquest missatge amb total tranquil·litat."
+    },
     accountLocked: {
       locked: "Per la teva seguretat, el teu compte ha estat temporalment bloquejat després de detectar múltiples intents d'accés fallits.",
       attempts: "Per desbloquejar el teu compte i verificar la teva identitat, necessitem que ens enviïs:",
@@ -1322,6 +1362,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       validFor: "Ce code expire dans <strong>10 minutes</strong>",
       doNotShare: "Ne le partagez avec personne",
       notRequested: "Si vous n'avez pas demandé ce changement, ignorez ce message."
+    },
+    profileChangeOtp: {
+      title: "Vérification d'Identité",
+      sensitiveChangeRequest: "Un changement des données sensibles de votre profil a été demandé. Pour confirmer votre identité, utilisez le code de vérification suivant :",
+      yourCode: "Votre code de vérification :",
+      important: "Important :",
+      personalAndConfidential: "Ce code est personnel et confidentiel",
+      validFor: "Valable pendant <strong>24 heures</strong>",
+      doNotShare: "Ne le partagez avec personne",
+      ignoreMessage: "Si vous n'avez pas demandé ce changement, vous pouvez ignorer ce message en toute sécurité."
     },
     accountLocked: {
       locked: "Pour votre sécurité, votre compte a été temporairement verrouillé après la détection de plusieurs tentatives d'accès échouées.",
@@ -1609,6 +1659,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       doNotShare: "Teilen Sie ihn mit niemandem",
       notRequested: "Wenn Sie diese Änderung nicht beantragt haben, ignorieren Sie diese Nachricht."
     },
+    profileChangeOtp: {
+      title: "Identitätsverifizierung",
+      sensitiveChangeRequest: "Eine Änderung sensibler Profildaten wurde angefordert. Um Ihre Identität zu bestätigen, verwenden Sie den folgenden Verifizierungscode:",
+      yourCode: "Ihr Verifizierungscode:",
+      important: "Wichtig:",
+      personalAndConfidential: "Dieser Code ist persönlich und vertraulich",
+      validFor: "Gültig für <strong>24 Stunden</strong>",
+      doNotShare: "Teilen Sie ihn mit niemandem",
+      ignoreMessage: "Wenn Sie diese Änderung nicht angefordert haben, können Sie diese Nachricht bedenkenlos ignorieren."
+    },
     accountLocked: {
       locked: "Zu Ihrer Sicherheit wurde Ihr Konto nach mehreren fehlgeschlagenen Zugriffsversuchen vorübergehend gesperrt.",
       attempts: "Um Ihr Konto zu entsperren und Ihre Identität zu verifizieren, benötigen wir Folgendes von Ihnen:",
@@ -1895,6 +1955,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       doNotShare: "Non condividerlo con nessuno",
       notRequested: "Se non hai richiesto questa modifica, ignora questo messaggio."
     },
+    profileChangeOtp: {
+      title: "Verifica dell'Identità",
+      sensitiveChangeRequest: "È stata richiesta una modifica ai dati sensibili del tuo profilo. Per confermare la tua identità, utilizza il seguente codice di verifica:",
+      yourCode: "Il tuo codice di verifica:",
+      important: "Importante:",
+      personalAndConfidential: "Questo codice è personale e riservato",
+      validFor: "Valido per <strong>24 ore</strong>",
+      doNotShare: "Non condividerlo con nessuno",
+      ignoreMessage: "Se non hai richiesto questa modifica, puoi ignorare questo messaggio in tutta sicurezza."
+    },
     accountLocked: {
       locked: "Per la tua sicurezza, il tuo account è stato temporaneamente bloccato dopo aver rilevato molteplici tentativi di accesso falliti.",
       attempts: "Per sbloccare il tuo account e verificare la tua identità, abbiamo bisogno che ci invii:",
@@ -2180,6 +2250,16 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       validFor: "Este código expira em <strong>10 minutos</strong>",
       doNotShare: "Não o partilhe com ninguém",
       notRequested: "Se não solicitou esta alteração, ignore esta mensagem."
+    },
+    profileChangeOtp: {
+      title: "Verificação de Identidade",
+      sensitiveChangeRequest: "Foi solicitada uma alteração nos dados sensíveis do seu perfil. Para confirmar a sua identidade, utilize o seguinte código de verificação:",
+      yourCode: "O seu código de verificação:",
+      important: "Importante:",
+      personalAndConfidential: "Este código é pessoal e confidencial",
+      validFor: "Válido por <strong>24 horas</strong>",
+      doNotShare: "Não o partilhe com ninguém",
+      ignoreMessage: "Se não solicitou esta alteração, pode ignorar esta mensagem com total tranquilidade."
     },
     accountLocked: {
       locked: "Para sua segurança, a sua conta foi temporariamente bloqueada após a deteção de múltiplas tentativas de acesso falhadas.",
