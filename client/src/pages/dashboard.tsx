@@ -1233,7 +1233,8 @@ export default function Dashboard() {
         {/* Main content area */}
         <div className="flex-1 min-w-0 overflow-y-auto">
       <main className="pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10">
-        <header className="mb-6 md:mb-10 animate-fade-in-up">
+        <header className={`${activeTab === 'services' ? 'mb-6 md:mb-10' : 'mb-4 md:mb-6'} animate-fade-in-up`}>
+          {activeTab === 'services' && (
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
               <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
@@ -1252,6 +1253,7 @@ export default function Dashboard() {
               </Link>
             </div>
           </div>
+          )}
 
           {!user?.emailVerified && (
             <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
