@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Generador de Factures",
-      "invoiceDescription": "Crea factures professionals en PDF amb les dades de la teva LLC americana.",
+      "invoiceDescription": "Genera factures clares i llestes per enviar amb les dades de la teva LLC americana. Oblida't de plantilles complicades o errors de format. Només introdueixes la informació bàsica i tindràs un document professional llest per al teu client o per a la teva comptabilitat.",
       "createInvoice": "Crear Factura",
-      "operatingAgreement": "Acord Operatiu",
-      "operatingDescription": "Genera el teu Operating Agreement personalitzat.",
+      "operatingAgreement": "Operating Agreement",
+      "operatingDescription": "Crea l'Operating Agreement de la teva LLC de forma senzilla i adaptada a la teva estructura empresarial. Aquest document defineix com funciona la teva empresa, la relació entre socis i l'organització interna, tot explicat i preparat per usar.",
       "createAgreement": "Crear Acord",
       "priceCalculator": "Calculadora de Rendibilitat",
-      "calculatorDescription": "Posa preu al teu treball amb criteri professional. Calcula costos, marges i rendibilitat real perquè el teu negoci creixi amb números clars des del primer dia.",
+      "calculatorDescription": "Defineix el preu real dels teus serveis o productes tenint en compte costos, impostos i benefici esperat. Aquesta eina t'ajuda a prendre decisions amb números reals perquè el teu negoci creixi de forma sostenible des del primer moment.",
       "calculate": "Calcular rendibilitat",
       "generateDocument": "Generar Document"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "Descarregar CSV",
       "generating": "Generant...",
       "toolTitle": "Generador CSV Comptable",
-      "toolDescription": "Registra els teus ingressos i despeses per a la teva comptabilitat professional.",
+      "toolDescription": "Registra l'activitat financera de la teva LLC en un format clar i compatible amb comptabilitat professional. Exporta les teves dades quan ho necessitis i mantén un control ordenat per presentar informació a gestors o assessors sense complicacions.",
       "openTool": "Crear Registre",
       "categories": {
         "sales": "Vendes",

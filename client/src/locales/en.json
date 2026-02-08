@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Invoice Generator",
-      "invoiceDescription": "Create professional PDF invoices with your US LLC details.",
+      "invoiceDescription": "Generate clear, ready-to-send invoices with your US LLC details. No complicated templates or formatting errors. Just enter the basic information and get a professional document ready for your client or your bookkeeping.",
       "createInvoice": "Create Invoice",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Generate your personalized Operating Agreement.",
+      "operatingDescription": "Create your LLC Operating Agreement simply and tailored to your business structure. This document defines how your company works, the relationship between partners, and the internal organization, all explained and ready to use.",
       "createAgreement": "Create Agreement",
       "priceCalculator": "Profitability Calculator",
-      "calculatorDescription": "Price your work with professional criteria. Calculate costs, margins and real profitability so your business grows with clear numbers from day one.",
+      "calculatorDescription": "Set the real price of your services or products considering costs, taxes, and expected profit. This tool helps you make decisions with real numbers so your business grows sustainably from day one.",
       "calculate": "Calculate profitability",
       "generateDocument": "Generate Document"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "Download CSV",
       "generating": "Generating...",
       "toolTitle": "Accounting CSV Generator",
-      "toolDescription": "Record your income and expenses for professional bookkeeping.",
+      "toolDescription": "Record the financial activity of your LLC in a clear format compatible with professional bookkeeping. Export your data whenever you need it and keep orderly records to present to accountants or advisors without complications.",
       "openTool": "Create Record",
       "categories": {
         "sales": "Sales",

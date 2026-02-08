@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Rechnungsgenerator",
-      "invoiceDescription": "Erstellen Sie professionelle PDF-Rechnungen mit Ihren US LLC-Daten.",
+      "invoiceDescription": "Erstellen Sie klare, versandfertige Rechnungen mit den Daten Ihrer US LLC. Vergessen Sie komplizierte Vorlagen oder Formatierungsfehler. Geben Sie einfach die grundlegenden Informationen ein und erhalten Sie ein professionelles Dokument für Ihren Kunden oder Ihre Buchhaltung.",
       "createInvoice": "Rechnung erstellen",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Erstellen Sie Ihr personalisiertes Operating Agreement.",
+      "operatingDescription": "Erstellen Sie das Operating Agreement Ihrer LLC einfach und an Ihre Unternehmensstruktur angepasst. Dieses Dokument definiert, wie Ihr Unternehmen funktioniert, die Beziehung zwischen Partnern und die interne Organisation, alles erklärt und einsatzbereit.",
       "createAgreement": "Agreement erstellen",
       "priceCalculator": "Rentabilitätsrechner",
-      "calculatorDescription": "Bepreisen Sie Ihre Arbeit mit professionellen Kriterien. Berechnen Sie Kosten, Margen und reale Rentabilität, damit Ihr Geschäft von Anfang an mit klaren Zahlen wächst.",
+      "calculatorDescription": "Bestimmen Sie den realen Preis Ihrer Dienstleistungen oder Produkte unter Berücksichtigung von Kosten, Steuern und erwartetem Gewinn. Dieses Tool hilft Ihnen, Entscheidungen mit realen Zahlen zu treffen, damit Ihr Geschäft von Anfang an nachhaltig wächst.",
       "calculate": "Rentabilität berechnen",
       "generateDocument": "Dokument generieren"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "CSV herunterladen",
       "generating": "Wird erstellt...",
       "toolTitle": "Buchhaltungs-CSV-Generator",
-      "toolDescription": "Erfassen Sie Ihre Einnahmen und Ausgaben für die professionelle Buchführung.",
+      "toolDescription": "Erfassen Sie die finanzielle Aktivität Ihrer LLC in einem klaren Format, das mit professioneller Buchhaltung kompatibel ist. Exportieren Sie Ihre Daten bei Bedarf und führen Sie eine geordnete Kontrolle, um Informationen ohne Komplikationen an Berater weiterzugeben.",
       "openTool": "Datensatz erstellen",
       "categories": {
         "sales": "Verkäufe",

@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Generatore di Fatture",
-      "invoiceDescription": "Crea fatture professionali in PDF con i dati della tua LLC americana.",
+      "invoiceDescription": "Genera fatture chiare e pronte da inviare con i dati della tua LLC americana. Dimentica modelli complicati o errori di formato. Inserisci solo le informazioni di base e avrai un documento professionale pronto per il tuo cliente o per la tua contabilità.",
       "createInvoice": "Crea Fattura",
-      "operatingAgreement": "Accordo Operativo",
-      "operatingDescription": "Genera il tuo Operating Agreement personalizzato.",
+      "operatingAgreement": "Operating Agreement",
+      "operatingDescription": "Crea l'Operating Agreement della tua LLC in modo semplice e adattato alla tua struttura aziendale. Questo documento definisce come funziona la tua azienda, il rapporto tra soci e l'organizzazione interna, tutto spiegato e pronto all'uso.",
       "createAgreement": "Crea Accordo",
       "priceCalculator": "Calcolatore di Redditività",
-      "calculatorDescription": "Dai un prezzo al tuo lavoro con criterio professionale. Calcola costi, margini e redditività reale affinché il tuo business cresca con numeri chiari fin dal primo giorno.",
+      "calculatorDescription": "Definisci il prezzo reale dei tuoi servizi o prodotti tenendo conto di costi, tasse e profitto previsto. Questo strumento ti aiuta a prendere decisioni con numeri reali affinché il tuo business cresca in modo sostenibile fin dal primo momento.",
       "calculate": "Calcola redditività",
       "generateDocument": "Genera Documento"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "Scarica CSV",
       "generating": "Generazione...",
       "toolTitle": "Generatore CSV Contabile",
-      "toolDescription": "Registra le tue entrate e uscite per la tua contabilità professionale.",
+      "toolDescription": "Registra l'attività finanziaria della tua LLC in un formato chiaro e compatibile con la contabilità professionale. Esporta i tuoi dati quando ne hai bisogno e mantieni un controllo ordinato per presentare informazioni a gestori o consulenti senza complicazioni.",
       "openTool": "Crea Registro",
       "categories": {
         "sales": "Vendite",

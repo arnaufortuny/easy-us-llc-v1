@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Générateur de factures",
-      "invoiceDescription": "Créez des factures PDF professionnelles avec les détails de votre LLC américaine.",
+      "invoiceDescription": "Générez des factures claires et prêtes à envoyer avec les données de votre LLC américaine. Oubliez les modèles compliqués ou les erreurs de format. Entrez simplement les informations de base et obtenez un document professionnel prêt pour votre client ou votre comptabilité.",
       "createInvoice": "Créer une facture",
       "operatingAgreement": "Operating Agreement",
-      "operatingDescription": "Générez votre Operating Agreement personnalisé.",
+      "operatingDescription": "Créez l'Operating Agreement de votre LLC simplement et adapté à votre structure d'entreprise. Ce document définit le fonctionnement de votre entreprise, la relation entre associés et l'organisation interne, le tout expliqué et prêt à utiliser.",
       "createAgreement": "Créer un accord",
       "priceCalculator": "Calculateur de Rentabilité",
-      "calculatorDescription": "Fixez le prix de votre travail avec des critères professionnels. Calculez les coûts, marges et rentabilité réelle pour que votre activité grandisse avec des chiffres clairs dès le premier jour.",
+      "calculatorDescription": "Définissez le prix réel de vos services ou produits en tenant compte des coûts, des impôts et du bénéfice attendu. Cet outil vous aide à prendre des décisions avec des chiffres réels pour que votre activité grandisse durablement dès le premier jour.",
       "calculate": "Calculer la rentabilité",
       "generateDocument": "Générer le document"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "Télécharger CSV",
       "generating": "Génération en cours...",
       "toolTitle": "Générateur CSV comptable",
-      "toolDescription": "Enregistrez vos revenus et dépenses pour une comptabilité professionnelle.",
+      "toolDescription": "Enregistrez l'activité financière de votre LLC dans un format clair et compatible avec la comptabilité professionnelle. Exportez vos données quand vous en avez besoin et maintenez un contrôle ordonné pour présenter les informations à vos gestionnaires ou conseillers sans complications.",
       "openTool": "Créer un enregistrement",
       "categories": {
         "sales": "Ventes",

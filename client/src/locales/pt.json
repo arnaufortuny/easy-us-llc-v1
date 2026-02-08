@@ -1361,13 +1361,13 @@
     },
     "clientTools": {
       "invoiceGenerator": "Gerador de Faturas",
-      "invoiceDescription": "Cria faturas profissionais em PDF com os dados da tua LLC americana.",
+      "invoiceDescription": "Gera faturas claras e prontas para enviar com os dados da tua LLC americana. Esquece modelos complicados ou erros de formato. Basta introduzires a informação básica e terás um documento profissional pronto para o teu cliente ou para a tua contabilidade.",
       "createInvoice": "Criar Fatura",
-      "operatingAgreement": "Acordo Operativo",
-      "operatingDescription": "Gera o teu Operating Agreement personalizado.",
+      "operatingAgreement": "Operating Agreement",
+      "operatingDescription": "Cria o Operating Agreement da tua LLC de forma simples e adaptada à tua estrutura empresarial. Este documento define como funciona a tua empresa, a relação entre sócios e a organização interna, tudo explicado e preparado para usar.",
       "createAgreement": "Criar Acordo",
       "priceCalculator": "Calculadora de Rentabilidade",
-      "calculatorDescription": "Dá preço ao teu trabalho com critério profissional. Calcula custos, margens e rentabilidade real para que o teu negócio cresça com números claros desde o primeiro dia.",
+      "calculatorDescription": "Define o preço real dos teus serviços ou produtos tendo em conta custos, impostos e lucro esperado. Esta ferramenta ajuda-te a tomar decisões com números reais para que o teu negócio cresça de forma sustentável desde o primeiro momento.",
       "calculate": "Calcular rentabilidade",
       "generateDocument": "Gerar Documento"
     },
@@ -2803,7 +2803,7 @@
       "downloadCsv": "Descarregar CSV",
       "generating": "A gerar...",
       "toolTitle": "Gerador CSV Contabilístico",
-      "toolDescription": "Regista as tuas receitas e despesas para a tua contabilidade profissional.",
+      "toolDescription": "Regista a atividade financeira da tua LLC num formato claro e compatível com contabilidade profissional. Exporta os teus dados quando precisares e mantém um controlo ordenado para apresentar informação a gestores ou consultores sem complicações.",
       "openTool": "Criar Registo",
       "categories": {
         "sales": "Vendas",
