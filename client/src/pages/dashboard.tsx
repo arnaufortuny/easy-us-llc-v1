@@ -36,6 +36,7 @@ import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultati
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 import { LoadingScreen } from "@/components/loading-screen";
+import { WalletTab } from "@/components/dashboard/wallet-tab";
 
 export default function Dashboard() {
   const [, setLocation] = useLocation();
@@ -793,6 +794,7 @@ export default function Dashboard() {
     { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
     { id: 'messages', label: t('dashboard.tabs.messages'), icon: Mail, mobileLabel: t('dashboard.tabs.messagesMobile'), tour: 'messages' },
     { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText, mobileLabel: t('dashboard.tabs.documentsMobile') },
+    { id: 'wallet', label: t('dashboard.tabs.wallet'), icon: Wallet, mobileLabel: t('dashboard.tabs.walletMobile') },
     { id: 'payments', label: t('dashboard.tabs.payments'), icon: CreditCard, mobileLabel: t('dashboard.tabs.paymentsMobile') },
     { id: 'calendar', label: t('dashboard.tabs.calendar'), icon: Calendar, mobileLabel: t('dashboard.tabs.calendarMobile'), tour: 'calendar' },
     { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
@@ -1623,6 +1625,10 @@ export default function Dashboard() {
                     ))}
                   </div>
                 </div>
+              )}
+
+              {activeTab === 'wallet' && (
+                <WalletTab />
               )}
 
               {activeTab === 'payments' && (

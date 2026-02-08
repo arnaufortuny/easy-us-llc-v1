@@ -1318,7 +1318,9 @@
       "notifications": "Notificacions",
       "notificationsMobile": "Notif.",
       "profile": "El Meu Perfil",
-      "profileMobile": "Perfil"
+      "profileMobile": "Perfil",
+      "wallet": "Wallet",
+      "walletMobile": "Wallet"
     },
     "accountDeactivated": {
       "title": "Compte desactivat",
@@ -3070,5 +3072,31 @@
         "answer": "Clar. Pots parlar amb nosaltres abans de prendre qualsevol decisió. Preferim que entenguis bé tot abans de començar."
       }
     }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "subtitle": "Gestiona el teu compte bancari empresarial i transaccions",
+    "availableBalance": "Saldo disponible",
+    "sendMoney": "Enviar diners",
+    "generateStatement": "Generar extracte PDF",
+    "accountDetails": "Dades del compte",
+    "accountHolder": "Titular del compte",
+    "bankInformation": "Informació bancària",
+    "bankName": "Nom del banc",
+    "bankAddress": "Adreça del banc",
+    "currency": "Divisa",
+    "accountStatus": "Estat del compte",
+    "active": "Actiu",
+    "recentTransactions": "Transaccions recents",
+    "noTransactions": "Sense transaccions",
+    "noTransactionsDesc": "El teu historial de transaccions apareixerà aquí quan comencis a fer transferències.",
+    "copied": "Copiat",
+    "copiedToClipboard": "copiat al porta-retalls",
+    "statementUnavailable": "Extracte no disponible",
+    "statementUnavailableDesc": "El servei de generació d'extractes no està disponible actualment. Torna-ho a provar més tard.",
+    "transferUnavailable": "Transferències no disponibles",
+    "transferUnavailableDesc": "El servei de transferències no està disponible actualment. Torna-ho a provar més tard.",
+    "received": "Rebut",
+    "sent": "Enviat"
   }
 }

@@ -1318,7 +1318,9 @@
       "notifications": "Notifiche",
       "notificationsMobile": "Notif.",
       "profile": "Il Mio Profilo",
-      "profileMobile": "Profilo"
+      "profileMobile": "Profilo",
+      "wallet": "Wallet",
+      "walletMobile": "Wallet"
     },
     "accountDeactivated": {
       "title": "Account disattivato",
@@ -3070,5 +3072,31 @@
         "answer": "Certo. Puoi parlare con noi prima di prendere qualsiasi decisione. Preferiamo che tu capisca bene tutto prima di iniziare."
       }
     }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "subtitle": "Gestisci il tuo conto bancario aziendale e le transazioni",
+    "availableBalance": "Saldo disponibile",
+    "sendMoney": "Invia denaro",
+    "generateStatement": "Genera estratto PDF",
+    "accountDetails": "Dettagli del conto",
+    "accountHolder": "Intestatario del conto",
+    "bankInformation": "Informazioni bancarie",
+    "bankName": "Nome della banca",
+    "bankAddress": "Indirizzo della banca",
+    "currency": "Valuta",
+    "accountStatus": "Stato del conto",
+    "active": "Attivo",
+    "recentTransactions": "Transazioni recenti",
+    "noTransactions": "Nessuna transazione",
+    "noTransactionsDesc": "La cronologia delle transazioni apparirà qui quando inizierai a effettuare trasferimenti.",
+    "copied": "Copiato",
+    "copiedToClipboard": "copiato negli appunti",
+    "statementUnavailable": "Estratto non disponibile",
+    "statementUnavailableDesc": "Il servizio di generazione estratti non è attualmente disponibile. Riprova più tardi.",
+    "transferUnavailable": "Trasferimenti non disponibili",
+    "transferUnavailableDesc": "Il servizio di trasferimenti non è attualmente disponibile. Riprova più tardi.",
+    "received": "Ricevuto",
+    "sent": "Inviato"
   }
 }

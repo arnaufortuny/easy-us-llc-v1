@@ -1318,7 +1318,9 @@
       "notifications": "Notifications",
       "notificationsMobile": "Notif.",
       "profile": "Mon Profil",
-      "profileMobile": "Profil"
+      "profileMobile": "Profil",
+      "wallet": "Wallet",
+      "walletMobile": "Wallet"
     },
     "accountDeactivated": {
       "title": "Compte désactivé",
@@ -3070,5 +3072,31 @@
         "answer": "Bien sûr. Vous pouvez nous parler avant de prendre toute décision. Nous préférons que vous compreniez bien tout avant de commencer."
       }
     }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "subtitle": "Gérez votre compte bancaire professionnel et vos transactions",
+    "availableBalance": "Solde disponible",
+    "sendMoney": "Envoyer de l'argent",
+    "generateStatement": "Générer un relevé PDF",
+    "accountDetails": "Détails du compte",
+    "accountHolder": "Titulaire du compte",
+    "bankInformation": "Informations bancaires",
+    "bankName": "Nom de la banque",
+    "bankAddress": "Adresse de la banque",
+    "currency": "Devise",
+    "accountStatus": "Statut du compte",
+    "active": "Actif",
+    "recentTransactions": "Transactions récentes",
+    "noTransactions": "Aucune transaction",
+    "noTransactionsDesc": "Votre historique de transactions apparaîtra ici lorsque vous commencerez à effectuer des virements.",
+    "copied": "Copié",
+    "copiedToClipboard": "copié dans le presse-papiers",
+    "statementUnavailable": "Relevé non disponible",
+    "statementUnavailableDesc": "Le service de génération de relevés n'est pas disponible actuellement. Veuillez réessayer plus tard.",
+    "transferUnavailable": "Virements non disponibles",
+    "transferUnavailableDesc": "Le service de virements n'est pas disponible actuellement. Veuillez réessayer plus tard.",
+    "received": "Reçu",
+    "sent": "Envoyé"
   }
 }

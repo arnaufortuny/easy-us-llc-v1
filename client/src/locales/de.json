@@ -1318,7 +1318,9 @@
       "notifications": "Benachrichtigungen",
       "notificationsMobile": "Benachr.",
       "profile": "Mein Profil",
-      "profileMobile": "Profil"
+      "profileMobile": "Profil",
+      "wallet": "Wallet",
+      "walletMobile": "Wallet"
     },
     "accountDeactivated": {
       "title": "Konto deaktiviert",
@@ -3070,5 +3072,31 @@
         "answer": "Natürlich. Sie können vor jeder Entscheidung mit uns sprechen. Wir ziehen es vor, dass Sie alles gut verstehen, bevor Sie beginnen."
       }
     }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "subtitle": "Verwalten Sie Ihr Geschäftskonto und Ihre Transaktionen",
+    "availableBalance": "Verfügbares Guthaben",
+    "sendMoney": "Geld senden",
+    "generateStatement": "PDF-Kontoauszug generieren",
+    "accountDetails": "Kontodaten",
+    "accountHolder": "Kontoinhaber",
+    "bankInformation": "Bankinformationen",
+    "bankName": "Bankname",
+    "bankAddress": "Bankadresse",
+    "currency": "Währung",
+    "accountStatus": "Kontostatus",
+    "active": "Aktiv",
+    "recentTransactions": "Letzte Transaktionen",
+    "noTransactions": "Noch keine Transaktionen",
+    "noTransactionsDesc": "Ihr Transaktionsverlauf wird hier angezeigt, sobald Sie Überweisungen tätigen.",
+    "copied": "Kopiert",
+    "copiedToClipboard": "in die Zwischenablage kopiert",
+    "statementUnavailable": "Kontoauszug nicht verfügbar",
+    "statementUnavailableDesc": "Der Kontoauszugsdienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    "transferUnavailable": "Überweisungen nicht verfügbar",
+    "transferUnavailableDesc": "Der Überweisungsdienst ist derzeit nicht verfügbar. Bitte versuchen Sie es später erneut.",
+    "received": "Empfangen",
+    "sent": "Gesendet"
   }
 }

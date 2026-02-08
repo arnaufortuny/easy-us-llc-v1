@@ -1318,7 +1318,9 @@
       "notifications": "Notifications",
       "notificationsMobile": "Notif.",
       "profile": "My Profile",
-      "profileMobile": "Profile"
+      "profileMobile": "Profile",
+      "wallet": "Wallet",
+      "walletMobile": "Wallet"
     },
     "accountDeactivated": {
       "title": "Account Deactivated",
@@ -3070,5 +3072,31 @@
         "answer": "Of course. You can talk to us before making any decision. We prefer that you fully understand everything before getting started."
       }
     }
+  },
+  "wallet": {
+    "title": "Wallet",
+    "subtitle": "Manage your business account and transactions",
+    "availableBalance": "Available balance",
+    "sendMoney": "Send money",
+    "generateStatement": "Generate PDF statement",
+    "accountDetails": "Account details",
+    "accountHolder": "Account holder",
+    "bankInformation": "Bank information",
+    "bankName": "Bank name",
+    "bankAddress": "Bank address",
+    "currency": "Currency",
+    "accountStatus": "Account status",
+    "active": "Active",
+    "recentTransactions": "Recent transactions",
+    "noTransactions": "No transactions yet",
+    "noTransactionsDesc": "Your transaction history will appear here once you start making transfers.",
+    "copied": "Copied",
+    "copiedToClipboard": "copied to clipboard",
+    "statementUnavailable": "Statement unavailable",
+    "statementUnavailableDesc": "The statement generation service is currently unavailable. Please try again later.",
+    "transferUnavailable": "Transfers unavailable",
+    "transferUnavailableDesc": "The transfer service is currently unavailable. Please try again later.",
+    "received": "Received",
+    "sent": "Sent"
   }
 }
