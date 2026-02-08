@@ -1458,13 +1458,13 @@
       "invoiceLabel": "Fattura"
     },
     "calendar": {
-      "title": "Il Mio Calendario Fiscale",
-      "subtitle": "Date importanti e scadenze della tua LLC",
+      "title": "Il tuo calendario fiscale",
+      "subtitle": "Le date chiave e gli obblighi fiscali della tua LLC, tutto in un unico posto.",
       "cancelled": "Cancellata",
       "inReview": "In revisione",
       "completed": "Completato",
       "pendingDates": "Date in attesa di configurazione",
-      "emptyDescription": "Le tue scadenze fiscali appariranno qui una volta costituita la tua LLC.",
+      "emptyDescription": "Quando la tua LLC sarà costituita, qui troverai tutte le scadenze fiscali importanti per non doverti preoccupare di termini, moduli o obblighi. Ti aiutiamo a tenere tutto sotto controllo e organizzato per poterti concentrare sulla crescita del tuo business.",
       "createLlc": "Costituisci la mia LLC",
       "creation": "Creazione",
       "creationFull": "Creazione della LLC",

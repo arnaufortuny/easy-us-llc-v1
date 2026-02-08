@@ -1499,13 +1499,13 @@
       "invoiceLabel": "Facture"
     },
     "calendar": {
-      "title": "Mon calendrier fiscal",
-      "subtitle": "Dates et échéances importantes pour votre LLC",
+      "title": "Votre calendrier fiscal",
+      "subtitle": "Les dates clés et obligations fiscales de votre LLC, tout en un seul endroit.",
       "cancelled": "Annulé",
       "inReview": "En vérification",
       "completed": "Terminé",
       "pendingDates": "Dates en attente de configuration",
-      "emptyDescription": "Vos échéances fiscales apparaîtront ici une fois votre LLC créée.",
+      "emptyDescription": "Lorsque votre LLC sera créée, vous trouverez ici toutes les échéances fiscales importantes pour ne plus vous soucier des délais, formulaires ou obligations. Nous vous aidons à tout contrôler et organiser pour que vous puissiez vous concentrer sur la croissance de votre activité.",
       "createLlc": "Créer ma LLC",
       "creation": "Création",
       "creationFull": "Création de la LLC",

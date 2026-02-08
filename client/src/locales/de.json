@@ -1458,13 +1458,13 @@
       "invoiceLabel": "Rechnung"
     },
     "calendar": {
-      "title": "Mein Steuerkalender",
-      "subtitle": "Wichtige Termine und Fristen für Ihre LLC",
+      "title": "Ihr Steuerkalender",
+      "subtitle": "Die wichtigsten Termine und steuerlichen Pflichten Ihrer LLC, alles an einem Ort.",
       "cancelled": "Storniert",
       "inReview": "In Überprüfung",
       "completed": "Abgeschlossen",
       "pendingDates": "Termine ausstehend zur Konfiguration",
-      "emptyDescription": "Ihre Steuerfristen erscheinen hier, sobald Sie Ihre LLC gegründet haben.",
+      "emptyDescription": "Sobald Ihre LLC gegründet ist, finden Sie hier alle wichtigen Steuerfristen, damit Sie sich keine Sorgen um Fristen, Formulare oder Pflichten machen müssen. Wir helfen Ihnen, alles unter Kontrolle und organisiert zu halten, damit Sie sich auf das Wachstum Ihres Geschäfts konzentrieren können.",
       "createLlc": "Meine LLC gründen",
       "creation": "Gründung",
       "creationFull": "LLC-Gründung",

@@ -1458,13 +1458,13 @@
       "invoiceLabel": "Factura"
     },
     "calendar": {
-      "title": "El Meu Calendari Fiscal",
-      "subtitle": "Dates importants i venciments de la teva LLC",
+      "title": "El teu calendari fiscal",
+      "subtitle": "Les dates clau i obligacions fiscals de la teva LLC, tot en un sol lloc.",
       "cancelled": "Cancel·lada",
       "inReview": "En revisió",
       "completed": "Completat",
       "pendingDates": "Dates pendents de configuració",
-      "emptyDescription": "Els teus venciments fiscals apareixeran aquí un cop constitueixes la teva LLC.",
+      "emptyDescription": "Quan la teva LLC estigui constituïda, aquí trobaràs tots els venciments fiscals importants perquè no hagis de preocupar-te per terminis, formularis o obligacions. T'ajudem a tenir-ho tot controlat i organitzat perquè puguis centrar-te en fer créixer el teu negoci.",
       "createLlc": "Constituir la meva LLC",
       "creation": "Creació",
       "creationFull": "Creació de LLC",

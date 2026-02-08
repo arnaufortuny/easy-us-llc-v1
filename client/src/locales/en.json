@@ -1458,13 +1458,13 @@
       "invoiceLabel": "Invoice"
     },
     "calendar": {
-      "title": "My Tax Calendar",
-      "subtitle": "Important dates and deadlines for your LLC",
+      "title": "Your tax calendar",
+      "subtitle": "Key dates and tax obligations for your LLC, all in one place.",
       "cancelled": "Cancelled",
       "inReview": "In review",
       "completed": "Completed",
       "pendingDates": "Dates pending configuration",
-      "emptyDescription": "Your tax deadlines will appear here once you form your LLC.",
+      "emptyDescription": "Once your LLC is formed, you will find all important tax deadlines here so you don't have to worry about deadlines, forms, or obligations. We help you keep everything under control and organized so you can focus on growing your business.",
       "createLlc": "Form my LLC",
       "creation": "Creation",
       "creationFull": "LLC Creation",

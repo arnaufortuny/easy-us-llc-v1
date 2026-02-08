@@ -1458,13 +1458,13 @@
       "invoiceLabel": "Factura"
     },
     "calendar": {
-      "title": "Mi Calendario Fiscal",
-      "subtitle": "Fechas importantes y vencimientos de tu LLC",
+      "title": "Tu calendario fiscal",
+      "subtitle": "Las fechas clave y obligaciones fiscales de tu LLC, todo en un solo lugar.",
       "cancelled": "Cancelada",
       "inReview": "En revisión",
       "completed": "Completado",
       "pendingDates": "Fechas pendientes de configuración",
-      "emptyDescription": "Tus vencimientos fiscales aparecerán aquí una vez constituyas tu LLC.",
+      "emptyDescription": "Cuando tu LLC esté constituida, aquí encontrarás todos los vencimientos fiscales importantes para que no tengas que preocuparte por plazos, formularios u obligaciones. Te ayudamos a tenerlo todo controlado y organizado para que puedas centrarte en hacer crecer tu negocio.",
       "createLlc": "Constituir mi LLC",
       "creation": "Creación",
       "creationFull": "Creación de LLC",

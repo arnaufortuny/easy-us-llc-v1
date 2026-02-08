@@ -1458,9 +1458,9 @@
       "invoiceLabel": "Fatura"
     },
     "calendar": {
-      "title": "O Meu Calendário Fiscal",
-      "subtitle": "Datas importantes e vencimentos da tua LLC",
-      "emptyDescription": "Ao constituir a tua LLC, verás aqui todos os vencimentos importantes.",
+      "title": "O teu calendário fiscal",
+      "subtitle": "As datas-chave e obrigações fiscais da tua LLC, tudo num só lugar.",
+      "emptyDescription": "Quando a tua LLC estiver constituída, aqui encontrarás todos os vencimentos fiscais importantes para que não tenhas de te preocupar com prazos, formulários ou obrigações. Ajudamos-te a ter tudo controlado e organizado para que possas concentrar-te em fazer crescer o teu negócio.",
       "cancelled": "Cancelada",
       "inReview": "Em revisão",
       "completed": "Completado",
