@@ -354,9 +354,9 @@ export default function InvoiceGenerator() {
               <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight">{t('tools.invoiceGenerator.title')}</h1>
               <p className="text-muted-foreground text-xs sm:text-sm mt-1">{t('tools.invoiceGenerator.subtitle')}</p>
             </div>
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-3 shrink-0">
               <div className="flex items-center gap-2">
-                <Label className="text-xs text-muted-foreground whitespace-nowrap hidden sm:block">{t("tools.exportLanguage", "PDF language")}:</Label>
+                <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "PDF language")}:</Label>
                 <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang">
                   {EXPORT_LANGUAGES.map(lang => (
                     <option key={lang.code} value={lang.code}>{lang.label}</option>
@@ -665,6 +665,30 @@ export default function InvoiceGenerator() {
                 className="resize-none rounded-lg"
                 data-testid="input-notes"
               />
+            </CardContent>
+          </Card>
+
+          <Card className="border-0 shadow-sm rounded-2xl sm:hidden">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2 flex-1 min-w-0">
+                  <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage", "PDF language")}:</Label>
+                  <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang-mobile">
+                    {EXPORT_LANGUAGES.map(lang => (
+                      <option key={lang.code} value={lang.code}>{lang.label}</option>
+                    ))}
+                  </NativeSelect>
+                </div>
+                <Button
+                  onClick={generatePDF}
+                  disabled={isGenerating}
+                  className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5 shrink-0"
+                  data-testid="button-generate-pdf-mobile"
+                >
+                  <FileDown className="w-4 h-4 mr-2" />
+                  {isGenerating ? t('tools.invoiceGenerator.generating') : t('tools.invoiceGenerator.generatePdf')}
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
