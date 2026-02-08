@@ -1452,7 +1452,7 @@
       "title": "Historial de Pagos",
       "subtitle": "Tus facturas y recibos",
       "empty": "Aún no tienes ningún pago registrado",
-      "emptyDesc": "Cuando contrates algún servicio, los pagos aparecerán aquí para que puedas consultarlos siempre que quieras.",
+      "emptyDesc": "Cuando contrates un servicio con nosotros, todos los pagos quedarán registrados en este espacio para que puedas revisarlos fácilmente, consultar tu historial y tener una visión clara de los servicios contratados.",
       "invoice": "Factura",
       "viewServices": "Ver servicios",
       "invoiceLabel": "Factura"
