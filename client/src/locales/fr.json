@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Bienvenue, {{name}}",
-    "subtitle": "Gérez tout ce qui concerne votre LLC, simplement et clairement.",
+    "subtitle": "Ici, vous pouvez gérer tout ce qui concerne votre LLC, suivre l'état de vos démarches et accéder aux services dont vous avez besoin de manière simple, claire et organisée.",
     "clientArea": "Espace Client",
     "defaultName": "Client",
     "newLLC": "Créer une nouvelle LLC",
@@ -1372,10 +1372,10 @@
       "generateDocument": "Générer le document"
     },
     "services": {
-      "title": "Statut de mes demandes",
-      "subtitle": "Gérez vos demandes actives",
-      "empty": "Vous n'avez pas encore de services actifs",
-      "emptyDescription": "Commencez dès aujourd'hui et créez votre LLC américaine en quelques étapes.",
+      "title": "Vos services",
+      "subtitle": "Consultez et gérez les services souscrits et le progrès de vos démarches à tout moment.",
+      "empty": "Vous n'avez encore aucun service actif",
+      "emptyDescription": "Lorsque vous déciderez de commencer, vous pourrez créer votre LLC aux États-Unis et accéder à tous les outils et services nécessaires pour gérer votre entreprise de manière sécurisée et organisée.",
       "viewPlans": "Voir les plans disponibles",
       "formLLC": "Créer ma LLC",
       "pendingApplication": "Demande en attente",

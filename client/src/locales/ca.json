@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "La Meva Àrea",
     "welcome": "Benvingut, {{name}}",
-    "subtitle": "Aquí gestiones tot el relacionat amb la teva LLC, de forma simple i clara.",
+    "subtitle": "Aquí pots gestionar tot el relacionat amb la teva LLC, seguir l'estat dels teus tràmits i accedir als serveis que necessitis de manera simple, clara i ordenada.",
     "clientArea": "Àrea de Clients",
     "defaultName": "Client",
     "newLLC": "Constituir una nova LLC",
@@ -1372,10 +1372,10 @@
       "generateDocument": "Generar Document"
     },
     "services": {
-      "title": "Els meus tràmits",
-      "subtitle": "Gestiona els teus tràmits actius",
-      "empty": "Encara no tens serveis actius",
-      "emptyDescription": "Comença avui i constitueix la teva LLC als EUA en pocs passos.",
+      "title": "Els teus serveis",
+      "subtitle": "Consulta i gestiona els serveis contractats i el progrés dels teus tràmits en qualsevol moment.",
+      "empty": "Encara no tens cap servei actiu",
+      "emptyDescription": "Quan decideixis començar, podràs constituir la teva LLC als Estats Units i accedir a totes les eines i serveis necessaris per gestionar el teu negoci de forma segura i organitzada.",
       "viewPlans": "Veure plans disponibles",
       "formLLC": "Constituir la meva LLC",
       "pendingApplication": "Sol·licitud pendent de completar",

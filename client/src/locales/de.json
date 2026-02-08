@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Willkommen, {{name}}",
-    "subtitle": "Verwalten Sie alles rund um Ihre LLC, einfach und übersichtlich.",
+    "subtitle": "Hier können Sie alles rund um Ihre LLC verwalten, den Status Ihrer Anträge verfolgen und auf die benötigten Dienstleistungen einfach, klar und geordnet zugreifen.",
     "clientArea": "Kundenbereich",
     "defaultName": "Kunde",
     "newLLC": "Neue LLC gründen",
@@ -1372,10 +1372,10 @@
       "generateDocument": "Dokument generieren"
     },
     "services": {
-      "title": "Mein Antragsstatus",
-      "subtitle": "Verwalten Sie Ihre aktiven Anträge",
-      "empty": "Sie haben noch keine aktiven Dienste",
-      "emptyDescription": "Starten Sie noch heute und gründen Sie Ihre US LLC in nur wenigen Schritten.",
+      "title": "Ihre Dienstleistungen",
+      "subtitle": "Sehen und verwalten Sie Ihre beauftragten Dienstleistungen und verfolgen Sie den Fortschritt Ihrer Anträge jederzeit.",
+      "empty": "Sie haben noch keine aktiven Dienstleistungen",
+      "emptyDescription": "Wenn Sie sich entscheiden loszulegen, können Sie Ihre LLC in den USA gründen und auf alle Werkzeuge und Dienstleistungen zugreifen, die Sie für eine sichere und organisierte Geschäftsführung benötigen.",
       "viewPlans": "Verfügbare Pläne anzeigen",
       "formLLC": "Meine LLC gründen",
       "pendingApplication": "Ausstehender Antrag",

@@ -1294,7 +1294,7 @@
   "dashboard": {
     "title": "Mi Área",
     "welcome": "Bienvenido, {{name}}",
-    "subtitle": "Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.",
+    "subtitle": "Aquí puedes gestionar todo lo relacionado con tu LLC, seguir el estado de tus trámites y acceder a los servicios que necesites de manera simple, clara y ordenada.",
     "clientArea": "Área de Clientes",
     "defaultName": "Cliente",
     "newLLC": "Constituir una nueva LLC",
@@ -1372,10 +1372,10 @@
       "generateDocument": "Generar documento"
     },
     "services": {
-      "title": "Mis trámites",
-      "subtitle": "Gestiona tus trámites activos",
-      "empty": "Aún no tienes servicios activos",
-      "emptyDescription": "Empieza hoy y constituye tu LLC en EE. UU. en pocos pasos.",
+      "title": "Tus servicios",
+      "subtitle": "Consulta y gestiona los servicios contratados y el progreso de tus trámites en cualquier momento.",
+      "empty": "Aún no tienes ningún servicio activo",
+      "emptyDescription": "Cuando decidas empezar, podrás constituir tu LLC en Estados Unidos y acceder a todas las herramientas y servicios necesarios para gestionar tu negocio de forma segura y organizada.",
       "viewPlans": "Ver planes disponibles",
       "formLLC": "Constituir mi LLC",
       "pendingApplication": "Solicitud pendiente de completar",
