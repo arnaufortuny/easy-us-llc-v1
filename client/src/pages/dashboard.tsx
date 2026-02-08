@@ -2600,7 +2600,7 @@ export default function Dashboard() {
                             sendNoteMutation.mutate({ 
                               userId: docDialog.user.id, 
                               title: `Solicitud de Documento: ${docLabel}`, 
-                              message: docMessage || `Por favor, sube tu ${docLabel} a tu panel de cliente.`, 
+                              message: docMessage || `Por favor, sube tu ${docLabel} a tu área de clientes.`, 
                               type: 'action_required' 
                             });
                             setDocDialog({ open: false, user: null });

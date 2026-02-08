@@ -702,7 +702,7 @@
         "title": "Client Area",
         "subtitle": "Manage your LLC, access your documents, and stay tax-compliant from a private space designed for global entrepreneurs.",
         "feature1": {
-          "title": "Control panel",
+          "title": "Dashboard",
           "desc": "Check the status of your company, active services, and every procedure in real time. You'll always know where your LLC stands and what comes next."
         },
         "feature2": {
@@ -1572,7 +1572,7 @@
       "adminReviewContact": "If you have questions, contact our team:"
     },
     "admin": {
-      "title": "Administration Panel",
+      "title": "Administration",
       "newClient": "New Client",
       "createClient": "Create Client",
       "searchPlaceholder": "Search client, order or ticket ID...",
@@ -1647,7 +1647,7 @@
       "supportPermissionsDesc": "Can view orders, request documents and reply to inquiries",
       "sendMessage": "Send Message",
       "sendMessageTitle": "Send Message to Client",
-      "clientNotification": "Client will receive notification in their panel and email",
+      "clientNotification": "Client will receive notification in their client area and email",
       "messageTitle": "Title",
       "messageTitlePlaceholder": "Message title",
       "message": "Message",
@@ -2110,7 +2110,10 @@
     "ready": {
       "title": "Ready to start",
       "description": "If you have questions, use the Messages section."
-    }
+    },
+    "back": "Back",
+    "next": "Next",
+    "start": "Let's go!"
   },
   "contact": {
     "title": "Contact",

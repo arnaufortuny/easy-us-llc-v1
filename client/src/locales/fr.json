@@ -1572,7 +1572,7 @@
       "adminReviewContact": "Si vous avez des questions, contactez notre équipe :"
     },
     "admin": {
-      "title": "Panneau d'administration",
+      "title": "Administration",
       "newClient": "Nouveau client",
       "createClient": "Créer un client",
       "searchPlaceholder": "Rechercher client, commande ou ID de ticket...",
@@ -2110,7 +2110,10 @@
     "ready": {
       "title": "Prêt à commencer",
       "description": "Si vous avez des questions, utilisez la section Messages."
-    }
+    },
+    "back": "Retour",
+    "next": "Suivant",
+    "start": "C'est parti !"
   },
   "contact": {
     "title": "Contact",

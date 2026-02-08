@@ -146,9 +146,9 @@
     "faq": "FAQ",
     "contact": "Habla con un experto",
     "login": "Mi Cuenta",
-    "myArea": "Mi Panel",
+    "myArea": "Mi Área",
     "register": "Constituye ahora tu LLC",
-    "dashboard": "Panel de control",
+    "dashboard": "Dashboard",
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "logout": "Cerrar sesión"
@@ -702,7 +702,7 @@
         "title": "Área de Clientes",
         "subtitle": "Gestiona tu LLC, accede a tu documentación y mantén el cumplimiento fiscal desde un espacio privado pensado para emprendedores globales.",
         "feature1": {
-          "title": "Panel de control",
+          "title": "Dashboard",
           "desc": "Consulta el estado de tu empresa, servicios activos y cada trámite en tiempo real. Siempre sabrás en qué punto está tu LLC y cuáles son los siguientes pasos."
         },
         "feature2": {
@@ -1292,7 +1292,7 @@
     }
   },
   "dashboard": {
-    "title": "Panel de Control",
+    "title": "Mi Área",
     "welcome": "Bienvenido, {{name}}",
     "subtitle": "Aquí gestionas todo lo relacionado con tu LLC, de forma simple y clara.",
     "clientArea": "Área de Clientes",
@@ -1572,7 +1572,7 @@
       "adminReviewContact": "Si tienes dudas, contacta con nuestro equipo:"
     },
     "admin": {
-      "title": "Panel de Administración",
+      "title": "Administración",
       "newClient": "Nuevo Cliente",
       "createClient": "Crear Cliente",
       "searchPlaceholder": "Buscar ID cliente, pedido o ticket...",
@@ -1647,7 +1647,7 @@
       "supportPermissionsDesc": "Puede ver pedidos, solicitar documentos y responder consultas",
       "sendMessage": "Enviar Mensaje",
       "sendMessageTitle": "Enviar Mensaje al Cliente",
-      "clientNotification": "El cliente recibirá notificación en su panel y email",
+      "clientNotification": "El cliente recibirá notificación en su área de clientes y email",
       "messageTitle": "Título",
       "messageTitlePlaceholder": "Título del mensaje",
       "message": "Mensaje",
@@ -2020,7 +2020,7 @@
       "emailsSent": "¡Emails enviados!",
       "emailsSentDesc": "El newsletter llegará a todos los suscriptores",
       "documentUploaded": "¡Documento subido!",
-      "documentUploadedDesc": "El cliente ya puede verlo en su panel",
+      "documentUploadedDesc": "El cliente ya puede verlo en su área de clientes",
       "documentUploadedClient": "¡Documento enviado!",
       "documentUploadedClientDesc": "Tu documento se ha subido correctamente",
       "statusUpdated": "Estado actualizado",
@@ -2089,7 +2089,7 @@
   "tour": {
     "welcome": {
       "title": "Bienvenido a tu Área de Cliente",
-      "description": "Te mostramos las funciones principales de tu panel."
+      "description": "Te mostramos las funciones principales de tu área de clientes."
     },
     "orders": {
       "title": "Seguimiento",
@@ -2110,7 +2110,10 @@
     "ready": {
       "title": "Listo para empezar",
       "description": "Si tienes dudas, usa la sección de Mensajes."
-    }
+    },
+    "back": "Atrás",
+    "next": "Siguiente",
+    "start": "¡Empezar!"
   },
   "contact": {
     "title": "Contacto",
@@ -2322,11 +2325,11 @@
   },
   "mobile": {
     "personalArea": "Área Personal",
-    "myPanel": "Mi Panel",
+    "myPanel": "Mi Área",
     "logout": "Cerrar Sesión",
     "clientArea": "Área de Clientes",
     "myAccount": "Mi cuenta",
-    "accountDescription": "Accede a tu panel o crea tu cuenta en segundos",
+    "accountDescription": "Accede a tu área de clientes o crea tu cuenta en segundos",
     "whatsapp": "Envíanos un WhatsApp"
   },
   "errors": {
@@ -2561,7 +2564,7 @@
     }
   },
   "tools": {
-    "backToDashboard": "Volver al panel",
+    "backToDashboard": "Volver al Dashboard",
     "backToTools": "Volver a Herramientas",
     "invoiceGenerator": {
       "loginRequired": "Acceso Requerido",
@@ -2866,8 +2869,8 @@
       "description": "Contacta con nuestro equipo de expertos en formación de LLC en Estados Unidos."
     },
     "dashboard": {
-      "title": "Mi Panel | Easy US LLC",
-      "description": "Gestiona tu LLC, documentos y servicios desde tu panel personal."
+      "title": "Mi Área | Easy US LLC",
+      "description": "Gestiona tu LLC, documentos y servicios desde tu área de clientes."
     },
     "formation": {
       "title": "Crear LLC | Easy US LLC",

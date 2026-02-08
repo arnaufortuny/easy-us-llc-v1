@@ -702,7 +702,7 @@
         "title": "Kundenbereich",
         "subtitle": "Verwalten Sie Ihre LLC, greifen Sie auf Ihre Dokumente zu und bleiben Sie steuerkonform – in einem privaten Bereich für globale Unternehmer.",
         "feature1": {
-          "title": "Kontrollpanel",
+          "title": "Dashboard",
           "desc": "Prüfen Sie den Status Ihres Unternehmens, aktiver Dienste und jedes Verfahrens in Echtzeit. Sie wissen immer, wo Ihre LLC steht und was als Nächstes kommt."
         },
         "feature2": {
@@ -1572,7 +1572,7 @@
       "adminReviewContact": "Wenn Sie Fragen haben, kontaktieren Sie unser Team:"
     },
     "admin": {
-      "title": "Verwaltungspanel",
+      "title": "Verwaltung",
       "newClient": "Neuer Kunde",
       "createClient": "Kunde erstellen",
       "searchPlaceholder": "Kunde, Bestellung oder Ticket-ID suchen...",
@@ -1647,7 +1647,7 @@
       "supportPermissionsDesc": "Kann Bestellungen einsehen, Dokumente anfordern und Anfragen beantworten",
       "sendMessage": "Nachricht senden",
       "sendMessageTitle": "Nachricht an Kunden senden",
-      "clientNotification": "Der Kunde erhält eine Benachrichtigung in seinem Panel und per E-Mail",
+      "clientNotification": "Der Kunde erhält eine Benachrichtigung in seinem Kundenbereich und per E-Mail",
       "messageTitle": "Titel",
       "messageTitlePlaceholder": "Nachrichtentitel",
       "message": "Nachricht",
@@ -2110,7 +2110,10 @@
     "ready": {
       "title": "Bereit zum Starten",
       "description": "Wenn Sie Fragen haben, nutzen Sie den Bereich Nachrichten."
-    }
+    },
+    "back": "Zurück",
+    "next": "Weiter",
+    "start": "Los geht's!"
   },
   "contact": {
     "title": "Kontakt",

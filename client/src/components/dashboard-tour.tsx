@@ -1,48 +1,49 @@
 import { useEffect, useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { X, ChevronRight, ChevronLeft, Package, Calendar, MessageSquare, User, Sparkles, Heart } from "@/components/icons";
 
 interface TourStep {
   target?: string;
-  title: string;
-  description: string;
+  titleKey: string;
+  descriptionKey: string;
   icon: any;
 }
 
 const tourSteps: TourStep[] = [
   {
-    title: "¡Bienvenido a tu espacio personal!",
-    description: "Nos alegra mucho tenerte aquí. Este es tu panel de control, diseñado para que gestiones tu LLC de forma sencilla y sin complicaciones. Todo lo que necesitas está a un clic de distancia.",
+    titleKey: "tour.welcome.title",
+    descriptionKey: "tour.welcome.description",
     icon: Heart
   },
   {
     target: '[data-tour="orders"]',
-    title: "El corazón de tu LLC",
-    description: "Aquí encontrarás todos tus trámites activos. Podrás ver el estado de tu formación, descargar documentos importantes como tu EIN y Articles of Organization, y seguir cada paso del proceso en tiempo real.",
+    titleKey: "tour.orders.title",
+    descriptionKey: "tour.orders.description",
     icon: Package
   },
   {
     target: '[data-tour="calendar"]',
-    title: "Nunca más olvides una fecha",
-    description: "Sabemos que los plazos fiscales pueden ser confusos. Por eso te mostramos un calendario con todas las fechas importantes: declaraciones del IRS, informes anuales y renovaciones. Te avisamos con tiempo para que estés siempre al día.",
+    titleKey: "tour.calendar.title",
+    descriptionKey: "tour.calendar.description",
     icon: Calendar
   },
   {
     target: '[data-tour="messages"]',
-    title: "Tu equipo de soporte personal",
-    description: "¿Tienes alguna duda o necesitas ayuda? Escríbenos directamente desde aquí. Nuestro equipo está listo para responderte de forma rápida y personalizada. No estás solo en este proceso.",
+    titleKey: "tour.messages.title",
+    descriptionKey: "tour.messages.description",
     icon: MessageSquare
   },
   {
     target: '[data-tour="profile"]',
-    title: "Mantén tus datos actualizados",
-    description: "Aquí puedes modificar tu información personal, cambiar tu contraseña y configurar tus preferencias de contacto. Tener tus datos al día nos ayuda a darte un mejor servicio.",
+    titleKey: "tour.profile.title",
+    descriptionKey: "tour.profile.description",
     icon: User
   },
   {
-    title: "¡Estás listo para comenzar!",
-    description: "Ya conoces las funciones principales de tu panel. Si en algún momento necesitas ayuda, recuerda que estamos a solo un mensaje de distancia. ¡Mucho éxito con tu LLC!",
+    titleKey: "tour.ready.title",
+    descriptionKey: "tour.ready.description",
     icon: Sparkles
   }
 ];
@@ -52,6 +53,7 @@ interface DashboardTourProps {
 }
 
 export function DashboardTour({ onComplete }: DashboardTourProps) {
+  const { t } = useTranslation();
   const [isVisible, setIsVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
@@ -173,10 +175,10 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
           </div>
           <div className="min-w-0 pt-1">
             <h3 className="font-black text-foreground text-lg leading-tight">
-              {step.title}
+              {t(step.titleKey)}
             </h3>
             <p className="text-muted-foreground text-sm mt-2 leading-relaxed">
-              {step.description}
+              {t(step.descriptionKey)}
             </p>
           </div>
         </div>
@@ -203,7 +205,7 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
                 data-testid="button-tour-prev"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" />
-                Atrás
+                {t('tour.back', 'Atrás')}
               </Button>
             )}
             <Button
@@ -212,7 +214,7 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
               className="h-10 font-black bg-accent text-accent-foreground"
               data-testid="button-tour-next"
             >
-              {isLastStep ? '¡Empezar!' : 'Siguiente'}
+              {isLastStep ? t('tour.start', '¡Empezar!') : t('tour.next', 'Siguiente')}
               {!isLastStep && <ChevronRight className="w-4 h-4 ml-1" />}
             </Button>
           </div>
