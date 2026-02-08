@@ -55,7 +55,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
   return (
     <div key="services" className="space-y-6">
       <div className="mb-4 md:mb-6">
-        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
+        <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.services.title')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('dashboard.services.subtitle')}</p>
       </div>
       

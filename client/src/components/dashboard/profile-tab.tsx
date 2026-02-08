@@ -128,7 +128,7 @@ export function ProfileTab({
   return (
     <div key="profile" className="space-y-4">
       <div className="mb-2 md:mb-4">
-        <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
+        <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('profile.title', 'Mi Perfil')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('profile.subtitle', 'Tus datos personales y configuración de cuenta')}</p>
       </div>
 

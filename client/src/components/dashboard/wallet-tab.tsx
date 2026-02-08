@@ -60,7 +60,7 @@ export function WalletTab() {
     <div key="wallet" className="space-y-6">
       <div className="mb-4 md:mb-6">
         <div className="flex items-center gap-2 mb-1">
-          <h2 className="text-xl md:text-2xl font-black text-foreground tracking-tight">
+          <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">
             {t('wallet.title', 'Wallet')}
           </h2>
         </div>

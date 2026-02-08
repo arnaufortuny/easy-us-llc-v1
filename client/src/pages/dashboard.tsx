@@ -962,7 +962,7 @@ export default function Dashboard() {
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
-            <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight leading-tight">
+            <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-foreground tracking-tight leading-tight">
               {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
             </h1>
           </header>
@@ -1331,7 +1331,7 @@ export default function Dashboard() {
           {activeTab === 'services' && (
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
+              <h1 className="text-lg sm:text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
                 {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
               </h1>
               <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
@@ -1444,7 +1444,7 @@ export default function Dashboard() {
               {activeTab === 'documents' && (
                 <div key="documents" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
+                    <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
@@ -1655,7 +1655,7 @@ export default function Dashboard() {
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
+                    <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
                   </div>
                   <div className="space-y-4">
@@ -1695,7 +1695,7 @@ export default function Dashboard() {
                 <div key="calendar" className="space-y-4 md:space-y-6">
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4 md:mb-6">
                     <div>
-                      <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
+                      <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.calendar.title')}</h2>
                       <p className="text-base text-muted-foreground mt-1">{t('dashboard.calendar.subtitle')}</p>
                     </div>
                   </div>
@@ -1837,7 +1837,7 @@ export default function Dashboard() {
               {activeTab === 'tools' && (
                 <div key="tools" className="space-y-6">
                   <div className="mb-4 md:mb-6">
-                    <h2 className="text-xl sm:text-2xl font-black text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
+                    <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.tools.title')}</h2>
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

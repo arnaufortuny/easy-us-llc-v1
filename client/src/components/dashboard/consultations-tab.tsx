@@ -148,7 +148,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
         </div>
       )}
       <div>
-        <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+        <h2 className="text-base sm:text-xl md:text-2xl font-black tracking-tight">
           {t("consultations.title")}
         </h2>
         <p className="text-base text-muted-foreground mt-1">
