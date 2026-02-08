@@ -541,7 +541,7 @@ export function ProfileTab({
 
       {canEdit && (
         <div className="flex justify-end">
-          <Button variant="ghost" size="sm" className="text-red-500 dark:text-red-400 rounded-full text-xs" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
+          <Button size="sm" className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full text-xs" onClick={() => setDeleteOwnAccountDialog(true)} data-testid="button-delete-own-account">
             <Trash2 className="w-3.5 h-3.5 mr-1" /> {t('dashboard.profile.deleteAccount', 'Eliminar Cuenta')}
           </Button>
         </div>
