@@ -1510,7 +1510,8 @@
       "read": "Letta",
       "actionRequired": "AZIONE RICHIESTA",
       "update": "AGGIORNAMENTO",
-      "info": "INFORMAZIONE"
+      "info": "INFORMAZIONE",
+      "subtitle": "Aggiornamenti, avvisi e informazioni importanti sulla tua LLC e i tuoi servizi."
     },
     "pendingAccount": {
       "title": "Account in revisione",

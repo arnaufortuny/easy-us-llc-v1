@@ -1551,7 +1551,8 @@
       "read": "Lida",
       "actionRequired": "AÇÃO NECESSÁRIA",
       "update": "ATUALIZAÇÃO",
-      "info": "INFORMAÇÃO"
+      "info": "INFORMAÇÃO",
+      "subtitle": "Atualizações, avisos e informação importante sobre a tua LLC e os teus serviços."
     },
     "pendingAccount": {
       "title": "Conta em revisão",

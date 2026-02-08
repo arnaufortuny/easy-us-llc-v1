@@ -1551,7 +1551,8 @@
       "read": "Read",
       "actionRequired": "ACTION REQUIRED",
       "update": "UPDATE",
-      "info": "INFORMATION"
+      "info": "INFORMATION",
+      "subtitle": "Updates, alerts, and important information about your LLC and your services."
     },
     "pendingAccount": {
       "title": "Account under review",

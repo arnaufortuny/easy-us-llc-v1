@@ -1551,7 +1551,8 @@
       "read": "Gelesen",
       "actionRequired": "AKTION ERFORDERLICH",
       "update": "AKTUALISIERUNG",
-      "info": "INFORMATION"
+      "info": "INFORMATION",
+      "subtitle": "Aktualisierungen, Hinweise und wichtige Informationen zu Ihrer LLC und Ihren Dienstleistungen."
     },
     "pendingAccount": {
       "title": "Konto in Überprüfung",

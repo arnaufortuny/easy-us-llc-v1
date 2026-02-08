@@ -1551,7 +1551,8 @@
       "read": "Leída",
       "actionRequired": "ACCIÓN REQUERIDA",
       "update": "ACTUALIZACIÓN",
-      "info": "INFORMACIÓN"
+      "info": "INFORMACIÓN",
+      "subtitle": "Actualizaciones, avisos e información importante sobre tu LLC y tus servicios."
     },
     "pendingAccount": {
       "title": "Cuenta en revisión",

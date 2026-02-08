@@ -1059,9 +1059,12 @@ export default function Dashboard() {
             <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-card">
               <div className="bg-accent h-1.5 w-full" />
               <CardContent className="p-5 sm:p-6">
-                <div className="flex items-center gap-3 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
-                  <BellRing className="w-5 h-5 text-accent" />
-                  <h2 className="font-black text-lg text-foreground">{t("dashboard.notifications.title")}</h2>
+                <div className="mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
+                  <div className="flex items-center gap-3">
+                    <BellRing className="w-5 h-5 text-accent" />
+                    <h2 className="font-black text-lg text-foreground">{t("dashboard.notifications.title")}</h2>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1 ml-8">{t("dashboard.notifications.subtitle")}</p>
                 </div>
                 
                 {notificationsLoading ? (
