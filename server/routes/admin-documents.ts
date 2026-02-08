@@ -645,7 +645,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
           
           <div class="header">
             <div class="logo-section">
-              <img src="https://easyusllc.com/logo-icon.png" alt="Easy US LLC" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 12px;">
+              <img src="cid:logo-icon" alt="Easy US LLC" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 12px;">
               <h1>Easy US LLC</h1>
               <p class="subtitle">Servicios de Constitución Empresarial</p>
             </div>

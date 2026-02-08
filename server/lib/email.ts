@@ -7,7 +7,7 @@ const companyAddress = `Easy US LLC
 STE R
 Albuquerque, NM 87110`;
 
-const EMAIL_LOGO = `https://${domain}/logo-icon.png`;
+const EMAIL_LOGO = "cid:logo-icon";
 
 function getSimpleHeader() {
   return `
@@ -1168,12 +1168,22 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
   }
 
   try {
+    const path = await import("path");
+    const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
+
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@easyusllc.com",
       to: to,
       subject: subject,
       html,
+      attachments: [
+        {
+          filename: 'logo-icon.png',
+          path: logoPath,
+          cid: 'logo-icon'
+        }
+      ]
     });
     return info;
   } catch (error: any) {
@@ -1228,6 +1238,9 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
   const html = getOrderCompletedTemplate(name, orderNumber);
 
   try {
+    const path = await import("path");
+    const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
+
     const info = await transporter.sendMail({
       from: `"Easy US LLC" <no-reply@easyusllc.com>`,
       replyTo: "hola@easyusllc.com",
@@ -1235,6 +1248,13 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
       bcc: trustpilotBcc,
       subject: `Pedido completado - Documentación disponible`,
       html,
+      attachments: [
+        {
+          filename: 'logo-icon.png',
+          path: logoPath,
+          cid: 'logo-icon'
+        }
+      ]
     });
     return info;
   } catch (error: any) {
