@@ -235,17 +235,47 @@ export default function CsvGenerator() {
       <Navbar />
       
       <main className="flex-1 w-full max-w-5xl mx-auto px-4 py-6 md:py-10">
-        <div className="mb-6">
+        <div className="mb-6 md:mb-8">
           <Link href="/dashboard?tab=tools">
             <Button variant="ghost" size="sm" className="rounded-full text-muted-foreground hover:text-foreground mb-4 -ml-2" data-testid="button-back-tools">
               <ArrowLeft className="w-4 h-4 mr-2" />
               {t("tools.backToTools")}
             </Button>
           </Link>
-          
-          <div>
-            <h1 className="text-xl md:text-2xl font-black text-foreground tracking-tight">{t("tools.csvGenerator.title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("tools.csvGenerator.subtitle")}</p>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <h1 className="text-xl sm:text-2xl md:text-3xl font-black text-foreground tracking-tight">{t("tools.csvGenerator.title")}</h1>
+              <p className="text-muted-foreground text-xs sm:text-sm mt-1">{t("tools.csvGenerator.subtitle")}</p>
+            </div>
+            <div className="flex items-center gap-3 shrink-0">
+              <div className="flex items-center gap-2">
+                <Label className="text-xs text-muted-foreground whitespace-nowrap hidden sm:block">{t("tools.exportLanguage", "Export language")}:</Label>
+                <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-csv-export-lang">
+                  {EXPORT_LANGUAGES.map(lang => (
+                    <NativeSelectItem key={lang.code} value={lang.code}>{lang.label}</NativeSelectItem>
+                  ))}
+                </NativeSelect>
+              </div>
+              <Button 
+                onClick={downloadCSV}
+                disabled={!hasValidTransactions || isGenerating}
+                className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full px-5"
+                data-testid="button-download-csv"
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    <span className="hidden sm:inline">{t("tools.csvGenerator.generating")}</span>
+                  </>
+                ) : (
+                  <>
+                    <FileDown className="w-4 h-4 mr-2" />
+                    <span className="hidden sm:inline">{t("tools.csvGenerator.downloadCsv")}</span>
+                    <span className="sm:hidden">CSV</span>
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -448,38 +478,8 @@ export default function CsvGenerator() {
             </div>
 
             <div className="mt-6 pt-6 border-t border-border">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div className="flex items-start gap-2 text-xs text-muted-foreground">
-                  <p>{t("tools.csvGenerator.disclaimer")}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex items-center gap-2">
-                    <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "Export language")}:</Label>
-                    <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-csv-export-lang">
-                      {EXPORT_LANGUAGES.map(lang => (
-                        <NativeSelectItem key={lang.code} value={lang.code}>{lang.label}</NativeSelectItem>
-                      ))}
-                    </NativeSelect>
-                  </div>
-                  <Button 
-                    onClick={downloadCSV}
-                    disabled={!hasValidTransactions || isGenerating}
-                    className="bg-accent hover:bg-accent/90 text-accent-foreground font-semibold rounded-full px-6"
-                    data-testid="button-download-csv"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        {t("tools.csvGenerator.generating")}
-                      </>
-                    ) : (
-                      <>
-                        <FileDown className="w-4 h-4 mr-2" />
-                        {t("tools.csvGenerator.downloadCsv")}
-                      </>
-                    )}
-                  </Button>
-                </div>
+              <div className="flex items-start gap-2 text-xs text-muted-foreground">
+                <p>{t("tools.csvGenerator.disclaimer")}</p>
               </div>
             </div>
           </CardContent>
