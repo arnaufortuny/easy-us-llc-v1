@@ -48,7 +48,9 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
   const { t } = useTranslation();
   
   const completedOrders = orders?.filter(o => o.status === 'completed' && o.application) || [];
-  const inProgressOrders = orders?.filter(o => o.status !== 'completed' && o.status !== 'pending') || [];
+  const inProgressOrders = orders?.filter(o => 
+    o.status !== 'completed' && o.status !== 'cancelled' && o.status !== 'draft'
+  ) || [];
 
   return (
     <div key="services" className="space-y-6">

@@ -2364,7 +2364,9 @@
     "reference": "Ref",
     "maintenance": "Manteniment",
     "yourLLC": "La teva LLC",
-    "allOrders": "Totes les Comandes"
+    "allOrders": "Totes les Comandes",
+    "documentsReady": "Documents preparats",
+    "documentsReadyDesc": "Els teus documents estan preparats per a revisió"
   },
   "payment": {
     "transfer": "Transferència bancària",

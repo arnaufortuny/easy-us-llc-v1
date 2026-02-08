@@ -1,4 +1,4 @@
-import { CheckCircle2, Circle, Clock, FileText, Building2, CreditCard, Wrench } from "@/components/icons";
+import { CheckCircle2, Circle, Clock, FileText, Building2, CreditCard, Wrench, Package } from "@/components/icons";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ const getLLCSteps = (t: (key: string) => string) => [
   { id: 'paid', label: t('progress.paymentConfirmed'), icon: CheckCircle2, description: t('progress.paymentProcessed') },
   { id: 'processing', label: t('progress.processing'), icon: Clock, description: t('progress.preparingDocs') },
   { id: 'filed', label: t('progress.filed'), icon: FileText, description: t('progress.docsSent') },
+  { id: 'documents_ready', label: t('progress.documentsReady'), icon: Package, description: t('progress.documentsReadyDesc') },
   { id: 'completed', label: t('progress.llcActive'), icon: Building2, description: t('progress.llcOperational') }
 ];
 
@@ -24,6 +25,7 @@ const getMaintenanceSteps = (t: (key: string) => string) => [
   { id: 'paid', label: t('progress.paymentConfirmed'), icon: CheckCircle2, description: t('progress.paymentProcessed') },
   { id: 'processing', label: t('progress.inProcess'), icon: Clock, description: t('progress.managingRenewal') },
   { id: 'filed', label: t('progress.filed'), icon: FileText, description: t('progress.docsUpdated') },
+  { id: 'documents_ready', label: t('progress.documentsReady'), icon: Package, description: t('progress.documentsReadyDesc') },
   { id: 'completed', label: t('progress.completed'), icon: Wrench, description: t('progress.maintenanceComplete') }
 ];
 

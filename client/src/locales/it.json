@@ -2364,7 +2364,9 @@
     "reference": "Rif",
     "maintenance": "Manutenzione",
     "yourLLC": "La tua LLC",
-    "allOrders": "Tutti gli Ordini"
+    "allOrders": "Tutti gli Ordini",
+    "documentsReady": "Documenti pronti",
+    "documentsReadyDesc": "I tuoi documenti sono pronti per la revisione"
   },
   "payment": {
     "transfer": "Bonifico bancario",

@@ -38,24 +38,25 @@ export function registerAdminOrderRoutes(app: Express) {
     
     const order = await storage.getOrder(orderId);
     if (order?.user?.email) {
-      const statusLabels: Record<string, string> = {
-        pending: "Pendiente",
-        processing: "En proceso",
-        paid: "Pagado",
-        filed: "Presentado",
-        documents_ready: "Documentos listos",
-        completed: "Completado",
-        cancelled: "Cancelado"
+      const userLang = (order.user.preferredLanguage as string) || 'es';
+      
+      const statusLabelsI18n: Record<string, Record<string, string>> = {
+        pending: { es: "Pendiente", en: "Pending", ca: "Pendent", fr: "En attente", de: "Ausstehend", it: "In sospeso", pt: "Pendente" },
+        paid: { es: "Pagado", en: "Paid", ca: "Pagat", fr: "Payé", de: "Bezahlt", it: "Pagato", pt: "Pago" },
+        processing: { es: "En proceso", en: "Processing", ca: "En procés", fr: "En cours", de: "In Bearbeitung", it: "In elaborazione", pt: "Em processamento" },
+        filed: { es: "Presentado", en: "Filed", ca: "Presentat", fr: "Déposé", de: "Eingereicht", it: "Presentato", pt: "Apresentado" },
+        documents_ready: { es: "Documentos listos", en: "Documents ready", ca: "Documents preparats", fr: "Documents prêts", de: "Dokumente bereit", it: "Documenti pronti", pt: "Documentos prontos" },
+        completed: { es: "Completado", en: "Completed", ca: "Completat", fr: "Terminé", de: "Abgeschlossen", it: "Completato", pt: "Concluído" },
+        cancelled: { es: "Cancelado", en: "Cancelled", ca: "Cancel·lat", fr: "Annulé", de: "Storniert", it: "Annullato", pt: "Cancelado" }
       };
-      const statusLabel = statusLabels[status] || status.replace(/_/g, " ");
+      
+      const statusLabel = statusLabelsI18n[status]?.[userLang] || statusLabelsI18n[status]?.es || status.replace(/_/g, " ");
 
-      // If order completed, upgrade user to VIP status and send Trustpilot email
       if (status === 'completed' && order.userId) {
         await db.update(usersTable)
           .set({ accountStatus: 'vip' })
           .where(eq(usersTable.id, order.userId));
         
-        // Send Trustpilot review request email
         const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
         sendTrustpilotEmail({
           to: order.user.email,
@@ -64,7 +65,6 @@ export function registerAdminOrderRoutes(app: Express) {
         }).catch(() => {});
       }
 
-      // Auto-calculate compliance deadlines when order is filed
       if (status === 'filed' && order.application) {
         const formationDate = new Date();
         const state = order.application.state || "new_mexico";
@@ -72,7 +72,6 @@ export function registerAdminOrderRoutes(app: Express) {
         await updateApplicationDeadlines(order.application.id, formationDate, state, hasTaxExtension);
       }
 
-      // Clear compliance deadlines when order is cancelled
       if (status === 'cancelled' && order.application) {
         await db.update(llcApplicationsTable).set({
           irs1120DueDate: null,
@@ -82,35 +81,74 @@ export function registerAdminOrderRoutes(app: Express) {
         }).where(eq(llcApplicationsTable.id, order.application.id));
       }
 
-      // Create Notification in Dashboard
       const orderCode = order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber || `#${order.id}`;
+      
+      const notifTitles: Record<string, string> = {
+        es: `Actualización de pedido: ${statusLabel}`,
+        en: `Order update: ${statusLabel}`,
+        ca: `Actualització de comanda: ${statusLabel}`,
+        fr: `Mise à jour de commande : ${statusLabel}`,
+        de: `Bestellaktualisierung: ${statusLabel}`,
+        it: `Aggiornamento ordine: ${statusLabel}`,
+        pt: `Atualização do pedido: ${statusLabel}`
+      };
+      
+      const notifMessages: Record<string, string> = {
+        es: `Tu pedido ${orderCode} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
+        en: `Your order ${orderCode} has been updated to: ${statusLabel}.${status === 'completed' ? ' Congratulations, you are now a VIP client!' : ''}`,
+        ca: `La teva comanda ${orderCode} ha canviat a: ${statusLabel}.${status === 'completed' ? ' Enhorabona, ara ets client VIP!' : ''}`,
+        fr: `Votre commande ${orderCode} a été mise à jour : ${statusLabel}.${status === 'completed' ? ' Félicitations, vous êtes maintenant client VIP !' : ''}`,
+        de: `Ihre Bestellung ${orderCode} wurde aktualisiert: ${statusLabel}.${status === 'completed' ? ' Herzlichen Glückwunsch, Sie sind jetzt VIP-Kunde!' : ''}`,
+        it: `Il tuo ordine ${orderCode} è stato aggiornato a: ${statusLabel}.${status === 'completed' ? ' Congratulazioni, ora sei un cliente VIP!' : ''}`,
+        pt: `O seu pedido ${orderCode} foi atualizado para: ${statusLabel}.${status === 'completed' ? ' Parabéns, agora é um cliente VIP!' : ''}`
+      };
+
       await db.insert(userNotifications).values({
         userId: order.userId,
         orderId: order.id,
         orderCode,
-        title: `Actualización de pedido: ${statusLabel}`,
-        message: `Tu pedido ${orderCode} ha cambiado a: ${statusLabel}.${status === 'completed' ? ' ¡Enhorabuena, ahora eres cliente VIP!' : ''}`,
+        title: notifTitles[userLang] || notifTitles.es,
+        message: notifMessages[userLang] || notifMessages.es,
         type: 'update',
         isRead: false
       });
 
-      // Add Order Event for Timeline
       await db.insert(orderEvents).values({
         orderId: order.id,
         eventType: statusLabel,
-        description: `El estado del pedido ha sido actualizado a ${statusLabel}.`,
+        description: `${statusLabel} — ${orderCode}`,
         createdBy: req.session.userId
       });
 
+      const emailSubjects: Record<string, string> = {
+        es: `Actualización de estado - Pedido ${order.invoiceNumber || `#${order.id}`}`,
+        en: `Status update - Order ${order.invoiceNumber || `#${order.id}`}`,
+        ca: `Actualització d'estat - Comanda ${order.invoiceNumber || `#${order.id}`}`,
+        fr: `Mise à jour - Commande ${order.invoiceNumber || `#${order.id}`}`,
+        de: `Statusaktualisierung - Bestellung ${order.invoiceNumber || `#${order.id}`}`,
+        it: `Aggiornamento stato - Ordine ${order.invoiceNumber || `#${order.id}`}`,
+        pt: `Atualização de estado - Pedido ${order.invoiceNumber || `#${order.id}`}`
+      };
+
+      const emailBodies: Record<string, string> = {
+        es: `Tu pedido ha pasado a estado: ${statusLabel}. Puedes ver los detalles en tu área de clientes.`,
+        en: `Your order status has been updated to: ${statusLabel}. You can view the details in your dashboard.`,
+        ca: `La teva comanda ha passat a estat: ${statusLabel}. Pots veure els detalls a la teva àrea de clients.`,
+        fr: `Votre commande est passée à l'état : ${statusLabel}. Vous pouvez consulter les détails dans votre espace client.`,
+        de: `Ihr Bestellstatus wurde auf ${statusLabel} aktualisiert. Sie können die Details in Ihrem Dashboard einsehen.`,
+        it: `Il tuo ordine è passato allo stato: ${statusLabel}. Puoi visualizzare i dettagli nella tua area clienti.`,
+        pt: `O seu pedido foi atualizado para: ${statusLabel}. Pode ver os detalhes na sua área de clientes.`
+      };
+
       sendEmail({
         to: order.user.email,
-        subject: `Actualización de estado - Pedido ${order.invoiceNumber || `#${order.id}`}`,
+        subject: emailSubjects[userLang] || emailSubjects.es,
         html: getOrderUpdateTemplate(
           order.user.firstName || "Cliente",
           order.invoiceNumber || `#${order.id}`,
           status,
-          `Tu pedido ha pasado a estado: ${statusLabels[status] || status}. Puedes ver los detalles en tu panel de control.`,
-          (order.user.preferredLanguage as any) || 'es'
+          emailBodies[userLang] || emailBodies.es,
+          userLang as any
         )
       }).catch(() => {});
     }

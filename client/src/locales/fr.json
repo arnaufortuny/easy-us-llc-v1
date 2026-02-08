@@ -2364,7 +2364,9 @@
     "reference": "Réf",
     "maintenance": "Maintenance",
     "yourLLC": "Votre LLC",
-    "allOrders": "Toutes les commandes"
+    "allOrders": "Toutes les commandes",
+    "documentsReady": "Documents prêts",
+    "documentsReadyDesc": "Vos documents sont prêts pour révision"
   },
   "payment": {
     "transfer": "Virement bancaire",
