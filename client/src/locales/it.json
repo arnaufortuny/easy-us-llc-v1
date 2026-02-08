@@ -1429,7 +1429,10 @@
       "paymentPending": "Pagamento in sospeso",
       "payNow": "Paga",
       "fiscalDeadline": "Scadenza fiscale imminente",
-      "viewCalendar": "Vedi"
+      "viewCalendar": "Vedi",
+      "profilePending": "Verifica profilo in sospeso",
+      "profilePendingDesc": "Hai modifiche al profilo in attesa di verifica OTP",
+      "verify": "Verifica"
     },
     "support": {
       "title": "Le tue consulenze",

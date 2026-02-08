@@ -1429,7 +1429,10 @@
       "paymentPending": "Pagament pendent",
       "payNow": "Pagar",
       "fiscalDeadline": "Venciment fiscal proper",
-      "viewCalendar": "Veure"
+      "viewCalendar": "Veure",
+      "profilePending": "Verificació de perfil pendent",
+      "profilePendingDesc": "Tens canvis de perfil esperant verificació OTP",
+      "verify": "Verificar"
     },
     "support": {
       "title": "Les teves consultes",

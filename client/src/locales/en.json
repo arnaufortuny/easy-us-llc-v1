@@ -1429,7 +1429,10 @@
       "paymentPending": "Payment pending",
       "payNow": "Pay",
       "fiscalDeadline": "Upcoming fiscal deadline",
-      "viewCalendar": "View"
+      "viewCalendar": "View",
+      "profilePending": "Profile verification pending",
+      "profilePendingDesc": "You have profile changes awaiting OTP verification",
+      "verify": "Verify"
     },
     "support": {
       "title": "Your inquiries",

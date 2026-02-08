@@ -1470,7 +1470,10 @@
       "paymentPending": "Paiement en attente",
       "payNow": "Payer",
       "fiscalDeadline": "Échéance fiscale à venir",
-      "viewCalendar": "Voir"
+      "viewCalendar": "Voir",
+      "profilePending": "Vérification de profil en attente",
+      "profilePendingDesc": "Vous avez des modifications de profil en attente de vérification OTP",
+      "verify": "Vérifier"
     },
     "support": {
       "title": "Vos consultations",

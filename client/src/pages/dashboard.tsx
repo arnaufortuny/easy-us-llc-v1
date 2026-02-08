@@ -4572,9 +4572,10 @@ export default function Dashboard() {
           <div className="space-y-6 md:gap-8 order-2 lg:order-2">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
+              !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
-              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800 mb-4">
+              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800 mb-4" data-testid="section-action-required-global">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center">
                     <AlertCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
@@ -4585,6 +4586,24 @@ export default function Dashboard() {
                   </div>
                 </div>
                 <div className="space-y-2">
+                  {!!(user as any)?.pendingProfileChanges && (
+                    <div className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid="action-item-profile-pending">
+                      <ShieldAlert className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.profilePending')}</p>
+                        <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.actionRequired.profilePendingDesc')}</p>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        onClick={() => setActiveTab('profile')}
+                        data-testid="button-action-profile-pending"
+                      >
+                        {t('dashboard.actionRequired.verify')}
+                      </Button>
+                    </div>
+                  )}
                   {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
                     <div key={n.id} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-document-${n.id}`}>
                       <FileUp className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />

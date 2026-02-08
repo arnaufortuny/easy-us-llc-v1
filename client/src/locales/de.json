@@ -1429,7 +1429,10 @@
       "paymentPending": "Zahlung ausstehend",
       "payNow": "Bezahlen",
       "fiscalDeadline": "Anstehende Steuerfrist",
-      "viewCalendar": "Anzeigen"
+      "viewCalendar": "Anzeigen",
+      "profilePending": "Profilverifizierung ausstehend",
+      "profilePendingDesc": "Sie haben Profiländerungen, die auf OTP-Verifizierung warten",
+      "verify": "Verifizieren"
     },
     "support": {
       "title": "Ihre Anfragen",
