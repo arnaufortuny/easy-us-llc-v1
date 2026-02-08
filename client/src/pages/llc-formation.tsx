@@ -896,21 +896,21 @@ export default function LlcFormation() {
                 <div className="grid grid-cols-3 gap-3">
                   <FormField control={form.control} name="ownerStreetType" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Tipo de vía:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t('application.fields.streetType')}:</FormLabel>
                       <FormControl>
                         <NativeSelect 
                           value={field.value || ""} 
                           onValueChange={field.onChange}
-                          placeholder="Tipo"
+                          placeholder={t('application.fields.streetType')}
                           className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base"
                         >
-                          <NativeSelectItem value="Calle">Calle</NativeSelectItem>
-                          <NativeSelectItem value="Avenida">Avenida</NativeSelectItem>
-                          <NativeSelectItem value="Plaza">Plaza</NativeSelectItem>
-                          <NativeSelectItem value="Paseo">Paseo</NativeSelectItem>
-                          <NativeSelectItem value="Camino">Camino</NativeSelectItem>
-                          <NativeSelectItem value="Carrera">Carrera</NativeSelectItem>
-                          <NativeSelectItem value="Otro">Otro</NativeSelectItem>
+                          <NativeSelectItem value="Calle">{t('application.streetTypes.street')}</NativeSelectItem>
+                          <NativeSelectItem value="Avenida">{t('application.streetTypes.avenue')}</NativeSelectItem>
+                          <NativeSelectItem value="Plaza">{t('application.streetTypes.plaza')}</NativeSelectItem>
+                          <NativeSelectItem value="Paseo">{t('application.streetTypes.road')}</NativeSelectItem>
+                          <NativeSelectItem value="Camino">{t('application.streetTypes.passage')}</NativeSelectItem>
+                          <NativeSelectItem value="Carrera">{t('application.streetTypes.boulevard')}</NativeSelectItem>
+                          <NativeSelectItem value="Otro">{t('application.streetTypes.other')}</NativeSelectItem>
                         </NativeSelect>
                       </FormControl>
                       <FormMessage />
