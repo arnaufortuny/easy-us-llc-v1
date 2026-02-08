@@ -103,34 +103,36 @@ export function NotificationsTab({
                           <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
                         )}
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="flex-shrink-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
-                        onClick={(e) => { e.stopPropagation(); deleteNotification.mutate(notif.id); }}
-                        disabled={deleteNotification.isPending}
-                        data-testid={`button-delete-notification-${notif.id}`}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {notif.type === 'action_required' && (
+                          <Badge variant="secondary" className="no-default-hover-elevate no-default-active-elevate bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] font-bold">
+                            {t("dashboard.notifications.actionRequired")}
+                          </Badge>
+                        )}
+                        {notif.type === 'update' && (
+                          <Badge variant="secondary" className="no-default-hover-elevate no-default-active-elevate bg-accent/10 text-accent text-[10px] font-bold">
+                            {t("dashboard.notifications.update")}
+                          </Badge>
+                        )}
+                        {notif.type === 'info' && (
+                          <Badge variant="secondary" className="no-default-hover-elevate no-default-active-elevate bg-accent/10 text-accent text-[10px] font-bold">
+                            {t("dashboard.notifications.info")}
+                          </Badge>
+                        )}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="flex-shrink-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full"
+                          onClick={(e) => { e.stopPropagation(); deleteNotification.mutate(notif.id); }}
+                          disabled={deleteNotification.isPending}
+                          data-testid={`button-delete-notification-${notif.id}`}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
                     </div>
                     <p className="text-sm text-muted-foreground leading-relaxed">{notif.message}</p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
-                      {notif.type === 'action_required' && (
-                        <Badge variant="secondary" className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] font-bold">
-                          {t("dashboard.notifications.actionRequired")}
-                        </Badge>
-                      )}
-                      {notif.type === 'update' && (
-                        <Badge variant="secondary" className="bg-accent/10 text-accent text-[10px] font-bold">
-                          {t("dashboard.notifications.update")}
-                        </Badge>
-                      )}
-                      {notif.type === 'info' && (
-                        <Badge variant="secondary" className="bg-accent/10 text-accent text-[10px] font-bold">
-                          {t("dashboard.notifications.info")}
-                        </Badge>
-                      )}
                       {notif.orderCode && (
                         <Badge variant="outline" className="text-[10px] font-bold">
                           {t("dashboard.orders.order")}: {notif.orderCode}
