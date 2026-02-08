@@ -1247,7 +1247,6 @@ export default function Dashboard() {
           {activeTab === 'services' && (
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
-              <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 md:mb-2 uppercase">{t('dashboard.clientArea')}</p>
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
                 {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
               </h1>
