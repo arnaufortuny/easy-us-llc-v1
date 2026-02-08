@@ -163,16 +163,28 @@ export function Navbar() {
                 <LanguageToggle />
               </div>
             )}
-            <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
+            {isAuthenticated && location.startsWith("/dashboard") ? (
               <Button 
                 variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent hover:text-accent-foreground bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
-                data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
+                className="border-2 border-red-500 text-red-500 bg-white dark:bg-zinc-800 dark:text-red-400 dark:border-red-400 rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
+                onClick={() => { setIsOpen(false); resetScrollLock(); logout(); }}
+                data-testid="button-mobile-logout-header"
               >
-                <UserIcon className="w-4 h-4" />
-                <span>{isAuthenticated ? t("nav.myArea") : t("nav.login")}</span>
+                <LogOut className="w-4 h-4" />
+                <span>{t("mobile.logout")}</span>
               </Button>
-            </Link>
+            ) : (
+              <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
+                <Button 
+                  variant="outline"
+                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
+                  data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
+                >
+                  <UserIcon className="w-4 h-4" />
+                  <span>{isAuthenticated ? t("nav.myArea") : t("nav.login")}</span>
+                </Button>
+              </Link>
+            )}
             <div className="w-10 h-10 flex items-center justify-center shrink-0">
               <button 
                 className="p-2 text-foreground"
@@ -204,8 +216,8 @@ export function Navbar() {
       </div>
 
       {isOpen && (
-        <div className="md:hidden fixed inset-0 bg-background z-[60] flex flex-col pt-20 overflow-hidden">
-          <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)' }}>
+        <div className="md:hidden fixed inset-0 bg-background z-[99] flex flex-col pt-20">
+          <div className="flex flex-col bg-background p-6 justify-between items-stretch overflow-y-auto overscroll-contain flex-1" style={{ maxHeight: 'calc(100dvh - 5rem)', WebkitOverflowScrolling: 'touch' }}>
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button
                   onClick={() => handleNavClick("/")}
@@ -244,33 +256,37 @@ export function Navbar() {
                 {t("nav.contact")}
               </button>
               
-              {/* Client Area - Always in same position regardless of auth state */}
               <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
                 <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.clientArea")}</p>
                 {isAuthenticated ? (
                   <>
+                    <button
+                      onClick={() => handleNavClick("/dashboard")}
+                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
+                      data-testid="button-mobile-dashboard-menu"
+                    >
+                      <UserIcon className="w-5 h-5" /> {t("nav.myArea")}
+                    </button>
                     <button
                       onClick={() => {
                         resetScrollLock();
                         logout();
                         setIsOpen(false);
                       }}
-                      className="w-full text-left py-2 text-red-500 dark:text-red-400 font-black text-xl tracking-tighter flex items-center justify-start gap-2"
+                      className="w-full text-left py-2 text-red-500 dark:text-red-400 font-black text-lg tracking-tighter flex items-center justify-start gap-2"
                       data-testid="button-mobile-logout-menu"
                     >
                       <LogOut className="w-5 h-5" /> {t("mobile.logout")}
                     </button>
                   </>
                 ) : (
-                  <>
-                    <button
-                      onClick={() => handleNavClick("/auth/login")}
-                      className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
-                      data-testid="button-mobile-login-menu"
-                    >
-                      <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
-                    </button>
-                  </>
+                  <button
+                    onClick={() => handleNavClick("/auth/login")}
+                    className="w-full text-left py-2 text-foreground font-black text-xl tracking-tighter flex items-center justify-start gap-2"
+                    data-testid="button-mobile-login-menu"
+                  >
+                    <UserIcon className="w-5 h-5" /> {t("mobile.myAccount")}
+                  </button>
                 )}
               </div>
 

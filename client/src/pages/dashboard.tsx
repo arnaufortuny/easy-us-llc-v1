@@ -1258,11 +1258,11 @@ export default function Dashboard() {
 
         {/* Main content area */}
         <div className="flex-1 min-w-0 overflow-y-auto">
-      <main className={`${activeTab === 'services' ? 'pt-6 sm:pt-8 lg:pt-16 xl:pt-20' : 'pt-6 sm:pt-10'} pb-20 px-4 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10`}>
+      <main className={`${activeTab === 'services' ? 'pt-6 sm:pt-8 lg:pt-16 xl:pt-20' : 'pt-6 sm:pt-10'} pb-20 px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10`}>
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-4 px-4">
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;

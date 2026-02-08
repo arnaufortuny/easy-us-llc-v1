@@ -516,7 +516,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={invoiceDate}
                     onChange={(e) => setInvoiceDate(e.target.value)}
-                    className="mt-1 rounded-full text-xs sm:text-sm min-w-0"
+                    className="mt-1 rounded-full text-[10px] sm:text-sm min-w-0 px-2 sm:px-4"
                     data-testid="input-invoice-date"
                   />
                 </div>
@@ -527,7 +527,7 @@ export default function InvoiceGenerator() {
                     type="date"
                     value={dueDate}
                     onChange={(e) => setDueDate(e.target.value)}
-                    className="mt-1 rounded-full text-xs sm:text-sm min-w-0"
+                    className="mt-1 rounded-full text-[10px] sm:text-sm min-w-0 px-2 sm:px-4"
                     data-testid="input-due-date"
                   />
                 </div>
