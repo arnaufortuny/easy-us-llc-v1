@@ -87,7 +87,8 @@ export function setupCustomAuth(app: Express) {
       }
 
       const clientId = await generateUniqueClientId();
-      const lang = (preferredLanguage === 'en' || preferredLanguage === 'ca') ? preferredLanguage : 'es';
+      const supportedLangs = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
+      const lang = supportedLangs.includes(preferredLanguage) ? preferredLanguage : 'es';
       const { user } = await createUser({
         email,
         password,
