@@ -133,19 +133,20 @@ export function ProfileTab({
       </div>
 
       {(profileOtpStep === 'otp' || hasPendingChanges) && (
-        <Card className="rounded-2xl border-orange-300 dark:border-orange-700 shadow-md p-5 md:p-6 bg-orange-50 dark:bg-orange-950/30 animate-in slide-in-from-top-2 duration-300">
+        <Card className="rounded-2xl border-green-300 dark:border-green-700 shadow-md p-5 md:p-6 bg-green-50 dark:bg-green-950/30 animate-in slide-in-from-top-2 duration-300" data-testid="card-profile-otp">
           <div className="flex items-start gap-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
-              <AlertTriangle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+            <div className="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/40 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-5 h-5 text-green-600 dark:text-green-400" />
             </div>
             <div className="flex-1">
-              <h3 className="font-black text-foreground">{t('profile.actionRequired', 'Action Required')}</h3>
+              <h3 className="font-black text-foreground">{t('profile.otpSentTitle', 'Código enviado')}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{t('profile.otpRequiredDesc', 'A 6-digit verification code has been sent to your email. Enter it below to confirm your identity changes.')}</p>
+              <p className="text-xs font-bold text-green-700 dark:text-green-300 mt-1">{t('profile.actionRequired', 'Action Required')}</p>
             </div>
           </div>
           
           {pendingChangesData?.changedFields && (
-            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-orange-200 dark:border-orange-800">
+            <div className="mb-4 p-3 bg-white/60 dark:bg-card/60 rounded-xl border border-green-200 dark:border-green-800">
               <p className="text-xs font-bold text-muted-foreground mb-2">{t('profile.pendingChanges', 'Pending changes')}:</p>
               <div className="space-y-1">
                 {pendingChangesData.changedFields.map((change, i) => {
@@ -161,7 +162,7 @@ export function ProfileTab({
                       <span className="font-bold text-foreground">{fieldLabels[change.field] || change.field}:</span>
                       <span className="text-muted-foreground line-through">{change.oldValue}</span>
                       <span className="text-foreground">→</span>
-                      <span className="font-bold text-orange-700 dark:text-orange-300">{change.newValue}</span>
+                      <span className="font-bold text-green-700 dark:text-green-300">{change.newValue}</span>
                     </div>
                   );
                 })}
