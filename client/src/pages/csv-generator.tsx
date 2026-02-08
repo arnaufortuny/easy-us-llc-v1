@@ -357,7 +357,7 @@ export default function CsvGenerator() {
                         type="date"
                         value={transaction.date}
                         onChange={(e) => updateTransaction(transaction.id, 'date', e.target.value)}
-                        className="rounded-full text-sm"
+                        className="rounded-full text-xs sm:text-sm w-full min-w-0"
                         data-testid={`input-date-${index}`}
                       />
                     </div>
