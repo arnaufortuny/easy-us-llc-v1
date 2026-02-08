@@ -17,11 +17,11 @@ interface NotificationsTabProps {
 function getNotificationIcon(type: string) {
   switch (type) {
     case 'action_required':
-      return <AlertCircle className="w-5 h-5 text-orange-500" />;
+      return <AlertCircle className="w-5 h-5 text-red-500" />;
     case 'update':
       return <CheckCircle className="w-5 h-5 text-accent" />;
     case 'info':
-      return <Info className="w-5 h-5 text-blue-500 dark:text-blue-400" />;
+      return <Info className="w-5 h-5 text-accent" />;
     default:
       return <Bell className="w-5 h-5 text-muted-foreground" />;
   }
@@ -30,11 +30,11 @@ function getNotificationIcon(type: string) {
 function getNotificationIconBg(type: string) {
   switch (type) {
     case 'action_required':
-      return 'bg-orange-50 dark:bg-orange-900/20';
+      return 'bg-red-50 dark:bg-red-900/20';
     case 'update':
       return 'bg-accent/10';
     case 'info':
-      return 'bg-blue-50 dark:bg-blue-900/20';
+      return 'bg-accent/10';
     default:
       return 'bg-muted';
   }
@@ -117,7 +117,7 @@ export function NotificationsTab({
                     <p className="text-sm text-muted-foreground leading-relaxed">{notif.message}</p>
                     <div className="flex items-center gap-2 mt-2 flex-wrap">
                       {notif.type === 'action_required' && (
-                        <Badge variant="secondary" className="bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 text-[10px] font-bold">
+                        <Badge variant="secondary" className="bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 text-[10px] font-bold">
                           {t("dashboard.notifications.actionRequired")}
                         </Badge>
                       )}
@@ -127,7 +127,7 @@ export function NotificationsTab({
                         </Badge>
                       )}
                       {notif.type === 'info' && (
-                        <Badge variant="secondary" className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[10px] font-bold">
+                        <Badge variant="secondary" className="bg-accent/10 text-accent text-[10px] font-bold">
                           {t("dashboard.notifications.info")}
                         </Badge>
                       )}
