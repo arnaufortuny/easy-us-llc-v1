@@ -4660,7 +4660,7 @@ export default function Dashboard() {
               </section>
             )}
             
-            <section className="bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm">
+            <section className={`bg-white dark:bg-card p-6 md:p-8 rounded-[2rem] shadow-sm ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
                   <Clock className="w-5 h-5 text-accent" /> {t('dashboard.tracking.title')}
