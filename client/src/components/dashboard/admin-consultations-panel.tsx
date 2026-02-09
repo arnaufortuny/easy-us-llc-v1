@@ -263,19 +263,19 @@ export function AdminConsultationsPanel() {
         </div>
       )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <Card className="p-3">
+        <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-pending">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.pending', 'Pendientes')}</div>
           <div className="text-2xl font-black text-yellow-600">{stats?.pending || 0}</div>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-confirmed">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.confirmed', 'Confirmadas')}</div>
           <div className="text-2xl font-black text-blue-600">{stats?.confirmed || 0}</div>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-completed">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.completed', 'Completadas')}</div>
           <div className="text-2xl font-black text-green-600">{stats?.completed || 0}</div>
         </Card>
-        <Card className="p-3">
+        <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-total">
           <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.total', 'Total')}</div>
           <div className="text-2xl font-black">{stats?.total || 0}</div>
         </Card>
@@ -304,7 +304,7 @@ export function AdminConsultationsPanel() {
             placeholder={t('consultations.admin.searchBookings', 'Buscar por código, cliente, email...')}
             value={bookingSearch}
             onChange={(e) => setBookingSearch(e.target.value)}
-            className="rounded-full"
+            className="rounded-xl"
             data-testid="input-booking-search"
           />
         <Card className="p-0 overflow-hidden">
@@ -427,7 +427,7 @@ export function AdminConsultationsPanel() {
                                 placeholder={t('consultations.admin.meetingLinkPlaceholder', 'https://meet.google.com/...')}
                                 value={meetingLinkValue}
                                 onChange={(e) => setMeetingLinkValue(e.target.value)}
-                                className="flex-1 rounded-full"
+                                className="flex-1 rounded-xl"
                               />
                               <Button
                                 onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
@@ -472,16 +472,16 @@ export function AdminConsultationsPanel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.nameEs', 'Nombre (ES)')}</Label>
-                    <Input className="rounded-full" value={typeForm.nameEs} onChange={(e) => setTypeForm({ ...typeForm, nameEs: e.target.value, name: e.target.value })} />
+                    <Input className="rounded-xl" value={typeForm.nameEs} onChange={(e) => setTypeForm({ ...typeForm, nameEs: e.target.value, name: e.target.value })} />
                   </div>
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.nameEn', 'Nombre (EN)')}</Label>
-                    <Input className="rounded-full" value={typeForm.nameEn} onChange={(e) => setTypeForm({ ...typeForm, nameEn: e.target.value })} />
+                    <Input className="rounded-xl" value={typeForm.nameEn} onChange={(e) => setTypeForm({ ...typeForm, nameEn: e.target.value })} />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.nameCa', 'Nombre (CA)')}</Label>
-                  <Input className="rounded-full" value={typeForm.nameCa} onChange={(e) => setTypeForm({ ...typeForm, nameCa: e.target.value })} />
+                  <Input className="rounded-xl" value={typeForm.nameCa} onChange={(e) => setTypeForm({ ...typeForm, nameCa: e.target.value })} />
                 </div>
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.descriptionEs', 'Descripción (ES)')}</Label>
@@ -490,11 +490,11 @@ export function AdminConsultationsPanel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.durationMin', 'Duración (min)')}</Label>
-                    <Input type="number" className="rounded-full" value={typeForm.duration} onChange={(e) => setTypeForm({ ...typeForm, duration: parseInt(e.target.value) || 30 })} />
+                    <Input type="number" className="rounded-xl" value={typeForm.duration} onChange={(e) => setTypeForm({ ...typeForm, duration: parseInt(e.target.value) || 30 })} />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.priceCents', 'Precio (cents)')}</Label>
-                    <Input type="number" className="rounded-full" value={typeForm.price} onChange={(e) => setTypeForm({ ...typeForm, price: parseInt(e.target.value) || 0 })} />
+                    <Label>{t('consultations.admin.priceEur', 'Precio (EUR)')}</Label>
+                    <Input type="number" className="rounded-xl" value={typeForm.price} onChange={(e) => setTypeForm({ ...typeForm, price: parseInt(e.target.value) || 0 })} placeholder="0" />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
@@ -559,7 +559,7 @@ export function AdminConsultationsPanel() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.day', 'Día')}</Label>
-                  <NativeSelect className="rounded-full" value={slotForm.dayOfWeek.toString()} onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}>
+                  <NativeSelect className="rounded-xl" value={slotForm.dayOfWeek.toString()} onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}>
                     {getDays(t).map((day, idx) => (
                       <NativeSelectItem key={idx} value={idx.toString()}>{day}</NativeSelectItem>
                     ))}
@@ -568,11 +568,11 @@ export function AdminConsultationsPanel() {
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.start', 'Inicio')}</Label>
-                    <Input type="time" className="rounded-full" value={slotForm.startTime} onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })} />
+                    <Input type="time" className="rounded-xl" value={slotForm.startTime} onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })} />
                   </div>
                   <div className="space-y-2">
                     <Label>{t('consultations.admin.end', 'Fin')}</Label>
-                    <Input type="time" className="rounded-full" value={slotForm.endTime} onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })} />
+                    <Input type="time" className="rounded-xl" value={slotForm.endTime} onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })} />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
@@ -624,13 +624,13 @@ export function AdminConsultationsPanel() {
                 type="date"
                 value={blockedDateForm.date}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, date: e.target.value })}
-                className="w-40 rounded-full"
+                className="w-40 rounded-xl"
               />
               <Input
                 placeholder={t('consultations.admin.reasonOptional', 'Motivo (opcional)')}
                 value={blockedDateForm.reason}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, reason: e.target.value })}
-                className="flex-1 rounded-full"
+                className="flex-1 rounded-xl"
               />
               <Button
                 onClick={() => addBlockedDateMutation.mutate(blockedDateForm)}
