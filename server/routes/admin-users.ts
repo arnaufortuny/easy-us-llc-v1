@@ -449,8 +449,8 @@ export function registerAdminUserRoutes(app: Express) {
       userId,
       ticketId,
       type: "identity_verification",
-      title: "Verificación de identidad requerida",
-      message: notes || "Se ha solicitado la verificación de tu identidad. Por favor, sube un documento de identidad válido.",
+      title: "i18n:dashboard.notifications.idv.requested.title",
+      message: notes || "i18n:dashboard.notifications.idv.requested.message",
       isRead: false
     });
     
@@ -492,8 +492,8 @@ export function registerAdminUserRoutes(app: Express) {
     await db.insert(userNotifications).values({
       userId,
       type: "identity_verification_approved",
-      title: "Identidad verificada correctamente",
-      message: "Tu identidad ha sido verificada. El acceso completo a tu cuenta ha sido restaurado.",
+      title: "i18n:dashboard.notifications.idv.approved.title",
+      message: "i18n:dashboard.notifications.idv.approved.message",
       isRead: false
     });
     
@@ -537,8 +537,8 @@ export function registerAdminUserRoutes(app: Express) {
     await db.insert(userNotifications).values({
       userId,
       type: "identity_verification_rejected",
-      title: "Verificación de identidad rechazada",
-      message: reason || "El documento proporcionado no cumple con los requisitos. Por favor, sube un nuevo documento.",
+      title: "i18n:dashboard.notifications.idv.rejected.title",
+      message: reason || "i18n:dashboard.notifications.idv.rejected.message",
       isRead: false
     });
     

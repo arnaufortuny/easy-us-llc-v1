@@ -294,6 +294,7 @@ export function registerUserProfileRoutes(app: Express) {
       const Busboy = (await import("busboy")).default;
       const fs = await import("fs");
       const path = await import("path");
+      const crypto = await import("crypto");
       
       const uploadDir = path.join(process.cwd(), "uploads", "identity-docs");
       if (!fs.existsSync(uploadDir)) {
@@ -301,9 +302,10 @@ export function registerUserProfileRoutes(app: Express) {
       }
       
       const bb = Busboy({ headers: req.headers, limits: { fileSize: 5 * 1024 * 1024 } });
-      let savedFile = false;
       let filePath = "";
       let originalName = "";
+      let fileSaved: Promise<boolean> | null = null;
+      let hitLimit = false;
       
       bb.on("file", (_fieldname: string, file: any, info: { filename: string; mimeType: string }) => {
         const { filename, mimeType } = info;
@@ -322,41 +324,64 @@ export function registerUserProfileRoutes(app: Express) {
         filePath = path.join(uploadDir, safeFilename);
         
         const writeStream = fs.createWriteStream(filePath);
-        file.pipe(writeStream);
         
-        writeStream.on("close", () => {
-          savedFile = true;
+        fileSaved = new Promise<boolean>((resolve) => {
+          writeStream.on("finish", () => resolve(true));
+          writeStream.on("error", () => resolve(false));
         });
         
+        file.pipe(writeStream);
+        
         file.on("limit", () => {
-          fs.unlinkSync(filePath);
-          savedFile = false;
+          hitLimit = true;
+          writeStream.end();
         });
       });
       
       bb.on("finish", async () => {
-        if (!savedFile || !filePath) {
-          return res.status(400).json({ message: "Invalid file. Allowed: PDF, JPG, PNG (max 5MB)" });
+        try {
+          if (!fileSaved || !filePath) {
+            return res.status(400).json({ message: "Invalid file. Allowed: PDF, JPG, PNG (max 5MB)" });
+          }
+          
+          const saved = await fileSaved;
+          
+          if (hitLimit) {
+            try { fs.unlinkSync(filePath); } catch {}
+            return res.status(400).json({ message: "File too large. Max 5MB allowed." });
+          }
+          
+          if (!saved) {
+            return res.status(500).json({ message: "Error saving file" });
+          }
+          
+          const fileBuffer = fs.readFileSync(filePath);
+          const fileHash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
+          
+          const relativePath = filePath.replace(process.cwd() + "/", "").replace(process.cwd() + "\\", "");
+          
+          await db.update(usersTable).set({
+            identityVerificationStatus: "uploaded",
+            identityVerificationDocumentKey: relativePath,
+            identityVerificationDocumentName: originalName,
+            updatedAt: new Date()
+          }).where(eq(usersTable.id, userId));
+          
+          logActivity("Identity Document Uploaded", {
+            "User": userId,
+            "File": originalName,
+            "Hash": fileHash
+          });
+          
+          res.json({ success: true, message: "Document uploaded successfully" });
+        } catch (err) {
+          console.error("Error processing uploaded file:", err);
+          res.status(500).json({ message: "Error processing uploaded file" });
         }
-        
-        const relativePath = filePath.replace(process.cwd() + "/", "").replace(process.cwd() + "\\", "");
-        
-        await db.update(usersTable).set({
-          identityVerificationStatus: "uploaded",
-          identityVerificationDocumentKey: relativePath,
-          identityVerificationDocumentName: originalName,
-          updatedAt: new Date()
-        }).where(eq(usersTable.id, userId));
-        
-        logActivity("Identity Document Uploaded", {
-          "User": userId,
-          "File": originalName
-        });
-        
-        res.json({ success: true, message: "Document uploaded successfully" });
       });
       
-      bb.on("error", () => {
+      bb.on("error", (err: any) => {
+        console.error("Busboy error:", err);
         res.status(500).json({ message: "Error uploading file" });
       });
       

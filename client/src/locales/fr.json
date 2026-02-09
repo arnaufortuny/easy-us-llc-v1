@@ -1585,7 +1585,21 @@
       "actionRequired": "ACTION REQUISE",
       "update": "MISE À JOUR",
       "info": "INFORMATION",
-      "subtitle": "Mises à jour, alertes et informations importantes sur votre LLC et vos services."
+      "subtitle": "Mises à jour, alertes et informations importantes sur votre LLC et vos services.",
+      "idv": {
+        "requested": {
+          "title": "Vérification d'identité requise",
+          "message": "La vérification de votre identité a été demandée. Veuillez télécharger un document d'identité valide."
+        },
+        "approved": {
+          "title": "Identité vérifiée avec succès",
+          "message": "Votre identité a été vérifiée. L'accès complet à votre compte a été restauré."
+        },
+        "rejected": {
+          "title": "Vérification d'identité rejetée",
+          "message": "Le document fourni ne répond pas aux exigences. Veuillez télécharger un nouveau document."
+        }
+      }
     },
     "pendingAccount": {
       "title": "Compte en cours de vérification",

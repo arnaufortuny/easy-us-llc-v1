@@ -1585,7 +1585,21 @@
       "actionRequired": "AÇÃO NECESSÁRIA",
       "update": "ATUALIZAÇÃO",
       "info": "INFORMAÇÃO",
-      "subtitle": "Atualizações, avisos e informação importante sobre a tua LLC e os teus serviços."
+      "subtitle": "Atualizações, avisos e informação importante sobre a tua LLC e os teus serviços.",
+      "idv": {
+        "requested": {
+          "title": "Verificação de identidade necessária",
+          "message": "A verificação da tua identidade foi solicitada. Por favor, carrega um documento de identidade válido."
+        },
+        "approved": {
+          "title": "Identidade verificada com sucesso",
+          "message": "A tua identidade foi verificada. O acesso completo à tua conta foi restaurado."
+        },
+        "rejected": {
+          "title": "Verificação de identidade rejeitada",
+          "message": "O documento fornecido não cumpre os requisitos. Por favor, carrega um novo documento."
+        }
+      }
     },
     "pendingAccount": {
       "title": "Conta em revisão",

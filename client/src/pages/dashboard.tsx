@@ -1161,9 +1161,9 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     {((user as any).identityVerificationStatus === 'requested' || (user as any).identityVerificationStatus === 'rejected') ? (
                       <div className="space-y-4">
-                        <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800'}`}>
+                        <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800'}`}>
                           <div className="flex items-center gap-2 mb-2">
-                            <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-blue-600'}`} />
+                            <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-orange-600'}`} />
                             <span className="font-black text-sm text-foreground">
                               {(user as any).identityVerificationStatus === 'rejected' ? t("dashboard.pendingAccount.idvRejectedTitle") : t("dashboard.pendingAccount.idvRequestedTitle")}
                             </span>
@@ -3367,7 +3367,7 @@ export default function Dashboard() {
                   )}
 
                   {idvRequestDialog.open && idvRequestDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-blue-300 dark:border-blue-700 bg-blue-50 dark:bg-blue-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestIdvTitle')}</h3>
@@ -3389,7 +3389,7 @@ export default function Dashboard() {
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-blue-200 dark:border-blue-800">
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-orange-200 dark:border-orange-800">
                         <Button disabled={isSendingIdvRequest}
                           onClick={async () => {
                             if (!idvRequestDialog.user?.id) return;
@@ -3406,7 +3406,7 @@ export default function Dashboard() {
                               setIsSendingIdvRequest(false);
                             }
                           }}
-                          className="flex-1 bg-blue-600 text-white font-black rounded-full"
+                          className="flex-1 bg-orange-600 text-white font-black rounded-full"
                           data-testid="button-confirm-idv-request"
                         >
                           {isSendingIdvRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendIdvBtn')}
@@ -4067,9 +4067,14 @@ export default function Dashboard() {
                                     {u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">ADMIN</Badge>}
                                     {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge')}</Badge>}
                                     </div>
+                                    <div className="flex items-center gap-1.5 shrink-0">
                                     {u.clientId && (
-                                      <span className="text-[10px] font-mono font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full shrink-0" data-testid={`text-client-id-${u.id}`}>{u.clientId}</span>
+                                      <span className="text-[10px] font-mono font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full" data-testid={`text-client-id-${u.id}`}>{u.clientId}</span>
                                     )}
+                                    {(u as any).preferredLanguage && (
+                                      <span className="text-[9px] font-bold uppercase px-1.5 py-0.5 rounded-full bg-gray-100 dark:bg-gray-800 text-muted-foreground border border-border" data-testid={`text-lang-${u.id}`}>{(u as any).preferredLanguage}</span>
+                                    )}
+                                    </div>
                                   </div>
                                   <p className="text-xs text-muted-foreground">{u.email}</p>
                                   <p className="text-[10px] text-muted-foreground">
@@ -4148,7 +4153,7 @@ export default function Dashboard() {
                                     {t('dashboard.admin.users.messageBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setDocDialog({ open: true, user: u })} data-testid={`button-doc-user-${u.id}`}>
-                                    Docs
+                                    {t('dashboard.admin.users.docsBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
                                     {t('dashboard.admin.users.invoiceBtn')}

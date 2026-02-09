@@ -1585,7 +1585,21 @@
       "actionRequired": "AKTION ERFORDERLICH",
       "update": "AKTUALISIERUNG",
       "info": "INFORMATION",
-      "subtitle": "Aktualisierungen, Hinweise und wichtige Informationen zu Ihrer LLC und Ihren Dienstleistungen."
+      "subtitle": "Aktualisierungen, Hinweise und wichtige Informationen zu Ihrer LLC und Ihren Dienstleistungen.",
+      "idv": {
+        "requested": {
+          "title": "Identitätsprüfung erforderlich",
+          "message": "Die Überprüfung Ihrer Identität wurde angefordert. Bitte laden Sie ein gültiges Ausweisdokument hoch."
+        },
+        "approved": {
+          "title": "Identität erfolgreich verifiziert",
+          "message": "Ihre Identität wurde verifiziert. Der vollständige Zugang zu Ihrem Konto wurde wiederhergestellt."
+        },
+        "rejected": {
+          "title": "Identitätsprüfung abgelehnt",
+          "message": "Das eingereichte Dokument erfüllt nicht die Anforderungen. Bitte laden Sie ein neues Dokument hoch."
+        }
+      }
     },
     "pendingAccount": {
       "title": "Konto in Überprüfung",

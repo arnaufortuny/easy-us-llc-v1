@@ -1585,7 +1585,21 @@
       "actionRequired": "ACCIÓ REQUERIDA",
       "update": "ACTUALITZACIÓ",
       "info": "INFORMACIÓ",
-      "subtitle": "Actualitzacions, avisos i informació important sobre la teva LLC i els teus serveis."
+      "subtitle": "Actualitzacions, avisos i informació important sobre la teva LLC i els teus serveis.",
+      "idv": {
+        "requested": {
+          "title": "Verificació d'identitat requerida",
+          "message": "S'ha sol·licitat la verificació de la teva identitat. Si us plau, puja un document d'identitat vàlid."
+        },
+        "approved": {
+          "title": "Identitat verificada correctament",
+          "message": "La teva identitat ha estat verificada. L'accés complet al teu compte ha estat restaurat."
+        },
+        "rejected": {
+          "title": "Verificació d'identitat rebutjada",
+          "message": "El document proporcionat no compleix els requisits. Si us plau, puja un nou document."
+        }
+      }
     },
     "pendingAccount": {
       "title": "Compte en revisió",

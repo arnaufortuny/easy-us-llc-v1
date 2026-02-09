@@ -1585,7 +1585,21 @@
       "actionRequired": "ACTION REQUIRED",
       "update": "UPDATE",
       "info": "INFORMATION",
-      "subtitle": "Updates, alerts, and important information about your LLC and your services."
+      "subtitle": "Updates, alerts, and important information about your LLC and your services.",
+      "idv": {
+        "requested": {
+          "title": "Identity verification required",
+          "message": "Your identity verification has been requested. Please upload a valid identity document."
+        },
+        "approved": {
+          "title": "Identity verified successfully",
+          "message": "Your identity has been verified. Full access to your account has been restored."
+        },
+        "rejected": {
+          "title": "Identity verification rejected",
+          "message": "The document provided does not meet the requirements. Please upload a new document."
+        }
+      }
     },
     "pendingAccount": {
       "title": "Account under review",
