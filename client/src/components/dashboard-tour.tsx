@@ -207,7 +207,7 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
                 data-testid="button-tour-prev"
               >
                 <ChevronLeft className="w-4 h-4 mr-1" />
-                {t('tour.back', 'Atrás')}
+                {t('tour.back')}
               </Button>
             )}
             <Button
@@ -216,7 +216,7 @@ export function DashboardTour({ onComplete }: DashboardTourProps) {
               className="h-10 font-black bg-accent text-accent-foreground"
               data-testid="button-tour-next"
             >
-              {isLastStep ? t('tour.start', '¡Empezar!') : t('tour.next', 'Siguiente')}
+              {isLastStep ? t('tour.start') : t('tour.next')}
               {!isLastStep && <ChevronRight className="w-4 h-4 ml-1" />}
             </Button>
           </div>

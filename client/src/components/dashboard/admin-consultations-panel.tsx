@@ -48,13 +48,13 @@ interface ConsultationStats {
 }
 
 const getDays = (t: any) => [
-  t('consultations.admin.days.sunday', 'Domingo'),
-  t('consultations.admin.days.monday', 'Lunes'),
-  t('consultations.admin.days.tuesday', 'Martes'),
-  t('consultations.admin.days.wednesday', 'Miércoles'),
-  t('consultations.admin.days.thursday', 'Jueves'),
-  t('consultations.admin.days.friday', 'Viernes'),
-  t('consultations.admin.days.saturday', 'Sábado')
+  t('consultations.admin.days.sunday'),
+  t('consultations.admin.days.monday'),
+  t('consultations.admin.days.tuesday'),
+  t('consultations.admin.days.wednesday'),
+  t('consultations.admin.days.thursday'),
+  t('consultations.admin.days.friday'),
+  t('consultations.admin.days.saturday')
 ];
 
 interface AdminConsultationsPanelProps {
@@ -110,18 +110,18 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/types", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeCreated', 'Tipo creado correctamente') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeCreated') });
       setShowTypeForm(false);
       resetTypeForm();
     },
-    onError: (err: any) => setFormMessage({ type: 'error', text: t('common.error', 'Error') + ". " + err.message })
+    onError: (err: any) => setFormMessage({ type: 'error', text: t('common.error') + ". " + err.message })
   });
 
   const updateTypeMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: any }) => apiRequest("PATCH", `/api/admin/consultations/types/${id}`, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeUpdated', 'Tipo actualizado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeUpdated') });
       setShowTypeForm(false);
       resetTypeForm();
     }
@@ -131,7 +131,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/types/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/types"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeDeleted', 'Tipo eliminado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.typeDeleted') });
     }
   });
 
@@ -139,7 +139,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/availability", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/availability"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleAdded', 'Horario añadido') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleAdded') });
       setShowSlotForm(false);
     }
   });
@@ -148,7 +148,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/availability/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/availability"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleRemoved', 'Horario eliminado') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.scheduleRemoved') });
     }
   });
 
@@ -156,7 +156,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (data: any) => apiRequest("POST", "/api/admin/consultations/blocked-dates", data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/blocked-dates"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateBlocked', 'Fecha bloqueada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateBlocked') });
       setBlockedDateForm({ date: '', reason: '' });
     }
   });
@@ -165,7 +165,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     mutationFn: async (id: number) => apiRequest("DELETE", `/api/admin/consultations/blocked-dates/${id}`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/blocked-dates"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateUnblocked', 'Fecha desbloqueada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.dateUnblocked') });
     }
   });
 
@@ -174,7 +174,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/bookings"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/stats"] });
-      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.bookingUpdated', 'Reserva actualizada') });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.bookingUpdated') });
       setExpandedBookingId(null);
     }
   });
@@ -267,19 +267,19 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
       )}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-pending">
-          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.pending', 'Pendientes')}</div>
+          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.pending')}</div>
           <div className="text-2xl font-black text-yellow-600">{stats?.pending || 0}</div>
         </Card>
         <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-confirmed">
-          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.confirmed', 'Confirmadas')}</div>
+          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.confirmed')}</div>
           <div className="text-2xl font-black text-blue-600">{stats?.confirmed || 0}</div>
         </Card>
         <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-completed">
-          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.completed', 'Completadas')}</div>
+          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.completed')}</div>
           <div className="text-2xl font-black text-green-600">{stats?.completed || 0}</div>
         </Card>
         <Card className="p-3 border-2 border-green-500/30 rounded-xl" data-testid="stat-total">
-          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.total', 'Total')}</div>
+          <div className="text-xs text-muted-foreground">{t('consultations.admin.stats.total')}</div>
           <div className="text-2xl font-black">{stats?.total || 0}</div>
         </Card>
       </div>
@@ -292,10 +292,10 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
             onClick={() => setActiveSubTab(tab)}
             className={activeSubTab === tab ? 'bg-accent text-primary rounded-full' : 'rounded-full'}
           >
-            {tab === 'bookings' && t('consultations.admin.tabs.bookings', 'Reservas')}
-            {tab === 'types' && t('consultations.admin.tabs.types', 'Tipos')}
-            {tab === 'availability' && t('consultations.admin.tabs.availability', 'Horarios')}
-            {tab === 'blocked' && t('consultations.admin.tabs.blocked', 'Bloqueados')}
+            {tab === 'bookings' && t('consultations.admin.tabs.bookings')}
+            {tab === 'types' && t('consultations.admin.tabs.types')}
+            {tab === 'availability' && t('consultations.admin.tabs.availability')}
+            {tab === 'blocked' && t('consultations.admin.tabs.blocked')}
           </Button>
         ))}
       </div>
@@ -306,7 +306,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
           <div className="divide-y">
             {filteredBookings.length === 0 ? (
               <div className="p-6 text-center text-muted-foreground">
-                {t('consultations.admin.noBookings', 'No hay reservas de consultas')}
+                {t('consultations.admin.noBookings')}
               </div>
             ) : (
               filteredBookings.map(({ booking, consultationType, user }) => {
@@ -334,7 +334,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                           </div>
                           {booking.mainTopic && (
                             <div className="text-xs text-muted-foreground mt-1 truncate max-w-md">
-                              {t('consultations.admin.topic', 'Tema')}: {booking.mainTopic}
+                              {t('consultations.admin.topic')}: {booking.mainTopic}
                             </div>
                           )}
                         </div>
@@ -347,7 +347,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                               onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { status: 'confirmed' } })}
                             >
                               <CheckCircle className="w-4 h-4 mr-1" />
-                              {t('consultations.admin.confirm', 'Confirmar')}
+                              {t('consultations.admin.confirm')}
                             </Button>
                           )}
                           {['pending', 'confirmed'].includes(booking.status) && (
@@ -358,7 +358,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                               onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { status: 'cancelled' } })}
                             >
                               <XCircle className="w-4 h-4 mr-1" />
-                              {t('consultations.cancel', 'Cancelar')}
+                              {t('consultations.cancel')}
                             </Button>
                           )}
                           {booking.status === 'confirmed' && (
@@ -368,7 +368,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                               className="rounded-full"
                               onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { status: 'completed' } })}
                             >
-                              {t('consultations.admin.complete', 'Completar')}
+                              {t('consultations.admin.complete')}
                             </Button>
                           )}
                           <Button
@@ -387,38 +387,38 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                         <div className="pt-4 space-y-4">
                           <div className="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                              <Label className="text-muted-foreground">{t('consultations.admin.code', 'Código')}</Label>
+                              <Label className="text-muted-foreground">{t('consultations.admin.code')}</Label>
                               <div className="font-mono font-bold">{booking.bookingCode}</div>
                             </div>
                             <div>
-                              <Label className="text-muted-foreground">{t('consultations.admin.client', 'Cliente')}</Label>
+                              <Label className="text-muted-foreground">{t('consultations.admin.client')}</Label>
                               <div>{user.firstName} {user.lastName}</div>
                             </div>
                             <div>
-                              <Label className="text-muted-foreground">{t('common.email', 'Email')}</Label>
+                              <Label className="text-muted-foreground">{t('common.email')}</Label>
                               <div>{user.email}</div>
                             </div>
                             <div>
-                              <Label className="text-muted-foreground">{t('consultations.admin.date', 'Fecha')}</Label>
+                              <Label className="text-muted-foreground">{t('consultations.admin.date')}</Label>
                               <div>{formatDate(booking.scheduledDate)} {booking.scheduledTime}</div>
                             </div>
                           </div>
                           {booking.mainTopic && (
                             <div>
-                              <Label className="text-muted-foreground">{t('consultations.admin.mainTopic', 'Tema principal')}</Label>
+                              <Label className="text-muted-foreground">{t('consultations.admin.mainTopic')}</Label>
                               <div className="text-sm">{booking.mainTopic}</div>
                             </div>
                           )}
                           {booking.additionalNotes && (
                             <div>
-                              <Label className="text-muted-foreground">{t('consultations.admin.clientNotes', 'Notas del cliente')}</Label>
+                              <Label className="text-muted-foreground">{t('consultations.admin.clientNotes')}</Label>
                               <div className="text-sm">{booking.additionalNotes}</div>
                             </div>
                           )}
                           <div className="space-y-2">
-                            <Label>{t('consultations.admin.meetingLink', 'Link de reunión')}</Label>
+                            <Label>{t('consultations.admin.meetingLink')}</Label>
                             <div className="flex gap-2">
-                              <Input placeholder={t('consultations.admin.meetingLinkPlaceholder', 'https://meet.google.com/...')}
+                              <Input placeholder={t('consultations.admin.meetingLinkPlaceholder')}
                                 value={meetingLinkValue}
                                 onChange={(e) => setMeetingLinkValue(e.target.value)}
                                 className="flex-1 rounded-xl"
@@ -426,7 +426,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                               <Button onClick={() => updateBookingMutation.mutate({ id: booking.id, data: { meetingLink: meetingLinkValue } })}
                                 className="bg-accent text-primary font-black rounded-full"
                               >
-                                {t('consultations.admin.save', 'Guardar')}
+                                {t('consultations.admin.save')}
                               </Button>
                             </div>
                           </div>
@@ -447,7 +447,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
           {!showTypeForm && (
             <Button onClick={() => { resetTypeForm(); setShowTypeForm(true); }} className="bg-accent text-primary font-black rounded-full">
               <Plus className="w-4 h-4 mr-2" />
-              {t('consultations.admin.newType', 'Nuevo Tipo')}
+              {t('consultations.admin.newType')}
             </Button>
           )}
           
@@ -455,7 +455,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
             <Card className="p-4 border-2 border-accent/30">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="font-black text-lg">
-                  {editingType ? t('consultations.admin.editType', 'Editar Tipo') : t('consultations.admin.newConsultationType', 'Nuevo Tipo de Consulta')}
+                  {editingType ? t('consultations.admin.editType') : t('consultations.admin.newConsultationType')}
                 </h3>
                 <Button variant="ghost" size="icon" onClick={() => { setShowTypeForm(false); resetTypeForm(); }} className="rounded-full">
                   <X className="w-4 h-4" />
@@ -464,38 +464,38 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.nameEs', 'Nombre (ES)')}</Label>
+                    <Label>{t('consultations.admin.nameEs')}</Label>
                     <Input className="rounded-xl" value={typeForm.nameEs} onChange={(e) => setTypeForm({ ...typeForm, nameEs: e.target.value, name: e.target.value })} />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.nameEn', 'Nombre (EN)')}</Label>
+                    <Label>{t('consultations.admin.nameEn')}</Label>
                     <Input className="rounded-xl" value={typeForm.nameEn} onChange={(e) => setTypeForm({ ...typeForm, nameEn: e.target.value })} />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label>{t('consultations.admin.nameCa', 'Nombre (CA)')}</Label>
+                  <Label>{t('consultations.admin.nameCa')}</Label>
                   <Input className="rounded-xl" value={typeForm.nameCa} onChange={(e) => setTypeForm({ ...typeForm, nameCa: e.target.value })} />
                 </div>
                 <div className="space-y-2">
-                  <Label>{t('consultations.admin.descriptionEs', 'Descripción (ES)')}</Label>
+                  <Label>{t('consultations.admin.descriptionEs')}</Label>
                   <Textarea className="rounded-xl" value={typeForm.descriptionEs} onChange={(e) => setTypeForm({ ...typeForm, descriptionEs: e.target.value, description: e.target.value })} rows={2} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.durationMin', 'Duración (min)')}</Label>
+                    <Label>{t('consultations.admin.durationMin')}</Label>
                     <Input type="number" className="rounded-xl" value={typeForm.duration} onChange={(e) => setTypeForm({ ...typeForm, duration: parseInt(e.target.value) || 30 })} />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.priceEur', 'Precio (EUR)')}</Label>
+                    <Label>{t('consultations.admin.priceEur')}</Label>
                     <Input type="number" className="rounded-xl" value={typeForm.price} onChange={(e) => setTypeForm({ ...typeForm, price: parseInt(e.target.value) || 0 })} placeholder="0" />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
                   <Button variant="outline" className="rounded-full" onClick={() => { setShowTypeForm(false); resetTypeForm(); }}>
-                    {t('consultations.cancel', 'Cancelar')}
+                    {t('consultations.cancel')}
                   </Button>
                   <Button onClick={handleSaveType} className="bg-accent text-primary font-black rounded-full">
-                    {editingType ? t('consultations.admin.save', 'Guardar') : t('consultations.admin.create', 'Crear')}
+                    {editingType ? t('consultations.admin.save') : t('consultations.admin.create')}
                   </Button>
                 </div>
               </div>
@@ -510,7 +510,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                     <div className="flex items-center gap-2">
                       <span className="font-bold">{type.nameEs}</span>
                       <Badge variant={type.isActive ? 'default' : 'secondary'}>
-                        {type.isActive ? t('consultations.admin.active', 'Activo') : t('consultations.admin.inactive', 'Inactivo')}
+                        {type.isActive ? t('consultations.admin.active') : t('consultations.admin.inactive')}
                       </Badge>
                     </div>
                     <div className="text-sm text-muted-foreground">
@@ -537,21 +537,21 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
           {!showSlotForm && (
             <Button onClick={() => setShowSlotForm(true)} className="bg-accent text-primary font-black rounded-full">
               <Plus className="w-4 h-4 mr-2" />
-              {t('consultations.admin.addSchedule', 'Añadir Horario')}
+              {t('consultations.admin.addSchedule')}
             </Button>
           )}
           
           {showSlotForm && (
             <Card className="p-4 border-2 border-accent/30">
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-black text-lg">{t('consultations.admin.addSchedule', 'Añadir Horario')}</h3>
+                <h3 className="font-black text-lg">{t('consultations.admin.addSchedule')}</h3>
                 <Button variant="ghost" size="icon" onClick={() => setShowSlotForm(false)} className="rounded-full">
                   <X className="w-4 h-4" />
                 </Button>
               </div>
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label>{t('consultations.admin.day', 'Día')}</Label>
+                  <Label>{t('consultations.admin.day')}</Label>
                   <NativeSelect className="rounded-xl" value={slotForm.dayOfWeek.toString()} onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}>
                     {getDays(t).map((day, idx) => (
                       <NativeSelectItem key={idx} value={idx.toString()}>{day}</NativeSelectItem>
@@ -560,20 +560,20 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.start', 'Inicio')}</Label>
+                    <Label>{t('consultations.admin.start')}</Label>
                     <Input type="time" className="rounded-xl" value={slotForm.startTime} onChange={(e) => setSlotForm({ ...slotForm, startTime: e.target.value })} />
                   </div>
                   <div className="space-y-2">
-                    <Label>{t('consultations.admin.end', 'Fin')}</Label>
+                    <Label>{t('consultations.admin.end')}</Label>
                     <Input type="time" className="rounded-xl" value={slotForm.endTime} onChange={(e) => setSlotForm({ ...slotForm, endTime: e.target.value })} />
                   </div>
                 </div>
                 <div className="flex gap-2 justify-end">
                   <Button variant="outline" className="rounded-full" onClick={() => setShowSlotForm(false)}>
-                    {t('consultations.cancel', 'Cancelar')}
+                    {t('consultations.cancel')}
                   </Button>
                   <Button onClick={() => createSlotMutation.mutate(slotForm)} className="bg-accent text-primary font-black rounded-full">
-                    {t('consultations.admin.add', 'Añadir')}
+                    {t('consultations.admin.add')}
                   </Button>
                 </div>
               </div>
@@ -618,7 +618,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, date: e.target.value })}
                 className="w-40 rounded-xl"
               />
-              <Input placeholder={t('consultations.admin.reasonOptional', 'Motivo (opcional)')}
+              <Input placeholder={t('consultations.admin.reasonOptional')}
                 value={blockedDateForm.reason}
                 onChange={(e) => setBlockedDateForm({ ...blockedDateForm, reason: e.target.value })}
                 className="flex-1 rounded-xl"
@@ -627,7 +627,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 disabled={!blockedDateForm.date}
                 className="bg-accent text-primary font-black rounded-full"
               >
-                {t('consultations.admin.block', 'Bloquear')}
+                {t('consultations.admin.block')}
               </Button>
             </div>
           </Card>

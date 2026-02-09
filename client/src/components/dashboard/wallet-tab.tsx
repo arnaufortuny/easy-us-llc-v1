@@ -32,15 +32,15 @@ export function WalletTab() {
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     toast({
-      title: t('wallet.copied', 'Copied'),
-      description: `${label} ${t('wallet.copiedToClipboard', 'copied to clipboard')}`,
+      title: t('wallet.copied'),
+      description: `${label} ${t('wallet.copiedToClipboard')}`,
     });
   };
 
   const handleGenerateStatement = () => {
     toast({
-      title: t('wallet.statementUnavailable', 'Statement unavailable'),
-      description: t('wallet.statementUnavailableDesc', 'The statement generation service is currently unavailable. Please try again later.'),
+      title: t('wallet.statementUnavailable'),
+      description: t('wallet.statementUnavailableDesc'),
       variant: "destructive",
     });
   };
@@ -49,8 +49,8 @@ export function WalletTab() {
     setShowSendModal(true);
     setTimeout(() => {
       toast({
-        title: t('wallet.transferUnavailable', 'Transfers unavailable'),
-        description: t('wallet.transferUnavailableDesc', 'The transfer service is currently unavailable. Please try again later.'),
+        title: t('wallet.transferUnavailable'),
+        description: t('wallet.transferUnavailableDesc'),
         variant: "destructive",
       });
       setShowSendModal(false);
@@ -62,11 +62,11 @@ export function WalletTab() {
       <div className="mb-4 md:mb-6">
         <div className="flex items-center gap-2 mb-1">
           <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">
-            {t('wallet.title', 'Wallet')}
+            {t('wallet.title')}
           </h2>
         </div>
         <p className="text-base text-muted-foreground mt-1">
-          {t('wallet.subtitle', 'Manage your business account and transactions')}
+          {t('wallet.subtitle')}
         </p>
       </div>
 
@@ -74,7 +74,7 @@ export function WalletTab() {
         <CardContent className="p-6 md:p-8">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-white/70">{t('wallet.availableBalance', 'Available balance')}</p>
+              <p className="text-sm font-medium text-white/70">{t('wallet.availableBalance')}</p>
               <div className="flex items-baseline gap-2">
                 <span className="text-4xl md:text-5xl font-black tracking-tight" data-testid="text-wallet-balance">
                   {WALLET_TEST_DATA.balance.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -93,7 +93,7 @@ export function WalletTab() {
                 data-testid="button-wallet-send"
               >
                 <Send className="w-4 h-4 mr-2" />
-                {t('wallet.sendMoney', 'Send money')}
+                {t('wallet.sendMoney')}
               </Button>
               <Button
                 onClick={handleGenerateStatement}
@@ -102,7 +102,7 @@ export function WalletTab() {
                 data-testid="button-wallet-statement"
               >
                 <Download className="w-4 h-4 mr-2" />
-                {t('wallet.generateStatement', 'Generate statement')}
+                {t('wallet.generateStatement')}
               </Button>
             </div>
           </div>
@@ -116,7 +116,7 @@ export function WalletTab() {
               <div className="w-10 h-10 rounded-full bg-accent/10 dark:bg-accent/20 flex items-center justify-center">
                 <CreditCard className="w-5 h-5 text-accent" />
               </div>
-              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.accountDetails', 'Account details')}</h3>
+              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.accountDetails')}</h3>
             </div>
 
             <div className="space-y-4">
@@ -153,7 +153,7 @@ export function WalletTab() {
               </div>
 
               <div className="p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.accountHolder', 'Account holder')}</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.accountHolder')}</p>
                 <p className="text-sm font-bold text-foreground mt-0.5" data-testid="text-wallet-account-holder">{WALLET_TEST_DATA.holder}</p>
               </div>
             </div>
@@ -166,22 +166,22 @@ export function WalletTab() {
               <div className="w-10 h-10 rounded-full bg-accent/10 dark:bg-accent/20 flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-accent" />
               </div>
-              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.bankInformation', 'Bank information')}</h3>
+              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.bankInformation')}</h3>
             </div>
 
             <div className="space-y-4">
               <div className="p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.bankName', 'Bank name')}</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.bankName')}</p>
                 <p className="text-sm font-bold text-foreground mt-0.5" data-testid="text-wallet-bank-name">{WALLET_TEST_DATA.bankName}</p>
               </div>
 
               <div className="p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.bankAddress', 'Bank address')}</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.bankAddress')}</p>
                 <p className="text-sm font-bold text-foreground mt-0.5" data-testid="text-wallet-bank-address">{WALLET_TEST_DATA.bankAddress}</p>
               </div>
 
               <div className="p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.currency', 'Currency')}</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.currency')}</p>
                 <div className="flex items-center gap-2 mt-0.5">
                   <span className="text-sm font-bold text-foreground">EUR</span>
                   <span className="text-sm text-muted-foreground">- Euro</span>
@@ -189,10 +189,10 @@ export function WalletTab() {
               </div>
 
               <div className="p-3 rounded-xl bg-muted/50 dark:bg-muted/30">
-                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.accountStatus', 'Account status')}</p>
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">{t('wallet.accountStatus')}</p>
                 <div className="flex items-center gap-2 mt-1">
                   <CheckCircle className="w-4 h-4 text-accent" />
-                  <span className="text-sm font-bold text-accent">{t('wallet.active', 'Active')}</span>
+                  <span className="text-sm font-bold text-accent">{t('wallet.active')}</span>
                 </div>
               </div>
             </div>
@@ -207,7 +207,7 @@ export function WalletTab() {
               <div className="w-10 h-10 rounded-full bg-accent/10 dark:bg-accent/20 flex items-center justify-center">
                 <Clock className="w-5 h-5 text-accent" />
               </div>
-              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.recentTransactions', 'Recent transactions')}</h3>
+              <h3 className="text-lg font-black text-foreground tracking-tight">{t('wallet.recentTransactions')}</h3>
             </div>
           </div>
 
@@ -216,9 +216,9 @@ export function WalletTab() {
               <div className="w-16 h-16 rounded-full bg-muted/50 dark:bg-muted/30 flex items-center justify-center mb-4">
                 <AlertCircle className="w-8 h-8 text-muted-foreground/50" />
               </div>
-              <h4 className="text-base font-bold text-foreground mb-1">{t('wallet.noTransactions', 'No transactions yet')}</h4>
+              <h4 className="text-base font-bold text-foreground mb-1">{t('wallet.noTransactions')}</h4>
               <p className="text-sm text-muted-foreground max-w-xs">
-                {t('wallet.noTransactionsDesc', 'Your transaction history will appear here once you start making transfers.')}
+                {t('wallet.noTransactionsDesc')}
               </p>
             </div>
           ) : (
@@ -254,7 +254,7 @@ export function WalletTab() {
                       {tx.type === 'credit' ? '+' : '-'}{tx.amount.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} {WALLET_TEST_DATA.currency}
                     </p>
                     <Badge variant="outline" className="rounded-full text-[10px] mt-1 no-default-hover-elevate no-default-active-elevate border-accent/30 text-accent">
-                      {tx.type === 'credit' ? t('wallet.received', 'Received') : t('wallet.sent', 'Sent')}
+                      {tx.type === 'credit' ? t('wallet.received') : t('wallet.sent')}
                     </Badge>
                   </div>
                 </div>

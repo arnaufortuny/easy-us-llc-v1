@@ -1353,7 +1353,7 @@ export default function LlcFormation() {
                         <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-accent" />
                         <div className="flex-1">
                           <span className="font-black text-primary text-sm block">{t("application.bankTransfer")}</span>
-                          <p className="text-xs text-muted-foreground mt-1">{t("application.bankTransferFormDesc", "Recibirás los datos bancarios en la factura de tu pedido.")}</p>
+                          <p className="text-xs text-muted-foreground mt-1">{t("application.bankTransferFormDesc")}</p>
                         </div>
                       </label>
                       <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-accent bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>

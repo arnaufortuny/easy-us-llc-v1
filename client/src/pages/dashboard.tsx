@@ -240,7 +240,7 @@ export default function Dashboard() {
           setProfileOtpStep('otp');
           setIsEditing(false);
           queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-          setFormMessage({ type: 'success', text: t("profile.otpSentTitle", "Code sent") + ". " + t("profile.otpSentDesc", "A verification code has been sent to your email to confirm identity changes.") });
+          setFormMessage({ type: 'success', text: t("profile.otpSentTitle") + ". " + t("profile.otpSentDesc") });
           requestAnimationFrame(() => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           });
@@ -274,7 +274,7 @@ export default function Dashboard() {
           setPendingProfileData(null);
         }
         const attemptsMsg = err.attemptsRemaining !== undefined && err.attemptsRemaining > 0
-          ? ` (${err.attemptsRemaining} ${t('profile.attemptsRemaining', 'attempts remaining')})`
+          ? ` (${err.attemptsRemaining} ${t('profile.attemptsRemaining')})`
           : '';
         throw new Error((err.message || t("dashboard.toasts.couldNotSave")) + attemptsMsg);
       }
@@ -316,7 +316,7 @@ export default function Dashboard() {
       }
     },
     onSuccess: () => {
-      setFormMessage({ type: 'success', text: t("profile.otpResent", "New verification code sent to your email.") });
+      setFormMessage({ type: 'success', text: t("profile.otpResent") });
     },
     onError: (error: any) => {
       setFormMessage({ type: 'error', text: error.message });
@@ -895,7 +895,7 @@ export default function Dashboard() {
       { id: 'admin-calendar', subTab: 'calendar', label: t('dashboard.calendar.dates'), icon: Calendar, mobileLabel: t('dashboard.calendar.dates'), adminOnly: false },
       { id: 'admin-docs', subTab: 'docs', label: t('dashboard.admin.tabs.docs'), icon: FileText, mobileLabel: t('dashboard.admin.tabs.docs'), adminOnly: false },
       { id: 'admin-discounts', subTab: 'descuentos', label: t('dashboard.admin.tabs.discounts'), icon: Tag, mobileLabel: t('dashboard.admin.tabs.discounts'), adminOnly: true },
-      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity', 'Activity Log'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity', 'Activity'), adminOnly: true },
+      { id: 'admin-activity', subTab: 'activity', label: t('dashboard.admin.tabs.activity'), icon: ClipboardList, mobileLabel: t('dashboard.admin.tabs.activity'), adminOnly: true },
     ];
     return allItems.filter(item => isAdmin || !item.adminOnly);
   }, [t, isAdmin]);
@@ -1038,7 +1038,7 @@ export default function Dashboard() {
           <header className="mb-6 md:mb-8">
             <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
             <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-foreground tracking-tight leading-tight">
-              {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
+              {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName')).slice(1).toLowerCase() })}
             </h1>
           </header>
 
@@ -1279,7 +1279,7 @@ export default function Dashboard() {
                         data-testid="button-sidebar-admin"
                       >
                         <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
-                        <span>{t('dashboard.menu.support', 'Soporte')}</span>
+                        <span>{t('dashboard.menu.support')}</span>
                       </button>
                     </>
                   )}
@@ -1390,7 +1390,7 @@ export default function Dashboard() {
                 data-testid="button-tab-admin-mobile"
               >
                 <Shield className="w-4 h-4" />
-                <span>{t('dashboard.menu.support', 'Soporte')}</span>
+                <span>{t('dashboard.menu.support')}</span>
               </Button>
             </div>
           )}
@@ -1401,7 +1401,7 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-6">
             <div>
               <h1 className="text-lg sm:text-2xl md:text-4xl font-black text-foreground tracking-tight leading-tight">
-                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName', 'Client')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName', 'Client')).slice(1).toLowerCase() })}
+                {t('dashboard.welcome', { name: (user?.firstName || t('dashboard.defaultName')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName')).slice(1).toLowerCase() })}
               </h1>
               <p className="text-muted-foreground text-base md:text-lg mt-1 md:mt-2">
                 {t('dashboard.subtitle')}
@@ -1692,21 +1692,21 @@ export default function Dashboard() {
                   
                   {userDocuments && userDocuments.length > 0 && (
                     <div className="space-y-3">
-                      <h3 className="text-sm font-black text-foreground">{t('dashboard.documents.myDocuments', 'My Documents')}</h3>
+                      <h3 className="text-sm font-black text-foreground">{t('dashboard.documents.myDocuments')}</h3>
                       {userDocuments.map((doc: any) => {
                         const docTypeLabels: Record<string, string> = {
                           passport: t('dashboard.documents.passport'),
                           address_proof: t('dashboard.documents.addressProof'),
                           tax_id: t('dashboard.documents.taxId'),
-                          articles_of_organization: t('dashboard.documents.articlesOfOrg', 'Articles of Organization'),
-                          ein_letter: t('dashboard.documents.einLetter', 'EIN Letter'),
-                          operating_agreement: t('dashboard.documents.operatingAgreement', 'Operating Agreement'),
+                          articles_of_organization: t('dashboard.documents.articlesOfOrg'),
+                          ein_letter: t('dashboard.documents.einLetter'),
+                          operating_agreement: t('dashboard.documents.operatingAgreement'),
                           other: t('dashboard.documents.otherDocument'),
                         };
                         const statusConfig: Record<string, { label: string; className: string }> = {
-                          pending: { label: t('dashboard.documents.statusPending', 'Pending review'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
-                          approved: { label: t('dashboard.documents.statusApproved', 'Approved'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' },
-                          rejected: { label: t('dashboard.documents.statusRejected', 'Rejected'), className: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
+                          pending: { label: t('dashboard.documents.statusPending'), className: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
+                          approved: { label: t('dashboard.documents.statusApproved'), className: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' },
+                          rejected: { label: t('dashboard.documents.statusRejected'), className: 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400' },
                         };
                         const status = statusConfig[doc.reviewStatus] || statusConfig.pending;
                         const isApproved = doc.reviewStatus === 'approved';
@@ -1770,7 +1770,7 @@ export default function Dashboard() {
                                           data-testid={`input-reupload-doc-${doc.id}`}
                                         />
                                         <Button variant="outline" size="sm" className="rounded-full font-bold text-[10px] md:text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
-                                          <span><Upload className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadAgain', 'Upload again')}</span>
+                                          <span><Upload className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadAgain')}</span>
                                         </Button>
                                       </label>
                                     )}
@@ -2258,7 +2258,7 @@ export default function Dashboard() {
                         data-testid="button-admin-search"
                       >
                         <Search className="w-4 h-4 mr-1" />
-                        {t('dashboard.admin.search', 'Buscar')}
+                        {t('dashboard.admin.search')}
                       </Button>
                     </div>
                     {isAdmin && (
@@ -2354,7 +2354,7 @@ export default function Dashboard() {
                           >
                             <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
                             <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
-                            <NativeSelectItem value="custom">{t('dashboard.admin.customOrder', 'Pedido personalizado')}</NativeSelectItem>
+                            <NativeSelectItem value="custom">{t('dashboard.admin.customOrder')}</NativeSelectItem>
                           </NativeSelect>
                         </div>
                         <div>
@@ -2373,10 +2373,10 @@ export default function Dashboard() {
                         </div>
                         {newOrderData.orderType === 'custom' ? (
                           <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept', 'Concepto')}</Label>
+                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept')}</Label>
                             <Input value={newOrderData.concept} 
                               onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
-                              placeholder={t('dashboard.admin.conceptPlaceholder', 'Ej: Consultoría fiscal, Apostilla, Servicio adicional...')} 
+                              placeholder={t('dashboard.admin.conceptPlaceholder')} 
                               className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
                               data-testid="input-order-concept" 
                             />
@@ -2589,8 +2589,8 @@ export default function Dashboard() {
                           <div className="p-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-xs font-black text-blue-700 dark:text-blue-300">{t('dashboard.admin.supportPermissions', 'Rol de Soporte')}</p>
-                                <p className="text-[10px] text-blue-600 dark:text-blue-400">{t('dashboard.admin.supportPermissionsDesc', 'Puede ver pedidos, solicitar documentos y responder consultas')}</p>
+                                <p className="text-xs font-black text-blue-700 dark:text-blue-300">{t('dashboard.admin.supportPermissions')}</p>
+                                <p className="text-[10px] text-blue-600 dark:text-blue-400">{t('dashboard.admin.supportPermissionsDesc')}</p>
                               </div>
                               <Switch
                                 checked={editingUser.isSupport || false}
@@ -3236,8 +3236,8 @@ export default function Dashboard() {
                     <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestOtpTitle', 'Request identity verification')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestOtpDesc', 'Send a verification code to')} {otpRequestDialog.user?.firstName} {otpRequestDialog.user?.lastName} ({otpRequestDialog.user?.email})</p>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestOtpTitle')}</h3>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestOtpDesc')} {otpRequestDialog.user?.firstName} {otpRequestDialog.user?.lastName} ({otpRequestDialog.user?.email})</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -3245,10 +3245,10 @@ export default function Dashboard() {
                       </div>
                       <div className="space-y-4">
                         <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.otpReason', 'Reason (optional)')}</Label>
+                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.otpReason')}</Label>
                           <Textarea value={otpRequestReason}
                             onChange={(e) => setOtpRequestReason(e.target.value)}
-                            placeholder={t('dashboard.admin.users.otpReasonPlaceholder', 'e.g. We need to verify your identity before processing your LLC application')}
+                            placeholder={t('dashboard.admin.users.otpReasonPlaceholder')}
                             className="rounded-xl border-border bg-white dark:bg-card"
                             rows={3}
                             data-testid="input-otp-reason"
@@ -3262,11 +3262,11 @@ export default function Dashboard() {
                             setIsSendingOtpRequest(true);
                             try {
                               await apiRequest("POST", `/api/admin/users/${otpRequestDialog.user.id}/request-otp`, { reason: otpRequestReason || undefined });
-                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.otpSent', 'Verification code sent successfully') });
+                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.otpSent') });
                               setOtpRequestDialog({ open: false, user: null });
                               setOtpRequestReason("");
                             } catch {
-                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.otpSendError', 'Could not send verification code') });
+                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.otpSendError') });
                             } finally {
                               setIsSendingOtpRequest(false);
                             }
@@ -3274,7 +3274,7 @@ export default function Dashboard() {
                           className="flex-1 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full"
                           data-testid="button-confirm-otp-request"
                         >
-                          {isSendingOtpRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendOtpBtn', 'Send verification code')}
+                          {isSendingOtpRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendOtpBtn')}
                         </Button>
                         <Button variant="outline" onClick={() => { setOtpRequestDialog({ open: false, user: null }); setOtpRequestReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
                       </div>
@@ -3438,7 +3438,7 @@ export default function Dashboard() {
                                   className="text-destructive shrink-0"
                                   onClick={() => {
                                     showConfirm({
-                                      title: t('common.confirmAction', 'Confirmar'),
+                                      title: t('common.confirmAction'),
                                       description: t('dashboard.admin.guestSection.confirmDelete'),
                                       onConfirm: async () => {
                                         try {
@@ -3713,7 +3713,7 @@ export default function Dashboard() {
                                       onClick={(e) => {
                                         e.stopPropagation();
                                         showConfirm({
-                                          title: t('common.confirmAction', 'Confirmar'),
+                                          title: t('common.confirmAction'),
                                           description: t('dashboard.admin.inboxSection.confirmDeleteMsg'),
                                           onConfirm: async () => {
                                             try {
@@ -3880,7 +3880,7 @@ export default function Dashboard() {
                                       {u.accountStatus === 'active' ? t('dashboard.admin.users.verified') : u.accountStatus === 'pending' ? t('dashboard.admin.users.inReview') : u.accountStatus === 'deactivated' ? t('dashboard.admin.users.deactivated') : u.accountStatus === 'vip' ? 'VIP' : t('dashboard.admin.users.verified')}
                                     </Badge>
                                     {u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">ADMIN</Badge>}
-                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge', 'SOPORTE')}</Badge>}
+                                    {u.isSupport && !u.isAdmin && <Badge className="text-[9px] rounded-full bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300 border border-green-400 dark:border-green-600">{t('dashboard.admin.users.supportBadge')}</Badge>}
                                     </div>
                                     {u.clientId && (
                                       <span className="text-[10px] font-mono font-bold text-accent bg-accent/10 px-2 py-0.5 rounded-full shrink-0" data-testid={`text-client-id-${u.id}`}>{u.clientId}</span>
@@ -3931,7 +3931,7 @@ export default function Dashboard() {
                                     <Key className="w-3 h-3 mr-1" />{t('dashboard.admin.users.passwordBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => { setOtpRequestDialog({ open: true, user: u }); setOtpRequestReason(""); }} data-testid={`button-request-otp-${u.id}`}>
-                                    <ShieldCheck className="w-3 h-3 mr-1" />{t('dashboard.admin.users.requestOtpBtn', 'Verify identity')}
+                                    <ShieldCheck className="w-3 h-3 mr-1" />{t('dashboard.admin.users.requestOtpBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setNoteDialog({ open: true, user: u })} data-testid={`button-note-user-${u.id}`}>
                                     {t('dashboard.admin.users.messageBtn')}
@@ -4000,7 +4000,7 @@ export default function Dashboard() {
                                     className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50 shrink-0"
                                     onClick={() => {
                                       showConfirm({
-                                        title: t('common.confirmAction', 'Confirmar'),
+                                        title: t('common.confirmAction'),
                                         description: t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`,
                                         onConfirm: async () => {
                                           try {
@@ -4162,7 +4162,7 @@ export default function Dashboard() {
                                   className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={() => {
                                     showConfirm({
-                                      title: t('common.confirmAction', 'Confirmar'),
+                                      title: t('common.confirmAction'),
                                       description: t('dashboard.calendar.clearCalendarConfirm'),
                                       onConfirm: async () => {
                                         try {
@@ -4300,7 +4300,7 @@ export default function Dashboard() {
                                 className="h-7 w-7 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
                                 onClick={() => {
                                   showConfirm({
-                                    title: t('common.confirmAction', 'Confirmar'),
+                                    title: t('common.confirmAction'),
                                     description: t('dashboard.admin.documents.confirmDelete'),
                                     onConfirm: async () => {
                                       try {
@@ -4434,7 +4434,7 @@ export default function Dashboard() {
                                       className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
                                       onClick={() => {
                                         showConfirm({
-                                          title: t('common.confirmAction', 'Confirmar'),
+                                          title: t('common.confirmAction'),
                                           description: t('dashboard.admin.invoicesSection.confirmDeleteInvoice'),
                                           onConfirm: async () => {
                                             try {
@@ -4464,7 +4464,7 @@ export default function Dashboard() {
                       {billingSubTab === 'payment-methods' && (
                         <div className="space-y-4">
                           <div className="flex justify-between items-center flex-wrap gap-2">
-                            <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts', 'Métodos de pago')}</h3>
+                            <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts')}</h3>
                             <Button
                               variant="outline"
                               size="sm"
@@ -4537,7 +4537,7 @@ export default function Dashboard() {
                                 </div>
                               ))}
                               {(!paymentAccountsList || paymentAccountsList.length === 0) && (
-                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.paymentAccounts.noAccounts', 'No hay métodos de pago configurados')}</p>
+                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.paymentAccounts.noAccounts')}</p>
                               )}
                             </div>
                           </Card>
@@ -4734,7 +4734,7 @@ export default function Dashboard() {
                                   className="rounded-full text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
                                   onClick={() => {
                                     showConfirm({
-                                      title: t('common.confirmAction', 'Confirmar'),
+                                      title: t('common.confirmAction'),
                                       description: `${t('dashboard.admin.discountsSection.confirmDeleteCode')} ${dc.code}?`,
                                       onConfirm: async () => {
                                         try {
@@ -4869,7 +4869,7 @@ export default function Dashboard() {
                     <div className="rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3 mb-4">
                       <div className="flex items-start justify-between gap-2">
                         <div className="min-w-0 flex-1">
-                          <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">{t('dashboard.tracking.order', 'Pedido')}: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
+                          <p className="text-[9px] font-bold text-accent uppercase tracking-wider mb-0.5">{t('dashboard.tracking.order')}: {orders[0]?.application?.requestCode || orders[0]?.maintenanceApplication?.requestCode || orders[0]?.invoiceNumber || orders[0]?.id}</p>
                           <p className="text-sm font-semibold text-foreground truncate">
                             {orders[0]?.maintenanceApplication 
                               ? `${t('dashboard.services.maintenance')} ${orders[0]?.maintenanceApplication?.state || ''}`
@@ -4883,7 +4883,7 @@ export default function Dashboard() {
                           {getOrderStatusLabel(orders[0]?.status || '', t).label}
                         </Badge>
                       </div>
-                      <p className="text-[9px] text-muted-foreground mt-2">{t('dashboard.tracking.created', 'Creado')}: {orders[0]?.createdAt ? formatDate(orders[0].createdAt) : '-'}</p>
+                      <p className="text-[9px] text-muted-foreground mt-2">{t('dashboard.tracking.created')}: {orders[0]?.createdAt ? formatDate(orders[0].createdAt) : '-'}</p>
                     </div>
                     {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
                     selectedOrderEvents.map((event: any, idx: number) => (

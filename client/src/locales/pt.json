@@ -2132,6 +2132,9 @@
       "couldNotMarkNotification": "Não foi possível marcar a notificação",
       "invalidAmount": "Montante inválido (mínimo 1 cêntimo)",
       "missingRequiredData": "Faltam dados obrigatórios"
+    },
+    "messages": {
+      "defaultName": "Cliente"
     }
   },
   "tour": {
@@ -2385,7 +2388,8 @@
     "network": "Erro de conexão. Verifica a tua ligação à internet.",
     "unauthorized": "Não tens permissão para realizar esta ação.",
     "notFound": "O recurso solicitado não existe.",
-    "validation": "Por favor, verifica os campos do formulário."
+    "validation": "Por favor, verifica os campos do formulário.",
+    "fetchFailed": "Falha ao buscar dados"
   },
   "progress": {
     "step": "Passo {{current}} de {{total}}",

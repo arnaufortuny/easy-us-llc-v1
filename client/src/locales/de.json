@@ -2132,6 +2132,9 @@
       "couldNotMarkNotification": "Benachrichtigung konnte nicht markiert werden",
       "invalidAmount": "Ungültiger Betrag (mindestens 1 Cent)",
       "missingRequiredData": "Pflichtdaten fehlen"
+    },
+    "messages": {
+      "defaultName": "Kunde"
     }
   },
   "tour": {
@@ -2385,7 +2388,8 @@
     "network": "Verbindungsfehler. Überprüfen Sie Ihre Internetverbindung.",
     "unauthorized": "Sie haben keine Berechtigung, diese Aktion durchzuführen.",
     "notFound": "Die angeforderte Ressource existiert nicht.",
-    "validation": "Bitte überprüfen Sie die Formularfelder."
+    "validation": "Bitte überprüfen Sie die Formularfelder.",
+    "fetchFailed": "Fehler beim Abrufen der Daten"
   },
   "progress": {
     "step": "Schritt {{current}} von {{total}}",

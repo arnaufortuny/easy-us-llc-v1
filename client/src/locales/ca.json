@@ -2132,6 +2132,9 @@
       "couldNotMarkNotification": "No s'ha pogut marcar la notificació",
       "invalidAmount": "Import invàlid (mínim 1 cèntim)",
       "missingRequiredData": "Falten dades requerides"
+    },
+    "messages": {
+      "defaultName": "Client"
     }
   },
   "tour": {
@@ -2385,7 +2388,8 @@
     "network": "Error de connexió. Verifica la teva connexió a internet.",
     "unauthorized": "No tens permís per realitzar aquesta acció.",
     "notFound": "El recurs sol·licitat no existeix.",
-    "validation": "Si us plau, revisa els camps del formulari."
+    "validation": "Si us plau, revisa els camps del formulari.",
+    "fetchFailed": "Error en obtenir les dades"
   },
   "progress": {
     "step": "Pas {{current}} de {{total}}",

@@ -517,7 +517,7 @@ export default function OperatingAgreementGenerator() {
         console.error('Error saving to Document Center:', saveError);
       }
     } catch (error) {
-      setFormMessage({ type: 'error', text: t('tools.operatingAgreement.generationError', 'Error generating PDF. Please try again.') });
+      setFormMessage({ type: 'error', text: t('tools.operatingAgreement.generationError') });
     } finally {
       setIsGenerating(false);
     }
@@ -732,7 +732,7 @@ export default function OperatingAgreementGenerator() {
                       )}
                       
                       <div className="flex items-center gap-2 mb-3">
-                        <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "PDF language")}:</Label>
+                        <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage")}:</Label>
                         <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-agreement-export-lang">
                           {[
                             { code: "es", label: "Español" },

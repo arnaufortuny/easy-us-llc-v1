@@ -2132,6 +2132,9 @@
       "sendDocument": "Invia Documento",
       "describePlaceholder": "Descrivi il documento...",
       "uploadButton": "Caricare"
+    },
+    "messages": {
+      "defaultName": "Cliente"
     }
   },
   "tour": {
@@ -2385,7 +2388,8 @@
     "network": "Errore di connessione. Verifica la tua connessione internet.",
     "unauthorized": "Non hai il permesso per eseguire questa azione.",
     "notFound": "La risorsa richiesta non esiste.",
-    "validation": "Per favore, verifica i campi del modulo."
+    "validation": "Per favore, verifica i campi del modulo.",
+    "fetchFailed": "Errore nel recupero dei dati"
   },
   "progress": {
     "step": "Passo {{current}} di {{total}}",

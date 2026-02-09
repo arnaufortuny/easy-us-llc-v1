@@ -249,7 +249,7 @@ export default function CsvGenerator() {
             </div>
             <div className="hidden sm:flex items-center gap-3 shrink-0">
               <div className="flex items-center gap-2">
-                <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "Export language")}:</Label>
+                <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage")}:</Label>
                 <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-csv-export-lang">
                   {EXPORT_LANGUAGES.map(lang => (
                     <NativeSelectItem key={lang.code} value={lang.code}>{lang.label}</NativeSelectItem>
@@ -481,7 +481,7 @@ export default function CsvGenerator() {
         <Card className="border-0 shadow-sm rounded-2xl mt-4 sm:hidden">
           <CardContent className="p-4 space-y-3">
             <div className="flex items-center gap-2">
-              <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage", "Export language")}:</Label>
+              <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage")}:</Label>
               <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-csv-export-lang-mobile">
                 {EXPORT_LANGUAGES.map(lang => (
                   <NativeSelectItem key={lang.code} value={lang.code}>{lang.label}</NativeSelectItem>

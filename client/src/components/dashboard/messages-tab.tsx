@@ -40,12 +40,12 @@ export function MessagesTab({
   const [inquiryMessage, setInquiryMessage] = useState("");
 
   const REASON_OPTIONS = [
-    { value: "create_company", label: t("contact.subjects.createCompany", "Create a company") },
-    { value: "llc_help", label: t("contact.subjects.llcHelp", "Help with my LLC") },
-    { value: "close_company", label: t("contact.subjects.closeCompany", "Close company") },
-    { value: "bank_payments", label: t("contact.subjects.bankPayments", "Banking & Payments") },
-    { value: "question", label: t("contact.subjects.question", "General question") },
-    { value: "other", label: t("contact.subjects.other", "Other") },
+    { value: "create_company", label: t("contact.subjects.createCompany") },
+    { value: "llc_help", label: t("contact.subjects.llcHelp") },
+    { value: "close_company", label: t("contact.subjects.closeCompany") },
+    { value: "bank_payments", label: t("contact.subjects.bankPayments") },
+    { value: "question", label: t("contact.subjects.question") },
+    { value: "other", label: t("contact.subjects.other") },
   ];
 
   const sendInquiryMutation = useMutation({
@@ -53,7 +53,7 @@ export function MessagesTab({
       const reasonLabel = REASON_OPTIONS.find(r => r.value === inquiryReason)?.label || inquiryReason;
       const fullSubject = `${inquirySubject} [${reasonLabel}]`;
       const res = await apiRequest("POST", "/api/messages", {
-        name: `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Client',
+        name: `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || t('dashboard.messages.defaultName'),
         email: user?.email || '',
         phone: user?.phone || '',
         contactByWhatsapp: false,
@@ -68,7 +68,7 @@ export function MessagesTab({
     },
     onSuccess: (data) => {
       const ticketId = data?.messageId || data?.id || '';
-      setFormMessage({ type: 'success', text: `${t('dashboard.support.messageSent', 'Message sent successfully')}. ${t('dashboard.support.ticketLabel', 'Ticket')} #${ticketId}` });
+      setFormMessage({ type: 'success', text: `${t('dashboard.support.messageSent')}. ${t('dashboard.support.ticketLabel')} #${ticketId}` });
       setShowNewInquiry(false);
       setInquirySubject("");
       setInquiryReason("");
@@ -96,7 +96,7 @@ export function MessagesTab({
             data-testid="button-open-new-inquiry"
           >
             <PlusCircle className="w-4 h-4 mr-1.5" />
-            {t('dashboard.support.newInquiry', 'New inquiry')}
+            {t('dashboard.support.newInquiry')}
           </Button>
         )}
       </div>
@@ -105,7 +105,7 @@ export function MessagesTab({
         <Card className="rounded-2xl border-2 border-accent/30 shadow-md bg-white dark:bg-card" data-testid="card-new-inquiry">
           <CardContent className="p-5 md:p-6 space-y-4">
             <div className="flex items-center justify-between gap-2 mb-1">
-              <h3 className="font-black text-foreground text-sm md:text-base">{t('dashboard.support.newInquiry', 'New inquiry')}</h3>
+              <h3 className="font-black text-foreground text-sm md:text-base">{t('dashboard.support.newInquiry')}</h3>
               <Button 
                 variant="ghost" 
                 size="icon" 
@@ -118,10 +118,10 @@ export function MessagesTab({
             </div>
 
             <div>
-              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryTitle', 'Title')}</Label>
+              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryTitle')}</Label>
               <Input value={inquirySubject} 
                 onChange={(e) => setInquirySubject(e.target.value)} 
-                placeholder={t('dashboard.support.inquiryTitlePlaceholder', 'Briefly describe your inquiry')}
+                placeholder={t('dashboard.support.inquiryTitlePlaceholder')}
                 className="rounded-full rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
                 maxLength={120}
                 data-testid="input-inquiry-subject"
@@ -129,14 +129,14 @@ export function MessagesTab({
             </div>
 
             <div>
-              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryReason', 'Reason')}</Label>
+              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryReason')}</Label>
               <NativeSelect
                 value={inquiryReason}
                 onValueChange={setInquiryReason}
                 className="w-full rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 data-testid="select-inquiry-reason"
               >
-                <NativeSelectItem value="" disabled>{t('dashboard.support.selectReason', 'Select a reason')}</NativeSelectItem>
+                <NativeSelectItem value="" disabled>{t('dashboard.support.selectReason')}</NativeSelectItem>
                 {REASON_OPTIONS.map((opt) => (
                   <NativeSelectItem key={opt.value} value={opt.value}>{opt.label}</NativeSelectItem>
                 ))}
@@ -144,10 +144,10 @@ export function MessagesTab({
             </div>
 
             <div>
-              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryMessage', 'Message')}</Label>
+              <Label className="text-xs font-bold text-muted-foreground mb-1.5 block">{t('dashboard.support.inquiryMessage')}</Label>
               <Textarea value={inquiryMessage} 
                 onChange={(e) => setInquiryMessage(e.target.value)} 
-                placeholder={t('dashboard.support.inquiryMessagePlaceholder', 'Describe your question or request in detail...')}
+                placeholder={t('dashboard.support.inquiryMessagePlaceholder')}
                 className="rounded-xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 style={{ fontSize: '16px' }}
                 data-testid="input-inquiry-message"
@@ -164,7 +164,7 @@ export function MessagesTab({
               ) : (
                 <Send className="w-4 h-4 mr-2" />
               )}
-              {sendInquiryMutation.isPending ? t('common.sending', 'Sending...') : t('dashboard.support.sendInquiry', 'Send inquiry')}
+              {sendInquiryMutation.isPending ? t('common.sending') : t('dashboard.support.sendInquiry')}
             </Button>
           </CardContent>
         </Card>
@@ -184,7 +184,7 @@ export function MessagesTab({
                 data-testid="button-support-new-inquiry"
               >
                 <PlusCircle className="w-4 h-4 mr-2" />
-                {t('dashboard.support.newInquiry', 'New inquiry')}
+                {t('dashboard.support.newInquiry')}
               </Button>
             </div>
           </Card>
@@ -202,7 +202,7 @@ export function MessagesTab({
                       <Badge variant="outline" className="text-[10px] font-bold">#{msg.messageId}</Badge>
                     )}
                     <Badge variant="secondary" className={`no-default-hover-elevate no-default-active-elevate text-[10px] font-bold ${msg.status === 'replied' ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' : msg.status === 'read' ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' : 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400'}`}>
-                      {msg.status === 'replied' ? t('dashboard.support.statusReplied', 'Replied') : msg.status === 'read' ? t('dashboard.support.statusRead', 'Read') : t('dashboard.support.statusPending', 'Pending')}
+                      {msg.status === 'replied' ? t('dashboard.support.statusReplied') : msg.status === 'read' ? t('dashboard.support.statusRead') : t('dashboard.support.statusPending')}
                     </Badge>
                   </div>
                 </div>
@@ -217,7 +217,7 @@ export function MessagesTab({
                   onClick={() => setSelectedMessage(selectedMessage?.id === msg.id ? null : msg)}
                   data-testid={`button-view-message-${msg.id}`}
                 >
-                  <Eye className="w-3 h-3 mr-1" /> {selectedMessage?.id === msg.id ? t('dashboard.support.hide', 'Hide') : t('dashboard.support.view')}
+                  <Eye className="w-3 h-3 mr-1" /> {selectedMessage?.id === msg.id ? t('dashboard.support.hide') : t('dashboard.support.view')}
                 </Button>
                 {selectedMessage?.id === msg.id && (
                   <div className="mt-3 pt-3 border-t border-gray-100 dark:border-border space-y-3">

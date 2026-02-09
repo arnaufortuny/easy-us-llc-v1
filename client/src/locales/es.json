@@ -1618,7 +1618,7 @@
       "maintenanceService": "Mantenimiento Anual",
       "customOrder": "Pedido personalizado",
       "conceptLabel": "Concepto",
-      "conceptPlaceholder": "Ej: Consultoría fiscal, Apostilla, Servicio adicional...",
+      "conceptPlaceholder": "Ej: Servicio de consultoría",
       "client": "Cliente",
       "selectClient": "Seleccionar cliente...",
       "state": "Estado (EE.UU.)",
@@ -1738,7 +1738,6 @@
       "requestDocBtn": "Solicitar Documento",
       "createInvoice": "Crear Factura",
       "concept": "Concepto",
-      "conceptPlaceholder": "Ej: Servicio de consultoría",
       "currencyLabel": "Moneda",
       "creating": "Creando...",
       "createInvoiceBtn": "Crear Factura",
@@ -2133,6 +2132,9 @@
       "couldNotMarkNotification": "No se pudo marcar la notificación",
       "invalidAmount": "Importe inválido (mínimo 1 céntimo)",
       "missingRequiredData": "Faltan datos requeridos"
+    },
+    "messages": {
+      "defaultName": "Cliente"
     }
   },
   "tour": {
@@ -2386,7 +2388,8 @@
     "network": "Error de conexión. Verifica tu conexión a internet.",
     "unauthorized": "No tienes permiso para realizar esta acción.",
     "notFound": "El recurso solicitado no existe.",
-    "validation": "Por favor, revisa los campos del formulario."
+    "validation": "Por favor, revisa los campos del formulario.",
+    "fetchFailed": "Error al obtener los datos"
   },
   "progress": {
     "step": "Paso {{current}} de {{total}}",

@@ -1618,7 +1618,7 @@
       "maintenanceService": "Annual Maintenance",
       "customOrder": "Custom order",
       "conceptLabel": "Concept",
-      "conceptPlaceholder": "E.g.: Tax consulting, Apostille, Additional service...",
+      "conceptPlaceholder": "E.g.: Consulting service",
       "client": "Client",
       "selectClient": "Select client...",
       "state": "State (USA)",
@@ -1738,7 +1738,6 @@
       "requestDocBtn": "Request Document",
       "createInvoice": "Create Invoice",
       "concept": "Concept",
-      "conceptPlaceholder": "E.g.: Consulting service",
       "currencyLabel": "Currency",
       "creating": "Creating...",
       "createInvoiceBtn": "Create Invoice",
@@ -2133,6 +2132,9 @@
       "couldNotMarkNotification": "Could not mark the notification",
       "invalidAmount": "Invalid amount (minimum 1 cent)",
       "missingRequiredData": "Missing required data"
+    },
+    "messages": {
+      "defaultName": "Client"
     }
   },
   "tour": {
@@ -2386,7 +2388,8 @@
     "network": "Connection error. Check your internet connection.",
     "unauthorized": "You don't have permission to perform this action.",
     "notFound": "The requested resource doesn't exist.",
-    "validation": "Please check the form fields."
+    "validation": "Please check the form fields.",
+    "fetchFailed": "Failed to fetch data"
   },
   "progress": {
     "step": "Step {{current}} of {{total}}",

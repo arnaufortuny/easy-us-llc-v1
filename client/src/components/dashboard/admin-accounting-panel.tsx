@@ -334,7 +334,7 @@ export function AdminAccountingPanel() {
                     className="h-8 w-8 rounded-full text-red-600"
                     onClick={() => {
                       showConfirm({
-                        title: t('common.confirmAction', 'Confirmar'),
+                        title: t('common.confirmAction'),
                         description: t('dashboard.admin.deleteTransaction') + '?',
                         onConfirm: () => {
                           deleteMutation.mutate(tx.id);

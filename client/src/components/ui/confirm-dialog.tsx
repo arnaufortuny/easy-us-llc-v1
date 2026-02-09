@@ -33,8 +33,8 @@ export function ConfirmDialog({
   variant = "destructive",
 }: ConfirmDialogProps) {
   const { t } = useTranslation();
-  const resolvedConfirmText = confirmText || t('common.confirm', 'Confirmar');
-  const resolvedCancelText = cancelText || t('common.cancel', 'Cancelar');
+  const resolvedConfirmText = confirmText || t('common.confirm');
+  const resolvedCancelText = cancelText || t('common.cancel');
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>

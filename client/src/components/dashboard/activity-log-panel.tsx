@@ -39,7 +39,7 @@ export function ActivityLogPanel() {
       if (actionFilter) params.set("action", actionFilter);
       if (searchQuery) params.set("search", searchQuery);
       const res = await fetch(`/api/admin/audit-logs?${params}`, { credentials: "include" });
-      if (!res.ok) throw new Error("Failed to fetch");
+      if (!res.ok) throw new Error(t('errors.fetchFailed'));
       return res.json();
     },
     staleTime: 1000 * 60 * 2,
@@ -87,7 +87,7 @@ export function ActivityLogPanel() {
     <div className="space-y-4" data-testid="admin-activity-log">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-black">{t('dashboard.admin.activityLog.title', 'Activity Log')}</h3>
+          <h3 className="text-sm font-black">{t('dashboard.admin.activityLog.title')}</h3>
           {data?.total !== undefined && (
             <Badge variant="secondary" className="text-[10px]">{data.total}</Badge>
           )}
@@ -101,7 +101,7 @@ export function ActivityLogPanel() {
           className="text-xs rounded-xl w-full sm:w-48"
           data-testid="select-activity-filter"
         >
-          <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions', 'All actions')}</NativeSelectItem>
+          <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions')}</NativeSelectItem>
           {data?.actions?.map((action) => (
             <NativeSelectItem key={action} value={action}>
               {formatAction(action)}
@@ -159,7 +159,7 @@ export function ActivityLogPanel() {
               })}
               {(!data?.logs || data.logs.length === 0) && (
                 <div className="text-center py-12 text-muted-foreground text-sm">
-                  {t('dashboard.admin.activityLog.noLogs', 'No activity logs found')}
+                  {t('dashboard.admin.activityLog.noLogs')}
                 </div>
               )}
             </div>
@@ -176,7 +176,7 @@ export function ActivityLogPanel() {
                 data-testid="button-activity-prev"
               >
                 <ChevronLeft className="w-3 h-3 mr-1" />
-                {t('common.previous', 'Previous')}
+                {t('common.previous')}
               </Button>
               <span className="text-xs text-muted-foreground font-bold">
                 {page + 1} / {totalPages}
@@ -190,7 +190,7 @@ export function ActivityLogPanel() {
                 onClick={() => setPage(p => p + 1)}
                 data-testid="button-activity-next"
               >
-                {t('common.next', 'Next')}
+                {t('common.next')}
                 <ChevronRight className="w-3 h-3 ml-1" />
               </Button>
             </div>

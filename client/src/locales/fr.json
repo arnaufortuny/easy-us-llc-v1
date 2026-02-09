@@ -2132,6 +2132,9 @@
       "couldNotMarkNotification": "Impossible de marquer la notification",
       "invalidAmount": "Montant invalide (minimum 1 centime)",
       "missingRequiredData": "Données obligatoires manquantes"
+    },
+    "messages": {
+      "defaultName": "Client"
     }
   },
   "tour": {
@@ -2385,7 +2388,8 @@
     "network": "Erreur de connexion. Vérifiez votre connexion internet.",
     "unauthorized": "Vous n'avez pas la permission d'effectuer cette action.",
     "notFound": "La ressource demandée n'existe pas.",
-    "validation": "Veuillez vérifier les champs du formulaire."
+    "validation": "Veuillez vérifier les champs du formulaire.",
+    "fetchFailed": "Échec de récupération des données"
   },
   "progress": {
     "step": "Étape {{current}} sur {{total}}",

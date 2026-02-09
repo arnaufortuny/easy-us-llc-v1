@@ -356,7 +356,7 @@ export default function InvoiceGenerator() {
             </div>
             <div className="hidden sm:flex items-center gap-3 shrink-0">
               <div className="flex items-center gap-2">
-                <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage", "PDF language")}:</Label>
+                <Label className="text-xs text-muted-foreground whitespace-nowrap">{t("tools.exportLanguage")}:</Label>
                 <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang">
                   {EXPORT_LANGUAGES.map(lang => (
                     <option key={lang.code} value={lang.code}>{lang.label}</option>
@@ -656,7 +656,7 @@ export default function InvoiceGenerator() {
           <Card className="border-0 shadow-sm rounded-2xl sm:hidden">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center gap-2">
-                <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage", "PDF language")}:</Label>
+                <Label className="text-xs text-muted-foreground whitespace-nowrap shrink-0">{t("tools.exportLanguage")}:</Label>
                 <NativeSelect value={exportLang} onChange={(e) => setExportLang(e.target.value)} data-testid="select-invoice-export-lang-mobile">
                   {EXPORT_LANGUAGES.map(lang => (
                     <option key={lang.code} value={lang.code}>{lang.label}</option>
