@@ -356,7 +356,7 @@ export default function Contacto() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">{t("contact.form.continue")}</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">{t("contact.form.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="pt-4">
@@ -385,8 +385,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -407,8 +407,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -435,8 +435,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -461,8 +461,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -478,7 +478,7 @@ export default function Contacto() {
                         <FormControl>
                           <div className="flex flex-col gap-2">
                             {SUBJECT_OPTIONS_TRANSLATED.map((opt) => (
-                              <label key={opt} className="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent cursor-pointer transition-all">
+                              <label key={opt} className="flex items-center gap-3 p-3 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent cursor-pointer transition-all">
                                 <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
                                 <span className="font-medium text-foreground text-sm">{opt}</span>
                               </label>
@@ -490,8 +490,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -512,8 +512,8 @@ export default function Contacto() {
                       </FormItem>
                     )} />
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={prevStep} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">{t("contact.form.continue")}</Button>
+                      <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -532,7 +532,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={sendOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
+                          className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-send-otp"
                         >
                           {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.sendCode")}
@@ -559,7 +559,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={verifyOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent hover:bg-accent/90 text-black font-bold h-12 rounded-full text-base transition-all"
+                          className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-verify-otp"
                         >
                           {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.verifyCode")}
@@ -611,11 +611,11 @@ export default function Contacto() {
                     </div>
 
                     <div className="flex gap-3">
-                      <Button type="button" variant="outline" size="sm" onClick={() => setStep(6)} className="rounded-full h-10 px-4 font-medium border-border transition-all">{t("contact.form.back")}</Button>
+                      <Button type="button" variant="outline" onClick={() => setStep(6)} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
-                        className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
+                        className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
                         {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("contact.form.submit")}
