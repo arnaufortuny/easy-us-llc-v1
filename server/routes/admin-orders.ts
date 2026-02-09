@@ -137,6 +137,52 @@ export function registerAdminOrderRoutes(app: Express) {
     res.json(updatedOrder);
   }));
 
+  app.patch("/api/admin/orders/:id/inline", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    const orderId = Number(req.params.id);
+    const body = z.object({
+      amount: z.number().optional(),
+      companyName: z.string().optional(),
+      state: z.string().optional(),
+      ownerFullName: z.string().optional(),
+      ownerEmail: z.string().optional(),
+      ownerPhone: z.string().optional(),
+      businessCategory: z.string().optional(),
+      ein: z.string().optional(),
+      notes: z.string().optional(),
+    }).parse(req.body);
+
+    const [order] = await db.select().from(ordersTable).where(eq(ordersTable.id, orderId));
+    if (!order) return res.status(404).json({ message: "Order not found" });
+
+    if (body.amount !== undefined) {
+      await db.update(ordersTable).set({ amount: body.amount }).where(eq(ordersTable.id, orderId));
+    }
+
+    const appFields: Record<string, string | undefined> = {};
+    if (body.companyName !== undefined) appFields.companyName = body.companyName;
+    if (body.state !== undefined) appFields.state = body.state;
+    if (body.ownerFullName !== undefined) appFields.ownerFullName = body.ownerFullName;
+    if (body.ownerEmail !== undefined) appFields.ownerEmail = body.ownerEmail;
+    if (body.ownerPhone !== undefined) appFields.ownerPhone = body.ownerPhone;
+    if (body.businessCategory !== undefined) appFields.businessCategory = body.businessCategory;
+
+    if (Object.keys(appFields).length > 0) {
+      const [llcApp] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId));
+      if (llcApp) {
+        await db.update(llcApplicationsTable).set(appFields).where(eq(llcApplicationsTable.id, llcApp.id));
+      }
+      const [maintApp] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId));
+      if (maintApp) {
+        const maintFields: Record<string, string | undefined> = { ...appFields };
+        if (body.ein !== undefined) maintFields.ein = body.ein;
+        await db.update(maintenanceApplications).set(maintFields).where(eq(maintenanceApplications.id, maintApp.id));
+      }
+    }
+
+    await logAudit(req, "order_updated", orderId.toString(), { orderId, changedFields: Object.keys(body) });
+    res.json({ success: true });
+  }));
+
   // Update payment link on order (admin only)
   app.patch("/api/admin/orders/:id/payment-link", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);

@@ -1819,6 +1819,8 @@
         "amount": "Montant",
         "discount": "Réduction",
         "category": "Catégorie",
+        "ownerName": "Titulaire",
+        "phone": "Téléphone",
         "modify": "Modifier",
         "viewInvoice": "Voir la facture",
         "generateInvoice": "Générer une facture",
@@ -1920,7 +1922,12 @@
       "newsletterSection": {
         "title": "Liste des abonnés",
         "confirmDelete": "Supprimer l'abonné",
-        "noSubscribers": "Aucun abonné"
+        "noSubscribers": "Aucun abonné",
+        "sendNewsletter": "Envoyer la Newsletter",
+        "subjectPlaceholder": "Sujet de l'email...",
+        "messagePlaceholder": "Rédigez le contenu de la newsletter...",
+        "recipientCount": "Sera envoyé à {{count}} abonnés",
+        "sendBroadcast": "Envoyer la Newsletter"
       },
       "inboxSection": {
         "archived": "archivé",

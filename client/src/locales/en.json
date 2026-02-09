@@ -1822,6 +1822,8 @@
         "amount": "Amount",
         "discount": "Discount",
         "category": "Category",
+        "ownerName": "Owner",
+        "phone": "Phone",
         "modify": "Modify",
         "viewInvoice": "View Invoice",
         "generateInvoice": "Generate Invoice",
@@ -1923,7 +1925,12 @@
       "newsletterSection": {
         "title": "Subscriber List",
         "confirmDelete": "Delete subscriber",
-        "noSubscribers": "No subscribers"
+        "noSubscribers": "No subscribers",
+        "sendNewsletter": "Send Newsletter",
+        "subjectPlaceholder": "Email subject...",
+        "messagePlaceholder": "Write the newsletter content...",
+        "recipientCount": "Will be sent to {{count}} subscribers",
+        "sendBroadcast": "Send Newsletter"
       },
       "inboxSection": {
         "archived": "archived",

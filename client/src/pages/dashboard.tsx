@@ -662,10 +662,31 @@ export default function Dashboard() {
   });
   
   const [deleteOrderConfirm, setDeleteOrderConfirm] = useState<{ open: boolean; order: any }>({ open: false, order: null });
+  const [inlineEditOrderId, setInlineEditOrderId] = useState<number | null>(null);
+  const [inlineEditData, setInlineEditData] = useState<Record<string, string>>({});
   const [generateInvoiceDialog, setGenerateInvoiceDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
   const [orderInvoiceAmount, setOrderInvoiceAmount] = useState("");
   const [orderInvoiceCurrency, setOrderInvoiceCurrency] = useState("EUR");
   
+  const inlineEditOrderMutation = useMutation({
+    mutationFn: async ({ orderId, data }: { orderId: number; data: Record<string, string> }) => {
+      const payload: Record<string, unknown> = { ...data };
+      if (data.amount) payload.amount = parseFloat(data.amount);
+      const res = await apiRequest("PATCH", `/api/admin/orders/${orderId}/inline`, payload);
+      if (!res.ok) throw new Error("Could not update order");
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
+      setFormMessage({ type: 'success', text: t("dashboard.toasts.changesSaved") });
+      setInlineEditOrderId(null);
+      setInlineEditData({});
+    },
+    onError: () => {
+      setFormMessage({ type: 'error', text: t("common.error") });
+    }
+  });
+
   const deleteOrderMutation = useMutation({
     mutationFn: async (orderId: number) => {
       setFormMessage(null);
@@ -3575,7 +3596,7 @@ export default function Dashboard() {
                           const isFormComplete = appStatus === 'submitted';
                           
                           return (
-                          <div key={order.id} className="p-4 space-y-3">
+                          <div key={order.id} className="p-4 space-y-3" data-testid={`order-card-${order.id}`}>
                             <div className="flex justify-between items-start gap-2">
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap mb-1">
@@ -3614,22 +3635,32 @@ export default function Dashboard() {
                               </div>
                             </div>
                             <div className="flex gap-2 flex-wrap">
-                              {app?.id && (
-                                <Button 
-                                  size="sm" 
-                                  variant="outline" 
-                                  className="rounded-full text-xs"
-                                  onClick={() => {
-                                    const editUrl = isMaintenance 
-                                      ? `/llc/maintenance?edit=${app.id}`
-                                      : `/llc/formation?edit=${app.id}`;
-                                    window.location.href = editUrl;
-                                  }}
-                                  data-testid={`btn-modify-order-${order.id}`}
-                                >
-                                  <Edit2 className="w-3 h-3 mr-1" /> {t('dashboard.admin.orders.modify')}
-                                </Button>
-                              )}
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="rounded-full text-xs"
+                                onClick={() => {
+                                  if (inlineEditOrderId === order.id) {
+                                    setInlineEditOrderId(null);
+                                    setInlineEditData({});
+                                  } else {
+                                    setInlineEditOrderId(order.id);
+                                    setInlineEditData({
+                                      companyName: app?.companyName || '',
+                                      state: app?.state || '',
+                                      ownerFullName: app?.ownerFullName || '',
+                                      ownerEmail: app?.ownerEmail || '',
+                                      ownerPhone: app?.ownerPhone || '',
+                                      businessCategory: app?.businessCategory || '',
+                                      amount: ((order.amount || 0) / 100).toFixed(2),
+                                      ...(isMaintenance && app?.ein ? { ein: app.ein } : {}),
+                                    });
+                                  }
+                                }}
+                                data-testid={`btn-modify-order-${order.id}`}
+                              >
+                                <Edit2 className="w-3 h-3 mr-1" /> {t('dashboard.admin.orders.modify')}
+                              </Button>
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 {t('dashboard.admin.orders.viewInvoice')}
                               </Button>
@@ -3644,6 +3675,64 @@ export default function Dashboard() {
                                 {t('dashboard.admin.orders.deleteBtn')}
                               </Button>
                             </div>
+                          {inlineEditOrderId === order.id && (
+                            <div className="mt-3 p-4 rounded-xl bg-muted/30 border border-border space-y-3" data-testid={`inline-edit-section-${order.id}`}>
+                              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.company')}</label>
+                                  <Input value={inlineEditData.companyName || ''} onChange={e => setInlineEditData(d => ({ ...d, companyName: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-company-${order.id}`} />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.stateLabel')}</label>
+                                  <NativeSelect value={inlineEditData.state || ''} onValueChange={val => setInlineEditData(d => ({ ...d, state: val }))} className="rounded-xl h-9 text-xs bg-white dark:bg-card border px-2 w-full">
+                                    <NativeSelectItem value="new_mexico">New Mexico</NativeSelectItem>
+                                    <NativeSelectItem value="wyoming">Wyoming</NativeSelectItem>
+                                    <NativeSelectItem value="delaware">Delaware</NativeSelectItem>
+                                  </NativeSelect>
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.ownerName')}</label>
+                                  <Input value={inlineEditData.ownerFullName || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerFullName: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-owner-${order.id}`} />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">Email</label>
+                                  <Input value={inlineEditData.ownerEmail || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerEmail: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-email-${order.id}`} />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.phone')}</label>
+                                  <Input value={inlineEditData.ownerPhone || ''} onChange={e => setInlineEditData(d => ({ ...d, ownerPhone: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-phone-${order.id}`} />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.category')}</label>
+                                  <Input value={inlineEditData.businessCategory || ''} onChange={e => setInlineEditData(d => ({ ...d, businessCategory: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-category-${order.id}`} />
+                                </div>
+                                <div>
+                                  <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">{t('dashboard.admin.orders.amount')} (€)</label>
+                                  <Input type="number" step="0.01" value={inlineEditData.amount || ''} onChange={e => setInlineEditData(d => ({ ...d, amount: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-amount-${order.id}`} />
+                                </div>
+                                {isMaintenance && (
+                                  <div>
+                                    <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-wide">EIN</label>
+                                    <Input value={inlineEditData.ein || ''} onChange={e => setInlineEditData(d => ({ ...d, ein: e.target.value }))} className="rounded-xl h-9 text-xs" data-testid={`input-inline-ein-${order.id}`} />
+                                  </div>
+                                )}
+                              </div>
+                              <div className="flex gap-2 justify-end">
+                                <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => { setInlineEditOrderId(null); setInlineEditData({}); }} data-testid={`btn-cancel-inline-${order.id}`}>
+                                  {t('common.cancel')}
+                                </Button>
+                                <Button 
+                                  size="sm" 
+                                  className="rounded-full text-xs bg-accent text-black"
+                                  disabled={inlineEditOrderMutation.isPending}
+                                  onClick={() => inlineEditOrderMutation.mutate({ orderId: order.id, data: inlineEditData })}
+                                  data-testid={`btn-save-inline-${order.id}`}
+                                >
+                                  {inlineEditOrderMutation.isPending ? t('common.saving') : t('common.save')}
+                                </Button>
+                              </div>
+                            </div>
+                          )}
                           </div>
                         )})}
                       </div>
@@ -3959,8 +4048,41 @@ export default function Dashboard() {
                         </Card>
                       )}
                       {usersSubTab === 'newsletter' && (
-                        <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
-                          <div className="space-y-6">
+                        <div className="space-y-4">
+                          <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                            <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.sendNewsletter')}</h4>
+                            <div className="space-y-3">
+                              <Input
+                                placeholder={t('dashboard.admin.newsletterSection.subjectPlaceholder')}
+                                value={broadcastSubject}
+                                onChange={(e) => setBroadcastSubject(e.target.value)}
+                                className="rounded-xl text-sm"
+                                data-testid="input-broadcast-subject"
+                              />
+                              <Textarea
+                                placeholder={t('dashboard.admin.newsletterSection.messagePlaceholder')}
+                                value={broadcastMessage}
+                                onChange={(e) => setBroadcastMessage(e.target.value)}
+                                className="rounded-xl min-h-[100px] text-sm"
+                                data-testid="input-broadcast-message"
+                              />
+                              <div className="flex items-center justify-between gap-2">
+                                <p className="text-[10px] text-muted-foreground">
+                                  {t('dashboard.admin.newsletterSection.recipientCount', { count: adminNewsletterSubs?.length || 0 })}
+                                </p>
+                                <Button
+                                  className="rounded-full text-xs font-black bg-accent text-accent-foreground px-6"
+                                  disabled={!broadcastSubject.trim() || !broadcastMessage.trim() || broadcastMutation.isPending}
+                                  onClick={() => broadcastMutation.mutate({ subject: broadcastSubject, message: broadcastMessage })}
+                                  data-testid="button-send-broadcast"
+                                >
+                                  {broadcastMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin mr-1" /> : <Send className="w-3 h-3 mr-1" />}
+                                  {t('dashboard.admin.newsletterSection.sendBroadcast')}
+                                </Button>
+                              </div>
+                            </div>
+                          </Card>
+                          <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
                             <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.title')} ({adminNewsletterSubs?.length || 0})</h4>
                             <div className="divide-y max-h-80 overflow-y-auto">
                               {adminNewsletterSubs?.map((sub: any) => (
@@ -3996,8 +4118,8 @@ export default function Dashboard() {
                                 <p className="text-sm text-muted-foreground py-4 text-center">{t('dashboard.admin.newsletterSection.noSubscribers')}</p>
                               )}
                             </div>
-                          </div>
-                        </Card>
+                          </Card>
+                        </div>
                       )}
                     </div>
                   )}

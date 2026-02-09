@@ -1819,6 +1819,8 @@
         "amount": "Import",
         "discount": "Descompte",
         "category": "Categoria",
+        "ownerName": "Titular",
+        "phone": "Telèfon",
         "modify": "Modificar",
         "viewInvoice": "Veure Factura",
         "generateInvoice": "Generar Factura",
@@ -1920,7 +1922,12 @@
       "newsletterSection": {
         "title": "Llista de Subscriptors",
         "confirmDelete": "Eliminar subscriptor",
-        "noSubscribers": "No hi ha subscriptors"
+        "noSubscribers": "No hi ha subscriptors",
+        "sendNewsletter": "Enviar Newsletter",
+        "subjectPlaceholder": "Assumpte del correu...",
+        "messagePlaceholder": "Escriu el contingut del newsletter...",
+        "recipientCount": "S'enviarà a {{count}} subscriptors",
+        "sendBroadcast": "Enviar Newsletter"
       },
       "inboxSection": {
         "archived": "arxivat",

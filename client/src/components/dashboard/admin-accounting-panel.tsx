@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Plus, Download, TrendingUp, TrendingDown, DollarSign, Edit, Trash2, Loader2, X } from "@/components/icons";
+import { Plus, Download, Edit, Trash2, Loader2, X } from "@/components/icons";
 import type { AccountingTransaction } from "@shared/schema";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
@@ -203,45 +203,30 @@ export function AdminAccountingPanel() {
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="rounded-2xl border-0 shadow-sm">
-          <CardContent className="p-4 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
-              <TrendingUp className="w-6 h-6 text-green-600" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">{t('dashboard.admin.totalIncome')}</p>
-              <p className="text-xl font-black text-green-600">
-                {summaryLoading ? '...' : formatAmount(summary?.totalIncome || 0)}
-              </p>
-            </div>
+        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-green-500/40">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.totalIncome')}</p>
+            <p className="text-xl font-black text-green-600">
+              {summaryLoading ? '...' : formatAmount(summary?.totalIncome || 0)}
+            </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border-0 shadow-sm">
-          <CardContent className="p-4 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
-              <TrendingDown className="w-6 h-6 text-red-600" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">{t('dashboard.admin.totalExpenses')}</p>
-              <p className="text-xl font-black text-red-600">
-                {summaryLoading ? '...' : formatAmount(summary?.totalExpenses || 0)}
-              </p>
-            </div>
+        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-red-500/40">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.totalExpenses')}</p>
+            <p className="text-xl font-black text-red-600">
+              {summaryLoading ? '...' : formatAmount(summary?.totalExpenses || 0)}
+            </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border-0 shadow-sm">
-          <CardContent className="p-4 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-              <DollarSign className="w-6 h-6 text-blue-600" />
-            </div>
-            <div>
-              <p className="text-xs text-muted-foreground">{t('dashboard.admin.netBalance')}</p>
-              <p className={`text-xl font-black ${(summary?.netBalance || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                {summaryLoading ? '...' : formatAmount(summary?.netBalance || 0)}
-              </p>
-            </div>
+        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-blue-500/40">
+          <CardContent className="p-4">
+            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.netBalance')}</p>
+            <p className={`text-xl font-black ${(summary?.netBalance || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              {summaryLoading ? '...' : formatAmount(summary?.netBalance || 0)}
+            </p>
           </CardContent>
         </Card>
       </div>

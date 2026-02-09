@@ -1819,6 +1819,8 @@
         "amount": "Montante",
         "discount": "Desconto",
         "category": "Categoria",
+        "ownerName": "Titular",
+        "phone": "Telefone",
         "modify": "Modificar",
         "viewInvoice": "Ver Fatura",
         "generateInvoice": "Gerar Fatura",
@@ -1920,7 +1922,12 @@
       "newsletterSection": {
         "title": "Lista de Subscritores",
         "confirmDelete": "Eliminar subscritor",
-        "noSubscribers": "Não há subscritores"
+        "noSubscribers": "Não há subscritores",
+        "sendNewsletter": "Enviar Newsletter",
+        "subjectPlaceholder": "Assunto do email...",
+        "messagePlaceholder": "Escreva o conteúdo da newsletter...",
+        "recipientCount": "Será enviada a {{count}} subscritores",
+        "sendBroadcast": "Enviar Newsletter"
       },
       "inboxSection": {
         "archived": "arquivado",

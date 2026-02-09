@@ -1778,6 +1778,8 @@
         "amount": "Importo",
         "discount": "Sconto",
         "category": "Categoria",
+        "ownerName": "Titolare",
+        "phone": "Telefono",
         "modify": "Modifica",
         "viewInvoice": "Vedi Fattura",
         "generateInvoice": "Genera Fattura",
@@ -1879,7 +1881,12 @@
       "newsletterSection": {
         "title": "Lista degli Iscritti",
         "confirmDelete": "Eliminare l'iscritto",
-        "noSubscribers": "Nessun iscritto"
+        "noSubscribers": "Nessun iscritto",
+        "sendNewsletter": "Invia Newsletter",
+        "subjectPlaceholder": "Oggetto dell'email...",
+        "messagePlaceholder": "Scrivi il contenuto della newsletter...",
+        "recipientCount": "Verrà inviata a {{count}} iscritti",
+        "sendBroadcast": "Invia Newsletter"
       },
       "inboxSection": {
         "archived": "archiviato",
