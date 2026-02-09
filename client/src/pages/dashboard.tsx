@@ -4460,11 +4460,14 @@ export default function Dashboard() {
                     </Card>
                   )}
                   {adminSubTab === 'docs' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
-                      <div className="flex items-center justify-between mb-4 gap-2 flex-wrap">
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-black text-lg">{t('dashboard.admin.documents.title')}</h3>
-                          <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0}</Badge>
+                    <div className="space-y-4">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-black text-lg">{t('dashboard.admin.documents.title')}</h3>
+                            <Badge className="bg-accent/20 text-accent">{adminDocuments?.length || 0}</Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground mt-1">{t('dashboard.admin.documents.subtitle')}</p>
                         </div>
                         <div className="flex gap-2 flex-wrap">
                           <NativeSelect
@@ -4511,83 +4514,101 @@ export default function Dashboard() {
                           </NativeSelect>
                         </div>
                       </div>
-                      <div className="divide-y max-h-[60vh] overflow-y-auto">
-                        {filteredAdminDocuments?.map((doc: any) => (
-                          <div key={doc.id} className="py-3 space-y-2">
-                            <div className="flex items-start gap-2">
-                              <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                                <FileText className="w-4 h-4 text-accent" />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <div className="flex items-center gap-2 flex-wrap">
-                                  <p className="font-bold text-xs md:text-sm truncate">{doc.fileName}</p>
-                                  <Badge variant="outline" className={`text-[8px] md:text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400'}`}>
-                                    {doc.reviewStatus === 'approved' ? t('dashboard.admin.documents.approved') : doc.reviewStatus === 'rejected' ? t('dashboard.admin.documents.rejected') : t('dashboard.admin.documents.pendingStatus')}
-                                  </Badge>
+
+                      {filteredAdminDocuments && filteredAdminDocuments.length > 0 ? (
+                        <div className="space-y-3">
+                          {filteredAdminDocuments.map((doc: any) => (
+                            <Card key={doc.id} className="rounded-xl border-0 shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
+                              <div className="flex items-start gap-3">
+                                <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 dark:bg-green-900/30' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
+                                  <FileText className={`w-5 h-5 ${doc.reviewStatus === 'approved' ? 'text-green-600 dark:text-green-400' : doc.reviewStatus === 'rejected' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`} />
                                 </div>
-                                <p className="text-[10px] text-accent font-medium mt-0.5">
-                                  {doc.user?.firstName} {doc.user?.lastName}
-                                </p>
-                                <p className="text-[9px] md:text-[10px] text-muted-foreground truncate">{doc.user?.email}</p>
-                                <p className="text-[9px] md:text-[10px] text-muted-foreground">
-                                  {doc.application?.companyName && <><span className="font-medium">LLC:</span> {doc.application.companyName} • </>}
-                                  {doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}
-                                </p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2 ml-10">
-                              <NativeSelect 
-                                value={doc.reviewStatus || 'pending'} 
-                                onValueChange={async val => {
-                                  try {
-                                    await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
-                                    queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                    setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
-                                  } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                }}
-                                className="h-7 text-[10px] rounded-full px-2 flex-1 max-w-[120px]"
-                              >
-                                <NativeSelectItem value="pending">{t('dashboard.admin.documents.pendingStatus')}</NativeSelectItem>
-                                <NativeSelectItem value="approved">{t('dashboard.admin.documents.approve')}</NativeSelectItem>
-                                <NativeSelectItem value="rejected">{t('dashboard.admin.documents.reject')}</NativeSelectItem>
-                              </NativeSelect>
-                              {doc.fileUrl && (
-                                <Button size="icon" variant="outline" className="h-7 w-7 rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
-                                  <Eye className="w-3 h-3" />
-                                </Button>
-                              )}
-                              <Button 
-                                size="icon" 
-                                variant="outline" 
-                                className="h-7 w-7 rounded-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20" 
-                                onClick={() => {
-                                  showConfirm({
-                                    title: t('common.confirmAction'),
-                                    description: t('dashboard.admin.documents.confirmDelete'),
-                                    onConfirm: async () => {
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <p className="font-black text-sm truncate">{doc.fileName}</p>
+                                    <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : doc.reviewStatus === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800'}`}>
+                                      {doc.reviewStatus === 'approved' ? t('dashboard.admin.documents.approved') : doc.reviewStatus === 'rejected' ? t('dashboard.admin.documents.rejected') : t('dashboard.admin.documents.pendingStatus')}
+                                    </Badge>
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-1">
+                                    <p className="text-xs text-foreground font-medium">
+                                      {doc.user?.firstName} {doc.user?.lastName}
+                                    </p>
+                                    {doc.user?.email && (
+                                      <p className="text-[10px] text-muted-foreground truncate">({doc.user.email})</p>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-1 text-[10px] text-muted-foreground">
+                                    {doc.application?.companyName && (
+                                      <span className="bg-accent/10 text-accent px-2 py-0.5 rounded-full font-medium">{doc.application.companyName}</span>
+                                    )}
+                                    <span>{doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}</span>
+                                    {doc.documentType && (
+                                      <span className="bg-muted px-2 py-0.5 rounded-full">{doc.documentType.replace(/_/g, ' ')}</span>
+                                    )}
+                                  </div>
+                                </div>
+                                <div className="flex items-center gap-1.5 shrink-0">
+                                  <NativeSelect 
+                                    value={doc.reviewStatus || 'pending'} 
+                                    onValueChange={async val => {
                                       try {
-                                        await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
+                                        await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
+                                        setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
                                       } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                                    },
-                                  });
-                                }}
-                                data-testid={`btn-delete-doc-${doc.id}`}
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
+                                    }}
+                                    className="h-8 text-[10px] rounded-full px-2 max-w-[110px]"
+                                  >
+                                    <NativeSelectItem value="pending">{t('dashboard.admin.documents.pendingStatus')}</NativeSelectItem>
+                                    <NativeSelectItem value="approved">{t('dashboard.admin.documents.approve')}</NativeSelectItem>
+                                    <NativeSelectItem value="rejected">{t('dashboard.admin.documents.reject')}</NativeSelectItem>
+                                  </NativeSelect>
+                                  {doc.fileUrl && (
+                                    <Button size="icon" variant="outline" className="rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
+                                      <Eye className="w-3.5 h-3.5" />
+                                    </Button>
+                                  )}
+                                  <Button 
+                                    size="icon" 
+                                    variant="outline" 
+                                    className="rounded-full text-red-500" 
+                                    onClick={() => {
+                                      showConfirm({
+                                        title: t('common.confirmAction'),
+                                        description: t('dashboard.admin.documents.confirmDelete'),
+                                        onConfirm: async () => {
+                                          try {
+                                            await apiRequest("DELETE", `/api/admin/documents/${doc.id}`);
+                                            queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                                            setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
+                                          } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                                        },
+                                      });
+                                    }}
+                                    data-testid={`btn-delete-doc-${doc.id}`}
+                                  >
+                                    <Trash2 className="w-3.5 h-3.5" />
+                                  </Button>
+                                </div>
+                              </div>
+                            </Card>
+                          ))}
+                        </div>
+                      ) : (
+                        <Card className="rounded-2xl border-0 shadow-sm p-8 md:p-12">
+                          <div className="text-center space-y-3">
+                            <div className="w-16 h-16 mx-auto rounded-2xl bg-muted/50 flex items-center justify-center">
+                              <FileText className="w-8 h-8 text-muted-foreground/40" />
+                            </div>
+                            <div>
+                              <p className="font-black text-foreground">{t('dashboard.admin.documents.noDocs')}</p>
+                              <p className="text-xs text-muted-foreground mt-1">{t('dashboard.admin.documents.noDocsHint')}</p>
                             </div>
                           </div>
-                        ))}
-                        {(!filteredAdminDocuments || filteredAdminDocuments.length === 0) && (
-                          <div className="text-center py-8 text-muted-foreground text-sm">
-                            <FileText className="w-12 h-12 mx-auto mb-3 text-muted-foreground/30" />
-                            {t('dashboard.admin.documents.noDocs')}
-                          </div>
-                        )}
-                      </div>
-                    </Card>
+                        </Card>
+                      )}
+                    </div>
                   )}
                   {adminSubTab === 'billing' && (
                     <div className="space-y-4">

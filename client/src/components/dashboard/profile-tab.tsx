@@ -182,6 +182,7 @@ export function ProfileTab({
                 className="rounded-full text-center text-lg tracking-[0.3em] font-mono bg-white dark:bg-card"
                 maxLength={6}
                 inputMode="numeric"
+                autoFocus
                 data-testid="input-profile-otp" 
               />
             </div>
@@ -221,10 +222,10 @@ export function ProfileTab({
         </Card>
       )}
 
-      <Card className="rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-5 md:p-6 bg-white dark:bg-card">
+      <Card className={`rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-5 md:p-6 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-base md:text-lg font-black text-foreground">{t('profile.personalData')}</h3>
-          {canEdit && (
+          {canEdit && !(profileOtpStep === 'otp' || hasPendingChanges) && (
             <Button variant="ghost" size="sm" className="rounded-full" onClick={() => { setIsEditing(!isEditing); if (isEditing) setProfileOtpStep('idle'); }} data-testid="button-toggle-edit">{isEditing ? t('common.cancel') : t('common.edit')}</Button>
           )}
         </div>
@@ -408,7 +409,7 @@ export function ProfileTab({
         </div>
       </Card>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex items-center justify-between">
             <div>
@@ -444,7 +445,7 @@ export function ProfileTab({
         </Card>
       </div>
 
-      <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+      <Card className={`rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="flex items-center justify-between mb-3">
           <div>
             <h4 className="font-black text-sm text-foreground">{t('profile.changePassword.title')}</h4>
@@ -524,7 +525,7 @@ export function ProfileTab({
         )}
       </Card>
 
-      <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+      <Card className={`rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="mb-3">
           <h4 className="font-black text-sm text-foreground">{t('profile.connectedAccounts.title')}</h4>
           <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description')}</p>

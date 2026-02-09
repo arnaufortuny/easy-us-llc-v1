@@ -1942,6 +1942,8 @@
         "reject": "Ablehnen",
         "confirmDelete": "Dieses Dokument dauerhaft löschen?",
         "noDocs": "Keine von Kunden hochgeladenen Dokumente",
+        "noDocsHint": "Dokumente erscheinen hier, wenn Kunden Dateien hochladen oder wenn Sie Dokumente hochladen",
+        "subtitle": "Alle Kundendokumente verwalten und überprüfen",
         "archive": "Archivieren"
       },
       "guestSection": {

@@ -1944,6 +1944,8 @@
         "reject": "Rechazar",
         "confirmDelete": "¿Eliminar este documento permanentemente?",
         "noDocs": "No hay documentos subidos por clientes",
+        "noDocsHint": "Los documentos aparecerán aquí cuando los clientes suban archivos o cuando subas documentos para ellos",
+        "subtitle": "Gestiona y revisa todos los documentos de los clientes",
         "archive": "Archivar"
       },
       "guestSection": {

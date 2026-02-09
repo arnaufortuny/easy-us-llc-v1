@@ -1944,6 +1944,8 @@
         "reject": "Reject",
         "confirmDelete": "Delete this document permanently?",
         "noDocs": "No documents uploaded by clients",
+        "noDocsHint": "Documents will appear here when clients upload files or when you upload documents for them",
+        "subtitle": "Manage and review all client documents",
         "archive": "Archive"
       },
       "guestSection": {

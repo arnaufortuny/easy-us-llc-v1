@@ -1942,6 +1942,8 @@
         "reject": "Rebutjar",
         "confirmDelete": "Eliminar aquest document permanentment?",
         "noDocs": "No hi ha documents pujats per clients",
+        "noDocsHint": "Els documents apareixeran aquí quan els clients pugin arxius o quan pugis documents per a ells",
+        "subtitle": "Gestiona i revisa tots els documents dels clients",
         "archive": "Arxivar"
       },
       "guestSection": {

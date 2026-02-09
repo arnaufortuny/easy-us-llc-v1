@@ -1901,6 +1901,8 @@
         "reject": "Rifiuta",
         "confirmDelete": "Eliminare questo documento definitivamente?",
         "noDocs": "Nessun documento caricato dai clienti",
+        "noDocsHint": "I documenti appariranno qui quando i clienti caricheranno file o quando caricherai documenti per loro",
+        "subtitle": "Gestisci e rivedi tutti i documenti dei clienti",
         "archive": "Archivia"
       },
       "guestSection": {

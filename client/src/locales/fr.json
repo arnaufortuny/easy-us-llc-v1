@@ -1942,6 +1942,8 @@
         "reject": "Rejeter",
         "confirmDelete": "Supprimer définitivement ce document ?",
         "noDocs": "Aucun document téléchargé par les clients",
+        "noDocsHint": "Les documents apparaîtront ici lorsque les clients téléchargeront des fichiers",
+        "subtitle": "Gérer et examiner tous les documents des clients",
         "archive": "Archiver"
       },
       "guestSection": {
