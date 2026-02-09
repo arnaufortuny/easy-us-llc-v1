@@ -4799,7 +4799,7 @@ export default function Dashboard() {
 
           <div className="space-y-6 order-1 xl:order-2 self-start">
             {/* Consolidated Action Required Card */}
-            {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
+            {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')) || 
               !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
@@ -4829,7 +4829,7 @@ export default function Dashboard() {
                       </Button>
                     </div>
                   )}
-                  {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
+                  {notifications?.filter((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')).map((n: any) => (
                     <div key={n.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-document-${n.id}`}>
                       <FileUp className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
