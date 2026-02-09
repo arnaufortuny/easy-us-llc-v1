@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
-import { ClipboardList, ChevronRight, ChevronLeft, Loader2, Globe, Shield, UserCheck, Package, Mail, Key, Eye, FileText, Calculator, AlertCircle } from "@/components/icons";
+import { ChevronRight, ChevronLeft, Loader2 } from "@/components/icons";
 import { getLocale } from "@/lib/utils";
 
 type AuditLog = {
@@ -17,31 +17,6 @@ type AuditLog = {
   userAgent: string | null;
   details: Record<string, any> | null;
   createdAt: string;
-};
-
-const ACTION_ICONS: Record<string, typeof Shield> = {
-  user_register: UserCheck,
-  order_created: Package,
-  password_change: Key,
-  password_reset: Key,
-  account_flagged_for_review: Shield,
-  account_status_change: Shield,
-  login_attempt: Globe,
-  email_sent: Mail,
-  document_uploaded: FileText,
-  backup_completed: ClipboardList,
-  ip_order_blocked: AlertCircle,
-};
-
-const ACTION_COLORS: Record<string, string> = {
-  user_register: "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400",
-  order_created: "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400",
-  password_change: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400",
-  password_reset: "bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400",
-  account_flagged_for_review: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
-  account_status_change: "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400",
-  ip_order_blocked: "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400",
-  backup_completed: "bg-gray-100 dark:bg-gray-900/30 text-gray-700 dark:text-gray-400",
 };
 
 export function ActivityLogPanel() {
@@ -76,21 +51,35 @@ export function ActivityLogPanel() {
     return action.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
   };
 
-  const formatDetails = (details: Record<string, any> | null) => {
+  const extractEmail = (log: AuditLog): string | null => {
+    if (log.details?.email) return log.details.email;
+    if (log.details?.userEmail) return log.details.userEmail;
+    if (log.details?.to) return log.details.to;
+    return null;
+  };
+
+  const extractClientId = (log: AuditLog): string | null => {
+    if (log.details?.clientId) return log.details.clientId;
+    if (log.userId) return log.userId;
+    if (log.targetId) return log.targetId;
+    return null;
+  };
+
+  const formatExtraDetails = (details: Record<string, any> | null) => {
     if (!details) return null;
     const parts: string[] = [];
-    if (details.email) parts.push(details.email);
-    if (details.clientId) parts.push(`ID: ${details.clientId}`);
     if (details.type) parts.push(details.type);
     if (details.ticketId) parts.push(`#${details.ticketId}`);
     if (details.reason) parts.push(details.reason);
     if (details.step) parts.push(details.step);
+    if (details.newStatus) parts.push(details.newStatus);
     if (details.ordersCount) parts.push(`${details.ordersCount} orders`);
     if (details.backedUp !== undefined) parts.push(`${details.backedUp} files`);
+    if (details.orderId) parts.push(`Order #${details.orderId}`);
     if (details.changedFields && Array.isArray(details.changedFields)) {
       parts.push(details.changedFields.map((f: any) => typeof f === 'string' ? f : f.field).join(", "));
     }
-    return parts.length > 0 ? parts.join(" · ") : JSON.stringify(details).substring(0, 100);
+    return parts.length > 0 ? parts.join(" · ") : null;
   };
 
 
@@ -98,7 +87,6 @@ export function ActivityLogPanel() {
     <div className="space-y-4" data-testid="admin-activity-log">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2">
-          <ClipboardList className="w-5 h-5 text-accent" />
           <h3 className="text-sm font-black">{t('dashboard.admin.activityLog.title', 'Activity Log')}</h3>
           {data?.total !== undefined && (
             <Badge variant="secondary" className="text-[10px]">{data.total}</Badge>
@@ -110,7 +98,7 @@ export function ActivityLogPanel() {
         <NativeSelect
           value={actionFilter}
           onValueChange={(val) => { setActionFilter(val); setPage(0); }}
-          className="text-xs rounded-full w-full sm:w-48"
+          className="text-xs rounded-xl w-full sm:w-48"
           data-testid="select-activity-filter"
         >
           <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions', 'All actions')}</NativeSelectItem>
@@ -131,41 +119,41 @@ export function ActivityLogPanel() {
           <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
             <div className="divide-y">
               {data?.logs?.map((log) => {
-                const IconComp = ACTION_ICONS[log.action] || Eye;
-                const colorClass = ACTION_COLORS[log.action] || "bg-muted text-muted-foreground";
+                const email = extractEmail(log);
+                const clientId = extractClientId(log);
+                const extraDetails = formatExtraDetails(log.details);
                 return (
-                  <div key={log.id} className="p-3 sm:p-4 flex items-start gap-3" data-testid={`activity-log-${log.id}`}>
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${colorClass.split(' ').filter(c => c.startsWith('bg-')).join(' ')}`}>
-                      <IconComp className={`w-4 h-4 ${colorClass.split(' ').filter(c => c.startsWith('text-') || c.startsWith('dark:')).join(' ')}`} />
+                  <div key={log.id} className="p-3 sm:p-4" data-testid={`activity-log-${log.id}`}>
+                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
+                      <Badge variant="default" className="text-[10px] font-bold rounded-full">
+                        {formatAction(log.action)}
+                      </Badge>
+                      <span className="text-[10px] text-muted-foreground">
+                        {new Date(log.createdAt).toLocaleString(getLocale(), {
+                          day: '2-digit', month: 'short', year: 'numeric',
+                          hour: '2-digit', minute: '2-digit', second: '2-digit'
+                        })}
+                      </span>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <Badge variant="outline" className="text-[10px] font-bold">
-                          {formatAction(log.action)}
-                        </Badge>
-                        {log.ip && (
-                          <span className="text-[10px] text-muted-foreground font-mono">{log.ip}</span>
-                        )}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1 text-[11px]">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-muted-foreground font-semibold">IP:</span>
+                        <span className="font-mono text-foreground">{log.ip || t('common.na')}</span>
                       </div>
-                      {log.details && (
-                        <p className="text-[11px] text-muted-foreground mt-0.5 line-clamp-2">
-                          {formatDetails(log.details)}
-                        </p>
-                      )}
-                      <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] text-muted-foreground">
-                          {new Date(log.createdAt).toLocaleString(getLocale(), {
-                            day: '2-digit', month: 'short', year: 'numeric',
-                            hour: '2-digit', minute: '2-digit', second: '2-digit'
-                          })}
-                        </span>
-                        {log.userId && (
-                          <span className="text-[10px] text-muted-foreground font-mono">
-                            {t('dashboard.admin.activityLog.user', 'User')}: {log.userId.substring(0, 8)}...
-                          </span>
-                        )}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-muted-foreground font-semibold">{t('common.email')}:</span>
+                        <span className="font-mono text-foreground truncate">{email || t('common.na')}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-muted-foreground font-semibold">ID:</span>
+                        <span className="font-mono text-foreground">{clientId ? clientId.substring(0, 12) : t('common.na')}</span>
                       </div>
                     </div>
+                    {extraDetails && (
+                      <p className="text-[10px] text-muted-foreground mt-1 line-clamp-1">
+                        {extraDetails}
+                      </p>
+                    )}
                   </div>
                 );
               })}

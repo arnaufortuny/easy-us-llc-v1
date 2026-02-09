@@ -11,7 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Plus, Download, Edit, Trash2, Loader2, X, DollarSign, TrendingUp, TrendingDown } from "@/components/icons";
+import { Plus, Download, Edit, Trash2, Loader2, X } from "@/components/icons";
 import type { AccountingTransaction } from "@shared/schema";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
@@ -203,28 +203,28 @@ export function AdminAccountingPanel() {
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-green-500/40">
+        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.totalIncome')}</p>
-            <p className="text-xl font-black text-green-600">
+            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.totalIncome')}</p>
+            <p className="text-xl font-black text-green-700 dark:text-green-400">
               {summaryLoading ? '...' : formatAmount(summary?.totalIncome || 0)}
             </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-red-500/40">
+        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.totalExpenses')}</p>
-            <p className="text-xl font-black text-red-600">
+            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.totalExpenses')}</p>
+            <p className="text-xl font-black text-green-700 dark:text-green-400">
               {summaryLoading ? '...' : formatAmount(summary?.totalExpenses || 0)}
             </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border-0 shadow-sm border-l-4 border-l-blue-500/40">
+        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-muted-foreground mb-1">{t('dashboard.admin.netBalance')}</p>
-            <p className={`text-xl font-black ${(summary?.netBalance || 0) >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.netBalance')}</p>
+            <p className="text-xl font-black text-green-700 dark:text-green-400">
               {summaryLoading ? '...' : formatAmount(summary?.netBalance || 0)}
             </p>
           </CardContent>
@@ -296,15 +296,14 @@ export function AdminAccountingPanel() {
             <div className="p-8 text-center"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></div>
           ) : transactions.length === 0 ? (
             <div className="p-8 text-center text-muted-foreground">
-              <DollarSign className="w-8 h-8 mx-auto mb-2 opacity-40" />
               <p className="text-sm">{t('dashboard.admin.noTransactions')}</p>
             </div>
           ) : (
             transactions.map(tx => (
               <div key={tx.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}`}>
-                    {tx.type === 'income' ? <TrendingUp className="w-4 h-4 text-green-600" /> : <TrendingDown className="w-4 h-4 text-red-600" />}
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${tx.type === 'income' ? 'bg-green-100 dark:bg-green-900/30' : 'bg-red-100 dark:bg-red-900/30'}`}>
+                    <span className={`text-sm font-black ${tx.type === 'income' ? 'text-green-600' : 'text-red-600'}`}>{tx.type === 'income' ? '+' : '-'}</span>
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
