@@ -16,6 +16,7 @@ interface EmailTranslations {
     validFor: string;
     doNotShare: string;
     ignoreMessage: string;
+    ipDetected: string;
   };
   welcome: {
     welcomeMessage: string;
@@ -335,7 +336,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Este código es personal y confidencial",
       validFor: "Tiene una validez limitada a <strong>15 minutos</strong> por motivos de seguridad",
       doNotShare: "No lo compartas con nadie",
-      ignoreMessage: "Si no has solicitado este código, puedes ignorar este mensaje con total tranquilidad."
+      ignoreMessage: "Si no has solicitado este código, puedes ignorar este mensaje con total tranquilidad.",
+      ipDetected: "Intento de acceso detectado desde la IP:"
     },
     welcome: {
       welcomeMessage: "¡Bienvenido a Easy US LLC! Nos alegra mucho tenerte con nosotros.",
@@ -653,7 +655,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "This code is personal and confidential",
       validFor: "It is valid for <strong>15 minutes</strong> for security reasons",
       doNotShare: "Do not share it with anyone",
-      ignoreMessage: "If you did not request this code, you can safely ignore this message."
+      ignoreMessage: "If you did not request this code, you can safely ignore this message.",
+      ipDetected: "Login attempt detected from IP:"
     },
     welcome: {
       welcomeMessage: "Welcome to Easy US LLC! We're thrilled to have you with us.",
@@ -971,7 +974,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Aquest codi és personal i confidencial",
       validFor: "Té una validesa limitada a <strong>15 minuts</strong> per motius de seguretat",
       doNotShare: "No el comparteixis amb ningú",
-      ignoreMessage: "Si no has sol·licitat aquest codi, pots ignorar aquest missatge amb total tranquil·litat."
+      ignoreMessage: "Si no has sol·licitat aquest codi, pots ignorar aquest missatge amb total tranquil·litat.",
+      ipDetected: "Intent d'accés detectat des de la IP:"
     },
     welcome: {
       welcomeMessage: "Benvingut a Easy US LLC! Ens alegra molt tenir-te amb nosaltres.",
@@ -1289,7 +1293,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Ce code est personnel et confidentiel",
       validFor: "Il est valable <strong>15 minutes</strong> pour des raisons de sécurité",
       doNotShare: "Ne le partagez avec personne",
-      ignoreMessage: "Si vous n'avez pas demandé ce code, vous pouvez ignorer ce message en toute tranquillité."
+      ignoreMessage: "Si vous n'avez pas demandé ce code, vous pouvez ignorer ce message en toute tranquillité.",
+      ipDetected: "Tentative de connexion détectée depuis l'IP :"
     },
     welcome: {
       welcomeMessage: "Bienvenue chez Easy US LLC ! Nous sommes ravis de vous compter parmi nous.",
@@ -1607,7 +1612,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Dieser Code ist persönlich und vertraulich",
       validFor: "Er ist aus Sicherheitsgründen <strong>15 Minuten</strong> gültig",
       doNotShare: "Teilen Sie ihn mit niemandem",
-      ignoreMessage: "Wenn Sie diesen Code nicht angefordert haben, können Sie diese Nachricht bedenkenlos ignorieren."
+      ignoreMessage: "Wenn Sie diesen Code nicht angefordert haben, können Sie diese Nachricht bedenkenlos ignorieren.",
+      ipDetected: "Anmeldeversuch erkannt von IP:"
     },
     welcome: {
       welcomeMessage: "Willkommen bei Easy US LLC! Wir freuen uns sehr, Sie bei uns zu haben.",
@@ -1925,7 +1931,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Questo codice è personale e confidenziale",
       validFor: "È valido per <strong>15 minuti</strong> per motivi di sicurezza",
       doNotShare: "Non condividerlo con nessuno",
-      ignoreMessage: "Se non hai richiesto questo codice, puoi ignorare questo messaggio in tutta tranquillità."
+      ignoreMessage: "Se non hai richiesto questo codice, puoi ignorare questo messaggio in tutta tranquillità.",
+      ipDetected: "Tentativo di accesso rilevato dall'IP:"
     },
     welcome: {
       welcomeMessage: "Benvenuto in Easy US LLC! Siamo felici di averti con noi.",
@@ -2243,7 +2250,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       personalAndConfidential: "Este código é pessoal e confidencial",
       validFor: "É válido por <strong>15 minutos</strong> por razões de segurança",
       doNotShare: "Não o partilhe com ninguém",
-      ignoreMessage: "Se não solicitou este código, pode ignorar esta mensagem com toda a tranquilidade."
+      ignoreMessage: "Se não solicitou este código, pode ignorar esta mensagem com toda a tranquilidade.",
+      ipDetected: "Tentativa de acesso detetada a partir do IP:"
     },
     welcome: {
       welcomeMessage: "Bem-vindo à Easy US LLC! Estamos muito felizes por tê-lo connosco.",

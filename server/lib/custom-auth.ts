@@ -231,7 +231,7 @@ export function setupCustomAuth(app: Express) {
           await sendEmail({
             to: user.email!,
             subject: getSecurityOtpSubject(secLang),
-            html: getOtpEmailTemplate(otp, user.firstName || undefined, secLang),
+            html: getOtpEmailTemplate(otp, user.firstName || undefined, secLang, ip),
           });
           
           return res.status(200).json({ 

@@ -56,28 +56,27 @@ function getEmailWrapper(content: string, lang: EmailLanguage = 'es') {
 }
 
 // 1. OTP - Código de verificación
-export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLanguage = 'es') {
+export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLanguage = 'es', ip?: string) {
   const t = getEmailTranslations(lang);
   const clientName = name || t.common.client;
+  const ipSection = ip ? `
+    <p style="line-height: 1.7; font-size: 14px; color: #6B7280; margin-bottom: 20px;">${t.otp.ipDetected} <strong style="color: #0A0A0A;">${ip}</strong></p>
+  ` : '';
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 20px 0;">${t.common.greeting} ${clientName},</p>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 10px;">${t.otp.thanks}</p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.otp.forSecurity}</p>
-    
+    ${ipSection}
     <div style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFDF5 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6EDC8A;">
       <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
-    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #6EDC8A;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.otp.important}</p>
-      <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
-        <li style="margin-bottom: 6px;">${t.otp.personalAndConfidential}</li>
-        <li style="margin-bottom: 6px;">${t.otp.validFor}</li>
-        <li>${t.otp.doNotShare}</li>
-      </ul>
-    </div>
+    <p style="line-height: 1.7; font-size: 13px; color: #6B7280; margin: 20px 0 6px 0;">${t.otp.important}</p>
+    <p style="line-height: 1.7; font-size: 13px; color: #6B7280; margin: 0 0 4px 0;">— ${t.otp.personalAndConfidential}</p>
+    <p style="line-height: 1.7; font-size: 13px; color: #6B7280; margin: 0 0 4px 0;">— ${t.otp.validFor}</p>
+    <p style="line-height: 1.7; font-size: 13px; color: #6B7280; margin: 0 0 4px 0;">— ${t.otp.doNotShare}</p>
 
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">${t.otp.ignoreMessage}</p>
   `;
