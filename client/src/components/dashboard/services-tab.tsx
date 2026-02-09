@@ -260,34 +260,9 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
             </div>
           )}
           
-          {/* In Progress Orders */}
-          {inProgressOrders.length > 0 && (
-            <div className="space-y-3">
-              <h3 className="text-xs md:text-sm font-black text-muted-foreground">{t('dashboard.services.inProgress')}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                {inProgressOrders.map((order) => (
-                  <LLCProgressWidget 
-                    key={`progress-${order.id}`}
-                    status={order.status}
-                    serviceName={
-                      order.maintenanceApplication 
-                        ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
-                        : order.application?.companyName 
-                          ? `${order.application.companyName} LLC`
-                          : order.product?.name || t('dashboard.services.yourLLC')
-                    }
-                    state={order.application?.state || order.maintenanceApplication?.state}
-                    requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
-                    isMaintenance={!!order.maintenanceApplication}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-          
           {/* All Orders List */}
           {orders && orders.length > 0 && (
-            <div className="mt-4 md:mt-6">
+            <div>
               <h3 className="text-xs md:text-sm font-black text-muted-foreground mb-2 md:mb-3">{t('dashboard.services.allOrders')}</h3>
               <div className="space-y-2 md:space-y-3">
                 {orders.map((order) => (
@@ -333,6 +308,31 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                       )}
                     </div>
                   </Card>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* In Progress Orders */}
+          {inProgressOrders.length > 0 && (
+            <div className="space-y-3 mt-4 md:mt-6">
+              <h3 className="text-xs md:text-sm font-black text-muted-foreground">{t('dashboard.services.inProgress')}</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                {inProgressOrders.map((order) => (
+                  <LLCProgressWidget 
+                    key={`progress-${order.id}`}
+                    status={order.status}
+                    serviceName={
+                      order.maintenanceApplication 
+                        ? `${t('dashboard.services.maintenance')} ${order.maintenanceApplication.state || order.product?.name?.replace(' LLC', '') || ''}`
+                        : order.application?.companyName 
+                          ? `${order.application.companyName} LLC`
+                          : order.product?.name || t('dashboard.services.yourLLC')
+                    }
+                    state={order.application?.state || order.maintenanceApplication?.state}
+                    requestCode={order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}
+                    isMaintenance={!!order.maintenanceApplication}
+                  />
                 ))}
               </div>
             </div>

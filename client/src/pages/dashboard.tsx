@@ -4828,7 +4828,6 @@ export default function Dashboard() {
             </Card>
             <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mt-4 mb-16 md:mb-12 text-center" data-testid="card-support-help">
               <div className="flex flex-col items-center gap-3 md:gap-4">
-                <MessageSquare className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                 <div>
                   <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.haveQuestion')}</h3>
                   <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.support.hereToHelp')}</p>

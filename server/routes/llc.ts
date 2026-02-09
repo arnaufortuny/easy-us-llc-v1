@@ -407,14 +407,15 @@ export function registerLlcRoutes(app: Express) {
         const { generateUniqueMessageId } = await import("../lib/id-generator");
         const ticketId = await generateUniqueMessageId();
         
-        // Translate document type for display
-        const docTypeLabelsUpload: Record<string, string> = {
-          'passport': 'Pasaporte / Documento de Identidad',
-          'address_proof': 'Comprobante de Domicilio',
-          'tax_id': 'Identificación Fiscal',
-          'other': 'Otro Documento'
+        const docTypeLabelsUpload: Record<string, Record<string, string>> = {
+          'passport': { es: 'Pasaporte / Documento de Identidad', en: 'Passport / ID Document', ca: 'Passaport / Document d\'Identitat', fr: 'Passeport / Pièce d\'identité', de: 'Reisepass / Ausweis', it: 'Passaporto / Documento d\'identità', pt: 'Passaporte / Documento de Identidade' },
+          'address_proof': { es: 'Comprobante de Domicilio', en: 'Proof of Address', ca: 'Comprovant de Domicili', fr: 'Justificatif de domicile', de: 'Adressnachweis', it: 'Prova di indirizzo', pt: 'Comprovante de Endereço' },
+          'tax_id': { es: 'Identificación Fiscal', en: 'Tax ID', ca: 'Identificació Fiscal', fr: 'Identification fiscale', de: 'Steuer-ID', it: 'Codice fiscale', pt: 'Identificação Fiscal' },
+          'other': { es: 'Otro Documento', en: 'Other Document', ca: 'Altre Document', fr: 'Autre document', de: 'Anderes Dokument', it: 'Altro documento', pt: 'Outro Documento' }
         };
-        const docTypeLabel = docTypeLabelsUpload[documentType] || documentType;
+        const userForLang = await db.select({ preferredLanguage: usersTable.preferredLanguage }).from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+        const userLang = (userForLang[0]?.preferredLanguage as string) || 'es';
+        const docTypeLabel = docTypeLabelsUpload[documentType]?.[userLang] || docTypeLabelsUpload[documentType]?.es || documentType;
         
         // Determine orderId - from orders or from pending request
         let targetOrderId: number | null = null;
@@ -451,15 +452,36 @@ export function registerLlcRoutes(app: Express) {
         
         if (user) {
           const { encrypt } = await import("../utils/encryption");
-          const notesText = documentType === 'other' && notes ? `\nNotas: ${notes}` : '';
-          const userVisibleContent = `Tu documento ha sido recibido correctamente.\n\nTipo: ${docTypeLabel}${notesText}\n\nNuestro equipo lo revisará pronto. Recibirás una notificación cuando sea procesado.`;
+          
+          const docSubjects: Record<string, string> = {
+            es: `Documento Recibido: ${docTypeLabel}`,
+            en: `Document Received: ${docTypeLabel}`,
+            ca: `Document Rebut: ${docTypeLabel}`,
+            fr: `Document Reçu: ${docTypeLabel}`,
+            de: `Dokument Erhalten: ${docTypeLabel}`,
+            it: `Documento Ricevuto: ${docTypeLabel}`,
+            pt: `Documento Recebido: ${docTypeLabel}`
+          };
+          const docMessages: Record<string, (type: string, notes: string) => string> = {
+            es: (type, n) => `Tu documento ha sido recibido correctamente.\n\nTipo: ${type}${n}\n\nNuestro equipo lo revisará pronto. Recibirás una notificación cuando sea procesado.`,
+            en: (type, n) => `Your document has been received successfully.\n\nType: ${type}${n}\n\nOur team will review it shortly. You will receive a notification when it is processed.`,
+            ca: (type, n) => `El teu document ha estat rebut correctament.\n\nTipus: ${type}${n}\n\nEl nostre equip el revisarà aviat. Rebràs una notificació quan sigui processat.`,
+            fr: (type, n) => `Votre document a été reçu avec succès.\n\nType: ${type}${n}\n\nNotre équipe l'examinera bientôt. Vous recevrez une notification lorsqu'il sera traité.`,
+            de: (type, n) => `Ihr Dokument wurde erfolgreich empfangen.\n\nTyp: ${type}${n}\n\nUnser Team wird es in Kürze prüfen. Sie erhalten eine Benachrichtigung, wenn es bearbeitet wird.`,
+            it: (type, n) => `Il tuo documento è stato ricevuto correttamente.\n\nTipo: ${type}${n}\n\nIl nostro team lo esaminerà a breve. Riceverai una notifica quando sarà elaborato.`,
+            pt: (type, n) => `O seu documento foi recebido com sucesso.\n\nTipo: ${type}${n}\n\nA nossa equipa irá revê-lo em breve. Receberá uma notificação quando for processado.`
+          };
+          const notesLabels: Record<string, string> = { es: 'Notas', en: 'Notes', ca: 'Notes', fr: 'Notes', de: 'Notizen', it: 'Note', pt: 'Notas' };
+          const notesText = documentType === 'other' && notes ? `\n${notesLabels[userLang] || 'Notas'}: ${notes}` : '';
+          const userVisibleContent = (docMessages[userLang] || docMessages.es)(docTypeLabel, notesText);
           const adminInternalContent = `[ADMIN] Archivo: ${fileName} | Ruta: ${doc[0].fileUrl}`;
+          const clientLabels: Record<string, string> = { es: 'Cliente', en: 'Client', ca: 'Client', fr: 'Client', de: 'Kunde', it: 'Cliente', pt: 'Cliente' };
           
           await db.insert(messagesTable).values({
             userId,
-            name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || 'Cliente',
+            name: `${user.firstName || ''} ${user.lastName || ''}`.trim() || clientLabels[userLang] || 'Cliente',
             email: user.email || 'sin-email@cliente.com',
-            subject: `Documento Recibido: ${docTypeLabel}`,
+            subject: docSubjects[userLang] || docSubjects.es,
             content: userVisibleContent,
             encryptedContent: encrypt(adminInternalContent),
             type: 'support',

@@ -42,8 +42,8 @@ const routeTitles: Record<string, PageTitleConfig> = {
   "/llc/formation": {
     titleKey: "seo.formation.title",
     descriptionKey: "seo.formation.description",
-    fallbackTitle: "Crear LLC | Easy US LLC",
-    fallbackDescription: "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro."
+    fallbackTitle: "Constituir LLC | Easy US LLC",
+    fallbackDescription: "Inicia el proceso de constitución de tu LLC en Estados Unidos. Formulario simple y seguro."
   },
   "/llc/maintenance": {
     titleKey: "seo.maintenance.title",
