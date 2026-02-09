@@ -1040,7 +1040,13 @@
       "wantsMaintenance": "Pack di manutenzione annuale",
       "password": "Password",
       "confirmPassword": "Conferma password",
-      "notes": "Note"
+      "notes": "Note",
+      "desiredName": "Nome desiderato",
+      "addressAndNumber": "Indirizzo e numero",
+      "uploadOrDrag": "Carica file o trascina",
+      "documentUploaded": "Documento caricato",
+      "provideItLater": "Preferisco fornirlo più tardi",
+      "maxFileSize": "JPG, PNG, PDF (Max 10MB)"
     },
     "streetTypes": {
       "street": "Via",

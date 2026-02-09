@@ -832,7 +832,7 @@ export default function LlcFormation() {
                 <FormDescription>{t("application.steps.contactPhoneDesc")}</FormDescription>
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm md:text-base font-bold text-foreground">Teléfono:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.phone")}:</FormLabel>
                     <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -850,7 +850,7 @@ export default function LlcFormation() {
                 <FormDescription>{t("application.steps.companyNameDesc")}</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-sm md:text-base font-bold text-foreground">Nombre deseado:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.desiredName")}:</FormLabel>
                     <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -917,7 +917,7 @@ export default function LlcFormation() {
                   )} />
                   <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                     <FormItem className="col-span-2">
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Dirección y número:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.addressAndNumber")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -927,14 +927,14 @@ export default function LlcFormation() {
                 <div className="grid grid-cols-2 gap-3">
                   <FormField control={form.control} name="ownerCity" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Ciudad:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.city")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerProvince" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Provincia:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.province")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -944,14 +944,14 @@ export default function LlcFormation() {
                 <div className="grid grid-cols-2 gap-3">
                   <FormField control={form.control} name="ownerPostalCode" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">Código postal:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.postalCode")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerCountry" render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm md:text-base font-bold text-foreground">País:</FormLabel>
+                      <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.country")}:</FormLabel>
                       <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base" /></FormControl>
                       <FormMessage />
                     </FormItem>
@@ -1014,14 +1014,14 @@ export default function LlcFormation() {
                             {field.value && field.value !== "PENDIENTE" ? (
                               <>
                                 <Check className="w-10 h-10 text-accent mx-auto mb-3" />
-                                <p className="font-black text-accent text-sm">Documento cargado</p>
+                                <p className="font-black text-accent text-sm">{t("application.fields.documentUploaded")}</p>
                                 <p className="text-xs text-muted-foreground mt-1 truncate max-w-[200px] mx-auto">{field.value}</p>
                               </>
                             ) : (
                               <>
                                 <svg className="w-10 h-10 text-muted-foreground mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" /></svg>
-                                <p className="font-black text-foreground text-sm">Subir archivo o arrastrar</p>
-                                <p className="text-[10px] text-muted-foreground mt-2">JPG, PNG, PDF (Máx 10MB)</p>
+                                <p className="font-black text-foreground text-sm">{t("application.fields.uploadOrDrag")}</p>
+                                <p className="text-[10px] text-muted-foreground mt-2">{t("application.fields.maxFileSize")}</p>
                               </>
                             )}
                           </label>
@@ -1041,7 +1041,7 @@ export default function LlcFormation() {
                         }
                       }}
                     />
-                    <span className="text-xs md:text-sm font-medium text-foreground">Prefiero proporcionarlo más tarde</span>
+                    <span className="text-xs md:text-sm font-medium text-foreground">{t("application.fields.provideItLater")}</span>
                   </label>
                 </div>
                 <div className="flex gap-3">

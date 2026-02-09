@@ -517,13 +517,23 @@ export function registerUserProfileRoutes(app: Express) {
       const currentUserEmail = currentUser.email;
       
       // Check which sensitive fields are being changed
+      // OTP is only required when MODIFYING an existing value, not when setting it for the first time
       const changedSensitiveFields: { field: string; oldValue: any; newValue: any }[] = [];
       for (const field of sensitiveFields) {
-        if (field in validatedData && validatedData[field as keyof typeof validatedData] !== currentUser[field as keyof typeof currentUser]) {
+        const currentValue = currentUser[field as keyof typeof currentUser];
+        const newValue = validatedData[field as keyof typeof validatedData];
+        const currentIsEmpty = !currentValue || (typeof currentValue === 'string' && currentValue.trim() === '');
+        const newIsEmpty = !newValue || (typeof newValue === 'string' && newValue.trim() === '');
+        
+        if (field in validatedData && newValue !== currentValue) {
+          // Skip OTP if the current value is empty (first time setting) or new value is empty (clearing)
+          if (currentIsEmpty || newIsEmpty) {
+            continue;
+          }
           changedSensitiveFields.push({
             field,
-            oldValue: currentUser[field as keyof typeof currentUser] || '(empty)',
-            newValue: validatedData[field as keyof typeof validatedData] || '(empty)'
+            oldValue: currentValue || '(empty)',
+            newValue: newValue || '(empty)'
           });
         }
       }

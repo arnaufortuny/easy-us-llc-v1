@@ -1040,7 +1040,13 @@
       "wantsMaintenance": "Forfait maintenance annuelle",
       "password": "Mot de passe",
       "confirmPassword": "Confirmer le mot de passe",
-      "notes": "Notes"
+      "notes": "Notes",
+      "desiredName": "Nom souhaité",
+      "addressAndNumber": "Adresse et numéro",
+      "uploadOrDrag": "Télécharger ou glisser",
+      "documentUploaded": "Document téléchargé",
+      "provideItLater": "Je préfère le fournir plus tard",
+      "maxFileSize": "JPG, PNG, PDF (Max 10 Mo)"
     },
     "streetTypes": {
       "street": "Rue",

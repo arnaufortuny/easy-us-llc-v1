@@ -1040,7 +1040,13 @@
       "wantsMaintenance": "Pack de manteniment anual",
       "password": "Contrasenya",
       "confirmPassword": "Confirmar contraseña",
-      "notes": "Notas"
+      "notes": "Notas",
+      "desiredName": "Nom desitjat",
+      "addressAndNumber": "Adreça i número",
+      "uploadOrDrag": "Pujar arxiu o arrossegar",
+      "documentUploaded": "Document pujat",
+      "provideItLater": "Prefereixo proporcionar-lo més tard",
+      "maxFileSize": "JPG, PNG, PDF (Màx 10MB)"
     },
     "streetTypes": {
       "street": "Calle",

@@ -1040,7 +1040,13 @@
       "wantsMaintenance": "Annual maintenance pack",
       "password": "Password",
       "confirmPassword": "Confirm password",
-      "notes": "Notes"
+      "notes": "Notes",
+      "desiredName": "Desired name",
+      "addressAndNumber": "Address and number",
+      "uploadOrDrag": "Upload file or drag",
+      "documentUploaded": "Document uploaded",
+      "provideItLater": "I prefer to provide it later",
+      "maxFileSize": "JPG, PNG, PDF (Max 10MB)"
     },
     "streetTypes": {
       "street": "Street",

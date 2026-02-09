@@ -1458,14 +1458,14 @@ export default function Dashboard() {
                   </div>
                   
                   {notifications?.some((n: any) => n.type === 'action_required') && user?.accountStatus !== 'deactivated' && (
-                    <Card className="rounded-xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800 p-4 mb-4">
+                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-4 mb-4">
                       <div className="flex items-start gap-3">
-                        <FileUp className="w-5 h-5 text-orange-600 dark:text-orange-400 mt-0.5" />
+                        <FileUp className="w-5 h-5 text-orange-500 mt-0.5" />
                         <div className="flex-1">
-                          <h4 className="font-black text-orange-800 dark:text-orange-300 text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
+                          <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
                           <div className="mt-2 space-y-1">
                             {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
-                              <p key={n.id} className="text-xs text-orange-700 dark:text-orange-400">{n.message}</p>
+                              <p key={n.id} className="text-xs text-muted-foreground">{n.message}</p>
                             ))}
                           </div>
                           <div className="mt-3">
@@ -4658,28 +4658,25 @@ export default function Dashboard() {
               !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
-              <section className="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-[2rem] border-2 border-orange-200 dark:border-orange-800" data-testid="section-action-required-global">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center">
-                    <AlertCircle className="w-5 h-5 text-orange-600 dark:text-orange-400" />
-                  </div>
-                  <div>
-                    <h3 className="text-sm font-bold text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.title')}</h3>
-                    <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.actionRequired.subtitle')}</p>
-                  </div>
+              <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8" data-testid="section-action-required-global">
+                <div className="mb-6">
+                  <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
+                    <AlertCircle className="w-5 h-5 text-orange-500" /> {t('dashboard.actionRequired.title')}
+                  </h3>
+                  <p className="text-xs text-muted-foreground mt-1">{t('dashboard.actionRequired.subtitle')}</p>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-3">
                   {!!(user as any)?.pendingProfileChanges && (
-                    <div className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid="action-item-profile-pending">
-                      <UserCheck className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                    <div className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid="action-item-profile-pending">
+                      <UserCheck className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.profilePending')}</p>
-                        <p className="text-[10px] text-orange-600 dark:text-orange-400">{t('dashboard.actionRequired.profilePendingDesc')}</p>
+                        <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.profilePending')}</p>
+                        <p className="text-[10px] text-muted-foreground">{t('dashboard.actionRequired.profilePendingDesc')}</p>
                       </div>
                       <Button 
                         size="sm" 
                         variant="outline" 
-                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        className="rounded-full text-xs"
                         onClick={() => setActiveTab('profile')}
                         data-testid="button-action-profile-pending"
                       >
@@ -4688,16 +4685,16 @@ export default function Dashboard() {
                     </div>
                   )}
                   {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
-                    <div key={n.id} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-document-${n.id}`}>
-                      <FileUp className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-document-${n.id}`}>
+                      <FileUp className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.documentRequest')}</p>
-                        <p className="text-[10px] text-orange-600 dark:text-orange-400 truncate">{n.message}</p>
+                        <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.documentRequest')}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">{n.message}</p>
                       </div>
                       <Button 
                         size="sm" 
                         variant="outline" 
-                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        className="rounded-full text-xs"
                         onClick={() => setActiveTab('documents')}
                         data-testid={`button-action-document-${n.id}`}
                       >
@@ -4706,16 +4703,16 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {orders?.filter((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed').map((o: any) => (
-                    <div key={o.id} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-payment-${o.id}`}>
-                      <DollarSign className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                    <div key={o.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-payment-${o.id}`}>
+                      <DollarSign className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.paymentPending')}</p>
-                        <p className="text-[10px] text-orange-600 dark:text-orange-400 truncate">{o.application?.companyName || o.maintenanceApplication?.requestCode || o.invoiceNumber}</p>
+                        <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.paymentPending')}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">{o.application?.companyName || o.maintenanceApplication?.requestCode || o.invoiceNumber}</p>
                       </div>
                       <Button 
                         size="sm" 
                         variant="outline" 
-                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        className="rounded-full text-xs"
                         onClick={() => setActiveTab('payments')}
                         data-testid={`button-action-payment-${o.id}`}
                       >
@@ -4724,16 +4721,16 @@ export default function Dashboard() {
                     </div>
                   ))}
                   {orders?.filter((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)).map((o: any) => (
-                    <div key={`fiscal-${o.id}`} className="flex items-start gap-2 bg-white/60 dark:bg-black/20 rounded-xl p-3" data-testid={`action-item-fiscal-${o.id}`}>
-                      <Calendar className="w-4 h-4 text-orange-600 dark:text-orange-400 mt-0.5 shrink-0" />
+                    <div key={`fiscal-${o.id}`} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-fiscal-${o.id}`}>
+                      <Calendar className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-medium text-orange-800 dark:text-orange-300">{t('dashboard.actionRequired.fiscalDeadline')}</p>
-                        <p className="text-[10px] text-orange-600 dark:text-orange-400">{o.application?.companyName} - {new Date(o.application.fiscalYearEnd).toLocaleDateString()}</p>
+                        <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.fiscalDeadline')}</p>
+                        <p className="text-[10px] text-muted-foreground">{o.application?.companyName} - {new Date(o.application.fiscalYearEnd).toLocaleDateString()}</p>
                       </div>
                       <Button 
                         size="sm" 
                         variant="outline" 
-                        className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300"
+                        className="rounded-full text-xs"
                         onClick={() => setActiveTab('calendar')}
                         data-testid={`button-action-fiscal-${o.id}`}
                       >
@@ -4742,7 +4739,7 @@ export default function Dashboard() {
                     </div>
                   ))}
                 </div>
-              </section>
+              </Card>
             )}
             
             <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>

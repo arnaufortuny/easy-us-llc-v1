@@ -1040,7 +1040,13 @@
       "wantsMaintenance": "Pack de manutenção anual",
       "password": "Palavra-passe",
       "confirmPassword": "Confirmar palavra-passe",
-      "notes": "Notas"
+      "notes": "Notas",
+      "desiredName": "Nome desejado",
+      "addressAndNumber": "Morada e número",
+      "uploadOrDrag": "Carregar ficheiro ou arrastar",
+      "documentUploaded": "Documento carregado",
+      "provideItLater": "Prefiro fornecer mais tarde",
+      "maxFileSize": "JPG, PNG, PDF (Máx 10MB)"
     },
     "streetTypes": {
       "street": "Rua",
