@@ -177,10 +177,10 @@ export function Navbar() {
               <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
                 <Button 
                   variant="outline"
-                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-4 h-10 text-sm font-black flex items-center gap-2"
+                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-3 h-9 text-xs font-black flex items-center gap-1.5"
                   data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
                 >
-                  <UserIcon className="w-4 h-4" />
+                  <UserIcon className="w-3.5 h-3.5" />
                   <span>{isAuthenticated ? t("nav.myArea") : t("nav.login")}</span>
                 </Button>
               </Link>
