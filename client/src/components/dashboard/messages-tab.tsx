@@ -8,6 +8,7 @@ import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Badge } from "@/components/ui/badge";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { formatDate } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 
@@ -212,7 +213,7 @@ export function MessagesTab({
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground mb-2 line-clamp-2">{msg.content}</p>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-[10px] text-muted-foreground">{new Date(msg.createdAt).toLocaleDateString()}</span>
+                  <span className="text-[10px] text-muted-foreground">{formatDate(msg.createdAt)}</span>
                 </div>
                 <Button 
                   variant="ghost" 
@@ -232,7 +233,7 @@ export function MessagesTab({
                           <div key={idx} className={`p-3 rounded-xl text-sm ${reply.isFromAdmin ? 'bg-accent/10 border-l-2 border-accent' : 'bg-muted/50'}`}>
                             <div className="flex justify-between items-center mb-1">
                               <span className="text-xs font-semibold text-foreground">{reply.isFromAdmin ? t('dashboard.support.teamEasyUS') : t('dashboard.support.you')}</span>
-                              <span className="text-[10px] text-muted-foreground">{new Date(reply.createdAt).toLocaleDateString()}</span>
+                              <span className="text-[10px] text-muted-foreground">{formatDate(reply.createdAt)}</span>
                             </div>
                             <p className="text-muted-foreground text-xs sm:text-sm">{reply.content}</p>
                           </div>

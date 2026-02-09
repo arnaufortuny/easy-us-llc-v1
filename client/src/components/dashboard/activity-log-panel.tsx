@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { ClipboardList, Search, ChevronRight, ChevronLeft, Loader2, Globe, Shield, UserCheck, Package, Mail, Key, Eye, FileText, Calculator, AlertCircle } from "@/components/icons";
+import { getLocale } from "@/lib/utils";
 
 type AuditLog = {
   id: number;
@@ -178,7 +179,7 @@ export function ActivityLogPanel() {
                       )}
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-[10px] text-muted-foreground">
-                          {new Date(log.createdAt).toLocaleString('es-ES', {
+                          {new Date(log.createdAt).toLocaleString(getLocale(), {
                             day: '2-digit', month: 'short', year: 'numeric',
                             hour: '2-digit', minute: '2-digit', second: '2-digit'
                           })}

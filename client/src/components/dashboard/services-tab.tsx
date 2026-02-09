@@ -6,16 +6,12 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { LLCProgressWidget } from "@/components/llc-progress-widget";
 import { getOrderStatusLabel } from "./types";
+import { formatDate } from "@/lib/utils";
 
 interface ServicesTabProps {
   orders: any[] | undefined;
   draftOrders: any[];
   activeOrders: any[];
-}
-
-function formatDate(date: string | Date | null | undefined) {
-  if (!date) return '-';
-  return new Date(date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' });
 }
 
 function getAgentStatusBadge(status: string | null | undefined, t: any) {
@@ -292,7 +288,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
                         </p>
                         <p className="text-[10px] md:text-xs text-muted-foreground">
                           {order.application?.state || order.maintenanceApplication?.state || ''}
-                          {order.createdAt && ` · ${new Date(order.createdAt).toLocaleDateString('es-ES')}`}
+                          {order.createdAt && ` · ${formatDate(order.createdAt)}`}
                         </p>
                       </div>
                       {order.status === 'pending' && order.application && (

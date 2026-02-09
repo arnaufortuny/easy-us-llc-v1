@@ -46,12 +46,12 @@ export function LLCProgressWidget({ status, serviceName, state, requestCode, isM
   };
 
   const stateLabels: Record<string, string> = {
-    new_mexico: 'New Mexico',
-    wyoming: 'Wyoming',
-    delaware: 'Delaware',
-    'New Mexico': 'New Mexico',
-    'Wyoming': 'Wyoming',
-    'Delaware': 'Delaware'
+    new_mexico: t('application.states.newMexico'),
+    wyoming: t('application.states.wyoming'),
+    delaware: t('application.states.delaware'),
+    'New Mexico': t('application.states.newMexico'),
+    'Wyoming': t('application.states.wyoming'),
+    'Delaware': t('application.states.delaware')
   };
 
   if (status === 'cancelled') {

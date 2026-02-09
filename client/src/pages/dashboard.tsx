@@ -3,6 +3,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
+import { formatDate, formatDateShort, formatDateLong, formatDateCompact, getLocale } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
 import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
@@ -894,8 +895,8 @@ export default function Dashboard() {
       const fields: Record<string, string> = {
         name: ((order.user?.firstName || '') + ' ' + (order.user?.lastName || '')).toLowerCase(),
         email: (order.user?.email || '').toLowerCase(),
-        date: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
-        dateLong: order.createdAt ? new Date(order.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }) : '',
+        date: order.createdAt ? formatDateShort(order.createdAt) : '',
+        dateLong: order.createdAt ? formatDateLong(order.createdAt) : '',
         invoiceId: (order.invoiceNumber || '').toLowerCase(),
         orderId: (order.id?.toString() || ''),
         requestCode: (app?.requestCode || '').toLowerCase(),
@@ -913,7 +914,7 @@ export default function Dashboard() {
       const fields: Record<string, string> = {
         name: ((u.firstName || '') + ' ' + (u.lastName || '')).toLowerCase(),
         email: (u.email || '').toLowerCase(),
-        date: u.createdAt ? new Date(u.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        date: u.createdAt ? formatDateShort(u.createdAt) : '',
         clientId: (u.clientId || '').toLowerCase(),
         orderId: (u.id?.toString() || ''),
         invoiceId: '',
@@ -930,7 +931,7 @@ export default function Dashboard() {
       const fields: Record<string, string> = {
         name: (msg.name || '').toLowerCase(),
         email: (msg.email || '').toLowerCase(),
-        date: msg.createdAt ? new Date(msg.createdAt).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' }) : '',
+        date: msg.createdAt ? formatDateShort(msg.createdAt) : '',
         invoiceId: (msg.messageId || '').toLowerCase(),
         orderId: '',
         subject: (msg.subject || '').toLowerCase(),
@@ -1125,7 +1126,7 @@ export default function Dashboard() {
                             <p className="font-black text-sm text-foreground">{notif.title}</p>
                             <p className="text-xs text-muted-foreground line-clamp-2">{notif.message}</p>
                             <p className="text-[10px] text-muted-foreground mt-1">
-                              {new Date(notif.createdAt).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                              {formatDateCompact(notif.createdAt)}
                             </p>
                           </div>
                           {!notif.isRead && (
@@ -1688,7 +1689,7 @@ export default function Dashboard() {
                                   </div>
                                   <div className="flex items-center gap-3 text-[10px] sm:text-xs text-muted-foreground mb-2 flex-wrap">
                                     <span>{docTypeLabels[doc.documentType] || doc.documentType}</span>
-                                    <span>{new Date(doc.uploadedAt || doc.createdAt).toLocaleDateString()}</span>
+                                    <span>{formatDate(doc.uploadedAt || doc.createdAt)}</span>
                                     {doc.uploader && (
                                       <span className="text-accent">{doc.uploader.firstName} {doc.uploader.lastName}</span>
                                     )}
@@ -1782,7 +1783,7 @@ export default function Dashboard() {
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
                           <div>
                             <p className="font-black text-xs md:text-sm">{t('dashboard.payments.invoiceLabel')} {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
-                            <p className="text-[10px] text-muted-foreground">{new Date(order.createdAt).toLocaleDateString()}</p>
+                            <p className="text-[10px] text-muted-foreground">{formatDate(order.createdAt)}</p>
                           </div>
                           <div className="flex gap-2">
                             <Button variant="outline" size="sm" className="rounded-full" onClick={() => window.open(`/api/orders/${order.id}/invoice`, '_blank')}>{t('dashboard.payments.invoice')}</Button>
@@ -1878,7 +1879,7 @@ export default function Dashboard() {
                                           <span className="font-bold text-[10px] md:text-xs truncate">{item.label}</span>
                                         </div>
                                         <div className="font-black text-xs md:text-sm text-foreground">
-                                          {date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                                          {formatDateCompact(date)}
                                         </div>
                                         <div className="text-[9px] md:text-[10px] text-muted-foreground">
                                           {date.getFullYear()}
@@ -2332,15 +2333,15 @@ export default function Dashboard() {
                           >
                             {newOrderData.orderType === 'maintenance' ? (
                               <>
-                                <NativeSelectItem value="New Mexico">New Mexico - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">Wyoming - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">Delaware - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
+                                <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
                               </>
                             ) : (
                               <>
-                                <NativeSelectItem value="New Mexico">New Mexico - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
-                                <NativeSelectItem value="Wyoming">Wyoming - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
-                                <NativeSelectItem value="Delaware">Delaware - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
+                                <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
+                                <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
+                                <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
                               </>
                             )}
                           </NativeSelect>
@@ -3249,14 +3250,14 @@ export default function Dashboard() {
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.totalSales')}</p>
                               <Wallet className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
                             </div>
-                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
                               <p className="text-[11px] md:text-xs text-muted-foreground font-medium leading-tight">{t('dashboard.admin.metrics.pendingCollection')}</p>
                               <Clock className="w-3.5 h-3.5 text-amber-500 flex-shrink-0" />
                             </div>
-                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' })}</p>
+                            <p className="text-lg md:text-2xl font-black text-foreground truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
                           <Card className="p-4 rounded-xl border border-border/50 shadow-sm bg-card">
                             <div className="flex items-center justify-between mb-2">
@@ -3402,7 +3403,7 @@ export default function Dashboard() {
                                     )}
                                   </div>
                                   <p className="text-[10px] text-muted-foreground mt-0.5">
-                                    {guest.source !== 'calculator' && <>{t(`dashboard.admin.guestSection.${guest.source}`, guest.source)} · </>}{guest.page || '-'} · {guest.createdAt ? new Date(guest.createdAt).toLocaleDateString(i18n.language === 'en' ? 'en-US' : i18n.language === 'ca' ? 'ca-ES' : 'es-ES') : ''}
+                                    {guest.source !== 'calculator' && <>{t(`dashboard.admin.guestSection.${guest.source}`, guest.source)} · </>}{guest.page || '-'} · {guest.createdAt ? formatDate(guest.createdAt) : ''}
                                   </p>
                                   {meta && guest.source === 'calculator' && (
                                     <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -3682,14 +3683,14 @@ export default function Dashboard() {
                                         </span>
                                         <span className="ml-2">{reply.content}</span>
                                         <span className="text-[10px] text-muted-foreground ml-2">
-                                          {reply.createdAt && new Date(reply.createdAt).toLocaleString('es-ES')}
+                                          {reply.createdAt && new Date(reply.createdAt).toLocaleString(getLocale())}
                                         </span>
                                       </div>
                                     ))}
                                   </div>
                                 )}
                                 
-                                <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString('es-ES') : ''}</p>
+                                <p className="text-[10px] text-muted-foreground">{msg.createdAt ? new Date(msg.createdAt).toLocaleString(getLocale()) : ''}</p>
                                 
                                 {selectedMessage?.id === msg.id && (
                                   <div className="space-y-2 pt-3 border-t mt-2" onClick={(e) => e.stopPropagation()}>
@@ -3760,7 +3761,7 @@ export default function Dashboard() {
                                     {app.companyName && <p><strong>{t('dashboard.admin.orders.company')}:</strong> {app.companyName}</p>}
                                     {app.state && <p><strong>{t('dashboard.admin.orders.stateLabel')}:</strong> {app.state}</p>}
                                     {app.remindersSent > 0 && <p><strong>{t('dashboard.admin.incomplete.reminders')}:</strong> {app.remindersSent}/3 {t('dashboard.admin.incomplete.sent')}</p>}
-                                    {app.lastUpdated && <p><strong>{t('dashboard.admin.incomplete.lastActivity')}:</strong> {new Date(app.lastUpdated).toLocaleString('es-ES')}</p>}
+                                    {app.lastUpdated && <p><strong>{t('dashboard.admin.incomplete.lastActivity')}:</strong> {new Date(app.lastUpdated).toLocaleString(getLocale())}</p>}
                                   </div>
                                 </div>
                                 <Button 
@@ -3899,7 +3900,7 @@ export default function Dashboard() {
                               {adminNewsletterSubs?.map((sub: any) => (
                                 <div key={sub.id} className="py-2 flex justify-between items-center gap-2">
                                   <span className="text-sm truncate flex-1">{sub.email}</span>
-                                  <span className="text-[10px] text-muted-foreground shrink-0">{sub.subscribedAt ? new Date(sub.subscribedAt).toLocaleDateString('es-ES') : ''}</span>
+                                  <span className="text-[10px] text-muted-foreground shrink-0">{sub.subscribedAt ? formatDate(sub.subscribedAt) : ''}</span>
                                   <Button 
                                     size="icon" 
                                     variant="ghost" 
@@ -4175,7 +4176,7 @@ export default function Dashboard() {
                                 <p className="text-[9px] md:text-[10px] text-muted-foreground truncate">{doc.user?.email}</p>
                                 <p className="text-[9px] md:text-[10px] text-muted-foreground">
                                   {doc.application?.companyName && <><span className="font-medium">LLC:</span> {doc.application.companyName} • </>}
-                                  {doc.uploadedAt ? new Date(doc.uploadedAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' }) : '-'}
+                                  {doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}
                                 </p>
                               </div>
                             </div>
@@ -4288,7 +4289,7 @@ export default function Dashboard() {
                                     </p>
                                     <p className="text-xs text-muted-foreground">
                                       {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : 'N/A'} | 
-                                      {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? new Date(inv.createdAt).toLocaleDateString('es-ES') : 'N/A'}
+                                      {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? formatDate(inv.createdAt) : 'N/A'}
                                     </p>
                                   </div>
                                   <div className="flex gap-2 flex-wrap">
@@ -4589,9 +4590,9 @@ export default function Dashboard() {
                                 </p>
                                 {(dc.validFrom || dc.validUntil) && (
                                   <p className="text-[9px] md:text-[10px] text-muted-foreground">
-                                    {dc.validFrom && new Date(dc.validFrom).toLocaleDateString('es-ES')}
+                                    {dc.validFrom && formatDate(dc.validFrom)}
                                     {dc.validFrom && dc.validUntil && ' → '}
-                                    {dc.validUntil && new Date(dc.validUntil).toLocaleDateString('es-ES')}
+                                    {dc.validUntil && formatDate(dc.validUntil)}
                                   </p>
                                 )}
                               </div>
@@ -4744,7 +4745,7 @@ export default function Dashboard() {
                       <Calendar className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.fiscalDeadline')}</p>
-                        <p className="text-[10px] text-muted-foreground">{o.application?.companyName} - {new Date(o.application.fiscalYearEnd).toLocaleDateString()}</p>
+                        <p className="text-[10px] text-muted-foreground">{o.application?.companyName} - {formatDate(o.application.fiscalYearEnd)}</p>
                       </div>
                       <Button 
                         size="sm" 
@@ -4788,7 +4789,7 @@ export default function Dashboard() {
                           {getOrderStatusLabel(orders[0]?.status || '', t).label}
                         </Badge>
                       </div>
-                      <p className="text-[9px] text-muted-foreground mt-2">{t('dashboard.tracking.created', 'Creado')}: {orders[0]?.createdAt ? new Date(orders[0].createdAt).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }) : '-'}</p>
+                      <p className="text-[9px] text-muted-foreground mt-2">{t('dashboard.tracking.created', 'Creado')}: {orders[0]?.createdAt ? formatDate(orders[0].createdAt) : '-'}</p>
                     </div>
                     {selectedOrderEvents && selectedOrderEvents.length > 0 ? (
                     selectedOrderEvents.map((event: any, idx: number) => (
@@ -4800,7 +4801,7 @@ export default function Dashboard() {
                             <p className="text-xs md:text-sm font-semibold text-foreground truncate">{translateI18nText(event.eventType, t)}</p>
                             {event.createdAt && (
                               <span className="text-[9px] text-muted-foreground whitespace-nowrap">
-                                {new Date(event.createdAt).toLocaleDateString(i18n.language === 'es' ? 'es-ES' : i18n.language, { day: '2-digit', month: 'short', year: 'numeric' })}
+                                {formatDate(event.createdAt)}
                               </span>
                             )}
                           </div>

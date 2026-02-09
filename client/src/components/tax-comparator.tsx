@@ -6,6 +6,7 @@ import { GrowthChartIcon } from "@/components/ui/flags";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
+import { getLocale } from "@/lib/utils";
 import moneyIcon from "@/assets/icons/money-icon.svg";
 import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag, USAFlag } from "@/components/ui/flags";
 
@@ -333,7 +334,7 @@ export function TaxComparator() {
   const activityTypes: ActivityType[] = ["ecommerce", "dropshipping", "consulting", "marketing", "software", "saas", "apps", "ai", "investments", "tradingEducation", "financial", "crypto", "realestate", "import", "coaching", "content", "affiliate", "freelance", "gaming", "digitalProducts", "other"];
   
   const formatInputCurrency = (value: number) => {
-    return value.toLocaleString('es-ES');
+    return value.toLocaleString(getLocale());
   };
   
   return (

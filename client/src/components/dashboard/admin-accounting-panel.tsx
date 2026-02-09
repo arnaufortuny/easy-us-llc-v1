@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "react-i18next";
+import { formatDate, getLocale } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -185,7 +186,7 @@ export function AdminAccountingPanel() {
   };
 
   const formatAmount = (cents: number) => {
-    return (cents / 100).toLocaleString('es-ES', { style: 'currency', currency: 'EUR' });
+    return (cents / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' });
   };
 
   return (
@@ -329,7 +330,7 @@ export function AdminAccountingPanel() {
                     </div>
                     <p className="text-xs text-muted-foreground">{tx.description || '-'}</p>
                     <p className="text-[10px] text-muted-foreground">
-                      {tx.transactionDate && new Date(tx.transactionDate).toLocaleDateString('es-ES')}
+                      {tx.transactionDate && formatDate(tx.transactionDate)}
                       {tx.reference && ` | ${tx.reference}`}
                     </p>
                   </div>

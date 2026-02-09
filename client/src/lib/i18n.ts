@@ -57,4 +57,39 @@ i18n
     }
   });
 
+const localeMap: Record<string, string> = {
+  es: 'es-ES',
+  en: 'en-US',
+  ca: 'ca-ES',
+  fr: 'fr-FR',
+  de: 'de-DE',
+  it: 'it-IT',
+  pt: 'pt-PT',
+};
+
+export function getLocale(): string {
+  return localeMap[i18n.language] || localeMap['es'];
+}
+
+export function formatDate(
+  date: string | Date | null | undefined,
+  options?: Intl.DateTimeFormatOptions
+): string {
+  if (!date) return '-';
+  const defaultOptions: Intl.DateTimeFormatOptions = { day: '2-digit', month: 'short', year: 'numeric' };
+  return new Date(date).toLocaleDateString(getLocale(), options || defaultOptions);
+}
+
+export function formatDateShort(date: string | Date | null | undefined): string {
+  return formatDate(date, { day: '2-digit', month: '2-digit', year: 'numeric' });
+}
+
+export function formatDateLong(date: string | Date | null | undefined): string {
+  return formatDate(date, { day: 'numeric', month: 'long', year: 'numeric' });
+}
+
+export function formatDateCompact(date: string | Date | null | undefined): string {
+  return formatDate(date, { day: 'numeric', month: 'short' });
+}
+
 export default i18n;

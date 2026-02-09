@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import type { Tab } from "./types";
 import { useTranslation, type TFunction } from "react-i18next";
+import { formatDate } from "@/lib/utils";
 import { useCallback } from "react";
 
 function translateNotifText(text: string, t: TFunction): string {
@@ -141,7 +142,7 @@ export function NotificationsTab({
                           {t("dashboard.orders.order")}: {notif.orderCode}
                         </Badge>
                       )}
-                      <span className="text-[10px] text-muted-foreground ml-auto">{new Date(notif.createdAt).toLocaleDateString()}</span>
+                      <span className="text-[10px] text-muted-foreground ml-auto">{formatDate(notif.createdAt)}</span>
                     </div>
                     {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
                       <Button 

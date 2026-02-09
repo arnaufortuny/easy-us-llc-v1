@@ -8,6 +8,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { Trash2, Plus, FileDown, ArrowLeft } from "@/components/icons";
 import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
+import { formatDateShort } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 
@@ -104,8 +105,7 @@ export default function InvoiceGenerator() {
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '';
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    return formatDateShort(dateStr);
   };
 
   const generatePDF = async () => {

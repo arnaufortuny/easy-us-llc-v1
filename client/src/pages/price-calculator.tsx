@@ -9,6 +9,7 @@ import { Link, useLocation } from "wouter";
 import { Navbar } from "@/components/layout/navbar";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
+import { getLocale } from "@/lib/utils";
 
 interface CostItem {
   id: string;
@@ -114,7 +115,7 @@ export default function PriceCalculator() {
   }, [baseCost, quantity, additionalCosts, marginPercent, taxPercent]);
 
   const formatNumber = (num: number) => {
-    return num.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return num.toLocaleString(getLocale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   };
 
   const hasData = baseCost > 0;

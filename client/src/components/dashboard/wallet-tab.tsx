@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { formatDate } from "@/lib/utils";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -241,7 +242,7 @@ export function WalletTab() {
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-bold text-foreground truncate">{tx.description}</p>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <p className="text-xs text-muted-foreground">{new Date(tx.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                      <p className="text-xs text-muted-foreground">{formatDate(tx.date)}</p>
                       <span className="text-xs text-muted-foreground/50">·</span>
                       <p className="text-xs text-muted-foreground font-mono">ID {tx.id}</p>
                     </div>
