@@ -105,9 +105,7 @@ export function NotificationsTab({
                     <div className="flex items-center justify-between gap-2 mb-0.5 sm:mb-1">
                       <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
                         <h3 className={`text-xs sm:text-sm md:text-base ${!notif.isRead ? 'font-black' : 'font-bold text-foreground/80'}`}>{tn(notif.title)}</h3>
-                        {!notif.isRead && (
-                          <span className="w-2 h-2 rounded-full bg-accent flex-shrink-0" />
-                        )}
+                        
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
                         {notif.type === 'action_required' && (

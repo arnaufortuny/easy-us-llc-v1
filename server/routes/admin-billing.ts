@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "./shared";
-import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs } from "@shared/schema";
+import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs, standaloneInvoices } from "@shared/schema";
 
 export function registerAdminBillingRoutes(app: Express) {
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
@@ -580,23 +580,19 @@ export function registerAdminBillingRoutes(app: Express) {
     }
   });
 
-  // Admin Invoices list for accounting
   app.get("/api/admin/invoices", isAdmin, async (req, res) => {
     try {
       const invoices = await db.select({
-        id: applicationDocumentsTable.id,
-        orderId: applicationDocumentsTable.orderId,
-        fileName: applicationDocumentsTable.fileName,
-        fileUrl: applicationDocumentsTable.fileUrl,
-        uploadedAt: applicationDocumentsTable.uploadedAt,
-        order: {
-          id: ordersTable.id,
-          amount: ordersTable.amount,
-          currency: ordersTable.currency,
-          status: ordersTable.status,
-          invoiceNumber: ordersTable.invoiceNumber,
-          createdAt: ordersTable.createdAt,
-        },
+        id: standaloneInvoices.id,
+        invoiceNumber: standaloneInvoices.invoiceNumber,
+        concept: standaloneInvoices.concept,
+        amount: standaloneInvoices.amount,
+        currency: standaloneInvoices.currency,
+        status: standaloneInvoices.status,
+        fileUrl: standaloneInvoices.fileUrl,
+        createdAt: standaloneInvoices.createdAt,
+        paidAt: standaloneInvoices.paidAt,
+        notes: standaloneInvoices.notes,
         user: {
           id: usersTable.id,
           firstName: usersTable.firstName,
@@ -604,11 +600,9 @@ export function registerAdminBillingRoutes(app: Express) {
           email: usersTable.email,
         }
       })
-        .from(applicationDocumentsTable)
-        .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
-        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
-        .where(eq(applicationDocumentsTable.documentType, "invoice"))
-        .orderBy(desc(applicationDocumentsTable.uploadedAt));
+        .from(standaloneInvoices)
+        .leftJoin(usersTable, eq(standaloneInvoices.userId, usersTable.id))
+        .orderBy(desc(standaloneInvoices.createdAt));
       res.json(invoices);
     } catch (error) {
       console.error("Error fetching invoices:", error);
@@ -616,16 +610,10 @@ export function registerAdminBillingRoutes(app: Express) {
     }
   });
 
-  // Delete invoice (admin only)
   app.delete("/api/admin/invoices/:id", isAdmin, async (req, res) => {
     try {
       const invoiceId = parseInt(req.params.id);
-      await db.delete(applicationDocumentsTable).where(
-        and(
-          eq(applicationDocumentsTable.id, invoiceId),
-          eq(applicationDocumentsTable.documentType, "invoice")
-        )
-      );
+      await db.delete(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId));
       res.json({ success: true, message: "Invoice deleted" });
     } catch (error) {
       console.error("Error deleting invoice:", error);
@@ -633,26 +621,19 @@ export function registerAdminBillingRoutes(app: Express) {
     }
   });
 
-  // Update invoice order status (admin only)
   app.patch("/api/admin/invoices/:id/status", isAdmin, async (req, res) => {
     try {
       const invoiceId = parseInt(req.params.id);
       const { status } = z.object({
         status: z.enum(['pending', 'paid', 'completed', 'cancelled', 'refunded'])
       }).parse(req.body);
-      
-      const [invoice] = await db.select({ orderId: applicationDocumentsTable.orderId })
-        .from(applicationDocumentsTable)
-        .where(eq(applicationDocumentsTable.id, invoiceId))
-        .limit(1);
-      
-      if (!invoice?.orderId) {
-        return res.status(404).json({ message: "Invoice or order not found" });
-      }
-      
-      await db.update(ordersTable).set({ status })
-        .where(eq(ordersTable.id, invoice.orderId));
-      
+
+      const updateData: any = { status, updatedAt: new Date() };
+      if (status === 'paid') updateData.paidAt = new Date();
+
+      await db.update(standaloneInvoices).set(updateData)
+        .where(eq(standaloneInvoices.id, invoiceId));
+
       res.json({ success: true, message: "Status updated" });
     } catch (error) {
       console.error("Error updating invoice status:", error);
@@ -760,33 +741,39 @@ export function registerAdminBillingRoutes(app: Express) {
 </body>
 </html>`;
 
-    // Store as document for user - try to find an order, but allow without one
-    const [userOrder] = await db.select().from(ordersTable).where(eq(ordersTable.userId, userId)).limit(1);
-    
-    // Store invoice as accounting transaction instead of document if no order
-    if (userOrder) {
-      await db.insert(applicationDocumentsTable).values({
-        orderId: userOrder.id,
-        fileName: `Factura ${invoiceNumber} - ${concept}`,
-        fileType: "text/html",
-        fileUrl: `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`,
-        documentType: "invoice",
-        reviewStatus: "approved",
-        uploadedBy: req.session.userId
-      });
-    }
-    
-    // Also record as accounting transaction
+    const fileUrl = `data:text/html;base64,${Buffer.from(invoiceHtml).toString('base64')}`;
+
+    const [invoice] = await db.insert(standaloneInvoices).values({
+      invoiceNumber,
+      userId,
+      concept,
+      amount,
+      currency,
+      status: 'pending',
+      fileUrl,
+      createdBy: (req as any).session?.userId || null,
+    }).returning();
+
     await db.insert(accountingTransactions).values({
       type: 'income',
       category: 'other_income',
-      amount: amount, // amount is already in cents
+      amount: amount,
+      currency,
       description: `Factura ${invoiceNumber}: ${concept}`,
       reference: invoiceNumber,
+      userId,
       transactionDate: new Date(),
-      notes: `Cliente: ${user.firstName} ${user.lastName} (${user.email})`
+      notes: `Cliente: ${user.firstName} ${user.lastName} (${user.email})`,
+      createdBy: (req as any).session?.userId || null,
     });
 
-    res.json({ success: true, invoiceNumber });
+    await db.insert(userNotifications).values({
+      userId,
+      title: `i18n:dashboard.notifications.invoice.created.title`,
+      message: `i18n:dashboard.notifications.invoice.created.message::${JSON.stringify({ number: invoiceNumber, amount: (amount / 100).toFixed(2), currency: currencySymbol })}`,
+      type: 'info',
+    });
+
+    res.json({ success: true, invoiceNumber, invoiceId: invoice.id });
   }));
 }

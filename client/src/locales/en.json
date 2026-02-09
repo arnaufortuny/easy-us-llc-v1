@@ -1488,7 +1488,19 @@
       "emptyDesc": "When you hire a service with us, all payments will be recorded in this space so you can easily review them, check your history, and have a clear view of the services contracted.",
       "invoice": "Invoice",
       "viewServices": "View our services",
-      "invoiceLabel": "Invoice"
+      "invoiceLabel": "Invoice",
+      "pendingInvoices": "Pending invoices",
+      "paidInvoices": "Paid invoices",
+      "concept": "Concept",
+      "status": "Status",
+      "pending": "Pending",
+      "paid": "Paid",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "refunded": "Refunded",
+      "download": "Download",
+      "noInvoices": "No invoices yet",
+      "noInvoicesDesc": "When we generate an invoice for you, it will appear here."
     },
     "calendar": {
       "title": "Your tax calendar",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Identity verification rejected",
           "message": "The document provided does not meet the requirements. Please upload a new document."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "New invoice",
+          "message": "Invoice {{number}} for {{amount}} {{currency}} has been generated. Check your Payments section."
         }
       }
     },

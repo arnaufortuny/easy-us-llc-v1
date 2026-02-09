@@ -371,6 +371,12 @@ export default function Dashboard() {
     staleTime: 1000 * 60 * 2,
   });
 
+  const { data: clientInvoices } = useQuery<any[]>({
+    queryKey: ["/api/user/invoices"],
+    enabled: isAuthenticated && !user?.isAdmin,
+    refetchInterval: 30000,
+  });
+
   const { data: messagesData, isLoading: messagesLoading } = useQuery<any[]>({
     queryKey: ["/api/messages"],
     enabled: isAuthenticated,
@@ -413,7 +419,7 @@ export default function Dashboard() {
   const { data: notifications, isLoading: notificationsLoading } = useQuery<any[]>({
     queryKey: ["/api/user/notifications"],
     enabled: isAuthenticated,
-    staleTime: 1000 * 60 * 2,
+    refetchInterval: 30000,
   });
 
   const markNotificationRead = useMutation({
@@ -490,7 +496,7 @@ export default function Dashboard() {
   const { data: adminInvoices } = useQuery<any[]>({
     queryKey: ["/api/admin/invoices"],
     enabled: !!user?.isAdmin,
-    staleTime: 1000 * 60 * 3,
+    refetchInterval: 30000,
   });
 
   const { data: adminStats } = useQuery<{
@@ -762,7 +768,8 @@ export default function Dashboard() {
       setInvoiceConcept("");
       setInvoiceAmount("");
       setInvoiceCurrency("EUR");
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
     },
     onError: (error: any) => {
       setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
@@ -1931,8 +1938,47 @@ export default function Dashboard() {
                     <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.payments.title')}</h2>
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.payments.subtitle')}</p>
                   </div>
+
+                  {clientInvoices && clientInvoices.length > 0 && (
+                    <div className="space-y-3">
+                      <h3 className="text-sm font-black tracking-tight">{t('dashboard.payments.invoiceLabel')}</h3>
+                      {clientInvoices.map((inv: any) => {
+                        const currencySymbol = inv.currency === 'USD' ? '$' : '€';
+                        const statusMap: Record<string, { label: string; color: string }> = {
+                          pending: { label: t('dashboard.payments.pending'), color: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400' },
+                          paid: { label: t('dashboard.payments.paid'), color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
+                          completed: { label: t('dashboard.payments.completed'), color: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400' },
+                          cancelled: { label: t('dashboard.payments.cancelled'), color: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400' },
+                          refunded: { label: t('dashboard.payments.refunded'), color: 'bg-gray-100 text-gray-800 dark:bg-gray-900/30 dark:text-gray-400' },
+                        };
+                        const st = statusMap[inv.status] || statusMap.pending;
+                        return (
+                          <Card key={inv.id} className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card" data-testid={`invoice-client-${inv.id}`}>
+                            <div className="p-4 md:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                              <div className="space-y-1 min-w-0">
+                                <div className="flex items-center gap-2 flex-wrap">
+                                  <span className="font-black text-xs md:text-sm">{inv.invoiceNumber}</span>
+                                  <Badge className={`text-[10px] no-default-hover-elevate no-default-active-elevate ${st.color}`}>{st.label}</Badge>
+                                </div>
+                                <p className="text-xs text-muted-foreground truncate">{inv.concept}</p>
+                                <p className="text-xs text-muted-foreground">{formatDate(inv.createdAt)} | {(inv.amount / 100).toFixed(2)} {currencySymbol}</p>
+                              </div>
+                              <div className="flex gap-2 flex-shrink-0">
+                                {inv.fileUrl && (
+                                  <Button variant="outline" size="sm" className="rounded-full text-xs" onClick={() => window.open(inv.fileUrl, '_blank')} data-testid={`button-view-client-invoice-${inv.id}`}>
+                                    {t('dashboard.payments.invoice')}
+                                  </Button>
+                                )}
+                              </div>
+                            </div>
+                          </Card>
+                        );
+                      })}
+                    </div>
+                  )}
+
                   <div className="space-y-4">
-                    {(!orders || orders.length === 0) ? (
+                    {(!orders || orders.length === 0) && (!clientInvoices || clientInvoices.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
                           <Wallet className="w-12 h-12 md:w-16 md:h-16 text-accent" />
@@ -1947,7 +1993,7 @@ export default function Dashboard() {
                           </Link>
                         </div>
                       </Card>
-                    ) : (
+                    ) : orders && orders.length > 0 ? (
                       orders.map((order: any) => (
                         <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
                           <div>
@@ -1959,7 +2005,7 @@ export default function Dashboard() {
                           </div>
                         </Card>
                       ))
-                    )}
+                    ) : null}
                   </div>
                 </div>
               )}
@@ -4584,26 +4630,29 @@ export default function Dashboard() {
                               {adminInvoices?.length === 0 && (
                                 <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.invoicesSection.noInvoices')}</p>
                               )}
-                              {adminInvoices?.map((inv: any) => (
+                              {adminInvoices?.map((inv: any) => {
+                                const currencySymbol = inv.currency === 'USD' ? '$' : '€';
+                                return (
                                 <div key={inv.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`invoice-row-${inv.id}`}>
                                   <div className="space-y-1">
                                     <div className="flex items-center gap-2 flex-wrap">
-                                      <span className="font-black text-sm">{inv.fileName || `${t('dashboard.admin.invoicesSection.invoiceLabel')} ${inv.order?.invoiceNumber}`}</span>
-                                      <Badge variant={inv.order?.status === 'paid' || inv.order?.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
-                                        {inv.order?.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.order?.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.order?.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.order?.status || t('common.na')}
+                                      <span className="font-black text-sm">{inv.invoiceNumber}</span>
+                                      <Badge variant={inv.status === 'paid' || inv.status === 'completed' ? "default" : "secondary"} className="text-[10px]">
+                                        {inv.status === 'paid' ? t('dashboard.admin.invoicesSection.paid') : inv.status === 'completed' ? t('dashboard.admin.invoicesSection.completedStatus') : inv.status === 'pending' ? t('dashboard.admin.invoicesSection.pendingStatus') : inv.status === 'cancelled' ? t('dashboard.admin.invoicesSection.cancelledStatus') : inv.status === 'refunded' ? t('dashboard.admin.invoicesSection.refundedStatus') : inv.status || t('common.na')}
                                       </Badge>
                                     </div>
+                                    <p className="text-xs text-muted-foreground truncate max-w-[250px]">{inv.concept}</p>
                                     <p className="text-xs text-muted-foreground">
                                       {inv.user?.firstName} {inv.user?.lastName} ({inv.user?.email})
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                      {t('dashboard.admin.invoicesSection.amountLabel')}: {inv.order?.amount ? ((inv.order.amount / 100).toFixed(2) + (inv.order.currency === 'USD' ? ' $' : ' €')) : t('common.na')} | 
+                                      {t('dashboard.admin.invoicesSection.amountLabel')}: {(inv.amount / 100).toFixed(2)} {currencySymbol} | 
                                       {t('dashboard.admin.invoicesSection.date')}: {inv.createdAt ? formatDate(inv.createdAt) : t('common.na')}
                                     </p>
                                   </div>
                                   <div className="flex gap-2 flex-wrap">
                                     <NativeSelect
-                                      value={inv.order?.status || 'pending'}
+                                      value={inv.status || 'pending'}
                                       onValueChange={async (newStatus) => {
                                         try {
                                           await apiRequest("PATCH", `/api/admin/invoices/${inv.id}/status`, { status: newStatus });
@@ -4625,24 +4674,10 @@ export default function Dashboard() {
                                       variant="outline" 
                                       size="sm" 
                                       className="rounded-full text-xs"
-                                      onClick={() => window.open(inv.fileUrl || `/api/orders/${inv.orderId}/invoice`, '_blank')}
+                                      onClick={() => inv.fileUrl && window.open(inv.fileUrl, '_blank')}
                                       data-testid={`button-view-invoice-${inv.id}`}
                                     >
                                       <Eye className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.view')}
-                                    </Button>
-                                    <Button 
-                                      variant="outline" 
-                                      size="sm" 
-                                      className="rounded-full text-xs"
-                                      onClick={() => {
-                                        const link = document.createElement('a');
-                                        link.href = inv.fileUrl || `/api/orders/${inv.orderId}/invoice`;
-                                        link.download = `Factura-${inv.order?.invoiceNumber || inv.id}.pdf`;
-                                        link.click();
-                                      }}
-                                      data-testid={`button-download-invoice-${inv.id}`}
-                                    >
-                                      <Download className="w-3 h-3 mr-1" /> {t('dashboard.admin.invoicesSection.download')}
                                     </Button>
                                     <Button 
                                       variant="outline" 
@@ -4669,7 +4704,8 @@ export default function Dashboard() {
                                     </Button>
                                   </div>
                                 </div>
-                              ))}
+                                );
+                              })}
                             </div>
                           </Card>
                         </div>

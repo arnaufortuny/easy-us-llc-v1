@@ -1488,7 +1488,19 @@
       "emptyDesc": "Cuando contrates un servicio con nosotros, todos los pagos quedarán registrados en este espacio para que puedas revisarlos fácilmente, consultar tu historial y tener una visión clara de los servicios contratados.",
       "invoice": "Factura",
       "viewServices": "Ver nuestros servicios",
-      "invoiceLabel": "Factura"
+      "invoiceLabel": "Factura",
+      "pendingInvoices": "Facturas pendientes",
+      "paidInvoices": "Facturas pagadas",
+      "concept": "Concepto",
+      "status": "Estado",
+      "pending": "Pendiente",
+      "paid": "Pagado",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "refunded": "Reembolsado",
+      "download": "Descargar",
+      "noInvoices": "Aún no hay facturas",
+      "noInvoicesDesc": "Cuando generemos una factura para ti, aparecerá aquí."
     },
     "calendar": {
       "title": "Tu calendario fiscal",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Verificación de identidad rechazada",
           "message": "El documento proporcionado no cumple con los requisitos. Por favor, sube un nuevo documento."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "Nueva factura",
+          "message": "La factura {{number}} por {{amount}} {{currency}} ha sido generada. Revisa tu sección de Pagos."
         }
       }
     },

@@ -566,3 +566,27 @@ export const paymentAccounts = pgTable("payment_accounts", {
 export const insertPaymentAccountSchema = createInsertSchema(paymentAccounts).omit({ id: true, createdAt: true });
 export type PaymentAccount = typeof paymentAccounts.$inferSelect;
 export type InsertPaymentAccount = z.infer<typeof insertPaymentAccountSchema>;
+
+export const standaloneInvoices = pgTable("standalone_invoices", {
+  id: serial("id").primaryKey(),
+  invoiceNumber: text("invoice_number").notNull().unique(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  concept: text("concept").notNull(),
+  amount: integer("amount").notNull(),
+  currency: varchar("currency", { length: 3 }).notNull().default("EUR"),
+  status: text("status").notNull().default("pending"),
+  fileUrl: text("file_url"),
+  createdBy: varchar("created_by").references(() => users.id),
+  paidAt: timestamp("paid_at"),
+  notes: text("notes"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => ({
+  userIdx: index("standalone_inv_user_idx").on(table.userId),
+  statusIdx: index("standalone_inv_status_idx").on(table.status),
+  numberIdx: index("standalone_inv_number_idx").on(table.invoiceNumber),
+}));
+
+export const insertStandaloneInvoiceSchema = createInsertSchema(standaloneInvoices).omit({ id: true, createdAt: true, updatedAt: true });
+export type StandaloneInvoice = typeof standaloneInvoices.$inferSelect;
+export type InsertStandaloneInvoice = z.infer<typeof insertStandaloneInvoiceSchema>;

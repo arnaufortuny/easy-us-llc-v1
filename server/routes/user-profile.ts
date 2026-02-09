@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql, inArray } from "drizzle-orm";
 import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
-import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, standaloneInvoices } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
@@ -1127,7 +1127,30 @@ export function registerUserProfileRoutes(app: Express) {
     }
   });
 
-  // Get user notifications
+  app.get("/api/user/invoices", isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.session.userId;
+      const invoices = await db.select({
+        id: standaloneInvoices.id,
+        invoiceNumber: standaloneInvoices.invoiceNumber,
+        concept: standaloneInvoices.concept,
+        amount: standaloneInvoices.amount,
+        currency: standaloneInvoices.currency,
+        status: standaloneInvoices.status,
+        fileUrl: standaloneInvoices.fileUrl,
+        createdAt: standaloneInvoices.createdAt,
+        paidAt: standaloneInvoices.paidAt,
+      })
+        .from(standaloneInvoices)
+        .where(eq(standaloneInvoices.userId, userId))
+        .orderBy(desc(standaloneInvoices.createdAt));
+      res.json(invoices);
+    } catch (error) {
+      console.error("Error fetching user invoices:", error);
+      res.status(500).json({ message: "Error fetching invoices" });
+    }
+  });
+
   app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;

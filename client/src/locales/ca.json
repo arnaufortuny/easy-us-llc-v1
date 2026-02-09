@@ -1488,7 +1488,19 @@
       "emptyDesc": "Quan contractis un servei amb nosaltres, tots els pagaments quedaran registrats en aquest espai perquè puguis revisar-los fàcilment, consultar el teu historial i tenir una visió clara dels serveis contractats.",
       "invoice": "Factura",
       "viewServices": "Veure els nostres serveis",
-      "invoiceLabel": "Factura"
+      "invoiceLabel": "Factura",
+      "pendingInvoices": "Factures pendents",
+      "paidInvoices": "Factures pagades",
+      "concept": "Concepte",
+      "status": "Estat",
+      "pending": "Pendent",
+      "paid": "Pagat",
+      "completed": "Completat",
+      "cancelled": "Cancel·lat",
+      "refunded": "Reemborsat",
+      "download": "Descarregar",
+      "noInvoices": "Encara no hi ha factures",
+      "noInvoicesDesc": "Quan generem una factura per a tu, apareixerà aquí."
     },
     "calendar": {
       "title": "El teu calendari fiscal",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Verificació d'identitat rebutjada",
           "message": "El document proporcionat no compleix els requisits. Si us plau, puja un nou document."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "Nova factura",
+          "message": "La factura {{number}} per {{amount}} {{currency}} ha estat generada. Revisa la teva secció de Pagaments."
         }
       }
     },

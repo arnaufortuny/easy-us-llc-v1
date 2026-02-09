@@ -1529,7 +1529,19 @@
       "emptyDesc": "Lorsque vous souscrirez un service chez nous, tous les paiements seront enregistrés dans cet espace pour que vous puissiez les consulter facilement, vérifier votre historique et avoir une vision claire des services souscrits.",
       "invoice": "Facture",
       "viewServices": "Voir nos services",
-      "invoiceLabel": "Facture"
+      "invoiceLabel": "Facture",
+      "pendingInvoices": "Factures en attente",
+      "paidInvoices": "Factures payées",
+      "concept": "Concept",
+      "status": "Statut",
+      "pending": "En attente",
+      "paid": "Payé",
+      "completed": "Terminé",
+      "cancelled": "Annulé",
+      "refunded": "Remboursé",
+      "download": "Télécharger",
+      "noInvoices": "Pas encore de factures",
+      "noInvoicesDesc": "Lorsque nous générerons une facture pour vous, elle apparaîtra ici."
     },
     "calendar": {
       "title": "Votre calendrier fiscal",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Vérification d'identité rejetée",
           "message": "Le document fourni ne répond pas aux exigences. Veuillez télécharger un nouveau document."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "Nouvelle facture",
+          "message": "La facture {{number}} de {{amount}} {{currency}} a été générée. Consultez votre section Paiements."
         }
       }
     },

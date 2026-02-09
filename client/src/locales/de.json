@@ -1488,7 +1488,19 @@
       "emptyDesc": "Wenn Sie einen Service bei uns beauftragen, werden alle Zahlungen in diesem Bereich erfasst, damit Sie sie einfach überprüfen, Ihren Verlauf einsehen und einen klaren Überblick über die beauftragten Dienstleistungen haben können.",
       "invoice": "Rechnung",
       "viewServices": "Unsere Dienstleistungen ansehen",
-      "invoiceLabel": "Rechnung"
+      "invoiceLabel": "Rechnung",
+      "pendingInvoices": "Ausstehende Rechnungen",
+      "paidInvoices": "Bezahlte Rechnungen",
+      "concept": "Konzept",
+      "status": "Status",
+      "pending": "Ausstehend",
+      "paid": "Bezahlt",
+      "completed": "Abgeschlossen",
+      "cancelled": "Storniert",
+      "refunded": "Erstattet",
+      "download": "Herunterladen",
+      "noInvoices": "Noch keine Rechnungen",
+      "noInvoicesDesc": "Wenn wir eine Rechnung für Sie erstellen, wird sie hier erscheinen."
     },
     "calendar": {
       "title": "Ihr Steuerkalender",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Identitätsprüfung abgelehnt",
           "message": "Das eingereichte Dokument erfüllt nicht die Anforderungen. Bitte laden Sie ein neues Dokument hoch."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "Neue Rechnung",
+          "message": "Die Rechnung {{number}} über {{amount}} {{currency}} wurde erstellt. Überprüfen Sie Ihren Zahlungsbereich."
         }
       }
     },

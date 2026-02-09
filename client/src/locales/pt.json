@@ -1488,7 +1488,19 @@
       "emptyDesc": "Quando contratares um serviço connosco, todos os pagamentos ficarão registados neste espaço para que possas revisá-los facilmente, consultar o teu histórico e ter uma visão clara dos serviços contratados.",
       "invoice": "Fatura",
       "viewServices": "Ver os nossos serviços",
-      "invoiceLabel": "Fatura"
+      "invoiceLabel": "Fatura",
+      "pendingInvoices": "Faturas pendentes",
+      "paidInvoices": "Faturas pagas",
+      "concept": "Conceito",
+      "status": "Estado",
+      "pending": "Pendente",
+      "paid": "Pago",
+      "completed": "Completado",
+      "cancelled": "Cancelado",
+      "refunded": "Reembolsado",
+      "download": "Descarregar",
+      "noInvoices": "Ainda não há faturas",
+      "noInvoicesDesc": "Quando gerarmos uma fatura para ti, aparecerá aqui."
     },
     "calendar": {
       "title": "O teu calendário fiscal",
@@ -1598,6 +1610,12 @@
         "rejected": {
           "title": "Verificação de identidade rejeitada",
           "message": "O documento fornecido não cumpre os requisitos. Por favor, carrega um novo documento."
+        }
+      },
+      "invoice": {
+        "created": {
+          "title": "Nova fatura",
+          "message": "A fatura {{number}} de {{amount}} {{currency}} foi gerada. Consulta a tua secção de Pagamentos."
         }
       }
     },
