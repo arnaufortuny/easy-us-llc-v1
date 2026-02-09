@@ -96,6 +96,13 @@ export default function LlcFormation() {
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [location, setLocation] = useLocation();
 
+  // Redirect if account status is deactivated or pending (with email verified)
+  useEffect(() => {
+    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
+      window.location.href = '/dashboard';
+    }
+  }, [isAuthenticated, user]);
+
   const { data: products } = useQuery<{ id: number; name: string; price: number }[]>({
     queryKey: ['/api/products'],
   });
@@ -758,14 +765,14 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.firstName")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerLastName" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.lastName")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -814,7 +821,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">Email:</FormLabel>
-                    <FormControl><Input {...field} type="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                    <FormControl><Input {...field} type="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -832,7 +839,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerPhone" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.phone")}:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                    <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -850,7 +857,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.desiredName")}:</FormLabel>
-                    <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                    <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -917,7 +924,7 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="ownerAddress" render={({ field }) => (
                     <FormItem className="col-span-2">
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.addressAndNumber")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -927,14 +934,14 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="ownerCity" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.city")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerProvince" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.province")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -944,14 +951,14 @@ export default function LlcFormation() {
                   <FormField control={form.control} name="ownerPostalCode" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.postalCode")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
                   <FormField control={form.control} name="ownerCountry" render={({ field }) => (
                     <FormItem>
                       <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.country")}:</FormLabel>
-                      <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
+                      <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" /></FormControl>
                       <FormMessage />
                     </FormItem>
                   )} />
@@ -970,7 +977,7 @@ export default function LlcFormation() {
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">{t("application.fields.birthDate")}:</FormLabel>
-                    <FormControl><Input {...field} type="date" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base max-w-[200px] md:max-w-none rounded-xl" /></FormControl>
+                    <FormControl><Input {...field} type="date" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base max-w-[200px] md:max-w-none rounded-xl" /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -1203,7 +1210,7 @@ export default function LlcFormation() {
                               <Input type="text" 
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                                                className="rounded-full p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
+                                                                className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
                                 maxLength={6}
                                 data-testid="input-otp-code"
                               />
@@ -1246,7 +1253,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.passwordLabel")}</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" className="rounded-full h-14 px-5 border-border focus:border-accent rounded-xl" data-testid="input-password" />
+                              <Input {...field} type="password" className="h-14 px-5 border-border focus:border-accent rounded-xl" data-testid="input-password" />
                             </FormControl>
                             <PasswordStrength password={form.watch("password") || ""} className="mt-2" />
                             <FormMessage />
@@ -1256,7 +1263,7 @@ export default function LlcFormation() {
                           <FormItem>
                             <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.confirmPasswordLabel")}</FormLabel>
                             <FormControl>
-                              <Input {...field} type="password" className="rounded-full h-14 px-5 border-border focus:border-accent rounded-xl" data-testid="input-confirm-password" />
+                              <Input {...field} type="password" className="h-14 px-5 border-border focus:border-accent rounded-xl" data-testid="input-confirm-password" />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -1317,7 +1324,7 @@ export default function LlcFormation() {
                         <FormControl>
                           <Input 
                             {...field} 
-                            className="rounded-full h-11 px-4 border-border focus:border-accent uppercase rounded-xl" 
+                            className="h-11 px-4 border-border focus:border-accent uppercase rounded-xl" 
                             onChange={(e) => {
                               field.onChange(e.target.value.toUpperCase());
                               setDiscountInfo(null);
@@ -1399,7 +1406,7 @@ export default function LlcFormation() {
                     <Input type={showPassword ? "text" : "password"}
                       value={form.getValues("password") || ""}
                       onChange={(e) => form.setValue("password", e.target.value)}
-                      className="rounded-full p-6 border-border focus:border-accent pr-12 rounded-xl"
+                      className="p-6 border-border focus:border-accent pr-12 rounded-xl"
                       data-testid="input-login-password"
                     />
                     <button

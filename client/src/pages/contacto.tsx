@@ -11,7 +11,7 @@ import { SocialLogin } from "@/components/auth/social-login";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
@@ -38,8 +38,17 @@ type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function Contacto() {
   const { user, isAuthenticated } = useAuth();
+  const [, setLocation] = useLocation();
   const { t } = useTranslation();
   usePageTitle();
+
+  // Redirect if account status is deactivated or pending (with email verified)
+  useEffect(() => {
+    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
+      window.location.href = '/dashboard';
+    }
+  }, [isAuthenticated, user]);
+
   const [step, setStep] = useState(0);
   const [hasAutoSkipped, setHasAutoSkipped] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -351,7 +360,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whatsYourName")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-nombre" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-nombre" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
@@ -379,7 +388,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.toKnowWho")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-apellido" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-apellido" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />
@@ -401,7 +410,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.whereToRespond")}</FormLabel>
                         <FormControl>
-                          <Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-email" />
+                          <Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-email" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("contact.form.noSpam")}</FormDescription>
                         <FormMessage />
@@ -453,7 +462,7 @@ export default function Contacto() {
                           {t("contact.form.enterPhone")} {watchWhatsapp ? "" : `(${t("common.optional")})`}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base rounded-xl" data-testid="input-telefono" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">
                           {watchWhatsapp ? t("contact.form.whatsappRequired") + " · " : ""}{t("contact.form.whatsappNote")}
@@ -548,7 +557,7 @@ export default function Contacto() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="rounded-full h-12 px-5 text-center text-xl font-bold border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] text-foreground tracking-[0.3em] rounded-xl" 
+                                className="h-12 px-5 text-center text-xl font-bold border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] text-foreground tracking-[0.3em] rounded-xl" 
                                 maxLength={6}
                                 data-testid="input-otp"
                               />

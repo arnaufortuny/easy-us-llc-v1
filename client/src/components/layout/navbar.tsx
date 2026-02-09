@@ -257,7 +257,7 @@ export function Navbar() {
               </button>
               
               <div className="px-3 py-4 mb-4 bg-accent/5 rounded-2xl border border-accent/20 text-left">
-                <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("mobile.clientArea")}</p>
+                <p className="text-sm font-black text-accent tracking-tighter mb-2 text-left" style={{ fontFamily: 'var(--font-display)' }}>{t("nav.myArea")}</p>
                 {isAuthenticated ? (
                   <>
                     <button

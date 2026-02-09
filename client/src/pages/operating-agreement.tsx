@@ -662,7 +662,7 @@ export default function OperatingAgreementGenerator() {
                             </Label>
                             <Input value={formData.memberPhone}
                               onChange={(e) => setFormData(prev => ({ ...prev, memberPhone: e.target.value }))}
-                              className="h-11 rounded-full rounded-xl"
+                              className="h-11 rounded-xl"
                               data-testid="input-member-phone"
                             />
                           </div>
@@ -673,7 +673,7 @@ export default function OperatingAgreementGenerator() {
                             </Label>
                             <Input value={formData.capitalContribution}
                               onChange={(e) => setFormData(prev => ({ ...prev, capitalContribution: e.target.value }))}
-                              className="h-11 rounded-full rounded-xl"
+                              className="h-11 rounded-xl"
                               data-testid="input-capital"
                             />
                           </div>
@@ -686,7 +686,7 @@ export default function OperatingAgreementGenerator() {
                           <Input type="date"
                             value={formData.effectiveDate}
                             onChange={(e) => setFormData(prev => ({ ...prev, effectiveDate: e.target.value }))}
-                            className="h-11 rounded-full rounded-xl"
+                            className="h-11 rounded-xl"
                             data-testid="input-effective-date"
                           />
                         </div>

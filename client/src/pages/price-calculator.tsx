@@ -211,7 +211,7 @@ export default function PriceCalculator() {
                     <Label className="text-sm font-medium text-foreground mb-1.5 block">{t('tools.priceCalculator.productName')}</Label>
                     <Input value={productName}
                       onChange={(e) => setProductName(e.target.value)}
-                      className="h-11 rounded-full rounded-xl"
+                      className="h-11 rounded-xl"
                       data-testid="input-product-name"
                     />
                   </div>
@@ -225,7 +225,7 @@ export default function PriceCalculator() {
                         step="0.01"
                         value={baseCost || ""}
                         onChange={(e) => setBaseCost(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pl-8 rounded-xl"
+                        className="h-11 pl-8 rounded-xl"
                         data-testid="input-base-cost"
                       />
                     </div>
@@ -237,7 +237,7 @@ export default function PriceCalculator() {
                       min="1"
                       value={quantity}
                       onChange={(e) => setQuantity(parseInt(e.target.value) || 1)}
-                      className="h-11 rounded-full rounded-xl"
+                      className="h-11 rounded-xl"
                       data-testid="input-quantity"
                     />
                   </div>
@@ -286,7 +286,7 @@ export default function PriceCalculator() {
                         <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-2">
                           <Input value={cost.name}
                             onChange={(e) => updateCost(cost.id, 'name', e.target.value)}
-                            className="h-9 rounded-full text-sm rounded-xl"
+                            className="h-9 text-sm rounded-xl"
                             data-testid={`input-cost-name-${index}`}
                           />
                           <div className="relative">
@@ -296,7 +296,7 @@ export default function PriceCalculator() {
                               step="0.01"
                               value={cost.cost || ""}
                               onChange={(e) => updateCost(cost.id, 'cost', parseFloat(e.target.value) || 0)}
-                              className="h-9 rounded-full pl-6 text-sm rounded-xl"
+                              className="h-9 pl-6 text-sm rounded-xl"
                               data-testid={`input-cost-amount-${index}`}
                             />
                           </div>
@@ -339,7 +339,7 @@ export default function PriceCalculator() {
                         max="500"
                         value={marginPercent}
                         onChange={(e) => setMarginPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pr-8 rounded-xl"
+                        className="h-11 pr-8 rounded-xl"
                         data-testid="input-margin"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>
@@ -355,7 +355,7 @@ export default function PriceCalculator() {
                         max="100"
                         value={taxPercent}
                         onChange={(e) => setTaxPercent(parseFloat(e.target.value) || 0)}
-                        className="h-11 rounded-full pr-8 rounded-xl"
+                        className="h-11 pr-8 rounded-xl"
                         data-testid="input-tax"
                       />
                       <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">%</span>

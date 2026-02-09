@@ -1,4 +1,4 @@
-import { Upload, X, Bell } from "@/components/icons";
+import { X } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -82,7 +82,9 @@ export function NotificationsTab({
       ) : notifications?.length === 0 ? (
         <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
-            <Bell className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+            <span className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-accent/10 flex items-center justify-center">
+              <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-accent/30" />
+            </span>
             <div>
               <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t("dashboard.notifications.empty")}</h3>
               <p className="text-xs md:text-sm text-muted-foreground text-center">{t("dashboard.notifications.subtitle")}</p>
@@ -154,7 +156,7 @@ export function NotificationsTab({
                         }}
                         data-testid={`button-upload-document-${notif.id}`}
                       >
-                        <Upload className="w-3.5 h-3.5 mr-1.5" />
+                        
                         {t("dashboard.documents.upload")}
                       </Button>
                     )}

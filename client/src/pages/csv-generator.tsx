@@ -356,7 +356,7 @@ export default function CsvGenerator() {
                       <Input type="date"
                         value={transaction.date}
                         onChange={(e) => updateTransaction(transaction.id, 'date', e.target.value)}
-                        className="rounded-full text-xs sm:text-sm w-full min-w-0 rounded-xl"
+                        className="text-xs sm:text-sm w-full min-w-0 rounded-xl"
                         data-testid={`input-date-${index}`}
                       />
                     </div>
@@ -365,7 +365,7 @@ export default function CsvGenerator() {
                       <Label className="text-xs font-semibold text-muted-foreground mb-1 block">{t("tools.csvGenerator.description")}</Label>
                       <Input value={transaction.description}
                         onChange={(e) => updateTransaction(transaction.id, 'description', e.target.value)}
-                        className="rounded-full text-sm rounded-xl"
+                        className="text-sm rounded-xl"
                         data-testid={`input-description-${index}`}
                       />
                     </div>
@@ -377,7 +377,7 @@ export default function CsvGenerator() {
                         min="0"
                         value={transaction.amount}
                         onChange={(e) => updateTransaction(transaction.id, 'amount', e.target.value)}
-                        className="rounded-full text-sm rounded-xl"
+                        className="text-sm rounded-xl"
                         data-testid={`input-amount-${index}`}
                       />
                     </div>
@@ -442,7 +442,7 @@ export default function CsvGenerator() {
                       <Label className="text-xs font-semibold text-muted-foreground mb-1 block">{t("tools.csvGenerator.bankAccount")}</Label>
                       <Input value={transaction.bankAccount}
                         onChange={(e) => updateTransaction(transaction.id, 'bankAccount', e.target.value)}
-                        className="rounded-full text-sm rounded-xl"
+                        className="text-sm rounded-xl"
                         data-testid={`input-bank-account-${index}`}
                       />
                     </div>
@@ -451,7 +451,7 @@ export default function CsvGenerator() {
                       <Label className="text-xs font-semibold text-muted-foreground mb-1 block">{t("tools.csvGenerator.invoiceNumber")}</Label>
                       <Input value={transaction.invoiceNumber}
                         onChange={(e) => updateTransaction(transaction.id, 'invoiceNumber', e.target.value)}
-                        className="rounded-full text-sm rounded-xl"
+                        className="text-sm rounded-xl"
                         data-testid={`input-invoice-number-${index}`}
                       />
                     </div>

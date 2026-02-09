@@ -96,6 +96,35 @@ export default function Dashboard() {
   });
   const { confirm: showConfirm, dialogProps: confirmDialogProps } = useConfirmDialog();
 
+  const tn = useCallback((text: string) => {
+    if (!text || !text.startsWith('i18n:')) return text;
+    const rest = text.substring(5);
+    const sepIdx = rest.indexOf('::');
+    if (sepIdx > -1) {
+      const key = rest.substring(0, sepIdx);
+      try {
+        const params = JSON.parse(rest.substring(sepIdx + 2));
+        const resolvedParams: Record<string, string> = {};
+        for (const [k, v] of Object.entries(params)) {
+          if (typeof v === 'string' && v.startsWith('@')) {
+            const nestedKey = v.substring(1);
+            const translated = t(nestedKey);
+            resolvedParams[k] = typeof translated === 'string' && translated !== nestedKey ? translated : v.substring(1);
+          } else {
+            resolvedParams[k] = String(v);
+          }
+        }
+        const result = t(key, resolvedParams);
+        return typeof result === 'string' && result !== key ? result : text;
+      } catch {
+        const result = t(key);
+        return typeof result === 'string' && result !== key ? result : text;
+      }
+    }
+    const result = t(rest);
+    return typeof result === 'string' && result !== rest ? result : text;
+  }, [t]);
+
   useEffect(() => {
     if (formMessage) {
       const timer = setTimeout(() => setFormMessage(null), 6000);
@@ -1036,7 +1065,6 @@ export default function Dashboard() {
         <Navbar />
         <main className="flex-1 pt-16 sm:pt-20 pb-20 px-4 md:px-8 max-w-4xl mx-auto w-full overflow-y-auto">
           <header className="mb-6 md:mb-8">
-            <p className="text-accent font-black tracking-wide text-xs md:text-sm mb-1 uppercase">{t("dashboard.clientArea")}</p>
             <h1 className="text-lg sm:text-2xl md:text-3xl font-black text-foreground tracking-tight leading-tight">
               {t("dashboard.pendingAccount.hello", { name: (user?.firstName || t('dashboard.defaultName')).charAt(0).toUpperCase() + (user?.firstName || t('dashboard.defaultName')).slice(1).toLowerCase() })}
             </h1>
@@ -1074,7 +1102,7 @@ export default function Dashboard() {
                     </p>
                     <Input value={emailVerificationCode}
                       onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                      className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3 rounded-xl"
+                      className="rounded-xl text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
                       maxLength={6}
                       inputMode="numeric"
                       data-testid="input-pending-verification-code"
@@ -1164,12 +1192,12 @@ export default function Dashboard() {
                         className={`p-3 rounded-xl border ${notif.isRead ? 'bg-muted/50 border-border' : 'bg-accent/5 border-accent/20'}`}
                       >
                         <div className="flex items-start gap-3">
-                          <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${notif.isRead ? 'bg-muted' : 'bg-accent/10'}`}>
-                            <BellRing className={`w-4 h-4 ${notif.isRead ? 'text-muted-foreground' : 'text-accent'}`} />
+                          <div className="flex items-center justify-center shrink-0">
+                            <span className={`w-2.5 h-2.5 rounded-full ${notif.isRead ? 'bg-muted-foreground/30' : 'bg-accent'}`} />
                           </div>
                           <div className="flex-1 min-w-0">
-                            <p className="font-black text-sm text-foreground">{notif.title}</p>
-                            <p className="text-xs text-muted-foreground line-clamp-2">{notif.message}</p>
+                            <p className="font-black text-sm text-foreground">{tn(notif.title)}</p>
+                            <p className="text-xs text-muted-foreground line-clamp-2">{tn(notif.message)}</p>
                             <p className="text-[10px] text-muted-foreground mt-1">
                               {formatDateCompact(notif.createdAt)}
                             </p>
@@ -1334,7 +1362,7 @@ export default function Dashboard() {
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5">
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5 pl-1 sm:pl-0">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
@@ -1446,7 +1474,7 @@ export default function Dashboard() {
               </div>
             )}
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
-              <div className="xl:col-span-2 space-y-6 order-1">
+              <div className="xl:col-span-2 space-y-6 order-2 xl:order-1">
             
               {activeTab === 'services' && (
                 <>
@@ -1526,7 +1554,7 @@ export default function Dashboard() {
                           <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
                           <div className="mt-2 space-y-1">
                             {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
-                              <p key={n.id} className="text-xs text-muted-foreground">{n.message}</p>
+                              <p key={n.id} className="text-xs text-muted-foreground">{tn(n.message)}</p>
                             ))}
                           </div>
                           <div className="mt-3">
@@ -2240,7 +2268,7 @@ export default function Dashboard() {
                         <Input placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 pr-12 h-11 rounded-full text-sm bg-white dark:bg-[#1A1A1A] border-border w-full rounded-xl"
+                          className="pl-10 pr-12 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
                           data-testid="input-admin-search"
                         />
                         {adminSearchQuery && (
@@ -4765,7 +4793,7 @@ export default function Dashboard() {
               )}
             </div>
 
-          <div className="space-y-6 order-2 lg:order-2 self-start">
+          <div className="space-y-6 order-1 lg:order-2 self-start">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
               !!(user as any)?.pendingProfileChanges ||
@@ -4802,7 +4830,7 @@ export default function Dashboard() {
                       <FileUp className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.documentRequest')}</p>
-                        <p className="text-[10px] text-muted-foreground truncate">{n.message}</p>
+                        <p className="text-[10px] text-muted-foreground truncate">{tn(n.message)}</p>
                       </div>
                       <Button 
                         size="sm" 

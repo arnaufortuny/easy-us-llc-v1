@@ -71,6 +71,14 @@ export default function MaintenanceApplication() {
   const { t } = useTranslation();
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [, setLocation] = useLocation();
+
+  // Redirect if account status is deactivated or pending (with email verified)
+  useEffect(() => {
+    if (isAuthenticated && user && (user.accountStatus === 'deactivated' || (user.accountStatus === 'pending' && user.emailVerified))) {
+      window.location.href = '/dashboard';
+    }
+  }, [isAuthenticated, user]);
+
   const [step, setStep] = useState(0);
   const [appId, setAppId] = useState<number | null>(null);
   const [requestCode, setRequestCode] = useState<string>("");
@@ -574,7 +582,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.fullNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -597,7 +605,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.phoneLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -620,7 +628,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.emailLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} type="email" inputMode="email" className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} type="email" inputMode="email" className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -643,7 +651,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.companyNameLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -666,7 +674,7 @@ export default function MaintenanceApplication() {
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
                           {t("maintenance.steps.einLabel")}
                         </FormLabel>
-                        <FormControl><Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
+                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -707,7 +715,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.creationYearLabel")}</FormLabel>
                         <FormControl>
-                          <Input {...field} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" />
+                          <Input {...field} className="h-12 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base rounded-xl" />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -903,7 +911,7 @@ export default function MaintenanceApplication() {
                                   <Input type="text" 
                                     value={otpCode}
                                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                                                        className="rounded-full p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
+                                                                        className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
                                     maxLength={6}
                                     data-testid="input-otp-code"
                                   />
@@ -944,7 +952,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.password")}</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent rounded-xl" data-testid="input-password" />
+                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-xl" data-testid="input-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -953,7 +961,7 @@ export default function MaintenanceApplication() {
                               <FormItem>
                                 <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.confirmPassword")}</FormLabel>
                                 <FormControl>
-                                  <Input {...field} type="password"  className="rounded-full p-6 border-border focus:border-accent rounded-xl" data-testid="input-confirm-password" />
+                                  <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-xl" data-testid="input-confirm-password" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -1015,7 +1023,7 @@ export default function MaintenanceApplication() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="rounded-full h-11 px-4 border-border focus:border-accent uppercase rounded-xl" 
+                                className="h-11 px-4 border-border focus:border-accent uppercase rounded-xl" 
                                 onChange={(e) => {
                                   field.onChange(e.target.value.toUpperCase());
                                   setDiscountInfo(null);
@@ -1170,7 +1178,7 @@ export default function MaintenanceApplication() {
                         <Input type={showPassword ? "text" : "password"}
                           value={form.getValues("password") || ""}
                           onChange={(e) => form.setValue("password", e.target.value)}
-                          className="rounded-full p-6 pr-12 border-border focus:border-accent rounded-xl"
+                          className="p-6 pr-12 border-border focus:border-accent rounded-xl"
                           data-testid="input-login-password"
                         />
                         <button

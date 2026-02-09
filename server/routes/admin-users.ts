@@ -59,6 +59,10 @@ export function registerAdminUserRoutes(app: Express) {
       updateData.emailVerified = true;
       updateData.accountStatus = 'active';
     }
+    // When admin activates an account, also mark email as verified
+    if (data.accountStatus === 'active' || data.accountStatus === 'vip') {
+      updateData.emailVerified = true;
+    }
     
     const [updated] = await db.update(usersTable).set(updateData).where(eq(usersTable.id, userId)).returning();
 
@@ -85,7 +89,7 @@ export function registerAdminUserRoutes(app: Express) {
             userId,
             title: 'i18n:ntf.accountDeactivated.title',
             message: 'i18n:ntf.accountDeactivated.message',
-            type: 'action_required',
+            type: 'info',
             isRead: false
           });
         } else if (data.accountStatus === 'vip') {

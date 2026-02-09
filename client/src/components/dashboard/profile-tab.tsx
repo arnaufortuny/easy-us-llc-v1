@@ -328,7 +328,7 @@ export function ProfileTab({
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate')}</Label>
-              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm rounded-xl`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided')}</div>}
+              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm rounded-xl w-full sm:w-auto`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided')}</div>}
             </div>
           </div>
 
@@ -463,15 +463,15 @@ export function ProfileTab({
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.currentPassword')}</Label>
-                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-current-password" />
+                    <Input type="password" value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} className="rounded-xl" data-testid="input-current-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.newPassword')}</Label>
-                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-new-password" />
+                    <Input type="password" value={newPassword} onChange={e => setNewPassword(e.target.value)} className="rounded-xl" data-testid="input-new-password" />
                   </div>
                   <div className="space-y-1">
                     <Label className="text-xs">{t('profile.confirmNewPassword')}</Label>
-                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-full rounded-xl" data-testid="input-confirm-password" />
+                    <Input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} className="rounded-xl" data-testid="input-confirm-password" />
                   </div>
                 </div>
                 {newPassword && confirmPassword && newPassword !== confirmPassword && (

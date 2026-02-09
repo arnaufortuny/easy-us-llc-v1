@@ -122,7 +122,7 @@ export function MessagesTab({
               <Input value={inquirySubject} 
                 onChange={(e) => setInquirySubject(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryTitlePlaceholder')}
-                className="rounded-full rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
+                className="rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
                 maxLength={120}
                 data-testid="input-inquiry-subject"
               />
@@ -133,7 +133,7 @@ export function MessagesTab({
               <NativeSelect
                 value={inquiryReason}
                 onValueChange={setInquiryReason}
-                className="w-full rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="w-full rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 data-testid="select-inquiry-reason"
               >
                 <NativeSelectItem value="" disabled>{t('dashboard.support.selectReason')}</NativeSelectItem>
