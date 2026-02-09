@@ -121,8 +121,8 @@ export function ProfileTab({
     setTimeout(() => setCopiedId(false), 2000);
   };
 
-  const inputClass = "rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
-  const selectClass = "rounded-xl h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
+  const inputClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-muted transition-colors font-medium text-foreground text-sm";
+  const selectClass = "rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted";
   const readOnlyClass = "p-2.5 px-5 bg-gray-50 dark:bg-muted rounded-full text-sm h-11 flex items-center";
 
   return (
@@ -328,7 +328,7 @@ export function ProfileTab({
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate')}</Label>
-              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm rounded-xl w-full sm:w-auto`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided')}</div>}
+              {isEditing && canEdit ? <Input type="date" value={profileData.birthDate} onChange={e => setProfileData({...profileData, birthDate: e.target.value})} className={`${inputClass} text-xs sm:text-sm`} data-testid="input-birthdate" /> : <div className={readOnlyClass}>{user?.birthDate || t('profile.notProvided')}</div>}
             </div>
           </div>
 

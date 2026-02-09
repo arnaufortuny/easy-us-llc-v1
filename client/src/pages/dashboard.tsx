@@ -1242,7 +1242,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-screen bg-background font-sans animate-page-in flex flex-col overflow-hidden">
+    <div className="h-screen bg-background font-sans animate-page-in flex flex-col overflow-hidden max-w-[100vw]">
       <Navbar />
       <DashboardTour />
 
@@ -1357,12 +1357,12 @@ export default function Dashboard() {
         </aside>
 
         {/* Main content area */}
-        <div className="flex-1 min-w-0 overflow-y-auto">
+        <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
       <main className={`${activeTab === 'services' ? 'pt-8 sm:pt-10 lg:pt-14' : 'pt-6 sm:pt-10'} pb-20 px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10`}>
 
         {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
         <div className="flex flex-col gap-2 mb-4 lg:hidden">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5 pl-1 sm:pl-0">
+          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5 pl-5 sm:pl-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
@@ -1371,7 +1371,7 @@ export default function Dashboard() {
                     variant={isActive ? "default" : "ghost"}
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
                     size="sm"
-                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-black text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-5 transition-all duration-200 animate-press ${
                       isActive 
                       ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
                       : 'bg-card text-muted-foreground'
@@ -1390,7 +1390,7 @@ export default function Dashboard() {
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
                     size="sm"
-                    className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-black text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-5 transition-all duration-200 animate-press ${
                       activeTab === item.id 
                       ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
                       : 'bg-card text-muted-foreground'
@@ -1473,7 +1473,7 @@ export default function Dashboard() {
                 {formMessage.text}
               </div>
             )}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
+            <div className="flex flex-col xl:grid xl:grid-cols-3 gap-6 lg:gap-8">
               <div className="xl:col-span-2 space-y-6 order-2 xl:order-1">
             
               {activeTab === 'services' && (
@@ -2796,17 +2796,21 @@ export default function Dashboard() {
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
                         <Button onClick={() => {
                           if (docDialog.user?.id && docDialog.user?.email) {
-                            const docTypeLabels: Record<string, string> = {
-                              passport: t('dashboard.admin.docPassport'),
-                              address_proof: t('dashboard.admin.docAddressProof'),
-                              tax_id: t('dashboard.admin.docTaxId'),
-                              other: t('dashboard.admin.docOther')
+                            const docTypeI18nKeys: Record<string, string> = {
+                              passport: 'dashboard.documents.passport',
+                              address_proof: 'dashboard.documents.addressProof',
+                              tax_id: 'dashboard.documents.taxId',
+                              other: 'dashboard.documents.otherDocument'
                             };
-                            const docLabel = docTypeLabels[docType] || docType;
+                            const docI18nKey = docTypeI18nKeys[docType] || docType;
+                            const i18nTitle = `i18n:ntf.docRequested.title::{"docType":"@${docI18nKey}"}`;
+                            const i18nMessage = docMessage 
+                              ? `i18n:ntf.docRequested.message::{"docType":"@${docI18nKey}"}` 
+                              : `i18n:ntf.docRequested.message::{"docType":"@${docI18nKey}"}`;
                             sendNoteMutation.mutate({ 
                               userId: docDialog.user.id, 
-                              title: `Solicitud de Documento: ${docLabel}`, 
-                              message: docMessage || `Por favor, sube tu ${docLabel} a tu área de clientes.`, 
+                              title: i18nTitle, 
+                              message: docMessage || i18nMessage, 
                               type: 'action_required' 
                             });
                             setDocDialog({ open: false, user: null });
@@ -2827,7 +2831,7 @@ export default function Dashboard() {
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.createInvoice')}</h3>
-                          <p className="text-sm text-muted-foreground">Cliente: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
+                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.client')}: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
                         </div>
                         <Button variant="ghost" size="icon" onClick={() => setInvoiceDialog({ open: false, user: null })} className="rounded-full">
                           <X className="w-4 h-4" />
@@ -4793,7 +4797,7 @@ export default function Dashboard() {
               )}
             </div>
 
-          <div className="space-y-6 order-1 lg:order-2 self-start">
+          <div className="space-y-6 order-1 xl:order-2 self-start">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required') || 
               !!(user as any)?.pendingProfileChanges ||
@@ -4830,7 +4834,7 @@ export default function Dashboard() {
                       <FileUp className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.documentRequest')}</p>
-                        <p className="text-[10px] text-muted-foreground truncate">{tn(n.message)}</p>
+                        <p className="text-[10px] text-muted-foreground">{tn(n.message)}</p>
                       </div>
                       <Button 
                         size="sm" 
@@ -4882,7 +4886,7 @@ export default function Dashboard() {
                 </div>
               </Card>
             )}
-            
+
             {!user?.isAdmin && (
             <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
@@ -4950,8 +4954,9 @@ export default function Dashboard() {
               </div>
             </Card>
             )}
+
             {!user?.isAdmin && (
-            <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mt-4 mb-16 md:mb-12 text-center" data-testid="card-support-help">
+            <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mb-16 md:mb-12 text-center" data-testid="card-support-help">
               <div className="flex flex-col items-center gap-3 md:gap-4">
                 <div>
                   <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.haveQuestion')}</h3>
