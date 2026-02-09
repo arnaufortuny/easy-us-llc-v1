@@ -460,7 +460,7 @@ export default function CsvGenerator() {
                       <Label className="text-xs font-semibold text-muted-foreground mb-1 block">{t("tools.csvGenerator.notes")}</Label>
                       <Textarea value={transaction.notes}
                         onChange={(e) => updateTransaction(transaction.id, 'notes', e.target.value)}
-                        className="rounded-2xl text-sm resize-none rounded-xl"
+                        className="rounded-xl text-sm resize-none"
                         rows={2}
                         data-testid={`input-notes-${index}`}
                       />

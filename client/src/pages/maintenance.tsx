@@ -1103,7 +1103,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-foreground">{t("maintenance.confirmation.additionalNotes")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground rounded-xl" />
+                          <Textarea {...field} className="rounded-xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
                         </FormControl>
                       </FormItem>
                     )} />
