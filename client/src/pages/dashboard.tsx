@@ -2198,25 +2198,27 @@ export default function Dashboard() {
                   )}
                   <div className="space-y-3 mb-5">
                     <div className="flex items-center gap-2 w-full">
-                      <NativeSelect
-                        value={adminSearchFilter}
-                        onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
-                        className="rounded-xl h-11 text-sm w-32 shrink-0 border-border bg-white dark:bg-[#1A1A1A]"
-                        data-testid="select-admin-search-filter"
-                      >
-                        <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
-                        <option value="name">{t('dashboard.admin.searchFilters.name')}</option>
-                        <option value="email">{t('dashboard.admin.searchFilters.email')}</option>
-                        <option value="date">{t('dashboard.admin.searchFilters.date')}</option>
-                        <option value="invoiceId">{t('dashboard.admin.searchFilters.invoiceId')}</option>
-                      </NativeSelect>
-                      <div className="relative flex-1">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <div className="shrink-0 w-32">
+                        <NativeSelect
+                          value={adminSearchFilter}
+                          onValueChange={(val) => setAdminSearchFilter(val as typeof adminSearchFilter)}
+                          className="rounded-xl h-11 text-sm border-border bg-white dark:bg-[#1A1A1A]"
+                          data-testid="select-admin-search-filter"
+                        >
+                          <option value="all">{t('dashboard.admin.searchFilters.all')}</option>
+                          <option value="name">{t('dashboard.admin.searchFilters.name')}</option>
+                          <option value="email">{t('dashboard.admin.searchFilters.email')}</option>
+                          <option value="date">{t('dashboard.admin.searchFilters.date')}</option>
+                          <option value="invoiceId">{t('dashboard.admin.searchFilters.invoiceId')}</option>
+                        </NativeSelect>
+                      </div>
+                      <div className="relative flex-1 min-w-0">
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
                         <Input
                           placeholder={t('dashboard.admin.searchPlaceholder')}
                           value={adminSearchQuery}
                           onChange={(e) => setAdminSearchQuery(e.target.value)}
-                          className="pl-10 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border"
+                          className="pl-10 h-11 rounded-xl text-sm bg-white dark:bg-[#1A1A1A] border-border w-full"
                           data-testid="input-admin-search"
                         />
                       </div>
