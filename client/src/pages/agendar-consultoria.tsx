@@ -495,7 +495,7 @@ export default function AsesoriaGratis() {
                                       aspect-square flex items-center justify-center text-sm rounded-md transition-colors
                                       ${!day.isCurrentMonth ? 'text-muted-foreground/30' : ''}
                                       ${day.isDisabled ? 'cursor-not-allowed opacity-40' : 'cursor-pointer hover-elevate'}
-                                      ${isSelected ? 'bg-accent text-accent-foreground font-bold' : ''}
+                                      ${isSelected ? 'bg-accent text-white font-bold ring-2 ring-accent ring-offset-2 ring-offset-background' : ''}
                                       ${!isSelected && !day.isDisabled && day.isCurrentMonth ? 'text-foreground' : ''}
                                     `}
                                   >
@@ -530,7 +530,7 @@ export default function AsesoriaGratis() {
                                         className={`
                                           py-2.5 px-3 rounded-full text-sm font-medium transition-colors border
                                           ${!slot.available ? 'opacity-40 cursor-not-allowed border-muted text-muted-foreground line-through' : 'cursor-pointer'}
-                                          ${isSelected ? 'bg-accent text-accent-foreground border-accent font-bold' : ''}
+                                          ${isSelected ? 'bg-accent text-white border-accent font-bold ring-2 ring-accent ring-offset-1 ring-offset-background' : ''}
                                           ${slot.available && !isSelected ? 'border-border hover-elevate' : ''}
                                         `}
                                       >
@@ -597,7 +597,29 @@ export default function AsesoriaGratis() {
                             <FormItem>
                               <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.businessActivity")}</FormLabel>
                               <FormControl>
-                                <Input data-testid="input-business-activity" placeholder={t("freeConsultation.fields.businessActivityPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
+                                <NativeSelect data-testid="select-business-activity" placeholder={t("freeConsultation.fields.businessActivityPlaceholder")} value={field.value} onValueChange={field.onChange}>
+                                  <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
+                                  <NativeSelectItem value="dropshipping">{t("auth.register.businessActivities.dropshipping")}</NativeSelectItem>
+                                  <NativeSelectItem value="consulting">{t("auth.register.businessActivities.consulting")}</NativeSelectItem>
+                                  <NativeSelectItem value="marketing">{t("auth.register.businessActivities.marketing")}</NativeSelectItem>
+                                  <NativeSelectItem value="software">{t("auth.register.businessActivities.software")}</NativeSelectItem>
+                                  <NativeSelectItem value="saas">{t("auth.register.businessActivities.saas")}</NativeSelectItem>
+                                  <NativeSelectItem value="apps">{t("auth.register.businessActivities.apps")}</NativeSelectItem>
+                                  <NativeSelectItem value="ai">{t("auth.register.businessActivities.ai")}</NativeSelectItem>
+                                  <NativeSelectItem value="investments">{t("auth.register.businessActivities.investments")}</NativeSelectItem>
+                                  <NativeSelectItem value="tradingEducation">{t("auth.register.businessActivities.tradingEducation")}</NativeSelectItem>
+                                  <NativeSelectItem value="financial">{t("auth.register.businessActivities.financial")}</NativeSelectItem>
+                                  <NativeSelectItem value="crypto">{t("auth.register.businessActivities.crypto")}</NativeSelectItem>
+                                  <NativeSelectItem value="realestate">{t("auth.register.businessActivities.realestate")}</NativeSelectItem>
+                                  <NativeSelectItem value="import">{t("auth.register.businessActivities.import")}</NativeSelectItem>
+                                  <NativeSelectItem value="coaching">{t("auth.register.businessActivities.coaching")}</NativeSelectItem>
+                                  <NativeSelectItem value="content">{t("auth.register.businessActivities.content")}</NativeSelectItem>
+                                  <NativeSelectItem value="affiliate">{t("auth.register.businessActivities.affiliate")}</NativeSelectItem>
+                                  <NativeSelectItem value="freelance">{t("auth.register.businessActivities.freelance")}</NativeSelectItem>
+                                  <NativeSelectItem value="gaming">{t("auth.register.businessActivities.gaming")}</NativeSelectItem>
+                                  <NativeSelectItem value="digitalProducts">{t("auth.register.businessActivities.digitalProducts")}</NativeSelectItem>
+                                  <NativeSelectItem value="other">{t("auth.register.businessActivities.other")}</NativeSelectItem>
+                                </NativeSelect>
                               </FormControl>
                               <FormMessage />
                             </FormItem>

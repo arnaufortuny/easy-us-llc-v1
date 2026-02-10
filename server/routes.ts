@@ -94,6 +94,7 @@ export async function registerRoutes(
   const csrfExemptPaths = [
     "/api/stripe/webhook",
     "/api/webhook",
+    "/api/consultations/book-free",
   ];
   
   app.use((req, res, next) => {
