@@ -99,7 +99,7 @@ export default function Home() {
               }} className="bg-accent text-accent-foreground font-black text-sm px-8 border-0 rounded-full w-full sm:w-auto h-12 sm:h-12 shadow-md" data-testid="button-select-pack">
                 {t("hero.cta")} →
               </Button>
-              <Button size="lg" variant="outline" onClick={() => setLocation("/servicios")} className="bg-transparent text-primary border-2 border-primary hover:bg-accent/5 font-black text-sm px-8 rounded-full w-full sm:w-auto h-12 sm:h-12" data-testid="button-services">
+              <Button size="lg" variant="outline" onClick={() => setLocation("/servicios")} className="bg-transparent text-primary border-2 border-primary font-black text-sm px-8 rounded-full w-full sm:w-auto h-12 sm:h-12" data-testid="button-services">
                 {t("nav.services")} →
               </Button>
             </div>
@@ -560,7 +560,7 @@ function HomeFAQ() {
           <Button
             size="lg"
             asChild
-            className="bg-[#25D366] hover:bg-[#25D366]/90 text-white font-black text-sm px-8 border-0 rounded-full h-12 shadow-lg"
+            className="bg-[#25D366] text-white font-black text-sm px-8 border-0 rounded-full h-12 shadow-lg"
             data-testid="button-faq-cta"
           >
             <a

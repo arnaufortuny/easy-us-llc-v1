@@ -891,7 +891,7 @@ export function getAdminPasswordResetTemplate(name?: string, lang: EmailLanguage
       <p style="margin: 0; font-size: 14px; color: #78350F; line-height: 1.6;">${t.warning}</p>
     </div>
   `;
-  return getEmailWrapper(content);
+  return getEmailWrapper(content, lang);
 }
 
 // 22. Calculadora de Precios - Resultado enviado al cliente

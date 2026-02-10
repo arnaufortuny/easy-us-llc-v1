@@ -1255,7 +1255,7 @@ export default function Dashboard() {
                 </div>
                 <Button size="sm"
                   onClick={() => setShowEmailVerification(true)}
-                  className="shrink-0 bg-accent hover:bg-accent/90 text-white font-black rounded-full h-9 px-4"
+                  className="shrink-0 bg-accent text-white font-black rounded-full px-4"
                   data-testid="button-verify-email-header"
                 >
                   {t('dashboard.emailVerification.button')}
@@ -1307,7 +1307,7 @@ export default function Dashboard() {
                         <p className="text-xs text-muted-foreground mt-0.5">{t('dashboard.trustpilot.subtitle')}</p>
                       </div>
                       <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer">
-                        <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full whitespace-nowrap" size="sm" data-testid="button-trustpilot-review">
+                        <Button className="bg-accent text-accent-foreground font-black rounded-full whitespace-nowrap" size="sm" data-testid="button-trustpilot-review">
                           {t('dashboard.trustpilot.button')}
                         </Button>
                       </a>
@@ -1869,7 +1869,7 @@ export default function Dashboard() {
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.invoiceDescription')}</p>
                         <Link href="/tools/invoice">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-invoice-generator">
+                          <Button className="bg-accent text-accent-foreground font-black rounded-full" size="sm" data-testid="button-invoice-generator">
                             {t('dashboard.clientTools.createInvoice')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1884,7 +1884,7 @@ export default function Dashboard() {
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.calculatorDescription')}</p>
                         <Link href="/tools/price-calculator">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-price-calculator">
+                          <Button className="bg-accent text-accent-foreground font-black rounded-full" size="sm" data-testid="button-price-calculator">
                             {t('dashboard.clientTools.calculate')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1899,7 +1899,7 @@ export default function Dashboard() {
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('dashboard.clientTools.operatingDescription')}</p>
                         <Link href="/tools/operating-agreement">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-operating-agreement">
+                          <Button className="bg-accent text-accent-foreground font-black rounded-full" size="sm" data-testid="button-operating-agreement">
                             {t('dashboard.clientTools.generateDocument')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -1914,7 +1914,7 @@ export default function Dashboard() {
                         </div>
                         <p className="text-sm text-muted-foreground mb-4">{t('tools.csvGenerator.toolDescription')}</p>
                         <Link href="/tools/csv-generator">
-                          <Button className="bg-accent hover:bg-accent/90 text-accent-foreground font-black rounded-full" size="sm" data-testid="button-csv-generator">
+                          <Button className="bg-accent text-accent-foreground font-black rounded-full" size="sm" data-testid="button-csv-generator">
                             {t('tools.csvGenerator.openTool')} <ChevronRight className="w-4 h-4 ml-1" />
                           </Button>
                         </Link>
@@ -3592,7 +3592,7 @@ export default function Dashboard() {
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 {t('dashboard.admin.orders.viewInvoice')}
                               </Button>
-                              <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => {
+                              <Button size="sm" className="rounded-full text-xs bg-accent text-black" onClick={() => {
                                 setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
                                 setOrderInvoiceCurrency("EUR");
                                 setGenerateInvoiceDialog({ open: true, order });
@@ -3992,7 +3992,7 @@ export default function Dashboard() {
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
                                     {t('dashboard.admin.users.invoiceBtn')}
                                   </Button>
-                                  <Button size="sm" className="rounded-full text-xs bg-accent hover:bg-accent/90 text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
+                                  <Button size="sm" className="rounded-full text-xs bg-accent text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
                                     {t('dashboard.admin.users.paymentBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>
@@ -4210,7 +4210,7 @@ export default function Dashboard() {
                                 <Button
                                   size="sm"
                                   variant="outline"
-                                  className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                  className="rounded-full text-xs text-red-600 border-red-200"
                                   onClick={() => {
                                     showConfirm({
                                       title: t('common.confirmAction'),
@@ -4527,7 +4527,7 @@ export default function Dashboard() {
                                     <Button 
                                       variant="outline" 
                                       size="sm" 
-                                      className="rounded-full text-xs text-red-600 border-red-200 hover:bg-red-50"
+                                      className="rounded-full text-xs text-red-600 border-red-200"
                                       onClick={() => {
                                         showConfirm({
                                           title: t('common.confirmAction'),
@@ -4832,7 +4832,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className="rounded-full text-xs h-8 w-8 p-0 text-red-600 border-red-200 hover:bg-red-50"
+                                  className="rounded-full text-xs h-8 w-8 p-0 text-red-600 border-red-200"
                                   onClick={() => {
                                     showConfirm({
                                       title: t('common.confirmAction'),

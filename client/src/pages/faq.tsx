@@ -206,7 +206,7 @@ export default function FAQ() {
               </p>
               <Button
                 asChild
-                className="bg-[#25D366] hover:bg-[#25D366]/90 text-white font-black rounded-full px-8 h-12 shadow-lg transition-colors"
+                className="bg-[#25D366] text-white font-black rounded-full px-8 h-12 shadow-lg transition-colors"
                 data-testid="button-whatsapp-help"
               >
                 <a 

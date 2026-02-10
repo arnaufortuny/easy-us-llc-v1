@@ -409,10 +409,10 @@ export function registerAdminOrderRoutes(app: Express) {
       agentRenewal.setFullYear(agentRenewal.getFullYear() + 1);
       updateData.agentRenewalDate = agentRenewal;
       
-      // IRS 1120: March 15 of next year
-      updateData.irs1120DueDate = new Date(nextYear, 2, 15);
+      // IRS 1120: April 15 of next year
+      updateData.irs1120DueDate = new Date(nextYear, 3, 15);
       
-      // IRS 5472: April 15 of next year
+      // IRS 5472: April 15 of next year (same deadline as 1120)
       updateData.irs5472DueDate = new Date(nextYear, 3, 15);
       
       // Annual Report: Get the LLC state to determine date
@@ -432,7 +432,7 @@ export function registerAdminOrderRoutes(app: Express) {
           wyomingDate.setDate(1);
           updateData.annualReportDueDate = wyomingDate;
         } else if (app.state === 'Delaware') {
-          updateData.annualReportDueDate = new Date(nextYear, 2, 1); // March 1
+          updateData.annualReportDueDate = new Date(nextYear, 5, 1); // June 1
         }
         // New Mexico: no annual report, leave as null
       }
