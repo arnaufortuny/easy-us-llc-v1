@@ -87,7 +87,7 @@ export function ActivityLogPanel() {
     <div className="space-y-4" data-testid="admin-activity-log">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div className="flex items-center gap-2">
-          <h3 className="text-sm font-black">{t('dashboard.admin.activityLog.title')}</h3>
+          <h3 className="font-black text-lg">{t('dashboard.admin.activityLog.title')}</h3>
           {data?.total !== undefined && (
             <Badge variant="secondary" className="text-[10px]">{data.total}</Badge>
           )}

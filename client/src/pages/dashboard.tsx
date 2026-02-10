@@ -2144,11 +2144,11 @@ export default function Dashboard() {
                     </div>
                     {isAdmin && (
                     <div className="flex flex-wrap gap-2">
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createUserDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createUserDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-[#1A1A1A] border-accent/50'}`} onClick={() => setCreateUserDialog(!createUserDialog)} data-testid="button-create-user">
                         <Plus className="w-3 h-3 mr-1" />
                         {t('dashboard.admin.newClient')}
                       </Button>
-                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm ${createOrderDialog ? 'bg-accent text-accent-foreground' : 'bg-white dark:bg-[#1A1A1A]'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
+                      <Button variant="ghost" size="sm" className={`rounded-full text-xs font-black shadow-sm border ${createOrderDialog ? 'bg-accent text-accent-foreground border-accent' : 'bg-white dark:bg-[#1A1A1A] border-accent/50'}`} onClick={() => setCreateOrderDialog(!createOrderDialog)} data-testid="button-create-order">
                         <Plus className="w-3 h-3 mr-1" />
                         {t('dashboard.admin.newOrder')}
                       </Button>
@@ -3266,7 +3266,7 @@ export default function Dashboard() {
                   {adminSubTab === 'dashboard' && (
                     <div className="space-y-5 md:space-y-7" data-testid="admin-dashboard-metrics">
                       <div data-testid="section-sales">
-                        <h3 className="text-sm font-black tracking-tight mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
+                        <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                           <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
                             <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalSales')}</p>
@@ -3288,7 +3288,7 @@ export default function Dashboard() {
                       </div>
 
                       <div data-testid="section-orders">
-                        <h3 className="text-sm font-black tracking-tight mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
+                        <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         <div className="grid grid-cols-3 gap-3">
                           <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
                             <div className="flex items-center gap-2 mb-2">
@@ -3315,7 +3315,7 @@ export default function Dashboard() {
                       </div>
 
                       <div data-testid="section-crm">
-                        <h3 className="text-sm font-black tracking-tight mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
+                        <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                           <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
                             <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalUsers')}</p>
@@ -3353,7 +3353,7 @@ export default function Dashboard() {
                       </div>
 
                       <div data-testid="section-guests">
-                        <h3 className="text-sm font-black tracking-tight mb-3" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
+                        <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                           <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
                             <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.guestSection.totalVisitors')}</p>
@@ -3446,7 +3446,7 @@ export default function Dashboard() {
                       </div>
 
                       <div data-testid="section-communications">
-                        <h3 className="text-sm font-black tracking-tight mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
+                        <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                           <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
                             <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.metrics.newsletterSubs')}</p>
@@ -4387,14 +4387,9 @@ export default function Dashboard() {
                         </div>
                       ) : (
                         <Card className="rounded-2xl border-0 shadow-sm p-8 md:p-12">
-                          <div className="text-center space-y-3">
-                            <div className="w-16 h-16 mx-auto rounded-2xl bg-muted/50 flex items-center justify-center">
-                              <FileText className="w-8 h-8 text-muted-foreground/40" />
-                            </div>
-                            <div>
-                              <p className="font-black text-foreground">{t('dashboard.admin.documents.noDocs')}</p>
-                              <p className="text-xs text-muted-foreground mt-1">{t('dashboard.admin.documents.noDocsHint')}</p>
-                            </div>
+                          <div className="text-center space-y-1">
+                            <p className="font-black text-foreground">{t('dashboard.admin.documents.noDocs')}</p>
+                            <p className="text-xs text-muted-foreground">{t('dashboard.admin.documents.noDocsHint')}</p>
                           </div>
                         </Card>
                       )}
@@ -4434,12 +4429,12 @@ export default function Dashboard() {
                       {billingSubTab === 'invoices' && (
                         <div className="space-y-4" data-testid="admin-facturas-section">
                           <div className="flex justify-between items-center">
-                            <h3 className="text-sm font-black">{t('dashboard.admin.invoicesSection.title')}</h3>
+                            <h3 className="font-black text-lg">{t('dashboard.admin.invoicesSection.title')}</h3>
                           </div>
                           <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
                             <div className="divide-y max-h-[60vh] overflow-y-auto">
                               {adminInvoices?.length === 0 && (
-                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.invoicesSection.noInvoices')}</p>
+                                <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.invoicesSection.noInvoices')}</div>
                               )}
                               {adminInvoices?.map((inv: any) => {
                                 const currencySymbol = inv.currency === 'USD' ? '$' : '€';
@@ -4527,7 +4522,7 @@ export default function Dashboard() {
                       {billingSubTab === 'payment-methods' && (
                         <div className="space-y-4">
                           <div className="flex justify-between items-center flex-wrap gap-2">
-                            <h3 className="text-sm font-black">{t('dashboard.admin.tabs.paymentAccounts')}</h3>
+                            <h3 className="font-black text-lg">{t('dashboard.admin.tabs.paymentAccounts')}</h3>
                             <Button
                               variant="outline"
                               size="sm"
@@ -4600,7 +4595,7 @@ export default function Dashboard() {
                                 </div>
                               ))}
                               {(!paymentAccountsList || paymentAccountsList.length === 0) && (
-                                <p className="p-4 text-sm text-muted-foreground text-center">{t('dashboard.admin.paymentAccounts.noAccounts')}</p>
+                                <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.paymentAccounts.noAccounts')}</div>
                               )}
                             </div>
                           </Card>
@@ -4703,7 +4698,7 @@ export default function Dashboard() {
                   {adminSubTab === 'descuentos' && (
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <h3 className="text-sm font-black">{t('dashboard.admin.discountsSection.title')}</h3>
+                        <h3 className="font-black text-lg">{t('dashboard.admin.discountsSection.title')}</h3>
                         <Button 
                           variant="outline" 
                           size="sm" 
