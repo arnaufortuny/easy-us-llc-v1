@@ -3233,6 +3233,10 @@
       "title": "Nuevo documento disponible",
       "message": "Se ha añadido el documento \"{{docName}}\" a tu expediente."
     },
+    "docInReview": {
+      "title": "Documento en revisión",
+      "message": "Tu documento ha sido recibido y está siendo revisado por nuestro equipo."
+    },
     "docApproved": {
       "title": "Documento aprobado",
       "message": "Tu documento \"{{docType}}\" ha sido revisado y aprobado."

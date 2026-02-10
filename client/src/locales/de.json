@@ -3233,6 +3233,10 @@
       "title": "Neues Dokument verfügbar",
       "message": "Das Dokument \"{{docName}}\" wurde Ihrer Akte hinzugefügt."
     },
+    "docInReview": {
+      "title": "Dokument wird überprüft",
+      "message": "Ihr Dokument wurde empfangen und wird von unserem Team überprüft."
+    },
     "docApproved": {
       "title": "Dokument genehmigt",
       "message": "Ihr Dokument \"{{docType}}\" wurde geprüft und genehmigt."

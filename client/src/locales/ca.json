@@ -3233,6 +3233,10 @@
       "title": "Nou document disponible",
       "message": "S'ha afegit el document \"{{docName}}\" al teu expedient."
     },
+    "docInReview": {
+      "title": "Document en revisió",
+      "message": "El teu document ha estat rebut i està sent revisat pel nostre equip."
+    },
     "docApproved": {
       "title": "Document aprovat",
       "message": "El teu document \"{{docType}}\" ha estat revisat i aprovat."

@@ -3233,6 +3233,10 @@
       "title": "New document available",
       "message": "The document \"{{docName}}\" has been added to your file."
     },
+    "docInReview": {
+      "title": "Document under review",
+      "message": "Your document has been received and is being reviewed by our team."
+    },
     "docApproved": {
       "title": "Document approved",
       "message": "Your document \"{{docType}}\" has been reviewed and approved."

@@ -435,9 +435,9 @@ export function registerLlcRoutes(app: Express) {
         const fileExt = fileName.toLowerCase().split('.').pop() || '';
         const detectedFileType = mimeTypesMap[fileExt] || 'application/octet-stream';
         
-        // Create document record
         const doc = await db.insert(applicationDocumentsTable).values({
           orderId: targetOrderId,
+          userId: userId,
           fileName: fileName,
           fileType: detectedFileType,
           fileUrl: `/uploads/client-docs/${safeFileName}`,
@@ -490,10 +490,14 @@ export function registerLlcRoutes(app: Express) {
           });
         }
         
-        // Mark pending document requests as read after upload
         if (pendingRequests.length > 0) {
           await db.update(userNotifications)
-            .set({ isRead: true })
+            .set({ 
+              type: 'info',
+              title: 'i18n:ntf.docInReview.title',
+              message: 'i18n:ntf.docInReview.message',
+              isRead: false
+            })
             .where(and(
               eq(userNotifications.userId, userId),
               eq(userNotifications.type, 'action_required')

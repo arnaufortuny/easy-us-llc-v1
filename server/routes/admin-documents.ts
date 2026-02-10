@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { and, eq, desc } from "drizzle-orm";
+import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport } from "./shared";
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
@@ -220,19 +220,32 @@ export function registerAdminDocumentsRoutes(app: Express) {
         .where(eq(applicationDocumentsTable.id, docId))
         .returning();
       
-      // Get document details and user info for notification
       const [docWithOrder] = await db.select({
         doc: applicationDocumentsTable,
         order: ordersTable,
-        user: usersTable
       })
         .from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
-        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
         .where(eq(applicationDocumentsTable.id, docId))
         .limit(1);
       
-      if (docWithOrder?.user) {
+      let targetUser: any = null;
+      if (docWithOrder) {
+        if (docWithOrder.order?.userId) {
+          const [u] = await db.select().from(usersTable).where(eq(usersTable.id, docWithOrder.order.userId)).limit(1);
+          targetUser = u;
+        }
+        if (!targetUser && docWithOrder.doc.userId) {
+          const [u] = await db.select().from(usersTable).where(eq(usersTable.id, docWithOrder.doc.userId)).limit(1);
+          targetUser = u;
+        }
+        if (!targetUser && docWithOrder.doc.uploadedBy) {
+          const [u] = await db.select().from(usersTable).where(eq(usersTable.id, docWithOrder.doc.uploadedBy)).limit(1);
+          targetUser = u;
+        }
+      }
+      
+      if (targetUser && docWithOrder) {
         const docTypeLabels: Record<string, string> = {
           'id_document': 'Documento de identidad',
           'proof_of_address': 'Comprobante de domicilio',
@@ -244,12 +257,19 @@ export function registerAdminDocumentsRoutes(app: Express) {
           'other': 'Otro documento'
         };
         const docLabel = docTypeLabels[docWithOrder.doc.documentType] || docWithOrder.doc.fileName;
+        const validDocTypes = ['id_document', 'proof_of_address', 'passport', 'ein_letter', 'articles_of_organization', 'operating_agreement', 'invoice', 'other'];
         
         if (reviewStatus === 'approved') {
-          // Notify client: document approved (translated on frontend via i18n keys)
-          const approvedDocKey = docWithOrder.doc.documentType && ['id_document', 'proof_of_address', 'passport', 'ein_letter', 'articles_of_organization', 'operating_agreement', 'invoice', 'other'].includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
+          await db.delete(userNotifications).where(
+            and(
+              eq(userNotifications.userId, targetUser.id),
+              inArray(userNotifications.type, ['action_required', 'info'])
+            )
+          );
+          
+          const approvedDocKey = docWithOrder.doc.documentType && validDocTypes.includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
           await db.insert(userNotifications).values({
-            userId: docWithOrder.user.id,
+            userId: targetUser.id,
             orderId: docWithOrder.order?.id || null,
             orderCode: docWithOrder.order?.invoiceNumber || 'General',
             title: 'i18n:ntf.docApproved.title',
@@ -258,24 +278,31 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          const userLang = ((docWithOrder.user as any).preferredLanguage || 'es') as EmailLanguage;
+          const userLang = (targetUser.preferredLanguage || 'es') as EmailLanguage;
           const approvedSubjects: Record<string, string> = { en: 'Document approved', ca: 'Document aprovat', fr: 'Document approuvé', de: 'Dokument genehmigt', it: 'Documento approvato', pt: 'Documento aprovado' };
           sendEmail({
-            to: docWithOrder.user.email!,
+            to: targetUser.email!,
             subject: `${approvedSubjects[userLang] || 'Documento aprobado'} - ${docLabel}`,
             html: getDocumentApprovedTemplate(
-              docWithOrder.user.firstName || '',
+              targetUser.firstName || '',
               docLabel,
               userLang
             )
           }).catch(console.error);
         } else if (reviewStatus === 'rejected') {
-          // Notify client: document rejected (translated on frontend via i18n keys)
+          await db.delete(userNotifications).where(
+            and(
+              eq(userNotifications.userId, targetUser.id),
+              eq(userNotifications.type, 'info'),
+              sql`${userNotifications.title} = 'i18n:ntf.docInReview.title'`
+            )
+          );
+          
           const reason = rejectionReason || 'No cumple los requisitos necesarios';
-          const rejectedDocKey = docWithOrder.doc.documentType && ['id_document', 'proof_of_address', 'passport', 'ein_letter', 'articles_of_organization', 'operating_agreement', 'invoice', 'other'].includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
+          const rejectedDocKey = docWithOrder.doc.documentType && validDocTypes.includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
           const safeReason = reason.replace(/"/g, '\\"').replace(/\n/g, ' ');
           await db.insert(userNotifications).values({
-            userId: docWithOrder.user.id,
+            userId: targetUser.id,
             orderId: docWithOrder.order?.id || null,
             orderCode: docWithOrder.order?.invoiceNumber || 'General',
             title: 'i18n:ntf.docRejected.title',
@@ -284,13 +311,13 @@ export function registerAdminDocumentsRoutes(app: Express) {
             isRead: false
           });
           
-          const rejLang = ((docWithOrder.user as any).preferredLanguage || 'es') as EmailLanguage;
+          const rejLang = (targetUser.preferredLanguage || 'es') as EmailLanguage;
           const rejSubjects: Record<string, string> = { en: 'Action required - Document rejected', ca: 'Acció requerida - Document rebutjat', fr: 'Action requise - Document rejeté', de: 'Handlung erforderlich - Dokument abgelehnt', it: 'Azione richiesta - Documento rifiutato', pt: 'Ação necessária - Documento rejeitado' };
           sendEmail({
-            to: docWithOrder.user.email!,
+            to: targetUser.email!,
             subject: rejSubjects[rejLang] || 'Acción requerida - Documento rechazado',
             html: getDocumentRejectedTemplate(
-              docWithOrder.user.firstName || '',
+              targetUser.firstName || '',
               docLabel,
               reason,
               rejLang

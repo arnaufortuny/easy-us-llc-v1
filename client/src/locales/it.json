@@ -3233,6 +3233,10 @@
       "title": "Nuovo documento disponibile",
       "message": "Il documento \"{{docName}}\" è stato aggiunto al tuo fascicolo."
     },
+    "docInReview": {
+      "title": "Documento in revisione",
+      "message": "Il tuo documento è stato ricevuto ed è in fase di revisione dal nostro team."
+    },
     "docApproved": {
       "title": "Documento approvato",
       "message": "Il tuo documento \"{{docType}}\" è stato esaminato e approvato."
