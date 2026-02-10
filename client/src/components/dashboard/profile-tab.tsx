@@ -322,7 +322,14 @@ export function ProfileTab({
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.idNumber')}</Label>
-              {isEditing && canEdit ? <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber')} className={inputClass} data-testid="input-idnumber" /> : <div className={readOnlyClass}>{user?.idNumber || t('profile.notProvided')}</div>}
+              {isEditing && canEdit ? (
+                <>
+                  <Input value={profileData.idNumber} onChange={e => setProfileData({...profileData, idNumber: e.target.value})} placeholder={t('profile.placeholders.idNumber')} className={`${inputClass} ${profileData.idNumber && (profileData.idNumber.replace(/\D/g, '').length > 0 && profileData.idNumber.replace(/\D/g, '').length < 7) ? 'border-red-400 dark:border-red-500' : ''}`} data-testid="input-idnumber" />
+                  {profileData.idNumber && profileData.idNumber.replace(/\D/g, '').length > 0 && profileData.idNumber.replace(/\D/g, '').length < 7 && (
+                    <p className="text-xs text-red-500 dark:text-red-400 mt-1">{t('validation.idNumberMinDigits')}</p>
+                  )}
+                </>
+              ) : <div className={readOnlyClass}>{user?.idNumber || t('profile.notProvided')}</div>}
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.birthDate')}</Label>

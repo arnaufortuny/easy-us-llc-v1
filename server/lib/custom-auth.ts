@@ -530,6 +530,13 @@ export function setupCustomAuth(app: Express) {
       }
 
       const { firstName, lastName, phone, address, streetType, city, province, postalCode, country, idNumber, idType, businessActivity, preferredLanguage } = req.body;
+
+      if (idNumber && idNumber.trim()) {
+        const digits = idNumber.replace(/\D/g, '');
+        if (digits.length > 0 && digits.length < 7) {
+          return res.status(400).json({ message: "ID number must have at least 7 digits" });
+        }
+      }
       
       // Get current user to check for significant changes
       const [currentUser] = await db.select().from(users).where(eq(users.id, userId)).limit(1);

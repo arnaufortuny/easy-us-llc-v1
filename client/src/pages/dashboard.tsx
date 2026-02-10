@@ -252,6 +252,12 @@ export default function Dashboard() {
       if (!canEdit) {
         throw new Error(t("dashboard.toasts.cannotModifyAccountState"));
       }
+      if (data.idNumber && data.idNumber.trim()) {
+        const digits = data.idNumber.replace(/\D/g, '');
+        if (digits.length > 0 && digits.length < 7) {
+          throw new Error(t("validation.idNumberMinDigits"));
+        }
+      }
       if (data.birthDate) {
         const birthDate = new Date(data.birthDate);
         const today = new Date();

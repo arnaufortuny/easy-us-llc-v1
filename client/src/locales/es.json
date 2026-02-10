@@ -929,7 +929,8 @@
     "acceptTerms": "Debes aceptar los términos",
     "whatsappRequired": "Campo obligatorio si quieres contacto por WhatsApp",
     "ageMinimum": "Debes tener al menos 18 años para crear una LLC",
-    "phoneFormat": "Teléfono inválido"
+    "phoneFormat": "Teléfono inválido",
+    "idNumberMinDigits": "El número de identificación debe tener al menos 7 dígitos"
   },
   "application": {
     "title": "Constituir mi LLC",
