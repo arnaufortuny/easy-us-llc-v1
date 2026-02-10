@@ -2,6 +2,7 @@ import type { Express } from "express";
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "./shared";
 import { createLogger } from "../lib/logger";
 
@@ -334,7 +335,26 @@ export function registerAdminBillingRoutes(app: Express) {
       
       const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
       
-      const logsQuery = db.select().from(auditLogs)
+      const actorUser = alias(usersTable, 'actor_user');
+      const targetUser = alias(usersTable, 'target_user');
+      
+      const logsQuery = db.select({
+        id: auditLogs.id,
+        action: auditLogs.action,
+        userId: auditLogs.userId,
+        targetId: auditLogs.targetId,
+        ip: auditLogs.ip,
+        userAgent: auditLogs.userAgent,
+        details: auditLogs.details,
+        createdAt: auditLogs.createdAt,
+        userName: sql<string>`COALESCE(${actorUser.firstName} || ' ' || ${actorUser.lastName}, ${actorUser.firstName}, '')`,
+        userEmail: sql<string>`COALESCE(${actorUser.email}, '')`,
+        targetName: sql<string>`COALESCE(${targetUser.firstName} || ' ' || ${targetUser.lastName}, ${targetUser.firstName}, '')`,
+        targetEmail: sql<string>`COALESCE(${targetUser.email}, '')`,
+      })
+        .from(auditLogs)
+        .leftJoin(actorUser, eq(actorUser.id, auditLogs.userId))
+        .leftJoin(targetUser, eq(targetUser.id, auditLogs.targetId))
         .orderBy(desc(auditLogs.createdAt))
         .limit(limit)
         .offset(offset);

@@ -2074,9 +2074,9 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'admin' && isStaff && (
-                <div key="admin" className="space-y-6">
+                <div key="admin" className="space-y-4">
                   {!isAdmin && (
-                  <div className="flex overflow-x-auto pb-3 gap-2 mb-4 md:mb-6 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
+                  <div className="flex overflow-x-auto pb-3 gap-2 mb-2 md:mb-3 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
                     {[
                       { id: 'orders', label: t('dashboard.admin.tabs.orders'), icon: Package, adminOnly: false },
                       { id: 'communications', label: t('dashboard.admin.tabs.communications'), icon: MessageSquare, adminOnly: false },
@@ -2100,7 +2100,7 @@ export default function Dashboard() {
                     ))}
                   </div>
                   )}
-                  <div className="space-y-3 mb-5">
+                  <div className="space-y-3 mb-3">
                     <div className="flex items-center gap-2 w-full">
                       <div className="shrink-0 w-32">
                         <NativeSelect
@@ -3479,6 +3479,11 @@ export default function Dashboard() {
                   {adminSubTab === 'orders' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
+                        {(!filteredAdminOrders || filteredAdminOrders.length === 0) && (
+                          <div className="text-center py-8 text-muted-foreground text-sm">
+                            {adminSearchQuery ? t('dashboard.admin.orders.noResults') || 'No se encontraron pedidos' : t('dashboard.admin.orders.noOrders') || 'No hay pedidos registrados'}
+                          </div>
+                        )}
                         {filteredAdminOrders?.map(order => {
                           const app = order.application || order.maintenanceApplication;
                           const isMaintenance = !!order.maintenanceApplication && !order.application;
