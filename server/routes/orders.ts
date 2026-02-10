@@ -7,7 +7,7 @@ import { contactOtps, users as usersTable, orderEvents, userNotifications, order
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { generateOrderInvoice } from "../lib/pdf-generator";
-import { validateEmail } from "../lib/security";
+import { validateEmail, normalizeEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('orders');
@@ -75,7 +75,8 @@ export function registerOrderRoutes(app: Express) {
   });
   app.post(api.orders.create.path, async (req: any, res) => {
     try {
-      const { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      let { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      if (email) email = normalizeEmail(email);
       
       // Check IP-based order creation limit first
       const clientIp = getClientIp(req);

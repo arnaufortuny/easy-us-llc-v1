@@ -34,8 +34,14 @@ export function sanitizeObject<T extends Record<string, any>>(obj: T, fieldsToSa
 }
 
 export function validateEmail(email: string): boolean {
+  if (!email || typeof email !== 'string') return false;
+  const trimmed = email.trim();
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email) && email.length <= 254;
+  return emailRegex.test(trimmed) && trimmed.length <= 254;
+}
+
+export function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
 }
 
 export function validatePhone(phone: string): boolean {

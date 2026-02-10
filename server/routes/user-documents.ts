@@ -244,7 +244,7 @@ export function registerUserDocumentRoutes(app: Express) {
 
 
   // Client: Upload identity verification document
-  app.post("/api/user/identity-verification/upload", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/identity-verification/upload", isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       

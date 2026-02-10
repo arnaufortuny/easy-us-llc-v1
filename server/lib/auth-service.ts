@@ -5,7 +5,7 @@ import { users, passwordResetTokens, emailVerificationTokens, messages as messag
 import { eq, and, gt, sql } from "drizzle-orm";
 import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate, getAccountLockedTemplate, getOtpEmailTemplate } from "./email";
 import { EmailLanguage, getRegistrationOtpSubject, getOtpSubject, getPasswordResetSubject } from "./email-translations";
-import { validatePassword, validateEmail } from "./security";
+import { validatePassword, validateEmail, normalizeEmail } from "./security";
 import { generateUniqueClientId, generateUniqueMessageId } from "./id-generator";
 import { createLogger } from "./logger";
 export { generateUniqueClientId };
@@ -53,6 +53,8 @@ export async function createUser(data: {
   clientId: string;
   preferredLanguage?: string;
 }): Promise<{ user: typeof users.$inferSelect; verificationToken: string }> {
+  data.email = normalizeEmail(data.email);
+
   if (!validateEmail(data.email)) {
     throw new Error("Formato de email no válido");
   }
@@ -175,6 +177,8 @@ export async function verifyEmailToken(userId: string, token: string): Promise<b
 }
 
 export async function loginUser(email: string, password: string): Promise<typeof users.$inferSelect | null> {
+  email = normalizeEmail(email);
+
   if (!validateEmail(email)) {
     return null;
   }

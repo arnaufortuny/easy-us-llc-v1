@@ -4,7 +4,7 @@ import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, 
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
-import { validateEmail } from "../lib/security";
+import { validateEmail, normalizeEmail } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('maintenance');
@@ -13,11 +13,13 @@ export function registerMaintenanceRoutes(app: Express) {
   // Claim maintenance order endpoint
   app.post("/api/maintenance/claim-order", async (req: any, res) => {
     try {
-      const { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
         return res.status(400).json({ message: "Email and password are required." });
       }
+
+      email = normalizeEmail(email);
 
       if (!validateEmail(email)) {
         return res.status(400).json({ message: "Invalid email format." });
@@ -121,7 +123,8 @@ export function registerMaintenanceRoutes(app: Express) {
 
   app.post("/api/maintenance/orders", async (req: any, res) => {
     try {
-      const { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      let { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
+      if (email) email = normalizeEmail(email);
       
       // Check IP-based order creation limit first
       const clientIp = getClientIp(req);
