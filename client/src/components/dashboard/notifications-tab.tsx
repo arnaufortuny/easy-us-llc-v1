@@ -64,10 +64,10 @@ export function NotificationsTab({
         <p className="text-base text-muted-foreground mt-1">{t("dashboard.notifications.subtitle")}</p>
       </div>
       {notificationsLoading ? (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {[1, 2, 3].map(i => (
             <Card key={i} className="rounded-2xl border-0 shadow-sm">
-              <CardContent className="p-4 md:p-5">
+              <CardContent className="p-2.5 sm:p-3 md:p-4">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-muted animate-pulse flex-shrink-0" />
                   <div className="flex-1 space-y-2">
@@ -92,19 +92,19 @@ export function NotificationsTab({
           </div>
         </Card>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2">
           {notifications?.map((notif: any) => (
             <Card 
               key={notif.id} 
               className={`rounded-2xl border-0 shadow-sm transition-all ${!notif.isRead ? 'bg-white dark:bg-card ring-1 ring-accent/20' : 'bg-white dark:bg-card'}`}
               onClick={() => { if (!notif.isRead) markNotificationRead.mutate(notif.id); }}
             >
-              <CardContent className="p-3 sm:p-4 md:p-5">
-                <div className="flex items-start gap-2.5 sm:gap-3 md:gap-4">
+              <CardContent className="p-2.5 sm:p-3 md:p-4">
+                <div className="flex items-start gap-2 sm:gap-2.5 md:gap-3">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2 mb-0.5 sm:mb-1">
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
                       <div className="flex items-center gap-1.5 sm:gap-2 flex-wrap min-w-0">
-                        <h3 className={`text-xs sm:text-sm md:text-base ${!notif.isRead ? 'font-black' : 'font-bold text-foreground/80'}`}>{tn(notif.title)}</h3>
+                        <h3 className={`text-xs sm:text-sm ${!notif.isRead ? 'font-black' : 'font-bold text-foreground/80'}`}>{tn(notif.title)}</h3>
                         
                       </div>
                       <div className="flex items-center gap-2 flex-shrink-0">
@@ -135,8 +135,8 @@ export function NotificationsTab({
                         </Button>
                       </div>
                     </div>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{tn(notif.message)}</p>
-                    <div className="flex items-center gap-2 mt-2 flex-wrap">
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{tn(notif.message)}</p>
+                    <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                       {notif.orderCode && (
                         <Badge variant="outline" className="text-[10px] font-bold">
                           {t("dashboard.orders.order")}: {notif.orderCode}
@@ -146,7 +146,7 @@ export function NotificationsTab({
                     </div>
                     {notif.type === 'action_required' && user?.accountStatus !== 'deactivated' && (
                       <Button 
-                        className="mt-3 bg-accent text-accent-foreground font-black rounded-full text-xs px-5"
+                        className="mt-2 bg-accent text-accent-foreground font-black rounded-full text-xs px-5"
                         onClick={(e) => {
                           e.stopPropagation();
                           markNotificationRead.mutate(notif.id);
