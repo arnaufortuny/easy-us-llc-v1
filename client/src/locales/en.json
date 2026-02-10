@@ -1049,7 +1049,11 @@
       "uploadOrDrag": "Upload file or drag",
       "documentUploaded": "Document uploaded",
       "provideItLater": "I prefer to provide it later",
-      "maxFileSize": "JPG, PNG, PDF (Max 10MB)"
+      "maxFileSize": "JPG, PNG, PDF (Max 10MB)",
+      "selectIdType": "Select type",
+      "idNumberPlaceholder": "e.g.: 12345678A",
+      "uploadIdDocument": "Upload a copy of your document",
+      "idDocumentFormDesc": "Enter your ID number (DNI, NIE or Passport)"
     },
     "streetTypes": {
       "street": "Street",

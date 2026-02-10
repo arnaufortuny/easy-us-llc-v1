@@ -78,6 +78,15 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   willUseStripe: z.string().min(1, t("validation.required")),
   wantsBoiReport: z.string().min(1, t("validation.required")),
   wantsMaintenancePack: z.string().min(1, t("validation.required")),
+  ownerIdType: z.string().optional(),
+  ownerIdNumber: z.string().optional().refine(
+    (val) => {
+      if (!val || !val.trim()) return true;
+      const digits = val.replace(/\D/g, '');
+      return digits.length === 0 || digits.length >= 7;
+    },
+    { message: t("validation.idNumberMinDigits") }
+  ),
   notes: z.string().optional(),
   idDocumentUrl: z.string().optional(),
   password: z.string().optional().refine((val) => !val || val.length >= 8, { message: t("validation.minLength") }),
@@ -165,6 +174,8 @@ export default function LlcFormation() {
       willUseStripe: "",
       wantsBoiReport: "Sí", // BOI is mandatory - always included
       wantsMaintenancePack: "No", // Default to No, can be offered separately
+      ownerIdType: "",
+      ownerIdNumber: "",
       notes: "",
       idDocumentUrl: "",
       password: "",
@@ -215,6 +226,8 @@ export default function LlcFormation() {
     willUseStripe: "",
     wantsBoiReport: "Sí", // BOI is mandatory
     wantsMaintenancePack: "No", // Default to No
+    ownerIdType: "",
+    ownerIdNumber: "",
     notes: "",
     idDocumentUrl: ""
   };
@@ -295,6 +308,8 @@ export default function LlcFormation() {
               willUseStripe: appData.willUseStripe || "",
               wantsBoiReport: appData.wantsBoiReport || "Sí", // BOI is mandatory
               wantsMaintenancePack: appData.wantsMaintenancePack || "No", // Default to No
+              ownerIdType: appData.ownerIdType || "",
+              ownerIdNumber: appData.ownerIdNumber || "",
               notes: appData.notes || "",
               idDocumentUrl: appData.idDocumentUrl || ""
             });
@@ -331,6 +346,9 @@ export default function LlcFormation() {
       const ownerBirthDate = user.birthDate || "";
       const businessActivity = user.businessActivity || "";
       
+      const ownerIdType = user.idType || "";
+      const ownerIdNumber = user.idNumber || "";
+
       form.reset({
         ...form.getValues(),
         ownerFirstName,
@@ -345,6 +363,8 @@ export default function LlcFormation() {
         ownerCountry,
         ownerBirthDate,
         businessActivity,
+        ownerIdType,
+        ownerIdNumber,
       });
       
       // If URL has state, start from step 1 (name) - skip state selection
@@ -481,7 +501,7 @@ export default function LlcFormation() {
       5: ["ownerCount"],
       6: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
       7: ["ownerBirthDate"],
-      8: ["idDocumentUrl"],
+      8: ["ownerIdType", "ownerIdNumber", "idDocumentUrl"],
       9: ["businessActivity"],
       10: ["isSellingOnline"],
       11: ["needsBankAccount"],
@@ -592,6 +612,8 @@ export default function LlcFormation() {
             country: data.ownerCountry,
             birthDate: data.ownerBirthDate,
             businessActivity: data.businessActivity,
+            idType: data.ownerIdType || undefined,
+            idNumber: data.ownerIdNumber || undefined,
           });
         } catch {
         }
@@ -628,6 +650,8 @@ export default function LlcFormation() {
             country: data.ownerCountry,
             birthDate: data.ownerBirthDate,
             businessActivity: data.businessActivity,
+            idType: data.ownerIdType || undefined,
+            idNumber: data.ownerIdNumber || undefined,
           });
         } catch {
           // Profile update failed silently - not critical
@@ -986,7 +1010,35 @@ export default function LlcFormation() {
               <div key={"step-" + step} className="space-y-6 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ {t("application.steps.idDocument")}</h2>
                 <FormDescription>{t("application.steps.idDocumentDesc")}</FormDescription>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField control={form.control} name="ownerIdType" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-bold text-muted-foreground">{t("application.fields.idType")}</FormLabel>
+                      <FormControl>
+                        <NativeSelect value={field.value || ""} onChange={e => field.onChange(e.target.value)} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-card" data-testid="select-owner-id-type">
+                          <NativeSelectItem value="">{t("application.fields.selectIdType")}</NativeSelectItem>
+                          <NativeSelectItem value="dni">DNI</NativeSelectItem>
+                          <NativeSelectItem value="nie">NIE</NativeSelectItem>
+                          <NativeSelectItem value="passport">{t("profile.idTypes.passport")}</NativeSelectItem>
+                        </NativeSelect>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="ownerIdNumber" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-xs font-bold text-muted-foreground">{t("application.fields.idNumber")}</FormLabel>
+                      <FormControl>
+                        <Input {...field} value={field.value || ""} placeholder={t("application.fields.idNumberPlaceholder")} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-card font-medium" data-testid="input-owner-id-number" />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )} />
+                </div>
+
                 <div className="space-y-4">
+                  <p className="text-xs font-bold text-muted-foreground">{t("application.fields.uploadIdDocument")}</p>
                   <FormField control={form.control} name="idDocumentUrl" render={({ field }) => (
                     <FormItem>
                       <FormControl>

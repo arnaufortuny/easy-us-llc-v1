@@ -1049,7 +1049,11 @@
       "uploadOrDrag": "Carica file o trascina",
       "documentUploaded": "Documento caricato",
       "provideItLater": "Preferisco fornirlo più tardi",
-      "maxFileSize": "JPG, PNG, PDF (Max 10MB)"
+      "maxFileSize": "JPG, PNG, PDF (Max 10MB)",
+      "selectIdType": "Seleziona tipo",
+      "idNumberPlaceholder": "Es.: 12345678A",
+      "uploadIdDocument": "Carica copia del documento",
+      "idDocumentFormDesc": "Inserisci il tuo numero di documento d'identità (DNI, NIE o Passaporto)"
     },
     "streetTypes": {
       "street": "Via",

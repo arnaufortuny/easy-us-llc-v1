@@ -1049,7 +1049,11 @@
       "uploadOrDrag": "Datei hochladen oder ziehen",
       "documentUploaded": "Dokument hochgeladen",
       "provideItLater": "Ich möchte es später bereitstellen",
-      "maxFileSize": "JPG, PNG, PDF (Max 10MB)"
+      "maxFileSize": "JPG, PNG, PDF (Max 10MB)",
+      "selectIdType": "Typ auswählen",
+      "idNumberPlaceholder": "z.B.: 12345678A",
+      "uploadIdDocument": "Kopie des Dokuments hochladen",
+      "idDocumentFormDesc": "Geben Sie Ihre Ausweisnummer ein (DNI, NIE oder Reisepass)"
     },
     "streetTypes": {
       "street": "Straße",

@@ -53,6 +53,15 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   businessActivity: z.string().min(1, t("validation.required")),
   expectedServices: z.string().min(1, t("validation.required")),
   wantsDissolve: z.string().min(1, t("validation.required")),
+  ownerIdType: z.string().optional(),
+  ownerIdNumber: z.string().optional().refine(
+    (val) => {
+      if (!val || !val.trim()) return true;
+      const digits = val.replace(/\D/g, '');
+      return digits.length === 0 || digits.length >= 7;
+    },
+    { message: t("validation.idNumberMinDigits") }
+  ),
   notes: z.string().optional(),
   password: z.string().min(8, t("validation.minLength")).optional(),
   confirmPassword: z.string().optional(),
@@ -121,6 +130,8 @@ export default function MaintenanceApplication() {
       businessActivity: "",
       expectedServices: "",
       wantsDissolve: "No",
+      ownerIdType: "",
+      ownerIdNumber: "",
       notes: "",
       password: "",
       confirmPassword: "",
@@ -153,6 +164,8 @@ export default function MaintenanceApplication() {
     businessActivity: "",
     expectedServices: "",
     wantsDissolve: "No",
+    ownerIdType: "",
+    ownerIdNumber: "",
     notes: "",
     authorizedManagement: false,
     termsConsent: false,
@@ -173,12 +186,17 @@ export default function MaintenanceApplication() {
       const ownerPhone = user.phone || "";
       const businessActivity = user.businessActivity || "";
       
+      const ownerIdType = user.idType || "";
+      const ownerIdNumber = user.idNumber || "";
+
       form.reset({
         ...form.getValues(),
         ownerFullName,
         ownerEmail,
         ownerPhone,
         businessActivity,
+        ownerIdType,
+        ownerIdNumber,
       });
       
       // Skip to first empty required field (step 0 is creationSource, always needs input)
@@ -422,6 +440,15 @@ export default function MaintenanceApplication() {
           status: "submitted"
         });
         
+        if (data.ownerIdType || data.ownerIdNumber) {
+          try {
+            await apiRequest("PATCH", "/api/user/profile", {
+              idType: data.ownerIdType || undefined,
+              idNumber: data.ownerIdNumber || undefined,
+            });
+          } catch {}
+        }
+
         setRequestCode(orderData.application.requestCode || "");
         setFormMessage({ type: 'success', text: `${t("maintenance.requestReceived")}. ${t("maintenance.workingOnIt")}` });
         clearDraft();
@@ -856,6 +883,35 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
+                    <div className="pt-4 border-t border-accent/20">
+                      <h3 className="text-base md:text-lg font-black text-foreground mb-3">{t("application.fields.idType")}</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <FormField control={form.control} name="ownerIdType" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs font-bold text-muted-foreground">{t("application.fields.idType")}</FormLabel>
+                            <FormControl>
+                              <NativeSelect value={field.value || ""} onChange={e => field.onChange(e.target.value)} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-card" data-testid="select-maint-id-type">
+                                <NativeSelectItem value="">{t("application.fields.selectIdType")}</NativeSelectItem>
+                                <NativeSelectItem value="dni">DNI</NativeSelectItem>
+                                <NativeSelectItem value="nie">NIE</NativeSelectItem>
+                                <NativeSelectItem value="passport">{t("profile.idTypes.passport")}</NativeSelectItem>
+                              </NativeSelect>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="ownerIdNumber" render={({ field }) => (
+                          <FormItem>
+                            <FormLabel className="text-xs font-bold text-muted-foreground">{t("application.fields.idNumber")}</FormLabel>
+                            <FormControl>
+                              <Input {...field} value={field.value || ""} placeholder={t("application.fields.idNumberPlaceholder")} className="rounded-full h-12 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-card font-medium" data-testid="input-maint-id-number" />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )} />
+                      </div>
+                    </div>
+
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent hover:bg-accent/90 text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
