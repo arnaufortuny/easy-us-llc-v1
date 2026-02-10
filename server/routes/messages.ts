@@ -1,5 +1,5 @@
 import type { Express } from "express";
-import { db, storage, isAuthenticated, logActivity } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logActivity } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
@@ -118,7 +118,7 @@ export function registerMessageRoutes(app: Express) {
   });
 
   // Add reply to message - secured: only message owner or admin can reply
-  app.post("/api/messages/:id/reply", isAuthenticated, async (req: any, res) => {
+  app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const messageId = Number(req.params.id);
       const { content } = req.body;

@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview } from "./shared";
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
@@ -292,7 +292,7 @@ export function registerMaintenanceRoutes(app: Express) {
   });
 
   // Maintenance App Updates - Protected with ownership verification
-  app.put("/api/maintenance/:id", isAuthenticated, async (req: any, res) => {
+  app.put("/api/maintenance/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;

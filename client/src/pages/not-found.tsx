@@ -26,7 +26,8 @@ export default function NotFound() {
           
           <Button 
             asChild 
-            className="!bg-[#6EDC8A] hover:!bg-[#5cd67a] !text-[#0A0A0A] font-bold px-8 py-6 text-base rounded-full shadow-lg transition-colors" 
+            size="lg"
+            className="bg-[#6EDC8A] text-[#0A0A0A] border-[#6EDC8A] font-bold rounded-full shadow-lg" 
             data-testid="button-go-home"
           >
             <Link href="/">

@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isAdmin, logAudit } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit } from "./shared";
 import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
@@ -124,7 +124,7 @@ export function registerLlcRoutes(app: Express) {
   });
 
   // Client Update LLC Application Data
-  app.patch("/api/llc/:id/data", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
@@ -290,7 +290,7 @@ export function registerLlcRoutes(app: Express) {
   });
 
   // Documents - requires authentication
-  app.post(api.documents.create.path, isAuthenticated, async (req: any, res) => {
+  app.post(api.documents.create.path, isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const docData = api.documents.create.input.parse(req.body);
       
@@ -323,7 +323,7 @@ export function registerLlcRoutes(app: Express) {
   const MAX_FILE_SIZE_MB = 5;
   const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
   
-  app.post("/api/user/documents/upload", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/documents/upload", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       if (!userId) {

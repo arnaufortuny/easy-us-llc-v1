@@ -46,14 +46,32 @@ export function registerAuthExtRoutes(app: Express) {
       // Check if email is already registered
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (existingUser) {
-        // Check if account is deactivated
         if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+          const deactMsgs: Record<string, string> = {
+            es: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            en: "Your account has been deactivated. Contact our support team for more information.",
+            ca: "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport.",
+            fr: "Votre compte a été désactivé. Contactez notre équipe d'assistance.",
+            de: "Ihr Konto wurde deaktiviert. Kontaktieren Sie unser Support-Team.",
+            it: "Il tuo account è stato disattivato. Contatta il nostro team di supporto.",
+            pt: "Sua conta foi desativada. Entre em contato com nossa equipe de suporte.",
+          };
+          const userLang = (existingUser.preferredLanguage || lang || 'es') as string;
           return res.status(403).json({ 
-            message: "Your account has been deactivated. Contact our support team for more information.",
+            message: deactMsgs[userLang] || deactMsgs.es,
             code: "ACCOUNT_DEACTIVATED"
           });
         }
-        return res.status(400).json({ message: "This email is already registered. Please log in." });
+        const regMsgs: Record<string, string> = {
+          es: "Este email ya está registrado. Por favor, inicia sesión.",
+          en: "This email is already registered. Please log in.",
+          ca: "Aquest email ja està registrat. Si us plau, inicia sessió.",
+          fr: "Cet email est déjà enregistré. Veuillez vous connecter.",
+          de: "Diese E-Mail ist bereits registriert. Bitte melden Sie sich an.",
+          it: "Questa email è già registrata. Effettua il login.",
+          pt: "Este email já está registrado. Por favor, faça login.",
+        };
+        return res.status(400).json({ message: regMsgs[lang] || regMsgs.es });
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();

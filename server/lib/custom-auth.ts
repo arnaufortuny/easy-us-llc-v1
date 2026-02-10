@@ -185,7 +185,17 @@ export function setupCustomAuth(app: Express) {
         }
 
         if (user.accountStatus === 'deactivated') {
-          return res.status(403).json({ message: "Your account has been deactivated. Contact our customer service for more information." });
+          const deactMsgs: Record<string, string> = {
+            es: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+            en: "Your account has been deactivated. Contact our support team for more information.",
+            ca: "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport.",
+            fr: "Votre compte a été désactivé. Contactez notre équipe d'assistance.",
+            de: "Ihr Konto wurde deaktiviert. Kontaktieren Sie unser Support-Team.",
+            it: "Il tuo account è stato disattivato. Contatta il nostro team di supporto.",
+            pt: "Sua conta foi desativada. Entre em contato com nossa equipe de suporte.",
+          };
+          const userLang = (user.preferredLanguage || 'es') as string;
+          return res.status(403).json({ message: deactMsgs[userLang] || deactMsgs.es, code: "ACCOUNT_DEACTIVATED" });
         }
 
         // Check if user has organization docs (skip security OTP if they do)
@@ -613,15 +623,35 @@ export const isNotUnderReview: RequestHandler = async (req, res, next) => {
   const [user] = await db.select().from(users).where(eq(users.id, req.session.userId)).limit(1);
   
   if (user?.accountStatus === 'pending') {
+    const msgs: Record<string, string> = {
+      es: "Tu cuenta está en revisión. Nuestro equipo está realizando verificaciones de seguridad.",
+      en: "Your account is under review. Our team is performing security checks.",
+      ca: "El teu compte està en revisió. El nostre equip està realitzant verificacions de seguretat.",
+      fr: "Votre compte est en cours de révision. Notre équipe effectue des vérifications de sécurité.",
+      de: "Ihr Konto wird überprüft. Unser Team führt Sicherheitsüberprüfungen durch.",
+      it: "Il tuo account è in revisione. Il nostro team sta effettuando verifiche di sicurezza.",
+      pt: "Sua conta está em revisão. Nossa equipe está realizando verificações de segurança.",
+    };
+    const lang = (user.preferredLanguage || 'es') as string;
     return res.status(403).json({ 
-      message: "Your account is under review. Our team is performing security checks.",
+      message: msgs[lang] || msgs.es,
       code: "ACCOUNT_UNDER_REVIEW"
     });
   }
   
   if (user?.accountStatus === 'deactivated') {
+    const msgs: Record<string, string> = {
+      es: "Tu cuenta ha sido desactivada. Contacta con nuestro equipo de soporte para más información.",
+      en: "Your account has been deactivated. Contact our support team for more information.",
+      ca: "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport per a més informació.",
+      fr: "Votre compte a été désactivé. Contactez notre équipe d'assistance pour plus d'informations.",
+      de: "Ihr Konto wurde deaktiviert. Kontaktieren Sie unser Support-Team für weitere Informationen.",
+      it: "Il tuo account è stato disattivato. Contatta il nostro team di supporto per maggiori informazioni.",
+      pt: "Sua conta foi desativada. Entre em contato com nossa equipe de suporte para mais informações.",
+    };
+    const lang = (user.preferredLanguage || 'es') as string;
     return res.status(403).json({ 
-      message: "Your account has been deactivated. Contact our support team for more information.",
+      message: msgs[lang] || msgs.es,
       code: "ACCOUNT_DEACTIVATED"
     });
   }

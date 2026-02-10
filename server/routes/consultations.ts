@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, isAuthenticated, isAdmin, isAdminOrSupport, logAudit, getClientIp } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAudit, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('consultations');
@@ -70,7 +70,7 @@ export function registerConsultationRoutes(app: Express) {
   });
 
   // Create a consultation booking (requires authentication)
-  app.post("/api/consultations/book", isAuthenticated, async (req, res) => {
+  app.post("/api/consultations/book", isAuthenticated, isNotUnderReview, async (req, res) => {
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId!)).limit(1);
       if (!user) return res.status(401).json({ message: "User not found" });
@@ -196,7 +196,7 @@ export function registerConsultationRoutes(app: Express) {
   });
 
   // Cancel a consultation (user)
-  app.patch("/api/consultations/:id/cancel", isAuthenticated, async (req, res) => {
+  app.patch("/api/consultations/:id/cancel", isAuthenticated, isNotUnderReview, async (req, res) => {
     try {
       const userId = req.session.userId!;
       const bookingId = parseInt(req.params.id);

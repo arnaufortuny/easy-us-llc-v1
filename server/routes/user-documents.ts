@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
-import { db, isAuthenticated, logActivity } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 
@@ -47,7 +47,7 @@ export function registerUserDocumentRoutes(app: Express) {
   });
 
   // Save Operating Agreement to Document Center
-  app.post("/api/user/operating-agreements", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/operating-agreements", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { llcApplicationId, pdfBase64, fileName } = req.body;
@@ -144,7 +144,7 @@ export function registerUserDocumentRoutes(app: Express) {
     }
   });
 
-  app.delete("/api/user/documents/:id", isAuthenticated, async (req: any, res) => {
+  app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
@@ -244,7 +244,7 @@ export function registerUserDocumentRoutes(app: Express) {
 
 
   // Client: Upload identity verification document
-  app.post("/api/user/identity-verification/upload", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/identity-verification/upload", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       

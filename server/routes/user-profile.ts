@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, standaloneInvoices } from "@shared/schema";
 import { sendEmail, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate, getAccountDeactivatedByUserTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
@@ -122,7 +122,7 @@ export function registerUserProfileRoutes(app: Express) {
   // Sensitive fields that require OTP: name, ID/passport, phone only
   const sensitiveFields = ['firstName', 'lastName', 'idNumber', 'idType', 'phone'];
   
-  app.patch("/api/user/profile", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode, ...profileData } = req.body;
@@ -283,7 +283,7 @@ export function registerUserProfileRoutes(app: Express) {
   });
   
   // Confirm pending profile changes with OTP
-  app.post("/api/user/profile/confirm-otp", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/profile/confirm-otp", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode } = req.body;
@@ -416,7 +416,7 @@ export function registerUserProfileRoutes(app: Express) {
   });
   
   // Resend OTP for pending profile changes
-  app.post("/api/user/profile/resend-otp", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/profile/resend-otp", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -490,7 +490,7 @@ export function registerUserProfileRoutes(app: Express) {
   });
 
   // Client update order (allowed fields before processing)
-  app.patch("/api/orders/:id", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);

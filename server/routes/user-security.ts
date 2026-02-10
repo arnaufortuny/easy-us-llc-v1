@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt } from "drizzle-orm";
-import { db, isAuthenticated, getClientIp } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, getClientIp } from "./shared";
 import { contactOtps, users as usersTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
@@ -153,7 +153,7 @@ export function registerUserSecurityRoutes(app: Express) {
   });
 
   // Change password with OTP verification
-  app.post("/api/user/change-password", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/change-password", isAuthenticated, isNotUnderReview, async (req: any, res) => {
     try {
       const { currentPassword, newPassword, otp } = z.object({
         currentPassword: z.string().min(1),
