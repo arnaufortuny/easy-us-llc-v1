@@ -1,6 +1,9 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { db, isAuthenticated, isAdmin, isAdminOrSupport, logAudit, getClientIp } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('consultations');
 import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, users as usersTable } from "@shared/schema";
 import { and, eq, desc, sql, inArray } from "drizzle-orm";
 
@@ -13,7 +16,7 @@ export function registerConsultationRoutes(app: Express) {
       const types = await db.select().from(consultationTypes).where(eq(consultationTypes.isActive, true));
       res.json(types);
     } catch (err) {
-      console.error("Error fetching consultation types:", err);
+      log.error("Error fetching consultation types", err);
       res.status(500).json({ message: "Error fetching consultation types" });
     }
   });
@@ -61,7 +64,7 @@ export function registerConsultationRoutes(app: Express) {
         slots: availableSlots.map(s => ({ startTime: s.startTime, endTime: s.endTime }))
       });
     } catch (err) {
-      console.error("Error fetching availability:", err);
+      log.error("Error fetching availability", err);
       res.status(500).json({ message: "Error fetching availability" });
     }
   });
@@ -164,7 +167,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json({ success: true, booking });
     } catch (err: any) {
-      console.error("Error creating booking:", err);
+      log.error("Error creating booking", err);
       if (err.errors) {
         return res.status(400).json({ message: err.errors[0]?.message || "Error creating booking" });
       }
@@ -187,7 +190,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(bookings);
     } catch (err) {
-      console.error("Error fetching user consultations:", err);
+      log.error("Error fetching user consultations", err);
       res.status(500).json({ message: "Error fetching consultations" });
     }
   });
@@ -232,7 +235,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json({ success: true });
     } catch (err) {
-      console.error("Error cancelling booking:", err);
+      log.error("Error cancelling booking", err);
       res.status(500).json({ message: "Error canceling booking" });
     }
   });
@@ -245,7 +248,7 @@ export function registerConsultationRoutes(app: Express) {
       const types = await db.select().from(consultationTypes).orderBy(desc(consultationTypes.createdAt));
       res.json(types);
     } catch (err) {
-      console.error("Error fetching consultation types:", err);
+      log.error("Error fetching consultation types", err);
       res.status(500).json({ message: "Error fetching consultation types" });
     }
   });
@@ -282,7 +285,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(type);
     } catch (err: any) {
-      console.error("Error creating consultation type:", err);
+      log.error("Error creating consultation type", err);
       res.status(400).json({ message: err.errors?.[0]?.message || "Error creating consultation type" });
     }
   });
@@ -303,7 +306,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(updated);
     } catch (err) {
-      console.error("Error updating consultation type:", err);
+      log.error("Error updating consultation type", err);
       res.status(500).json({ message: "Error updating type" });
     }
   });
@@ -315,7 +318,7 @@ export function registerConsultationRoutes(app: Express) {
       await db.delete(consultationTypes).where(eq(consultationTypes.id, typeId));
       res.json({ success: true });
     } catch (err) {
-      console.error("Error deleting consultation type:", err);
+      log.error("Error deleting consultation type", err);
       res.status(500).json({ message: "Error deleting type" });
     }
   });
@@ -326,7 +329,7 @@ export function registerConsultationRoutes(app: Express) {
       const slots = await db.select().from(consultationAvailability).orderBy(consultationAvailability.dayOfWeek, consultationAvailability.startTime);
       res.json(slots);
     } catch (err) {
-      console.error("Error fetching availability:", err);
+      log.error("Error fetching availability", err);
       res.status(500).json({ message: "Error fetching availability" });
     }
   });
@@ -346,7 +349,7 @@ export function registerConsultationRoutes(app: Express) {
       const [slot] = await db.insert(consultationAvailability).values(data).returning();
       res.json(slot);
     } catch (err: any) {
-      console.error("Error creating availability slot:", err);
+      log.error("Error creating availability slot", err);
       res.status(400).json({ message: err.errors?.[0]?.message || "Error creating schedule" });
     }
   });
@@ -363,7 +366,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(updated);
     } catch (err) {
-      console.error("Error updating availability:", err);
+      log.error("Error updating availability", err);
       res.status(500).json({ message: "Error updating schedule" });
     }
   });
@@ -375,7 +378,7 @@ export function registerConsultationRoutes(app: Express) {
       await db.delete(consultationAvailability).where(eq(consultationAvailability.id, slotId));
       res.json({ success: true });
     } catch (err) {
-      console.error("Error deleting availability:", err);
+      log.error("Error deleting availability", err);
       res.status(500).json({ message: "Error deleting schedule" });
     }
   });
@@ -386,7 +389,7 @@ export function registerConsultationRoutes(app: Express) {
       const dates = await db.select().from(consultationBlockedDates).orderBy(desc(consultationBlockedDates.date));
       res.json(dates);
     } catch (err) {
-      console.error("Error fetching blocked dates:", err);
+      log.error("Error fetching blocked dates", err);
       res.status(500).json({ message: "Error fetching blocked dates" });
     }
   });
@@ -408,7 +411,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(blocked);
     } catch (err: any) {
-      console.error("Error creating blocked date:", err);
+      log.error("Error creating blocked date", err);
       res.status(400).json({ message: err.errors?.[0]?.message || "Error blocking date" });
     }
   });
@@ -420,7 +423,7 @@ export function registerConsultationRoutes(app: Express) {
       await db.delete(consultationBlockedDates).where(eq(consultationBlockedDates.id, dateId));
       res.json({ success: true });
     } catch (err) {
-      console.error("Error deleting blocked date:", err);
+      log.error("Error deleting blocked date", err);
       res.status(500).json({ message: "Error deleting blocked date" });
     }
   });
@@ -448,7 +451,7 @@ export function registerConsultationRoutes(app: Express) {
       const bookings = await query;
       res.json(bookings);
     } catch (err) {
-      console.error("Error fetching bookings:", err);
+      log.error("Error fetching bookings", err);
       res.status(500).json({ message: "Error fetching bookings" });
     }
   });
@@ -490,7 +493,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(updated);
     } catch (err) {
-      console.error("Error updating booking:", err);
+      log.error("Error updating booking", err);
       res.status(500).json({ message: "Error updating booking" });
     }
   });
@@ -535,7 +538,7 @@ export function registerConsultationRoutes(app: Express) {
       
       res.json(updated);
     } catch (err) {
-      console.error("Error rescheduling booking:", err);
+      log.error("Error rescheduling booking", err);
       res.status(500).json({ message: "Error rescheduling booking" });
     }
   });
@@ -556,7 +559,7 @@ export function registerConsultationRoutes(app: Express) {
         total: Number(pending?.count || 0) + Number(confirmed?.count || 0) + Number(completed?.count || 0) + Number(cancelled?.count || 0)
       });
     } catch (err) {
-      console.error("Error fetching consultation stats:", err);
+      log.error("Error fetching consultation stats", err);
       res.status(500).json({ message: "Error fetching statistics" });
     }
   });

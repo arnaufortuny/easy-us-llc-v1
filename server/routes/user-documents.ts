@@ -2,6 +2,9 @@ import type { Express } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
 import { db, isAuthenticated, logActivity } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('user-documents');
 
 export function registerUserDocumentRoutes(app: Express) {
   // Get completed LLCs for user (for Operating Agreement generator)
@@ -38,7 +41,7 @@ export function registerUserDocumentRoutes(app: Express) {
       
       res.json(llcApps);
     } catch (error) {
-      console.error("Error fetching completed LLCs:", error);
+      log.error("Error fetching completed LLCs", error);
       res.status(500).json({ message: "Error fetching completed LLCs" });
     }
   });
@@ -88,7 +91,7 @@ export function registerUserDocumentRoutes(app: Express) {
       
       res.json({ success: true, documentId: doc.id });
     } catch (error) {
-      console.error("Error saving Operating Agreement:", error);
+      log.error("Error saving Operating Agreement", error);
       res.status(500).json({ message: "Error saving document" });
     }
   });
@@ -180,7 +183,7 @@ export function registerUserDocumentRoutes(app: Express) {
       await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
       res.json({ success: true });
     } catch (error) {
-      console.error("Error deleting document:", error);
+      log.error("Error deleting document", error);
       res.status(500).json({ message: "Error deleting document" });
     }
   });
@@ -234,7 +237,7 @@ export function registerUserDocumentRoutes(app: Express) {
       
       res.sendFile(filePath);
     } catch (error) {
-      console.error("Error downloading document:", error);
+      log.error("Error downloading document", error);
       res.status(500).json({ message: "Error downloading file" });
     }
   });
@@ -339,19 +342,19 @@ export function registerUserDocumentRoutes(app: Express) {
           
           res.json({ success: true, message: "Document uploaded successfully" });
         } catch (err) {
-          console.error("Error processing uploaded file:", err);
+          log.error("Error processing uploaded file", err);
           res.status(500).json({ message: "Error processing uploaded file" });
         }
       });
       
       bb.on("error", (err: any) => {
-        console.error("Busboy error:", err);
+        log.error("Busboy error", err);
         res.status(500).json({ message: "Error uploading file" });
       });
       
       req.pipe(bb);
     } catch (error) {
-      console.error("Identity document upload error:", error);
+      log.error("Identity document upload error", error);
       res.status(500).json({ message: "Error uploading identity document" });
     }
   });
@@ -418,7 +421,7 @@ export function registerUserDocumentRoutes(app: Express) {
       
       res.sendFile(filePath);
     } catch (error) {
-      console.error("Error serving admin doc:", error);
+      log.error("Error serving admin doc", error);
       res.status(500).json({ message: "Error serving file" });
     }
   });
@@ -485,7 +488,7 @@ export function registerUserDocumentRoutes(app: Express) {
       
       res.sendFile(filePath);
     } catch (error) {
-      console.error("Error serving client doc:", error);
+      log.error("Error serving client doc", error);
       res.status(500).json({ message: "Error serving file" });
     }
   });

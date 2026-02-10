@@ -7,6 +7,9 @@ import { contactOtps, users as usersTable, orderEvents, userNotifications, order
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { generateOrderInvoice } from "../lib/pdf-generator";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('orders');
 
 export function registerOrderRoutes(app: Express) {
   // Orders (Requires authentication)
@@ -65,7 +68,7 @@ export function registerOrderRoutes(app: Express) {
       res.setHeader('Content-Disposition', `inline; filename="Factura-${invoiceNumber}.pdf"`);
       res.send(pdfBuffer);
     } catch (error) {
-      console.error("Invoice Error:", error);
+      log.error("Invoice error", error);
       res.status(500).send("Error generating invoice");
     }
   });
@@ -159,7 +162,7 @@ export function registerOrderRoutes(app: Express) {
           to: email,
           subject: getWelcomeEmailSubject(oLang),
           html: getWelcomeEmailTemplate(nameParts[0] || undefined, oLang)
-        }).catch(console.error);
+        }).catch((err: any) => log.error('Failed to send welcome email', err));
       }
 
       const product = await storage.getProduct(productId);
@@ -253,7 +256,7 @@ export function registerOrderRoutes(app: Express) {
       if (err instanceof z.ZodError) {
         return res.status(400).json({ message: err.errors[0].message });
       }
-      console.error("Error creating order:", err);
+      log.error("Error creating order", err);
       return res.status(500).json({ message: "Error creating order" });
     }
   });
@@ -275,7 +278,7 @@ export function registerOrderRoutes(app: Express) {
       
       res.json(events);
     } catch (error) {
-      console.error("Error fetching order events:", error);
+      log.error("Error fetching order events", error);
       res.status(500).json({ message: "Error fetching events" });
     }
   });

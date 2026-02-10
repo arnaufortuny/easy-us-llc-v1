@@ -2,6 +2,9 @@ import fs from "fs";
 import path from "path";
 import { objectStorageClient, ObjectStorageService } from "../replit_integrations/object_storage";
 import { logAudit } from "./security";
+import { createLogger } from "./logger";
+
+const log = createLogger('backup-service');
 
 const UPLOADS_DIR = path.join(process.cwd(), "uploads");
 const BACKUP_INTERVAL = 60 * 60 * 1000; // 1 hour
@@ -29,7 +32,7 @@ function loadBackupState(): BackupState {
       }
     }
   } catch (error) {
-    console.error("[Backup] Error loading backup state:", error);
+    log.error("Error loading backup state", error);
   }
   return { lastBackup: "", backedUpFiles: {} };
 }
@@ -40,7 +43,7 @@ function saveBackupStateAtomic(state: BackupState): void {
     fs.writeFileSync(BACKUP_TEMP_FILE, content, "utf-8");
     fs.renameSync(BACKUP_TEMP_FILE, BACKUP_TRACKING_FILE);
   } catch (error) {
-    console.error("[Backup] Error saving backup state:", error);
+    log.error("Error saving backup state", error);
     try {
       if (fs.existsSync(BACKUP_TEMP_FILE)) {
         fs.unlinkSync(BACKUP_TEMP_FILE);
@@ -118,7 +121,7 @@ async function backupFile(
     return { backed: true };
   } catch (error) {
     const errorMsg = error instanceof Error ? error.message : "Unknown error";
-    console.error(`[Backup] Error backing up ${filePath}:`, errorMsg);
+    log.error(`Error backing up ${filePath}`, null, { error: errorMsg });
     return { backed: false, error: errorMsg };
   }
 }
@@ -214,10 +217,10 @@ export async function runBackup(): Promise<{ backedUp: number; skipped: number; 
       },
     });
     
-    console.log(`[Backup] Completed: ${backedUp} backed up, ${skipped} skipped, ${errors} errors, ${pruned} pruned`);
+    log.info(`Completed: ${backedUp} backed up, ${skipped} skipped, ${errors} errors, ${pruned} pruned`);
     return { backedUp, skipped, errors, pruned };
   } catch (error) {
-    console.error("[Backup] Error during backup:", error);
+    log.error("Error during backup", error);
     logAudit({
       action: "backup_failed",
       details: { 
@@ -232,17 +235,17 @@ export async function runBackup(): Promise<{ backedUp: number; skipped: number; 
 }
 
 export function startBackupService(): void {
-  console.log("[Backup] Starting backup service...");
+  log.info("Starting backup service...");
   
   setTimeout(() => {
-    runBackup().catch(console.error);
+    runBackup().catch((err: any) => log.error('Backup failed', err));
   }, 5000);
   
   setInterval(() => {
-    runBackup().catch(console.error);
+    runBackup().catch((err: any) => log.error('Backup failed', err));
   }, BACKUP_INTERVAL);
   
-  console.log(`[Backup] Service started. Will backup every ${BACKUP_INTERVAL / 1000 / 60} minutes.`);
+  log.info(`Service started. Will backup every ${BACKUP_INTERVAL / 1000 / 60} minutes.`);
 }
 
 export function getBackupStatus(): BackupState {

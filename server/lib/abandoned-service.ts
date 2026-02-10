@@ -2,6 +2,9 @@ import { db } from "../db";
 import { llcApplications, maintenanceApplications, orders, users } from "@shared/schema";
 import { eq, and, lt, isNull, isNotNull, or } from "drizzle-orm";
 import { sendEmail, getAbandonedApplicationReminderTemplate } from "./email";
+import { createLogger } from "./logger";
+
+const log = createLogger('abandoned-service');
 
 const ABANDONMENT_THRESHOLD_HOURS = 48;
 const REMINDER_INTERVAL_HOURS = 12;
@@ -161,7 +164,7 @@ async function cleanupAbandonedApplications() {
   }
   
   if (llcToDelete.length > 0 || maintToDelete.length > 0) {
-    console.log(`[Abandoned Cleanup] Deleted ${llcToDelete.length} LLC apps and ${maintToDelete.length} maintenance apps`);
+    log.info(`Deleted ${llcToDelete.length} LLC apps and ${maintToDelete.length} maintenance apps`);
   }
 }
 
@@ -171,6 +174,6 @@ export async function processAbandonedApplications() {
     await sendReminders();
     await cleanupAbandonedApplications();
   } catch (error) {
-    console.error("[Abandoned Service] Error:", error);
+    log.error("Error processing abandoned applications", error);
   }
 }

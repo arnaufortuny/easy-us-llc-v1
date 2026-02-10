@@ -3,10 +3,13 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import compression from "compression";
-import { initServerSentry } from "./lib/sentry";
+import { initServerSentry, sentryRequestHandler, sentryErrorHandler } from "./lib/sentry";
 import { scheduleBackups } from "./lib/backup";
 import { cleanupDbRateLimits } from "./lib/rate-limiter";
 import { setupSitemapRoute } from "./sitemap";
+import { createLogger } from "./lib/logger";
+
+const serverLog = createLogger('server');
 
 initServerSentry();
 
@@ -27,6 +30,8 @@ export function log(message: string, source = "express") {
 
   console.log(`${formattedTime} [${source}] ${message}`);
 }
+
+app.use(sentryRequestHandler());
 
 function getCSP(): string {
   const baseCSP = {
@@ -166,6 +171,8 @@ app.use((req, res, next) => {
     });
   };
 
+  app.use(sentryErrorHandler());
+
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
@@ -174,8 +181,7 @@ app.use((req, res, next) => {
       res.status(status).json({ message });
     }
     
-    // Log error for debugging but don't re-throw to prevent unhandled rejections
-    console.error(`[Error ${status}]`, message, err.stack || '');
+    serverLog.error(`Request error [${status}]`, err, { status, message });
   });
 
   // importantly only setup vite in development and after
@@ -209,7 +215,7 @@ app.use((req, res, next) => {
           try {
             await cleanupDbRateLimits();
           } catch (e) {
-            console.error("Rate limit cleanup error:", e);
+            serverLog.error("Rate limit cleanup error", e);
           }
         }, 300000);
       }

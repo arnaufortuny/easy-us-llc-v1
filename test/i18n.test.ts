@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import esTranslations from '../locales/es.json';
-import enTranslations from '../locales/en.json';
-import caTranslations from '../locales/ca.json';
-import frTranslations from '../locales/fr.json';
-import deTranslations from '../locales/de.json';
-import itTranslations from '../locales/it.json';
-import ptTranslations from '../locales/pt.json';
+import esTranslations from '../client/src/locales/es.json';
+import enTranslations from '../client/src/locales/en.json';
+import caTranslations from '../client/src/locales/ca.json';
+import frTranslations from '../client/src/locales/fr.json';
+import deTranslations from '../client/src/locales/de.json';
+import itTranslations from '../client/src/locales/it.json';
+import ptTranslations from '../client/src/locales/pt.json';
 
 const allTranslations = {
   es: esTranslations,

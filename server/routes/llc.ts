@@ -6,6 +6,9 @@ import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('llc');
 
 export function registerLlcRoutes(app: Express) {
   // Claim order endpoint - creates account and associates with existing order
@@ -111,11 +114,11 @@ export function registerLlcRoutes(app: Express) {
         to: email,
         subject: getWelcomeEmailSubject(llcLang),
         html: getWelcomeEmailTemplate(nameParts[0] || undefined, llcLang)
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send welcome email', err));
       
       res.json({ success: true, userId: newUser.id });
     } catch (error) {
-      console.error("Error claiming order:", error);
+      log.error("Error claiming order", error);
       res.status(500).json({ message: "Error creating account." });
     }
   });
@@ -261,7 +264,7 @@ export function registerLlcRoutes(app: Express) {
     if (err instanceof z.ZodError) {
       return res.status(400).json({ message: err.errors[0].message });
     }
-    console.error("Error updating LLC application:", err);
+    log.error("Error updating LLC application", err);
     res.status(500).json({ message: "Error updating request" });
   }
 });
@@ -510,7 +513,7 @@ export function registerLlcRoutes(app: Express) {
 
       req.pipe(bb);
     } catch (error: any) {
-      console.error("Client upload error:", error);
+      log.error("Client upload error", error);
       res.status(500).json({ message: "Error uploading document" });
     }
   });
@@ -541,7 +544,7 @@ export function registerLlcRoutes(app: Express) {
       
       res.json({ success: true, message: "Payment successful" });
     } catch (error) {
-      console.error("Payment error:", error);
+      log.error("Payment error", error);
       res.status(500).json({ message: "Payment processing failed" });
     }
   });

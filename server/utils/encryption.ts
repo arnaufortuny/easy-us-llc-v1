@@ -1,4 +1,7 @@
 import crypto from "crypto";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('encryption');
 
 const ALGORITHM = "aes-256-cbc";
 const IV_LENGTH = 16;
@@ -13,7 +16,7 @@ function getEncryptionKey(): Buffer {
   }
   
   if (!key) {
-    console.warn("⚠️ Using fallback encryption key for development. Set ENCRYPTION_KEY in production.");
+    log.warn("Using fallback encryption key for development. Set ENCRYPTION_KEY in production.");
     return Buffer.from("dev_fallback_key_32_chars_long!!".slice(0, 32));
   }
   
@@ -44,7 +47,7 @@ export function decrypt(text: string): string {
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString("utf8");
   } catch (error) {
-    console.error("[ENCRYPTION] Decrypt error - returning original text");
+    log.error("Decrypt error - returning original text", error);
     return text;
   }
 }
@@ -114,7 +117,7 @@ export function decryptFileWithVerification(
   const verified = verifyFileIntegrity(decrypted, metadata.hash);
   
   if (!verified) {
-    console.error("[ENCRYPTION] File integrity verification failed!");
+    log.error("File integrity verification failed!", null);
   }
   
   return { buffer: decrypted, verified };

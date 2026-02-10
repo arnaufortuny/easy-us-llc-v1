@@ -1,5 +1,8 @@
 import { db } from "../db";
 import { sql } from "drizzle-orm";
+import { createLogger } from "./logger";
+
+const log = createLogger('rate-limiter');
 
 interface RateLimitConfig {
   windowMs: number;
@@ -99,7 +102,7 @@ export async function checkRateLimitDb(
     
     return { allowed: true };
   } catch (error) {
-    console.error("Rate limit DB error, falling back to memory:", error);
+    log.error("Rate limit DB error, falling back to memory", error);
     return checkRateLimitInMemory(type as keyof typeof RATE_LIMITS, identifier);
   }
 }
@@ -112,7 +115,7 @@ export async function cleanupDbRateLimits(): Promise<void> {
       WHERE created_at < ${oldestAllowed}
     `);
   } catch (error) {
-    console.error("Rate limit cleanup error:", error);
+    log.error("Rate limit cleanup error", error);
   }
 }
 

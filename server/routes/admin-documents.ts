@@ -2,6 +2,9 @@ import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('admin-documents');
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
 import { EmailLanguage } from "../lib/email-translations";
@@ -28,7 +31,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       
       res.json(doc);
     } catch (error) {
-      console.error("Upload doc error:", error);
+      log.error("Upload doc error", error);
       res.status(500).json({ message: "Error uploading document" });
     }
   });
@@ -183,7 +186,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
       req.pipe(bb);
     } catch (error) {
-      console.error("Admin upload doc error:", error);
+      log.error("Admin upload doc error", error);
       res.status(500).json({ message: "Error uploading document" });
     }
   });
@@ -229,7 +232,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
         };
       }));
     } catch (error) {
-      console.error("Admin documents error:", error);
+      log.error("Admin documents error", error);
       res.status(500).json({ message: "Error fetching documents" });
     }
   });
@@ -324,7 +327,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
               docLabel,
               userLang
             )
-          }).catch(console.error);
+          }).catch((err: any) => log.error("Failed to send document approved email", err));
         } else if (reviewStatus === 'rejected') {
           await db.delete(userNotifications).where(
             and(
@@ -358,13 +361,13 @@ export function registerAdminDocumentsRoutes(app: Express) {
               reason,
               rejLang
             )
-          }).catch(console.error);
+          }).catch((err: any) => log.error("Failed to send document rejected email", err));
         }
       }
       
       res.json(updated);
     } catch (error) {
-      console.error("Document review error:", error);
+      log.error("Document review error", error);
       res.status(500).json({ message: "Error updating document review status" });
     }
   });
@@ -405,7 +408,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
         deadlines 
       });
     } catch (error) {
-      console.error("Error setting formation date:", error);
+      log.error("Error setting formation date", error);
       res.status(500).json({ message: "Error setting formation date" });
     }
   });
@@ -448,7 +451,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
       res.json({ success: true, emailSent: !!user.email, ticketId });
     } catch (error) {
-      console.error("Error sending note:", error);
+      log.error("Error sending note", error);
       res.status(500).json({ message: "Error sending note" });
     }
   });
@@ -484,7 +487,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (error) {
-      console.error("Send payment link error:", error);
+      log.error("Send payment link error", error);
       res.status(500).json({ message: "Error sending payment link" });
     }
   });
@@ -551,7 +554,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
 
       res.json({ success: true, messageId: msgId });
     } catch (error) {
-      console.error("Request doc error:", error);
+      log.error("Request doc error", error);
       res.status(500).json({ message: "Error requesting document" });
     }
   });
@@ -595,7 +598,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       
       res.json(event);
     } catch (error) {
-      console.error("Error creating order event:", error);
+      log.error("Error creating order event", error);
       res.status(500).json({ message: "Error creating event" });
     }
   });
@@ -645,7 +648,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       
       res.json(updatedOrder);
     } catch (error) {
-      console.error("Error generating invoice:", error);
+      log.error("Error generating invoice", error);
       res.status(500).json({ message: "Error generating invoice" });
     }
   });

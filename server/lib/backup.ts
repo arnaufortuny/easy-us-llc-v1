@@ -2,6 +2,9 @@ import { exec } from "child_process";
 import { promisify } from "util";
 import fs from "fs";
 import path from "path";
+import { createLogger } from "./logger";
+
+const log = createLogger('backup');
 
 const execAsync = promisify(exec);
 
@@ -28,7 +31,7 @@ async function cleanOldBackups() {
     const oldest = files.pop();
     if (oldest) {
       fs.unlinkSync(oldest.path);
-      console.log(`[Backup] Deleted old backup: ${oldest.name}`);
+      log.info(`Deleted old backup: ${oldest.name}`);
     }
   }
 }
@@ -42,7 +45,7 @@ export async function createBackup(): Promise<string | null> {
 
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) {
-      console.error("[Backup] DATABASE_URL not configured");
+      log.error("DATABASE_URL not configured", null);
       return null;
     }
 
@@ -52,10 +55,10 @@ export async function createBackup(): Promise<string | null> {
     
     await cleanOldBackups();
 
-    console.log(`[Backup] Created successfully: ${backupFile}`);
+    log.info(`Created successfully: ${backupFile}`);
     return backupFile;
   } catch (error) {
-    console.error("[Backup] Failed:", error);
+    log.error("Backup failed", error);
     return null;
   }
 }
@@ -69,7 +72,7 @@ export function scheduleBackups() {
     createBackup();
   }, BACKUP_INTERVAL);
 
-  console.log("[Backup] Scheduled daily backups");
+  log.info("Scheduled daily backups");
 }
 
 export async function listBackups(): Promise<string[]> {

@@ -8,6 +8,9 @@ import { userNotifications, messages as messagesTable } from "@shared/schema";
 import { eq, sql, and, inArray, desc, gt } from "drizzle-orm";
 import { sendEmail, getWelcomeEmailTemplate } from "./email";
 import { generateUniqueClientId } from "./id-generator";
+import { createLogger } from "./logger";
+
+const log = createLogger('auth');
 import { EmailLanguage, getWelcomeNotificationTitle, getWelcomeNotificationMessage, getWelcomeEmailSubject, getDefaultClientName, getSecurityOtpSubject } from "./email-translations";
 import { checkRateLimit, logAudit, getClientIp } from "./security";
 import {
@@ -38,7 +41,7 @@ export function getSession() {
   }
   const sessionSecret = envSecret || require("crypto").randomBytes(32).toString("hex");
   if (!envSecret) {
-    console.warn("⚠️ Using random session secret for development. Set SESSION_SECRET in production.");
+    log.warn("Using random session secret for development. Set SESSION_SECRET in production.");
   }
   
   return session({
@@ -119,7 +122,7 @@ export function setupCustomAuth(app: Express) {
 
       req.session.regenerate((regenErr) => {
         if (regenErr) {
-          console.error("Session regeneration error:", regenErr);
+          log.error("Session regeneration error", regenErr);
           return res.status(500).json({ message: "Error creating session" });
         }
 
@@ -130,7 +133,7 @@ export function setupCustomAuth(app: Express) {
 
         req.session.save((err) => {
           if (err) {
-            console.error("Session save error:", err);
+            log.error("Session save error", err);
             return res.status(500).json({ message: "Error saving session" });
           }
           
@@ -148,7 +151,7 @@ export function setupCustomAuth(app: Express) {
         });
       });
     } catch (error: any) {
-      console.error("Registration error:", error);
+      log.error("Registration error", error);
       res.status(400).json({ message: error.message || "Error creating account" });
     }
   });
@@ -282,7 +285,7 @@ export function setupCustomAuth(app: Express) {
 
         req.session.regenerate((regenErr) => {
           if (regenErr) {
-            console.error("Session regeneration error:", regenErr);
+            log.error("Session regeneration error", regenErr);
             return res.status(500).json({ message: "Error creating session" });
           }
 
@@ -293,7 +296,7 @@ export function setupCustomAuth(app: Express) {
 
           req.session.save((err) => {
             if (err) {
-              console.error("Session save error:", err);
+              log.error("Session save error", err);
               return res.status(500).json({ message: "Error saving session" });
             }
             
@@ -319,7 +322,7 @@ export function setupCustomAuth(app: Express) {
           logAudit({ action: 'account_locked', ip: getClientIp(req), details: { reason: 'too_many_attempts' } });
           return res.status(403).json({ message: error.message });
         }
-        console.error("Login error:", error);
+        log.error("Login error", error);
         res.status(500).json({ message: "Error logging in" });
       }
   });
@@ -328,7 +331,7 @@ export function setupCustomAuth(app: Express) {
   app.post("/api/auth/logout", (req, res) => {
     req.session.destroy((err) => {
       if (err) {
-        console.error("Logout error:", err);
+        log.error("Logout error", err);
         return res.status(500).json({ message: "Error logging out" });
       }
       res.clearCookie("connect.sid");
@@ -384,7 +387,7 @@ export function setupCustomAuth(app: Express) {
 
       res.json({ success: true, message: "Code sent" });
     } catch (error) {
-      console.error("Resend verification error:", error);
+      log.error("Resend verification error", error);
       res.status(500).json({ message: "Error sending code" });
     }
   });
@@ -502,7 +505,7 @@ export function setupCustomAuth(app: Express) {
         identityVerificationNotes: user.identityVerificationNotes || null,
       });
     } catch (error) {
-      console.error("Get user error:", error);
+      log.error("Get user error", error);
       res.status(500).json({ message: "Error fetching user" });
     }
   });
@@ -595,7 +598,7 @@ export function setupCustomAuth(app: Express) {
         accountUnderReview: false,
       });
     } catch (error) {
-      console.error("Update user error:", error);
+      log.error("Update user error", error);
       res.status(500).json({ message: "Error updating profile" });
     }
   });

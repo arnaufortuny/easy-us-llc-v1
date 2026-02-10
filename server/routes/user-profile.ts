@@ -7,6 +7,9 @@ import { sendEmail, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate,
 import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
 import { getUpcomingDeadlinesForUser } from "../calendar-service";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('user-profile');
 
 export function registerUserProfileRoutes(app: Express) {
   app.get("/api/products", async (req, res) => {
@@ -28,7 +31,7 @@ export function registerUserProfileRoutes(app: Express) {
       await db.update(usersTable).set({ isAdmin: true, accountStatus: 'active' }).where(eq(usersTable.email, adminEmail));
       res.json({ success: true, message: "Admin role assigned successfully" });
     } catch (error) {
-      console.error("Seed admin error:", error);
+      log.error("Seed admin error", error);
       res.status(500).json({ message: "Error assigning admin role" });
     }
   });
@@ -77,7 +80,7 @@ export function registerUserProfileRoutes(app: Express) {
       req.session.destroy(() => {});
       res.json({ success: true, message: "Account deactivated successfully" });
     } catch (error) {
-      console.error("Deactivate account error:", error);
+      log.error("Deactivate account error", error);
       res.status(500).json({ message: "Error deactivating account" });
     }
   });
@@ -94,7 +97,7 @@ export function registerUserProfileRoutes(app: Express) {
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       res.json(updatedUser);
     } catch (error) {
-      console.error("Update language error:", error);
+      log.error("Update language error", error);
       res.status(500).json({ message: "Error updating language" });
     }
   });
@@ -198,7 +201,7 @@ export function registerUserProfileRoutes(app: Express) {
             to: currentUserEmail,
             subject: `${getEmailTranslations(userLang).profileChangeOtp.title} - Easy US LLC`,
             html: getProfileChangeOtpTemplate(userName, otp, userLang)
-          }).catch(console.error);
+          }).catch((err: any) => log.error('Failed to send profile change OTP', err));
           
           return res.status(400).json({ 
             message: "OTP verification required for sensitive changes",
@@ -259,7 +262,7 @@ export function registerUserProfileRoutes(app: Express) {
             currentUser.clientId || '',
             changedSensitiveFields
           )
-        }).catch(console.error);
+        }).catch((err: any) => log.error('Failed to send admin profile change email', err));
         
         const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
         return res.json(updatedUser);
@@ -274,7 +277,7 @@ export function registerUserProfileRoutes(app: Express) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: error.errors[0].message });
       }
-      console.error("Update profile error:", error);
+      log.error("Update profile error", error);
       res.status(500).json({ message: "Error updating profile" });
     }
   });
@@ -389,12 +392,12 @@ export function registerUserProfileRoutes(app: Express) {
           user.clientId || '',
           pendingChanges.changedFields || []
         )
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send admin profile change email', err));
       
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       res.json({ success: true, user: updatedUser });
     } catch (error) {
-      console.error("Confirm profile OTP error:", error);
+      log.error("Confirm profile OTP error", error);
       res.status(500).json({ message: "Error confirming changes" });
     }
   });
@@ -407,7 +410,7 @@ export function registerUserProfileRoutes(app: Express) {
       const [updatedUser] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
       res.json({ success: true, user: updatedUser });
     } catch (error) {
-      console.error("Cancel pending changes error:", error);
+      log.error("Cancel pending changes error", error);
       res.status(500).json({ message: "Error cancelling changes" });
     }
   });
@@ -451,11 +454,11 @@ export function registerUserProfileRoutes(app: Express) {
         to: userEmail,
         subject: `${getEmailTranslations(resendLang).profileChangeOtp.title} - Easy US LLC`,
         html: getProfileChangeOtpTemplate(resendName, otp, resendLang)
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send resend OTP email', err));
       
       res.json({ success: true, message: "New OTP code sent" });
     } catch (error) {
-      console.error("Resend OTP error:", error);
+      log.error("Resend OTP error", error);
       res.status(500).json({ message: "Error sending OTP" });
     }
   });
@@ -481,7 +484,7 @@ export function registerUserProfileRoutes(app: Express) {
       const deadlines = getUpcomingDeadlinesForUser(applications);
       res.json(deadlines);
     } catch (error) {
-      console.error("Error fetching deadlines:", error);
+      log.error("Error fetching deadlines", error);
       res.status(500).json({ message: "Error fetching compliance dates" });
     }
   });
@@ -539,7 +542,7 @@ export function registerUserProfileRoutes(app: Express) {
         .orderBy(desc(standaloneInvoices.createdAt));
       res.json(invoices);
     } catch (error) {
-      console.error("Error fetching user invoices:", error);
+      log.error("Error fetching user invoices", error);
       res.status(500).json({ message: "Error fetching invoices" });
     }
   });
@@ -554,7 +557,7 @@ export function registerUserProfileRoutes(app: Express) {
         .limit(50);
       res.json(notifs);
     } catch (error) {
-      console.error("Get notifications error:", error);
+      log.error("Get notifications error", error);
       res.status(500).json({ message: "Error fetching notifications" });
     }
   });

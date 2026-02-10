@@ -43,6 +43,7 @@ The project is structured into `client/`, `server/`, `shared/`, `uploads/`, and 
 - **Form System:** Multi-step wizards, auto-fill, draft saving, unauthenticated data transfer, age verification.
 - **Compliance Calendar:** Automated IRS deadline calculation, annual report reminders, registered agent tracking.
 - **Stability:** Database retry logic with exponential backoff (`server/lib/db-utils.ts`), structured logging (`server/lib/logger.ts`), health check with pool diagnostics (`/api/healthz`), optimized database indexes.
+- **Testing:** Vitest with 77 unit tests across 7 files covering encryption (text/buffer/file integrity/error handling), security (sanitization, validation, password rules), logger (levels, redaction, context), PDF generation, i18n (translation key parity across 7 languages), theme, and validation. Server tests run in node environment, client tests in happy-dom. Run with `npm test`.
 - **Code Organization:** User routes split into focused modules: `user-profile.ts`, `user-documents.ts`, `user-security.ts`.
 
 ## External Dependencies

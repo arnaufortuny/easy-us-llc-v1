@@ -2,6 +2,9 @@ import { db } from "../db";
 import { sql, desc } from "drizzle-orm";
 import { checkRateLimitInMemory, checkRateLimit as checkRateLimitAuto } from "./rate-limiter";
 import { auditLogs } from "@shared/schema";
+import { createLogger } from "./logger";
+
+const log = createLogger('security');
 
 export { checkRateLimitInMemory as checkRateLimit };
 export { checkRateLimitAuto };
@@ -143,17 +146,15 @@ export function logAudit(entry: Omit<AuditLogEntry, 'timestamp'>): void {
     userAgent: entry.userAgent || null,
     details: entry.details || null,
   }).catch(err => {
-    console.error("[AUDIT] Failed to persist audit log:", err.message);
+    log.error("Failed to persist audit log", err);
   });
   
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[AUDIT] ${entry.action}:`, {
-      userId: entry.userId,
-      targetId: entry.targetId,
-      ip: entry.ip,
-      details: entry.details
-    });
-  }
+  log.debug(`Audit: ${entry.action}`, {
+    userId: entry.userId,
+    targetId: entry.targetId,
+    ip: entry.ip,
+    details: entry.details
+  });
 }
 
 export function getRecentAuditLogs(limit: number = 100): AuditLogEntry[] {
@@ -178,7 +179,7 @@ export async function getAuditLogsFromDb(options: {
     
     return { logs, total };
   } catch (error) {
-    console.error("[AUDIT] Failed to fetch logs from DB:", error);
+    log.error("Failed to fetch audit logs from DB", error);
     return { logs: [], total: 0 };
   }
 }
@@ -195,7 +196,7 @@ export async function cleanupOldAuditLogs(daysToKeep: number = 90): Promise<numb
     
     return Number((result as any).rowCount || 0);
   } catch (error) {
-    console.error("[AUDIT] Failed to cleanup old logs:", error);
+    log.error("Failed to cleanup old audit logs", error);
     return 0;
   }
 }

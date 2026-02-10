@@ -6,6 +6,9 @@ import type { Express, Request, Response } from "express";
 import crypto from "crypto";
 import { isAdminEmail } from "./lib/auth-service";
 import { generateUniqueClientId } from "./lib/id-generator";
+import { createLogger } from "./lib/logger";
+
+const log = createLogger('oauth');
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -108,12 +111,12 @@ export function setupOAuth(app: Express) {
       delete req.session.oauthAction;
       
       if (error) {
-        console.error("Google OAuth error:", error);
+        log.error("Google OAuth error", error);
         return res.redirect("/login?error=oauth_denied");
       }
 
       if (!state || state !== expectedState) {
-        console.error("OAuth state mismatch:", { state, expectedState });
+        log.error("OAuth state mismatch", null, { state, expectedState });
         return res.redirect("/login?error=invalid_state");
       }
 
@@ -143,7 +146,7 @@ export function setupOAuth(app: Express) {
 
       if (!tokenResponse.ok) {
         const errorData = await tokenResponse.text();
-        console.error("Token exchange failed:", errorData);
+        log.error("Token exchange failed", null, { response: errorData });
         return res.redirect("/login?error=token_exchange_failed");
       }
 
@@ -202,7 +205,7 @@ export function setupOAuth(app: Express) {
 
       return res.redirect("/dashboard");
     } catch (error) {
-      console.error("Google OAuth callback error:", error);
+      log.error("Google OAuth callback error", error);
       return res.redirect("/login?error=auth_failed");
     }
   });
@@ -270,7 +273,7 @@ export function setupOAuth(app: Express) {
         }
       });
     } catch (error) {
-      console.error("Error en autenticacion de Google:", error);
+      log.error("Google authentication error", error);
       return res.status(401).json({ message: "Error verifying Google credential" });
     }
   });
@@ -308,7 +311,7 @@ export function setupOAuth(app: Express) {
 
       return res.json({ message: "Google account linked successfully" });
     } catch (error) {
-      console.error("Error conectando Google:", error);
+      log.error("Error connecting Google account", error);
       return res.status(500).json({ message: "Error linking Google account" });
     }
   });
@@ -339,7 +342,7 @@ export function setupOAuth(app: Express) {
 
       return res.json({ message: "Google account unlinked successfully" });
     } catch (error) {
-      console.error("Error desconectando Google:", error);
+      log.error("Error disconnecting Google account", error);
       return res.status(500).json({ message: "Error unlinking Google account" });
     }
   });

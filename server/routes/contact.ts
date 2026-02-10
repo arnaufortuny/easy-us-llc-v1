@@ -1,6 +1,9 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('contact');
 import { contactOtps, users as usersTable, newsletterSubscribers, userNotifications } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 import { checkRateLimit, sanitizeHtml } from "../lib/security";
@@ -119,7 +122,7 @@ export function registerContactRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (err) {
-      console.error("Error sending contact OTP:", err);
+      log.error("Error sending contact OTP", err);
       res.status(400).json({ message: "Error sending verification code. Please try again in a few minutes." });
     }
   });
@@ -149,7 +152,7 @@ export function registerContactRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (err) {
-      console.error("Error verifying contact OTP:", err);
+      log.error("Error verifying contact OTP", err);
       res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
   });
@@ -236,7 +239,7 @@ export function registerContactRoutes(app: Express) {
       logAudit({ action: 'order_created', ip: clientIp, details: { ticketId, type: 'contact' } });
       res.json({ success: true, ticketId });
     } catch (err) {
-      console.error("Error processing contact form:", err);
+      log.error("Error processing contact form", err);
       res.status(400).json({ message: "Error processing message" });
     }
   });

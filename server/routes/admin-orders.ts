@@ -3,6 +3,9 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, sql } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, isAdminOrSupport, logAudit } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('admin-orders');
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";
@@ -14,7 +17,7 @@ export function registerAdminOrderRoutes(app: Express) {
       const allOrders = await storage.getAllOrders();
       res.json(allOrders);
     } catch (error) {
-      console.error("Admin orders error:", error);
+      log.error("Admin orders error", error);
       res.status(500).json({ message: "Error fetching orders" });
     }
   });
@@ -306,7 +309,7 @@ export function registerAdminOrderRoutes(app: Express) {
         maintenance: maintDrafts.map(d => ({ ...d, type: 'maintenance' })),
       });
     } catch (error) {
-      console.error("Error fetching incomplete applications:", error);
+      log.error("Error fetching incomplete applications", error);
       res.status(500).json({ message: "Error fetching incomplete applications" });
     }
   });

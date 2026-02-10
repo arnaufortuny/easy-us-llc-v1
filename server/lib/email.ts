@@ -1,5 +1,8 @@
 import nodemailer from "nodemailer";
 import { EmailLanguage, getEmailTranslations, getCommonDoubtsText, getDefaultClientName } from "./email-translations";
+import { createLogger } from "./logger";
+
+const log = createLogger('email');
 
 const domain = "easyusllc.com";
 const companyAddress = `Easy US LLC
@@ -1333,7 +1336,7 @@ function cleanupStaleEmails() {
     removed++;
   }
   if (removed > 0) {
-    console.log(`Cleaned up ${removed} stale emails from queue`);
+    log.info(`Cleaned up ${removed} stale emails from queue`);
   }
 }
 
@@ -1383,7 +1386,7 @@ async function processEmailQueue() {
       if (job.retries >= job.maxRetries) {
         // Max retries reached - remove and log
         emailQueue.shift();
-        console.error(`Email failed after ${job.maxRetries} retries:`, job.id, job.to);
+        log.error(`Email failed after ${job.maxRetries} retries`, null, { id: job.id, to: job.to });
       } else {
         // Move to end of queue for retry (with delay via natural queue order)
         emailQueue.shift();
@@ -1407,7 +1410,7 @@ export function queueEmail({ to, subject, html, replyTo }: { to: string; subject
   
   // Prevent unbounded queue growth
   if (emailQueue.length >= MAX_QUEUE_SIZE) {
-    console.warn(`Email queue full (${MAX_QUEUE_SIZE}), dropping email to: ${to}`);
+    log.warn(`Email queue full (${MAX_QUEUE_SIZE}), dropping email to: ${to}`);
     return null;
   }
   

@@ -4,6 +4,9 @@ import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity, isIpB
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('maintenance');
 
 export function registerMaintenanceRoutes(app: Express) {
   // Claim maintenance order endpoint
@@ -102,11 +105,11 @@ export function registerMaintenanceRoutes(app: Express) {
         to: email,
         subject: getWelcomeEmailSubject(claimLang),
         html: getWelcomeEmailTemplate(nameParts[0] || undefined, claimLang)
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send welcome email', err));
       
       res.json({ success: true, userId: newUser.id });
     } catch (error) {
-      console.error("Error claiming maintenance order:", error);
+      log.error("Error claiming maintenance order", error);
       res.status(500).json({ message: "Error creating account." });
     }
   });
@@ -204,13 +207,13 @@ export function registerMaintenanceRoutes(app: Express) {
             to: email,
             subject: getWelcomeEmailSubject(mLang),
             html: getWelcomeEmailTemplate(nameParts[0] || undefined, mLang)
-          }).catch(console.error);
+          }).catch((err: any) => log.error('Failed to send welcome email', err));
         } else {
           sendEmail({
             to: email,
             subject: getVerifyEmailSubject(mLang),
             html: getAccountPendingVerificationTemplate(nameParts[0] || undefined, mLang)
-          }).catch(console.error);
+          }).catch((err: any) => log.error('Failed to send verification email', err));
         }
       }
 
@@ -283,7 +286,7 @@ export function registerMaintenanceRoutes(app: Express) {
 
       res.status(201).json({ ...order, application: { ...application, requestCode } });
     } catch (err) {
-      console.error("Error creating maintenance order:", err);
+      log.error("Error creating maintenance order", err);
       res.status(500).json({ message: "Error creating maintenance order" });
     }
   });

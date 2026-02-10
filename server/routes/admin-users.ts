@@ -3,6 +3,9 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { eq, desc, inArray, and, sql } from "drizzle-orm";
 import { asyncHandler, db, isAdmin, isAdminOrSupport, logAudit, logActivity } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('admin-users');
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, applicationDocuments as applicationDocumentsTable, orderEvents, userNotifications, messages as messagesTable, messageReplies, contactOtps } from "@shared/schema";
 import { sendEmail, getAccountDeactivatedTemplate, getAccountVipTemplate, getAccountReactivatedTemplate, getAdminPasswordResetTemplate, getAdminOtpRequestTemplate, getIdentityVerificationRequestTemplate, getIdentityVerificationApprovedTemplate, getIdentityVerificationRejectedTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
@@ -199,7 +202,7 @@ export function registerAdminUserRoutes(app: Express) {
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Error deleting user:", error);
+      log.error("Error deleting user", error);
       res.status(500).json({ message: "Error deleting user" });
     }
   });
@@ -461,7 +464,7 @@ export function registerAdminUserRoutes(app: Express) {
       to: user.email,
       subject: t.identityVerificationRequest.subject,
       html: getIdentityVerificationRequestTemplate(user.firstName || 'Cliente', notes, userLang)
-    }).catch(console.error);
+    }).catch((err: any) => log.error("Failed to send identity verification request email", err));
     
     logActivity("Identity Verification Requested", {
       "Admin": (req as any).session?.userId || "unknown",
@@ -504,7 +507,7 @@ export function registerAdminUserRoutes(app: Express) {
       to: user.email,
       subject: tApproved.identityVerificationApproved.subject,
       html: getIdentityVerificationApprovedTemplate(user.firstName || 'Cliente', userLang)
-    }).catch(console.error);
+    }).catch((err: any) => log.error("Failed to send identity verification approved email", err));
     
     logActivity("Identity Verification Approved", {
       "Admin": (req as any).session?.userId || "unknown",
@@ -549,7 +552,7 @@ export function registerAdminUserRoutes(app: Express) {
       to: user.email,
       subject: tRejected.identityVerificationRejected.subject,
       html: getIdentityVerificationRejectedTemplate(user.firstName || 'Cliente', reason, userLang)
-    }).catch(console.error);
+    }).catch((err: any) => log.error("Failed to send identity verification rejected email", err));
     
     logActivity("Identity Verification Rejected", {
       "Admin": (req as any).session?.userId || "unknown",

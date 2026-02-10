@@ -1,5 +1,8 @@
 import type { Express } from "express";
 import { db, isAdmin, logAudit } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('accounting');
 import { accountingTransactions } from "@shared/schema";
 import { and, eq, desc, sql } from "drizzle-orm";
 
@@ -32,7 +35,7 @@ export function registerAccountingRoutes(app: Express) {
       
       res.json(transactions);
     } catch (err) {
-      console.error("Error fetching accounting transactions:", err);
+      log.error("Error fetching accounting transactions", err);
       res.status(500).json({ message: "Error fetching transactions" });
     }
   });
@@ -83,7 +86,7 @@ export function registerAccountingRoutes(app: Express) {
         categoryBreakdown
       });
     } catch (err) {
-      console.error("Error fetching accounting summary:", err);
+      log.error("Error fetching accounting summary", err);
       res.status(500).json({ message: "Error fetching accounting summary" });
     }
   });
@@ -122,7 +125,7 @@ export function registerAccountingRoutes(app: Express) {
       
       res.json(transaction);
     } catch (err) {
-      console.error("Error creating transaction:", err);
+      log.error("Error creating transaction", err);
       res.status(500).json({ message: "Error creating transaction" });
     }
   });
@@ -160,7 +163,7 @@ export function registerAccountingRoutes(app: Express) {
       
       res.json(updated);
     } catch (err) {
-      console.error("Error updating transaction:", err);
+      log.error("Error updating transaction", err);
       res.status(500).json({ message: "Error updating transaction" });
     }
   });
@@ -180,7 +183,7 @@ export function registerAccountingRoutes(app: Express) {
       
       res.json({ success: true });
     } catch (err) {
-      console.error("Error deleting transaction:", err);
+      log.error("Error deleting transaction", err);
       res.status(500).json({ message: "Error deleting transaction" });
     }
   });
@@ -228,7 +231,7 @@ export function registerAccountingRoutes(app: Express) {
       res.setHeader('Content-Disposition', `attachment; filename="transacciones_${new Date().toISOString().slice(0, 10)}.csv"`);
       res.send('\uFEFF' + csvContent); // BOM for Excel UTF-8
     } catch (err) {
-      console.error("Error exporting CSV:", err);
+      log.error("Error exporting CSV", err);
       res.status(500).json({ message: "Error exporting CSV" });
     }
   });

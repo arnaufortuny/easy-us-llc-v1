@@ -3,6 +3,9 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { and, or, eq, desc, sql } from "drizzle-orm";
 import { asyncHandler, db, storage, isAdmin, logAudit, getCachedData, setCachedData } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('admin-billing');
 import { users as usersTable, maintenanceApplications, newsletterSubscribers, messages as messagesTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, accountingTransactions, auditLogs, standaloneInvoices } from "@shared/schema";
 
 export function registerAdminBillingRoutes(app: Express) {
@@ -291,7 +294,7 @@ export function registerAdminBillingRoutes(app: Express) {
       
       res.json(statsData);
     } catch (error) {
-      console.error("System stats error:", error);
+      log.error("System stats error", error);
       res.status(500).json({ message: "Error fetching system stats" });
     }
   });
@@ -350,7 +353,7 @@ export function registerAdminBillingRoutes(app: Express) {
       
       res.json({ logs, total, limit, offset, actions: distinctActions.map(a => a.action) });
     } catch (error) {
-      console.error("Audit logs error:", error);
+      log.error("Audit logs error", error);
       res.status(500).json({ message: "Error fetching audit logs" });
     }
   });
@@ -364,7 +367,7 @@ export function registerAdminBillingRoutes(app: Express) {
       const clients = await getClientsNeedingRenewal();
       res.json(clients);
     } catch (error) {
-      console.error("Error fetching renewal clients:", error);
+      log.error("Error fetching renewal clients", error);
       res.status(500).json({ message: "Error fetching clients pending renewal" });
     }
   });
@@ -376,7 +379,7 @@ export function registerAdminBillingRoutes(app: Express) {
       const expiredClients = await checkExpiredRenewals();
       res.json(expiredClients);
     } catch (error) {
-      console.error("Error fetching expired renewals:", error);
+      log.error("Error fetching expired renewals", error);
       res.status(500).json({ message: "Error fetching expired renewals" });
     }
   });
@@ -605,7 +608,7 @@ export function registerAdminBillingRoutes(app: Express) {
         .orderBy(desc(standaloneInvoices.createdAt));
       res.json(invoices);
     } catch (error) {
-      console.error("Error fetching invoices:", error);
+      log.error("Error fetching invoices", error);
       res.status(500).json({ message: "Error fetching invoices" });
     }
   });
@@ -616,7 +619,7 @@ export function registerAdminBillingRoutes(app: Express) {
       await db.delete(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId));
       res.json({ success: true, message: "Invoice deleted" });
     } catch (error) {
-      console.error("Error deleting invoice:", error);
+      log.error("Error deleting invoice", error);
       res.status(500).json({ message: "Error deleting invoice" });
     }
   });
@@ -636,7 +639,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
       res.json({ success: true, message: "Status updated" });
     } catch (error) {
-      console.error("Error updating invoice status:", error);
+      log.error("Error updating invoice status", error);
       res.status(500).json({ message: "Error updating status" });
     }
   });

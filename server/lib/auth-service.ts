@@ -7,7 +7,10 @@ import { sendEmail, getRegistrationOtpTemplate, getAdminNewRegistrationTemplate,
 import { EmailLanguage, getRegistrationOtpSubject, getOtpSubject, getPasswordResetSubject } from "./email-translations";
 import { validatePassword } from "./security";
 import { generateUniqueClientId, generateUniqueMessageId } from "./id-generator";
+import { createLogger } from "./logger";
 export { generateUniqueClientId };
+
+const log = createLogger('auth-service');
 
 const SALT_ROUNDS = 12;
 const OTP_EXPIRY_MINUTES = 15;
@@ -117,9 +120,7 @@ export async function createUser(data: {
 }
 
 async function logActivity(title: string, data: any) {
-  if (process.env.NODE_ENV === 'development') {
-    console.log(`[AUTH] ${title}:`, data);
-  }
+  log.debug(title, data);
 }
 
 export async function verifyEmailToken(userId: string, token: string): Promise<boolean> {
@@ -235,7 +236,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
 
         logActivity("Cuenta Desactivada por Seguridad", { userId: user.id, email: user.email, attempts: newAttempts });
       } catch (e) {
-        console.error("Error handling account deactivation:", e);
+        log.error("Error handling account deactivation", e);
       }
     }
     

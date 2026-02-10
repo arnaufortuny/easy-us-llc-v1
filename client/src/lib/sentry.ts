@@ -5,6 +5,7 @@ export function initSentry() {
     Sentry.init({
       dsn: import.meta.env.VITE_SENTRY_DSN,
       environment: import.meta.env.MODE,
+      release: import.meta.env.VITE_APP_VERSION || "1.0.0",
       integrations: [
         Sentry.browserTracingIntegration(),
         Sentry.replayIntegration({
@@ -15,9 +16,17 @@ export function initSentry() {
       tracesSampleRate: 0.1,
       replaysSessionSampleRate: 0.1,
       replaysOnErrorSampleRate: 1.0,
+      ignoreErrors: [
+        "ResizeObserver loop",
+        "Non-Error promise rejection",
+        "Load failed",
+        "Failed to fetch",
+        "NetworkError",
+      ],
       beforeSend(event) {
-        if (event.exception) {
-          console.error("[Sentry] Captured exception:", event.exception);
+        if (event.request?.headers) {
+          delete event.request.headers['cookie'];
+          delete event.request.headers['authorization'];
         }
         return event;
       },
@@ -26,7 +35,9 @@ export function initSentry() {
 }
 
 export function captureError(error: Error, context?: Record<string, any>) {
-  console.error("[Error]", error.message, context);
+  if (import.meta.env.DEV) {
+    console.error("[Error]", error.message, context);
+  }
   if (import.meta.env.PROD) {
     Sentry.captureException(error, { extra: context });
   }

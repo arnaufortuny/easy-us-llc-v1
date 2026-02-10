@@ -6,6 +6,9 @@ import { and, eq, gt } from "drizzle-orm";
 import { checkRateLimit } from "../lib/security";
 import { sendEmail, getOtpEmailTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('auth');
 
 export function registerAuthExtRoutes(app: Express) {
   // Check if email already exists (for form flow to detect existing users)
@@ -75,7 +78,7 @@ export function registerAuthExtRoutes(app: Express) {
       logAudit({ action: 'user_register', ip, details: { email, step: 'otp_sent' } });
       res.json({ success: true });
     } catch (err) {
-      console.error("Error sending registration OTP:", err);
+      log.error("Error sending registration OTP", err);
       res.status(400).json({ message: "Error sending verification code." });
     }
   });
@@ -107,7 +110,7 @@ export function registerAuthExtRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (err) {
-      console.error("Error verifying registration OTP:", err);
+      log.error("Error verifying registration OTP", err);
       res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
   });
@@ -153,7 +156,7 @@ export function registerAuthExtRoutes(app: Express) {
       logAudit({ action: 'password_reset', ip, details: { email } });
       res.json({ success: true });
     } catch (err) {
-      console.error("Error sending password reset OTP:", err);
+      log.error("Error sending password reset OTP", err);
       res.status(400).json({ message: "Error sending verification code." });
     }
   });
@@ -205,7 +208,7 @@ export function registerAuthExtRoutes(app: Express) {
 
       res.json({ success: true, message: "Password updated successfully" });
     } catch (err: any) {
-      console.error("Error resetting password:", err);
+      log.error("Error resetting password", err);
       if (err.errors) {
         return res.status(400).json({ message: err.errors[0]?.message || "Error resetting password" });
       }

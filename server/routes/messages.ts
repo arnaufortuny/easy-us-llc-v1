@@ -4,6 +4,9 @@ import { users as usersTable, messages as messagesTable, messageReplies, userNot
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
 import type { EmailLanguage } from "../lib/email-translations";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('messages');
 
 export function registerMessageRoutes(app: Express) {
   // Messages API
@@ -109,7 +112,7 @@ export function registerMessageRoutes(app: Express) {
       
       res.json(replies);
     } catch (error) {
-      console.error("Error fetching message replies:", error);
+      log.error("Error fetching message replies", error);
       res.status(500).json({ message: "Error fetching replies" });
     }
   });
@@ -165,7 +168,7 @@ export function registerMessageRoutes(app: Express) {
       
       res.json(reply);
     } catch (error) {
-      console.error("Error creating reply:", error);
+      log.error("Error creating reply", error);
       res.status(500).json({ message: "Error creating reply" });
     }
   });

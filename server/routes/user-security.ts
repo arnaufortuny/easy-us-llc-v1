@@ -6,6 +6,9 @@ import { contactOtps, users as usersTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 import { checkRateLimit } from "../lib/security";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('user-security');
 
 export function registerUserSecurityRoutes(app: Express) {
   // Verify email for pending accounts (activate account)
@@ -60,11 +63,11 @@ export function registerUserSecurityRoutes(app: Express) {
         to: userEmail,
         subject: activeLang === 'en' ? "Account activated - Easy US LLC" : activeLang === 'ca' ? "Compte activat - Easy US LLC" : activeLang === 'fr' ? "Compte activé - Easy US LLC" : activeLang === 'de' ? "Konto aktiviert - Easy US LLC" : activeLang === 'it' ? "Account attivato - Easy US LLC" : activeLang === 'pt' ? "Conta ativada - Easy US LLC" : "Cuenta activada - Easy US LLC",
         html: getWelcomeEmailTemplate(user.firstName || undefined, activeLang)
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send welcome email', err));
       
       res.json({ success: true, message: "Email verified successfully. Your account is active." });
     } catch (error) {
-      console.error("Verify email error:", error);
+      log.error("Verify email error", error);
       res.status(500).json({ message: "Error verifying email" });
     }
   });
@@ -106,11 +109,11 @@ export function registerUserSecurityRoutes(app: Express) {
         to: userEmail,
         subject: getOtpSubject(vpLang),
         html: getOtpEmailTemplate(otp, user.firstName || undefined, vpLang)
-      }).catch(console.error);
+      }).catch((err: any) => log.error('Failed to send verification OTP email', err));
       
       res.json({ success: true, message: "OTP code sent to your email" });
     } catch (error) {
-      console.error("Send verification OTP error:", error);
+      log.error("Send verification OTP error", error);
       res.status(500).json({ message: "Error sending OTP" });
     }
   });
@@ -144,7 +147,7 @@ export function registerUserSecurityRoutes(app: Express) {
       
       res.json({ success: true });
     } catch (error) {
-      console.error("Request password OTP error:", error);
+      log.error("Request password OTP error", error);
       res.status(500).json({ message: "Error sending code" });
     }
   });
@@ -194,7 +197,7 @@ export function registerUserSecurityRoutes(app: Express) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data" });
       }
-      console.error("Change password error:", error);
+      log.error("Change password error", error);
       res.status(500).json({ message: "Error changing password" });
     }
   });

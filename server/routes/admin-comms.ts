@@ -3,6 +3,9 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport, getClientIp, asyncHandler } from "./shared";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('admin-comms');
 import { newsletterSubscribers, calculatorConsultations, messages as messagesTable, messageReplies } from "@shared/schema";
 import { sendEmail } from "../lib/email";
 
@@ -61,7 +64,7 @@ export function registerAdminCommsRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (error) {
-      console.error("Calculator consultation error:", error);
+      log.error("Calculator consultation error", error);
       res.status(500).json({ message: "Error saving consultation" });
     }
   });

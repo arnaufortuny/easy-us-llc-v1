@@ -6,6 +6,9 @@ import { db } from "./db";
 import { contactOtps } from "@shared/schema";
 import { sql } from "drizzle-orm";
 import { getSystemHealth } from "./lib/security";
+import { createLogger } from "./lib/logger";
+
+const log = createLogger('routes');
 import { setupOAuth } from "./oauth";
 import { checkAndSendReminders } from "./calendar-service";
 import { processAbandonedApplications } from "./lib/abandoned-service";
@@ -50,7 +53,7 @@ export async function registerRoutes(
 
       await Promise.race([cleanupPromise, timeoutPromise]);
     } catch (e) {
-      console.error("OTP cleanup error:", e);
+      log.error("OTP cleanup error", e);
     }
   }, 600000);
   
@@ -108,28 +111,27 @@ export async function registerRoutes(
     try {
       await checkAndSendReminders();
     } catch (e) {
-      console.error("Compliance reminder check error:", e);
+      log.error("Compliance reminder check error", e);
     }
     try {
       await processAbandonedApplications();
     } catch (e) {
-      console.error("Abandoned applications check error:", e);
+      log.error("Abandoned applications check error", e);
     }
   }, 3600000);
 
-  // Run initial reminder check on startup (after 30 seconds to allow DB to be ready)
   setTimeout(async () => {
     try {
       await checkAndSendReminders();
-      console.log("Initial compliance reminder check completed");
+      log.info("Initial compliance reminder check completed");
     } catch (e) {
-      console.error("Initial compliance reminder check error:", e);
+      log.error("Initial compliance reminder check error", e);
     }
     try {
       await processAbandonedApplications();
-      console.log("Initial abandoned applications check completed");
+      log.info("Initial abandoned applications check completed");
     } catch (e) {
-      console.error("Initial abandoned applications check error:", e);
+      log.error("Initial abandoned applications check error", e);
     }
     
     // Start backup service for Object Storage
@@ -155,9 +157,7 @@ export async function registerRoutes(
     app.post("/api/activity/track", async (req, res) => {
       const { action, details } = req.body;
       if (action === "CLICK_ELEGIR_ESTADO") {
-        if (process.env.NODE_ENV === 'development') {
-          console.log(`[LOG] Selección de Estado:`, { "Detalles": details });
-        }
+        log.debug("Selección de Estado", { details });
       }
       res.json({ success: true });
     });
@@ -216,7 +216,7 @@ export async function registerRoutes(
   try {
     await seedDatabase();
   } catch (e) {
-    console.error("Database seeding error:", e);
+    log.error("Database seeding error", e);
   }
 
   return httpServer;
