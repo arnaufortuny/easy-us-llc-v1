@@ -1657,58 +1657,65 @@ export default function Dashboard() {
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
                   </div>
                   
-                  {notifications?.some((n: any) => n.type === 'action_required') && user?.accountStatus !== 'deactivated' && (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-4 mb-4">
-                      <div className="flex items-start gap-3">
-                        <FileUp className="w-5 h-5 text-orange-500 mt-0.5" />
-                        <div className="flex-1">
-                          <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
-                          <div className="mt-2 space-y-1">
-                            {notifications?.filter((n: any) => n.type === 'action_required').map((n: any) => (
-                              <p key={n.id} className="text-xs text-muted-foreground">{tn(n.message)}</p>
-                            ))}
+                  {(() => {
+                    const actionRequiredNotifs = notifications?.filter((n: any) => n.type === 'action_required') || [];
+                    const docInReviewNotifs = notifications?.filter((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')) || [];
+                    const hasActionRequired = actionRequiredNotifs.length > 0;
+                    const hasDocInReview = docInReviewNotifs.length > 0;
+                    
+                    if ((hasActionRequired || hasDocInReview) && user?.accountStatus !== 'deactivated') {
+                      return (
+                        <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-4 mb-4 ${hasDocInReview && !hasActionRequired ? 'border-l-4 border-l-blue-400' : ''}`} data-testid="card-doc-action-required">
+                          <div className="flex items-start gap-3">
+                            {hasActionRequired ? (
+                              <FileUp className="w-5 h-5 text-orange-500 mt-0.5" />
+                            ) : (
+                              <Clock className="w-5 h-5 text-blue-500 mt-0.5" />
+                            )}
+                            <div className="flex-1">
+                              {hasActionRequired ? (
+                                <>
+                                  <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.requestedDocuments')}</h4>
+                                  <div className="mt-2 space-y-1">
+                                    {actionRequiredNotifs.map((n: any) => (
+                                      <p key={n.id} className="text-xs text-muted-foreground">{tn(n.message)}</p>
+                                    ))}
+                                  </div>
+                                  <div className="mt-3">
+                                    <label className="cursor-pointer">
+                                      <input 
+                                        type="file" 
+                                        className="hidden" 
+                                        accept=".pdf,.jpg,.jpeg,.png"
+                                        onChange={(e) => {
+                                          const file = e.target.files?.[0];
+                                          if (file) {
+                                            setUploadDialog({ open: false, file });
+                                            setUploadDocType("other");
+                                            setUploadNotes("");
+                                          }
+                                        }}
+                                        data-testid="input-upload-document"
+                                      />
+                                      <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
+                                        <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument')}</span>
+                                      </Button>
+                                    </label>
+                                  </div>
+                                </>
+                              ) : (
+                                <>
+                                  <h4 className="font-black text-foreground text-sm">{t('dashboard.documents.underReview')}</h4>
+                                  <p className="text-xs text-muted-foreground mt-2">{t('dashboard.documents.underReviewDesc')}</p>
+                                </>
+                              )}
+                            </div>
                           </div>
-                          <div className="mt-3">
-                            <label className="cursor-pointer">
-                              <input 
-                                type="file" 
-                                className="hidden" 
-                                accept=".pdf,.jpg,.jpeg,.png"
-                                onChange={async (e) => {
-                                  const file = e.target.files?.[0];
-                                  if (!file) return;
-                                  const formData = new FormData();
-                                  formData.append('file', file);
-                                  try {
-                                    const csrfToken = await getCsrfToken();
-                                    const res = await fetch('/api/user/documents/upload', {
-                                      method: 'POST',
-                                      headers: { 'X-CSRF-Token': csrfToken },
-                                      body: formData,
-                                      credentials: 'include'
-                                    });
-                                    if (res.ok) {
-                                      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploadedClient") + ". " + t("dashboard.toasts.documentUploadedClientDesc") });
-                                      queryClient.invalidateQueries({ queryKey: ['/api/user/documents'] });
-                                      queryClient.invalidateQueries({ queryKey: ['/api/user/notifications'] });
-                                    } else {
-                                      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpload") });
-                                    }
-                                  } catch {
-                                    setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.connectionError") });
-                                  }
-                                }}
-                                data-testid="input-upload-document"
-                              />
-                              <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
-                                <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument')}</span>
-                              </Button>
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  )}
+                        </Card>
+                      );
+                    }
+                    return null;
+                  })()}
                   
                   {/* Subir documento inline sin dialogo */}
                   <Card className="rounded-2xl border-2 border-dashed border-accent/50 bg-accent/5 p-4 md:p-6 mb-4">
@@ -1913,8 +1920,8 @@ export default function Dashboard() {
                                         </Button>
                                       </label>
                                     )}
-                                    {(user?.isAdmin || (!isApproved && canEdit)) && (
-                                      <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground hover:text-red-500 shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
+                                    {user?.isAdmin && (
+                                      <Button variant="ghost" size="icon" className="rounded-full text-muted-foreground shrink-0" onClick={() => deleteDocMutation.mutate(doc.id)} disabled={deleteDocMutation.isPending} data-testid={`button-delete-doc-${doc.id}`}>
                                         <Trash2 className="w-3 h-3" />
                                       </Button>
                                     )}
@@ -5128,6 +5135,7 @@ export default function Dashboard() {
           <div className="space-y-6 order-1 xl:order-2 self-start">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')) || 
+              notifications?.some((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')) ||
               !!(user as any)?.pendingProfileChanges ||
               (orders?.some((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000))) ||
               (orders?.some((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed'))) && (
@@ -5170,6 +5178,24 @@ export default function Dashboard() {
                         className="rounded-full text-xs"
                         onClick={() => setActiveTab('documents')}
                         data-testid={`button-action-document-${n.id}`}
+                      >
+                        {t('dashboard.actionRequired.viewDocuments')}
+                      </Button>
+                    </div>
+                  ))}
+                  {notifications?.filter((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')).map((n: any) => (
+                    <div key={n.id} className="flex items-start gap-3 rounded-xl bg-blue-50 dark:bg-blue-950/20 p-3" data-testid={`action-item-doc-review-${n.id}`}>
+                      <Clock className="w-4 h-4 text-blue-500 mt-0.5 shrink-0" />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-bold text-foreground">{t('dashboard.documents.underReview')}</p>
+                        <p className="text-[10px] text-muted-foreground">{t('dashboard.documents.underReviewDesc')}</p>
+                      </div>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="rounded-full text-xs"
+                        onClick={() => setActiveTab('documents')}
+                        data-testid={`button-action-doc-review-${n.id}`}
                       >
                         {t('dashboard.actionRequired.viewDocuments')}
                       </Button>

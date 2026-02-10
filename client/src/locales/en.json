@@ -1577,7 +1577,17 @@
       "uploadedBy": "Uploaded by:",
       "sendDocument": "Send Document",
       "describePlaceholder": "Describe the document...",
-      "uploadButton": "Upload"
+      "uploadButton": "Upload",
+      "myDocuments": "My Documents",
+      "statusPending": "Pending review",
+      "statusApproved": "Approved",
+      "statusRejected": "Rejected",
+      "uploadAgain": "Upload again",
+      "underReview": "Document under review",
+      "underReviewDesc": "Your document has been received and is being reviewed by our team. You will receive a notification when it is processed.",
+      "articlesOfOrg": "Articles of Organization",
+      "einLetter": "EIN Letter",
+      "operatingAgreement": "Operating Agreement"
     },
     "tools": {
       "title": "Tools",

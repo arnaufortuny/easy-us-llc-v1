@@ -1577,7 +1577,17 @@
       "uploadedBy": "Hochgeladen von:",
       "sendDocument": "Dokument senden",
       "describePlaceholder": "Beschreiben Sie das Dokument...",
-      "uploadButton": "Hochladen"
+      "uploadButton": "Hochladen",
+      "myDocuments": "Meine Dokumente",
+      "statusPending": "In Prüfung",
+      "statusApproved": "Genehmigt",
+      "statusRejected": "Abgelehnt",
+      "uploadAgain": "Erneut hochladen",
+      "underReview": "Dokument wird geprüft",
+      "underReviewDesc": "Ihr Dokument wurde empfangen und wird von unserem Team geprüft. Sie erhalten eine Benachrichtigung, wenn es bearbeitet wird.",
+      "articlesOfOrg": "Gründungsurkunde",
+      "einLetter": "EIN-Schreiben",
+      "operatingAgreement": "Operating Agreement"
     },
     "tools": {
       "title": "Tools",

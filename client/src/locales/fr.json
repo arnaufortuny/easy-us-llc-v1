@@ -1443,7 +1443,17 @@
       "uploadedBy": "Téléchargé par :",
       "sendDocument": "Envoyer le document",
       "describePlaceholder": "Décrivez le document...",
-      "uploadButton": "Télécharger"
+      "uploadButton": "Télécharger",
+      "myDocuments": "Mes Documents",
+      "statusPending": "En cours de révision",
+      "statusApproved": "Approuvé",
+      "statusRejected": "Rejeté",
+      "uploadAgain": "Télécharger à nouveau",
+      "underReview": "Document en cours de révision",
+      "underReviewDesc": "Votre document a été reçu et est en cours de révision par notre équipe. Vous recevrez une notification lorsqu'il sera traité.",
+      "articlesOfOrg": "Acte constitutif",
+      "einLetter": "Lettre EIN",
+      "operatingAgreement": "Operating Agreement"
     },
     "llcDetails": {
       "myLLCs": "Mes LLC actives",

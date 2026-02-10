@@ -2201,7 +2201,17 @@
       "uploadedBy": "Caricato da:",
       "sendDocument": "Invia Documento",
       "describePlaceholder": "Descrivi il documento...",
-      "uploadButton": "Caricare"
+      "uploadButton": "Caricare",
+      "myDocuments": "I Miei Documenti",
+      "statusPending": "In revisione",
+      "statusApproved": "Approvato",
+      "statusRejected": "Rifiutato",
+      "uploadAgain": "Carica di nuovo",
+      "underReview": "Documento in revisione",
+      "underReviewDesc": "Il tuo documento è stato ricevuto ed è in fase di revisione dal nostro team. Riceverai una notifica quando sarà elaborato.",
+      "articlesOfOrg": "Atto costitutivo",
+      "einLetter": "Lettera EIN",
+      "operatingAgreement": "Operating Agreement"
     },
     "messages": {
       "defaultName": "Cliente"

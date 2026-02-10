@@ -152,8 +152,11 @@ export function registerUserProfileRoutes(app: Express) {
       const docId = parseInt(req.params.id);
       
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
-      if (!user || user.accountStatus === 'pending') {
-        return res.status(403).json({ message: "Your account is in a status that does not allow this action. Contact our team." });
+      if (!user) {
+        return res.status(403).json({ message: "Not authorized" });
+      }
+      if (!user.isAdmin) {
+        return res.status(403).json({ message: "Only administrators can delete documents." });
       }
       
       // Check if document belongs to user via order OR direct assignment

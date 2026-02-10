@@ -1577,7 +1577,17 @@
       "uploadedBy": "Pujat per:",
       "sendDocument": "Enviar Document",
       "describePlaceholder": "Descriu el document...",
-      "uploadButton": "Pujar"
+      "uploadButton": "Pujar",
+      "myDocuments": "Els Meus Documents",
+      "statusPending": "En revisió",
+      "statusApproved": "Aprovat",
+      "statusRejected": "Rebutjat",
+      "uploadAgain": "Pujar de nou",
+      "underReview": "Document en revisió",
+      "underReviewDesc": "El teu document ha estat rebut i està sent revisat pel nostre equip. Rebràs una notificació quan sigui processat.",
+      "articlesOfOrg": "Articles d'Organització",
+      "einLetter": "Carta EIN",
+      "operatingAgreement": "Operating Agreement"
     },
     "tools": {
       "title": "Eines",

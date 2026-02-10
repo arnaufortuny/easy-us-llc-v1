@@ -1577,7 +1577,17 @@
       "uploadedBy": "Enviado por:",
       "sendDocument": "Enviar Documento",
       "describePlaceholder": "Descreva o documento...",
-      "uploadButton": "Carregar"
+      "uploadButton": "Carregar",
+      "myDocuments": "Os Meus Documentos",
+      "statusPending": "Em revisão",
+      "statusApproved": "Aprovado",
+      "statusRejected": "Rejeitado",
+      "uploadAgain": "Carregar novamente",
+      "underReview": "Documento em revisão",
+      "underReviewDesc": "O seu documento foi recebido e está a ser revisto pela nossa equipa. Receberá uma notificação quando for processado.",
+      "articlesOfOrg": "Artigos de Organização",
+      "einLetter": "Carta EIN",
+      "operatingAgreement": "Operating Agreement"
     },
     "tools": {
       "title": "Ferramentas",

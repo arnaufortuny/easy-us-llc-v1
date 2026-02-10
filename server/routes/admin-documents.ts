@@ -294,6 +294,15 @@ export function registerAdminDocumentsRoutes(app: Express) {
             )
           );
           
+          await db.update(messagesTable).set({ status: 'closed' }).where(
+            and(
+              eq(messagesTable.userId, targetUser.id),
+              eq(messagesTable.type, 'support'),
+              eq(messagesTable.status, 'unread'),
+              sql`${messagesTable.subject} LIKE '%Document Received%' OR ${messagesTable.subject} LIKE '%Documento Recibido%' OR ${messagesTable.subject} LIKE '%Document Rebut%' OR ${messagesTable.subject} LIKE '%Document Reçu%' OR ${messagesTable.subject} LIKE '%Dokument Erhalten%' OR ${messagesTable.subject} LIKE '%Documento Ricevuto%' OR ${messagesTable.subject} LIKE '%Documento Recebido%'`
+            )
+          );
+          
           const approvedDocKey = docWithOrder.doc.documentType && validDocTypes.includes(docWithOrder.doc.documentType) ? `@ntf.docTypes.${docWithOrder.doc.documentType}` : docLabel;
           await db.insert(userNotifications).values({
             userId: targetUser.id,
