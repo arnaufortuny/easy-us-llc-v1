@@ -503,7 +503,7 @@ export default function MaintenanceApplication() {
   return (
     <div className="min-h-screen bg-background font-sans w-full">
       <Navbar />
-      <main className="pt-6 md:pt-10 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
+      <main className="pt-12 md:pt-16 pb-16 max-w-xl mx-auto px-5 sm:px-6 md:px-8">
         <h1 className="text-2xl md:text-4xl font-black mb-2 text-primary leading-tight text-center">
           {t("maintenance.title")} <span className="text-accent">LLC</span>
         </h1>
