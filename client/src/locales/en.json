@@ -647,16 +647,16 @@
     "subtitle": "Simple, transparent pricing with no surprises",
     "newMexico": {
       "title": "New Mexico",
-      "price": "739",
+      "price": "899",
       "popular": "Recommended"
     },
     "wyoming": {
       "title": "Wyoming",
-      "price": "899"
+      "price": "1,199"
     },
     "delaware": {
       "title": "Delaware",
-      "price": "1,399"
+      "price": "1,599"
     },
     "features": {
       "formation": "Complete LLC formation",
@@ -1822,7 +1822,7 @@
       "sendPaymentLinkDesc": "Send a payment link to",
       "paymentLinkUrl": "Payment link (URL)",
       "paymentAmount": "Amount",
-      "paymentAmountPlaceholder": "E.g.: 739€",
+      "paymentAmountPlaceholder": "E.g.: 899€",
       "paymentMessage": "Message (optional)",
       "paymentMessagePlaceholder": "Additional message for the client...",
       "sendPaymentLinkBtn": "Send Payment Link",
@@ -2995,7 +2995,7 @@
     },
     "servicios": {
       "title": "Services & Pricing | Easy US LLC",
-      "description": "Discover our LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing from €739."
+      "description": "Discover our LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing from €899."
     },
     "faq": {
       "title": "Frequently Asked Questions | Easy US LLC",

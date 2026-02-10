@@ -301,7 +301,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         onChange={(e) => setFormData({ ...formData, mainTopic: e.target.value })}
                         placeholder={t("consultations.form.topicPlaceholder")}
                         rows={2}
-                        className="rounded-3xl bg-white dark:bg-card"
+                        className="rounded-2xl bg-white dark:bg-card"
                       />
                     </div>
 
@@ -311,7 +311,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         onChange={(e) => setFormData({ ...formData, additionalNotes: e.target.value })}
                         placeholder={t("consultations.form.notesPlaceholder")}
                         rows={2}
-                        className="rounded-3xl bg-white dark:bg-card"
+                        className="rounded-2xl bg-white dark:bg-card"
                       />
                     </div>
                   </div>

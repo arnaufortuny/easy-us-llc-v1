@@ -647,16 +647,16 @@
     "subtitle": "Preus simples i transparents, sense sorpreses",
     "newMexico": {
       "title": "Nou Mèxic",
-      "price": "739",
+      "price": "899",
       "popular": "Recomanat"
     },
     "wyoming": {
       "title": "Wyoming",
-      "price": "899"
+      "price": "1.199"
     },
     "delaware": {
       "title": "Delaware",
-      "price": "1.399"
+      "price": "1.599"
     },
     "features": {
       "formation": "Formació LLC completa",
@@ -1820,7 +1820,7 @@
       "sendPaymentLinkDesc": "Envia un enllaç de pagament a",
       "paymentLinkUrl": "Enllaç de pagament (URL)",
       "paymentAmount": "Import",
-      "paymentAmountPlaceholder": "Ex: 739€",
+      "paymentAmountPlaceholder": "Ex: 899€",
       "paymentMessage": "Missatge (opcional)",
       "paymentMessagePlaceholder": "Missatge addicional per al client...",
       "sendPaymentLinkBtn": "Enviar Enllaç de Pagament",
@@ -2995,7 +2995,7 @@
     },
     "servicios": {
       "title": "Serveis i Preus | Easy US LLC",
-      "description": "Descobreix els nostres packs de formació de LLC a New Mexico, Wyoming i Delaware. Preus transparents des de 739€."
+      "description": "Descobreix els nostres packs de formació de LLC a New Mexico, Wyoming i Delaware. Preus transparents des de 899€."
     },
     "faq": {
       "title": "Preguntes Freqüents | Easy US LLC",

@@ -22,11 +22,11 @@ describe('PDF Generator', () => {
           description: 'LLC New Mexico Formation',
           details: 'Tasas estatales • Registered Agent 12 meses',
           quantity: 1,
-          unitPrice: 73900,
-          total: 73900
+          unitPrice: 89900,
+          total: 89900
         }],
-        subtotal: 73900,
-        total: 73900,
+        subtotal: 89900,
+        total: 89900,
         currency: 'EUR',
         status: 'paid',
         paymentMethod: 'transfer'
@@ -50,17 +50,17 @@ describe('PDF Generator', () => {
         items: [{
           description: 'LLC Wyoming Formation',
           quantity: 1,
-          unitPrice: 89900,
-          total: 89900
+          unitPrice: 119900,
+          total: 119900
         }],
-        subtotal: 89900,
+        subtotal: 119900,
         discount: {
           code: 'WELCOME10',
           type: 'percentage',
           value: 10,
-          amount: 8990
+          amount: 11990
         },
-        total: 80910,
+        total: 107910,
         currency: 'EUR',
         status: 'paid'
       };
@@ -82,11 +82,11 @@ describe('PDF Generator', () => {
         items: [{
           description: 'LLC Delaware Formation',
           quantity: 1,
-          unitPrice: 139900,
-          total: 139900
+          unitPrice: 159900,
+          total: 159900
         }],
-        subtotal: 139900,
-        total: 139900,
+        subtotal: 159900,
+        total: 159900,
         currency: 'EUR',
         status: 'pending',
         paymentMethod: 'link',

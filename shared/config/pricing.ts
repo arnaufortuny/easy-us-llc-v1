@@ -1,19 +1,19 @@
 export const PRICING = {
   formation: {
     newMexico: {
-      price: 739,
+      price: 899,
       currency: "EUR",
       state: "New Mexico",
       processingDays: "2-3",
     },
     wyoming: {
-      price: 899,
+      price: 1199,
       currency: "EUR",
       state: "Wyoming",
       processingDays: "2-3",
     },
     delaware: {
-      price: 1399,
+      price: 1599,
       currency: "EUR",
       state: "Delaware",
       processingDays: "3-5",
@@ -21,17 +21,17 @@ export const PRICING = {
   },
   maintenance: {
     newMexico: {
-      price: 539,
+      price: 699,
       currency: "EUR",
       state: "New Mexico",
     },
     wyoming: {
-      price: 699,
+      price: 899,
       currency: "EUR",
       state: "Wyoming",
     },
     delaware: {
-      price: 999,
+      price: 1299,
       currency: "EUR",
       state: "Delaware",
     },

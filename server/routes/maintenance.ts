@@ -232,11 +232,11 @@ export function registerMaintenanceRoutes(app: Express) {
       const product = await storage.getProduct(productId);
       if (!product) return res.status(400).json({ message: "Invalid product" });
 
-      // State-specific pricing for maintenance: NM 539€, WY 699€, DE 999€
+      // State-specific pricing for maintenance: NM 699€, WY 899€, DE 1299€
       let finalPrice = product.price;
-      if (state?.includes("New Mexico")) finalPrice = 53900;
-      else if (state?.includes("Wyoming")) finalPrice = 69900;
-      else if (state?.includes("Delaware")) finalPrice = 99900;
+      if (state?.includes("New Mexico")) finalPrice = 69900;
+      else if (state?.includes("Wyoming")) finalPrice = 89900;
+      else if (state?.includes("Delaware")) finalPrice = 129900;
 
       // Calculate final amount with discount
       let originalAmount = finalPrice;

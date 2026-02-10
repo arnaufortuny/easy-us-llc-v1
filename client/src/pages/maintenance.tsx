@@ -770,7 +770,7 @@ export default function MaintenanceApplication() {
                     <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-3xl min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-2xl min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -905,7 +905,7 @@ export default function MaintenanceApplication() {
                                   <Input type="text" 
                                     value={otpCode}
                                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                                                        className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
+                                                                        className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-full"
                                     maxLength={6}
                                     data-testid="input-otp-code"
                                   />
@@ -1017,7 +1017,7 @@ export default function MaintenanceApplication() {
                             <FormControl>
                               <Input 
                                 {...field} 
-                                className="h-11 px-4 border-border focus:border-accent uppercase rounded-xl" 
+                                className="h-11 px-4 border-border focus:border-accent uppercase rounded-full" 
                                 onChange={(e) => {
                                   field.onChange(e.target.value.toUpperCase());
                                   setDiscountInfo(null);
@@ -1097,7 +1097,7 @@ export default function MaintenanceApplication() {
                       <FormItem>
                         <FormLabel className="text-sm font-bold text-foreground">{t("maintenance.confirmation.additionalNotes")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-3xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
+                          <Textarea {...field} className="rounded-2xl min-h-[80px] p-4 border-border focus:border-accent transition-colors text-foreground" />
                         </FormControl>
                       </FormItem>
                     )} />

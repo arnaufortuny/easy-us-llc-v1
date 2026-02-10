@@ -1490,7 +1490,7 @@ export default function Dashboard() {
                             <Textarea value={uploadNotes} 
                               onChange={(e) => setUploadNotes(e.target.value)} 
                               placeholder={t('dashboard.documents.describePlaceholder')}
-                              className="min-h-[70px] rounded-3xl border-border bg-background dark:bg-[#1A1A1A] text-base"
+                              className="min-h-[70px] rounded-2xl border-border bg-background dark:bg-[#1A1A1A] text-base"
                               style={{ fontSize: '16px' }}
                               data-testid="input-upload-notes-inline"
                             />
@@ -2295,7 +2295,7 @@ export default function Dashboard() {
                         )}
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="739" className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
+                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="899" className="rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" data-testid="input-order-amount" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2326,7 +2326,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-3xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
+                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-2xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-note-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2450,7 +2450,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
-                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-3xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
+                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-2xl border-border bg-background dark:bg-[#1A1A1A] text-sm" data-testid="input-edit-notes" />
                         </div>
                         {user?.email === 'afortuny07@gmail.com' && (
                           <>
@@ -2557,7 +2557,7 @@ export default function Dashboard() {
                             value={orderInvoiceAmount} 
                             onChange={e => setOrderInvoiceAmount(e.target.value)}
                             className="rounded-xl h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]" 
-                            placeholder="739.00"
+                            placeholder="899.00"
                             data-testid="input-invoice-amount"
                           />
                         </div>
@@ -2643,7 +2643,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-3xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
+                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-2xl border-border bg-background dark:bg-[#1A1A1A]" data-testid="input-doc-message" />
                         </div>
                       </div>
                       <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
@@ -2706,7 +2706,7 @@ export default function Dashboard() {
                             <Input type="number" 
                               value={invoiceAmount} 
                               onChange={e => setInvoiceAmount(e.target.value)} 
-                              placeholder="739" 
+                              placeholder="899" 
                               className="w-full rounded-full h-11 px-4 border border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A]"
                               data-testid="input-invoice-amount"
                             />
@@ -3779,7 +3779,7 @@ export default function Dashboard() {
                                     <Textarea value={replyContent} 
                                       onChange={(e) => setReplyContent(e.target.value)} 
                                       placeholder={t('dashboard.admin.inboxSection.replyPlaceholder')} 
-                                      className="rounded-3xl min-h-[80px] text-sm"
+                                      className="rounded-2xl min-h-[80px] text-sm"
                                       data-testid="input-admin-reply"
                                     />
                                     <Button onClick={() => sendReplyMutation.mutate(msg.id)} 
@@ -4022,7 +4022,7 @@ export default function Dashboard() {
                               <Textarea placeholder={t('dashboard.admin.newsletterSection.messagePlaceholder')}
                                 value={broadcastMessage}
                                 onChange={(e) => setBroadcastMessage(e.target.value)}
-                                className="rounded-3xl min-h-[100px] text-sm"
+                                className="rounded-2xl min-h-[100px] text-sm"
                                 data-testid="input-broadcast-message"
                               />
                               <div className="flex items-center justify-between gap-2">

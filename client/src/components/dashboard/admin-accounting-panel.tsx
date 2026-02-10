@@ -435,7 +435,7 @@ export function AdminAccountingPanel() {
                   <Label className="text-sm font-semibold mb-2 block">{t('dashboard.admin.internalNotes')}</Label>
                   <Textarea value={formData.notes}
                     onChange={(e) => setFormData(p => ({ ...p, notes: e.target.value }))}
-                    className="rounded-3xl resize-none"
+                    className="rounded-2xl resize-none"
                     rows={2}
                   />
                 </div>

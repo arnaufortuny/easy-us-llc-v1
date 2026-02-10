@@ -19,7 +19,7 @@ const routeTitles: Record<string, PageTitleConfig> = {
     titleKey: "seo.servicios.title",
     descriptionKey: "seo.servicios.description",
     fallbackTitle: "Servicios y Precios | Easy US LLC",
-    fallbackDescription: "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 739€."
+    fallbackDescription: "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 899€."
   },
   "/faq": {
     titleKey: "seo.faq.title",

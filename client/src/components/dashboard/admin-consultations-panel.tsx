@@ -478,7 +478,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
                 </div>
                 <div className="space-y-2">
                   <Label>{t('consultations.admin.descriptionEs')}</Label>
-                  <Textarea className="rounded-3xl" value={typeForm.descriptionEs} onChange={(e) => setTypeForm({ ...typeForm, descriptionEs: e.target.value, description: e.target.value })} rows={2} />
+                  <Textarea className="rounded-2xl" value={typeForm.descriptionEs} onChange={(e) => setTypeForm({ ...typeForm, descriptionEs: e.target.value, description: e.target.value })} rows={2} />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">

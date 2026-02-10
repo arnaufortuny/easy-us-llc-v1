@@ -509,7 +509,7 @@ export default function Contacto() {
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("contact.form.tellUs")}</FormLabel>
                         <FormControl>
-                          <Textarea {...field} className="rounded-3xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
+                          <Textarea {...field} className="rounded-2xl min-h-[120px] px-5 py-4 border-2 border-gray-200 dark:border-border focus:border-accent bg-white dark:bg-[#1A1A1A] transition-all font-medium text-foreground text-base" data-testid="input-mensaje" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">{t("common.required")}</FormDescription>
                         <FormMessage />

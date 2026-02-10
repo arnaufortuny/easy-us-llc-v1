@@ -647,16 +647,16 @@
     "subtitle": "Prezzi semplici e trasparenti, senza sorprese",
     "newMexico": {
       "title": "New Mexico",
-      "price": "739",
+      "price": "899",
       "popular": "Consigliato"
     },
     "wyoming": {
       "title": "Wyoming",
-      "price": "899"
+      "price": "1.199"
     },
     "delaware": {
       "title": "Delaware",
-      "price": "1.399"
+      "price": "1.599"
     },
     "features": {
       "formation": "Costituzione LLC completa",
@@ -1769,7 +1769,7 @@
       "sendPaymentLinkDesc": "Invia un link di pagamento a",
       "paymentLinkUrl": "Link di pagamento (URL)",
       "paymentAmount": "Importo",
-      "paymentAmountPlaceholder": "Es: 739€",
+      "paymentAmountPlaceholder": "Es: 899€",
       "paymentMessage": "Messaggio (facoltativo)",
       "paymentMessagePlaceholder": "Messaggio aggiuntivo per il cliente...",
       "sendPaymentLinkBtn": "Invia Link di Pagamento",
@@ -2995,7 +2995,7 @@
     },
     "servicios": {
       "title": "Servizi e Prezzi | Easy US LLC",
-      "description": "Scopri i nostri pack di costituzione LLC in New Mexico, Wyoming e Delaware. Prezzi trasparenti a partire da 739€."
+      "description": "Scopri i nostri pack di costituzione LLC in New Mexico, Wyoming e Delaware. Prezzi trasparenti a partire da 899€."
     },
     "faq": {
       "title": "Domande Frequenti | Easy US LLC",

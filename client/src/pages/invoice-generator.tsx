@@ -408,7 +408,7 @@ export default function InvoiceGenerator() {
                     value={issuerAddress}
                     onChange={(e) => setIssuerAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-3xl"
+                    className="mt-1 resize-none rounded-2xl"
                     data-testid="input-issuer-address"
                   />
                 </div>
@@ -456,7 +456,7 @@ export default function InvoiceGenerator() {
                     value={clientAddress}
                     onChange={(e) => setClientAddress(e.target.value)}
                     rows={2}
-                    className="mt-1 resize-none rounded-3xl"
+                    className="mt-1 resize-none rounded-2xl"
                     data-testid="input-client-address"
                   />
                 </div>
@@ -647,7 +647,7 @@ export default function InvoiceGenerator() {
               <Textarea value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 rows={2}
-                className="resize-none rounded-3xl"
+                className="resize-none rounded-2xl"
                 data-testid="input-notes"
               />
             </CardContent>

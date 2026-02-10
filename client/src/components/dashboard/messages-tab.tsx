@@ -177,7 +177,7 @@ export function MessagesTab({
               <Textarea value={inquiryMessage} 
                 onChange={(e) => setInquiryMessage(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryMessagePlaceholder')}
-                className="rounded-3xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="rounded-2xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
                 style={{ fontSize: '16px' }}
                 data-testid="input-inquiry-message"
               />
@@ -267,7 +267,7 @@ export function MessagesTab({
                     <Textarea value={replyContent} 
                       onChange={(e) => setReplyContent(e.target.value)} 
                       placeholder={t('dashboard.support.replyPlaceholder')} 
-                      className="rounded-3xl min-h-[80px] text-sm" 
+                      className="rounded-2xl min-h-[80px] text-sm" 
                       data-testid="input-user-reply" 
                     />
                     <Button onClick={() => sendReplyMutation.mutate(msg.id)} 

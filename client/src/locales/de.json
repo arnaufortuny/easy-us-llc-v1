@@ -647,16 +647,16 @@
     "subtitle": "Einfache, transparente Preise ohne Überraschungen",
     "newMexico": {
       "title": "New Mexico",
-      "price": "739",
+      "price": "899",
       "popular": "Empfohlen"
     },
     "wyoming": {
       "title": "Wyoming",
-      "price": "899"
+      "price": "1,199"
     },
     "delaware": {
       "title": "Delaware",
-      "price": "1,399"
+      "price": "1,599"
     },
     "features": {
       "formation": "Komplette LLC-Gründung",
@@ -1820,7 +1820,7 @@
       "sendPaymentLinkDesc": "Zahlungslink senden an",
       "paymentLinkUrl": "Zahlungslink (URL)",
       "paymentAmount": "Betrag",
-      "paymentAmountPlaceholder": "Z.B.: 739€",
+      "paymentAmountPlaceholder": "Z.B.: 899€",
       "paymentMessage": "Nachricht (optional)",
       "paymentMessagePlaceholder": "Zusätzliche Nachricht für den Kunden...",
       "sendPaymentLinkBtn": "Zahlungslink senden",
@@ -2995,7 +2995,7 @@
     },
     "servicios": {
       "title": "Dienstleistungen & Preise | Easy US LLC",
-      "description": "Entdecken Sie unsere LLC-Gründungspakete in New Mexico, Wyoming und Delaware. Transparente Preise ab 739 €."
+      "description": "Entdecken Sie unsere LLC-Gründungspakete in New Mexico, Wyoming und Delaware. Transparente Preise ab 899 €."
     },
     "faq": {
       "title": "Häufig gestellte Fragen | Easy US LLC",

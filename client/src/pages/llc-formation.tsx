@@ -1057,7 +1057,7 @@ export default function LlcFormation() {
                 <FormDescription>{t("application.steps.businessActivityDesc")}</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent rounded-full"  /></FormControl>
+                    <FormControl><Textarea {...field} className="rounded-2xl min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -1151,7 +1151,7 @@ export default function LlcFormation() {
                     <FormDescription>{t("application.steps.additionalNotesDesc")}</FormDescription>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-[2rem] min-h-[120px] p-6 border-border focus:border-accent rounded-full" /></FormControl>
+                        <FormControl><Textarea {...field} className="rounded-2xl min-h-[120px] p-6 border-border focus:border-accent" /></FormControl>
                       </FormItem>
                     )} />
                   </>
@@ -1204,7 +1204,7 @@ export default function LlcFormation() {
                               <Input type="text" 
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
-                                                                className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-xl"
+                                                                className="p-6 border-border focus:border-accent text-center text-xl tracking-[0.5em] font-mono rounded-full"
                                 maxLength={6}
                                 data-testid="input-otp-code"
                               />

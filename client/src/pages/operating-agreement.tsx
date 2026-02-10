@@ -649,7 +649,7 @@ export default function OperatingAgreementGenerator() {
                           </Label>
                           <Textarea value={formData.memberAddress}
                             onChange={(e) => setFormData(prev => ({ ...prev, memberAddress: e.target.value }))}
-                            className="min-h-[80px] resize-none rounded-3xl"
+                            className="min-h-[80px] resize-none rounded-2xl"
                             data-testid="input-member-address"
                           />
                         </div>

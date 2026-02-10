@@ -176,11 +176,11 @@ export function registerOrderRoutes(app: Express) {
         return res.status(400).json({ message: "Invalid product" });
       }
 
-      // CRITICAL: Ensure pricing follows NM 739€, WY 899€, DE 1399€
+      // CRITICAL: Ensure pricing follows NM 899€, WY 1199€, DE 1599€
       let finalPrice = product.price;
-      if (product.name.includes("New Mexico")) finalPrice = 73900;
-      else if (product.name.includes("Wyoming")) finalPrice = 89900;
-      else if (product.name.includes("Delaware")) finalPrice = 139900;
+      if (product.name.includes("New Mexico")) finalPrice = 89900;
+      else if (product.name.includes("Wyoming")) finalPrice = 119900;
+      else if (product.name.includes("Delaware")) finalPrice = 159900;
 
       // Calculate final amount with discount
       let originalAmount = finalPrice;
