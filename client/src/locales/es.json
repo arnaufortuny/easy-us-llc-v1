@@ -3673,7 +3673,7 @@
       "lastNamePlaceholder": "Tu apellido",
       "email": "Email",
       "emailPlaceholder": "tu@email.com",
-      "phone": "Teléfono (opcional)",
+      "phone": "Teléfono",
       "phonePlaceholder": "+34 600 000 000",
       "country": "País de residencia",
       "countryPlaceholder": "Ej: España, México, Argentina...",

@@ -3673,7 +3673,7 @@
       "lastNamePlaceholder": "Your last name",
       "email": "Email",
       "emailPlaceholder": "your@email.com",
-      "phone": "Phone (optional)",
+      "phone": "Phone",
       "phonePlaceholder": "+1 555 000 000",
       "country": "Country of residence",
       "countryPlaceholder": "E.g.: Spain, Mexico, USA...",

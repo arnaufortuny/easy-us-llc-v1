@@ -3673,7 +3673,7 @@
       "lastNamePlaceholder": "Ihr Nachname",
       "email": "E-Mail",
       "emailPlaceholder": "ihre@email.com",
-      "phone": "Telefon (optional)",
+      "phone": "Telefon",
       "phonePlaceholder": "+49 170 000 0000",
       "country": "Wohnsitzland",
       "countryPlaceholder": "Z.B.: Deutschland, Österreich, Schweiz...",

@@ -325,9 +325,9 @@ export default function AsesoriaGratis() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="flex-1 px-4 py-8 md:py-16">
+      <main className="flex-1 px-4 py-4 md:py-16">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-10 pt-4 flex flex-col items-center justify-center">
+          <div className="text-center mb-8 md:mb-10 pt-2 md:pt-4 flex flex-col items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
               <span className="text-accent">{t("freeConsultation.titleFree")}</span>{" "}
               <span className="text-foreground">{t("freeConsultation.titleConsultation")}</span>
