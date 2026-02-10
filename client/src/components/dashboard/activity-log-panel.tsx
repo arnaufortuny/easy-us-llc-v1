@@ -217,20 +217,19 @@ export function ActivityLogPanel() {
 
   return (
     <div className="space-y-3" data-testid="admin-activity-log">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <h3 className="font-black text-lg">{t('dashboard.admin.activityLog.title')}</h3>
+      <div className="flex items-center justify-between gap-2 flex-wrap">
+        <h3 className="font-black text-lg whitespace-nowrap">{t('dashboard.admin.activityLog.title')}</h3>
+        <div className="flex items-center gap-2 ml-auto">
           {data?.total !== undefined && (
             <Badge variant="secondary" className="text-[10px]">{data.total}</Badge>
           )}
           {isFetching && <Loader2 className="w-3 h-3 animate-spin text-accent" />}
-        </div>
-        <NativeSelect
-          value={actionFilter}
-          onValueChange={(val) => { setActionFilter(val); setPage(0); }}
-          className="text-xs rounded-full sm:w-52 ml-auto"
-          data-testid="select-activity-filter"
-        >
+          <NativeSelect
+            value={actionFilter}
+            onValueChange={(val) => { setActionFilter(val); setPage(0); }}
+            className="text-xs rounded-full w-48"
+            data-testid="select-activity-filter"
+          >
           <NativeSelectItem value="">{t('dashboard.admin.activityLog.allActions')}</NativeSelectItem>
           {data?.actions?.map((action) => (
             <NativeSelectItem key={action} value={action}>
@@ -238,6 +237,7 @@ export function ActivityLogPanel() {
             </NativeSelectItem>
           ))}
         </NativeSelect>
+        </div>
       </div>
 
       {isLoading ? (
