@@ -72,7 +72,7 @@ export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLangu
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.otp.forSecurity}</p>
     ${ipSection}
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #2C5F8A; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
@@ -225,7 +225,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.confirmation.greatNews}</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.confirmation.details}</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.confirmation.details}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.reference}</td>
@@ -248,7 +248,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
         </tr>` : ''}
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">${t.confirmation.currentStatus}</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${t.confirmation.inReview}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #2C5F8A;">${t.confirmation.inReview}</td>
         </tr>
       </table>
     </div>
@@ -306,10 +306,10 @@ export function getOrderUpdateTemplate(name: string, orderId: string, status: st
   const statusColors: Record<string, string> = {
     pending: "#F59E0B",
     processing: "#3B82F6",
-    paid: "#10B981",
+    paid: "#4A8BC2",
     filed: "#8B5CF6",
-    documents_ready: "#059669",
-    completed: "#059669",
+    documents_ready: "#2C5F8A",
+    completed: "#2C5F8A",
     cancelled: "#EF4444",
   };
   const statusColor = statusColors[status] || "#4A8BC2";
@@ -340,7 +340,7 @@ export function getOrderCompletedTemplate(name: string, orderCode: string, lang:
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0; font-size: 20px; font-weight: 800; color: #059669;">${t.orderCompleted.llcReady}</p>
+      <p style="margin: 0; font-size: 20px; font-weight: 800; color: #2C5F8A;">${t.orderCompleted.llcReady}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.congratulations}</p>
@@ -468,9 +468,9 @@ export function getDocumentUploadedTemplate(name: string, documentType: string, 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.documentReceived}</p>
     
-    <div style="background: linear-gradient(135deg, #D1FAE5 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #10B981; text-align: center;">
-      <p style="margin: 0; font-size: 16px; font-weight: 700; color: #065F46;">${documentType}</p>
-      <p style="margin: 10px 0 0 0; font-size: 13px; color: #047857;">${t.documentUploaded.forOrder} ${orderCode}</p>
+    <div style="background: linear-gradient(135deg, #DBEAFE 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2; text-align: center;">
+      <p style="margin: 0; font-size: 16px; font-weight: 700; color: #1E4D78;">${documentType}</p>
+      <p style="margin: 10px 0 0 0; font-size: 13px; color: #2C5F8A;">${t.documentUploaded.forOrder} ${orderCode}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.accessDownload}</p>
@@ -528,7 +528,7 @@ export function getProfileChangeOtpTemplate(name: string, otp: string, lang: Ema
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.profileChangeOtp.sensitiveChangeRequest}</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 10px 0; font-size: 14px; color: #059669; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.profileChangeOtp.yourCode}</p>
+      <p style="margin: 0 0 10px 0; font-size: 14px; color: #2C5F8A; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.profileChangeOtp.yourCode}</p>
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
@@ -879,7 +879,7 @@ export function getAdminPasswordResetTemplate(name?: string, lang: EmailLanguage
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.body}</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0; font-size: 14px; color: #059669; font-weight: 700;">${t.cta}</p>
+      <p style="margin: 0; font-size: 14px; color: #2C5F8A; font-weight: 700;">${t.cta}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
@@ -911,27 +911,27 @@ export function getCalculatorResultsTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.calculatorResults.introText}</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.calculatorResults.summary}</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.calculatorResults.summary}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.income}</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${annualIncome}€</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #DBEAFE;">${t.calculatorResults.income}</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #DBEAFE;">${annualIncome}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.expenses}</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #D1FAE5;">${expenses}€</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #DBEAFE;">${t.calculatorResults.expenses}</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #0A0A0A; border-bottom: 1px solid #DBEAFE;">${expenses}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.autonomoTax}</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #EF4444; border-bottom: 1px solid #D1FAE5;">${freelancerTax}€</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #DBEAFE;">${t.calculatorResults.autonomoTax}</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #EF4444; border-bottom: 1px solid #DBEAFE;">${freelancerTax}€</td>
         </tr>
         <tr>
-          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #D1FAE5;">${t.calculatorResults.llcTax}</td>
-          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #059669; border-bottom: 1px solid #D1FAE5;">${llcTax}€</td>
+          <td style="padding: 10px 0; color: #6B7280; border-bottom: 1px solid #DBEAFE;">${t.calculatorResults.llcTax}</td>
+          <td style="padding: 10px 0; font-weight: 700; text-align: right; color: #2C5F8A; border-bottom: 1px solid #DBEAFE;">${llcTax}€</td>
         </tr>
         <tr>
-          <td style="padding: 12px 0; color: #059669; font-weight: 700; font-size: 15px;">${t.calculatorResults.potentialSavings}</td>
-          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #059669; font-size: 18px;">${savings}€/${lang === 'en' ? 'year' : 'año'}</td>
+          <td style="padding: 12px 0; color: #2C5F8A; font-weight: 700; font-size: 15px;">${t.calculatorResults.potentialSavings}</td>
+          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #2C5F8A; font-size: 18px;">${savings}€/${lang === 'en' ? 'year' : 'año'}</td>
         </tr>
       </table>
     </div>
@@ -964,7 +964,7 @@ export function getOperatingAgreementReadyTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.operatingAgreementReady.generated} ${t.operatingAgreementReady.ready}</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #059669; text-transform: uppercase; letter-spacing: 1px;">${t.operatingAgreementReady.llcData}</p>
+      <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.operatingAgreementReady.llcData}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">${t.operatingAgreementReady.companyLabel}</td>
@@ -976,7 +976,7 @@ export function getOperatingAgreementReadyTemplate(
         </tr>
         <tr>
           <td style="padding: 8px 0; color: #6B7280;">${t.operatingAgreementReady.einLabel}</td>
-          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #059669;">${ein}</td>
+          <td style="padding: 8px 0; font-weight: 700; text-align: right; color: #2C5F8A;">${ein}</td>
         </tr>
       </table>
     </div>
@@ -1007,7 +1007,7 @@ export function getDocumentApprovedTemplate(name: string, documentLabel: string,
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #059669;">${t.documentApproved.title}</p>
+      <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #2C5F8A;">${t.documentApproved.title}</p>
       <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
     </div>
     
@@ -1053,13 +1053,13 @@ export function getAdminProfileChangesTemplate(clientName: string, clientEmail: 
     `<tr>
       <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; font-weight: 600; color: #0A0A0A;">${f.field}</td>
       <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; color: #6B7280; text-decoration: line-through;">${f.oldValue}</td>
-      <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; color: #059669; font-weight: 600;">${f.newValue}</td>
+      <td style="padding: 10px 15px; border-bottom: 1px solid #E5E7EB; color: #2C5F8A; font-weight: 600;">${f.newValue}</td>
     </tr>`
   ).join('');
   
   const content = `
     <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #4A8BC2;">
-      <p style="margin: 0; font-size: 18px; font-weight: 800; color: #059669;">Cambios de Perfil Verificados con OTP</p>
+      <p style="margin: 0; font-size: 18px; font-weight: 800; color: #2C5F8A;">Cambios de Perfil Verificados con OTP</p>
     </div>
     
     <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 20px 0;">
@@ -1170,7 +1170,7 @@ export function getIdentityVerificationApprovedTemplate(name: string, lang: Emai
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.intro}</p>
     
     <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #4A8BC2;">
-      <p style="margin: 0; font-size: 14px; color: #047857; line-height: 1.7;">${t.identityVerificationApproved.verified}</p>
+      <p style="margin: 0; font-size: 14px; color: #2C5F8A; line-height: 1.7;">${t.identityVerificationApproved.verified}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.accessRestored}</p>

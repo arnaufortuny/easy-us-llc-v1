@@ -68,9 +68,9 @@ function DeactivatedPage() {
         <div className="w-full max-w-md text-center">
           <div className="mb-8">
             <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
-              <circle cx="60" cy="60" r="50" fill="#FEE2E2" stroke="#EF4444" strokeWidth="4"/>
-              <path d="M60 35V65" stroke="#EF4444" strokeWidth="6" strokeLinecap="round"/>
-              <circle cx="60" cy="80" r="5" fill="#EF4444"/>
+              <circle cx="60" cy="60" r="50" fill="#DBEAFE" stroke="#2C5F8A" strokeWidth="4"/>
+              <path d="M60 35V65" stroke="#2C5F8A" strokeWidth="6" strokeLinecap="round"/>
+              <circle cx="60" cy="80" r="5" fill="#2C5F8A"/>
             </svg>
             <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight" data-testid="text-deactivated-title">
               {t("auth.accountDeactivated.title")}
@@ -134,12 +134,12 @@ function PendingReviewPage() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card className="rounded-2xl border-0 shadow-xl overflow-hidden bg-white dark:bg-card">
-            <div className={`h-1.5 w-full ${!user?.emailVerified ? 'bg-orange-500' : 'bg-amber-500'}`} />
+            <div className="h-1.5 w-full bg-accent" />
             <CardContent className="p-5 sm:p-6">
               <div className="flex items-center gap-4 mb-4 pb-4 border-b border-zinc-900/10 dark:border-accent/30">
                 <div className="flex items-center justify-center shrink-0">
-                  <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
-                    <Clock className="w-8 h-8 text-amber-500" />
+                  <div className="w-16 h-16 rounded-full bg-accent/10 dark:bg-accent/15 flex items-center justify-center">
+                    <Clock className="w-8 h-8 text-accent" />
                   </div>
                 </div>
                 <div>
@@ -153,17 +153,17 @@ function PendingReviewPage() {
               </div>
 
               {!user?.emailVerified ? (
-                <div className="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4">
+                <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
                   <div className="flex items-center gap-2 mb-3">
-                    <Mail className="w-4 h-4 text-orange-600" />
-                    <span className="font-black text-sm text-orange-800 dark:text-orange-300">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
+                    <Mail className="w-4 h-4 text-accent" />
+                    <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.verifyEmailStep")}</span>
                   </div>
-                  <p className="text-xs text-orange-600 dark:text-orange-400 mb-3">
+                  <p className="text-xs text-accent dark:text-accent mb-3">
                     {t("dashboard.pendingAccount.codeSentTo")} <strong>{user?.email}</strong>
                   </p>
                   <Input value={emailVerificationCode}
                     onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                    className="rounded-full text-center text-xl font-black border-orange-200 focus:border-accent tracking-[0.4em] h-12 mb-3"
+                    className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-3"
                     maxLength={6}
                     inputMode="numeric"
                     data-testid="input-pending-verification-code"
@@ -217,9 +217,9 @@ function PendingReviewPage() {
                 <div className="space-y-4">
                   {((user as any).identityVerificationStatus === 'requested' || (user as any).identityVerificationStatus === 'rejected') ? (
                     <div className="space-y-4">
-                      <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-orange-50 dark:bg-orange-900/20 border-orange-200 dark:border-orange-800'}`}>
+                      <div className={`border rounded-xl p-4 ${(user as any).identityVerificationStatus === 'rejected' ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : 'bg-accent/5 dark:bg-accent/10 border-accent/30 dark:border-accent/30'}`}>
                         <div className="flex items-center gap-2 mb-2">
-                          <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-orange-600'}`} />
+                          <ShieldCheck className={`w-5 h-5 ${(user as any).identityVerificationStatus === 'rejected' ? 'text-red-600' : 'text-accent'}`} />
                           <span className="font-black text-sm text-foreground">
                             {(user as any).identityVerificationStatus === 'rejected' ? t("dashboard.pendingAccount.idvRejectedTitle") : t("dashboard.pendingAccount.idvRequestedTitle")}
                           </span>
@@ -304,22 +304,22 @@ function PendingReviewPage() {
                       </div>
                     </div>
                   ) : (user as any).identityVerificationStatus === 'uploaded' ? (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                    <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <Clock className="w-5 h-5 text-amber-600" />
-                        <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.idvUploadedTitle")}</span>
+                        <Clock className="w-5 h-5 text-accent" />
+                        <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.idvUploadedTitle")}</span>
                       </div>
-                      <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                      <p className="text-xs text-accent dark:text-accent leading-relaxed">
                         {t("dashboard.pendingAccount.idvUploadedDesc")}
                       </p>
                     </div>
                   ) : (
-                    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+                    <div className="bg-accent/5 dark:bg-accent/10 border border-accent/30 dark:border-accent/30 rounded-xl p-4">
                       <div className="flex items-center gap-2 mb-2">
-                        <Shield className="w-5 h-5 text-amber-600" />
-                        <span className="font-black text-sm text-amber-800 dark:text-amber-300">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
+                        <Shield className="w-5 h-5 text-accent" />
+                        <span className="font-black text-sm text-accent dark:text-accent">{t("dashboard.pendingAccount.adminReviewTitle")}</span>
                       </div>
-                      <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                      <p className="text-xs text-accent dark:text-accent leading-relaxed">
                         {t("dashboard.pendingAccount.adminReviewMessage")}
                       </p>
                     </div>

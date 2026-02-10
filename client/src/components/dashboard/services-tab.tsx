@@ -59,7 +59,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
         const abandonedAt = order.application?.abandonedAt || order.maintenanceApplication?.abandonedAt;
         const hoursRemaining = abandonedAt ? Math.max(0, Math.round((48 - ((Date.now() - new Date(abandonedAt).getTime()) / 3600000)))) : null;
         return (
-        <div key={`draft-banner-${order.id}`} className="rounded-2xl shadow-md bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 overflow-hidden flex" data-testid={`banner-pending-application-${order.id}`}>
+        <div key={`draft-banner-${order.id}`} className="rounded-2xl shadow-md bg-gradient-to-r from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/15 overflow-hidden flex" data-testid={`banner-pending-application-${order.id}`}>
           <div className="w-1 bg-yellow-500 flex-shrink-0" />
           <div className="p-4 md:p-5 flex-1">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">

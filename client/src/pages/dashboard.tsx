@@ -7,7 +7,7 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { formatDate, formatDateShort, formatDateLong, formatDateCompact, getLocale } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, apiRequest, getCsrfToken } from "@/lib/queryClient";
-import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Wallet, Globe } from "@/components/icons";
+import { Building2, FileText, Clock, ChevronRight, User as UserIcon, Package, CreditCard, PlusCircle, Download, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, Edit2, Trash2, FileUp, Newspaper, Loader2, CheckCircle, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Eye, Upload, XCircle, Tag, X, Calculator, Archive, Key, Search, LogOut, ShieldAlert, ClipboardList, Bell, Globe } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback, useRef } from "react";
@@ -38,7 +38,7 @@ import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultati
 import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 import { LoadingScreen } from "@/components/loading-screen";
-import { WalletTab } from "@/components/dashboard/wallet-tab";
+
 
 function translateI18nText(text: string, t: (key: string, params?: Record<string, string>) => string): string {
   if (!text || !text.startsWith('i18n:')) return text;
@@ -937,7 +937,6 @@ export default function Dashboard() {
     { id: 'notifications', label: t('dashboard.tabs.notifications'), icon: BellRing, mobileLabel: t('dashboard.tabs.notificationsMobile') },
     { id: 'messages', label: t('dashboard.tabs.messages'), icon: Mail, mobileLabel: t('dashboard.tabs.messagesMobile'), tour: 'messages' },
     { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText, mobileLabel: t('dashboard.tabs.documentsMobile') },
-    { id: 'wallet', label: t('dashboard.tabs.wallet'), icon: Wallet, mobileLabel: t('dashboard.tabs.walletMobile') },
     { id: 'payments', label: t('dashboard.tabs.payments'), icon: CreditCard, mobileLabel: t('dashboard.tabs.paymentsMobile') },
     { id: 'calendar', label: t('dashboard.tabs.calendar'), icon: Calendar, mobileLabel: t('dashboard.tabs.calendarMobile'), tour: 'calendar' },
     { id: 'tools', label: t('dashboard.tabs.tools'), icon: Calculator, mobileLabel: t('dashboard.tabs.toolsMobile') },
@@ -1250,18 +1249,18 @@ export default function Dashboard() {
           )}
 
           {!user?.emailVerified && (
-            <Card className="mt-4 p-4 rounded-2xl border-2 border-orange-200 bg-orange-50 dark:bg-orange-900/20 dark:border-orange-800">
+            <Card className="mt-4 p-4 rounded-2xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10 dark:border-accent/30">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-orange-100 dark:bg-orange-900/40 flex items-center justify-center shrink-0">
-                  <Mail className="w-5 h-5 text-orange-600" />
+                <div className="w-10 h-10 rounded-full bg-accent/10 dark:bg-accent/15 flex items-center justify-center shrink-0">
+                  <Mail className="w-5 h-5 text-accent" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-black text-sm text-orange-800 dark:text-orange-300">{t('dashboard.emailVerification.title')}</p>
-                  <p className="text-xs text-orange-600 dark:text-orange-400">{t('dashboard.emailVerification.description')}</p>
+                  <p className="font-black text-sm text-accent dark:text-accent">{t('dashboard.emailVerification.title')}</p>
+                  <p className="text-xs text-accent dark:text-accent">{t('dashboard.emailVerification.description')}</p>
                 </div>
                 <Button size="sm"
                   onClick={() => setShowEmailVerification(true)}
-                  className="shrink-0 bg-orange-600 hover:bg-orange-700 text-white font-black rounded-full h-9 px-4"
+                  className="shrink-0 bg-accent hover:bg-accent/90 text-white font-black rounded-full h-9 px-4"
                   data-testid="button-verify-email-header"
                 >
                   {t('dashboard.emailVerification.button')}
@@ -1368,7 +1367,7 @@ export default function Dashboard() {
                         <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-4 mb-4 ${hasDocInReview && !hasActionRequired ? 'border-l-4 border-l-blue-400' : ''}`} data-testid="card-doc-action-required">
                           <div className="flex items-start gap-3">
                             {hasActionRequired ? (
-                              <FileUp className="w-5 h-5 text-orange-500 mt-0.5" />
+                              <FileUp className="w-5 h-5 text-accent mt-0.5" />
                             ) : (
                               <Clock className="w-5 h-5 text-blue-500 mt-0.5" />
                             )}
@@ -1397,7 +1396,7 @@ export default function Dashboard() {
                                         }}
                                         data-testid="input-upload-document"
                                       />
-                                      <Button variant="outline" className="rounded-full text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
+                                      <Button variant="outline" className="rounded-full text-xs border-accent/50 dark:border-accent text-accent dark:text-accent" asChild>
                                         <span><FileUp className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadDocument')}</span>
                                       </Button>
                                     </label>
@@ -1615,7 +1614,7 @@ export default function Dashboard() {
                                           }}
                                           data-testid={`input-reupload-doc-${doc.id}`}
                                         />
-                                        <Button variant="outline" size="sm" className="rounded-full font-bold text-[10px] md:text-xs border-orange-300 dark:border-orange-700 text-orange-700 dark:text-orange-300" asChild>
+                                        <Button variant="outline" size="sm" className="rounded-full font-bold text-[10px] md:text-xs border-accent/50 dark:border-accent text-accent dark:text-accent" asChild>
                                           <span><Upload className="w-3 h-3 mr-1" /> {t('dashboard.documents.uploadAgain')}</span>
                                         </Button>
                                       </label>
@@ -1637,9 +1636,6 @@ export default function Dashboard() {
                 </div>
               )}
 
-              {activeTab === 'wallet' && (
-                <WalletTab />
-              )}
 
               {activeTab === 'payments' && (
                 <div key="payments" className="space-y-6">
@@ -1690,7 +1686,7 @@ export default function Dashboard() {
                     {(!orders || orders.length === 0) && (!clientInvoices || clientInvoices.length === 0) ? (
                       <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
-                          <Wallet className="w-12 h-12 md:w-16 md:h-16 text-accent" />
+                          <CreditCard className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                           <div>
                             <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.payments.empty')}</h3>
                             <p className="text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 text-center">{t('dashboard.payments.emptyDesc')}</p>
@@ -1738,7 +1734,7 @@ export default function Dashboard() {
                         const dates = [
                           { label: t('dashboard.calendar.creation'), fullLabel: t('dashboard.calendar.creationFull'), date: app.llcCreatedDate, icon: Building2, bgColor: 'bg-accent/10', textColor: 'text-accent', borderColor: 'border-accent/20' },
                           { label: t('dashboard.calendar.agent'), fullLabel: t('dashboard.calendar.agentFull'), date: app.agentRenewalDate, icon: UserCheck, bgColor: 'bg-blue-50 dark:bg-blue-900/20', textColor: 'text-blue-600 dark:text-blue-400', borderColor: 'border-blue-200 dark:border-blue-800' },
-                          { label: 'IRS 1120', fullLabel: t('dashboard.calendar.irs1120'), date: app.irs1120DueDate, icon: FileText, bgColor: 'bg-orange-50 dark:bg-orange-900/20', textColor: 'text-orange-600 dark:text-orange-400', borderColor: 'border-orange-200 dark:border-orange-800' },
+                          { label: 'IRS 1120', fullLabel: t('dashboard.calendar.irs1120'), date: app.irs1120DueDate, icon: FileText, bgColor: 'bg-accent/5 dark:bg-accent/10', textColor: 'text-accent dark:text-accent', borderColor: 'border-accent/30 dark:border-accent/30' },
                           { label: 'IRS 5472', fullLabel: t('dashboard.calendar.irs5472'), date: app.irs5472DueDate, icon: FileText, bgColor: 'bg-red-50 dark:bg-red-900/20', textColor: 'text-red-600 dark:text-red-400', borderColor: 'border-red-200 dark:border-red-800' },
                           ...(stateHasAnnualReport ? [{ label: t('dashboard.calendar.annual'), fullLabel: `${t('dashboard.calendar.annualFull')} ${app.state}`, date: app.annualReportDueDate, icon: Newspaper, bgColor: 'bg-purple-50 dark:bg-purple-900/20', textColor: 'text-purple-600 dark:text-purple-400', borderColor: 'border-purple-200 dark:border-purple-800' }] : []),
                         ];
@@ -1820,8 +1816,8 @@ export default function Dashboard() {
                                           </div>
                                         ) : isWarning ? (
                                           <div className="mt-1.5 md:mt-2 flex items-center gap-1">
-                                            <Clock className="w-3 h-3 text-orange-500" />
-                                            <span className="text-[9px] md:text-[10px] text-orange-600 dark:text-orange-400 font-medium">{daysUntil} {t('dashboard.calendar.days')}</span>
+                                            <Clock className="w-3 h-3 text-accent" />
+                                            <span className="text-[9px] md:text-[10px] text-accent dark:text-accent font-medium">{daysUntil} {t('dashboard.calendar.days')}</span>
                                           </div>
                                         ) : (
                                           <div className="mt-1.5 md:mt-2">
@@ -3158,7 +3154,7 @@ export default function Dashboard() {
                   )}
 
                   {idvRequestDialog.open && idvRequestDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-orange-300 dark:border-orange-700 bg-orange-50 dark:bg-orange-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 dark:border-accent/30 bg-accent/5 dark:bg-accent/10 shadow-lg animate-in slide-in-from-top-2 duration-200">
                       <div className="flex items-center justify-between mb-4">
                         <div>
                           <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestIdvTitle')}</h3>
@@ -3180,7 +3176,7 @@ export default function Dashboard() {
                           />
                         </div>
                       </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-orange-200 dark:border-orange-800">
+                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-accent/30 dark:border-accent/30">
                         <Button disabled={isSendingIdvRequest}
                           onClick={async () => {
                             if (!idvRequestDialog.user?.id) return;
@@ -3197,7 +3193,7 @@ export default function Dashboard() {
                               setIsSendingIdvRequest(false);
                             }
                           }}
-                          className="flex-1 bg-orange-600 text-white font-black rounded-full"
+                          className="flex-1 bg-accent text-white font-black rounded-full"
                           data-testid="button-confirm-idv-request"
                         >
                           {isSendingIdvRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendIdvBtn')}
@@ -3442,7 +3438,7 @@ export default function Dashboard() {
                                         </span>
                                       )}
                                       {meta.activity && (
-                                        <span className="text-[9px] bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400 px-1.5 py-0.5 rounded-full font-medium">
+                                        <span className="text-[9px] bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent px-1.5 py-0.5 rounded-full font-medium">
                                           {meta.activity}
                                         </span>
                                       )}
@@ -3550,7 +3546,7 @@ export default function Dashboard() {
                                   <Badge className={`text-[9px] ${isMaintenance ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
                                     {isMaintenance ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                   </Badge>
-                                  {!isFormComplete && <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.orders.formIncomplete')}</Badge>}
+                                  {!isFormComplete && <Badge className="text-[9px] bg-accent/10 text-accent">{t('dashboard.admin.orders.formIncomplete')}</Badge>}
                                 </div>
                                 <p className="text-xs font-semibold">{app?.ownerFullName || `${order.user?.firstName || ''} ${order.user?.lastName || ''}`}</p>
                                 <p className="text-xs text-muted-foreground">{app?.ownerEmail || order.user?.email}</p>
@@ -3811,7 +3807,7 @@ export default function Dashboard() {
                   )}
                   {adminSubTab === 'incomplete' && (
                     <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
-                      <div className="p-4 border-b bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20">
+                      <div className="p-4 border-b bg-gradient-to-r from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/15">
                         <h3 className="font-black text-sm flex items-center gap-2">
                           <AlertCircle className="w-4 h-4 text-yellow-600" />
                           {t('dashboard.admin.incomplete.title')} ({(incompleteApps?.llc?.length || 0) + (incompleteApps?.maintenance?.length || 0)})
@@ -3831,7 +3827,7 @@ export default function Dashboard() {
                                     <Badge className={`text-[9px] ${app.type === 'maintenance' ? 'bg-blue-100 text-blue-700' : 'bg-accent/10 text-accent'}`}>
                                       {app.type === 'maintenance' ? t('dashboard.admin.orders.maintenance') : 'LLC'}
                                     </Badge>
-                                    <Badge className="text-[9px] bg-orange-100 text-orange-700">{t('dashboard.admin.incomplete.incomplete')}</Badge>
+                                    <Badge className="text-[9px] bg-accent/10 text-accent">{t('dashboard.admin.incomplete.incomplete')}</Badge>
                                     {hoursRemaining !== null && (
                                       <Badge className="text-[9px] bg-red-100 text-red-700">
                                         {hoursRemaining > 0 ? t('dashboard.admin.incomplete.deleteInHours', { hours: hoursRemaining }) : t('dashboard.admin.incomplete.deletionPending')}
@@ -3936,7 +3932,7 @@ export default function Dashboard() {
                                       </span>
                                     )}
                                     {u.securityOtpRequired && (
-                                      <span className="flex items-center gap-1 bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full">
+                                      <span className="flex items-center gap-1 bg-accent/10 text-accent px-2 py-0.5 rounded-full">
                                         {t('dashboard.admin.users.otpRequired')}
                                       </span>
                                     )}
@@ -4624,7 +4620,7 @@ export default function Dashboard() {
                                     <Button
                                       variant="outline"
                                       size="icon"
-                                      className={`rounded-lg ${acct.isActive ? 'text-orange-600' : 'text-accent'}`}
+                                      className={`rounded-lg ${acct.isActive ? 'text-red-600' : 'text-accent'}`}
                                       onClick={async () => {
                                         try {
                                           await apiRequest("PATCH", `/api/admin/payment-accounts/${acct.id}`, { isActive: !acct.isActive });
@@ -4819,7 +4815,7 @@ export default function Dashboard() {
                                 <Button 
                                   variant="outline" 
                                   size="sm" 
-                                  className={`rounded-full text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-orange-600' : 'text-accent'}`}
+                                  className={`rounded-full text-xs h-8 w-8 p-0 ${dc.isActive ? 'text-red-600' : 'text-accent'}`}
                                   onClick={async () => {
                                     try {
                                       await apiRequest("PATCH", `/api/admin/discount-codes/${dc.id}`, { isActive: !dc.isActive });
@@ -4880,14 +4876,14 @@ export default function Dashboard() {
               <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8" data-testid="section-action-required-global">
                 <div className="mb-6">
                   <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
-                    <AlertCircle className="w-5 h-5 text-orange-500" /> {t('dashboard.actionRequired.title')}
+                    <AlertCircle className="w-5 h-5 text-accent" /> {t('dashboard.actionRequired.title')}
                   </h3>
                   <p className="text-xs text-muted-foreground mt-1">{t('dashboard.actionRequired.subtitle')}</p>
                 </div>
                 <div className="space-y-3">
                   {!!(user as any)?.pendingProfileChanges && (
                     <div className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid="action-item-profile-pending">
-                      <UserCheck className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+                      <UserCheck className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.profilePending')}</p>
                         <p className="text-[10px] text-muted-foreground">{t('dashboard.actionRequired.profilePendingDesc')}</p>
@@ -4905,7 +4901,7 @@ export default function Dashboard() {
                   )}
                   {notifications?.filter((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')).map((n: any) => (
                     <div key={n.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-document-${n.id}`}>
-                      <FileUp className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+                      <FileUp className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.documentRequest')}</p>
                         <p className="text-[10px] text-muted-foreground">{tn(n.message)}</p>
@@ -4941,7 +4937,7 @@ export default function Dashboard() {
                   ))}
                   {orders?.filter((o: any) => o.status === 'pending_payment' || o.status === 'payment_failed').map((o: any) => (
                     <div key={o.id} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-payment-${o.id}`}>
-                      <DollarSign className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+                      <DollarSign className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.paymentPending')}</p>
                         <p className="text-[10px] text-muted-foreground truncate">{o.application?.companyName || o.maintenanceApplication?.requestCode || o.invoiceNumber}</p>
@@ -4959,7 +4955,7 @@ export default function Dashboard() {
                   ))}
                   {orders?.filter((o: any) => o.application?.fiscalYearEnd && new Date(o.application.fiscalYearEnd) <= new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)).map((o: any) => (
                     <div key={`fiscal-${o.id}`} className="flex items-start gap-3 rounded-xl bg-gray-50 dark:bg-[#1A1A1A] p-3" data-testid={`action-item-fiscal-${o.id}`}>
-                      <Calendar className="w-4 h-4 text-orange-500 mt-0.5 shrink-0" />
+                      <Calendar className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                       <div className="flex-1 min-w-0">
                         <p className="text-xs font-bold text-foreground">{t('dashboard.actionRequired.fiscalDeadline')}</p>
                         <p className="text-[10px] text-muted-foreground">{o.application?.companyName} - {formatDate(o.application.fiscalYearEnd)}</p>
