@@ -1558,7 +1558,7 @@ export default function Dashboard() {
                         const isRejected = doc.reviewStatus === 'rejected';
                         
                         return (
-                          <Card key={doc.id} className="rounded-xl md:rounded-2xl border-0 shadow-sm bg-white dark:bg-card" data-testid={`card-document-${doc.id}`}>
+                          <Card key={doc.id} className="rounded-xl md:rounded-2xl shadow-sm bg-white dark:bg-card" data-testid={`card-document-${doc.id}`}>
                             <CardContent className="p-4 md:p-5">
                               <div className="flex items-start gap-3">
                                 <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center shrink-0">
@@ -1658,7 +1658,7 @@ export default function Dashboard() {
                         };
                         const st = statusMap[inv.status] || statusMap.pending;
                         return (
-                          <Card key={inv.id} className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card" data-testid={`invoice-client-${inv.id}`}>
+                          <Card key={inv.id} className="rounded-2xl shadow-sm bg-white dark:bg-card" data-testid={`invoice-client-${inv.id}`}>
                             <div className="p-4 md:p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                               <div className="space-y-1 min-w-0">
                                 <div className="flex items-center gap-2 flex-wrap">
@@ -1684,7 +1684,7 @@ export default function Dashboard() {
 
                   <div className="space-y-4">
                     {(!orders || orders.length === 0) && (!clientInvoices || clientInvoices.length === 0) ? (
-                      <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
+                      <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-payments-empty">
                         <div className="flex flex-col items-center gap-3 md:gap-4">
                           <CreditCard className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                           <div>
@@ -1700,7 +1700,7 @@ export default function Dashboard() {
                       </Card>
                     ) : orders && orders.length > 0 ? (
                       orders.map((order: any) => (
-                        <Card key={order.id} className="rounded-2xl border-0 shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
+                        <Card key={order.id} className="rounded-2xl shadow-sm p-6 flex justify-between items-center bg-white dark:bg-card">
                           <div>
                             <p className="font-black text-xs md:text-sm">{t('dashboard.payments.invoiceLabel')} {order.application?.requestCode || order.maintenanceApplication?.requestCode || order.invoiceNumber}</p>
                             <p className="text-[10px] text-muted-foreground">{formatDate(order.createdAt)}</p>
@@ -1840,7 +1840,7 @@ export default function Dashboard() {
                       })}
                     </div>
                   ) : (
-                    <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
+                    <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-calendar-empty">
                       <div className="flex flex-col items-center gap-3 md:gap-4">
                         <Calendar className="w-12 h-12 md:w-16 md:h-16 text-accent" />
                         <div>
@@ -1865,7 +1865,7 @@ export default function Dashboard() {
                     <p className="text-base text-muted-foreground mt-1">{t('dashboard.tools.subtitle')}</p>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Receipt className="w-6 h-6 text-accent" />
@@ -1880,7 +1880,7 @@ export default function Dashboard() {
                       </div>
                     </Card>
                     
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <Calculator className="w-6 h-6 text-accent" />
@@ -1895,7 +1895,7 @@ export default function Dashboard() {
                       </div>
                     </Card>
                     
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <ClipboardList className="w-6 h-6 text-accent" />
@@ -1910,7 +1910,7 @@ export default function Dashboard() {
                       </div>
                     </Card>
                     
-                    <Card className="rounded-2xl border-0 shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
+                    <Card className="rounded-2xl shadow-sm p-6 bg-white dark:bg-card hover:shadow-md transition-shadow">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
                           <FileText className="w-6 h-6 text-accent" />
@@ -3513,7 +3513,7 @@ export default function Dashboard() {
                   )}
                   
                   {adminSubTab === 'orders' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                    <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
                       <div className="divide-y">
                         {(!filteredAdminOrders || filteredAdminOrders.length === 0) && (
                           <div className="text-center py-8 text-muted-foreground text-sm">
@@ -3693,7 +3693,7 @@ export default function Dashboard() {
                         </Button>
                       </div>
                       {commSubTab === 'inbox' && (
-                        <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                        <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
                           <div className="divide-y">
                             {filteredAdminMessages?.map((msg: any) => (
                               <div 
@@ -3806,7 +3806,7 @@ export default function Dashboard() {
                     </div>
                   )}
                   {adminSubTab === 'incomplete' && (
-                    <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                    <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
                       <div className="p-4 border-b bg-gradient-to-r from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/15">
                         <h3 className="font-black text-sm flex items-center gap-2">
                           <AlertCircle className="w-4 h-4 text-yellow-600" />
@@ -3891,7 +3891,7 @@ export default function Dashboard() {
                         </Button>
                       </div>
                       {usersSubTab === 'users' && (
-                        <Card className="rounded-2xl border-0 shadow-sm p-0 overflow-hidden">
+                        <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
                           <div className="divide-y">
                             {filteredAdminUsers?.map(u => (
                               <div key={u.id} className="p-3 md:p-4 space-y-3">
@@ -4010,7 +4010,7 @@ export default function Dashboard() {
                       )}
                       {usersSubTab === 'newsletter' && (
                         <div className="space-y-4">
-                          <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                          <Card className="rounded-2xl shadow-sm p-4 md:p-6">
                             <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.sendNewsletter')}</h4>
                             <div className="space-y-3">
                               <Input placeholder={t('dashboard.admin.newsletterSection.subjectPlaceholder')}
@@ -4041,7 +4041,7 @@ export default function Dashboard() {
                               </div>
                             </div>
                           </Card>
-                          <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6">
+                          <Card className="rounded-2xl shadow-sm p-4 md:p-6">
                             <h4 className="font-black text-sm mb-3">{t('dashboard.admin.newsletterSection.title')} ({adminNewsletterSubs?.length || 0})</h4>
                             <div className="divide-y max-h-80 overflow-y-auto">
                               {adminNewsletterSubs?.map((sub: any) => (
@@ -4087,7 +4087,7 @@ export default function Dashboard() {
                       <h4 className="font-black text-lg">
                         {t('dashboard.admin.calendar.title')}
                       </h4>
-                    <Card className="rounded-2xl border-0 shadow-sm p-4 md:p-6 overflow-hidden">
+                    <Card className="rounded-2xl shadow-sm p-4 md:p-6 overflow-hidden">
                       <div className="space-y-4 md:space-y-6">
                         {adminOrders?.map((order: any) => {
                           const app = order.application;
@@ -4324,7 +4324,7 @@ export default function Dashboard() {
                               'rejected': t('dashboard.admin.documents.idvRejected'),
                             };
                             return (
-                            <Card key={doc.id} className="rounded-xl border-0 shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
+                            <Card key={doc.id} className="rounded-xl shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
                               <div className="flex items-start gap-3">
                                 <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-accent/10 dark:bg-accent/15' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
                                   <FileText className={`w-5 h-5 ${doc.reviewStatus === 'approved' ? 'text-accent dark:text-accent' : doc.reviewStatus === 'rejected' ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'}`} />
@@ -4429,7 +4429,7 @@ export default function Dashboard() {
                           );})}
                         </div>
                       ) : (
-                        <Card className="rounded-2xl border-0 shadow-sm p-8 md:p-12">
+                        <Card className="rounded-2xl shadow-sm p-8 md:p-12">
                           <div className="text-center space-y-1">
                             <p className="font-black text-foreground">{t('dashboard.admin.documents.noDocs')}</p>
                             <p className="text-xs text-muted-foreground">{t('dashboard.admin.documents.noDocsHint')}</p>
@@ -4474,7 +4474,7 @@ export default function Dashboard() {
                           <div className="flex justify-between items-center">
                             <h3 className="font-black text-lg">{t('dashboard.admin.invoicesSection.title')}</h3>
                           </div>
-                          <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                          <Card className="rounded-2xl shadow-sm overflow-hidden">
                             <div className="divide-y max-h-[60vh] overflow-y-auto">
                               {adminInvoices?.length === 0 && (
                                 <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.invoicesSection.noInvoices')}</div>
@@ -4582,7 +4582,7 @@ export default function Dashboard() {
                               <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.paymentAccounts.newAccount')}
                             </Button>
                           </div>
-                          <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                          <Card className="rounded-2xl shadow-sm overflow-hidden">
                             <div className="divide-y">
                               {paymentAccountsList?.map((acct: any) => (
                                 <div key={acct.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`billing-payment-account-${acct.id}`}>
@@ -4764,7 +4764,7 @@ export default function Dashboard() {
                           <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.discountsSection.newCode')}
                         </Button>
                       </div>
-                      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+                      <Card className="rounded-2xl shadow-sm overflow-hidden">
                         <div className="divide-y">
                           {discountCodes?.map((dc) => (
                             <div key={dc.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`discount-code-${dc.code}`}>
@@ -4976,7 +4976,7 @@ export default function Dashboard() {
             )}
 
             {!user?.isAdmin && (
-            <Card className={`rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
+            <Card className={`rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
                   <Clock className="w-5 h-5 text-accent" /> {t('dashboard.tracking.title')}
@@ -5044,7 +5044,7 @@ export default function Dashboard() {
             )}
 
             {!user?.isAdmin && (
-            <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 mb-16 md:mb-12 text-center" data-testid="card-support-help">
+            <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 mb-16 md:mb-12 text-center" data-testid="card-support-help">
               <div className="flex flex-col items-center gap-3 md:gap-4">
                 <div>
                   <h3 className="text-base md:text-lg font-black text-foreground mb-1 md:mb-2 text-center tracking-tight">{t('dashboard.support.haveQuestion')}</h3>

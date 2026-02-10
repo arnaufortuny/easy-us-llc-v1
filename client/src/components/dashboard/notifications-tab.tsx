@@ -66,7 +66,7 @@ export function NotificationsTab({
       {notificationsLoading ? (
         <div className="space-y-2">
           {[1, 2, 3].map(i => (
-            <Card key={i} className="rounded-2xl border-0 shadow-sm">
+            <Card key={i} className="rounded-2xl shadow-sm">
               <CardContent className="p-2.5 sm:p-3 md:p-4">
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-full bg-muted animate-pulse flex-shrink-0" />
@@ -80,7 +80,7 @@ export function NotificationsTab({
           ))}
         </div>
       ) : notifications?.length === 0 ? (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
+        <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center">
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <span className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-accent/10 flex items-center justify-center">
               <span className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-accent/30" />
@@ -96,7 +96,7 @@ export function NotificationsTab({
           {notifications?.map((notif: any) => (
             <Card 
               key={notif.id} 
-              className={`rounded-2xl border-0 shadow-sm transition-all ${!notif.isRead ? 'bg-white dark:bg-card ring-1 ring-accent/20' : 'bg-white dark:bg-card'}`}
+              className={`rounded-2xl shadow-sm transition-all ${!notif.isRead ? 'bg-white dark:bg-card ring-1 ring-accent/20' : 'bg-white dark:bg-card'}`}
               onClick={() => { if (!notif.isRead) markNotificationRead.mutate(notif.id); }}
             >
               <CardContent className="p-2.5 sm:p-3 md:p-4">

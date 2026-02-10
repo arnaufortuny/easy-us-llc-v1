@@ -201,7 +201,7 @@ export function MessagesTab({
 
       <div className="space-y-4">
         {(!messagesData || messagesData.length === 0) && !showNewInquiry ? (
-          <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-support-empty">
+          <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="widget-support-empty">
             <div className="flex flex-col items-center gap-3 md:gap-4">
               <MessageCircle className="w-12 h-12 md:w-16 md:h-16 text-accent" />
               <div>
@@ -219,7 +219,7 @@ export function MessagesTab({
           </Card>
         ) : (
           messagesData?.map((msg) => (
-            <Card key={msg.id} className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card" data-testid={`card-message-${msg.id}`}>
+            <Card key={msg.id} className="rounded-2xl shadow-sm bg-white dark:bg-card" data-testid={`card-message-${msg.id}`}>
               <CardContent className="p-4 md:p-5">
                 <div className="flex justify-between items-start gap-2 mb-2">
                   <div className="flex items-center gap-2 min-w-0">

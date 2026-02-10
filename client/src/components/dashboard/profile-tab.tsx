@@ -219,7 +219,7 @@ export function ProfileTab({
         </Card>
       )}
 
-      <Card className={`rounded-[1.5rem] md:rounded-[2rem] border-0 shadow-sm p-5 md:p-6 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+      <Card className={`rounded-[1.5rem] md:rounded-[2rem] shadow-sm p-5 md:p-6 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="flex justify-between items-center mb-3">
           <h3 className="text-base md:text-lg font-black text-foreground">{t('profile.personalData')}</h3>
           {canEdit && !(profileOtpStep === 'otp' || hasPendingChanges) && (
@@ -407,7 +407,7 @@ export function ProfileTab({
       </Card>
 
       <div className={`grid grid-cols-1 md:grid-cols-2 gap-4 transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
-        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+        <Card className="rounded-2xl shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex items-center justify-between">
             <div>
               <h4 className="font-black text-sm text-foreground">{t('profile.newsletter.title')}</h4>
@@ -417,7 +417,7 @@ export function ProfileTab({
           </div>
         </Card>
 
-        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+        <Card className="rounded-2xl shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
               <h4 className="font-black text-sm text-foreground flex items-center gap-1.5">
@@ -442,7 +442,7 @@ export function ProfileTab({
         </Card>
       </div>
 
-      <Card className={`rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+      <Card className={`rounded-2xl shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="flex items-center justify-between mb-3">
           <div>
             <h4 className="font-black text-sm text-foreground">{t('profile.changePassword.title')}</h4>
@@ -522,7 +522,7 @@ export function ProfileTab({
         )}
       </Card>
 
-      <Card className={`rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+      <Card className={`rounded-2xl shadow-sm p-5 bg-white dark:bg-card transition-opacity duration-200 ${(profileOtpStep === 'otp' || hasPendingChanges) ? 'opacity-50 pointer-events-none select-none' : ''}`}>
         <div className="mb-3">
           <h4 className="font-black text-sm text-foreground">{t('profile.connectedAccounts.title')}</h4>
           <p className="text-[10px] text-muted-foreground">{t('profile.connectedAccounts.description')}</p>
@@ -535,7 +535,7 @@ export function ProfileTab({
       </Card>
 
       {canEdit && (
-        <Card className="rounded-2xl border-0 shadow-sm p-5 bg-white dark:bg-card">
+        <Card className="rounded-2xl shadow-sm p-5 bg-white dark:bg-card">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h4 className="font-black text-sm text-red-600 dark:text-red-400">{t('dashboard.profile.deleteAccount')}</h4>

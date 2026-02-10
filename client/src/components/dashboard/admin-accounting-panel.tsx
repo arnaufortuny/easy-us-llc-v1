@@ -290,7 +290,7 @@ export function AdminAccountingPanel() {
         </NativeSelect>
       </div>
 
-      <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+      <Card className="rounded-2xl shadow-sm overflow-hidden">
         <div className="divide-y">
           {txLoading ? (
             <div className="p-8 text-center"><Loader2 className="w-6 h-6 animate-spin mx-auto" /></div>
@@ -353,7 +353,7 @@ export function AdminAccountingPanel() {
 
       <Collapsible open={formOpen} onOpenChange={setFormOpen}>
         <CollapsibleContent>
-          <Card className="rounded-2xl border-0 shadow-sm mt-4">
+          <Card className="rounded-2xl shadow-sm mt-4">
             <CardContent className="p-4 md:p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-lg font-black text-foreground">

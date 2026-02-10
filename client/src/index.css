@@ -108,7 +108,7 @@ html.dark body {
   /* Card colors - Pure white for contrast */
   --card: 0 0% 100%;
   --card-foreground: 220 25% 12%;
-  --card-border: 220 13% 91%;
+  --card-border: 207 40% 78%;
 
   /* Popover colors */
   --popover: 0 0% 100%;
@@ -165,7 +165,7 @@ html.dark body {
 
   --card: 0 0% 8%;
   --card-foreground: 0 0% 98%;
-  --card-border: 0 0% 18%;
+  --card-border: 207 35% 30%;
 
   --popover: 0 0% 8%;
   --popover-foreground: 0 0% 98%;

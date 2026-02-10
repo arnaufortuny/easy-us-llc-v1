@@ -246,7 +246,7 @@ export function ActivityLogPanel() {
         </div>
       ) : (
         <>
-          <Card className="rounded-2xl border-0 shadow-sm overflow-hidden">
+          <Card className="rounded-2xl shadow-sm overflow-hidden">
             <div className="divide-y">
               {data?.logs?.map((log) => {
                 const email = getEmail(log);

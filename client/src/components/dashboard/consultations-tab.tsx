@@ -415,7 +415,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
       )}
 
       {myBookings.length === 0 && !showBookingPanel && (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-consultations">
+        <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-consultations">
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <MessageSquare className="w-12 h-12 md:w-16 md:h-16 text-accent" />
             <div>

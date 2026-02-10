@@ -96,7 +96,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
       );})}
       
       {(!orders || orders.length === 0) ? (
-        <Card className="rounded-2xl border-0 shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-services">
+        <Card className="rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 text-center" data-testid="card-empty-services">
           <div className="flex flex-col items-center gap-3 md:gap-4">
             <Package className="w-12 h-12 md:w-16 md:h-16 text-accent" />
             <div>
@@ -123,7 +123,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
               {completedOrders.map((order) => {
                 const app = order.application;
                 return (
-                  <Card key={`completed-${order.id}`} className="rounded-2xl border-0 shadow-md bg-white dark:bg-card overflow-hidden" data-testid={`card-completed-llc-${order.id}`}>
+                  <Card key={`completed-${order.id}`} className="rounded-2xl shadow-md bg-white dark:bg-card overflow-hidden" data-testid={`card-completed-llc-${order.id}`}>
                     <div className="bg-gradient-to-r from-accent/5 to-accent/10 dark:from-accent/10 dark:to-accent/15 p-4 border-b border-accent/20 dark:border-accent/20">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
                         <div>
@@ -262,7 +262,7 @@ export function ServicesTab({ orders, draftOrders, activeOrders }: ServicesTabPr
               <h3 className="text-xs md:text-sm font-black text-muted-foreground mb-2 md:mb-3">{t('dashboard.services.allOrders')}</h3>
               <div className="space-y-2 md:space-y-3">
                 {orders.map((order) => (
-                  <Card key={order.id} className="rounded-lg md:rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-card overflow-hidden" data-testid={`card-order-${order.id}`}>
+                  <Card key={order.id} className="rounded-lg md:rounded-xl shadow-sm hover:shadow-md transition-shadow bg-white dark:bg-card overflow-hidden" data-testid={`card-order-${order.id}`}>
                     <div className="flex items-center justify-between p-3 md:p-4 gap-2">
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-0.5 flex-wrap">
