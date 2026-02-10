@@ -58,16 +58,18 @@ export function Navbar() {
       setLocation(path || href);
       
       if (hash) {
-        const scrollToHash = () => {
+        const scrollToHash = (attempts = 0) => {
           const element = document.getElementById(hash);
           if (element) {
             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else if (attempts < 5) {
+            setTimeout(() => scrollToHash(attempts + 1), 200);
           }
         };
         if (location === path) {
           scrollToHash();
         } else {
-          setTimeout(scrollToHash, 500);
+          setTimeout(() => scrollToHash(), 400);
         }
       } else {
         window.scrollTo(0, 0);
@@ -230,43 +232,43 @@ export function Navbar() {
               <div className="flex flex-col gap-0.5 items-stretch text-left">
                 <button
                   onClick={() => handleNavClick("/")}
-                  className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                  className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
                 >
                   {t("nav.home")}
                 </button>
               <button
                 onClick={() => handleNavClick("/servicios")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
               >
                 {t("nav.services")}
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#pricing")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
               >
                 {t("nav.pricing")}
               </button>
               <button
                 onClick={() => handleNavClick("/servicios#comparador")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
               >
                 {t("nav.savings")}
               </button>
               <button
                 onClick={() => handleNavClick("/faq")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
               >
                 {t("nav.faq")}
               </button>
               <button
                 onClick={() => handleNavClick("/contacto")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
               >
                 {t("nav.contact")}
               </button>
               <button
                 onClick={() => handleNavClick("/agendar-consultoria")}
-                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter border border-transparent hover:border-accent/20"
+                className="text-left px-3 py-3 rounded-xl text-foreground hover:bg-secondary transition-colors font-black text-xl tracking-tighter outline-none focus:outline-none"
                 data-testid="link-free-consultation-mobile"
               >
                 {t("nav.freeConsultation")}

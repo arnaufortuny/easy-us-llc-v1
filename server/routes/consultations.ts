@@ -277,12 +277,11 @@ export function registerConsultationRoutes(app: Express) {
       const clientIp = getClientIp(req);
       
       const scheduledDate = new Date(data.scheduledDate);
+      const settings = await getSettings();
       const dayOfWeek = scheduledDate.getDay();
-      if (dayOfWeek === 0 || dayOfWeek === 6) {
+      if (!settings.allowWeekends && (dayOfWeek === 0 || dayOfWeek === 6)) {
         return res.status(400).json({ message: "Weekends are not available" });
       }
-      
-      const settings = await getSettings();
       const [slotH, slotM] = data.scheduledTime.split(':').map(Number);
       if (slotH < settings.slotStartHour || slotH >= settings.slotEndHour) {
         return res.status(400).json({ message: `Time must be between ${settings.slotStartHour}:00 and ${settings.slotEndHour}:00` });

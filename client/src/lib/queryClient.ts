@@ -31,8 +31,9 @@ export async function getCsrfToken(forceRefresh = false): Promise<string> {
       csrfToken = data.csrfToken;
       return csrfToken || '';
     }
-  } catch {
-    // Silently fail
+    console.warn('[CSRF] Failed to fetch token, status:', res.status);
+  } catch (err) {
+    console.warn('[CSRF] Token fetch error:', err);
   }
   return '';
 }
@@ -94,7 +95,9 @@ export async function apiRequest(
           return retryRes;
         }
       }
-    } catch {}
+    } catch (parseErr) {
+      console.warn('[API] Could not parse 403 response:', parseErr);
+    }
     csrfToken = null;
   }
 
