@@ -520,6 +520,21 @@ export type InsertConsultationAvailability = z.infer<typeof insertConsultationAv
 export type InsertConsultationBookedDate = z.infer<typeof insertConsultationBlockedDateSchema>;
 export type InsertConsultationBooking = z.infer<typeof insertConsultationBookingSchema>;
 
+export const consultationSettings = pgTable("consultation_settings", {
+  id: serial("id").primaryKey(),
+  availableDaysWindow: integer("available_days_window").notNull().default(3),
+  slotStartHour: integer("slot_start_hour").notNull().default(10),
+  slotEndHour: integer("slot_end_hour").notNull().default(18),
+  slotIntervalMinutes: integer("slot_interval_minutes").notNull().default(20),
+  allowWeekends: boolean("allow_weekends").notNull().default(false),
+  timezone: text("timezone").notNull().default("Europe/Madrid"),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export const insertConsultationSettingsSchema = createInsertSchema(consultationSettings).omit({ id: true, updatedAt: true });
+export type ConsultationSettings = typeof consultationSettings.$inferSelect;
+export type InsertConsultationSettings = z.infer<typeof insertConsultationSettingsSchema>;
+
 // Accounting Transactions
 export const accountingTransactions = pgTable("accounting_transactions", {
   id: serial("id").primaryKey(),

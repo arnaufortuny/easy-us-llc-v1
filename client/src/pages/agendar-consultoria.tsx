@@ -63,6 +63,16 @@ interface TimeSlot {
   available: boolean;
 }
 
+interface ConsultationSettingsResponse {
+  availableDaysWindow: number;
+  slotStartHour: number;
+  slotEndHour: number;
+  slotIntervalMinutes: number;
+  allowWeekends: boolean;
+  timezone: string;
+  availableDates: string[];
+}
+
 export default function AsesoriaGratis() {
   const { user, isAuthenticated } = useAuth();
   const { t, i18n } = useTranslation();
@@ -121,9 +131,17 @@ export default function AsesoriaGratis() {
     }
   }, [formMessage]);
 
+  const settingsQuery = useQuery<ConsultationSettingsResponse>({
+    queryKey: ['/api/consultations/settings'],
+  });
+
+  const availableDatesSet = useMemo(() => {
+    return new Set(settingsQuery.data?.availableDates || []);
+  }, [settingsQuery.data]);
+
   const slotsQuery = useQuery<TimeSlot[]>({
     queryKey: ['/api/consultations/free-slots', selectedDate],
-    enabled: !!selectedDate,
+    enabled: !!selectedDate && availableDatesSet.has(selectedDate),
   });
 
   const generateCalendarDays = useCallback(() => {
@@ -131,8 +149,6 @@ export default function AsesoriaGratis() {
     const month = currentMonth.getMonth();
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
 
     const startDayOfWeek = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
     const days: { date: Date; isCurrentMonth: boolean; isDisabled: boolean }[] = [];
@@ -144,11 +160,9 @@ export default function AsesoriaGratis() {
 
     for (let i = 1; i <= lastDay.getDate(); i++) {
       const d = new Date(year, month, i);
-      const dayOfWeek = d.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      const isPast = d < today;
-      const isTooFar = d > new Date(today.getTime() + 60 * 86400000);
-      days.push({ date: d, isCurrentMonth: true, isDisabled: isWeekend || isPast || isTooFar });
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+      const isAvailable = availableDatesSet.has(dateStr);
+      days.push({ date: d, isCurrentMonth: true, isDisabled: !isAvailable });
     }
 
     const remaining = 42 - days.length;
@@ -158,7 +172,7 @@ export default function AsesoriaGratis() {
     }
 
     return days;
-  }, [currentMonth]);
+  }, [currentMonth, availableDatesSet]);
 
   const calendarDays = useMemo(() => generateCalendarDays(), [generateCalendarDays]);
 
@@ -325,9 +339,9 @@ export default function AsesoriaGratis() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <main className="flex-1 px-4 py-4 md:py-16">
+      <main className="flex-1 px-4 py-8 md:py-16">
         <div className="max-w-2xl mx-auto">
-          <div className="text-center mb-8 md:mb-10 pt-2 md:pt-4 flex flex-col items-center justify-center">
+          <div className="text-center mb-8 md:mb-10 pt-4 md:pt-4 flex flex-col items-center justify-center">
             <h1 className="text-3xl md:text-5xl font-black tracking-tight mb-4" style={{ fontFamily: 'var(--font-display)' }} data-testid="text-page-title">
               <span className="text-accent">{t("freeConsultation.titleFree")}</span>{" "}
               <span className="text-foreground">{t("freeConsultation.titleConsultation")}</span>

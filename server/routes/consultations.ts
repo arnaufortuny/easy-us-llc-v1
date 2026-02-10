@@ -5,8 +5,47 @@ import { createLogger } from "../lib/logger";
 import { checkRateLimit } from "../lib/security";
 
 const log = createLogger('consultations');
-import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, users as usersTable } from "@shared/schema";
+import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, consultationSettings, users as usersTable } from "@shared/schema";
 import { and, eq, desc, sql, inArray, isNull, isNotNull, lte, gte } from "drizzle-orm";
+
+async function getSettings() {
+  const [settings] = await db.select().from(consultationSettings).limit(1);
+  if (settings) return settings;
+  const [created] = await db.insert(consultationSettings).values({
+    availableDaysWindow: 3,
+    slotStartHour: 10,
+    slotEndHour: 18,
+    slotIntervalMinutes: 20,
+    allowWeekends: false,
+    timezone: 'Europe/Madrid',
+  }).returning();
+  return created;
+}
+
+function getNextAvailableBusinessDays(count: number, allowWeekends: boolean, blockedDates: Set<string>): string[] {
+  const result: string[] = [];
+  const today = new Date();
+  const madridOffset = getMadridOffset(today);
+  const madridNow = new Date(today.getTime() + madridOffset * 60000);
+  const startDate = new Date(madridNow);
+  startDate.setDate(startDate.getDate() + 1);
+  startDate.setHours(0, 0, 0, 0);
+
+  let checked = 0;
+  while (result.length < count && checked < 60) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + checked);
+    const dayOfWeek = d.getDay();
+    const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+    const dateStr = d.toISOString().split('T')[0];
+
+    if ((!isWeekend || allowWeekends) && !blockedDates.has(dateStr)) {
+      result.push(dateStr);
+    }
+    checked++;
+  }
+  return result;
+}
 
 function getMadridOffset(date: Date): number {
   const jan = new Date(date.getFullYear(), 0, 1);
@@ -19,6 +58,27 @@ function getMadridOffset(date: Date): number {
 
 export function registerConsultationRoutes(app: Express) {
   // ============ CONSULTATION BOOKING SYSTEM ============
+
+  app.get("/api/consultations/settings", async (req, res) => {
+    try {
+      const settings = await getSettings();
+      const blocked = await db.select().from(consultationBlockedDates);
+      const blockedSet = new Set(blocked.map(b => new Date(b.date).toISOString().split('T')[0]));
+      const availableDays = getNextAvailableBusinessDays(settings.availableDaysWindow, settings.allowWeekends, blockedSet);
+      res.json({
+        availableDaysWindow: settings.availableDaysWindow,
+        slotStartHour: settings.slotStartHour,
+        slotEndHour: settings.slotEndHour,
+        slotIntervalMinutes: settings.slotIntervalMinutes,
+        allowWeekends: settings.allowWeekends,
+        timezone: settings.timezone,
+        availableDates: availableDays,
+      });
+    } catch (err) {
+      log.error("Error fetching consultation settings", err);
+      res.status(500).json({ message: "Error fetching settings" });
+    }
+  });
 
   // Get all active consultation types (public)
   app.get("/api/consultations/types", async (req, res) => {
@@ -79,25 +139,34 @@ export function registerConsultationRoutes(app: Express) {
     }
   });
 
-  // Generate time slots for free consultations (10:00-18:00 Madrid, 20 min intervals)
   app.get("/api/consultations/free-slots", async (req, res) => {
     try {
       const date = req.query.date as string;
       if (!date) return res.status(400).json({ message: "Date parameter required" });
       const targetDate = new Date(date);
       const dayOfWeek = targetDate.getDay();
-      
-      if (dayOfWeek === 0 || dayOfWeek === 6) {
+      const settings = await getSettings();
+
+      if (!settings.allowWeekends && (dayOfWeek === 0 || dayOfWeek === 6)) {
         return res.json({ available: false, slots: [], reason: "weekend" });
       }
-      
+
       const blocked = await db.select().from(consultationBlockedDates)
         .where(sql`DATE(${consultationBlockedDates.date}) = DATE(${targetDate})`);
-      
+
       if (blocked.length > 0) {
         return res.json({ available: false, slots: [], reason: "blocked" });
       }
-      
+
+      const blockedAll = await db.select().from(consultationBlockedDates);
+      const blockedSet = new Set(blockedAll.map(b => new Date(b.date).toISOString().split('T')[0]));
+      const availableDays = getNextAvailableBusinessDays(settings.availableDaysWindow, settings.allowWeekends, blockedSet);
+      const targetDateStr = targetDate.toISOString().split('T')[0];
+
+      if (!availableDays.includes(targetDateStr)) {
+        return res.json({ available: false, slots: [], reason: "outside_window" });
+      }
+
       const existingBookings = await db.select({
         scheduledTime: consultationBookings.scheduledTime,
         duration: consultationBookings.duration,
@@ -107,16 +176,20 @@ export function registerConsultationRoutes(app: Express) {
           sql`DATE(${consultationBookings.scheduledDate}) = DATE(${targetDate})`,
           inArray(consultationBookings.status, ['pending', 'confirmed'])
         ));
-      
+
       const bookedTimes = new Set(existingBookings.map(b => b.scheduledTime));
-      
+
+      const startH = settings.slotStartHour;
+      const endH = settings.slotEndHour;
+      const interval = settings.slotIntervalMinutes;
+
       const allSlots: { startTime: string; endTime: string }[] = [];
-      for (let hour = 10; hour < 18; hour++) {
-        for (let min = 0; min < 60; min += 20) {
-          const endMin = min + 20;
+      for (let hour = startH; hour < endH; hour++) {
+        for (let min = 0; min < 60; min += interval) {
+          const endMin = min + interval;
           const endHour = hour + Math.floor(endMin / 60);
           const endMinFinal = endMin % 60;
-          if (endHour > 18 || (endHour === 18 && endMinFinal > 0)) break;
+          if (endHour > endH || (endHour === endH && endMinFinal > 0)) break;
           const startTime = `${String(hour).padStart(2, '0')}:${String(min).padStart(2, '0')}`;
           const endTime = `${String(endHour).padStart(2, '0')}:${String(endMinFinal).padStart(2, '0')}`;
           if (!bookedTimes.has(startTime)) {
@@ -124,13 +197,12 @@ export function registerConsultationRoutes(app: Express) {
           }
         }
       }
-      
+
       const now = new Date();
       const madridOffset = getMadridOffset(now);
       const madridNow = new Date(now.getTime() + madridOffset * 60000);
       const todayMadrid = madridNow.toISOString().split('T')[0];
-      const targetDateStr = targetDate.toISOString().split('T')[0];
-      
+
       let availableSlots = allSlots;
       if (targetDateStr === todayMadrid) {
         const currentHour = madridNow.getHours();
@@ -140,7 +212,7 @@ export function registerConsultationRoutes(app: Express) {
           return slotH > currentHour + 1 || (slotH === currentHour + 1 && slotM > currentMin);
         });
       }
-      
+
       res.json({ available: availableSlots.length > 0, slots: availableSlots });
     } catch (err) {
       log.error("Error fetching free consultation slots", err);
@@ -210,9 +282,18 @@ export function registerConsultationRoutes(app: Express) {
         return res.status(400).json({ message: "Weekends are not available" });
       }
       
+      const settings = await getSettings();
       const [slotH, slotM] = data.scheduledTime.split(':').map(Number);
-      if (slotH < 10 || slotH >= 18) {
-        return res.status(400).json({ message: "Time must be between 10:00 and 18:00" });
+      if (slotH < settings.slotStartHour || slotH >= settings.slotEndHour) {
+        return res.status(400).json({ message: `Time must be between ${settings.slotStartHour}:00 and ${settings.slotEndHour}:00` });
+      }
+
+      const blockedAll = await db.select().from(consultationBlockedDates);
+      const blockedSet = new Set(blockedAll.map(b => new Date(b.date).toISOString().split('T')[0]));
+      const availableDays = getNextAvailableBusinessDays(settings.availableDaysWindow, settings.allowWeekends, blockedSet);
+      const requestedDateStr = scheduledDate.toISOString().split('T')[0];
+      if (!availableDays.includes(requestedDateStr)) {
+        return res.status(400).json({ message: "This date is not available for booking" });
       }
       
       const blocked = await db.select().from(consultationBlockedDates)
@@ -852,6 +933,55 @@ export function registerConsultationRoutes(app: Express) {
     } catch (err) {
       log.error("Error fetching consultation stats", err);
       res.status(500).json({ message: "Error fetching statistics" });
+    }
+  });
+
+  app.get("/api/admin/consultations/settings", isAdmin, async (req, res) => {
+    try {
+      const settings = await getSettings();
+      res.json(settings);
+    } catch (err) {
+      log.error("Error fetching admin consultation settings", err);
+      res.status(500).json({ message: "Error fetching settings" });
+    }
+  });
+
+  app.patch("/api/admin/consultations/settings", isAdmin, async (req, res) => {
+    try {
+      const schema = z.object({
+        availableDaysWindow: z.number().min(1).max(30).optional(),
+        slotStartHour: z.number().min(0).max(23).optional(),
+        slotEndHour: z.number().min(1).max(24).optional(),
+        slotIntervalMinutes: z.number().min(10).max(120).optional(),
+        allowWeekends: z.boolean().optional(),
+        timezone: z.string().optional(),
+      });
+
+      const data = schema.parse(req.body);
+
+      if (data.slotStartHour !== undefined && data.slotEndHour !== undefined && data.slotStartHour >= data.slotEndHour) {
+        return res.status(400).json({ message: "Start hour must be before end hour" });
+      }
+
+      const current = await getSettings();
+
+      const [updated] = await db.update(consultationSettings)
+        .set({ ...data, updatedAt: new Date() })
+        .where(eq(consultationSettings.id, current.id))
+        .returning();
+
+      logAudit({
+        action: 'consultation_settings_updated',
+        userId: req.session.userId!,
+        ip: getClientIp(req),
+        userAgent: req.headers['user-agent'],
+        details: data
+      });
+
+      res.json(updated);
+    } catch (err: any) {
+      log.error("Error updating consultation settings", err);
+      res.status(400).json({ message: err.errors?.[0]?.message || "Error updating settings" });
     }
   });
 }

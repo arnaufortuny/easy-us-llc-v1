@@ -72,7 +72,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
     }
   }, [formMessage]);
 
-  const [activeSubTab, setActiveSubTab] = useState<'bookings' | 'types' | 'availability' | 'blocked'>('bookings');
+  const [activeSubTab, setActiveSubTab] = useState<'bookings' | 'types' | 'availability' | 'blocked' | 'settings'>('bookings');
   const [editingType, setEditingType] = useState<ConsultationType | null>(null);
   const [showTypeForm, setShowTypeForm] = useState(false);
   const [showSlotForm, setShowSlotForm] = useState(false);
@@ -85,6 +85,51 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
   });
   const [slotForm, setSlotForm] = useState({ dayOfWeek: 1, startTime: '09:00', endTime: '10:00' });
   const [blockedDateForm, setBlockedDateForm] = useState({ date: '', reason: '' });
+
+  interface ConsultationSettingsAdmin {
+    id: number;
+    availableDaysWindow: number;
+    slotStartHour: number;
+    slotEndHour: number;
+    slotIntervalMinutes: number;
+    allowWeekends: boolean;
+    timezone: string;
+  }
+
+  const { data: consultationSettingsData, isLoading: settingsLoading } = useQuery<ConsultationSettingsAdmin>({
+    queryKey: ["/api/admin/consultations/settings"],
+    enabled: activeSubTab === 'settings',
+  });
+
+  const [settingsForm, setSettingsForm] = useState({
+    availableDaysWindow: 3,
+    slotStartHour: 10,
+    slotEndHour: 18,
+    slotIntervalMinutes: 20,
+    allowWeekends: false,
+  });
+
+  useEffect(() => {
+    if (consultationSettingsData) {
+      setSettingsForm({
+        availableDaysWindow: consultationSettingsData.availableDaysWindow,
+        slotStartHour: consultationSettingsData.slotStartHour,
+        slotEndHour: consultationSettingsData.slotEndHour,
+        slotIntervalMinutes: consultationSettingsData.slotIntervalMinutes,
+        allowWeekends: consultationSettingsData.allowWeekends,
+      });
+    }
+  }, [consultationSettingsData]);
+
+  const updateSettingsMutation = useMutation({
+    mutationFn: async (data: Partial<ConsultationSettingsAdmin>) => apiRequest("PATCH", "/api/admin/consultations/settings", data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/consultations/settings"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/consultations/settings"] });
+      setFormMessage({ type: 'success', text: t('consultations.admin.toasts.settingsUpdated', 'Configuración actualizada') });
+    },
+    onError: (err: any) => setFormMessage({ type: 'error', text: err.message || t('common.error') })
+  });
 
   const { data: stats } = useQuery<ConsultationStats>({
     queryKey: ["/api/admin/consultations/stats"],
@@ -285,7 +330,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
       </div>
 
       <div className="flex gap-2 flex-wrap">
-        {(['bookings', 'types', 'availability', 'blocked'] as const).map(tab => (
+        {(['bookings', 'types', 'availability', 'blocked', 'settings'] as const).map(tab => (
           <Button key={tab}
             variant={activeSubTab === tab ? 'default' : 'outline'}
             size="sm"
@@ -296,6 +341,7 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
             {tab === 'types' && t('consultations.admin.tabs.types')}
             {tab === 'availability' && t('consultations.admin.tabs.availability')}
             {tab === 'blocked' && t('consultations.admin.tabs.blocked')}
+            {tab === 'settings' && t('consultations.admin.tabs.settings', 'Configuración')}
           </Button>
         ))}
       </div>
@@ -644,6 +690,123 @@ export function AdminConsultationsPanel({ searchQuery = '' }: AdminConsultations
               </Card>
             ))}
           </div>
+        </div>
+      )}
+
+      {activeSubTab === 'settings' && (
+        <div className="space-y-4">
+          <Card className="p-6">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-lg font-semibold mb-1">{t('consultations.admin.settings.title', 'Configuración del Calendario')}</h3>
+                <p className="text-sm text-muted-foreground">{t('consultations.admin.settings.description', 'Configura los parámetros del sistema de reservas de consultoría.')}</p>
+              </div>
+
+              {settingsLoading ? (
+                <div className="text-center py-8 text-muted-foreground">{t('common.loading', 'Cargando...')}</div>
+              ) : (
+                <div className="grid gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>{t('consultations.admin.settings.daysWindow', 'Días disponibles (ventana)')}</Label>
+                      <Input
+                        type="number"
+                        min={1}
+                        max={30}
+                        value={settingsForm.availableDaysWindow}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, availableDaysWindow: parseInt(e.target.value) || 1 })}
+                        data-testid="input-days-window"
+                      />
+                      <p className="text-xs text-muted-foreground">{t('consultations.admin.settings.daysWindowHelp', 'Número de días laborables disponibles para reserva (1-30)')}</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>{t('consultations.admin.settings.interval', 'Intervalo entre citas (min)')}</Label>
+                      <Input
+                        type="number"
+                        min={10}
+                        max={120}
+                        step={5}
+                        value={settingsForm.slotIntervalMinutes}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, slotIntervalMinutes: parseInt(e.target.value) || 20 })}
+                        data-testid="input-slot-interval"
+                      />
+                      <p className="text-xs text-muted-foreground">{t('consultations.admin.settings.intervalHelp', 'Minutos entre cada cita disponible (10-120)')}</p>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>{t('consultations.admin.settings.startHour', 'Hora de inicio')}</Label>
+                      <Input
+                        type="number"
+                        min={0}
+                        max={23}
+                        value={settingsForm.slotStartHour}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, slotStartHour: parseInt(e.target.value) || 0 })}
+                        data-testid="input-start-hour"
+                      />
+                      <p className="text-xs text-muted-foreground">{t('consultations.admin.settings.startHourHelp', 'Hora de inicio (formato 24h, zona Madrid)')}</p>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label>{t('consultations.admin.settings.endHour', 'Hora de fin')}</Label>
+                      <Input
+                        type="number"
+                        min={1}
+                        max={24}
+                        value={settingsForm.slotEndHour}
+                        onChange={(e) => setSettingsForm({ ...settingsForm, slotEndHour: parseInt(e.target.value) || 18 })}
+                        data-testid="input-end-hour"
+                      />
+                      <p className="text-xs text-muted-foreground">{t('consultations.admin.settings.endHourHelp', 'Hora de fin (formato 24h, zona Madrid)')}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <input
+                      type="checkbox"
+                      id="allowWeekends"
+                      checked={settingsForm.allowWeekends}
+                      onChange={(e) => setSettingsForm({ ...settingsForm, allowWeekends: e.target.checked })}
+                      className="w-4 h-4 rounded border-border accent-accent"
+                      data-testid="checkbox-allow-weekends"
+                    />
+                    <Label htmlFor="allowWeekends" className="cursor-pointer">
+                      {t('consultations.admin.settings.allowWeekends', 'Permitir fines de semana')}
+                    </Label>
+                  </div>
+
+                  <div className="pt-2">
+                    <Button
+                      onClick={() => {
+                        if (settingsForm.slotStartHour >= settingsForm.slotEndHour) {
+                          setFormMessage({ type: 'error', text: t('consultations.admin.settings.errorStartEnd', 'La hora de inicio debe ser anterior a la hora de fin') });
+                          return;
+                        }
+                        if (settingsForm.availableDaysWindow < 1 || settingsForm.availableDaysWindow > 30) {
+                          setFormMessage({ type: 'error', text: t('consultations.admin.settings.errorDaysRange', 'Los días deben estar entre 1 y 30') });
+                          return;
+                        }
+                        if (settingsForm.slotIntervalMinutes < 10 || settingsForm.slotIntervalMinutes > 120) {
+                          setFormMessage({ type: 'error', text: t('consultations.admin.settings.errorIntervalRange', 'El intervalo debe estar entre 10 y 120 minutos') });
+                          return;
+                        }
+                        updateSettingsMutation.mutate(settingsForm);
+                      }}
+                      disabled={updateSettingsMutation.isPending}
+                      className="bg-accent text-primary font-black rounded-full"
+                      data-testid="button-save-settings"
+                    >
+                      {updateSettingsMutation.isPending
+                        ? t('common.saving', 'Guardando...')
+                        : t('common.save', 'Guardar Configuración')}
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </Card>
         </div>
       )}
     </div>

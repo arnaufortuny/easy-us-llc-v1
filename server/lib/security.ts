@@ -112,6 +112,7 @@ export type AuditAction =
   | 'consultation_cancelled'
   | 'consultation_type_created'
   | 'consultation_updated'
+  | 'consultation_settings_updated'
   | 'consultation_rescheduled'
   | 'accounting_transaction_created'
   | 'accounting_transaction_updated'
