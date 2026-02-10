@@ -87,19 +87,19 @@ export function Navbar() {
             <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
           </Link>
           
-          <nav className="hidden md:flex items-center gap-1 lg:gap-2 bg-accent/10 dark:bg-accent/20 rounded-full px-2 lg:px-3 h-11 border border-accent/30">
-            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.home")}</button>
-            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.services")}</button>
+          <nav className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-accent/10 dark:bg-accent/20 rounded-full px-2 lg:px-3 h-11 border border-accent/30">
+            <button onClick={() => handleNavClick("/")} onMouseEnter={() => prefetchOnHover("/")} onMouseLeave={cancelPrefetch} className="text-[11px] lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 lg:px-2 py-1 h-full flex items-center">{t("nav.home")}</button>
+            <button onClick={() => handleNavClick("/servicios")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-[11px] lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 lg:px-2 py-1 h-full flex items-center">{t("nav.services")}</button>
             <span className="text-muted-foreground/40">|</span>
-            <button onClick={() => handleNavClick("/servicios#pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-medium text-muted-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 py-1 h-full flex items-center">{t("nav.pricing")}</button>
-            <button onClick={() => handleNavClick("/servicios#comparador")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-medium text-muted-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 py-1 h-full flex items-center">{t("nav.savings")}</button>
+            <button onClick={() => handleNavClick("/servicios#pricing")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-[11px] lg:text-sm font-medium text-muted-foreground hover:text-accent transition-colors whitespace-nowrap px-1 lg:px-1.5 py-1 h-full flex items-center">{t("nav.pricing")}</button>
+            <button onClick={() => handleNavClick("/servicios#comparador")} onMouseEnter={() => prefetchOnHover("/servicios")} onMouseLeave={cancelPrefetch} className="text-[11px] lg:text-sm font-medium text-muted-foreground hover:text-accent transition-colors whitespace-nowrap px-1 lg:px-1.5 py-1 h-full flex items-center">{t("nav.savings")}</button>
             <span className="text-muted-foreground/40">|</span>
-            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-xs lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center">{t("nav.faq")}</button>
+            <button onClick={() => handleNavClick("/faq")} onMouseEnter={() => prefetchOnHover("/faq")} onMouseLeave={cancelPrefetch} className="text-[11px] lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 lg:px-2 py-1 h-full flex items-center">{t("nav.faq")}</button>
             <button 
               onClick={() => handleNavClick("/contacto")} 
               onMouseEnter={() => prefetchOnHover("/contacto")} 
               onMouseLeave={cancelPrefetch}
-              className="text-xs lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center"
+              className="text-[11px] lg:text-sm font-bold text-foreground hover:text-accent transition-colors whitespace-nowrap px-1.5 lg:px-2 py-1 h-full flex items-center"
             >
               {t("nav.contact")}
             </button>
@@ -107,18 +107,18 @@ export function Navbar() {
               onClick={() => handleNavClick("/agendar-consultoria")} 
               onMouseEnter={() => prefetchOnHover("/agendar-consultoria")} 
               onMouseLeave={cancelPrefetch}
-              className="text-xs lg:text-sm font-bold text-accent hover:text-accent/80 transition-colors whitespace-nowrap px-2 py-1 h-full flex items-center"
+              className="text-[11px] lg:text-sm font-bold text-accent hover:text-accent/80 transition-colors whitespace-nowrap px-1.5 lg:px-2 py-1 h-full flex items-center"
               data-testid="link-free-consultation"
             >
               {t("nav.freeConsultation")}
             </button>
           </nav>
 
-          <div className="hidden md:flex items-center gap-2 lg:gap-3">
+          <div className="hidden md:flex items-center gap-1.5 lg:gap-2.5">
             {authLoading ? (
               <Button 
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2 opacity-50"
+                className="rounded-full border-2 border-accent text-foreground font-black text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2 opacity-50"
                 disabled
               >
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
@@ -128,7 +128,7 @@ export function Navbar() {
                 <Link href="/dashboard">
                   <Button 
                     variant="outline"
-                    className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2"
+                    className="rounded-full border-2 border-accent text-foreground font-black text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2"
                     data-testid="button-desktop-dashboard"
                   >
                     <UserIcon className="w-4 h-4" /> {t("nav.myArea")}
@@ -148,7 +148,7 @@ export function Navbar() {
               <Button 
                 onClick={() => setLocation("/auth/login")}
                 variant="outline"
-                className="rounded-full border-2 border-accent text-foreground font-black text-sm h-11 px-5 flex items-center gap-2"
+                className="rounded-full border-2 border-accent text-foreground font-black text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2"
                 data-testid="button-desktop-login"
               >
                 <UserIcon className="w-4 h-4" /> {t("nav.login")}
@@ -157,7 +157,7 @@ export function Navbar() {
             {!authLoading && !isAuthenticated && (
               <Button 
                 onClick={() => setLocation("/llc/formation")} 
-                className="bg-accent text-accent-foreground font-black text-sm border-0 rounded-full h-11 px-6 shadow-md"
+                className="bg-accent text-accent-foreground font-black text-xs lg:text-sm border-0 rounded-full h-11 px-4 lg:px-6 shadow-md"
                 variant="default"
               >
                 {t("nav.register")}
