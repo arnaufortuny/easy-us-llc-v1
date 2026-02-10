@@ -145,12 +145,14 @@ export function registerAuthExtRoutes(app: Express) {
 
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
-      // Check if user exists (but don't reveal this to prevent enumeration)
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       
-      // Always return success to prevent email enumeration attacks
       if (!existingUser) {
         return res.json({ success: true });
+      }
+      
+      if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+        return res.json({ success: true, deactivated: true });
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
@@ -204,10 +206,17 @@ export function registerAuthExtRoutes(app: Express) {
         return res.status(400).json({ message: "The code has expired or is incorrect. Please request a new one." });
       }
 
-      // Find the user
       const [user] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       if (!user) {
         return res.status(400).json({ message: "User not found" });
+      }
+
+      if (user.isActive === false || user.accountStatus === 'deactivated') {
+        return res.status(403).json({ 
+          success: false,
+          code: "ACCOUNT_DEACTIVATED",
+          message: "This account has been deactivated. Contact support for more information."
+        });
       }
 
       // Hash new password and update

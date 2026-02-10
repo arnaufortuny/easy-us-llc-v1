@@ -908,7 +908,8 @@
     },
     "accountDeactivated": {
       "title": "Account deactivated",
-      "description": "Your account has been deactivated. Contact our support team for more information."
+      "description": "Your account has been deactivated. Contact our support team for more information.",
+      "passwordResetBlocked": "Your account has been deactivated. Password recovery is not available. Contact support for more information."
     }
   },
   "validation": {

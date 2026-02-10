@@ -70,9 +70,14 @@ export default function ForgotPassword() {
     try {
       const res = await apiRequest("POST", "/api/password-reset/send-otp", data);
       if (res.ok) {
-        setEmail(data.email);
-        setStep('otp');
-        setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeSentDesc") });
+        const result = await res.json();
+        if (result.deactivated) {
+          setFormMessage({ type: 'error', text: t("auth.accountDeactivated.passwordResetBlocked") || "Your account has been deactivated. Password recovery is not available. Contact support for more information." });
+        } else {
+          setEmail(data.email);
+          setStep('otp');
+          setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeSentDesc") });
+        }
       } else {
         const result = await res.json();
         setFormMessage({ type: 'error', text: result.message || t("auth.forgotPassword.errorSendCode") });

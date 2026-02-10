@@ -908,7 +908,8 @@
     },
     "accountDeactivated": {
       "title": "Konto deaktiviert",
-      "description": "Dein Konto wurde deaktiviert. Kontaktiere unser Support-Team für weitere Informationen."
+      "description": "Dein Konto wurde deaktiviert. Kontaktiere unser Support-Team für weitere Informationen.",
+      "passwordResetBlocked": "Dein Konto wurde deaktiviert. Die Passwortwiederherstellung ist nicht verfügbar. Kontaktiere den Support für weitere Informationen."
     }
   },
   "validation": {

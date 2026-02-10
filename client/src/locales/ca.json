@@ -908,7 +908,8 @@
     },
     "accountDeactivated": {
       "title": "Compte desactivat",
-      "description": "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport per a més informació."
+      "description": "El teu compte ha estat desactivat. Contacta amb el nostre equip de suport per a més informació.",
+      "passwordResetBlocked": "El teu compte ha estat desactivat. La recuperació de contrasenya no està disponible. Contacta amb suport per a més informació."
     }
   },
   "validation": {

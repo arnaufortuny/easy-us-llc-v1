@@ -224,7 +224,7 @@ export default function AsesoriaGratis() {
         const checkRes = await apiRequest("POST", "/api/consultations/check-email", { email });
         const checkData = await checkRes.json();
         if (checkData.deactivated) {
-          form.setError("email", { message: t("freeConsultation.emailDeactivated") || "This email is associated with a deactivated account." });
+          window.location.href = "/auth/login";
           return;
         }
       } catch {

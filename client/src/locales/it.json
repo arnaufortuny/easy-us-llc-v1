@@ -908,7 +908,8 @@
     },
     "accountDeactivated": {
       "title": "Account disattivato",
-      "description": "Il tuo account è stato disattivato. Contatta il nostro team di supporto per ulteriori informazioni."
+      "description": "Il tuo account è stato disattivato. Contatta il nostro team di supporto per ulteriori informazioni.",
+      "passwordResetBlocked": "Il tuo account è stato disattivato. Il recupero della password non è disponibile. Contatta il supporto per ulteriori informazioni."
     }
   },
   "validation": {
