@@ -3064,6 +3064,10 @@
         "title": "Cookie Policy | Easy US LLC",
         "description": "Information about the use of cookies on Easy US LLC."
       }
+    },
+    "csvGenerator": {
+      "title": "Transaction CSV Generator | Easy US LLC",
+      "description": "Generate bank transaction CSV files for your LLC for free."
     }
   },
   "consultations": {

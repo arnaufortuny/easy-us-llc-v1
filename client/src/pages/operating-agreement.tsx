@@ -13,6 +13,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useTranslation } from "react-i18next";
 import logoGreen from "@assets/logo-icon.png";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 interface CompletedLLC {
   id: number;
@@ -44,6 +45,7 @@ interface FormData {
 export default function OperatingAgreementGenerator() {
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation();
+  usePageTitle();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
   const [selectedLlcId, setSelectedLlcId] = useState<string>("");

@@ -11,6 +11,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { formatDateShort } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 interface InvoiceItem {
   id: string;
@@ -36,6 +37,7 @@ const EXPORT_LANGUAGES = [
 export default function InvoiceGenerator() {
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation();
+  usePageTitle();
   
   // All hooks must be called before any conditional returns
   const [issuerName, setIssuerName] = useState("");

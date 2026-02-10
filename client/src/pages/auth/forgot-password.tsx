@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { apiRequest } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { PasswordStrength } from "@/components/ui/password-strength";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const createEmailSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.email")),
@@ -31,6 +32,7 @@ type Step = 'email' | 'otp' | 'password' | 'success';
 
 export default function ForgotPassword() {
   const { t } = useTranslation();
+  usePageTitle();
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState("");

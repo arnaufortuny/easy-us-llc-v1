@@ -15,6 +15,7 @@ import { Form } from "@/components/ui/form";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { SocialLogin } from "@/components/auth/social-login";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const createLoginSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.invalidEmail")),
@@ -25,6 +26,7 @@ type LoginFormValues = z.infer<ReturnType<typeof createLoginSchema>>;
 
 export default function Login() {
   const { t } = useTranslation();
+  usePageTitle();
   const [, setLocation] = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

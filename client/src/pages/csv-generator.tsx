@@ -11,6 +11,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 import { Badge } from "@/components/ui/badge";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 interface Transaction {
   id: string;
@@ -107,6 +108,7 @@ const EXPORT_LANGUAGES = [
 export default function CsvGenerator() {
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation();
+  usePageTitle();
   const [transactions, setTransactions] = useState<Transaction[]>([createEmptyTransaction()]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [exportLang, setExportLang] = useState(i18n.language?.split('-')[0] || 'es');

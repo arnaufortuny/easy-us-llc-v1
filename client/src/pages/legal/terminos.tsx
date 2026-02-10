@@ -1,9 +1,11 @@
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
 import { getFormationPriceFormatted } from "@shared/config/pricing";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function Terminos() {
   const { t } = useTranslation();
+  usePageTitle();
 
   return (
     <LegalPageLayout

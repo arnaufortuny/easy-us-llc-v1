@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { LegalPageLayout, LegalSection, LegalSubSection, LegalList, LegalHighlightBox } from "@/components/legal/legal-page-layout";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 export default function Privacidad() {
   const { t } = useTranslation();
+  usePageTitle();
 
   return (
     <LegalPageLayout

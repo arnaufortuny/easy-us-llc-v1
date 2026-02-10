@@ -10,6 +10,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { useAuth } from "@/hooks/use-auth";
 import { useTranslation } from "react-i18next";
 import { getLocale } from "@/lib/utils";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 interface CostItem {
   id: string;
@@ -25,6 +26,7 @@ function generateId() {
 export default function PriceCalculator() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
+  usePageTitle();
   const { user, isAuthenticated, isLoading: authLoading } = useAuth();
   
   const [productName, setProductName] = useState("");

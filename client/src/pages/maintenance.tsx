@@ -6,6 +6,7 @@ import * as z from "zod";
 import { useTranslation } from "react-i18next";
 import { PRICING } from "@shared/config/pricing";
 import { validateEmail } from "@/lib/validation";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 import { Check, Loader2, Eye, EyeOff, CheckCircle2 } from "@/components/icons";
 import { Navbar } from "@/components/layout/navbar";
@@ -79,6 +80,7 @@ type FormValues = z.infer<ReturnType<typeof createFormSchema>>;
 
 export default function MaintenanceApplication() {
   const { t } = useTranslation();
+  usePageTitle();
   const { user, isAuthenticated, refetch: refetchAuth } = useAuth();
   const [, setLocation] = useLocation();
 

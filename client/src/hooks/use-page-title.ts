@@ -87,6 +87,12 @@ const routeTitles: Record<string, PageTitleConfig> = {
     fallbackTitle: "Generador Operating Agreement | Easy US LLC",
     fallbackDescription: "Genera el Operating Agreement de tu LLC de forma automática."
   },
+  "/tools/csv-generator": {
+    titleKey: "seo.csvGenerator.title",
+    descriptionKey: "seo.csvGenerator.description",
+    fallbackTitle: "Generador CSV de Transacciones | Easy US LLC",
+    fallbackDescription: "Genera archivos CSV de transacciones bancarias para tu LLC de forma gratuita."
+  },
   "/legal/terminos": {
     titleKey: "seo.legal.terminos.title",
     descriptionKey: "seo.legal.terminos.description",

@@ -17,6 +17,7 @@ import { SocialLogin } from "@/components/auth/social-login";
 import { StepProgress } from "@/components/ui/step-progress";
 import { PasswordStrength } from "@/components/ui/password-strength";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
+import { usePageTitle } from "@/hooks/use-page-title";
 
 const createRegisterSchema = (t: (key: string) => string) => z.object({
   firstName: z.string().min(1, t("validation.required")),
@@ -52,6 +53,7 @@ const TOTAL_STEPS = 6;
 
 export default function Register() {
   const { t, i18n } = useTranslation();
+  usePageTitle();
   const [, setLocation] = useLocation();
   const [step, setStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
