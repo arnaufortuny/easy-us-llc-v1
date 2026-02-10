@@ -687,16 +687,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
             }
             * { box-sizing: border-box; margin: 0; padding: 0; }
             body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; padding: 40px; color: #0A0A0A; line-height: 1.6; background: #fff; max-width: 800px; margin: 0 auto; }
-            .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; padding-bottom: 30px; border-bottom: 3px solid #6EDC8A; }
+            .header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 50px; padding-bottom: 30px; border-bottom: 3px solid #4A8BC2; }
             .logo-section h1 { font-size: 28px; font-weight: 900; letter-spacing: -0.02em; }
             .logo-section .subtitle { color: #6B7280; font-size: 13px; margin-top: 4px; }
             .invoice-info { text-align: right; }
-            .invoice-badge { background: linear-gradient(135deg, #6EDC8A 0%, #4eca70 100%); color: #0A0A0A; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 13px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+            .invoice-badge { background: linear-gradient(135deg, #4A8BC2 0%, #3D7AB0 100%); color: #0A0A0A; padding: 10px 20px; border-radius: 100px; font-weight: 900; font-size: 13px; display: inline-block; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
             .invoice-number { font-size: 20px; font-weight: 800; color: #0A0A0A; }
             .invoice-date { font-size: 13px; color: #6B7280; margin-top: 4px; }
             .details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-bottom: 50px; }
             .detail-box { background: #F7F7F5; padding: 25px; border-radius: 16px; }
-            .detail-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #6EDC8A; margin-bottom: 12px; letter-spacing: 0.08em; }
+            .detail-label { font-size: 11px; font-weight: 800; text-transform: uppercase; color: #4A8BC2; margin-bottom: 12px; letter-spacing: 0.08em; }
             .detail-content p { font-size: 14px; margin-bottom: 4px; }
             .detail-content strong { font-weight: 700; }
             .items-table { width: 100%; border-collapse: collapse; margin-bottom: 40px; }
@@ -713,8 +713,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
             .footer { text-align: center; padding-top: 30px; border-top: 1px solid #E6E9EC; font-size: 12px; color: #6B7280; }
             .footer p { margin-bottom: 4px; }
             .print-controls { text-align: center; margin-bottom: 30px; }
-            .print-btn { background: #6EDC8A; color: #0A0A0A; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(110, 220, 138, 0.3); }
-            .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(110, 220, 138, 0.4); }
+            .print-btn { background: #4A8BC2; color: #0A0A0A; padding: 14px 35px; border: none; border-radius: 100px; font-weight: 800; cursor: pointer; font-size: 14px; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 4px 15px rgba(74, 139, 194, 0.3); }
+            .print-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(74, 139, 194, 0.4); }
           </style>
         </head>
         <body>
@@ -783,7 +783,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
                 <span>${((order.originalAmount || order.amount) / 100).toFixed(2)} €</span>
               </div>
               ${order.discountCode ? `
-              <div class="totals-row" style="color: #16a34a;">
+              <div class="totals-row" style="color: #2C5F8A;">
                 <span>Descuento (${order.discountCode})</span>
                 <span>-${(order.discountAmount / 100).toFixed(2)} €</span>
               </div>

@@ -363,11 +363,11 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         </div>
                         <div className="space-y-1 text-sm text-muted-foreground">
                           <div className="flex items-center gap-2">
-                            <Calendar className="w-4 h-4 text-green-600 dark:text-green-400" />
+                            <Calendar className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                             <span>{formatDate(booking.scheduledDate)}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Clock className="w-4 h-4 text-green-600 dark:text-green-400" />
+                            <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
                             <span>{booking.scheduledTime} ({booking.duration} min)</span>
                           </div>
                           <div className="text-xs mt-2">

@@ -237,13 +237,13 @@ export default function Contacto() {
               <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                   <radialGradient id="successGlowContact" cx="50%" cy="50%" r="60%">
-                    <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35"/>
-                    <stop offset="100%" stopColor="#22c55e" stopOpacity="0"/>
+                    <stop offset="0%" stopColor="#2C5F8A" stopOpacity="0.35"/>
+                    <stop offset="100%" stopColor="#2C5F8A" stopOpacity="0"/>
                   </radialGradient>
                 </defs>
                 <circle cx="60" cy="60" r="50" fill="url(#successGlowContact)"/>
-                <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#22c55e" strokeWidth="3"/>
-                <path d="M45 62 L55 72 L78 48" stroke="#22c55e" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+                <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#2C5F8A" strokeWidth="3"/>
+                <path d="M45 62 L55 72 L78 48" stroke="#2C5F8A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
             
@@ -483,7 +483,7 @@ export default function Contacto() {
                           <div className="flex flex-col gap-2">
                             {SUBJECT_OPTIONS_TRANSLATED.map((opt) => (
                               <label key={opt} className="flex items-center gap-3 p-3 rounded-full border-2 border-gray-200 dark:border-border bg-white dark:bg-[#1A1A1A] hover:border-accent cursor-pointer transition-all">
-                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#6EDC8A]" />
+                                <input type="radio" {...field} value={opt} checked={field.value === opt} className="w-4 h-4 accent-[#4A8BC2]" />
                                 <span className="font-medium text-foreground text-sm">{opt}</span>
                               </label>
                             ))}
@@ -663,7 +663,7 @@ export default function Contacto() {
               className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"
               data-testid="link-email"
             >
-              <div className="w-12 h-12 rounded-full bg-white dark:bg-card flex items-center justify-center text-[#6EDC8A] group-hover:scale-105 transition-transform shadow-sm">
+              <div className="w-12 h-12 rounded-full bg-white dark:bg-card flex items-center justify-center text-[#4A8BC2] group-hover:scale-105 transition-transform shadow-sm">
                 <Mail className="w-7 h-7" />
               </div>
               <div className="text-left">

@@ -536,7 +536,7 @@ function HomeFAQ() {
                   {t(`homeFaq.items.${key}.question`)}
                 </span>
                 <span className={`text-xl sm:text-2xl transition-transform duration-200 shrink-0 ${
-                  openIndex === index ? "rotate-45 text-[#6EDC8A]" : "text-primary/30"
+                  openIndex === index ? "rotate-45 text-[#4A8BC2]" : "text-primary/30"
                 }`}>
                   +
                 </span>

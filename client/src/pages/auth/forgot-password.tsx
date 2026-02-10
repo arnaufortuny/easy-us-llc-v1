@@ -138,13 +138,13 @@ export default function ForgotPassword() {
             <svg width="100" height="100" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mb-4">
               <defs>
                 <radialGradient id="successGlow" cx="50%" cy="50%" r="60%">
-                  <stop offset="0%" stopColor="#22c55e" stopOpacity="0.35"/>
-                  <stop offset="100%" stopColor="#22c55e" stopOpacity="0"/>
+                  <stop offset="0%" stopColor="#2C5F8A" stopOpacity="0.35"/>
+                  <stop offset="100%" stopColor="#2C5F8A" stopOpacity="0"/>
                 </radialGradient>
               </defs>
               <circle cx="60" cy="60" r="50" fill="url(#successGlow)"/>
-              <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#22c55e" strokeWidth="3"/>
-              <path d="M45 62 L55 72 L78 48" stroke="#22c55e" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="60" cy="60" r="34" fill="#1A1F26" stroke="#2C5F8A" strokeWidth="3"/>
+              <path d="M45 62 L55 72 L78 48" stroke="#2C5F8A" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             <h1 className="text-2xl sm:text-3xl font-black text-primary tracking-tight mb-3">
               {t("auth.forgotPassword.successTitle")} <span className="text-accent">{t("auth.forgotPassword.successTitleHighlight")}</span>

@@ -203,28 +203,28 @@ export function AdminAccountingPanel() {
         </div>
       )}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+        <Card className="rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.totalIncome')}</p>
-            <p className="text-xl font-black text-green-700 dark:text-green-400">
+            <p className="text-xs text-blue-700 dark:text-blue-400 mb-1 font-semibold">{t('dashboard.admin.totalIncome')}</p>
+            <p className="text-xl font-black text-blue-700 dark:text-blue-400">
               {summaryLoading ? '...' : formatAmount(summary?.totalIncome || 0)}
             </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+        <Card className="rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.totalExpenses')}</p>
-            <p className="text-xl font-black text-green-700 dark:text-green-400">
+            <p className="text-xs text-blue-700 dark:text-blue-400 mb-1 font-semibold">{t('dashboard.admin.totalExpenses')}</p>
+            <p className="text-xl font-black text-blue-700 dark:text-blue-400">
               {summaryLoading ? '...' : formatAmount(summary?.totalExpenses || 0)}
             </p>
           </CardContent>
         </Card>
         
-        <Card className="rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+        <Card className="rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
           <CardContent className="p-4">
-            <p className="text-xs text-green-700 dark:text-green-400 mb-1 font-semibold">{t('dashboard.admin.netBalance')}</p>
-            <p className="text-xl font-black text-green-700 dark:text-green-400">
+            <p className="text-xs text-blue-700 dark:text-blue-400 mb-1 font-semibold">{t('dashboard.admin.netBalance')}</p>
+            <p className="text-xl font-black text-blue-700 dark:text-blue-400">
               {summaryLoading ? '...' : formatAmount(summary?.netBalance || 0)}
             </p>
           </CardContent>

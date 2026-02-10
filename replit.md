@@ -24,7 +24,7 @@ Easy US LLC is a full-stack SaaS platform designed to streamline US LLC formatio
 - **Internationalization:** react-i18next (7 languages: ES, EN, CA, FR, DE, IT, PT)
 
 ### Design System
-- **Colors:** Primary Green (#22c55e), Carbon Black, Off White, Soft Gray, Text Gray
+- **Colors:** Primary Blue (#2C5F8A), Carbon Black, Off White, Soft Gray, Text Gray
 - **Typography:** Space Grotesk (headings), Inter (body), DM Sans (UI)
 - **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence
 - **Animations:** Framer Motion with page transitions

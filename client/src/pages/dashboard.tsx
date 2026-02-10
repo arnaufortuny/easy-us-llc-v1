@@ -3308,21 +3308,21 @@ export default function Dashboard() {
                       <div data-testid="section-sales">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-sales">{t('dashboard.admin.metrics.sales')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalSales')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-800 dark:text-green-300 truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalSales')}</p>
+                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300 truncate" data-testid="stat-total-sales">{((adminStats?.totalSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.pendingCollection')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-800 dark:text-green-300 truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.pendingCollection')}</p>
+                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300 truncate" data-testid="stat-pending-sales">{((adminStats?.pendingSales || 0) / 100).toLocaleString(getLocale(), { style: 'currency', currency: 'EUR' })}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalOrders')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-800 dark:text-green-300" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.totalOrders')}</p>
+                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-orders">{adminStats?.orderCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.conversion')}</p>
-                            <p className="text-lg md:text-2xl font-black text-green-800 dark:text-green-300" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold leading-tight mb-2">{t('dashboard.admin.metrics.conversion')}</p>
+                            <p className="text-lg md:text-2xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-conversion">{adminStats?.conversionRate || 0}%</p>
                           </Card>
                         </div>
                       </div>
@@ -3330,26 +3330,26 @@ export default function Dashboard() {
                       <div data-testid="section-orders">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-orders">{t('dashboard.admin.metrics.orderStatus')}</h3>
                         <div className="grid grid-cols-3 gap-3">
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.pending')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pending')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-orders">{adminStats?.pendingOrders || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-blue-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.inProcess')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.inProcess')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-processing-orders">{adminStats?.processingOrders || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-green-600 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.completed')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.completed')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-completed-orders">{adminStats?.completedOrders || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -3357,37 +3357,37 @@ export default function Dashboard() {
                       <div data-testid="section-crm">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-crm">{t('dashboard.admin.metrics.clients')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalUsers')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalUsers')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-users">{adminStats?.userCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-green-600 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.active')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.active')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-active-users">{adminStats?.activeAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-yellow-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">VIP</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">VIP</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-vip-users">{adminStats?.vipAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.inReview')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.inReview')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-accounts">{adminStats?.pendingAccounts || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.deactivated')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.deactivated')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-deactivated-users">{adminStats?.deactivatedAccounts || 0}</p>
                           </Card>
                         </div>
                       </div>
@@ -3395,17 +3395,17 @@ export default function Dashboard() {
                       <div data-testid="section-guests">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-guests">{t('dashboard.admin.guestSection.guests')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.guestSection.totalVisitors')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.totalVisitors')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-guests">{(guestVisitors as any[])?.length || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.guestSection.withEmail')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-guests-with-email">{(guestVisitors as any[])?.filter((g: any) => g.email)?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.withEmail')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-guests-with-email">{(guestVisitors as any[])?.filter((g: any) => g.email)?.length || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.guestSection.calculator')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.guestSection.calculator')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-calculator-guests">{(guestVisitors as any[])?.filter((g: any) => g.source === 'calculator')?.length || 0}</p>
                           </Card>
                         </div>
                         <Card className="rounded-xl border border-border/50 shadow-sm mt-3 p-0 overflow-hidden">
@@ -3488,27 +3488,27 @@ export default function Dashboard() {
                       <div data-testid="section-communications">
                         <h3 className="font-black text-lg tracking-tight mb-3" data-testid="heading-communications">{t('dashboard.admin.metrics.communications')}</h3>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.metrics.newsletterSubs')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.newsletterSubs')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-subscribers">{adminStats?.subscriberCount || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
-                            <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalMessages')}</p>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
+                            <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold mb-2">{t('dashboard.admin.metrics.totalMessages')}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-total-messages">{adminStats?.totalMessages || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.pendingMessages')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pendingMessages')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-messages">{adminStats?.pendingMessages || 0}</p>
                           </Card>
-                          <Card className="p-4 rounded-2xl border border-green-200 dark:border-green-800/40 shadow-sm bg-green-50 dark:bg-green-950/20">
+                          <Card className="p-4 rounded-2xl border border-blue-200 dark:border-blue-800/40 shadow-sm bg-blue-50 dark:bg-blue-950/20">
                             <div className="flex items-center gap-2 mb-2">
                               <span className="w-2 h-2 rounded-full bg-amber-500 flex-shrink-0" />
-                              <p className="text-[11px] md:text-xs text-green-700 dark:text-green-400 font-semibold">{t('dashboard.admin.metrics.pendingDocs')}</p>
+                              <p className="text-[11px] md:text-xs text-blue-700 dark:text-blue-400 font-semibold">{t('dashboard.admin.metrics.pendingDocs')}</p>
                             </div>
-                            <p className="text-xl md:text-3xl font-black text-green-800 dark:text-green-300" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
+                            <p className="text-xl md:text-3xl font-black text-blue-800 dark:text-blue-300" data-testid="stat-pending-docs">{adminStats?.pendingDocs || 0}</p>
                           </Card>
                         </div>
                       </div>

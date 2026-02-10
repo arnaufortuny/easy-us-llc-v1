@@ -91,8 +91,8 @@ html.dark body {
   --secondary: 220 14% 96%;
   --secondary-foreground: 220 25% 12%;
 
-  /* Accent Green - More vibrant and saturated */
-  --accent: 145 72% 44%; /* More vibrant, saturated green */
+  /* Accent Blue - Professional corporate blue */
+  --accent: 207 52% 36%; /* #2C5F8A */
   --accent-foreground: 0 0% 100%;
 
   --muted: 220 14% 96%;
@@ -103,7 +103,7 @@ html.dark body {
 
   --border: 220 13% 91%;
   --input: 220 13% 91%;
-  --ring: 145 72% 44%;
+  --ring: 207 52% 36%;
 
   /* Card colors - Pure white for contrast */
   --card: 0 0% 100%;
@@ -119,14 +119,14 @@ html.dark body {
   --sidebar: 0 0% 100%;
   --sidebar-foreground: 220 25% 12%;
   --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 145 72% 44%;
+  --sidebar-ring: 207 52% 36%;
   --sidebar-primary: 220 25% 12%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 145 72% 44%;
+  --sidebar-accent: 207 52% 36%;
   --sidebar-accent-foreground: 0 0% 100%;
 
   /* Chart colors - Harmonized palette */
-  --chart-1: 145 72% 44%;
+  --chart-1: 207 52% 36%;
   --chart-2: 220 70% 50%;
   --chart-3: 280 65% 60%;
   --chart-4: 25 95% 53%;
@@ -150,8 +150,8 @@ html.dark body {
   --secondary: 0 0% 12%;
   --secondary-foreground: 0 0% 98%;
 
-  --accent: 145 70% 48%; /* Green accent */
-  --accent-foreground: 0 0% 4%;
+  --accent: 207 52% 46%; /* Blue accent - slightly lighter for dark mode */
+  --accent-foreground: 0 0% 100%;
 
   --muted: 0 0% 10%;
   --muted-foreground: 0 0% 65%;
@@ -177,8 +177,8 @@ html.dark body {
   --sidebar-ring: 0 0% 50%;
   --sidebar-primary: 0 0% 98%;
   --sidebar-primary-foreground: 0 0% 4%;
-  --sidebar-accent: 145 70% 48%;
-  --sidebar-accent-foreground: 0 0% 4%;
+  --sidebar-accent: 207 52% 46%;
+  --sidebar-accent-foreground: 0 0% 100%;
 }
 
 @layer base {
@@ -214,7 +214,7 @@ html.dark body {
     font-size: clamp(2.8rem, 6vw, 5.5rem);
   }
   .bg-brand-green {
-    background-color: #6EDC8A;
+    background-color: #2C5F8A;
   }
   .bg-brand-gray {
     background-color: #E6E9EC;
@@ -229,7 +229,7 @@ html.dark body {
     color: #6B7280;
   }
   .border-brand-green {
-    border-color: #6EDC8A;
+    border-color: #4A8BC2;
   }
   
     

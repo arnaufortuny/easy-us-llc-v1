@@ -806,7 +806,7 @@ export default function MaintenanceApplication() {
                                     const next = checked ? [...current, opt.value] : current.filter(v => v !== opt.value);
                                     field.onChange(next.join(", "));
                                   }}
-                                  className="border-border data-[state=checked]:bg-accent data-[state=checked]:border-[#6EDC8A]"
+                                  className="border-border data-[state=checked]:bg-accent data-[state=checked]:border-[#4A8BC2]"
                                 />
                                 <span className="font-black text-sm text-primary">{opt.label}</span>
                               </label>
@@ -866,7 +866,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 10: Crear Cuenta */}
                 {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#4A8BC2]/20 pb-2 leading-tight flex items-center gap-2">
                       {t("maintenance.steps.createAccount")}
                     </h2>
                     <p className="text-sm text-muted-foreground">{t("maintenance.steps.createAccountDesc")}</p>
@@ -886,7 +886,7 @@ export default function MaintenanceApplication() {
                                 type="button" 
                                 onClick={sendOtp}
                                 disabled={isSendingOtp}
-                                className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20"
+                                className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#4A8BC2]/20"
                                 data-testid="button-send-otp"
                               >
                                 {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
@@ -915,7 +915,7 @@ export default function MaintenanceApplication() {
                                   type="button" 
                                   onClick={verifyOtp}
                                   disabled={isVerifyingOtp || otpCode.length !== 6}
-                                  className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#6EDC8A]/20 disabled:opacity-50"
+                                  className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#4A8BC2]/20 disabled:opacity-50"
                                   data-testid="button-verify-otp"
                                 >
                                   {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
@@ -925,7 +925,7 @@ export default function MaintenanceApplication() {
                                 <button 
                                   type="button"
                                   onClick={() => { setIsOtpSent(false); setOtpCode(""); }}
-                                  className="text-xs text-[#6EDC8A] underline w-full text-center"
+                                  className="text-xs text-[#4A8BC2] underline w-full text-center"
                                 >
                                   {t("maintenance.steps.resendCode")}
                                 </button>
@@ -991,7 +991,7 @@ export default function MaintenanceApplication() {
                 {/* STEP 11: Método de Pago */}
                 {step === 11 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#4A8BC2]/20 pb-2 leading-tight">
                       1️⃣1️⃣ {t("maintenance.payment.title")}
                     </h2>
                     <p className="text-sm text-muted-foreground">{t("maintenance.payment.desc")}</p>
@@ -1049,15 +1049,15 @@ export default function MaintenanceApplication() {
                     <FormField control={form.control} name="paymentMethod" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-4">
-                          <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
-                            <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#6EDC8A]" />
+                          <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'transfer' ? 'border-[#4A8BC2] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                            <input type="radio" {...field} value="transfer" checked={field.value === 'transfer'} className="w-5 h-5 accent-[#4A8BC2]" />
                             <div className="flex-1">
                               <span className="font-bold text-foreground text-sm block">{t("maintenance.payment.bankTransfer")}</span>
                               <p className="text-xs text-muted-foreground mt-1">{t("maintenance.payment.bankTransferFormDesc", "Recibirás los datos bancarios en la factura de tu pedido.")}</p>
                             </div>
                           </label>
-                          <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-[#6EDC8A] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
-                            <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#6EDC8A]" />
+                          <label className={`flex items-center gap-4 p-5 rounded-2xl border-2 cursor-pointer transition-colors ${field.value === 'link' ? 'border-[#4A8BC2] bg-accent/5' : 'border-border bg-white dark:bg-card hover:border-accent/50'}`}>
+                            <input type="radio" {...field} value="link" checked={field.value === 'link'} className="w-5 h-5 accent-[#4A8BC2]" />
                             <div className="flex-1">
                               <span className="font-bold text-foreground text-sm block">{t("maintenance.payment.paymentLink")}</span>
                               <p className="text-xs text-muted-foreground mt-1">{t("maintenance.payment.paymentLinkDesc")}</p>
@@ -1148,11 +1148,11 @@ export default function MaintenanceApplication() {
                 {/* STEP 20: Login para usuarios existentes */}
                 {step === 20 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#6EDC8A]/20 pb-2 leading-tight flex items-center gap-2">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#4A8BC2]/20 pb-2 leading-tight flex items-center gap-2">
                       {t("maintenance.login.title")}
                     </h2>
                     
-                    <div className="bg-accent/10 border border-[#6EDC8A]/30 rounded-2xl p-5 text-center">
+                    <div className="bg-accent/10 border border-[#4A8BC2]/30 rounded-2xl p-5 text-center">
                                             <p className="text-sm font-bold text-foreground mb-1">
                         {t("maintenance.login.hello")}{existingUserName ? `, ${existingUserName}` : ""}!
                       </p>
@@ -1211,7 +1211,7 @@ export default function MaintenanceApplication() {
                     </div>
 
                     <div className="text-center">
-                      <Link href="/auth/forgot-password" className="text-xs text-[#6EDC8A] hover:underline">
+                      <Link href="/auth/forgot-password" className="text-xs text-[#4A8BC2] hover:underline">
                         {t("maintenance.login.forgotPassword")}
                       </Link>
                     </div>
