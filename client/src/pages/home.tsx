@@ -551,16 +551,16 @@ function HomeFAQ() {
         </div>
 
         <div className="mt-12 text-center flex flex-col items-center">
-          <p className="text-lg sm:text-xl font-black mb-5 uppercase">
+          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black mb-6 uppercase tracking-tight">
             <span className="text-accent">{t("homeFaq.ctaPart1")}</span>{" "}
             <span className="text-foreground">{t("homeFaq.ctaPart2")}</span>{" "}
             <span className="text-accent">{t("homeFaq.ctaPart3")}</span>{" "}
             <span className="text-foreground">{t("homeFaq.ctaPart4")}</span>
-          </p>
+          </h3>
           <Button
             size="lg"
             asChild
-            className="bg-[#25D366] text-white font-black text-sm px-8 border-0 rounded-full h-12 shadow-lg"
+            className="bg-accent text-white font-black text-sm px-8 border-0 rounded-full shadow-lg"
             data-testid="button-faq-cta"
           >
             <a
