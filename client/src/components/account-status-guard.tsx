@@ -34,9 +34,10 @@ function translateNotification(text: string | null | undefined): string {
 
 interface AccountStatusGuardProps {
   children: ReactNode;
+  allowPending?: boolean;
 }
 
-export function AccountStatusGuard({ children }: AccountStatusGuardProps) {
+export function AccountStatusGuard({ children, allowPending = false }: AccountStatusGuardProps) {
   const { user, isLoading: authLoading, isAuthenticated } = useAuth();
 
   if (authLoading) {
@@ -51,7 +52,7 @@ export function AccountStatusGuard({ children }: AccountStatusGuardProps) {
     return <DeactivatedPage />;
   }
 
-  if (user.accountStatus === 'pending') {
+  if (user.accountStatus === 'pending' && !allowPending) {
     return <PendingReviewPage />;
   }
 

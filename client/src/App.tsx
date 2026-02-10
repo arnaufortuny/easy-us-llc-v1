@@ -148,9 +148,9 @@ function ScrollToTop() {
 }
 
 
-function GuardedRoute({ component: Comp }: { component: React.ComponentType }) {
+function GuardedRoute({ component: Comp, allowPending = false }: { component: React.ComponentType; allowPending?: boolean }) {
   return (
-    <AccountStatusGuard>
+    <AccountStatusGuard allowPending={allowPending}>
       <Comp />
     </AccountStatusGuard>
   );
@@ -181,7 +181,7 @@ function MainRouter() {
             <Route path="/contacto">{() => <GuardedRoute component={Contacto} />}</Route>
             <Route path="/llc/maintenance">{() => <GuardedRoute component={MaintenancePage} />}</Route>
             <Route path="/llc/formation">{() => <GuardedRoute component={LlcFormation} />}</Route>
-            <Route path="/dashboard">{() => <GuardedRoute component={Dashboard} />}</Route>
+            <Route path="/dashboard">{() => <GuardedRoute component={Dashboard} allowPending />}</Route>
             <Route path="/tools/invoice">{() => <GuardedRoute component={InvoiceGenerator} />}</Route>
             <Route path="/tools/price-calculator">{() => <GuardedRoute component={PriceCalculator} />}</Route>
             <Route path="/tools/operating-agreement">{() => <GuardedRoute component={OperatingAgreement} />}</Route>
