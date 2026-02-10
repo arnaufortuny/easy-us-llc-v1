@@ -551,3 +551,10 @@ button, a, [role="button"] {
   stroke-dashoffset: 100;
   animation: success-draw 0.6s ease forwards 0.7s;
 }
+
+@media (hover: hover) and (pointer: fine) {
+  .outline-hover-fix:hover {
+    background-color: hsl(var(--accent));
+    color: hsl(var(--primary));
+  }
+}

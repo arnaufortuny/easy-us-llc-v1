@@ -179,7 +179,8 @@ export function Navbar() {
             {isAuthenticated && location.startsWith("/dashboard") ? (
               <Button 
                 variant="outline"
-                className="border-2 border-red-500 text-red-500 bg-white dark:bg-zinc-800 dark:text-red-400 dark:border-red-400 rounded-full px-3 h-9 text-sm font-black flex items-center gap-1.5"
+                className="border-2 border-red-500 text-red-500 bg-white dark:bg-zinc-800 dark:text-red-400 dark:border-red-400 rounded-full px-3 text-sm flex items-center gap-1.5"
+                size="sm"
                 onClick={() => { setIsOpen(false); resetScrollLock(); logout(); }}
                 data-testid="button-mobile-logout-header"
               >
@@ -190,7 +191,8 @@ export function Navbar() {
               <Link href={isAuthenticated ? "/dashboard" : "/auth/login"} onClick={() => { setIsOpen(false); resetScrollLock(); }}>
                 <Button 
                   variant="outline"
-                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-3 h-9 text-sm font-black flex items-center gap-1.5"
+                  className="border-2 border-accent text-accent bg-white dark:bg-zinc-800 dark:text-accent dark:border-accent rounded-full px-3 text-sm flex items-center gap-1.5"
+                  size="sm"
                   data-testid={isAuthenticated ? "link-mobile-dashboard" : "button-mobile-login"}
                 >
                   <UserIcon className="w-3.5 h-3.5" />
@@ -198,9 +200,9 @@ export function Navbar() {
                 </Button>
               </Link>
             )}
-            <div className="w-10 h-10 flex items-center justify-center shrink-0">
+            <div className="w-11 h-11 flex items-center justify-center shrink-0">
               <button 
-                className="p-2 text-foreground"
+                className="w-11 h-11 flex items-center justify-center text-foreground"
                 onClick={() => {
                   const newIsOpen = !isOpen;
                   setIsOpen(newIsOpen);
