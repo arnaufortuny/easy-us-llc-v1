@@ -151,6 +151,8 @@ export default function Dashboard() {
   const [docDialog, setDocDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [docType, setDocType] = useState("");
   const [docMessage, setDocMessage] = useState("");
+  const [docRejectDialog, setDocRejectDialog] = useState<{ open: boolean; docId: number | null }>({ open: false, docId: null });
+  const [docRejectReason, setDocRejectReason] = useState("");
   const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
   const [noteTitle, setNoteTitle] = useState("");
   const [noteMessage, setNoteMessage] = useState("");
@@ -3512,6 +3514,52 @@ export default function Dashboard() {
                     </Card>
                   )}
                   
+                  {docRejectDialog.open && docRejectDialog.docId && (
+                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
+                      <div className="flex items-center justify-between mb-4">
+                        <div>
+                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.documents.rejectionReasonTitle')}</h3>
+                        </div>
+                        <Button variant="ghost" size="icon" onClick={() => { setDocRejectDialog({ open: false, docId: null }); setDocRejectReason(""); }} className="rounded-full" data-testid="button-close-doc-reject">
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                      <div className="space-y-4">
+                        <Textarea value={docRejectReason}
+                          onChange={(e) => setDocRejectReason(e.target.value)}
+                          placeholder={t('dashboard.admin.documents.rejectionReasonPlaceholder')}
+                          className="rounded-xl border-border bg-white dark:bg-card"
+                          rows={3}
+                          data-testid="input-doc-reject-reason"
+                        />
+                      </div>
+                      <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-red-200 dark:border-red-800">
+                        <Button
+                          disabled={!docRejectReason.trim()}
+                          onClick={async () => {
+                            if (!docRejectDialog.docId || !docRejectReason.trim()) {
+                              setFormMessage({ type: 'error', text: t('dashboard.admin.documents.rejectionReasonRequired') });
+                              return;
+                            }
+                            try {
+                              await apiRequest("PATCH", `/api/admin/documents/${docRejectDialog.docId}/review`, { reviewStatus: 'rejected', rejectionReason: docRejectReason });
+                              queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
+                              setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
+                              setDocRejectDialog({ open: false, docId: null });
+                              setDocRejectReason("");
+                            } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
+                          }}
+                          variant="destructive"
+                          className="flex-1 font-black rounded-full"
+                          data-testid="button-confirm-doc-reject"
+                        >
+                          {t('dashboard.admin.documents.confirmReject')}
+                        </Button>
+                        <Button variant="outline" onClick={() => { setDocRejectDialog({ open: false, docId: null }); setDocRejectReason(""); }} className="flex-1 rounded-full" data-testid="button-cancel-doc-reject">{t('common.cancel')}</Button>
+                      </div>
+                    </Card>
+                  )}
+
                   {adminSubTab === 'dashboard' && (
                     <div className="space-y-5 md:space-y-7" data-testid="admin-dashboard-metrics">
                       <div data-testid="section-sales">
@@ -4517,7 +4565,19 @@ export default function Dashboard() {
 
                       {filteredAdminDocuments && filteredAdminDocuments.length > 0 ? (
                         <div className="space-y-3">
-                          {filteredAdminDocuments.map((doc: any) => (
+                          {filteredAdminDocuments.map((doc: any) => {
+                            const docTypeKey = doc.documentType ? `ntf.docTypes.${doc.documentType}` : '';
+                            const translatedDocType = docTypeKey ? t(docTypeKey) : '';
+                            const docTypeLabel = translatedDocType && translatedDocType !== docTypeKey ? translatedDocType : (doc.documentType || '').replace(/_/g, ' ');
+                            const idvStatusKey = doc.user?.identityVerificationStatus || 'none';
+                            const idvLabels: Record<string, string> = {
+                              'none': t('dashboard.admin.documents.idvNone'),
+                              'requested': t('dashboard.admin.documents.idvRequested'),
+                              'uploaded': t('dashboard.admin.documents.idvUploaded'),
+                              'approved': t('dashboard.admin.documents.idvApproved'),
+                              'rejected': t('dashboard.admin.documents.idvRejected'),
+                            };
+                            return (
                             <Card key={doc.id} className="rounded-xl border-0 shadow-sm p-4" data-testid={`admin-doc-card-${doc.id}`}>
                               <div className="flex items-start gap-3">
                                 <div className={`w-10 h-10 rounded-md flex items-center justify-center shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-100 dark:bg-green-900/30' : doc.reviewStatus === 'rejected' ? 'bg-red-100 dark:bg-red-900/30' : 'bg-yellow-100 dark:bg-yellow-900/30'}`}>
@@ -4529,29 +4589,51 @@ export default function Dashboard() {
                                     <Badge variant="outline" className={`text-[9px] shrink-0 ${doc.reviewStatus === 'approved' ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : doc.reviewStatus === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-yellow-50 text-yellow-700 border-yellow-200 dark:bg-yellow-900/20 dark:text-yellow-400 dark:border-yellow-800'}`}>
                                       {doc.reviewStatus === 'approved' ? t('dashboard.admin.documents.approved') : doc.reviewStatus === 'rejected' ? t('dashboard.admin.documents.rejected') : t('dashboard.admin.documents.pendingStatus')}
                                     </Badge>
-                                  </div>
-                                  <div className="flex items-center gap-2 mt-1">
-                                    <p className="text-xs text-foreground font-medium">
-                                      {doc.user?.firstName} {doc.user?.lastName}
-                                    </p>
-                                    {doc.user?.email && (
-                                      <p className="text-[10px] text-muted-foreground truncate">({doc.user.email})</p>
+                                    {docTypeLabel && (
+                                      <Badge variant="outline" className="text-[9px] shrink-0">{docTypeLabel}</Badge>
                                     )}
                                   </div>
-                                  <div className="flex items-center gap-2 mt-1 text-[10px] text-muted-foreground">
+                                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                                    {doc.user && (
+                                      <>
+                                        <p className="text-xs text-foreground font-bold">
+                                          {doc.user.firstName} {doc.user.lastName}
+                                        </p>
+                                        <span className="text-[10px] text-muted-foreground">|</span>
+                                        <p className="text-[10px] text-muted-foreground truncate">{doc.user.email}</p>
+                                        <span className="text-[10px] text-muted-foreground">|</span>
+                                        <span className="text-[10px] text-muted-foreground">{t('dashboard.admin.documents.clientId')}: {doc.user.id}</span>
+                                      </>
+                                    )}
+                                  </div>
+                                  <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                    {doc.user && (
+                                      <>
+                                        <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${doc.user.emailVerified ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800'}`}>
+                                          {doc.user.emailVerified ? t('dashboard.admin.documents.emailVerified') : t('dashboard.admin.documents.emailNotVerified')}
+                                        </Badge>
+                                        {idvStatusKey !== 'none' && (
+                                          <Badge variant="outline" className={`text-[9px] no-default-hover-elevate no-default-active-elevate ${idvStatusKey === 'approved' ? 'bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800' : idvStatusKey === 'rejected' ? 'bg-red-50 text-red-700 border-red-200 dark:bg-red-900/20 dark:text-red-400 dark:border-red-800' : 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-900/20 dark:text-amber-400 dark:border-amber-800'}`}>
+                                            {idvLabels[idvStatusKey] || idvStatusKey}
+                                          </Badge>
+                                        )}
+                                      </>
+                                    )}
                                     {doc.application?.companyName && (
-                                      <span className="bg-accent/10 text-accent px-2 py-0.5 rounded-full font-medium">{doc.application.companyName}</span>
+                                      <span className="text-[10px] bg-accent/10 text-accent px-2 py-0.5 rounded-full font-medium">{doc.application.companyName}</span>
                                     )}
-                                    <span>{doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}</span>
-                                    {doc.documentType && (
-                                      <span className="bg-muted px-2 py-0.5 rounded-full">{doc.documentType.replace(/_/g, ' ')}</span>
-                                    )}
+                                    <span className="text-[10px] text-muted-foreground">{doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}</span>
                                   </div>
                                 </div>
                                 <div className="flex items-center gap-1.5 shrink-0">
                                   <NativeSelect 
                                     value={doc.reviewStatus || 'pending'} 
                                     onValueChange={async val => {
+                                      if (val === 'rejected') {
+                                        setDocRejectDialog({ open: true, docId: doc.id });
+                                        setDocRejectReason("");
+                                        return;
+                                      }
                                       try {
                                         await apiRequest("PATCH", `/api/admin/documents/${doc.id}/review`, { reviewStatus: val });
                                         queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
@@ -4567,6 +4649,11 @@ export default function Dashboard() {
                                   {doc.fileUrl && (
                                     <Button size="icon" variant="outline" className="rounded-full" onClick={() => window.open(doc.fileUrl, '_blank')} data-testid={`btn-view-doc-${doc.id}`}>
                                       <Eye className="w-3.5 h-3.5" />
+                                    </Button>
+                                  )}
+                                  {doc.user && (
+                                    <Button size="icon" variant="outline" className="rounded-full" onClick={() => setNoteDialog({ open: true, user: doc.user })} data-testid={`btn-note-doc-${doc.id}`}>
+                                      <MessageSquare className="w-3.5 h-3.5" />
                                     </Button>
                                   )}
                                   <Button 
@@ -4593,7 +4680,7 @@ export default function Dashboard() {
                                 </div>
                               </div>
                             </Card>
-                          ))}
+                          );})}
                         </div>
                       ) : (
                         <Card className="rounded-2xl border-0 shadow-sm p-8 md:p-12">

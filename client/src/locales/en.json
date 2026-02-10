@@ -1946,7 +1946,19 @@
         "noDocs": "No documents uploaded by clients",
         "noDocsHint": "Documents will appear here when clients upload files or when you upload documents for them",
         "subtitle": "Manage and review all client documents",
-        "archive": "Archive"
+        "archive": "Archive",
+        "clientId": "ID",
+        "emailVerified": "Email verified",
+        "emailNotVerified": "Email not verified",
+        "rejectionReasonTitle": "Rejection reason",
+        "rejectionReasonPlaceholder": "Explain why the document was rejected...",
+        "rejectionReasonRequired": "Please provide a rejection reason",
+        "confirmReject": "Reject document",
+        "idvNone": "No verification",
+        "idvRequested": "Verification requested",
+        "idvUploaded": "Doc uploaded",
+        "idvApproved": "Verified",
+        "idvRejected": "Verification rejected"
       },
       "guestSection": {
         "title": "Visitors",

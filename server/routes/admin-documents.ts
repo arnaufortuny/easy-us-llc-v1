@@ -192,15 +192,42 @@ export function registerAdminDocumentsRoutes(app: Express) {
     try {
       const docs = await db.select().from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
-        .leftJoin(usersTable, eq(ordersTable.userId, usersTable.id))
         .leftJoin(llcApplicationsTable, eq(applicationDocumentsTable.applicationId, llcApplicationsTable.id))
         .orderBy(desc(applicationDocumentsTable.uploadedAt));
-      res.json(docs.map(d => ({
-        ...d.application_documents,
-        order: d.orders,
-        user: d.users ? { id: d.users.id, firstName: d.users.firstName, lastName: d.users.lastName, email: d.users.email } : null,
-        application: d.llc_applications ? { companyName: d.llc_applications.companyName, state: d.llc_applications.state } : null
-      })));
+      
+      const allUserIds = new Set<string>();
+      for (const d of docs) {
+        if (d.orders?.userId) allUserIds.add(d.orders.userId);
+        if (d.application_documents.userId) allUserIds.add(d.application_documents.userId);
+        if (d.application_documents.uploadedBy) allUserIds.add(d.application_documents.uploadedBy);
+      }
+      
+      const usersMap = new Map<string, any>();
+      if (allUserIds.size > 0) {
+        const users = await db.select().from(usersTable).where(inArray(usersTable.id, Array.from(allUserIds)));
+        for (const u of users) {
+          usersMap.set(u.id, {
+            id: u.id,
+            firstName: u.firstName,
+            lastName: u.lastName,
+            email: u.email,
+            emailVerified: u.emailVerified,
+            identityVerificationStatus: (u as any).identityVerificationStatus,
+            accountStatus: u.accountStatus
+          });
+        }
+      }
+      
+      res.json(docs.map(d => {
+        const doc = d.application_documents;
+        const resolvedUser = usersMap.get(d.orders?.userId || '') || usersMap.get(doc.userId || '') || usersMap.get(doc.uploadedBy || '') || null;
+        return {
+          ...doc,
+          order: d.orders,
+          user: resolvedUser,
+          application: d.llc_applications ? { companyName: d.llc_applications.companyName, state: d.llc_applications.state } : null
+        };
+      }));
     } catch (error) {
       console.error("Admin documents error:", error);
       res.status(500).json({ message: "Error fetching documents" });

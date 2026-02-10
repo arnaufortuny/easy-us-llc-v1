@@ -1944,7 +1944,19 @@
         "noDocs": "Keine von Kunden hochgeladenen Dokumente",
         "noDocsHint": "Dokumente erscheinen hier, wenn Kunden Dateien hochladen oder wenn Sie Dokumente hochladen",
         "subtitle": "Alle Kundendokumente verwalten und überprüfen",
-        "archive": "Archivieren"
+        "archive": "Archivieren",
+        "clientId": "ID",
+        "emailVerified": "E-Mail bestätigt",
+        "emailNotVerified": "E-Mail nicht bestätigt",
+        "rejectionReasonTitle": "Ablehnungsgrund",
+        "rejectionReasonPlaceholder": "Erklären Sie, warum das Dokument abgelehnt wird...",
+        "rejectionReasonRequired": "Bitte geben Sie einen Ablehnungsgrund an",
+        "confirmReject": "Dokument ablehnen",
+        "idvNone": "Keine Verifizierung",
+        "idvRequested": "Verifizierung angefordert",
+        "idvUploaded": "Dok. hochgeladen",
+        "idvApproved": "Verifiziert",
+        "idvRejected": "Verifizierung abgelehnt"
       },
       "guestSection": {
         "title": "Besucher",

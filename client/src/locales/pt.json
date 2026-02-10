@@ -1944,7 +1944,19 @@
         "noDocs": "Não há documentos carregados por clientes",
         "noDocsHint": "Os documentos aparecerão aqui quando os clientes fizerem upload de arquivos",
         "subtitle": "Gerir e rever todos os documentos dos clientes",
-        "archive": "Arquivar"
+        "archive": "Arquivar",
+        "clientId": "ID",
+        "emailVerified": "Email verificado",
+        "emailNotVerified": "Email não verificado",
+        "rejectionReasonTitle": "Motivo da rejeição",
+        "rejectionReasonPlaceholder": "Explique por que o documento foi rejeitado...",
+        "rejectionReasonRequired": "Por favor, indique um motivo de rejeição",
+        "confirmReject": "Rejeitar documento",
+        "idvNone": "Sem verificação",
+        "idvRequested": "Verificação solicitada",
+        "idvUploaded": "Doc enviado",
+        "idvApproved": "Verificado",
+        "idvRejected": "Verificação rejeitada"
       },
       "guestSection": {
         "title": "Visitantes",

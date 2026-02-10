@@ -1944,7 +1944,19 @@
         "noDocs": "No hi ha documents pujats per clients",
         "noDocsHint": "Els documents apareixeran aquí quan els clients pugin arxius o quan pugis documents per a ells",
         "subtitle": "Gestiona i revisa tots els documents dels clients",
-        "archive": "Arxivar"
+        "archive": "Arxivar",
+        "clientId": "ID",
+        "emailVerified": "Email verificat",
+        "emailNotVerified": "Email no verificat",
+        "rejectionReasonTitle": "Motiu del rebuig",
+        "rejectionReasonPlaceholder": "Explica per què es rebutja el document...",
+        "rejectionReasonRequired": "Si us plau, indica un motiu de rebuig",
+        "confirmReject": "Rebutjar document",
+        "idvNone": "Sense verificació",
+        "idvRequested": "Verificació sol·licitada",
+        "idvUploaded": "Doc pujat",
+        "idvApproved": "Verificat",
+        "idvRejected": "Verificació rebutjada"
       },
       "guestSection": {
         "title": "Visitants",
