@@ -25,9 +25,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const TOTAL_STEPS = 5;
 
-const INPUT_CLASS = "h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full";
-const SELECT_CLASS = "w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20";
-const TEXTAREA_CLASS = "px-5 py-3 border-2 border-gray-200 dark:border-[#2A2A2A] focus:border-accent bg-white dark:bg-[#1A1A1A] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-2xl";
+const INPUT_CLASS = "h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full";
+const SELECT_CLASS = "w-full rounded-full h-11 md:h-12 px-5 border-2 border-gray-200 dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground text-base appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-accent/20";
+const TEXTAREA_CLASS = "px-5 py-3 border-2 border-gray-200 dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-2xl";
 const LABEL_CLASS = "text-xs md:text-sm font-bold text-foreground";
 
 const createFormSchema = (t: (key: string) => string) => z.object({
