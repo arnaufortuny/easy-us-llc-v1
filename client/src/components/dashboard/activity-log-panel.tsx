@@ -168,49 +168,49 @@ export function ActivityLogPanel() {
     const rows: { label: string; value: string }[] = [];
     const d = log.details || {};
 
-    if (d.orderId) rows.push({ label: "Order ID", value: String(d.orderId) });
-    if (d.orderCode) rows.push({ label: "Order Code", value: d.orderCode });
-    if (d.ticketId) rows.push({ label: "Ticket", value: d.ticketId });
-    if (d.type) rows.push({ label: "Tipo", value: d.type });
-    if (d.newStatus) rows.push({ label: "Estado", value: d.newStatus });
-    if (d.previousStatus) rows.push({ label: "Estado Anterior", value: d.previousStatus });
-    if (d.step) rows.push({ label: "Paso", value: d.step });
-    if (d.state) rows.push({ label: "Estado (US)", value: d.state });
-    if (d.companyName) rows.push({ label: "Empresa", value: d.companyName });
-    if (d.amount !== undefined) rows.push({ label: "Monto", value: typeof d.amount === 'number' ? `${(d.amount / 100).toFixed(2)}€` : String(d.amount) });
-    if (d.currency) rows.push({ label: "Moneda", value: d.currency });
-    if (d.paymentMethod) rows.push({ label: "Metodo Pago", value: d.paymentMethod });
-    if (d.paymentLink) rows.push({ label: "Link Pago", value: d.paymentLink });
-    if (d.concept) rows.push({ label: "Concepto", value: d.concept });
-    if (d.invoiceNumber) rows.push({ label: "Factura", value: d.invoiceNumber });
-    if (d.fileName) rows.push({ label: "Archivo", value: d.fileName });
-    if (d.fileHash) rows.push({ label: "Hash", value: d.fileHash.substring(0, 16) + '...' });
-    if (d.docType) rows.push({ label: "Tipo Doc", value: d.docType });
-    if (d.documentId) rows.push({ label: "Doc ID", value: String(d.documentId) });
-    if (d.notes) rows.push({ label: "Notas", value: d.notes });
-    if (d.reason) rows.push({ label: "Motivo", value: d.reason });
-    if (d.subject) rows.push({ label: "Asunto", value: d.subject });
-    if (d.emailType) rows.push({ label: "Tipo Email", value: d.emailType });
-    if (d.recipientCount) rows.push({ label: "Destinatarios", value: String(d.recipientCount) });
-    if (d.consultationType) rows.push({ label: "Tipo Consulta", value: d.consultationType });
-    if (d.consultationDate) rows.push({ label: "Fecha Consulta", value: d.consultationDate });
-    if (d.consultationId) rows.push({ label: "Consulta ID", value: String(d.consultationId) });
-    if (d.description) rows.push({ label: "Descripcion", value: d.description });
-    if (d.category) rows.push({ label: "Categoria", value: d.category });
-    if (d.transactionId) rows.push({ label: "Trans. ID", value: String(d.transactionId) });
-    if (d.ordersCount !== undefined) rows.push({ label: "Pedidos", value: String(d.ordersCount) });
-    if (d.backedUp !== undefined) rows.push({ label: "Archivos Resp.", value: String(d.backedUp) });
-    if (d.discountCode) rows.push({ label: "Cod. Descuento", value: d.discountCode });
-    if (d.discountAmount !== undefined) rows.push({ label: "Descuento", value: typeof d.discountAmount === 'number' ? `${(d.discountAmount / 100).toFixed(2)}€` : String(d.discountAmount) });
+    if (d.orderId) rows.push({ label: t("dashboard.admin.activity.orderId"), value: String(d.orderId) });
+    if (d.orderCode) rows.push({ label: t("dashboard.admin.activity.orderCode"), value: d.orderCode });
+    if (d.ticketId) rows.push({ label: t("dashboard.admin.activity.ticket"), value: d.ticketId });
+    if (d.type) rows.push({ label: t("dashboard.admin.activity.type"), value: d.type });
+    if (d.newStatus) rows.push({ label: t("dashboard.admin.activity.status"), value: d.newStatus });
+    if (d.previousStatus) rows.push({ label: t("dashboard.admin.activity.previousStatus"), value: d.previousStatus });
+    if (d.step) rows.push({ label: t("dashboard.admin.activity.step"), value: d.step });
+    if (d.state) rows.push({ label: t("dashboard.admin.activity.stateUS"), value: d.state });
+    if (d.companyName) rows.push({ label: t("dashboard.admin.activity.company"), value: d.companyName });
+    if (d.amount !== undefined) rows.push({ label: t("dashboard.admin.activity.amount"), value: typeof d.amount === 'number' ? `${(d.amount / 100).toFixed(2)}€` : String(d.amount) });
+    if (d.currency) rows.push({ label: t("dashboard.admin.activity.currency"), value: d.currency });
+    if (d.paymentMethod) rows.push({ label: t("dashboard.admin.activity.paymentMethod"), value: d.paymentMethod });
+    if (d.paymentLink) rows.push({ label: t("dashboard.admin.activity.paymentLink"), value: d.paymentLink });
+    if (d.concept) rows.push({ label: t("dashboard.admin.activity.concept"), value: d.concept });
+    if (d.invoiceNumber) rows.push({ label: t("dashboard.admin.activity.invoice"), value: d.invoiceNumber });
+    if (d.fileName) rows.push({ label: t("dashboard.admin.activity.file"), value: d.fileName });
+    if (d.fileHash) rows.push({ label: t("dashboard.admin.activity.hash"), value: d.fileHash.substring(0, 16) + '...' });
+    if (d.docType) rows.push({ label: t("dashboard.admin.activity.docType"), value: d.docType });
+    if (d.documentId) rows.push({ label: t("dashboard.admin.activity.docId"), value: String(d.documentId) });
+    if (d.notes) rows.push({ label: t("dashboard.admin.activity.notes"), value: d.notes });
+    if (d.reason) rows.push({ label: t("dashboard.admin.activity.reason"), value: d.reason });
+    if (d.subject) rows.push({ label: t("dashboard.admin.activity.subject"), value: d.subject });
+    if (d.emailType) rows.push({ label: t("dashboard.admin.activity.emailType"), value: d.emailType });
+    if (d.recipientCount) rows.push({ label: t("dashboard.admin.activity.recipients"), value: String(d.recipientCount) });
+    if (d.consultationType) rows.push({ label: t("dashboard.admin.activity.consultationType"), value: d.consultationType });
+    if (d.consultationDate) rows.push({ label: t("dashboard.admin.activity.consultationDate"), value: d.consultationDate });
+    if (d.consultationId) rows.push({ label: t("dashboard.admin.activity.consultationId"), value: String(d.consultationId) });
+    if (d.description) rows.push({ label: t("dashboard.admin.activity.description"), value: d.description });
+    if (d.category) rows.push({ label: t("dashboard.admin.activity.category"), value: d.category });
+    if (d.transactionId) rows.push({ label: t("dashboard.admin.activity.transactionId"), value: String(d.transactionId) });
+    if (d.ordersCount !== undefined) rows.push({ label: t("dashboard.admin.activity.orders"), value: String(d.ordersCount) });
+    if (d.backedUp !== undefined) rows.push({ label: t("dashboard.admin.activity.backupFiles"), value: String(d.backedUp) });
+    if (d.discountCode) rows.push({ label: t("dashboard.admin.activity.discountCode"), value: d.discountCode });
+    if (d.discountAmount !== undefined) rows.push({ label: t("dashboard.admin.activity.discount"), value: typeof d.discountAmount === 'number' ? `${(d.discountAmount / 100).toFixed(2)}€` : String(d.discountAmount) });
     if (d.changedFields && Array.isArray(d.changedFields)) {
       const fields = d.changedFields.map((f: any) => typeof f === 'string' ? f : `${f.field}: ${f.from} → ${f.to}`).join(", ");
-      rows.push({ label: "Campos", value: fields });
+      rows.push({ label: t("dashboard.admin.activity.fields"), value: fields });
     }
-    if (d.messageId) rows.push({ label: "Mensaje ID", value: String(d.messageId) });
-    if (d.clientId) rows.push({ label: "Cliente ID", value: d.clientId });
-    if (d.accountStatus) rows.push({ label: "Estado Cuenta", value: d.accountStatus });
-    if (d.role) rows.push({ label: "Rol", value: d.role });
-    if (d.failedAttempts) rows.push({ label: "Intentos Fallidos", value: String(d.failedAttempts) });
+    if (d.messageId) rows.push({ label: t("dashboard.admin.activity.messageId"), value: String(d.messageId) });
+    if (d.clientId) rows.push({ label: t("dashboard.admin.activity.clientId"), value: d.clientId });
+    if (d.accountStatus) rows.push({ label: t("dashboard.admin.activity.accountStatus"), value: d.accountStatus });
+    if (d.role) rows.push({ label: t("dashboard.admin.activity.role"), value: d.role });
+    if (d.failedAttempts) rows.push({ label: t("dashboard.admin.activity.failedAttempts"), value: String(d.failedAttempts) });
 
     return rows;
   };
@@ -283,7 +283,7 @@ export function ActivityLogPanel() {
                         <span className="font-mono text-foreground truncate">{log.ip || '—'}</span>
                       </div>
                       <div className="flex items-center gap-1.5 min-w-0">
-                        <span className="text-muted-foreground font-semibold shrink-0">User:</span>
+                        <span className="text-muted-foreground font-semibold shrink-0">{t("dashboard.admin.activity.user")}:</span>
                         <span className="text-foreground truncate font-medium">{userName || '—'}</span>
                       </div>
                       <div className="flex items-center gap-1.5 min-w-0">
@@ -298,7 +298,7 @@ export function ActivityLogPanel() {
 
                     {log.targetId && (
                       <div className="mt-1 text-[11px] flex items-center gap-1.5">
-                        <span className="text-muted-foreground font-semibold">Target:</span>
+                        <span className="text-muted-foreground font-semibold">{t("dashboard.admin.activity.target")}:</span>
                         <span className="text-foreground font-medium">{targetName || '—'}</span>
                         {log.targetEmail && <span className="font-mono text-muted-foreground">({log.targetEmail})</span>}
                         <span className="font-mono text-muted-foreground">ID: {log.targetId.substring(0, 12)}...</span>
@@ -308,13 +308,13 @@ export function ActivityLogPanel() {
                     {detailRows.length > 0 && !isExpanded && (
                       <p className="text-[10px] text-muted-foreground mt-1.5 line-clamp-1">
                         {detailRows.slice(0, 4).map(r => `${r.label}: ${r.value}`).join(" · ")}
-                        {detailRows.length > 4 && ` (+${detailRows.length - 4} mas)`}
+                        {detailRows.length > 4 && ` (+${detailRows.length - 4} ${t("dashboard.admin.activity.more")})`}
                       </p>
                     )}
 
                     {isExpanded && detailRows.length > 0 && (
                       <div className="mt-2 p-3 rounded-xl bg-muted/30 border border-border/50 space-y-1" onClick={e => e.stopPropagation()}>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">Detalles Completos</p>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1.5">{t("dashboard.admin.activity.fullDetails")}</p>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1">
                           {detailRows.map((row, idx) => (
                             <div key={idx} className="flex gap-2 text-[11px]">

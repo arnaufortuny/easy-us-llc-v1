@@ -91,7 +91,7 @@ export const MessagesTab = memo(function MessagesTab({
       });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error sending message");
+        throw new Error(err.message || t("dashboard.messages.errorSending"));
       }
       return res.json();
     },

@@ -27,7 +27,7 @@ export default function NotFound() {
           <Button 
             asChild 
             size="lg"
-            className="bg-[#00C48C] text-[#0A1F17] border-[#00C48C] font-bold rounded-full shadow-lg" 
+            className="bg-accent text-accent-foreground border-accent font-bold rounded-full shadow-lg" 
             data-testid="button-go-home"
           >
             <Link href="/">

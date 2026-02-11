@@ -769,7 +769,7 @@ export default function LlcFormation() {
                     <FormMessage />
                   </FormItem>
                 )} />
-                <Button type="button" onClick={nextStep} className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-colors" data-testid="button-continue-step0">{t("application.continue")}</Button>
+                <Button type="button" onClick={nextStep} className="w-full bg-accent text-accent-foreground font-bold h-12 rounded-full text-base transition-colors" data-testid="button-continue-step0">{t("application.continue")}</Button>
                 <Link href="/servicios#state-comparison" className="block text-center text-sm text-accent hover:text-accent/80 underline mt-3 font-medium" data-testid="link-help-choose">
                   {t("application.helpChoose")}
                 </Link>
@@ -800,7 +800,7 @@ export default function LlcFormation() {
                   {!hasUrlState && (
                     <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
                   )}
-                  <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent text-black font-bold rounded-full h-12 transition-colors`}>{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className={`${hasUrlState ? 'flex-1' : 'flex-[2]'} bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors`}>{t("application.continue")}</Button>
                 </div>
                 
                 {!isAuthenticated && (
@@ -846,7 +846,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -864,7 +864,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -882,7 +882,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -907,7 +907,7 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -985,7 +985,7 @@ export default function LlcFormation() {
                 
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1002,7 +1002,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1099,7 +1099,7 @@ export default function LlcFormation() {
                 </div>
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1116,7 +1116,7 @@ export default function LlcFormation() {
                 )} />
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1211,7 +1211,7 @@ export default function LlcFormation() {
                 )}
                 <div className="flex gap-3">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1336,7 +1336,7 @@ export default function LlcFormation() {
                     type="button" 
                     onClick={nextStep} 
                     disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
-                    className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
+                    className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                     data-testid="button-next-step-18"
                   >
                     {t("application.continue")}
@@ -1423,7 +1423,7 @@ export default function LlcFormation() {
                 
                 <div className="flex gap-3 pt-4">
                   <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
+                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
                 </div>
               </div>
             )}
@@ -1472,7 +1472,7 @@ export default function LlcFormation() {
                   <Button 
                     type="button" 
                     onClick={handleLogin}
-                    className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors"
+                    className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors"
                     data-testid="button-login-continue"
                   >
                     {t("auth.login.signIn")}

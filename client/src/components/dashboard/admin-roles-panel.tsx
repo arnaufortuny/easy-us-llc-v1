@@ -31,29 +31,29 @@ interface StaffUser {
   accountStatus: string | null;
 }
 
-const PERMISSION_CATEGORIES: Record<string, { label: string; permissions: string[] }> = {
+const PERMISSION_CATEGORIES: Record<string, { labelKey: string; permissions: string[] }> = {
   accounting: {
-    label: "Accounting",
+    labelKey: "dashboard.admin.roles.permissions.accounting",
     permissions: ["accounting.view", "accounting.manage"],
   },
   consultations: {
-    label: "Consultations",
+    labelKey: "dashboard.admin.roles.permissions.consultations",
     permissions: ["consultations.view", "consultations.manage"],
   },
   documents: {
-    label: "Documents",
+    labelKey: "dashboard.admin.roles.permissions.documents",
     permissions: ["documents.view", "documents.upload"],
   },
   support: {
-    label: "Support",
+    labelKey: "dashboard.admin.roles.permissions.support",
     permissions: ["support.view", "support.respond"],
   },
   users: {
-    label: "Users",
+    labelKey: "dashboard.admin.roles.permissions.users",
     permissions: ["users.view"],
   },
   orders: {
-    label: "Orders",
+    labelKey: "dashboard.admin.roles.permissions.orders",
     permissions: ["orders.view", "orders.manage"],
   },
 };
@@ -117,17 +117,17 @@ export default function AdminRolesPanel() {
       const res = await apiRequest("POST", "/api/admin/roles", data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error creating role");
+        throw new Error(err.message || t("dashboard.admin.roles.errorCreating"));
       }
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/roles"] });
-      setFormMessage({ type: "success", text: "Role created successfully" });
+      setFormMessage({ type: "success", text: t("dashboard.admin.roles.created") });
       closeRoleDialog();
     },
     onError: (err: any) => {
-      setFormMessage({ type: "error", text: err.message || "Error creating role" });
+      setFormMessage({ type: "error", text: err.message || t("dashboard.admin.roles.errorCreating") });
     },
   });
 
@@ -136,17 +136,17 @@ export default function AdminRolesPanel() {
       const res = await apiRequest("PATCH", `/api/admin/roles/${id}`, data);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error updating role");
+        throw new Error(err.message || t("dashboard.admin.roles.errorUpdating"));
       }
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/roles"] });
-      setFormMessage({ type: "success", text: "Role updated successfully" });
+      setFormMessage({ type: "success", text: t("dashboard.admin.roles.updated") });
       closeRoleDialog();
     },
     onError: (err: any) => {
-      setFormMessage({ type: "error", text: err.message || "Error updating role" });
+      setFormMessage({ type: "error", text: err.message || t("dashboard.admin.roles.errorUpdating") });
     },
   });
 
@@ -155,15 +155,15 @@ export default function AdminRolesPanel() {
       const res = await apiRequest("DELETE", `/api/admin/roles/${id}`);
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error deleting role");
+        throw new Error(err.message || t("dashboard.admin.roles.errorDeleting"));
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/roles"] });
-      setFormMessage({ type: "success", text: "Role deleted successfully" });
+      setFormMessage({ type: "success", text: t("dashboard.admin.roles.deleted") });
     },
     onError: (err: any) => {
-      setFormMessage({ type: "error", text: err.message || "Error deleting role" });
+      setFormMessage({ type: "error", text: err.message || t("dashboard.admin.roles.errorDeleting") });
     },
   });
 
@@ -172,19 +172,19 @@ export default function AdminRolesPanel() {
       const res = await apiRequest("POST", `/api/admin/users/${userId}/assign-role`, { staffRoleId });
       if (!res.ok) {
         const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Error assigning role");
+        throw new Error(err.message || t("dashboard.admin.roles.errorAssigning"));
       }
       return res.json();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/staff-users"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      setFormMessage({ type: "success", text: "Role assigned successfully" });
+      setFormMessage({ type: "success", text: t("dashboard.admin.roles.assigned") });
       setAssignDialogOpen(false);
       setAssigningUser(null);
     },
     onError: (err: any) => {
-      setFormMessage({ type: "error", text: err.message || "Error assigning role" });
+      setFormMessage({ type: "error", text: err.message || t("dashboard.admin.roles.errorAssigning") });
     },
   });
 
@@ -222,11 +222,11 @@ export default function AdminRolesPanel() {
 
   const handleSaveRole = () => {
     if (!roleForm.name.trim()) {
-      setFormMessage({ type: "error", text: "Role name is required" });
+      setFormMessage({ type: "error", text: t("dashboard.admin.roles.nameRequired") });
       return;
     }
     if (roleForm.permissions.length === 0) {
-      setFormMessage({ type: "error", text: "At least one permission is required" });
+      setFormMessage({ type: "error", text: t("dashboard.admin.roles.permissionRequired") });
       return;
     }
     if (editingRole) {
@@ -313,7 +313,7 @@ export default function AdminRolesPanel() {
             data-testid="button-section-roles"
           >
             <Shield className="w-3 h-3 mr-1" />
-            {"Roles & Permissions"}
+            {t("dashboard.admin.roles.title")}
           </Button>
           <Button
             variant={activeSection === "assign" ? "default" : "outline"}
@@ -323,13 +323,13 @@ export default function AdminRolesPanel() {
             data-testid="button-section-assign"
           >
             <Users className="w-3 h-3 mr-1" />
-            {"User Assignments"}
+            {t("dashboard.admin.roles.userAssignments")}
           </Button>
         </div>
         {activeSection === "roles" && (
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <Input
-              placeholder="New role name..."
+              placeholder={t("dashboard.admin.roles.newRolePlaceholder")}
               value={roleForm.name}
               onChange={(e) => setRoleForm((prev) => ({ ...prev, name: e.target.value }))}
               className="rounded-full text-xs flex-1 sm:w-48"
@@ -342,7 +342,7 @@ export default function AdminRolesPanel() {
               data-testid="button-create-role"
             >
               <Plus className="w-3 h-3 mr-1" />
-              {"Create Role"}
+              {t("dashboard.admin.roles.createRole")}
             </Button>
           </div>
         )}
@@ -357,7 +357,7 @@ export default function AdminRolesPanel() {
           ) : roles.length === 0 ? (
             <Card className="rounded-2xl shadow-sm">
               <CardContent className="p-8 text-center">
-                <p className="text-sm text-muted-foreground">{"No roles created yet"}</p>
+                <p className="text-sm text-muted-foreground">{t("dashboard.admin.roles.noRoles")}</p>
                 <Button
                   size="sm"
                   className="mt-4 rounded-full bg-accent text-accent-foreground"
@@ -365,7 +365,7 @@ export default function AdminRolesPanel() {
                   data-testid="button-create-role-empty"
                 >
                   <Plus className="w-3 h-3 mr-1" />
-                  {"Create your first role"}
+                  {t("dashboard.admin.roles.createFirst")}
                 </Button>
               </CardContent>
             </Card>
@@ -380,12 +380,12 @@ export default function AdminRolesPanel() {
                         <div className="flex items-center gap-2 flex-wrap mb-1">
                           <h3 className="text-base font-black text-foreground">{role.name}</h3>
                           <Badge variant={role.isActive ? "default" : "secondary"} className="text-[10px]">
-                            {role.isActive ? "Active" : "Inactive"}
+                            {role.isActive ? t("dashboard.admin.roles.active") : t("dashboard.admin.roles.inactive")}
                           </Badge>
                           {userCount > 0 && (
                             <Badge variant="outline" className="text-[10px]">
                               <Users className="w-3 h-3 mr-1" />
-                              {userCount} {userCount === 1 ? "user" : "users"}
+                              {userCount} {userCount === 1 ? t("dashboard.admin.roles.user") : t("dashboard.admin.roles.usersLabel")}
                             </Badge>
                           )}
                         </div>
@@ -438,7 +438,7 @@ export default function AdminRolesPanel() {
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search users by name or email..."
+              placeholder={t("dashboard.admin.roles.searchUsers")}
               value={userSearchQuery}
               onChange={(e) => setUserSearchQuery(e.target.value)}
               className="pl-10 rounded-full"
@@ -454,7 +454,7 @@ export default function AdminRolesPanel() {
             <>
               {staffUsers.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-sm font-bold text-foreground">{"Current Staff"}</h4>
+                  <h4 className="text-sm font-bold text-foreground">{t("dashboard.admin.roles.currentStaff")}</h4>
                   <Card className="rounded-2xl shadow-sm overflow-hidden">
                     <div className="divide-y">
                       {staffUsers.map((user) => {
@@ -492,7 +492,7 @@ export default function AdminRolesPanel() {
                               data-testid={`button-assign-staff-${user.id}`}
                             >
                               <Edit className="w-3 h-3 mr-1" />
-                              {"Change Role"}
+                              {t("dashboard.admin.roles.changeRole")}
                             </Button>
                           </div>
                         );
@@ -503,12 +503,12 @@ export default function AdminRolesPanel() {
               )}
 
               <div className="space-y-2">
-                <h4 className="text-sm font-bold text-foreground">{"All Users"}</h4>
+                <h4 className="text-sm font-bold text-foreground">{t("dashboard.admin.roles.allUsers")}</h4>
                 <Card className="rounded-2xl shadow-sm overflow-hidden">
                   <div className="divide-y max-h-[400px] overflow-y-auto">
                     {filteredUsers.length === 0 ? (
                       <div className="p-6 text-center text-muted-foreground text-sm">
-                        {"No users found"}
+                        {t("dashboard.admin.roles.noUsersFound")}
                       </div>
                     ) : (
                       filteredUsers.slice(0, 50).map((user) => {
@@ -545,7 +545,7 @@ export default function AdminRolesPanel() {
                               onClick={() => openAssignDialog(user)}
                               data-testid={`button-assign-user-${user.id}`}
                             >
-                              {user.staffRoleId ? "Change Role" : "Assign Role"}
+                              {user.staffRoleId ? t("dashboard.admin.roles.changeRole") : t("dashboard.admin.roles.assignRole")}
                             </Button>
                           </div>
                         );
@@ -555,7 +555,7 @@ export default function AdminRolesPanel() {
                 </Card>
                 {filteredUsers.length > 50 && (
                   <p className="text-xs text-muted-foreground text-center">
-                    {"Showing 50 of"} {filteredUsers.length} {"users. Refine your search to see more."}
+                    {t("dashboard.admin.roles.showingUsers", { count: 50, total: filteredUsers.length })}
                   </p>
                 )}
               </div>
@@ -567,30 +567,30 @@ export default function AdminRolesPanel() {
       <Dialog open={roleDialogOpen} onOpenChange={(open) => { if (!open) closeRoleDialog(); }}>
         <DialogContent className="max-w-lg">
           <DialogHeader>
-            <DialogTitle>{editingRole ? "Edit Role" : "Create Role"}</DialogTitle>
+            <DialogTitle>{editingRole ? t("dashboard.admin.roles.editRole") : t("dashboard.admin.roles.createRole")}</DialogTitle>
             <DialogDescription>
               {editingRole
-                ? "Update the role details and permissions below."
-                : "Define a new role with specific permissions for staff members."}
+                ? t("dashboard.admin.roles.editRoleDesc")
+                : t("dashboard.admin.roles.createRoleDesc")}
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label className="text-sm font-semibold">{"Role Name"}</Label>
+              <Label className="text-sm font-semibold">{t("dashboard.admin.roles.roleName")}</Label>
               <Input
                 value={roleForm.name}
                 onChange={(e) => setRoleForm((prev) => ({ ...prev, name: e.target.value }))}
-                placeholder="e.g. Support Agent"
+                placeholder={t("dashboard.admin.roles.roleNamePlaceholder")}
                 className="rounded-full"
                 data-testid="input-role-name"
               />
             </div>
             <div className="space-y-2">
-              <Label className="text-sm font-semibold">{"Description"}</Label>
+              <Label className="text-sm font-semibold">{t("dashboard.admin.roles.description")}</Label>
               <Input
                 value={roleForm.description}
                 onChange={(e) => setRoleForm((prev) => ({ ...prev, description: e.target.value }))}
-                placeholder="Brief description of this role..."
+                placeholder={t("dashboard.admin.roles.descriptionPlaceholder")}
                 className="rounded-full"
                 data-testid="input-role-description"
               />
@@ -604,19 +604,19 @@ export default function AdminRolesPanel() {
                   }
                   data-testid="checkbox-role-active"
                 />
-                <Label className="text-sm">{"Active"}</Label>
+                <Label className="text-sm">{t("dashboard.admin.roles.active")}</Label>
               </div>
             )}
             <div className="space-y-3">
               <Label className="text-sm font-semibold flex items-center gap-1.5">
                 <Key className="w-3.5 h-3.5" />
-                {"Permissions"}
+                {t("dashboard.admin.roles.permissionsLabel")}
               </Label>
               <div className="space-y-4">
                 {Object.entries(PERMISSION_CATEGORIES).map(([catKey, cat]) => (
                   <div key={catKey} className="space-y-2">
                     <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-                      {cat.label}
+                      {t(cat.labelKey)}
                     </p>
                     <div className="grid grid-cols-2 gap-2">
                       {cat.permissions.map((perm) => (
@@ -656,7 +656,7 @@ export default function AdminRolesPanel() {
           </div>
           <DialogFooter>
             <Button variant="outline" className="rounded-full" onClick={closeRoleDialog} data-testid="button-cancel-role">
-              {"Cancel"}
+              {t("common.cancel")}
             </Button>
             <Button
               className="rounded-full bg-accent text-accent-foreground"
@@ -669,7 +669,7 @@ export default function AdminRolesPanel() {
               ) : (
                 <>
                   <CheckCircle className="w-3.5 h-3.5 mr-1" />
-                  {editingRole ? "Save Changes" : "Create Role"}
+                  {editingRole ? t("dashboard.admin.roles.saveChanges") : t("dashboard.admin.roles.createRole")}
                 </>
               )}
             </Button>
@@ -680,9 +680,9 @@ export default function AdminRolesPanel() {
       <Dialog open={assignDialogOpen} onOpenChange={(open) => { if (!open) { setAssignDialogOpen(false); setAssigningUser(null); } }}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle>{"Assign Role"}</DialogTitle>
+            <DialogTitle>{t("dashboard.admin.roles.assignRole")}</DialogTitle>
             <DialogDescription>
-              {"Select a role for"}{" "}
+              {t("dashboard.admin.roles.selectRoleFor")}{" "}
               <span className="font-semibold">
                 {assigningUser?.firstName} {assigningUser?.lastName}
               </span>{" "}
@@ -709,7 +709,7 @@ export default function AdminRolesPanel() {
                     <div className="w-2 h-2 rounded-full bg-accent" />
                   )}
                 </div>
-                <span className="text-sm font-medium">{"No Role (Client)"}</span>
+                <span className="text-sm font-medium">{t("dashboard.admin.roles.noRoleClient")}</span>
               </div>
             </div>
             {roles
@@ -752,7 +752,7 @@ export default function AdminRolesPanel() {
               onClick={() => { setAssignDialogOpen(false); setAssigningUser(null); }}
               data-testid="button-cancel-assign"
             >
-              {"Cancel"}
+              {t("common.cancel")}
             </Button>
             <Button
               className="rounded-full bg-accent text-accent-foreground"
@@ -763,7 +763,7 @@ export default function AdminRolesPanel() {
               {assignRoleMutation.isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
-                "Assign"
+                t("dashboard.admin.roles.assign")
               )}
             </Button>
           </DialogFooter>

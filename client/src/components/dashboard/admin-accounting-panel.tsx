@@ -72,7 +72,7 @@ export function AdminAccountingPanel() {
   const createMutation = useMutation({
     mutationFn: async (data: typeof formData) => {
       const res = await apiRequest("POST", "/api/admin/accounting/transactions", data);
-      if (!res.ok) throw new Error("Transaction creation failed");
+      if (!res.ok) throw new Error(t("dashboard.admin.accounting.transactionCreateFailed"));
       return res.json();
     },
     onSuccess: () => {
@@ -91,7 +91,7 @@ export function AdminAccountingPanel() {
   const updateMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number; data: typeof formData }) => {
       const res = await apiRequest("PATCH", `/api/admin/accounting/transactions/${id}`, data);
-      if (!res.ok) throw new Error("Transaction update failed");
+      if (!res.ok) throw new Error(t("dashboard.admin.accounting.transactionUpdateFailed"));
       return res.json();
     },
     onSuccess: () => {
@@ -110,7 +110,7 @@ export function AdminAccountingPanel() {
   const deleteMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest("DELETE", `/api/admin/accounting/transactions/${id}`);
-      if (!res.ok) throw new Error("Transaction deletion failed");
+      if (!res.ok) throw new Error(t("dashboard.admin.accounting.transactionDeleteFailed"));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });

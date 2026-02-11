@@ -199,7 +199,7 @@ export function registerAdminBillingRoutes(app: Express) {
     res.json({ success: true, orderId: order.id, invoiceNumber });
   }));
 
-  app.get("/api/admin/system-stats", isAdmin, async (req, res) => {
+  app.get("/api/admin/system-stats", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       // Check cache first
       const cached = getCachedData<any>('system-stats');
@@ -299,19 +299,19 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("System stats error", error);
       res.status(500).json({ message: "Error fetching system stats" });
     }
-  });
+  }));
 
-  app.get("/api/admin/stats", isAdmin, async (req, res) => {
+  app.get("/api/admin/stats", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const result = await db.select({ total: sql<number>`sum(amount)` }).from(ordersTable).where(eq(ordersTable.status, 'completed'));
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
       res.status(500).json({ message: "Error fetching stats" });
     }
-  });
+  }));
 
   // Audit logs endpoint (persistent from database)
-  app.get("/api/admin/audit-logs", isAdmin, async (req, res) => {
+  app.get("/api/admin/audit-logs", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const limit = Math.min(parseInt(req.query.limit as string) || 100, 500);
       const offset = parseInt(req.query.offset as string) || 0;
@@ -377,12 +377,12 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Audit logs error", error);
       res.status(500).json({ message: "Error fetching audit logs" });
     }
-  });
+  }));
 
   // ============== RENEWAL MANAGEMENT ==============
   
   // Get clients needing renewal (within 90 days or expired)
-  app.get("/api/admin/renewals", isAdmin, async (req, res) => {
+  app.get("/api/admin/renewals", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { getClientsNeedingRenewal } = await import("../calendar-service");
       const clients = await getClientsNeedingRenewal();
@@ -391,10 +391,10 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error fetching renewal clients", error);
       res.status(500).json({ message: "Error fetching clients pending renewal" });
     }
-  });
+  }));
 
   // Get only expired clients (past renewal date, no maintenance order)
-  app.get("/api/admin/renewals/expired", isAdmin, async (req, res) => {
+  app.get("/api/admin/renewals/expired", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { checkExpiredRenewals } = await import("../calendar-service");
       const expiredClients = await checkExpiredRenewals();
@@ -403,22 +403,22 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error fetching expired renewals", error);
       res.status(500).json({ message: "Error fetching expired renewals" });
     }
-  });
+  }));
 
   // ============== DISCOUNT CODES ==============
   
   // Get all discount codes (admin)
-  app.get("/api/admin/discount-codes", isAdmin, async (req, res) => {
+  app.get("/api/admin/discount-codes", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const codes = await db.select().from(discountCodes).orderBy(desc(discountCodes.createdAt));
       res.json(codes);
     } catch (error) {
       res.status(500).json({ message: "Error fetching discount codes" });
     }
-  });
+  }));
 
   // Create discount code (admin)
-  app.post("/api/admin/discount-codes", isAdmin, async (req, res) => {
+  app.post("/api/admin/discount-codes", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
       
@@ -447,10 +447,10 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error creating discount code" });
     }
-  });
+  }));
 
   // Update discount code (admin)
-  app.patch("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
+  app.patch("/api/admin/discount-codes/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const { code, description, discountType, discountValue, minOrderAmount, maxUses, validFrom, validUntil, isActive } = req.body;
@@ -471,10 +471,10 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error updating discount code" });
     }
-  });
+  }));
 
   // Delete discount code (admin)
-  app.delete("/api/admin/discount-codes/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/discount-codes/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       await db.delete(discountCodes).where(eq(discountCodes.id, id));
@@ -482,19 +482,19 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting discount code" });
     }
-  });
+  }));
 
   // ===== Payment Accounts Management =====
-  app.get("/api/admin/payment-accounts", isAdmin, async (req, res) => {
+  app.get("/api/admin/payment-accounts", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const accounts = await storage.getPaymentAccounts();
       res.json(accounts);
     } catch (error) {
       res.status(500).json({ message: "Error fetching payment accounts" });
     }
-  });
+  }));
 
-  app.post("/api/admin/payment-accounts", isAdmin, async (req, res) => {
+  app.post("/api/admin/payment-accounts", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const schema = z.object({
         label: z.string().min(1),
@@ -515,9 +515,9 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error: any) {
       res.status(400).json({ message: error.message || "Error creating payment account" });
     }
-  });
+  }));
 
-  app.patch("/api/admin/payment-accounts/:id", isAdmin, async (req, res) => {
+  app.patch("/api/admin/payment-accounts/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       const account = await storage.updatePaymentAccount(id, req.body);
@@ -525,9 +525,9 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error updating payment account" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/payment-accounts/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/payment-accounts/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deletePaymentAccount(id);
@@ -535,19 +535,19 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting payment account" });
     }
-  });
+  }));
 
-  app.get("/api/payment-accounts/active", async (_req, res) => {
+  app.get("/api/payment-accounts/active", asyncHandler(async (_req: Request, res: Response) => {
     try {
       const accounts = await storage.getActivePaymentAccounts();
       res.json(accounts);
     } catch (error) {
       res.status(500).json({ message: "Error fetching payment accounts" });
     }
-  });
+  }));
 
   // Validate discount code (public - for checkout)
-  app.post("/api/discount-codes/validate", async (req, res) => {
+  app.post("/api/discount-codes/validate", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('general', ip);
@@ -608,9 +608,9 @@ export function registerAdminBillingRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ valid: false, message: "Error validating code" });
     }
-  });
+  }));
 
-  app.get("/api/admin/invoices", isAdmin, async (req, res) => {
+  app.get("/api/admin/invoices", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const invoices = await db.select({
         id: standaloneInvoices.id,
@@ -638,9 +638,9 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error fetching invoices", error);
       res.status(500).json({ message: "Error fetching invoices" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/invoices/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/invoices/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const invoiceId = parseInt(req.params.id);
       await db.delete(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId));
@@ -649,9 +649,9 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error deleting invoice", error);
       res.status(500).json({ message: "Error deleting invoice" });
     }
-  });
+  }));
 
-  app.patch("/api/admin/invoices/:id/status", isAdmin, async (req, res) => {
+  app.patch("/api/admin/invoices/:id/status", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const invoiceId = parseInt(req.params.id);
       const { status } = z.object({
@@ -669,9 +669,9 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error updating invoice status", error);
       res.status(500).json({ message: "Error updating status" });
     }
-  });
+  }));
 
-  app.get("/api/admin/invoices/:id/download", isAdmin, async (req, res) => {
+  app.get("/api/admin/invoices/:id/download", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const invoiceId = parseInt(req.params.id);
       const [invoice] = await db.select().from(standaloneInvoices).where(eq(standaloneInvoices.id, invoiceId)).limit(1);
@@ -698,7 +698,7 @@ export function registerAdminBillingRoutes(app: Express) {
       log.error("Error downloading invoice", error);
       res.status(500).json({ message: "Error downloading invoice" });
     }
-  });
+  }));
 
   // Create standalone invoice for user (not tied to order)
   app.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {

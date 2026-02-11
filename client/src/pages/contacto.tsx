@@ -230,7 +230,7 @@ export default function Contacto() {
     const isMaintenance = successType === "maintenance";
     
     return (
-      <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-black animate-page-in">
+      <div className="min-h-screen bg-background font-sans selection:bg-accent selection:text-accent-foreground animate-page-in">
         <Navbar />
         <main className="min-h-[calc(100vh-80px)] pt-6 sm:pt-12 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
@@ -251,7 +251,7 @@ export default function Contacto() {
                 <span className="text-[10px] sm:text-xs font-black text-muted-foreground tracking-widest uppercase">
                   {urlOrderId ? t("contact.order") : t("contact.ticket")}
                 </span>
-                <p className="text-xl sm:text-2xl font-black text-black dark:text-white">
+                <p className="text-xl sm:text-2xl font-black text-foreground">
                   {urlOrderId || submittedMessageId || urlTicketId}
                 </p>
               </div>
@@ -274,7 +274,7 @@ export default function Contacto() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center items-center pt-2">
               <Link href="/">
                 <Button 
-                  className="bg-accent text-black font-black px-6 sm:px-10 rounded-full text-base sm:text-lg shadow-lg w-full sm:w-auto"
+                  className="bg-accent text-accent-foreground font-black px-6 sm:px-10 rounded-full text-base sm:text-lg shadow-lg w-full sm:w-auto"
                   size="default"
                   data-testid="button-home"
                 > 
@@ -349,7 +349,7 @@ export default function Contacto() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">{t("contact.form.continue")}</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-accent-foreground font-bold h-12 rounded-full text-base transition-all" data-testid="button-next-0">{t("contact.form.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="pt-4">
@@ -379,7 +379,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-1">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-1">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -401,7 +401,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-2">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-2">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -429,7 +429,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-3">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-3">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -455,7 +455,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-4">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-4">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -484,7 +484,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-5">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-5">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -506,7 +506,7 @@ export default function Contacto() {
                     )} />
                     <div className="flex gap-3">
                       <Button type="button" variant="outline" onClick={prevStep} className="flex-1 rounded-full h-12 font-bold border-border transition-all">{t("contact.form.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all" data-testid="button-next-6">{t("contact.form.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all" data-testid="button-next-6">{t("contact.form.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -525,7 +525,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={sendOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all"
+                          className="w-full bg-accent text-accent-foreground font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-send-otp"
                         >
                           {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.sendCode")}
@@ -552,7 +552,7 @@ export default function Contacto() {
                           type="button" 
                           onClick={verifyOtp} 
                           disabled={isLoading} 
-                          className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-all"
+                          className="w-full bg-accent text-accent-foreground font-bold h-12 rounded-full text-base transition-all"
                           data-testid="button-verify-otp"
                         >
                           {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("auth.otp.verifyCode")}
@@ -608,7 +608,7 @@ export default function Contacto() {
                       <Button 
                         type="submit" 
                         disabled={isLoading || !form.getValues("dataProcessingConsent") || !form.getValues("termsConsent")} 
-                        className="flex-1 bg-accent text-black font-bold rounded-full h-12 transition-all disabled:opacity-50"
+                        className="flex-1 bg-accent text-accent-foreground font-bold rounded-full h-12 transition-all disabled:opacity-50"
                         data-testid="button-submit"
                       >
                         {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : t("contact.form.submit")}

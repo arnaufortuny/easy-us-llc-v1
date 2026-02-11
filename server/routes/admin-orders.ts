@@ -12,7 +12,7 @@ import { updateApplicationDeadlines } from "../calendar-service";
 
 export function registerAdminOrderRoutes(app: Express) {
   // Admin Orders
-  app.get("/api/admin/orders", isAdminOrSupport, async (req, res) => {
+  app.get("/api/admin/orders", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
       const allOrders = await storage.getAllOrders();
       const search = (req.query.search as string || '').toLowerCase().trim();
@@ -35,7 +35,7 @@ export function registerAdminOrderRoutes(app: Express) {
       log.error("Admin orders error", error);
       res.status(500).json({ message: "Error fetching orders" });
     }
-  });
+  }));
 
   app.patch("/api/admin/orders/:id/status", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     const orderId = Number(req.params.id);
@@ -281,7 +281,7 @@ export function registerAdminOrderRoutes(app: Express) {
   }));
 
   // Get incomplete/draft applications for admin
-  app.get("/api/admin/incomplete-applications", isAdminOrSupport, async (req, res) => {
+  app.get("/api/admin/incomplete-applications", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
       const llcDrafts = await db.select({
         id: llcApplicationsTable.id,
@@ -327,7 +327,7 @@ export function registerAdminOrderRoutes(app: Express) {
       log.error("Error fetching incomplete applications", error);
       res.status(500).json({ message: "Error fetching incomplete applications" });
     }
-  });
+  }));
 
   // Delete incomplete application (admin only) - with full cascade cleanup
   app.delete("/api/admin/incomplete-applications/:type/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {

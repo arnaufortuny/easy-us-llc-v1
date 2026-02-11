@@ -3032,7 +3032,7 @@ export default function Dashboard() {
                                 type="button"
                                 size="sm"
                                 variant={invoicePaymentAccountIds.includes(acct.id) ? "default" : "outline"}
-                                className={`rounded-full text-xs ${invoicePaymentAccountIds.includes(acct.id) ? 'bg-accent text-black' : ''}`}
+                                className={`rounded-full text-xs ${invoicePaymentAccountIds.includes(acct.id) ? 'bg-accent text-accent-foreground' : ''}`}
                                 onClick={() => {
                                   setInvoicePaymentAccountIds(prev => 
                                     prev.includes(acct.id) ? prev.filter(id => id !== acct.id) : [...prev, acct.id]
@@ -3886,7 +3886,7 @@ export default function Dashboard() {
                               <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => window.open(`/api/admin/invoice/${order.id}`, '_blank')} data-testid={`btn-view-invoice-${order.id}`}>
                                 {t('dashboard.admin.orders.viewInvoice')}
                               </Button>
-                              <Button size="sm" className="rounded-full text-xs bg-accent text-black" onClick={() => {
+                              <Button size="sm" className="rounded-full text-xs bg-accent text-accent-foreground" onClick={() => {
                                 setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
                                 setOrderInvoiceCurrency("EUR");
                                 setGenerateInvoiceDialog({ open: true, order });
@@ -3945,7 +3945,7 @@ export default function Dashboard() {
                                 </Button>
                                 <Button 
                                   size="sm" 
-                                  className="rounded-full text-xs bg-accent text-black"
+                                  className="rounded-full text-xs bg-accent text-accent-foreground"
                                   disabled={inlineEditOrderMutation.isPending}
                                   onClick={() => inlineEditOrderMutation.mutate({ orderId: order.id, data: inlineEditData })}
                                   data-testid={`btn-save-inline-${order.id}`}
@@ -4286,7 +4286,7 @@ export default function Dashboard() {
                                   <Button size="sm" variant="outline" className="rounded-full text-xs" onClick={() => setInvoiceDialog({ open: true, user: u })} data-testid={`button-invoice-user-${u.id}`}>
                                     {t('dashboard.admin.users.invoiceBtn')}
                                   </Button>
-                                  <Button size="sm" className="rounded-full text-xs bg-accent text-black" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
+                                  <Button size="sm" className="rounded-full text-xs bg-accent text-accent-foreground" onClick={() => setPaymentLinkDialog({ open: true, user: u })} data-testid={`button-payment-link-${u.id}`}>
                                     {t('dashboard.admin.users.paymentBtn')}
                                   </Button>
                                   <Button size="sm" variant="outline" className="rounded-full text-xs text-red-600 border-red-200" onClick={() => setDeleteConfirm({ open: true, user: u })} data-testid={`button-delete-user-${u.id}`}>

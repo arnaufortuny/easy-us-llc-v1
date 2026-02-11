@@ -12,17 +12,17 @@ import { sendEmail } from "../lib/email";
 
 export function registerAdminCommsRoutes(app: Express) {
   // Admin Newsletter
-  app.get("/api/admin/newsletter", isAdmin, async (req, res) => {
+  app.get("/api/admin/newsletter", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const subscribers = await db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
       res.json(subscribers);
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }
-  });
+  }));
 
   // Delete newsletter subscriber
-  app.delete("/api/admin/newsletter/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/newsletter/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, parseInt(id)));
@@ -30,10 +30,10 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting subscriber" });
     }
-  });
+  }));
 
   // Calculator consultations - Save consultation + guest record
-  app.post("/api/calculator/consultation", async (req, res) => {
+  app.post("/api/calculator/consultation", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('consultation', ip);
@@ -74,20 +74,20 @@ export function registerAdminCommsRoutes(app: Express) {
       log.error("Calculator consultation error", error);
       res.status(500).json({ message: "Error saving consultation" });
     }
-  });
+  }));
 
   // Admin: Get calculator consultations
-  app.get("/api/admin/calculator-consultations", isAdmin, async (req, res) => {
+  app.get("/api/admin/calculator-consultations", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const consultations = await db.select().from(calculatorConsultations).orderBy(desc(calculatorConsultations.createdAt));
       res.json(consultations);
     } catch (error) {
       res.status(500).json({ message: "Error fetching consultations" });
     }
-  });
+  }));
 
   // Admin: Mark consultation as read
-  app.patch("/api/admin/calculator-consultations/:id/read", isAdmin, async (req, res) => {
+  app.patch("/api/admin/calculator-consultations/:id/read", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       await db.update(calculatorConsultations).set({ isRead: true }).where(eq(calculatorConsultations.id, parseInt(id)));
@@ -95,11 +95,11 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error marking as read" });
     }
-  });
+  }));
 
   // ============== GUEST VISITOR TRACKING ==============
 
-  app.post("/api/guest/track", async (req, res) => {
+  app.post("/api/guest/track", asyncHandler(async (req: Request, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('general', ip);
@@ -129,46 +129,46 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(400).json({ message: "Invalid tracking data" });
     }
-  });
+  }));
 
-  app.get("/api/admin/guests", isAdmin, async (req, res) => {
+  app.get("/api/admin/guests", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const guests = await storage.getAllGuestVisitors();
       res.json(guests);
     } catch (error) {
       res.status(500).json({ message: "Error fetching guests" });
     }
-  });
+  }));
 
-  app.get("/api/admin/guests/stats", isAdmin, async (req, res) => {
+  app.get("/api/admin/guests/stats", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const stats = await storage.getGuestVisitorStats();
       res.json(stats);
     } catch (error) {
       res.status(500).json({ message: "Error fetching guest stats" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/guests/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/guests/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       await storage.deleteGuestVisitor(parseInt(req.params.id));
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ message: "Error deleting guest" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/guests/email/:email", isAdmin, async (req, res) => {
+  app.delete("/api/admin/guests/email/:email", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const count = await storage.deleteGuestVisitorsByEmail(decodeURIComponent(req.params.email));
       res.json({ success: true, deleted: count });
     } catch (error) {
       res.status(500).json({ message: "Error deleting guest records" });
     }
-  });
+  }));
 
   // Admin: Delete calculator consultation
-  app.delete("/api/admin/calculator-consultations/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/calculator-consultations/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const { id } = req.params;
       await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseInt(id)));
@@ -176,17 +176,17 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting consultation" });
     }
-  });
+  }));
 
   // Admin: Get unread calculator consultations count
-  app.get("/api/admin/calculator-consultations/unread-count", isAdmin, async (req, res) => {
+  app.get("/api/admin/calculator-consultations/unread-count", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const [result] = await db.select({ count: sql<number>`count(*)` }).from(calculatorConsultations).where(eq(calculatorConsultations.isRead, false));
       res.json({ count: result?.count || 0 });
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }
-  });
+  }));
 
   // Broadcast to all newsletter subscribers
   app.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req: Request, res: Response) => {
@@ -222,7 +222,7 @@ export function registerAdminCommsRoutes(app: Express) {
   }));
 
   // Admin Messages
-  app.get("/api/admin/messages", isAdminOrSupport, async (req, res) => {
+  app.get("/api/admin/messages", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
       const allMessages = await storage.getAllMessages();
       const limit = Math.min(Number(req.query.limit) || 300, 500);
@@ -230,18 +230,18 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }
-  });
+  }));
 
-  app.patch("/api/admin/messages/:id/archive", isAdminOrSupport, async (req, res) => {
+  app.patch("/api/admin/messages/:id/archive", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
     try {
       const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
       res.json(updated);
     } catch (error) {
       res.status(500).json({ message: "Error archiving message" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/messages/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/messages/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const msgId = Number(req.params.id);
       await db.delete(messageReplies).where(eq(messageReplies.messageId, msgId));
@@ -250,5 +250,5 @@ export function registerAdminCommsRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting message" });
     }
-  });
+  }));
 }

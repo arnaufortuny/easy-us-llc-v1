@@ -561,7 +561,7 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-black font-bold h-12 rounded-full text-base transition-colors">{t("maintenance.buttons.continue")}</Button>
+                    <Button type="button" onClick={nextStep} className="w-full bg-accent text-accent-foreground font-bold h-12 rounded-full text-base transition-colors">{t("maintenance.buttons.continue")}</Button>
                     
                     {!isAuthenticated && (
                       <div className="space-y-4 pt-4">
@@ -611,7 +611,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -634,7 +634,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -657,7 +657,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -680,7 +680,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -703,7 +703,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -785,7 +785,7 @@ export default function MaintenanceApplication() {
                     
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -805,7 +805,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -846,7 +846,7 @@ export default function MaintenanceApplication() {
                     )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -916,7 +916,7 @@ export default function MaintenanceApplication() {
 
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -1037,7 +1037,7 @@ export default function MaintenanceApplication() {
                         type="button" 
                         onClick={nextStep} 
                         disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
-                        className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
+                        className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                         data-testid="button-next-step-10"
                       >
                         {t("maintenance.buttons.continue")}
@@ -1127,7 +1127,7 @@ export default function MaintenanceApplication() {
                     
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
+                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
                     </div>
                   </div>
                 )}
@@ -1194,7 +1194,7 @@ export default function MaintenanceApplication() {
                       <Button 
                         type="submit" 
                         disabled={isSubmitting}
-                        className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors disabled:opacity-50"
+                        className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors disabled:opacity-50"
                       >
                         {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
                         {isSubmitting ? t("maintenance.confirmation.submitting") : t("maintenance.confirmation.submit")}
@@ -1261,7 +1261,7 @@ export default function MaintenanceApplication() {
                         type="button"
                         onClick={handleLogin}
                         disabled={isCheckingEmail}
-                        className="flex-[2] bg-accent text-black font-bold rounded-full h-12 transition-colors"
+                        className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors"
                         data-testid="button-login-submit"
                       >
                         {isCheckingEmail ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}

@@ -13,7 +13,7 @@ import { validatePassword } from "../lib/security";
 
 export function registerAdminUserRoutes(app: Express) {
   // Admin Users
-  app.get("/api/admin/users", isAdmin, async (req, res) => {
+  app.get("/api/admin/users", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const users = await db.select().from(usersTable).orderBy(desc(usersTable.createdAt));
       const search = (req.query.search as string || '').toLowerCase().trim();
@@ -33,7 +33,7 @@ export function registerAdminUserRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error fetching users" });
     }
-  });
+  }));
 
   app.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const userId = req.params.id;
@@ -151,7 +151,7 @@ export function registerAdminUserRoutes(app: Express) {
     res.json(updated);
   }));
 
-  app.delete("/api/admin/users/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/users/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const userId = req.params.id;
       
@@ -218,7 +218,7 @@ export function registerAdminUserRoutes(app: Express) {
       log.error("Error deleting user", error);
       res.status(500).json({ message: "Error deleting user" });
     }
-  });
+  }));
 
   app.post("/api/admin/users/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     const schema = z.object({
