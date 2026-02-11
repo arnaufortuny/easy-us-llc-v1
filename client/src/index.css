@@ -2,27 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Clean background - Light Mode (Pearl White) */
+/* Clean background - Light Mode */
 html {
-  background: #F8F8F6;
+  background: #FAFAFA;
   min-height: 100dvh;
   overflow-x: hidden;
 }
 
-/* Clean background - Dark Mode (Pure Black) */
+/* Clean background - Dark Mode */
 html.dark {
-  background: #0A0A0A;
+  background: #0A0F1E;
 }
 
 /* Ensure consistent background - prevent flash during page transitions */
 body {
-  background: #F8F8F6;
+  background: #FAFAFA;
   min-height: 100dvh;
   overflow-x: hidden;
 }
 
 html.dark body {
-  background: #0A0A0A;
+  background: #0A0F1E;
 }
 
 #root {
@@ -79,106 +79,103 @@ html.dark body {
 }
 
 :root {
-  /* Brand Colors - Light Mode - Clean Pearl White */
-  --background: 60 7% 97%; /* Pearl white #F8F8F6 */
-  --foreground: 220 25% 12%; /* Deep charcoal, easier on eyes than pure black */
+  --background: 0 0% 98%;
+  --foreground: 215 25% 12%;
 
-  /* Primary - Rich Dark */
-  --primary: 220 25% 12%;
+  --primary: 213 52% 36%;
   --primary-foreground: 0 0% 100%;
 
-  /* Secondary - Refined Gray */
-  --secondary: 220 14% 96%;
-  --secondary-foreground: 220 25% 12%;
+  --secondary: 162 100% 38%;
+  --secondary-foreground: 0 0% 100%;
 
-  /* Accent Blue - Professional corporate blue */
-  --accent: 207 52% 36%; /* #2C5F8A */
+  --accent: 213 52% 36%;
   --accent-foreground: 0 0% 100%;
 
-  --muted: 220 14% 96%;
-  --muted-foreground: 220 13% 46%; /* Better readable gray */
+  --muted: 214 20% 94%;
+  --muted-foreground: 215 15% 45%;
 
-  --destructive: 0 72% 51%;
+  --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 220 13% 91%;
-  --input: 220 13% 91%;
-  --ring: 207 52% 36%;
+  --border: 214 20% 88%;
+  --input: 214 20% 92%;
+  --ring: 213 52% 36%;
 
-  /* Card colors - Pure white for contrast */
   --card: 0 0% 100%;
-  --card-foreground: 220 25% 12%;
-  --card-border: 207 40% 78%;
+  --card-foreground: 215 25% 12%;
+  --card-border: 214 20% 88%;
 
-  /* Popover colors */
   --popover: 0 0% 100%;
-  --popover-foreground: 220 25% 12%;
-  --popover-border: 220 13% 91%;
+  --popover-foreground: 215 25% 12%;
+  --popover-border: 214 20% 88%;
 
-  /* Sidebar colors */
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 220 25% 12%;
-  --sidebar-border: 220 13% 91%;
-  --sidebar-ring: 207 52% 36%;
-  --sidebar-primary: 220 25% 12%;
+  --sidebar-foreground: 215 25% 12%;
+  --sidebar-border: 214 20% 88%;
+  --sidebar-ring: 213 52% 36%;
+  --sidebar-primary: 213 52% 36%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 207 52% 36%;
+  --sidebar-accent: 213 52% 36%;
   --sidebar-accent-foreground: 0 0% 100%;
 
-  /* Chart colors - Harmonized palette */
-  --chart-1: 207 52% 36%;
+  --chart-1: 213 52% 36%;
   --chart-2: 220 70% 50%;
   --chart-3: 280 65% 60%;
   --chart-4: 25 95% 53%;
   --chart-5: 340 75% 55%;
 
-  --radius: 0.625rem;
+  --radius: 0.75rem;
+
+  --cta: 18 100% 57%;
+  --cta-foreground: 0 0% 100%;
 
   --font-hero: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
-/* Dark Mode - Clean Pure Black (no blue tint) */
 .dark {
-  --background: 0 0% 4%; /* Pure black #0A0A0A */
-  --foreground: 0 0% 98%; /* Pure white text */
+  --background: 222 47% 8%;
+  --foreground: 210 20% 94%;
 
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 4%;
+  --primary: 213 65% 55%;
+  --primary-foreground: 0 0% 100%;
 
-  --secondary: 0 0% 12%;
-  --secondary-foreground: 0 0% 98%;
+  --secondary: 162 100% 42%;
+  --secondary-foreground: 222 47% 8%;
 
-  --accent: 207 52% 46%; /* Blue accent - slightly lighter for dark mode */
+  --accent: 213 65% 55%;
   --accent-foreground: 0 0% 100%;
 
-  --muted: 0 0% 10%;
-  --muted-foreground: 0 0% 65%;
+  --muted: 222 35% 15%;
+  --muted-foreground: 215 15% 60%;
 
-  --destructive: 0 65% 55%;
+  --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 0 0% 18%;
-  --input: 0 0% 10%;
-  --ring: 0 0% 50%;
+  --border: 222 35% 18%;
+  --input: 222 35% 15%;
+  --ring: 213 65% 55%;
 
-  --card: 0 0% 8%;
-  --card-foreground: 0 0% 98%;
-  --card-border: 207 35% 30%;
+  --card: 222 40% 11%;
+  --card-foreground: 210 20% 94%;
+  --card-border: 222 35% 18%;
 
-  --popover: 0 0% 8%;
-  --popover-foreground: 0 0% 98%;
-  --popover-border: 0 0% 20%;
+  --popover: 222 40% 11%;
+  --popover-foreground: 210 20% 94%;
+  --popover-border: 222 35% 20%;
 
-  --sidebar: 0 0% 6%;
-  --sidebar-foreground: 0 0% 98%;
-  --sidebar-border: 0 0% 16%;
-  --sidebar-ring: 0 0% 50%;
-  --sidebar-primary: 0 0% 98%;
-  --sidebar-primary-foreground: 0 0% 4%;
-  --sidebar-accent: 207 52% 46%;
+  --sidebar: 222 45% 7%;
+  --sidebar-foreground: 210 20% 94%;
+  --sidebar-border: 222 35% 16%;
+  --sidebar-ring: 213 65% 55%;
+  --sidebar-primary: 213 65% 55%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 213 65% 55%;
   --sidebar-accent-foreground: 0 0% 100%;
+
+  --cta: 18 100% 57%;
+  --cta-foreground: 0 0% 100%;
 }
 
 @layer base {
@@ -187,6 +184,8 @@ html.dark body {
   }
   html {
     width: 100%;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
   }
   body {
     @apply bg-background text-foreground antialiased font-sans text-left;
@@ -199,9 +198,26 @@ html.dark body {
     width: 100%;
     min-height: 100dvh;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1 {
+    font-family: var(--font-hero);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  h2 {
+    font-family: var(--font-hero);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+  h5, h6 {
     @apply font-display tracking-tight text-left;
     font-weight: 700;
+  }
+  body, p, span, input, button {
+    font-family: var(--font-sans);
   }
 }
 
@@ -220,10 +236,10 @@ html.dark body {
     background-color: #E6E9EC;
   }
   .bg-brand-dark {
-    background-color: #0A0A0A;
+    background-color: #0A0F1E;
   }
   .text-brand-dark {
-    color: #0A0A0A;
+    color: #0A0F1E;
   }
   .text-brand-gray {
     color: #6B7280;
@@ -251,13 +267,50 @@ button {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Main site gradient background - top to bottom (white at bottom) */
+/* Main site gradient background - top to bottom */
 .bg-gradient-main {
-  background: linear-gradient(180deg, hsl(207 52% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
+  background: linear-gradient(180deg, hsl(213 52% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
 }
 
 .dark .bg-gradient-main {
-  background: linear-gradient(180deg, hsl(225 18% 8%) 0%, hsl(225 16% 12%) 100%);
+  background: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 40% 12%) 100%);
+}
+
+/* Gradient utilities */
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg, hsl(var(--cta)), hsl(var(--cta) / 0.85));
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary) / 0.8));
+}
+
+.card-glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.dark .card-glass {
+  background: rgba(17,24,39,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.badge-vip {
+  background: linear-gradient(135deg, #F59E0B, #EAB308);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.4);
 }
 
 /* Mobile scroll improvements */
@@ -464,7 +517,7 @@ select option {
 }
 
 .dark select option {
-  background-color: #1A1A1A;
+  background-color: hsl(222 40% 11%);
   color: white;
 }
 
@@ -555,6 +608,6 @@ button, a, [role="button"] {
 @media (hover: hover) and (pointer: fine) {
   .outline-hover-fix:hover {
     background-color: hsl(var(--accent));
-    color: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
   }
 }

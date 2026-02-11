@@ -14,7 +14,7 @@ const EMAIL_LOGO = "cid:logo-icon";
 
 function getSimpleHeader() {
   return `
-    <div style="background: linear-gradient(180deg, #0A0A0A 0%, #0A0A0A 100%); padding: 35px 20px; text-align: center;">
+    <div style="background: linear-gradient(135deg, #2C5F8A 0%, #1B3A6B 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
         <img src="${EMAIL_LOGO}" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
       </a>
@@ -24,10 +24,10 @@ function getSimpleHeader() {
 
 function getSimpleFooter() {
   return `
-    <div style="background-color: #0A0A0A; padding: 35px 25px; text-align: center; color: #F7F7F5;">
-      <div style="width: 40px; height: 3px; background: #4A8BC2; margin: 0 auto 20px; border-radius: 2px;"></div>
-      <p style="margin: 0 0 15px 0; font-size: 12px; color: #9CA3AF; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
-      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC</p>
+    <div style="background-color: #1B3A6B; padding: 35px 25px; text-align: center; color: #F7F7F5;">
+      <div style="width: 40px; height: 3px; background: #00C48C; margin: 0 auto 20px; border-radius: 2px;"></div>
+      <p style="margin: 0 0 15px 0; font-size: 12px; color: #94A3B8; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
+      <p style="margin: 0; font-size: 11px; color: #94A3B8;">© ${new Date().getFullYear()} Easy US LLC</p>
     </div>
   `;
 }
@@ -42,13 +42,13 @@ function getEmailWrapper(content: string, lang: EmailLanguage = 'es') {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     </head>
-    <body style="margin: 0; padding: 0; background-color: #F7F7F5;">
-      <div style="background-color: #F7F7F5; padding: 40px 15px;">
-        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: auto; border-radius: 24px; overflow: hidden; color: #0A0A0A; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
+    <body style="margin: 0; padding: 0; background-color: #FAFAFA;">
+      <div style="background-color: #FAFAFA; padding: 40px 15px;">
+        <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 560px; margin: auto; border-radius: 24px; overflow: hidden; color: #161F2E; background-color: #ffffff; box-shadow: 0 4px 24px rgba(0,0,0,0.06);">
           ${getSimpleHeader()}
           <div style="padding: 40px 35px;">
             ${content}
-            <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 35px; padding-top: 25px; border-top: 1px solid #E6E9EC;">${doubtsText}</p>
+            <p style="line-height: 1.6; font-size: 14px; color: #64748B; margin-top: 35px; padding-top: 25px; border-top: 1px solid #E6E9EC;">${doubtsText}</p>
           </div>
           ${getSimpleFooter()}
         </div>
@@ -71,9 +71,9 @@ export function getOtpEmailTemplate(otp: string, name?: string, lang: EmailLangu
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 10px;">${t.otp.thanks}</p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.otp.forSecurity}</p>
     ${ipSection}
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #F0F4F8 0%, #E2E8F0 100%); padding: 30px; border-radius: 12px; margin: 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 10px 0; font-size: 14px; color: #2C5F8A; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.otp.yourCode}</p>
-      <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
+      <p style="margin: 0; font-size: 32px; font-weight: 700; color: #2C5F8A; letter-spacing: 8px; font-family: 'Space Grotesk', 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
     <p style="line-height: 1.7; font-size: 13px; color: #6B7280; margin: 20px 0 6px 0;">${t.otp.important}</p>
@@ -108,7 +108,7 @@ export function getWelcomeEmailTemplate(name?: string, lang: EmailLanguage = 'es
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.welcome.hereToHelp}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.welcome.exploreButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.welcome.exploreButton}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -129,7 +129,7 @@ export function getAccountPendingVerificationTemplate(name?: string, lang: Email
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.accountPendingVerification.verifyButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.accountPendingVerification.verifyButton}</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.accountPendingVerification.whileUnverified}</p>
@@ -146,7 +146,7 @@ export function getAccountUnderReviewTemplate(name?: string, lang: EmailLanguage
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountUnderReview.underReview}</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.accountUnderReview.whyReview}</p>
       <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.accountUnderReview.whyReviewText}</p>
     </div>
@@ -155,7 +155,7 @@ export function getAccountUnderReviewTemplate(name?: string, lang: EmailLanguage
       <p style="margin: 0; font-size: 14px; color: #92400E; line-height: 1.7;">${t.accountUnderReview.duringProcess}</p>
     </div>
     
-    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #4A8BC2;">
+    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.accountUnderReview.whatHappens}</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
         <li style="margin-bottom: 8px;">${t.accountUnderReview.step1}</li>
@@ -182,7 +182,7 @@ export function getAccountVipTemplate(name?: string, lang: EmailLanguage = 'es')
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.accountVip.updatedToVip}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 15px; color: #0A0A0A; font-weight: 600;">${t.accountVip.benefits}</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.8;">
         <li>${t.accountVip.priorityAttention}</li>
@@ -192,7 +192,7 @@ export function getAccountVipTemplate(name?: string, lang: EmailLanguage = 'es')
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.accountVip.viewDashboard}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.accountVip.viewDashboard}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -210,7 +210,7 @@ export function getAccountReactivatedTemplate(name?: string, lang: EmailLanguage
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountReactivated.canAccess}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.accountReactivated.viewDashboard}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.accountReactivated.viewDashboard}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -224,7 +224,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.confirmation.greatNews}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.confirmation.details}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
@@ -257,7 +257,7 @@ export function getConfirmationEmailTemplate(name: string, requestCode: string, 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.confirmation.validatingInfo}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.confirmation.trackButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.confirmation.trackButton}</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.confirmation.questionRef}</p>
@@ -273,7 +273,7 @@ export function getAutoReplyTemplate(name: string, ticketId: string, lang: Email
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.autoReply.receivedMessage}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2; text-align: center;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A; text-align: center;">
       <p style="margin: 0 0 8px 0; font-size: 13px; color: #6B7280; text-transform: uppercase;">${t.autoReply.ticketNumber}</p>
       <p style="margin: 0; font-size: 24px; font-weight: 900; color: #0A0A0A; letter-spacing: 2px;">#${ticketId}</p>
     </div>
@@ -283,7 +283,7 @@ export function getAutoReplyTemplate(name: string, ticketId: string, lang: Email
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.autoReply.responding}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.autoReply.seeMessages}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.autoReply.seeMessages}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -306,13 +306,13 @@ export function getOrderUpdateTemplate(name: string, orderId: string, status: st
   const statusColors: Record<string, string> = {
     pending: "#F59E0B",
     processing: "#3B82F6",
-    paid: "#4A8BC2",
+    paid: "#2C5F8A",
     filed: "#8B5CF6",
     documents_ready: "#2C5F8A",
     completed: "#2C5F8A",
     cancelled: "#EF4444",
   };
-  const statusColor = statusColors[status] || "#4A8BC2";
+  const statusColor = statusColors[status] || "#2C5F8A";
 
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
@@ -327,7 +327,7 @@ export function getOrderUpdateTemplate(name: string, orderId: string, status: st
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 25px;">${t.orderUpdate.clarification}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.orderUpdate.trackButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.orderUpdate.trackButton}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -339,7 +339,7 @@ export function getOrderCompletedTemplate(name: string, orderCode: string, lang:
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0; font-size: 20px; font-weight: 800; color: #2C5F8A;">${t.orderCompleted.llcReady}</p>
     </div>
     
@@ -348,7 +348,7 @@ export function getOrderCompletedTemplate(name: string, orderCode: string, lang:
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;"><strong>${t.orderCompleted.docsReady}</strong></p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.accessDocuments}</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A; text-transform: uppercase;">${t.orderCompleted.whatYouFind}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li>${t.orderCompleted.articlesOrg}</li>
@@ -359,7 +359,7 @@ export function getOrderCompletedTemplate(name: string, orderCode: string, lang:
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.orderCompleted.viewDocuments}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.orderCompleted.viewDocuments}</a>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderCompleted.hereForYou}</p>
@@ -377,14 +377,14 @@ export function getNoteReceivedTemplate(name: string, note: string, orderId: str
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.noteReceived.teamNote} ${t.noteReceived.relatedToOrder} <strong>#${orderId}</strong>:</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${note}</p>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-bottom: 25px;">${t.noteReceived.respondNote}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.noteReceived.viewClientArea}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.noteReceived.viewClientArea}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -398,13 +398,13 @@ export function getAdminNoteTemplate(name: string, message: string, ticketId: st
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.adminNote.messageAbout}</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 10px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.adminNote.viewTicket} #${ticketId}</p>
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.adminNote.viewClientArea}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.adminNote.viewClientArea}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -418,13 +418,13 @@ export function getPaymentRequestTemplate(name: string, amount: string, paymentL
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.paymentRequest.paymentRequired} ${t.paymentRequest.amount} <strong>$${amount}</strong>.</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.paymentRequest.messageLabel}</p>
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="${paymentLink}" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.paymentRequest.payNow}</a>
+      <a href="${paymentLink}" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.paymentRequest.payNow}</a>
     </div>
     
     <p style="line-height: 1.5; font-size: 12px; color: #9CA3AF; word-break: break-all;">${t.paymentRequest.buttonFallback} ${paymentLink}</p>
@@ -446,7 +446,7 @@ export function getDocumentRequestTemplate(name: string, documentType: string, m
       <p style="margin: 0; font-size: 16px; font-weight: 700; color: #92400E;">${documentType}</p>
     </div>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 700; color: #6B7280; text-transform: uppercase;">${t.documentRequest.messageLabel}</p>
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7;">${message}</p>
     </div>
@@ -454,7 +454,7 @@ export function getDocumentRequestTemplate(name: string, documentType: string, m
     <p style="line-height: 1.6; font-size: 13px; color: #6B7280; margin-bottom: 25px;">${t.documentRequest.referenceTicket} <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.documentRequest.uploadButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.documentRequest.uploadButton}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -468,7 +468,7 @@ export function getDocumentUploadedTemplate(name: string, documentType: string, 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.documentReceived}</p>
     
-    <div style="background: linear-gradient(135deg, #DBEAFE 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2; text-align: center;">
+    <div style="background: linear-gradient(135deg, #DBEAFE 0%, #DBEAFE 100%); padding: 20px 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A; text-align: center;">
       <p style="margin: 0; font-size: 16px; font-weight: 700; color: #1E4D78;">${documentType}</p>
       <p style="margin: 10px 0 0 0; font-size: 13px; color: #2C5F8A;">${t.documentUploaded.forOrder} ${orderCode}</p>
     </div>
@@ -476,7 +476,7 @@ export function getDocumentUploadedTemplate(name: string, documentType: string, 
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.documentUploaded.accessDownload}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.documentUploaded.viewDocuments}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.documentUploaded.viewDocuments}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -490,12 +490,12 @@ export function getMessageReplyTemplate(name: string, content: string, ticketId:
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.messageReply.repliedToQuery} (${t.messageReply.ticket} <strong>#${ticketId}</strong>):</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0; font-size: 15px; color: #0A0A0A; line-height: 1.7; white-space: pre-wrap;">${content}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.messageReply.viewClientArea}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.messageReply.viewClientArea}</a>
     </div>
   `;
   return getEmailWrapper(emailContent, lang);
@@ -509,7 +509,7 @@ export function getPasswordChangeOtpTemplate(name: string, otp: string, lang: Em
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.passwordChangeOtp.passwordChangeRequest}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
     
@@ -527,12 +527,12 @@ export function getProfileChangeOtpTemplate(name: string, otp: string, lang: Ema
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 30px;">${t.profileChangeOtp.sensitiveChangeRequest}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 10px 0; font-size: 14px; color: #2C5F8A; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;">${t.profileChangeOtp.yourCode}</p>
       <p style="margin: 0; font-size: 42px; font-weight: 900; color: #0A0A0A; letter-spacing: 12px; font-family: 'SF Mono', 'Consolas', monospace;">${otp}</p>
     </div>
 
-    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.profileChangeOtp.important}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li style="margin-bottom: 6px;">${t.profileChangeOtp.personalAndConfidential}</li>
@@ -555,7 +555,7 @@ export function getOrderEventTemplate(name: string, orderId: string, eventType: 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.orderEvent.update} <strong>#${orderId}</strong></p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 700; color: #0A0A0A;">${eventType}</p>
       <p style="margin: 0; font-size: 14px; color: #6B7280; line-height: 1.6;">${description}</p>
     </div>
@@ -563,7 +563,7 @@ export function getOrderEventTemplate(name: string, orderId: string, eventType: 
     <p style="line-height: 1.5; font-size: 13px; color: #9CA3AF;">${t.orderEvent.date} ${new Date().toLocaleString(locale)}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.orderEvent.viewDetails}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.orderEvent.viewDetails}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -652,7 +652,7 @@ export function getRenewalReminderTemplate(
     </ul>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.renewalReminder.renewNow}</a>
+      <a href="https://${domain}/llc/maintenance" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.renewalReminder.renewNow}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -666,8 +666,8 @@ export function getRegistrationOtpTemplate(name: string, otp: string, clientId: 
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.almostDone}</p>
     
-    <div style="background-color: #0A0A0A; padding: 25px; text-align: center; border-radius: 16px; margin: 25px 0;">
-      <span style="color: #4A8BC2; font-size: 36px; font-weight: 900; letter-spacing: 8px; font-family: monospace;">${otp}</span>
+    <div style="background: linear-gradient(135deg, #F0F4F8 0%, #E2E8F0 100%); padding: 25px; text-align: center; border-radius: 12px; margin: 25px 0; border: 2px solid #2C5F8A;">
+      <span style="color: #2C5F8A; font-size: 32px; font-weight: 700; letter-spacing: 8px; font-family: 'Space Grotesk', monospace;">${otp}</span>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.validFor} ${expiryMinutes} ${lang === 'en' ? 'minutes' : lang === 'ca' ? 'minuts' : 'minutos'}.</p>
@@ -682,7 +682,7 @@ export function getAdminNewRegistrationTemplate(clientId: string, firstName: str
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;"><strong>Nueva cuenta creada en el sistema.</strong></p>
     
-    <div style="background-color: #F7F7F5; padding: 20px; border-radius: 16px; border-left: 4px solid #4A8BC2; margin: 25px 0;">
+    <div style="background-color: #F7F7F5; padding: 20px; border-radius: 16px; border-left: 4px solid #00C48C; margin: 25px 0;">
       <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Cliente ID:</strong> ${clientId}</p>
       <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Nombre:</strong> ${firstName} ${lastName}</p>
       <p style="margin: 0 0 10px 0; font-size: 14px;"><strong>Email:</strong> ${email}</p>
@@ -713,7 +713,7 @@ export function getAccountLockedTemplate(name: string, ticketId: string, lang: E
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.accountLocked.referenceTicket} <strong>#${ticketId}</strong></p>
     
     <div style="text-align: center; margin: 35px 0;">
-      <a href="${baseUrl}/forgot-password" style="background-color: #4A8BC2; color: #0A0A0A; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(74, 139, 194, 0.3);">${t.accountLocked.resetPassword}</a>
+      <a href="${baseUrl}/forgot-password" style="background-color: #FF6B35; color: #ffffff; font-weight: 700; font-size: 15px; padding: 16px 40px; border-radius: 50px; text-decoration: none; display: inline-block; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);">${t.accountLocked.resetPassword}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -752,8 +752,8 @@ export function getAdminLLCOrderTemplate(orderData: {
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;"><strong>Nuevo pedido LLC completado.</strong></p>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Información del Propietario</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Información del Propietario</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre:</strong> ${orderData.ownerFullName || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${orderData.ownerEmail || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Teléfono:</strong> ${orderData.ownerPhone || 'N/A'}</p>
@@ -762,8 +762,8 @@ export function getAdminLLCOrderTemplate(orderData: {
       <p style="margin: 0; font-size: 13px;"><strong>Dirección:</strong> ${orderData.ownerAddress || 'N/A'}, ${orderData.ownerCity || ''}, ${orderData.ownerProvince || ''} ${orderData.ownerPostalCode || ''}, ${orderData.ownerCountry || ''}</p>
     </div>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Información de la Empresa</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Información de la Empresa</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Empresa:</strong> ${orderData.companyName || 'N/A'} ${orderData.designator || ''}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Alternativo:</strong> ${orderData.companyNameOption2 || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado:</strong> ${orderData.state || 'N/A'}</p>
@@ -771,8 +771,8 @@ export function getAdminLLCOrderTemplate(orderData: {
       <p style="margin: 0; font-size: 13px;"><strong>Actividad:</strong> ${orderData.businessActivity || 'N/A'}</p>
     </div>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Servicios</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Servicios</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Venderá online:</strong> ${orderData.isSellingOnline || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Cuenta bancaria:</strong> ${orderData.needsBankAccount || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Pasarela:</strong> ${orderData.willUseStripe || 'N/A'}</p>
@@ -820,15 +820,15 @@ export function getAdminMaintenanceOrderTemplate(orderData: {
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;"><strong>Nuevo pedido de mantenimiento completado.</strong></p>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Información del Propietario</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Información del Propietario</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Nombre:</strong> ${orderData.ownerFullName || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Email:</strong> ${orderData.ownerEmail || 'N/A'}</p>
       <p style="margin: 0; font-size: 13px;"><strong>Teléfono:</strong> ${orderData.ownerPhone || 'N/A'}</p>
     </div>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Información de la Empresa</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Información de la Empresa</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Empresa:</strong> ${orderData.companyName || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>EIN:</strong> ${orderData.ein || 'N/A'}</p>
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Estado:</strong> ${orderData.state || 'N/A'}</p>
@@ -839,8 +839,8 @@ export function getAdminMaintenanceOrderTemplate(orderData: {
       <p style="margin: 0; font-size: 13px;"><strong>Actividad:</strong> ${orderData.businessActivity || 'N/A'}</p>
     </div>
     
-    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #4A8BC2; padding-bottom: 5px;">Servicios Solicitados</h3>
-    <div style="background: #F7F7F5; border-left: 4px solid #4A8BC2; padding: 15px; margin: 10px 0; border-radius: 8px;">
+    <h3 style="font-size: 14px; font-weight: 700; margin: 20px 0 10px; color: #333; border-bottom: 2px solid #2C5F8A; padding-bottom: 5px;">Servicios Solicitados</h3>
+    <div style="background: #FAFAFA; border-left: 4px solid #00C48C; padding: 15px; margin: 10px 0; border-radius: 8px;">
       <p style="margin: 0 0 8px 0; font-size: 13px;"><strong>Servicios:</strong> ${orderData.expectedServices || 'N/A'}</p>
       <p style="margin: 0; font-size: 13px;"><strong>Disolver empresa:</strong> ${orderData.wantsDissolve || 'No'}</p>
     </div>
@@ -878,12 +878,12 @@ export function getAdminPasswordResetTemplate(name?: string, lang: EmailLanguage
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.body}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0; font-size: 14px; color: #2C5F8A; font-weight: 700;">${t.cta}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/auth/login" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.btn}</a>
+      <a href="https://${domain}/auth/login" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.btn}</a>
     </div>
 
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
@@ -910,7 +910,7 @@ export function getCalculatorResultsTemplate(
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.calculatorResults.introText}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.calculatorResults.summary}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
@@ -941,7 +941,7 @@ export function getCalculatorResultsTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.calculatorResults.learnMore}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/servicios" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.calculatorResults.viewServices}</a>
+      <a href="https://${domain}/servicios" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.calculatorResults.viewServices}</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280; margin-top: 25px;">${t.calculatorResults.disclaimer}</p>
@@ -963,7 +963,7 @@ export function getOperatingAgreementReadyTemplate(
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.operatingAgreementReady.generated} ${t.operatingAgreementReady.ready}</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #2C5F8A; text-transform: uppercase; letter-spacing: 1px;">${t.operatingAgreementReady.llcData}</p>
       <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
         <tr>
@@ -1006,7 +1006,7 @@ export function getDocumentApprovedTemplate(name: string, documentLabel: string,
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0 0 8px 0; font-size: 18px; font-weight: 800; color: #2C5F8A;">${t.documentApproved.title}</p>
       <p style="margin: 0; font-size: 16px; font-weight: 600; color: #0A0A0A;">"${documentLabel}"</p>
     </div>
@@ -1014,7 +1014,7 @@ export function getDocumentApprovedTemplate(name: string, documentLabel: string,
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.documentApproved.reviewedAndApproved}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.documentApproved.viewDocuments}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.documentApproved.viewDocuments}</a>
     </div>
   `;
   return getEmailWrapper(content, lang);
@@ -1058,7 +1058,7 @@ export function getAdminProfileChangesTemplate(clientName: string, clientEmail: 
   ).join('');
   
   const content = `
-    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #4A8BC2;">
+    <div style="background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%); padding: 25px; border-radius: 16px; margin: 0 0 25px 0; text-align: center; border: 2px solid #2C5F8A;">
       <p style="margin: 0; font-size: 18px; font-weight: 800; color: #2C5F8A;">Cambios de Perfil Verificados con OTP</p>
     </div>
     
@@ -1114,12 +1114,12 @@ export function getIdentityVerificationRequestTemplate(name: string, notes?: str
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationRequest.intro}</p>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.whyTitle}</p>
       <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRequest.whyText}</p>
     </div>
     
-    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #4A8BC2;">
+    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #2C5F8A;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.whatNeedTitle}</p>
       <p style="margin: 0 0 12px 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRequest.whatNeedText}</p>
       <ul style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
@@ -1129,7 +1129,7 @@ export function getIdentityVerificationRequestTemplate(name: string, notes?: str
       </ul>
     </div>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 15px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRequest.howToUploadTitle}</p>
       <ol style="margin: 0; padding-left: 20px; font-size: 14px; color: #444; line-height: 1.9;">
         <li style="margin-bottom: 8px;">${t.identityVerificationRequest.howStep1}</li>
@@ -1139,7 +1139,7 @@ export function getIdentityVerificationRequestTemplate(name: string, notes?: str
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.identityVerificationRequest.uploadButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.identityVerificationRequest.uploadButton}</a>
     </div>
     
     <div style="background: #FEF3C7; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #F59E0B;">
@@ -1169,14 +1169,14 @@ export function getIdentityVerificationApprovedTemplate(name: string, lang: Emai
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.intro}</p>
     
-    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #4A8BC2;">
+    <div style="background: #EFF6FF; padding: 25px; border-radius: 16px; margin: 25px 0; border: 1px solid #2C5F8A;">
       <p style="margin: 0; font-size: 14px; color: #2C5F8A; line-height: 1.7;">${t.identityVerificationApproved.verified}</p>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.identityVerificationApproved.accessRestored}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.identityVerificationApproved.viewDashboard}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.identityVerificationApproved.viewDashboard}</a>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.identityVerificationApproved.closing}</p>
@@ -1204,13 +1204,13 @@ export function getIdentityVerificationRejectedTemplate(name: string, reason?: s
     </div>
     ` : ''}
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: #0A0A0A;">${t.identityVerificationRejected.whatToDo}</p>
       <p style="margin: 0; font-size: 14px; color: #444; line-height: 1.7;">${t.identityVerificationRejected.reuploadStep}</p>
     </div>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.identityVerificationRejected.uploadButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.identityVerificationRejected.uploadButton}</a>
     </div>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.identityVerificationRejected.needHelp}</p>
@@ -1251,10 +1251,10 @@ export function getAbandonedApplicationTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.questionsHelp}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.abandonedApplication.continueButton}</a>
+      <a href="https://${domain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.abandonedApplication.continueButton}</a>
     </div>
     
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #4A8BC2;">
+    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
       <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.abandonedApplication.whyChoose}</p>
       <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
         <li>${t.abandonedApplication.reason1}</li>
@@ -1497,7 +1497,7 @@ export function getAbandonedApplicationReminderTemplate(
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.dontLoseProgress}</p>
     
     <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #4A8BC2; color: #0A0A0A; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(74,139,194,0.35);">${t.abandonedApplication.continueButton}</a>
+      <a href="https://${emailDomain}/dashboard" style="display: inline-block; background: #FF6B35; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(255,107,53,0.35);">${t.abandonedApplication.continueButton}</a>
     </div>
     
     <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.abandonedApplication.questionsHelp}</p>

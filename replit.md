@@ -24,10 +24,14 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 - **Internationalization:** react-i18next (7 languages: ES, EN, CA, FR, DE, IT, PT)
 
 ### Design System
-- **Colors:** Primary Metallic Blue (#2C5F8A / accent), Carbon Black, Off White, Soft Gray, Text Gray. No green/emerald colors. All UI elements use metallic blue accent. Status labels use semantic colors (red for error/cancelled, yellow for warning/pending, green for completed/active). Action required badge is red.
-- **Typography:** Space Grotesk (headings), Inter (body), DM Sans (UI)
+- **Colors:** Primary Ocean Blue (#2C5F8A), CTA Orange (#FF6B35), Secondary Green (#00C48C). Light background #FAFAFA, dark background #0A0F1E. Status labels use semantic colors (amber for pending, purple for processing, green for completed/active, red for cancelled/error, blue for paid, cyan for documents_ready). VIP badge uses gold gradient.
+- **Typography:** Space Grotesk (h1/h2 hero headings), Inter (h3/h4 section headings), DM Sans (body/UI)
 - **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence
 - **Animations:** Framer Motion with page transitions
+- **Navbar:** Glassmorphism (backdrop-blur-md, bg-white/95 light, bg-background/95 dark)
+- **Footer:** Dark slate design (bg-slate-900 light, bg-slate-950 dark) with green hover links
+- **Button Variants:** default (primary blue), cta (orange), secondary (green), outline, ghost, destructive, link, premium
+- **Badge Variants:** default, pending, processing, completed, cancelled, paid, documentsReady, active, inactive, draft, submitted, filed, vip
 - **Components:** shadcn/ui with custom elevation utilities.
 
 ### Security Features

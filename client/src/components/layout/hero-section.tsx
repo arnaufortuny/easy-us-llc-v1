@@ -19,7 +19,7 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section 
-      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center ${mobilePaddingTop} ${className}`}
+      className={`relative overflow-hidden pb-6 sm:pb-16 lg:pb-20 flex flex-col items-center justify-center text-center bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-background dark:via-background dark:to-primary/5 ${mobilePaddingTop} ${className}`}
     >
       <div className="container max-w-7xl mx-auto px-4 sm:px-8 relative z-10 flex flex-col items-center justify-center text-center">
         <div className="w-full text-center flex flex-col items-center justify-center">
@@ -28,7 +28,7 @@ export function HeroSection({
           </div>
           <div className="max-w-4xl flex flex-col items-center justify-center">
             {subtitle && (
-              <div className="text-xs sm:text-xl lg:text-2xl text-foreground mb-4 sm:mb-8 leading-relaxed font-medium text-center">
+              <div className="text-xs sm:text-xl lg:text-2xl text-muted-foreground mb-4 sm:mb-8 leading-relaxed font-medium text-center">
                 {subtitle}
               </div>
             )}

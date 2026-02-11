@@ -1,0 +1,328 @@
+Eres un experto en diseño de sistemas y branding para aplicaciones web. 
+Tienes acceso completo al código del proyecto Easy US LLC. 
+Tu tarea es aplicar un rediseño visual completo de branding manteniendo 
+toda la funcionalidad existente intacta.
+
+CONTEXTO DEL PROYECTO:
+- React 18 + Vite + TypeScript
+- Tailwind CSS con darkMode: ["class"]
+- shadcn/ui + Radix UI
+- Modo oscuro ya implementado (light/dark/system) via ThemeProvider
+- Tipografías ya instaladas: Space Grotesk, Inter, DM Sans
+- Iconos: components/icons.tsx con ~80 SVGs custom. NO modificar ni reemplazar.
+- SVG externo: solo client/src/assets/icons/money-icon.svg. NO modificar.
+- Logo: assets/logo-icon.png. NO modificar.
+- i18n en 7 idiomas activo. Mantener toda la internacionalización.
+
+INSTRUCCIONES GENERALES:
+- NO modificar ninguna funcionalidad existente
+- NO tocar el archivo components/icons.tsx
+- NO tocar ningún SVG existente
+- NO tocar la lógica de autenticación, rutas, base de datos ni emails
+- NO instalar nuevas librerías de iconos
+- SOLO modificar archivos de estilos, variables CSS, componentes visuales
+- Respetar el sistema de variables CSS HSL ya definido en index.css
+
+════════════════════════════════════════
+NUEVA PALETA DE COLORES
+════════════════════════════════════════
+
+Actualiza las variables CSS en index.css con esta paleta:
+
+MODO CLARO (:root):
+--background: 0 0% 98%          /* Off White #FAFAFA */
+--foreground: 215 25% 12%       /* Carbon Dark #161F2E */
+--card: 0 0% 100%               /* White puro */
+--card-foreground: 215 25% 12%
+--popover: 0 0% 100%
+--popover-foreground: 215 25% 12%
+--primary: 213 52% 36%          /* Azul Profundo #2C5F8A */
+--primary-foreground: 0 0% 100%
+--secondary: 162 100% 38%       /* Verde Crecimiento #00C48C */
+--secondary-foreground: 0 0% 100%
+--muted: 214 20% 94%            /* Gris suave */
+--muted-foreground: 215 15% 45%
+--accent: 213 52% 36%
+--accent-foreground: 0 0% 100%
+--destructive: 0 84% 60%
+--destructive-foreground: 0 0% 100%
+--border: 214 20% 88%
+--input: 214 20% 92%
+--ring: 213 52% 36%
+--radius: 0.75rem
+
+Color CTA (añadir como variable custom):
+--cta: 18 100% 57%              /* Naranja #FF6B35 */
+--cta-foreground: 0 0% 100%
+
+MODO OSCURO (.dark):
+--background: 222 47% 8%        /* Dark Navy #0A0F1E */
+--foreground: 210 20% 94%       /* Off White */
+--card: 222 40% 11%             /* Card dark #111827 */
+--card-foreground: 210 20% 94%
+--popover: 222 40% 11%
+--popover-foreground: 210 20% 94%
+--primary: 213 65% 55%          /* Azul más brillante en dark */
+--primary-foreground: 0 0% 100%
+--secondary: 162 100% 42%       /* Verde más brillante en dark */
+--secondary-foreground: 222 47% 8%
+--muted: 222 35% 15%
+--muted-foreground: 215 15% 60%
+--accent: 213 65% 55%
+--accent-foreground: 0 0% 100%
+--destructive: 0 72% 51%
+--destructive-foreground: 0 0% 100%
+--border: 222 35% 18%
+--input: 222 35% 15%
+--ring: 213 65% 55%
+
+════════════════════════════════════════
+TIPOGRAFÍA
+════════════════════════════════════════
+
+Mantén las 3 fuentes ya instaladas. Actualiza las reglas en index.css:
+
+--font-hero: 'Space Grotesk', sans-serif     → Títulos grandes, headlines hero
+--font-display: 'Inter', sans-serif           → Títulos de sección, subtítulos  
+--font-sans: 'DM Sans', sans-serif            → Cuerpo, párrafos, UI general
+
+Añade estas reglas globales en index.css:
+
+h1 { font-family: var(--font-hero); font-weight: 700; letter-spacing: -0.02em; }
+h2 { font-family: var(--font-hero); font-weight: 600; letter-spacing: -0.01em; }
+h3, h4 { font-family: var(--font-display); font-weight: 600; }
+body, p, span, input, button { font-family: var(--font-sans); }
+
+════════════════════════════════════════
+COMPONENTES A ACTUALIZAR
+════════════════════════════════════════
+
+1. BOTÓN PRIMARIO (components/ui/button.tsx)
+- Variant "default": bg-primary hover:bg-primary/90 text-white 
+  shadow-md hover:shadow-lg transition-all duration-200 
+  rounded-[var(--radius)] font-medium
+- Variant "secondary": bg-secondary hover:bg-secondary/90 text-white
+- Variant "cta": bg-[hsl(var(--cta))] hover:bg-[hsl(var(--cta))]/90 
+  text-white shadow-md hover:shadow-lg (nuevo variant para CTAs principales)
+- Variant "ghost": hover:bg-primary/10 hover:text-primary
+- Todos los botones: transition-all duration-200
+
+2. CARDS (components/ui/card.tsx)
+- Light: bg-card border border-border shadow-sm hover:shadow-md 
+  transition-shadow duration-200 rounded-xl
+- Dark: bg-card border border-border/50 shadow-sm hover:shadow-primary/10
+- CardHeader: padding consistente p-6
+- Añadir variant "elevated": shadow-md hover:shadow-lg
+
+3. BADGES (components/ui/badge.tsx)
+Actualiza los colores de cada estado:
+
+Estados de pedido (order status):
+- pending: bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400
+- paid: bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400
+- processing: bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400
+- documents_ready: bg-cyan-100 text-cyan-800 dark:bg-cyan-900/30 dark:text-cyan-400
+- completed: bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400
+- cancelled: bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+
+Estados de cuenta (account status):
+- active: bg-secondary/10 text-secondary dark:bg-secondary/20
+- pending: bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400
+- deactivated: bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+- vip: bg-gradient-to-r from-amber-400 to-yellow-500 text-white shadow-sm
+
+Estados de aplicación LLC:
+- draft: bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300
+- submitted: bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400
+- filed: bg-purple-100 text-purple-800 dark:bg-purple-900/30 dark:text-purple-400
+- rejected: bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400
+
+4. INPUTS (components/ui/input.tsx)
+- Border: border-input focus:border-primary focus:ring-2 focus:ring-primary/20
+- Background: bg-background dark:bg-muted/30
+- Radius: rounded-[var(--radius)]
+- Placeholder: placeholder:text-muted-foreground/60
+- Transition: transition-all duration-200
+
+5. NAVBAR (components/layout/navbar.tsx)
+- Light: bg-white/95 backdrop-blur-md border-b border-border/50 shadow-sm
+- Dark: bg-background/95 backdrop-blur-md border-b border-border/30
+- Logo: mantener logo-icon.png existente, no modificar
+- Links activos: text-primary font-medium
+- Links hover: text-primary/80 transition-colors duration-200
+- CTA button en navbar: usar variant "cta"
+
+6. HERO SECTION (components/layout/hero-section.tsx)
+- Light: Gradiente sutil bg-gradient-to-br from-slate-50 via-white to-blue-50/30
+- Dark: bg-gradient-to-br from-background via-background to-primary/5
+- Headline h1: font-hero, tracking-tight, text-foreground
+- Subheadline: text-muted-foreground text-lg
+- CTA principal: Button variant="cta" size="lg" con shadow-lg
+- CTA secundario: Button variant="outline" size="lg"
+
+7. FOOTER (components/layout/footer.tsx)
+- Light: bg-slate-900 text-slate-100
+- Dark: bg-slate-950 text-slate-200
+- Links: hover:text-secondary transition-colors duration-200
+- Separador: border-slate-700 dark:border-slate-800
+- Copyright: text-slate-400
+
+8. DASHBOARD LAYOUT
+- Sidebar light: bg-white border-r border-border
+- Sidebar dark: bg-card border-r border-border/50
+- Tab activa: bg-primary text-white rounded-lg
+- Tab hover: bg-primary/10 text-primary rounded-lg
+- Métricas cards: CardElevated con número en font-hero font-bold text-3xl
+- Número positivo: text-secondary (verde)
+- Número negativo/alerta: text-destructive
+
+9. ÁREA CLIENTE — PESTAÑAS
+- Tab activa: bg-primary text-primary-foreground
+- Tab inactiva: text-muted-foreground hover:text-foreground
+- Separador entre tabs: border-b border-border
+- Widget de progreso LLC: usar color secondary para barra completada
+- Indicador de estado de pago: usar badge system actualizado arriba
+
+10. EMAILS OTP (server/lib/email.ts)
+Actualiza los templates HTML con la nueva paleta:
+- Header: background-color: #2C5F8A (primary)
+- Botón CTA: background-color: #FF6B35 (cta)
+- Código OTP: font-size: 32px; font-family: 'Space Grotesk'; 
+  letter-spacing: 8px; color: #2C5F8A; font-weight: 700;
+  background: #F0F4F8; padding: 16px 32px; border-radius: 12px;
+- Fondo email: #FAFAFA
+- Texto principal: #161F2E
+- Texto secundario: #64748B
+- Footer email: background: #1B3A6B; color: #94A3B8;
+- Borde acento: border-left: 4px solid #00C48C en secciones importantes
+
+════════════════════════════════════════
+MODO OSCURO — REGLAS ESPECÍFICAS
+════════════════════════════════════════
+
+Verifica que estos elementos tengan correctamente definidos sus 
+estilos dark en todos los componentes del dashboard y área cliente:
+
+- Todas las cards: dark:bg-card dark:border-border/50
+- Todos los textos secundarios: dark:text-muted-foreground
+- Todos los separadores: dark:border-border/30
+- Inputs en modo dark: dark:bg-muted/30 dark:border-input
+- Dropdowns y popovers: dark:bg-popover dark:border-border/50
+- Tablas: dark:bg-card dark:border-border/30
+- Hover states: dark:hover:bg-muted/50
+- Scrollbars custom: 
+  scrollbar-width: thin; 
+  scrollbar-color: hsl(var(--primary)/0.3) transparent;
+
+════════════════════════════════════════
+ANIMACIONES Y MICRO-INTERACCIONES
+════════════════════════════════════════
+
+Mantén Framer Motion ya instalado. Añade o actualiza:
+
+- Página load: fadeIn con duration 0.3s en todas las páginas
+- Cards: hover con scale(1.01) y shadow upgrade (ya tienes hover-elevate)
+- Botones: active scale(0.97) ya definido como active-elevate-2
+- Badges de estado: aparición con fadeIn scale desde 0.8
+- Dashboard tabs: slide horizontal suave al cambiar pestaña
+- Notificaciones: slide desde la derecha
+- Modal/Dialog: scale desde 0.95 con fade
+- Números de métricas: contador animado al cargar (usa useEffect + requestAnimationFrame)
+
+════════════════════════════════════════
+VERSIÓN MÓVIL — AJUSTES ESPECÍFICOS
+════════════════════════════════════════
+
+Revisa y corrige estos puntos específicos en mobile:
+
+- Navbar móvil: drawer con bg-background/98 backdrop-blur-xl
+- Hero en móvil: padding px-4, texto más pequeño, CTA full-width
+- Dashboard móvil: pestañas en scroll horizontal con snap,
+  indicador visual de pestaña activa visible
+- Cards métricas en móvil: 2 columnas grid-cols-2 gap-3
+- Formulario LLC multi-step: barra de progreso sticky top-0 
+  con z-10 visible siempre en móvil
+- Tablas → cards en móvil: verificar que todas las tablas 
+  del admin tengan su versión card para < 768px
+- Inputs en móvil: min-height 44px para touch targets correctos
+- Botones en móvil: min-height 44px, padding generoso
+- Área cliente móvil: tabs con iconos + texto corto visible
+
+════════════════════════════════════════
+UTILIDADES CSS ADICIONALES
+════════════════════════════════════════
+
+Añade estas clases utility en index.css:
+
+.gradient-primary {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary)/0.8));
+}
+
+.gradient-cta {
+  background: linear-gradient(135deg, hsl(var(--cta)), hsl(var(--cta)/0.85));
+}
+
+.gradient-success {
+  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary)/0.8));
+}
+
+.card-glass {
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.dark .card-glass {
+  background: rgba(17,24,39,0.7);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.badge-vip {
+  background: linear-gradient(135deg, #F59E0B, #EAB308);
+  color: white;
+  box-shadow: 0 2px 8px rgba(245,158,11,0.4);
+}
+
+════════════════════════════════════════
+ORDEN DE EJECUCIÓN
+════════════════════════════════════════
+
+Ejecuta los cambios en este orden exacto:
+
+1. index.css — Variables CSS completas (light + dark)
+2. tailwind.config.ts — Añadir colores custom al theme
+3. components/ui/button.tsx — Nuevo variant cta y actualización visual
+4. components/ui/card.tsx — Nuevo variant elevated y estilos dark
+5. components/ui/badge.tsx — Sistema de estados completo
+6. components/ui/input.tsx — Estilos actualizados
+7. components/layout/navbar.tsx — Glassmorphism + CTA
+8. components/layout/hero-section.tsx — Gradientes + CTAs
+9. components/layout/footer.tsx — Dark footer
+10. Componentes dashboard — Aplicar nueva paleta
+11. Componentes área cliente — Aplicar nueva paleta
+12. server/lib/email.ts — Templates HTML actualizados
+13. Verificación final modo oscuro en todos los componentes
+
+════════════════════════════════════════
+RESTRICCIONES ABSOLUTAS
+════════════════════════════════════════
+
+- NO modificar components/icons.tsx
+- NO modificar assets/icons/money-icon.svg
+- NO modificar assets/logo-icon.png
+- NO modificar ningún archivo de rutas
+- NO modificar shared/schema.ts
+- NO modificar server/routes/
+- NO modificar la lógica de autenticación
+- NO instalar nuevas dependencias
+- NO cambiar el sistema de i18n ni los archivos de locales
+- NO modificar los hooks de negocio existentes
+- MANTENER todas las animaciones Framer Motion existentes
+- MANTENER el sistema ThemeProvider existente
