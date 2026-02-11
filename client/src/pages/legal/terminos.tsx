@@ -23,7 +23,7 @@ export default function Terminos() {
           <p className="text-sm text-muted-foreground">{t("legalTerms.s01Address")}: 1209 Mountain Road Pl NE, STE R, Albuquerque, NM 87110, USA</p>
         </LegalHighlightBox>
         <p>{t("legalTerms.s01p2")}</p>
-        <p>{t("legalTerms.s01ContactEmail")}: hola@easyusllc.com | {t("legalTerms.s01ContactPhone")}: +34 614 916 910</p>
+        <p>{t("legalTerms.s01ContactEmail")}: hola@exentax.com | {t("legalTerms.s01ContactPhone")}: +34 614 916 910</p>
       </LegalSection>
 
       <LegalSection number="02" title={t("legalTerms.s02Title")}>

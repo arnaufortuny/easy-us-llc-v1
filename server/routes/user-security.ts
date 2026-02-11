@@ -61,7 +61,7 @@ export function registerUserSecurityRoutes(app: Express) {
       const activeLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       sendEmail({
         to: userEmail,
-        subject: activeLang === 'en' ? "Account activated - Easy US LLC" : activeLang === 'ca' ? "Compte activat - Easy US LLC" : activeLang === 'fr' ? "Compte activé - Easy US LLC" : activeLang === 'de' ? "Konto aktiviert - Easy US LLC" : activeLang === 'it' ? "Account attivato - Easy US LLC" : activeLang === 'pt' ? "Conta ativada - Easy US LLC" : "Cuenta activada - Easy US LLC",
+        subject: activeLang === 'en' ? "Account activated - Exentax" : activeLang === 'ca' ? "Compte activat - Exentax" : activeLang === 'fr' ? "Compte activé - Exentax" : activeLang === 'de' ? "Konto aktiviert - Exentax" : activeLang === 'it' ? "Account attivato - Exentax" : activeLang === 'pt' ? "Conta ativada - Exentax" : "Cuenta activada - Exentax",
         html: getWelcomeEmailTemplate(user.firstName || undefined, activeLang)
       }).catch((err: any) => log.error('Failed to send welcome email', err));
       

@@ -1,7 +1,6 @@
 import type { Express } from "express";
 
-const BASE_URL = "https://easyusllc.com";
-const LINKTREE_URL = "https://creamostullc.com";
+const BASE_URL = "https://exentax.com";
 
 const PUBLIC_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
@@ -17,11 +16,9 @@ const PUBLIC_ROUTES = [
   { path: "/legal/privacidad", priority: 0.4, changefreq: "yearly" },
   { path: "/legal/reembolsos", priority: 0.4, changefreq: "yearly" },
   { path: "/legal/cookies", priority: 0.4, changefreq: "yearly" },
-];
-
-const LINKTREE_ROUTES = [
-  { path: "/", priority: 1.0, changefreq: "weekly" },
-  { path: "/tu-llc", priority: 0.9, changefreq: "weekly" },
+  { path: "/links", priority: 0.6, changefreq: "monthly" },
+  { path: "/start", priority: 0.9, changefreq: "weekly" },
+  { path: "/agendar-consultoria", priority: 0.8, changefreq: "weekly" },
 ];
 
 export function generateSitemap(): string {
@@ -41,52 +38,19 @@ ${urls}
 </urlset>`;
 }
 
-export function generateLinktreeSitemap(): string {
-  const today = new Date().toISOString().split("T")[0];
-  
-  const urls = LINKTREE_ROUTES.map(route => `
-  <url>
-    <loc>${LINKTREE_URL}${route.path}</loc>
-    <lastmod>${today}</lastmod>
-    <changefreq>${route.changefreq}</changefreq>
-    <priority>${route.priority.toFixed(1)}</priority>
-  </url>`).join("");
-
-  return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
-</urlset>`;
-}
 
 export function setupSitemapRoute(app: Express): void {
-  app.get("/sitemap.xml", (req, res) => {
-    const host = req.get('host') || '';
-    const isLinktree = host.includes('creamostullc');
-    
+  app.get("/sitemap.xml", (_req, res) => {
     res.header("Content-Type", "application/xml");
     res.header("Cache-Control", "public, max-age=3600, stale-while-revalidate=86400");
-    res.send(isLinktree ? generateLinktreeSitemap() : generateSitemap());
+    res.send(generateSitemap());
   });
   
-  app.get("/robots.txt", (req, res) => {
-    const host = req.get('host') || '';
-    const isLinktree = host.includes('creamostullc');
-    
+  app.get("/robots.txt", (_req, res) => {
     res.header("Content-Type", "text/plain");
     res.header("Cache-Control", "public, max-age=86400");
     
-    const robotsContent = isLinktree 
-      ? `User-agent: *
-Allow: /
-
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-Sitemap: ${LINKTREE_URL}/sitemap.xml`
-      : `User-agent: *
+    const robotsContent = `User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /dashboard

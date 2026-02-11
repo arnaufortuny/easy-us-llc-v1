@@ -133,7 +133,7 @@ app.use((req, res, next) => {
     // Append canonical to existing Link header (don't overwrite preconnect hints)
     const existingLinkRaw = res.getHeader('Link');
     const existingLink = Array.isArray(existingLinkRaw) ? existingLinkRaw.join(', ') : (existingLinkRaw || '');
-    const canonicalLink = `<https://easyusllc.com${req.path}>; rel="canonical"`;
+    const canonicalLink = `<https://exentax.com${req.path}>; rel="canonical"`;
     res.setHeader('Link', existingLink ? `${existingLink}, ${canonicalLink}` : canonicalLink);
   }
   

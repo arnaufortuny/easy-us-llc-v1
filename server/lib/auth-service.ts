@@ -227,10 +227,10 @@ export async function loginUser(email: string, password: string): Promise<typeof
       // Send deactivation email
       try {
         const secLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
-        const secSubjects: Record<string, string> = { en: 'Security Easy US LLC - Account Deactivated', ca: 'Seguretat Easy US LLC - Compte Desactivat', fr: 'Sécurité Easy US LLC - Compte Désactivé', de: 'Sicherheit Easy US LLC - Konto Deaktiviert', it: 'Sicurezza Easy US LLC - Account Disattivato', pt: 'Segurança Easy US LLC - Conta Desativada' };
+        const secSubjects: Record<string, string> = { en: 'Security Exentax - Account Deactivated', ca: 'Seguretat Exentax - Compte Desactivat', fr: 'Sécurité Exentax - Compte Désactivé', de: 'Sicherheit Exentax - Konto Deaktiviert', it: 'Sicurezza Exentax - Account Disattivato', pt: 'Segurança Exentax - Conta Desativada' };
         await sendEmail({
           to: user.email!,
-          subject: secSubjects[secLang] || "Seguridad Easy US LLC - Cuenta Desactivada",
+          subject: secSubjects[secLang] || "Seguridad Exentax - Cuenta Desactivada",
           html: getAccountLockedTemplate(user.firstName || '', msgId)
         });
 
@@ -238,7 +238,7 @@ export async function loginUser(email: string, password: string): Promise<typeof
         await db.insert(messagesTable).values({
           userId: user.id,
           name: "Sistema de Seguridad",
-          email: "seguridad@easyusllc.com",
+          email: "seguridad@exentax.com",
           subject: "Cuenta Desactivada - 4 Intentos Fallidos",
           content: `Cuenta desactivada permanentemente por seguridad tras 4 intentos fallidos de inicio de sesión. Se requiere verificación de identidad para reactivar. Ticket ID: ${msgId}`,
           status: "unread",

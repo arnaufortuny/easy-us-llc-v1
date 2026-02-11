@@ -223,7 +223,7 @@ export default function Servicios() {
                 transition={{ ...transitions.normal, delay: 0.2 }}
               >
                 <p className="text-foreground font-bold text-sm sm:text-base">{t("services.trustpilotTitle")}</p>
-                <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-white dark:bg-white px-5 py-3 rounded-full shadow-md border-2 border-accent hover:shadow-lg transition-shadow">
+                <a href="https://es.trustpilot.com/review/exentax.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-white dark:bg-white px-5 py-3 rounded-full shadow-md border-2 border-accent hover:shadow-lg transition-shadow">
                   <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
                   <div className="flex gap-0.5">
                     {[1,2,3,4,5].map((star) => (

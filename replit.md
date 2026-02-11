@@ -1,7 +1,15 @@
-# Easy US LLC — Platform Documentation
+# Exentax — Platform Documentation
 
 ## Overview
-Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation for international entrepreneurs, particularly Spanish-speaking clients. It provides end-to-end services including business formation in New Mexico, Wyoming, and Delaware, annual maintenance, banking assistance, compliance tracking, and multilingual professional support. The platform is production-ready, featuring a comprehensive admin panel, secure document handling, and an automated compliance calendar, aiming to facilitate US business entry for a global audience.
+Exentax (formerly Easy US LLC) is a full-stack SaaS platform designed to simplify US LLC formation for international entrepreneurs, particularly Spanish-speaking clients. It provides end-to-end services including business formation in New Mexico, Wyoming, and Delaware, annual maintenance, banking assistance, compliance tracking, and multilingual professional support. The platform is production-ready, featuring a comprehensive admin panel, secure document handling, and an automated compliance calendar, aiming to facilitate US business entry for a global audience.
+
+## Recent Changes (Feb 2026)
+- **Domain Migration:** All references migrated from creamostullc.com and easyusllc.com to exentax.com
+- **Brand Rebrand:** "Easy US LLC" brand name → "Exentax" across entire codebase (emails, PDFs, UI, meta tags, sitemap)
+- **New /start Page:** Sales funnel page with tax calculator + free consultation CTA, fully translated in 7 languages
+- **Linktree → /links:** Moved linktree content from separate domain to /links route on main site
+- **Sitemap Cleanup:** Removed LINKTREE_ROUTES, added /start, /links, /agendar-consultoria routes
+- **Theme Storage Key:** Updated from easyusllc-theme to exentax-theme
 
 ## User Preferences
 - Clear, concise communication without technical jargon

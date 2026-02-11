@@ -65,7 +65,7 @@ export default function Reembolsos() {
       <LegalSection number="06" title={t("legalRefunds.s06Title")}>
         <p>{t("legalRefunds.s06p1")}</p>
         <LegalHighlightBox>
-          <p>Email: hola@easyusllc.com</p>
+          <p>Email: hola@exentax.com</p>
           <p>WhatsApp: +34 614 916 910</p>
           <p className="mt-4 text-sm opacity-70">{t("legalRefunds.s06p2")}</p>
         </LegalHighlightBox>

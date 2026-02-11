@@ -50,7 +50,7 @@ export default function Home() {
         title={
           <div className="flex flex-col items-center w-full">
             <div className="mb-6 sm:hidden flex justify-center mt-2">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/exentax.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-white dark:bg-white px-4 py-2.5 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-6 w-auto" />
                 <div className="flex gap-0.5">
                   {[1,2,3,4,5].map((star) => (
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
             
             <div className="hidden sm:flex mb-8 justify-center">
-              <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
+              <a href="https://es.trustpilot.com/review/exentax.com" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-4 bg-white dark:bg-white px-6 py-3 rounded-full shadow-md border-2 border-accent">
                 <img src={trustpilotLogo} alt="Trustpilot" className="h-7 w-auto" />
                 <div className="flex gap-1">
                   {[1,2,3,4,5].map((star) => (

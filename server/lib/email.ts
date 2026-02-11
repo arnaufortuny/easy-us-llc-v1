@@ -4,8 +4,8 @@ import { createLogger } from "./logger";
 
 const log = createLogger('email');
 
-const domain = "easyusllc.com";
-const companyAddress = `Easy US LLC
+const domain = "exentax.com";
+const companyAddress = `Exentax
 1209 Mountain Road Place Northeast
 STE R
 Albuquerque, NM 87110`;
@@ -16,7 +16,7 @@ function getSimpleHeader() {
   return `
     <div style="background: linear-gradient(135deg, #00C48C 0%, #00855F 100%); padding: 35px 20px; text-align: center;">
       <a href="https://${domain}" target="_blank" style="text-decoration: none; display: inline-block;">
-        <img src="${EMAIL_LOGO}" alt="Easy US LLC" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
+        <img src="${EMAIL_LOGO}" alt="Exentax" width="70" height="70" style="display: block; margin: 0 auto; border-radius: 50%; border: 0;" />
       </a>
     </div>
   `;
@@ -27,7 +27,7 @@ function getSimpleFooter() {
     <div style="background-color: #0A1F17; padding: 35px 25px; text-align: center; color: #F7F7F5;">
       <div style="width: 40px; height: 3px; background: #00C48C; margin: 0 auto 20px; border-radius: 2px;"></div>
       <p style="margin: 0 0 15px 0; font-size: 12px; color: #6B7280; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
-      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Easy US LLC</p>
+      <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Exentax</p>
     </div>
   `;
 }
@@ -1278,7 +1278,7 @@ export interface EmailMetadata {
   ip?: string;
 }
 
-export function getEmailHeader(title: string = "Easy US LLC", metadata?: EmailMetadata) {
+export function getEmailHeader(title: string = "Exentax", metadata?: EmailMetadata) {
   return getSimpleHeader();
 }
 
@@ -1371,8 +1371,8 @@ async function processEmailQueue() {
     
     try {
       await transporter.sendMail({
-        from: `"Easy US LLC" <no-reply@easyusllc.com>`,
-        replyTo: job.replyTo || "hola@easyusllc.com",
+        from: `"Exentax" <no-reply@exentax.com>`,
+        replyTo: job.replyTo || "hola@exentax.com",
         to: job.to,
         subject: job.subject,
         html: job.html,
@@ -1448,8 +1448,8 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Easy US LLC" <no-reply@easyusllc.com>`,
-      replyTo: replyTo || "hola@easyusllc.com",
+      from: `"Exentax" <no-reply@exentax.com>`,
+      replyTo: replyTo || "hola@exentax.com",
       to: to,
       subject: subject,
       html,
@@ -1541,7 +1541,7 @@ export function getConsultationConfirmationTemplate(
     <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 20px 0;">${ct.cancelNote}</p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 20px 0 5px 0;">${ct.lookingForward}</p>
     <p style="line-height: 1.7; font-size: 14px; color: #444; margin: 0;">${ct.closing}</p>
-    <p style="font-weight: 700; font-size: 14px; color: #1E40AF; margin: 5px 0 0 0;">Easy US LLC</p>
+    <p style="font-weight: 700; font-size: 14px; color: #1E40AF; margin: 5px 0 0 0;">Exentax</p>
   `;
   return getEmailWrapper(content, lang);
 }
@@ -1592,7 +1592,7 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
     return;
   }
 
-  const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "easyusllc.com+62fb280c0a@invite.trustpilot.com";
+  const trustpilotBcc = process.env.TRUSTPILOT_BCC_EMAIL || "exentax.com+62fb280c0a@invite.trustpilot.com";
   const html = getOrderCompletedTemplate(name, orderNumber);
 
   try {
@@ -1600,8 +1600,8 @@ export async function sendTrustpilotEmail({ to, name, orderNumber }: { to: strin
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Easy US LLC" <no-reply@easyusllc.com>`,
-      replyTo: "hola@easyusllc.com",
+      from: `"Exentax" <no-reply@exentax.com>`,
+      replyTo: "hola@exentax.com",
       to: to,
       bcc: trustpilotBcc,
       subject: `Pedido completado - Documentación disponible`,

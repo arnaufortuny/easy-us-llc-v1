@@ -136,7 +136,7 @@ export default function InvoiceGenerator() {
         doc.setTextColor(150, 150, 150);
         doc.setFontSize(7);
         doc.setFont('helvetica', 'normal');
-        doc.text(`${tPdf('tools.invoiceGenerator.title')} — easyusllc.com`, margin, pageHeight - 12);
+        doc.text(`${tPdf('tools.invoiceGenerator.title')} — exentax.com`, margin, pageHeight - 12);
         doc.text(`${pageNum}`, pageWidth - margin, pageHeight - 12, { align: 'right' });
       };
 

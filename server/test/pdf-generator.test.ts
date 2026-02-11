@@ -90,7 +90,7 @@ describe('PDF Generator', () => {
         currency: 'EUR',
         status: 'pending',
         paymentMethod: 'link',
-        paymentLink: 'https://pay.easyusllc.com/p/DE-11111111'
+        paymentLink: 'https://pay.exentax.com/p/DE-11111111'
       };
 
       const pdfBuffer = await generateInvoicePdf(invoiceData);

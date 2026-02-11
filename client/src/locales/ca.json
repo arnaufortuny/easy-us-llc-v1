@@ -298,7 +298,7 @@
       "badge": "ESPECIALISTES",
       "title": "Especialistes en negocis",
       "text": "No som intermediaris genèrics. Treballem cada dia amb freelancers i negocis internacionals, entenent les seves necessitats reals i anticipant problemes per posar-t'ho fàcil des del primer dia.",
-      "button": "Sobre Easy US LLC"
+      "button": "Sobre Exentax"
     },
     "support": {
       "badge": "SUPORT HUMÀ",
@@ -974,7 +974,7 @@
     "paymentLinkDesc": "Rebràs un enllaç de pagament segur per email per completar la transacció.",
     "bankTransfer": "Transferència Bancària",
     "paymentLink": "Link de Pagament",
-    "confirmInfo": "Confirmo que la informació proporcionada és correcta i autoritzo a Easy US LLC a processar la meva sol·licitud.",
+    "confirmInfo": "Confirmo que la informació proporcionada és correcta i autoritzo a Exentax a processar la meva sol·licitud.",
     "acceptTerms": "Accepto els",
     "termsLink": "Termes i Condicions",
     "steps": {
@@ -1239,7 +1239,7 @@
       "notesPlaceholder": "Afegeix aquí qualsevol detall addicional sobre la teva LLC o les teves necessitats específiques...",
       "consent": "Confirmacions",
       "consentDesc": "Si us plau, confirma els següents punts",
-      "authorizedManagement": "Autoritzo a Easy US LLC a gestionar el manteniment de la meva LLC segons els serveis contractats.",
+      "authorizedManagement": "Autoritzo a Exentax a gestionar el manteniment de la meva LLC segons els serveis contractats.",
       "termsConsent": "Accepto els termes i condicions del servei.",
       "dataProcessingConsent": "Consento el tractament de les meves dades personals segons la política de privacitat.",
       "summary": "Resum",
@@ -1298,9 +1298,9 @@
       "bankTransfer": "Transferència Bancària",
       "paymentLink": "Enllaç de Pagament",
       "additionalNotes": "Notes addicionals (opcional)",
-      "authorizedManagement": "Autoritzo a Easy US LLC a gestionar administrativament la meva LLC davant els organismes competents.",
+      "authorizedManagement": "Autoritzo a Exentax a gestionar administrativament la meva LLC davant els organismes competents.",
       "dataProcessing": "Accepto el tractament de les meves dades personals segons la política de privacitat.",
-      "termsConsent": "He llegit i accepto els Termes i Condicions d'Easy US LLC.",
+      "termsConsent": "He llegit i accepto els Termes i Condicions d'Exentax.",
       "submit": "Enviar Sol·licitud",
       "submitting": "Enviant..."
     },
@@ -2453,8 +2453,8 @@
     },
     "categories": {
       "aboutUs": {
-        "title": "Sobre Easy US LLC",
-        "q1": "Què fem a Easy US LLC?",
+        "title": "Sobre Exentax",
+        "q1": "Què fem a Exentax?",
         "a1": "Creem, estructurem i gestionem la teva LLC als Estats Units de forma integral. No som una web que et deixa uns papers i desapareix. Som una gestoria que t'acompanya abans, durant i després del procés. El nostre objectiu és que tinguis una empresa ben creada des de l'inici, amb una estructura que funcioni legalment, evitant qualsevol ensurt per manca d'informació i permetent que el teu negoci creixi sense bloquejos operatius ni legals. Ens encarreguem de tota la burocràcia perquè tu et centris en vendre.",
         "q2": "Què inclou el paquet de creació?",
         "a2": "Inclou absolutament tot el necessari perquè la teva empresa neixi i sigui plenament operativa des del primer dia: El registre oficial de la LLC davant l'estat, la redacció dels Articles d'Organització, un Operating Agreement personalitzat i professional, una adreça comercial física als Estats Units per rebre correspondència oficial, l'Agent Registrat obligatori per llei, el registre inicial BOI davant FinCEN, constitució exprés en 3 dies hàbils i suport amb consultes il·limitades perquè mai et sentis sol.",
@@ -2499,7 +2499,7 @@
         "a1": "L'extensió d'impostos és una sol·licitud oficial davant l'IRS que et permet ampliar el termini per presentar les teves declaracions fiscals. No elimina l'obligació de presentar els formularis, però et concedeix més temps per preparar-los correctament i evitar sancions. En el cas de LLCs de no residents, permet ampliar el termini de presentació de formularis obligatoris com l'IRS Form 1120 i l'IRS Form 5472.",
         "q2": "Com m'ajuda l'extensió d'impostos?",
         "a2": "L'extensió et protegeix davant d'un dels majors riscos d'una LLC: les multes per presentació tardana. L'IRS pot imposar sancions molt elevades si aquests formularis no es presenten a temps, fins i tot si l'empresa no té activitat o impostos a pagar. Sol·licitar l'extensió et permet evitar sancions, disposar de més temps per preparar la documentació, revisar correctament la comptabilitat i complir amb l'IRS de forma segura i professional.",
-        "q3": "L'extensió d'impostos està inclosa a Easy US LLC?",
+        "q3": "L'extensió d'impostos està inclosa a Exentax?",
         "a3": "Sí. Ens encarreguem de sol·licitar l'extensió dins dels nostres serveis perquè la teva empresa compleixi amb els terminis de l'IRS sense complicacions. El nostre objectiu és que la teva LLC estigui protegida davant sancions, compleixis correctament amb les teves obligacions fiscals i tinguis acompanyament real durant tot el procés."
       },
       "operations": {
@@ -2509,7 +2509,7 @@
         "q2": "Què passa si una plataforma em bloqueja el compte?",
         "a2": "Un bloqueig no sempre és definitiu, sol ser un control rutinari de seguretat. T'ajudem a analitzar quins documents específics estan sol·licitant, preparem la resposta tècnica adequada amb els teus Articles d'Organització i EIN, i t'indiquem com enviar la informació perquè un agent humà del suport l'aprovi. La majoria dels comptes es desbloquegen en pocs dies si la resposta és professional i està ben documentada.",
         "q3": "Puc canviar la meva LLC d'estat més endavant?",
-        "a3": "No de forma senzilla. A Easy US LLC no realitzem tràmits de 'Domestication' (trasllat d'estat) perquè és un procés costós i burocràtic que sol generar errors fiscals. Si el teu negoci canvia radicalment i necessites operar en un altre estat diferent, el més eficient i segur sol ser tancar l'entitat actual i crear una nova LLC o registrar l'actual com a entitat estrangera en el nou estat. Per això és vital triar bé entre Wyoming i Nou Mèxic des del primer dia.",
+        "a3": "No de forma senzilla. A Exentax no realitzem tràmits de 'Domestication' (trasllat d'estat) perquè és un procés costós i burocràtic que sol generar errors fiscals. Si el teu negoci canvia radicalment i necessites operar en un altre estat diferent, el més eficient i segur sol ser tancar l'entitat actual i crear una nova LLC o registrar l'actual com a entitat estrangera en el nou estat. Per això és vital triar bé entre Wyoming i Nou Mèxic des del primer dia.",
         "q4": "Puc utilitzar-la vivint a Europa?",
         "a4": "Sí, la LLC és l'eina d'optimització favorita per a nòmades digitals i emprenedors que resideixen a Europa. Et permet facturar globalment amb una estructura nord-americana mentre compleixes amb les normatives del teu país de residència. És una forma perfectament legal de separar els teus actius personals dels empresarials i operar en un mercat amb menys burocràcia que l'europeu.",
         "q5": "Serveix per a Amazon, SaaS, Freelancing, Cripto?",
@@ -2521,7 +2521,7 @@
         "q8": "Quant costa dissoldre la meva LLC?",
         "a8": "El cost estàndard per dissoldre una LLC és de 350€ en casos simples, quan l'empresa no té deutes, obligacions pendents ni incidències administratives. En situacions més complexes, com LLC amb activitat prèvia, deutes, incompliments o gestions addicionals amb l'estat o l'IRS, el cost pot començar a partir de 500€, depenent del nivell de regularització necessari. Abans d'iniciar el procés, revisem el teu cas i t'informem amb total transparència del cost i els passos a seguir.",
         "q9": "Quines són les diferències entre Mercury i Relay?",
-        "a9": "Mercury i Relay són dues solucions bancàries molt utilitzades per empreses als Estats Units, especialment per LLCs de negocis digitals. Ambdues permeten gestionar pagaments, rebre transferències i operar internacionalment, però tenen enfocaments diferents. Mercury està orientat principalment a emprenedors digitals, startups i negocis online. Ofereix una experiència bancària molt senzilla, targetes físiques i virtuals, i una gran compatibilitat amb plataformes com Stripe, PayPal o eines de comptabilitat. Sol ser una opció molt popular per a LLCs amb un únic propietari o estructures simples. Relay, en canvi, està més enfocat en la gestió financera d'empreses amb equips o diversos responsables. Permet crear múltiples targetes, assignar permisos a diferents usuaris i controlar despeses de forma més detallada. És especialment útil quan el negoci necessita separar despeses per departaments o persones. Ambdues opcions són fiables i permeten operar amb una LLC americana. L'elecció depèn principalment del tipus de negoci, estructura de l'empresa i necessitats operatives. A Easy US LLC t'ajudem a preparar la teva empresa per sol·licitar comptes bancaris amb partners compatibles amb la teva activitat, tot i que l'aprovació final sempre depèn de cada entitat financera."
+        "a9": "Mercury i Relay són dues solucions bancàries molt utilitzades per empreses als Estats Units, especialment per LLCs de negocis digitals. Ambdues permeten gestionar pagaments, rebre transferències i operar internacionalment, però tenen enfocaments diferents. Mercury està orientat principalment a emprenedors digitals, startups i negocis online. Ofereix una experiència bancària molt senzilla, targetes físiques i virtuals, i una gran compatibilitat amb plataformes com Stripe, PayPal o eines de comptabilitat. Sol ser una opció molt popular per a LLCs amb un únic propietari o estructures simples. Relay, en canvi, està més enfocat en la gestió financera d'empreses amb equips o diversos responsables. Permet crear múltiples targetes, assignar permisos a diferents usuaris i controlar despeses de forma més detallada. És especialment útil quan el negoci necessita separar despeses per departaments o persones. Ambdues opcions són fiables i permeten operar amb una LLC americana. L'elecció depèn principalment del tipus de negoci, estructura de l'empresa i necessitats operatives. A Exentax t'ajudem a preparar la teva empresa per sol·licitar comptes bancaris amb partners compatibles amb la teva activitat, tot i que l'aprovació final sempre depèn de cada entitat financera."
       }
     }
   },
@@ -2550,8 +2550,8 @@
     "contact": "Contacta'ns",
     "location": "Nou Mèxic, EUA",
     "partners": "Partners",
-    "disclaimer": "Easy US LLC no és un despatx d'advocats ni un assessor fiscal i no pot proporcionar assessorament legal o fiscal. Som especialistes en tramitació administrativa de LLCs i t'oferim orientació general basada en la nostra experiència. La informació al nostre lloc web, així com la compartida per email, WhatsApp i altres canals de comunicació, és únicament informativa i educativa, no constitueix assessorament legal ni fiscal. Per a decisions legals o fiscals específiques, consulta amb professionals qualificats de la teva jurisdicció.",
-    "copyright": "© {{year}} Easy US LLC. Tots els drets reservats.",
+    "disclaimer": "Exentax no és un despatx d'advocats ni un assessor fiscal i no pot proporcionar assessorament legal o fiscal. Som especialistes en tramitació administrativa de LLCs i t'oferim orientació general basada en la nostra experiència. La informació al nostre lloc web, així com la compartida per email, WhatsApp i altres canals de comunicació, és únicament informativa i educativa, no constitueix assessorament legal ni fiscal. Per a decisions legals o fiscals específiques, consulta amb professionals qualificats de la teva jurisdicció.",
+    "copyright": "© {{year}} Exentax. Tots els drets reservats.",
     "delivery": "Lliurament: 2-3 dies hàbils"
   },
   "legal": {
@@ -2560,11 +2560,11 @@
     "lastUpdated": "Última actualització: 1 de febrer de 2026",
     "termsAcceptance": "Accepto els",
     "termsAndConditions": "Termes i Condicions",
-    "termsMiddle": "de Easy US LLC en crear el meu compte. Entenc i comprenc també la",
+    "termsMiddle": "de Exentax en crear el meu compte. Entenc i comprenc també la",
     "privacyPolicy": "Política de Privacitat",
     "refundPolicy": "Política de Reemborsaments",
     "cookiePolicy": "Política de Cookies",
-    "ofEasyUS": "de Easy US LLC"
+    "ofEasyUS": "de Exentax"
   },
   "theme": {
     "title": "Preferències",
@@ -2702,8 +2702,8 @@
     "connectionError": "Error de connexió."
   },
   "whatsapp": {
-    "dashboardSupport": "Hola! Soc client d'Easy US LLC i tinc una consulta sobre el meu compte. Podríeu ajudar-me?",
-    "dashboardLlc": "Hola! Soc client d'Easy US LLC i tinc un dubte sobre l'estat de la meva LLC o documentació. Podríeu ajudar-me?",
+    "dashboardSupport": "Hola! Soc client d'Exentax i tinc una consulta sobre el meu compte. Podríeu ajudar-me?",
+    "dashboardLlc": "Hola! Soc client d'Exentax i tinc un dubte sobre l'estat de la meva LLC o documentació. Podríeu ajudar-me?",
     "footer": "Hola! Us escric des de la vostra web. M'interessa saber més sobre com crear una LLC als Estats Units. Podem parlar?",
     "navbar": "Hola! Estic interessat/da en formar una LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
     "linktree": "Hola! Us contacto des del vostre Linktree. Vull crear la meva LLC als Estats Units i m'agradaria que m'assessoréssiu. Podem parlar?",
@@ -2813,7 +2813,7 @@
       "point3": "Una LLC sense presència física als Estats Units pot no estar subjecta a impostos federals, però sí ha de complir amb obligacions formals, com:",
       "point3a": "Formulari 5472 / 1120",
       "point3b": "FBAR, si aplica",
-      "point4": "A Easy US LLC no et deixem sol: analitzem el teu cas i t'expliquem què aplica i què no, sense embuts ni lletra petita."
+      "point4": "A Exentax no et deixem sol: analitzem el teu cas i t'expliquem què aplica i què no, sense embuts ni lletra petita."
     }
   },
   "tools": {
@@ -2933,16 +2933,16 @@
       "pdf": {
         "title": "OPERATING AGREEMENT",
         "of": "DE",
-        "intro": "Aquest Operating Agreement ha estat preparat per Easy US LLC, actuant com a proveïdor de serveis de formació i compliment corporatiu, en nom del seu client, i entra en vigor a partir de:",
+        "intro": "Aquest Operating Agreement ha estat preparat per Exentax, actuant com a proveïdor de serveis de formació i compliment corporatiu, en nom del seu client, i entra en vigor a partir de:",
         "effectiveDate": "Data Efectiva",
         "page": "Pàgina",
-        "footer1": "Easy US LLC - www.easyusllc.com - info@easyusllc.com",
-        "easyUsLlc": "Easy US LLC",
+        "footer1": "Exentax - www.exentax.com - info@exentax.com",
+        "easyUsLlc": "Exentax",
         "registeredAddressLine1": "1209 Mountain Road Place NE",
         "registeredAddressLine2": "STE R",
         "registeredAddressLine3": "Albuquerque, NM 87110",
         "unitedStates": "United States",
-        "contactEmail": "info@easyusllc.com",
+        "contactEmail": "info@exentax.com",
         "contactPhone": "+34 614 916 910",
         "section1Title": "Descripció General de la Companyia",
         "section1Content": "Aquest Acord confirma l'estructura interna, propietat i principis operatius de {{companyName}}, una Societat de Responsabilitat Limitada legalment constituïda sota les lleis de l'Estat de {{state}}. La Companyia va ser creada per operar com una entitat comercial legítima, proporcionant serveis i realitzant activitats comercials dins dels Estats Units i internacionalment.",
@@ -3010,7 +3010,7 @@
         "funds4": "Contribucions o inversions familiars privades",
         "section14Outro": "La Companyia es compromet a operar dins de les regulacions financeres aplicables i els estàndards contra el blanqueig de diners.",
         "section15Title": "Preparació i Representació",
-        "section15Content": "Aquest Acord ha estat preparat per Easy US LLC per donar suport a l'estructuració corporativa i documentació de la Companyia. Easy US LLC no assumeix propietat, control de gestió ni responsabilitat fiduciària per la Companyia llevat que s'acordi explícitament per escrit.",
+        "section15Content": "Aquest Acord ha estat preparat per Exentax per donar suport a l'estructuració corporativa i documentació de la Companyia. Exentax no assumeix propietat, control de gestió ni responsabilitat fiduciària per la Companyia llevat que s'acordi explícitament per escrit.",
         "section16Title": "Llei Aplicable",
         "section16Content": "Aquest Acord es regirà per les lleis de l'Estat de {{state}}.",
         "memberConfirmation": "Confirmació del Membre",
@@ -3051,7 +3051,7 @@
       "invoiceNumberPlaceholder": "INV-001",
       "notes": "Notes",
       "notesPlaceholder": "Notes addicionals...",
-      "disclaimer": "Aquesta eina és només per a fins de registre. Easy US LLC no proporciona assessorament comptable ni fiscal.",
+      "disclaimer": "Aquesta eina és només per a fins de registre. Exentax no proporciona assessorament comptable ni fiscal.",
       "downloadCsv": "Descarregar CSV",
       "generating": "Generant...",
       "toolTitle": "Generador CSV Comptable",
@@ -3107,81 +3107,81 @@
   },
   "seo": {
     "home": {
-      "title": "Constituir LLC als USA amb Optimització Fiscal | Tot Inclòs | Easy US LLC",
-      "description": "Constitueix la teva LLC als Estats Units amb optimització fiscal internacional, estructura legal eficient i suport expert. A Easy US LLC gestionem tot el procés, incloent compliment normatiu, banca empresarial i assessorament estratègic per a negocis digitals i emprenedors globals."
+      "title": "Constituir LLC als USA amb Optimització Fiscal | Tot Inclòs | Exentax",
+      "description": "Constitueix la teva LLC als Estats Units amb optimització fiscal internacional, estructura legal eficient i suport expert. A Exentax gestionem tot el procés, incloent compliment normatiu, banca empresarial i assessorament estratègic per a negocis digitals i emprenedors globals."
     },
     "servicios": {
-      "title": "Serveis i Preus | Easy US LLC",
+      "title": "Serveis i Preus | Exentax",
       "description": "Descobreix els nostres packs de formació de LLC a New Mexico, Wyoming i Delaware. Preus transparents des de 899€."
     },
     "faq": {
-      "title": "Preguntes Freqüents | Easy US LLC",
+      "title": "Preguntes Freqüents | Exentax",
       "description": "Resol tots els teus dubtes sobre la formació de LLC als Estats Units. Centre d'ajuda complet."
     },
     "contacto": {
-      "title": "Contacte | Easy US LLC",
+      "title": "Contacte | Exentax",
       "description": "Contacta amb el nostre equip d'experts en formació de LLC als Estats Units."
     },
     "dashboard": {
-      "title": "La Meva Àrea | Easy US LLC",
+      "title": "La Meva Àrea | Exentax",
       "description": "Gestiona la teva LLC, documents i serveis des de la teva àrea de clients."
     },
     "formation": {
-      "title": "Crear LLC | Easy US LLC",
+      "title": "Crear LLC | Exentax",
       "description": "Inicia el procés de creació de la teva LLC als Estats Units. Formulari simple i segur."
     },
     "maintenance": {
-      "title": "Manteniment LLC | Easy US LLC",
+      "title": "Manteniment LLC | Exentax",
       "description": "Renova el manteniment anual de la teva LLC. Agent registrat i compliment inclòs."
     },
     "login": {
-      "title": "Iniciar Sessió | Easy US LLC",
-      "description": "Accedeix al teu compte d'Easy US LLC per gestionar la teva empresa."
+      "title": "Iniciar Sessió | Exentax",
+      "description": "Accedeix al teu compte d'Exentax per gestionar la teva empresa."
     },
     "register": {
-      "title": "Crear Compte | Easy US LLC",
-      "description": "Crea el teu compte gratuït a Easy US LLC."
+      "title": "Crear Compte | Exentax",
+      "description": "Crea el teu compte gratuït a Exentax."
     },
     "forgotPassword": {
-      "title": "Recuperar Contrasenya | Easy US LLC",
-      "description": "Recupera l'accés al teu compte d'Easy US LLC."
+      "title": "Recuperar Contrasenya | Exentax",
+      "description": "Recupera l'accés al teu compte d'Exentax."
     },
     "invoice": {
-      "title": "Generador de Factures | Easy US LLC",
+      "title": "Generador de Factures | Exentax",
       "description": "Crea factures professionals per a la teva LLC de forma gratuïta."
     },
     "calculator": {
-      "title": "Calculadora de Rendibilitat | Easy US LLC",
+      "title": "Calculadora de Rendibilitat | Exentax",
       "description": "Calcula quant pots estalviar en impostos amb una LLC als Estats Units."
     },
     "operatingAgreement": {
-      "title": "Generador Operating Agreement | Easy US LLC",
+      "title": "Generador Operating Agreement | Exentax",
       "description": "Genera l'Operating Agreement de la teva LLC de forma automàtica."
     },
     "legal": {
       "terminos": {
-        "title": "Termes i Condicions | Easy US LLC",
-        "description": "Consulta els termes i condicions d'ús d'Easy US LLC."
+        "title": "Termes i Condicions | Exentax",
+        "description": "Consulta els termes i condicions d'ús d'Exentax."
       },
       "privacidad": {
-        "title": "Política de Privacitat | Easy US LLC",
+        "title": "Política de Privacitat | Exentax",
         "description": "Consulta la nostra política de privacitat i protecció de dades."
       },
       "reembolsos": {
-        "title": "Política de Reemborsaments | Easy US LLC",
+        "title": "Política de Reemborsaments | Exentax",
         "description": "Consulta la nostra política de reemborsaments i devolucions."
       },
       "cookies": {
-        "title": "Política de Cookies | Easy US LLC",
-        "description": "Informació sobre l'ús de cookies a Easy US LLC."
+        "title": "Política de Cookies | Exentax",
+        "description": "Informació sobre l'ús de cookies a Exentax."
       }
     },
     "csvGenerator": {
-      "title": "Generador CSV de Transaccions | Easy US LLC",
+      "title": "Generador CSV de Transaccions | Exentax",
       "description": "Genera arxius CSV de transaccions bancàries per a la teva LLC de forma gratuïta."
     },
     "asesoriaGratis": {
-      "title": "Consulta Gratuïta | Easy US LLC",
+      "title": "Consulta Gratuïta | Exentax",
       "description": "Reserva una consulta gratuïta de 20 minuts amb els nostres experts en formació de LLC als Estats Units."
     }
   },
@@ -3373,7 +3373,7 @@
   },
   "ntf": {
     "welcome": {
-      "title": "Benvingut a Easy US LLC!",
+      "title": "Benvingut a Exentax!",
       "message": "Gràcies per confiar en nosaltres per crear la teva empresa als EUA. Explora el teu panell per començar."
     },
     "newsletterSubscribed": {
@@ -3499,17 +3499,17 @@
     "title": "Termes i",
     "titleHighlight": "Condicions",
     "s01Title": "Identitat del prestador del servei",
-    "s01p1": "Easy US LLC és un nom comercial utilitzat per a la prestació de serveis administratius i de gestió empresarial. L'entitat legal titular i responsable dels serveis és:",
+    "s01p1": "Exentax és un nom comercial utilitzat per a la prestació de serveis administratius i de gestió empresarial. L'entitat legal titular i responsable dels serveis és:",
     "s01LegalEntity": "Entitat Legal",
-    "s01p2": "Fortuny Consulting LLC opera sota el nom comercial Easy US LLC per a la prestació de serveis a clients de tot el món.",
+    "s01p2": "Fortuny Consulting LLC opera sota el nom comercial Exentax per a la prestació de serveis a clients de tot el món.",
     "s01ContactEmail": "Correu electrònic de contacte",
     "s01ContactPhone": "Telèfon de contacte",
     "s01Address": "Adreça",
     "s02Title": "Àmbit d'activitat",
-    "s02p1": "Fortuny Consulting LLC, sota la marca Easy US LLC, presta serveis administratius, de gestió i acompanyament empresarial, especialitzats en la constitució i manteniment de societats de responsabilitat limitada (LLC) als Estats Units, dirigits a clients nacionals i internacionals.",
-    "s02p2": "Easy US LLC no és un despatx d'advocats, ni una firma d'assessoria legal, fiscal o financera regulada, i no presta serveis de representació legal ni assessorament professional regulat. Tota la informació facilitada té caràcter administratiu, informatiu i orientatiu. El client és responsable de consultar amb professionals qualificats (advocats, assessors fiscals o comptables) quan la seva situació ho requereixi.",
+    "s02p1": "Fortuny Consulting LLC, sota la marca Exentax, presta serveis administratius, de gestió i acompanyament empresarial, especialitzats en la constitució i manteniment de societats de responsabilitat limitada (LLC) als Estats Units, dirigits a clients nacionals i internacionals.",
+    "s02p2": "Exentax no és un despatx d'advocats, ni una firma d'assessoria legal, fiscal o financera regulada, i no presta serveis de representació legal ni assessorament professional regulat. Tota la informació facilitada té caràcter administratiu, informatiu i orientatiu. El client és responsable de consultar amb professionals qualificats (advocats, assessors fiscals o comptables) quan la seva situació ho requereixi.",
     "s03Title": "Serveis oferts",
-    "s03p1": "Easy US LLC ofereix, entre d'altres, els següents serveis administratius:",
+    "s03p1": "Exentax ofereix, entre d'altres, els següents serveis administratius:",
     "s03item1": "Constitució de LLC (NM, WY, DE)",
     "s03item2": "Gestió i presentació d'Articles of Organization",
     "s03item3": "Elaboració de l'Operating Agreement",
@@ -3524,32 +3524,32 @@
     "s04p1": "Els preus indicats inclouen les taxes estatals de constitució, així com els serveis detallats en cada pack en el moment de la contractació. Els preus poden estar subjectes a actualització, sense que això afecti serveis ja contractats i abonats.",
     "s05Title": "Terminis de prestació del servei",
     "s05p1": "Un cop rebuda tota la informació i documentació requerida de forma correcta, el termini estimat de constitució de la LLC és de 2 a 3 dies hàbils, depenent de l'estat i dels organismes implicats.",
-    "s05p2": "El client reconeix que aquests terminis són estimacions i que poden veure's afectats per retards derivats d'autoritats públiques, organismes estatals, entitats financeres o altres tercers aliens a Easy US LLC.",
+    "s05p2": "El client reconeix que aquests terminis són estimacions i que poden veure's afectats per retards derivats d'autoritats públiques, organismes estatals, entitats financeres o altres tercers aliens a Exentax.",
     "s06Title": "Durada del servei",
     "s06p1": "Els packs de constitució i manteniment tenen una durada de 12 mesos des de la data d'activació del servei, llevat que s'indiqui expressament el contrari. Un cop finalitzat aquest període, el client podrà contractar packs de manteniment addicionals, els termes i condicions dels quals es regiran per l'establert en el moment de la seva contractació.",
     "s07Title": "Registered Agent",
-    "s07p1": "El servei de Registered Agent s'inclou durant els primers 12 mesos en els packs que així ho indiquin. Finalitzat aquest període, el client serà responsable de renovar aquest servei, ja sigui amb Easy US LLC o amb un proveïdor de la seva elecció.",
-    "s07p2": "Easy US LLC no serà responsable de sancions, multes o conseqüències derivades de la manca de renovació del Registered Agent un cop finalitzat el període inclòs.",
+    "s07p1": "El servei de Registered Agent s'inclou durant els primers 12 mesos en els packs que així ho indiquin. Finalitzat aquest període, el client serà responsable de renovar aquest servei, ja sigui amb Exentax o amb un proveïdor de la seva elecció.",
+    "s07p2": "Exentax no serà responsable de sancions, multes o conseqüències derivades de la manca de renovació del Registered Agent un cop finalitzat el període inclòs.",
     "s08Title": "Terminis ampliats i dret de rebuig",
-    "s08p1": "El client reconeix i accepta que, si bé el termini habitual estimat per a la constitució d'una LLC és de 2 a 3 dies hàbils, en determinats casos el procés pot estendre's fins a un màxim de 15 dies hàbils, a causa de verificacions addicionals, requeriments d'informació, càrregues administratives dels organismes competents o qualsevol circumstància aliena al control d'Easy US LLC.",
-    "s08p2": "Easy US LLC es reserva el dret de rebutjar, suspendre o no acceptar una sol·licitud a la seva entera discreció, especialment quan la informació facilitada sigui incompleta, inconsistent, inexacta o no s'ajusti als criteris interns de l'empresa. En aquests casos, Easy US LLC no estarà obligada a justificar la decisió ni a continuar amb el procés.",
+    "s08p1": "El client reconeix i accepta que, si bé el termini habitual estimat per a la constitució d'una LLC és de 2 a 3 dies hàbils, en determinats casos el procés pot estendre's fins a un màxim de 15 dies hàbils, a causa de verificacions addicionals, requeriments d'informació, càrregues administratives dels organismes competents o qualsevol circumstància aliena al control d'Exentax.",
+    "s08p2": "Exentax es reserva el dret de rebutjar, suspendre o no acceptar una sol·licitud a la seva entera discreció, especialment quan la informació facilitada sigui incompleta, inconsistent, inexacta o no s'ajusti als criteris interns de l'empresa. En aquests casos, Exentax no estarà obligada a justificar la decisió ni a continuar amb el procés.",
     "s09Title": "Pagaments i política de no reemborsament",
-    "s09p1": "Tots els serveis oferts per Easy US LLC hauran de ser abonats per avançat. El pagament implica l'acceptació expressa dels presents Termes i Condicions.",
-    "s09p2": "Atès que els serveis prestats per Easy US LLC tenen caràcter administratiu, personalitzat i d'execució immediata, no s'admeten reemborsaments, totals ni parcials, un cop iniciat el procés, presentada la documentació davant organismes públics o realitzats tràmits en nom del client.",
+    "s09p1": "Tots els serveis oferts per Exentax hauran de ser abonats per avançat. El pagament implica l'acceptació expressa dels presents Termes i Condicions.",
+    "s09p2": "Atès que els serveis prestats per Exentax tenen caràcter administratiu, personalitzat i d'execució immediata, no s'admeten reemborsaments, totals ni parcials, un cop iniciat el procés, presentada la documentació davant organismes públics o realitzats tràmits en nom del client.",
     "s09p3": "El client entén que els costos associats a taxes estatals, registres oficials, presentació de formularis i gestió administrativa no són recuperables.",
     "s10Title": "Bancs, fintech i tercers",
-    "s10p1": "Easy US LLC ofereix assistència i acompanyament en processos d'obertura de comptes bancaris i plataformes financeres. No obstant això, el client reconeix que:",
-    "s10item1": "Easy US LLC no garanteix l'aprovació de comptes bancaris o de plataformes de pagament.",
+    "s10p1": "Exentax ofereix assistència i acompanyament en processos d'obertura de comptes bancaris i plataformes financeres. No obstant això, el client reconeix que:",
+    "s10item1": "Exentax no garanteix l'aprovació de comptes bancaris o de plataformes de pagament.",
     "s10item2": "Les decisions finals depenen exclusivament de les entitats financeres i tercers independents.",
-    "s10item3": "Easy US LLC no té control sobre els criteris interns o polítiques de risc d'aquestes entitats.",
-    "s10item4": "Easy US LLC no serà responsable de rebutjos, bloquejos, tancaments de comptes o sol·licituds addicionals de documentació.",
+    "s10item3": "Exentax no té control sobre els criteris interns o polítiques de risc d'aquestes entitats.",
+    "s10item4": "Exentax no serà responsable de rebutjos, bloquejos, tancaments de comptes o sol·licituds addicionals de documentació.",
     "s11Title": "Obligacions del client",
     "s11p1": "El client es compromet a:",
     "s11item1": "Facilitar informació veraç, completa i actualitzada en tot moment.",
     "s11item2": "Proporcionar documentació vàlida, vigent i legítima.",
     "s11item3": "Utilitzar la LLC i els serveis contractats conforme a la legalitat aplicable.",
     "s11item4": "No utilitzar els serveis amb finalitats il·lícites, fraudulentes o contràries a la normativa vigent.",
-    "s11p2": "Easy US LLC no serà responsable d'errors, retards o sancions derivades d'informació incorrecta o falsa proporcionada pel client.",
+    "s11p2": "Exentax no serà responsable d'errors, retards o sancions derivades d'informació incorrecta o falsa proporcionada pel client.",
     "s12Title": "Legislació aplicable",
     "s12p1": "Aquests Termes i Condicions es regeixen per la legislació vigent als Estats Units d'Amèrica, específicament als estats de New Mexico, Wyoming o Delaware, segons correspongui a la jurisdicció de constitució de l'entitat. Qualsevol controvèrsia serà resolta davant els tribunals competents d'aquesta jurisdicció."
   },
@@ -3558,13 +3558,13 @@
     "titleHighlight": "Privacitat",
     "s01Title": "Informació General",
     "s01sub1Title": "Identificació del Responsable del Tractament",
-    "s01sub1p1": "Aquesta Política de Privacitat descriu com Easy US LLC, operant sota la raó social Fortuny Consulting LLC, recopila, utilitza, emmagatzema, protegeix i comparteix la informació personal dels usuaris dels nostres serveis i plataforma.",
+    "s01sub1p1": "Aquesta Política de Privacitat descriu com Exentax, operant sota la raó social Fortuny Consulting LLC, recopila, utilitza, emmagatzema, protegeix i comparteix la informació personal dels usuaris dels nostres serveis i plataforma.",
     "s01LegalEntity": "Entitat Responsable",
     "s01TradeName": "Nom Comercial",
     "s01RegisteredAddress": "Domicili Social",
     "s01Country": "Estats Units",
     "s01sub2Title": "Compromís amb la Privacitat",
-    "s01sub2p1": "Easy US LLC es compromet a protegir la privacitat i seguretat de les dades personals dels seus usuaris conforme a les millors pràctiques de la indústria i les lleis aplicables de protecció de dades, incloent:",
+    "s01sub2p1": "Exentax es compromet a protegir la privacitat i seguretat de les dades personals dels seus usuaris conforme a les millors pràctiques de la indústria i les lleis aplicables de protecció de dades, incloent:",
     "s01sub2item1": "Reglament General de Protecció de Dades de la Unió Europea (GDPR)",
     "s01sub2item2": "California Consumer Privacy Act (CCPA) i California Privacy Rights Act (CPRA)",
     "s01sub2item3": "Llei Orgànica de Protecció de Dades i Garantia de Drets Digitals (LOPDGDD) d'Espanya",
@@ -3637,7 +3637,7 @@
     "s06item5": "Dret a la portabilitat de dades",
     "s06item6": "Dret d'oposició al tractament",
     "s06item7": "Dret a retirar el consentiment",
-    "s06p2": "Per exercir aquests drets, contacta'ns a hola@easyusllc.com",
+    "s06p2": "Per exercir aquests drets, contacta'ns a hola@exentax.com",
     "s07Title": "Retenció de Dades",
     "s07p1": "Conservem les dades personals durant el temps necessari per prestar serveis i complir amb les obligacions legals. Els períodes de retenció varien segons el tipus de dades i els requisits legals.",
     "s08Title": "Contacte",
@@ -3647,7 +3647,7 @@
     "title": "Política de",
     "titleHighlight": "Reemborsament",
     "s01Title": "Principis Generals",
-    "s01p1": "Atès el caràcter administratiu, personalitzat i d'execució immediata dels serveis prestats per Easy US LLC, generalment no s'accepten reemborsaments un cop iniciat el procés del servei.",
+    "s01p1": "Atès el caràcter administratiu, personalitzat i d'execució immediata dels serveis prestats per Exentax, generalment no s'accepten reemborsaments un cop iniciat el procés del servei.",
     "s01p2": "El client entén i accepta que els costos associats a taxes estatals, registres oficials, presentació de formularis i gestió administrativa no són recuperables.",
     "s02Title": "Serveis No Reemborsables",
     "s02p1": "Els següents serveis i taxes no són reemborsables sota cap circumstància:",
@@ -3661,18 +3661,18 @@
     "s03Title": "Casos Excepcionals",
     "s03p1": "En circumstàncies excepcionals, es poden considerar reemborsaments parcials:",
     "s03item1": "Si el client cancel·la abans que es prepari o presenti qualsevol documentació",
-    "s03item2": "Si Easy US LLC no pot completar el servei per raons internes",
+    "s03item2": "Si Exentax no pot completar el servei per raons internes",
     "s03item3": "Si hi ha un error documentat per part nostra que impedeixi la finalització del servei",
     "s03p2": "Cada cas serà avaluat individualment. Qualsevol reemborsament aprovat exclourà les taxes estatals i costos de tercers ja incorreguts.",
     "s04Title": "Rebuig del Servei",
-    "s04p1": "Easy US LLC es reserva el dret de rebutjar, suspendre o no acceptar una sol·licitud a la seva entera discreció, especialment quan:",
+    "s04p1": "Exentax es reserva el dret de rebutjar, suspendre o no acceptar una sol·licitud a la seva entera discreció, especialment quan:",
     "s04item1": "La informació proporcionada és incompleta, inconsistent o inexacta",
     "s04item2": "La documentació no compleix amb els estàndards requerits",
     "s04item3": "La sol·licitud no compleix amb els criteris interns de l'empresa",
     "s04item4": "Existeixen sospites d'activitat fraudulenta o il·legal",
     "s04p2": "En casos de rebuig abans de l'inici del servei, es pot processar un reemborsament menys qualsevol taxa administrativa incorreguda.",
     "s05Title": "Obertura de Comptes Bancaris",
-    "s05p1": "Easy US LLC proporciona assistència en el procés d'obertura de comptes bancaris. Tanmateix:",
+    "s05p1": "Exentax proporciona assistència en el procés d'obertura de comptes bancaris. Tanmateix:",
     "s05item1": "No garantim l'aprovació de comptes bancaris o plataformes de pagament",
     "s05item2": "Les decisions finals depenen exclusivament de les entitats financeres",
     "s05item3": "El rebuig per part d'un banc o institució financera no dona dret a reemborsament",
@@ -3814,6 +3814,49 @@
       "back": "Anterior",
       "next": "Següent",
       "confirm": "Confirmar reserva"
+    }
+  },
+  "start": {
+    "seo": {
+      "title": "Comença la teva LLC als EUA | Exentax"
+    },
+    "hero": {
+      "badge": "Comença avui",
+      "title": "Crea la teva LLC als EUA i paga menys impostos",
+      "subtitle": "Calcula quant pots estalviar amb una LLC americana i agenda una consulta gratuïta amb els nostres experts.",
+      "ctaCalculate": "Calcula el teu estalvi",
+      "ctaConsult": "Consulta gratuïta"
+    },
+    "benefits": {
+      "tax": {
+        "title": "Optimització fiscal",
+        "desc": "Redueix legalment la teva càrrega tributària amb una estructura LLC als EUA."
+      },
+      "global": {
+        "title": "Operació global",
+        "desc": "Accedeix a mercats internacionals, passarel·les de pagament i banca en dòlars."
+      },
+      "fast": {
+        "title": "Procés ràpid",
+        "desc": "La teva LLC llesta en 3-5 dies hàbils amb tota la documentació inclosa."
+      },
+      "support": {
+        "title": "Suport continu",
+        "desc": "Acompanyament en el teu idioma durant tot el procés i manteniment anual."
+      }
+    },
+    "steps": {
+      "title": "Tres passos per començar",
+      "subtitle": "El camí cap a la teva LLC americana és més fàcil del que penses.",
+      "calculate": "Calcula el teu estalvi fiscal amb la nostra eina",
+      "consult": "Agenda una consulta gratuïta amb un expert",
+      "launch": "Llança la teva LLC i comença a operar"
+    },
+    "cta": {
+      "title": "Preparat per fer el pas?",
+      "subtitle": "Agenda una consulta gratuïta i resol tots els teus dubtes amb un expert en formació d'empreses als EUA.",
+      "button": "Agendar consulta gratuïta",
+      "services": "Veure tots els serveis"
     }
   }
 }

@@ -22,7 +22,7 @@ export function LoadingScreen({ delay = 150 }: LoadingScreenProps) {
     <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4 gpu-accelerated" data-testid="loading-screen">
       <img 
         src={logoIcon} 
-        alt="Easy US LLC" 
+        alt="Exentax" 
         className="w-16 h-16 mb-6 opacity-90"
       />
       <div className="w-[280px] h-1.5 bg-border rounded-full overflow-hidden">

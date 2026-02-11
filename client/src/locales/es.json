@@ -298,7 +298,7 @@
       "badge": "ESPECIALISTAS",
       "title": "Especialistas en negocios",
       "text": "No somos intermediarios genéricos. Trabajamos a diario con freelancers y negocios internacionales, entendiendo sus necesidades reales y anticipando problemas para ponértelo fácil desde el primer día.",
-      "button": "Sobre Easy US LLC"
+      "button": "Sobre Exentax"
     },
     "support": {
       "badge": "SOPORTE HUMANO",
@@ -974,7 +974,7 @@
     "paymentLinkDesc": "Recibirás un enlace de pago seguro por email para completar la transacción.",
     "bankTransfer": "Transferencia Bancaria",
     "paymentLink": "Link de Pago",
-    "confirmInfo": "Confirmo que la información proporcionada es correcta y autorizo a Easy US LLC a procesar mi solicitud.",
+    "confirmInfo": "Confirmo que la información proporcionada es correcta y autorizo a Exentax a procesar mi solicitud.",
     "acceptTerms": "Acepto los",
     "termsLink": "Términos y Condiciones",
     "steps": {
@@ -1239,7 +1239,7 @@
       "notesPlaceholder": "Añade aquí cualquier detalle adicional sobre tu LLC o tus necesidades específicas...",
       "consent": "Confirmaciones",
       "consentDesc": "Por favor, confirma los siguientes puntos",
-      "authorizedManagement": "Autorizo a Easy US LLC a gestionar el mantenimiento de mi LLC según los servicios contratados.",
+      "authorizedManagement": "Autorizo a Exentax a gestionar el mantenimiento de mi LLC según los servicios contratados.",
       "termsConsent": "Acepto los términos y condiciones del servicio.",
       "dataProcessingConsent": "Consiento el tratamiento de mis datos personales según la política de privacidad.",
       "summary": "Resumen",
@@ -1298,9 +1298,9 @@
       "bankTransfer": "Transferencia Bancaria",
       "paymentLink": "Link de Pago",
       "additionalNotes": "Notas adicionales (opcional)",
-      "authorizedManagement": "Autorizo a Easy US LLC a gestionar administrativamente mi LLC ante los organismos competentes.",
+      "authorizedManagement": "Autorizo a Exentax a gestionar administrativamente mi LLC ante los organismos competentes.",
       "dataProcessing": "Acepto el tratamiento de mis datos personales según la política de privacidad.",
-      "termsConsent": "He leído y acepto los Términos y Condiciones de Easy US LLC.",
+      "termsConsent": "He leído y acepto los Términos y Condiciones de Exentax.",
       "submit": "Enviar Solicitud",
       "submitting": "Enviando..."
     },
@@ -2453,8 +2453,8 @@
     },
     "categories": {
       "aboutUs": {
-        "title": "Sobre Easy US LLC",
-        "q1": "¿Qué hacemos en Easy US LLC?",
+        "title": "Sobre Exentax",
+        "q1": "¿Qué hacemos en Exentax?",
         "a1": "Creamos, estructuramos y gestionamos tu LLC en Estados Unidos de forma integral. No somos una web que te suelta unos papeles y desaparece. Somos una gestoría que te acompaña antes, durante y después del proceso. Nuestro objetivo es que tengas una empresa bien creada desde el inicio, con una estructura que funcione legalmente, evitando cualquier susto por falta de información y permitiendo que tu negocio crezca sin bloqueos operativos ni legales. Nos encargamos de toda la burocracia para que tú te centres en vender.",
         "q2": "¿Qué incluye el paquete de creación?",
         "a2": "Incluye absolutamente todo lo necesario para que tu empresa nazca y sea plenamente operativa desde el primer día: El registro oficial de la LLC ante el estado, la redacción de los Artículos de Organización, un Operating Agreement (Acuerdo Operativo) personalizado y profesional, una dirección comercial física en Estados Unidos para recibir correspondencia oficial, el Agente Registrado obligatorio por ley, el registro inicial BOI (Informe de Beneficiarios Reales) ante el FinCEN, constitución express en 3 días hábiles y soporte con consultas ilimitadas para que nunca te sientas solo.",
@@ -2499,7 +2499,7 @@
         "a1": "La extensión de impuestos es una solicitud oficial ante el IRS que te permite ampliar el plazo para presentar tus declaraciones fiscales. No elimina la obligación de presentar los formularios, pero te concede más tiempo para prepararlos correctamente y evitar sanciones. En el caso de LLCs de no residentes, permite ampliar el plazo de presentación de formularios obligatorios como el IRS Form 1120 y el IRS Form 5472.",
         "q2": "¿Cómo me ayuda la extensión de impuestos?",
         "a2": "La extensión te protege frente a uno de los mayores riesgos de una LLC: las multas por presentación tardía. El IRS puede imponer sanciones muy elevadas si estos formularios no se presentan a tiempo, incluso aunque la empresa no tenga actividad o impuestos a pagar. Solicitar la extensión te permite evitar sanciones, disponer de más tiempo para preparar la documentación, revisar correctamente la contabilidad y cumplir con el IRS de forma segura y profesional.",
-        "q3": "¿La extensión de impuestos está incluida en Easy US LLC?",
+        "q3": "¿La extensión de impuestos está incluida en Exentax?",
         "a3": "Sí. Nos encargamos de solicitar la extensión dentro de nuestros servicios para que tu empresa cumpla con los plazos del IRS sin complicaciones. Nuestro objetivo es que tu LLC esté protegida frente a sanciones, cumplas correctamente con tus obligaciones fiscales y tengas acompañamiento real durante todo el proceso."
       },
       "operations": {
@@ -2509,7 +2509,7 @@
         "q2": "¿Qué pasa si una plataforma me bloquea la cuenta?",
         "a2": "Un bloqueo no siempre es definitivo, suele ser un control rutinario de seguridad. Te ayudamos a analizar qué documentos específicos están solicitando, preparamos la respuesta técnica adecuada con tus Artículos de Organización y EIN, y te indicamos cómo enviar la información para que un agente humano del soporte la apruebe. La mayoría de las cuentas se desbloquean en pocos días si la respuesta es profesional y está bien documentada.",
         "q3": "¿Puedo cambiar mi LLC de estado más adelante?",
-        "a3": "No de forma sencilla. En Easy US LLC no realizamos trámites de 'Domestication' (traslado de estado) porque es un proceso costoso y burocrático que suele generar errores fiscales. Si tu negocio cambia radicalmente y necesitas operar en otro estado diferente, lo más eficiente y seguro suele ser cerrar la entidad actual y crear una nueva LLC o registrar la actual como entidad extranjera en el nuevo estado. Por eso es vital elegir bien entre Wyoming y Nuevo México desde el primer día.",
+        "a3": "No de forma sencilla. En Exentax no realizamos trámites de 'Domestication' (traslado de estado) porque es un proceso costoso y burocrático que suele generar errores fiscales. Si tu negocio cambia radicalmente y necesitas operar en otro estado diferente, lo más eficiente y seguro suele ser cerrar la entidad actual y crear una nueva LLC o registrar la actual como entidad extranjera en el nuevo estado. Por eso es vital elegir bien entre Wyoming y Nuevo México desde el primer día.",
         "q4": "¿Puedo usarla viviendo en Europa?",
         "a4": "Sí, la LLC es la herramienta de optimización favorita para nómadas digitales y emprendedores que residen en Europa. Te permite facturar globalmente con una estructura estadounidense mientras cumples con las normativas de tu país de residencia. Es una forma perfectamente legal de separar tus activos personales de los empresariales y operar en un mercado con menos burocracia que el europeo.",
         "q5": "¿Sirve para Amazon, SaaS, Freelancing, Cripto?",
@@ -2521,7 +2521,7 @@
         "q8": "¿Cuánto cuesta disolver mi LLC?",
         "a8": "El coste estándar para disolver una LLC es de 350€ en casos simples, cuando la empresa no tiene deudas, obligaciones pendientes ni incidencias administrativas. En situaciones más complejas, como LLC con actividad previa, deudas, incumplimientos o gestiones adicionales con el estado o el IRS, el coste puede empezar a partir de 500€, dependiendo del nivel de regularización necesario. Antes de iniciar el proceso, revisamos tu caso y te informamos con total transparencia del coste y los pasos a seguir.",
         "q9": "¿Cuáles son las diferencias entre Mercury y Relay?",
-        "a9": "Mercury y Relay son dos soluciones bancarias muy utilizadas por empresas en Estados Unidos, especialmente por LLCs de negocios digitales. Ambas permiten gestionar pagos, recibir transferencias y operar internacionalmente, pero tienen enfoques diferentes. Mercury está orientado principalmente a emprendedores digitales, startups y negocios online. Ofrece una experiencia bancaria muy sencilla, tarjetas físicas y virtuales, y una gran compatibilidad con plataformas como Stripe, PayPal o herramientas de contabilidad. Suele ser una opción muy popular para LLCs con un único propietario o estructuras simples. Relay, en cambio, está más enfocado en la gestión financiera de empresas con equipos o varios responsables. Permite crear múltiples tarjetas, asignar permisos a diferentes usuarios y controlar gastos de forma más detallada. Es especialmente útil cuando el negocio necesita separar gastos por departamentos o personas. Ambas opciones son fiables y permiten operar con una LLC americana. La elección depende principalmente del tipo de negocio, estructura de la empresa y necesidades operativas. En Easy US LLC te ayudamos a preparar tu empresa para solicitar cuentas bancarias con partners compatibles con tu actividad, aunque la aprobación final siempre depende de cada entidad financiera."
+        "a9": "Mercury y Relay son dos soluciones bancarias muy utilizadas por empresas en Estados Unidos, especialmente por LLCs de negocios digitales. Ambas permiten gestionar pagos, recibir transferencias y operar internacionalmente, pero tienen enfoques diferentes. Mercury está orientado principalmente a emprendedores digitales, startups y negocios online. Ofrece una experiencia bancaria muy sencilla, tarjetas físicas y virtuales, y una gran compatibilidad con plataformas como Stripe, PayPal o herramientas de contabilidad. Suele ser una opción muy popular para LLCs con un único propietario o estructuras simples. Relay, en cambio, está más enfocado en la gestión financiera de empresas con equipos o varios responsables. Permite crear múltiples tarjetas, asignar permisos a diferentes usuarios y controlar gastos de forma más detallada. Es especialmente útil cuando el negocio necesita separar gastos por departamentos o personas. Ambas opciones son fiables y permiten operar con una LLC americana. La elección depende principalmente del tipo de negocio, estructura de la empresa y necesidades operativas. En Exentax te ayudamos a preparar tu empresa para solicitar cuentas bancarias con partners compatibles con tu actividad, aunque la aprobación final siempre depende de cada entidad financiera."
       }
     }
   },
@@ -2550,8 +2550,8 @@
     "contact": "Contáctanos",
     "location": "New Mexico, USA",
     "partners": "Partners",
-    "disclaimer": "Easy US LLC no es un despacho de abogados ni un asesor fiscal y no puede proporcionar asesoramiento legal o fiscal. Somos especialistas en tramitación administrativa de LLCs y te ofrecemos orientación general basada en nuestra experiencia. La información en nuestro sitio web, así como la compartida por email, WhatsApp y otros canales de comunicación, es únicamente informativa y educativa, no constituye asesoramiento legal ni fiscal. Para decisiones legales o fiscales específicas, consulta con profesionales cualificados de tu jurisdicción.",
-    "copyright": "© {{year}} Easy US LLC. Todos los derechos reservados.",
+    "disclaimer": "Exentax no es un despacho de abogados ni un asesor fiscal y no puede proporcionar asesoramiento legal o fiscal. Somos especialistas en tramitación administrativa de LLCs y te ofrecemos orientación general basada en nuestra experiencia. La información en nuestro sitio web, así como la compartida por email, WhatsApp y otros canales de comunicación, es únicamente informativa y educativa, no constituye asesoramiento legal ni fiscal. Para decisiones legales o fiscales específicas, consulta con profesionales cualificados de tu jurisdicción.",
+    "copyright": "© {{year}} Exentax. Todos los derechos reservados.",
     "delivery": "Entrega: 2-3 días hábiles"
   },
   "legal": {
@@ -2560,11 +2560,11 @@
     "lastUpdated": "Última actualización: 1 de febrero de 2026",
     "termsAcceptance": "Acepto los",
     "termsAndConditions": "Términos y Condiciones",
-    "termsMiddle": "de Easy US LLC al crear mi cuenta. Entiendo y comprendo también la",
+    "termsMiddle": "de Exentax al crear mi cuenta. Entiendo y comprendo también la",
     "privacyPolicy": "Política de Privacidad",
     "refundPolicy": "Política de Reembolsos",
     "cookiePolicy": "Política de Cookies",
-    "ofEasyUS": "de Easy US LLC"
+    "ofEasyUS": "de Exentax"
   },
   "theme": {
     "title": "Preferencias",
@@ -2702,8 +2702,8 @@
     "connectionError": "Error de conexión."
   },
   "whatsapp": {
-    "dashboardSupport": "Hola! Soy cliente de Easy US LLC y tengo una consulta sobre mi cuenta. ¿Podríais ayudarme?",
-    "dashboardLlc": "Hola! Soy cliente de Easy US LLC y tengo una duda sobre el estado de mi LLC o documentación. ¿Podríais ayudarme?",
+    "dashboardSupport": "Hola! Soy cliente de Exentax y tengo una consulta sobre mi cuenta. ¿Podríais ayudarme?",
+    "dashboardLlc": "Hola! Soy cliente de Exentax y tengo una duda sobre el estado de mi LLC o documentación. ¿Podríais ayudarme?",
     "footer": "Hola! Os escribo desde vuestra web. Me interesa saber más sobre cómo crear una LLC en Estados Unidos. ¿Podemos hablar?",
     "navbar": "Hola! Estoy interesado/a en formar una LLC en Estados Unidos y me gustaría que me asesorarais. ¿Podemos hablar?",
     "linktree": "Hola! Os contacto desde vuestro Linktree. Quiero crear mi LLC en Estados Unidos y me gustaría que me asesoréis. ¿Podemos hablar?",
@@ -2813,7 +2813,7 @@
       "point3": "Una LLC sin presencia física en Estados Unidos puede no estar sujeta a impuestos federales, pero sí debe cumplir con obligaciones formales, como:",
       "point3a": "Formulario 5472 / 1120",
       "point3b": "FBAR, si aplica",
-      "point4": "En Easy US LLC no te dejamos solo: analizamos tu caso y te explicamos qué aplica y qué no, sin rodeos ni letra pequeña."
+      "point4": "En Exentax no te dejamos solo: analizamos tu caso y te explicamos qué aplica y qué no, sin rodeos ni letra pequeña."
     }
   },
   "tools": {
@@ -2933,16 +2933,16 @@
       "pdf": {
         "title": "OPERATING AGREEMENT",
         "of": "DE",
-        "intro": "Este Operating Agreement ha sido preparado por Easy US LLC, actuando como proveedor de servicios de formación y cumplimiento corporativo, en nombre de su cliente, y entra en vigor a partir de:",
+        "intro": "Este Operating Agreement ha sido preparado por Exentax, actuando como proveedor de servicios de formación y cumplimiento corporativo, en nombre de su cliente, y entra en vigor a partir de:",
         "effectiveDate": "Fecha Efectiva",
         "page": "Página",
-        "footer1": "Easy US LLC - www.easyusllc.com - info@easyusllc.com",
-        "easyUsLlc": "Easy US LLC",
+        "footer1": "Exentax - www.exentax.com - info@exentax.com",
+        "easyUsLlc": "Exentax",
         "registeredAddressLine1": "1209 Mountain Road Place NE",
         "registeredAddressLine2": "STE R",
         "registeredAddressLine3": "Albuquerque, NM 87110",
         "unitedStates": "United States",
-        "contactEmail": "info@easyusllc.com",
+        "contactEmail": "info@exentax.com",
         "contactPhone": "+34 614 916 910",
         "section1Title": "Descripción General de la Compañía",
         "section1Content": "Este Acuerdo confirma la estructura interna, propiedad y principios operativos de {{companyName}}, una Sociedad de Responsabilidad Limitada legalmente constituida bajo las leyes del Estado de {{state}}. La Compañía fue creada para operar como una entidad comercial legítima, proporcionando servicios y realizando actividades comerciales dentro de los Estados Unidos e internacionalmente.",
@@ -3010,7 +3010,7 @@
         "funds4": "Contribuciones o inversiones familiares privadas",
         "section14Outro": "La Compañía se compromete a operar dentro de las regulaciones financieras aplicables y los estándares contra el lavado de dinero.",
         "section15Title": "Preparación y Representación",
-        "section15Content": "Este Acuerdo ha sido preparado por Easy US LLC para apoyar la estructuración corporativa y documentación de la Compañía. Easy US LLC no asume propiedad, control de gestión ni responsabilidad fiduciaria por la Compañía a menos que se acuerde explícitamente por escrito.",
+        "section15Content": "Este Acuerdo ha sido preparado por Exentax para apoyar la estructuración corporativa y documentación de la Compañía. Exentax no asume propiedad, control de gestión ni responsabilidad fiduciaria por la Compañía a menos que se acuerde explícitamente por escrito.",
         "section16Title": "Ley Aplicable",
         "section16Content": "Este Acuerdo se regirá por las leyes del Estado de {{state}}.",
         "memberConfirmation": "Confirmación del Miembro",
@@ -3051,7 +3051,7 @@
       "invoiceNumberPlaceholder": "INV-001",
       "notes": "Notas",
       "notesPlaceholder": "Notas adicionales...",
-      "disclaimer": "Esta herramienta es solo para fines de registro. Easy US LLC no proporciona asesoramiento contable ni fiscal.",
+      "disclaimer": "Esta herramienta es solo para fines de registro. Exentax no proporciona asesoramiento contable ni fiscal.",
       "downloadCsv": "Descargar CSV",
       "generating": "Generando...",
       "toolTitle": "Registro Contable CSV",
@@ -3107,81 +3107,81 @@
   },
   "seo": {
     "home": {
-      "title": "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Easy US LLC",
-      "description": "Constituye tu LLC en Estados Unidos con optimización fiscal internacional, estructura legal eficiente y soporte experto. En Easy US LLC gestionamos todo el proceso, incluyendo cumplimiento normativo, banca empresarial y asesoramiento estratégico para negocios digitales y emprendedores globales."
+      "title": "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Exentax",
+      "description": "Constituye tu LLC en Estados Unidos con optimización fiscal internacional, estructura legal eficiente y soporte experto. En Exentax gestionamos todo el proceso, incluyendo cumplimiento normativo, banca empresarial y asesoramiento estratégico para negocios digitales y emprendedores globales."
     },
     "servicios": {
-      "title": "Servicios y Precios | Easy US LLC",
+      "title": "Servicios y Precios | Exentax",
       "description": "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 899€."
     },
     "faq": {
-      "title": "Preguntas Frecuentes | Easy US LLC",
+      "title": "Preguntas Frecuentes | Exentax",
       "description": "Resuelve todas tus dudas sobre la formación de LLC en Estados Unidos. Centro de ayuda completo."
     },
     "contacto": {
-      "title": "Contacto | Easy US LLC",
+      "title": "Contacto | Exentax",
       "description": "Contacta con nuestro equipo de expertos en formación de LLC en Estados Unidos."
     },
     "dashboard": {
-      "title": "Mi Área | Easy US LLC",
+      "title": "Mi Área | Exentax",
       "description": "Gestiona tu LLC, documentos y servicios desde tu área de clientes."
     },
     "formation": {
-      "title": "Crear LLC | Easy US LLC",
+      "title": "Crear LLC | Exentax",
       "description": "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro."
     },
     "maintenance": {
-      "title": "Mantenimiento LLC | Easy US LLC",
+      "title": "Mantenimiento LLC | Exentax",
       "description": "Renueva el mantenimiento anual de tu LLC. Agente registrado y cumplimiento incluido."
     },
     "login": {
-      "title": "Iniciar Sesión | Easy US LLC",
-      "description": "Accede a tu cuenta de Easy US LLC para gestionar tu empresa."
+      "title": "Iniciar Sesión | Exentax",
+      "description": "Accede a tu cuenta de Exentax para gestionar tu empresa."
     },
     "register": {
-      "title": "Crear Cuenta | Easy US LLC",
-      "description": "Crea tu cuenta gratuita en Easy US LLC."
+      "title": "Crear Cuenta | Exentax",
+      "description": "Crea tu cuenta gratuita en Exentax."
     },
     "forgotPassword": {
-      "title": "Recuperar Contraseña | Easy US LLC",
-      "description": "Recupera el acceso a tu cuenta de Easy US LLC."
+      "title": "Recuperar Contraseña | Exentax",
+      "description": "Recupera el acceso a tu cuenta de Exentax."
     },
     "invoice": {
-      "title": "Generador de Facturas | Easy US LLC",
+      "title": "Generador de Facturas | Exentax",
       "description": "Crea facturas profesionales para tu LLC de forma gratuita."
     },
     "calculator": {
-      "title": "Calculadora de Rentabilidad | Easy US LLC",
+      "title": "Calculadora de Rentabilidad | Exentax",
       "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
     },
     "operatingAgreement": {
-      "title": "Generador Operating Agreement | Easy US LLC",
+      "title": "Generador Operating Agreement | Exentax",
       "description": "Genera el Operating Agreement de tu LLC de forma automática."
     },
     "legal": {
       "terminos": {
-        "title": "Términos y Condiciones | Easy US LLC",
-        "description": "Consulta los términos y condiciones de uso de Easy US LLC."
+        "title": "Términos y Condiciones | Exentax",
+        "description": "Consulta los términos y condiciones de uso de Exentax."
       },
       "privacidad": {
-        "title": "Política de Privacidad | Easy US LLC",
+        "title": "Política de Privacidad | Exentax",
         "description": "Consulta nuestra política de privacidad y protección de datos."
       },
       "reembolsos": {
-        "title": "Política de Reembolsos | Easy US LLC",
+        "title": "Política de Reembolsos | Exentax",
         "description": "Consulta nuestra política de reembolsos y devoluciones."
       },
       "cookies": {
-        "title": "Política de Cookies | Easy US LLC",
-        "description": "Información sobre el uso de cookies en Easy US LLC."
+        "title": "Política de Cookies | Exentax",
+        "description": "Información sobre el uso de cookies en Exentax."
       }
     },
     "csvGenerator": {
-      "title": "Generador CSV de Transacciones | Easy US LLC",
+      "title": "Generador CSV de Transacciones | Exentax",
       "description": "Genera archivos CSV de transacciones bancarias para tu LLC de forma gratuita."
     },
     "asesoriaGratis": {
-      "title": "Consulta Gratuita | Easy US LLC",
+      "title": "Consulta Gratuita | Exentax",
       "description": "Reserva una consulta gratuita de 20 minutos con nuestros expertos en formación de LLC en Estados Unidos. Sin compromiso."
     }
   },
@@ -3373,7 +3373,7 @@
   },
   "ntf": {
     "welcome": {
-      "title": "¡Bienvenido a Easy US LLC!",
+      "title": "¡Bienvenido a Exentax!",
       "message": "Gracias por confiar en nosotros para crear tu empresa en EE.UU. Explora tu panel para comenzar."
     },
     "newsletterSubscribed": {
@@ -3499,17 +3499,17 @@
     "title": "Términos y",
     "titleHighlight": "Condiciones",
     "s01Title": "Identidad del prestador del servicio",
-    "s01p1": "Easy US LLC es un nombre comercial utilizado para la prestación de servicios administrativos y de gestión empresarial. La entidad legal titular y responsable de los servicios es:",
+    "s01p1": "Exentax es un nombre comercial utilizado para la prestación de servicios administrativos y de gestión empresarial. La entidad legal titular y responsable de los servicios es:",
     "s01LegalEntity": "Entidad Legal",
-    "s01p2": "Fortuny Consulting LLC opera bajo el nombre comercial Easy US LLC para la prestación de servicios a clientes de todo el mundo.",
+    "s01p2": "Fortuny Consulting LLC opera bajo el nombre comercial Exentax para la prestación de servicios a clientes de todo el mundo.",
     "s01ContactEmail": "Correo electrónico de contacto",
     "s01ContactPhone": "Teléfono de contacto",
     "s01Address": "Dirección",
     "s02Title": "Ámbito de actividad",
-    "s02p1": "Fortuny Consulting LLC, bajo la marca Easy US LLC, presta servicios administrativos, de gestión y acompañamiento empresarial, especializados en la constitución y mantenimiento de sociedades de responsabilidad limitada (LLC) en Estados Unidos, dirigidos a clientes nacionales e internacionales.",
-    "s02p2": "Easy US LLC no es un despacho de abogados, ni una firma de asesoría legal, fiscal o financiera regulada, y no presta servicios de representación legal ni asesoramiento profesional regulado. Toda la información facilitada tiene carácter administrativo, informativo y orientativo. El cliente es responsable de consultar con profesionales cualificados (abogados, asesores fiscales o contables) cuando su situación lo requiera.",
+    "s02p1": "Fortuny Consulting LLC, bajo la marca Exentax, presta servicios administrativos, de gestión y acompañamiento empresarial, especializados en la constitución y mantenimiento de sociedades de responsabilidad limitada (LLC) en Estados Unidos, dirigidos a clientes nacionales e internacionales.",
+    "s02p2": "Exentax no es un despacho de abogados, ni una firma de asesoría legal, fiscal o financiera regulada, y no presta servicios de representación legal ni asesoramiento profesional regulado. Toda la información facilitada tiene carácter administrativo, informativo y orientativo. El cliente es responsable de consultar con profesionales cualificados (abogados, asesores fiscales o contables) cuando su situación lo requiera.",
     "s03Title": "Servicios ofrecidos",
-    "s03p1": "Easy US LLC ofrece, entre otros, los siguientes servicios administrativos:",
+    "s03p1": "Exentax ofrece, entre otros, los siguientes servicios administrativos:",
     "s03item1": "Constitución de LLC (NM, WY, DE)",
     "s03item2": "Gestión y presentación de Articles of Organization",
     "s03item3": "Elaboración del Operating Agreement",
@@ -3524,32 +3524,32 @@
     "s04p1": "Los precios indicados incluyen las tasas estatales de constitución, así como los servicios detallados en cada pack en el momento de la contratación. Los precios pueden estar sujetos a actualización, sin que ello afecte a servicios ya contratados y abonados.",
     "s05Title": "Plazos de prestación del servicio",
     "s05p1": "Una vez recibida toda la información y documentación requerida de forma correcta, el plazo estimado de constitución de la LLC es de 2 a 3 días hábiles, dependiendo del estado y de los organismos implicados.",
-    "s05p2": "El cliente reconoce que dichos plazos son estimaciones y que pueden verse afectados por retrasos derivados de autoridades públicas, organismos estatales, entidades financieras u otros terceros ajenos a Easy US LLC.",
+    "s05p2": "El cliente reconoce que dichos plazos son estimaciones y que pueden verse afectados por retrasos derivados de autoridades públicas, organismos estatales, entidades financieras u otros terceros ajenos a Exentax.",
     "s06Title": "Duración del servicio",
     "s06p1": "Los packs de constitución y mantenimiento tienen una duración de 12 meses desde la fecha de activación del servicio, salvo que se indique expresamente lo contrario. Una vez finalizado dicho periodo, el cliente podrá contratar packs de mantenimiento adicionales, cuyos términos y condiciones se regirán por lo establecido en el momento de su contratación.",
     "s07Title": "Registered Agent",
-    "s07p1": "El servicio de Registered Agent se incluye durante los primeros 12 meses en los packs que así lo indiquen. Finalizado dicho periodo, el cliente será responsable de renovar este servicio, ya sea con Easy US LLC o con un proveedor de su elección.",
-    "s07p2": "Easy US LLC no será responsable de sanciones, multas o consecuencias derivadas de la falta de renovación del Registered Agent una vez finalizado el periodo incluido.",
+    "s07p1": "El servicio de Registered Agent se incluye durante los primeros 12 meses en los packs que así lo indiquen. Finalizado dicho periodo, el cliente será responsable de renovar este servicio, ya sea con Exentax o con un proveedor de su elección.",
+    "s07p2": "Exentax no será responsable de sanciones, multas o consecuencias derivadas de la falta de renovación del Registered Agent una vez finalizado el periodo incluido.",
     "s08Title": "Plazos ampliados y derecho de rechazo",
-    "s08p1": "El cliente reconoce y acepta que, si bien el plazo habitual estimado para la constitución de una LLC es de 2 a 3 días hábiles, en determinados casos el proceso puede extenderse hasta un máximo de 15 días hábiles, debido a verificaciones adicionales, requerimientos de información, cargas administrativas de los organismos competentes o cualquier circunstancia ajena al control de Easy US LLC.",
-    "s08p2": "Easy US LLC se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando la información facilitada sea incompleta, inconsistente, inexacta o no se ajuste a los criterios internos de la empresa. En estos casos, Easy US LLC no estará obligada a justificar la decisión ni a continuar con el proceso.",
+    "s08p1": "El cliente reconoce y acepta que, si bien el plazo habitual estimado para la constitución de una LLC es de 2 a 3 días hábiles, en determinados casos el proceso puede extenderse hasta un máximo de 15 días hábiles, debido a verificaciones adicionales, requerimientos de información, cargas administrativas de los organismos competentes o cualquier circunstancia ajena al control de Exentax.",
+    "s08p2": "Exentax se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando la información facilitada sea incompleta, inconsistente, inexacta o no se ajuste a los criterios internos de la empresa. En estos casos, Exentax no estará obligada a justificar la decisión ni a continuar con el proceso.",
     "s09Title": "Pagos y política de no reembolso",
-    "s09p1": "Todos los servicios ofrecidos por Easy US LLC deberán ser abonados por adelantado. El pago implica la aceptación expresa de los presentes Términos y Condiciones.",
-    "s09p2": "Dado que los servicios prestados por Easy US LLC tienen carácter administrativo, personalizado y de ejecución inmediata, no se admiten reembolsos, totales ni parciales, una vez iniciado el proceso, presentada la documentación ante organismos públicos o realizados trámites en nombre del cliente.",
+    "s09p1": "Todos los servicios ofrecidos por Exentax deberán ser abonados por adelantado. El pago implica la aceptación expresa de los presentes Términos y Condiciones.",
+    "s09p2": "Dado que los servicios prestados por Exentax tienen carácter administrativo, personalizado y de ejecución inmediata, no se admiten reembolsos, totales ni parciales, una vez iniciado el proceso, presentada la documentación ante organismos públicos o realizados trámites en nombre del cliente.",
     "s09p3": "El cliente entiende que los costes asociados a tasas estatales, registros oficiales, presentación de formularios y gestión administrativa no son recuperables.",
     "s10Title": "Bancos, fintech y terceros",
-    "s10p1": "Easy US LLC ofrece asistencia y acompañamiento en procesos de apertura de cuentas bancarias y plataformas financieras. No obstante, el cliente reconoce que:",
-    "s10item1": "Easy US LLC no garantiza la aprobación de cuentas bancarias o de plataformas de pago.",
+    "s10p1": "Exentax ofrece asistencia y acompañamiento en procesos de apertura de cuentas bancarias y plataformas financieras. No obstante, el cliente reconoce que:",
+    "s10item1": "Exentax no garantiza la aprobación de cuentas bancarias o de plataformas de pago.",
     "s10item2": "Las decisiones finales dependen exclusivamente de las entidades financieras y terceros independientes.",
-    "s10item3": "Easy US LLC no tiene control sobre los criterios internos o políticas de riesgo de dichas entidades.",
-    "s10item4": "Easy US LLC no será responsable de rechazos, bloqueos, cierres de cuentas o solicitudes adicionales de documentación.",
+    "s10item3": "Exentax no tiene control sobre los criterios internos o políticas de riesgo de dichas entidades.",
+    "s10item4": "Exentax no será responsable de rechazos, bloqueos, cierres de cuentas o solicitudes adicionales de documentación.",
     "s11Title": "Obligaciones del cliente",
     "s11p1": "El cliente se compromete a:",
     "s11item1": "Facilitar información veraz, completa y actualizada en todo momento.",
     "s11item2": "Proporcionar documentación válida, vigente y legítima.",
     "s11item3": "Utilizar la LLC y los servicios contratados conforme a la legalidad aplicable.",
     "s11item4": "No utilizar los servicios con fines ilícitos, fraudulentos o contrarios a la normativa vigente.",
-    "s11p2": "Easy US LLC no será responsable de errores, retrasos o sanciones derivadas de información incorrecta o falsa proporcionada por el cliente.",
+    "s11p2": "Exentax no será responsable de errores, retrasos o sanciones derivadas de información incorrecta o falsa proporcionada por el cliente.",
     "s12Title": "Legislación aplicable",
     "s12p1": "Estos Términos y Condiciones se rigen por la legislación vigente en los Estados Unidos de América, específicamente en los estados de New Mexico, Wyoming o Delaware, según corresponda a la jurisdicción de constitución de la entidad. Cualquier controversia será resuelta ante los tribunales competentes de dicha jurisdicción."
   },
@@ -3558,13 +3558,13 @@
     "titleHighlight": "Privacidad",
     "s01Title": "Información General",
     "s01sub1Title": "Identificación del Responsable del Tratamiento",
-    "s01sub1p1": "Esta Política de Privacidad describe cómo Easy US LLC, operando bajo la razón social Fortuny Consulting LLC, recopila, utiliza, almacena, protege y comparte la información personal de los usuarios de nuestros servicios y plataforma.",
+    "s01sub1p1": "Esta Política de Privacidad describe cómo Exentax, operando bajo la razón social Fortuny Consulting LLC, recopila, utiliza, almacena, protege y comparte la información personal de los usuarios de nuestros servicios y plataforma.",
     "s01LegalEntity": "Entidad Responsable",
     "s01TradeName": "Nombre Comercial",
     "s01RegisteredAddress": "Domicilio Social",
     "s01Country": "Estados Unidos",
     "s01sub2Title": "Compromiso con la Privacidad",
-    "s01sub2p1": "Easy US LLC se compromete a proteger la privacidad y seguridad de los datos personales de sus usuarios conforme a las mejores prácticas de la industria y las leyes aplicables de protección de datos, incluyendo:",
+    "s01sub2p1": "Exentax se compromete a proteger la privacidad y seguridad de los datos personales de sus usuarios conforme a las mejores prácticas de la industria y las leyes aplicables de protección de datos, incluyendo:",
     "s01sub2item1": "Reglamento General de Protección de Datos de la Unión Europea (GDPR)",
     "s01sub2item2": "California Consumer Privacy Act (CCPA) y California Privacy Rights Act (CPRA)",
     "s01sub2item3": "Ley Orgánica de Protección de Datos y Garantía de Derechos Digitales (LOPDGDD) de España",
@@ -3637,7 +3637,7 @@
     "s06item5": "Derecho a la portabilidad de datos",
     "s06item6": "Derecho de oposición al tratamiento",
     "s06item7": "Derecho a retirar el consentimiento",
-    "s06p2": "Para ejercer estos derechos, contáctanos en hola@easyusllc.com",
+    "s06p2": "Para ejercer estos derechos, contáctanos en hola@exentax.com",
     "s07Title": "Retención de Datos",
     "s07p1": "Conservamos los datos personales durante el tiempo necesario para prestar servicios y cumplir con las obligaciones legales. Los períodos de retención varían según el tipo de datos y los requisitos legales.",
     "s08Title": "Contacto",
@@ -3647,7 +3647,7 @@
     "title": "Política de",
     "titleHighlight": "Reembolsos",
     "s01Title": "Principios Generales",
-    "s01p1": "Dado el carácter administrativo, personalizado y de ejecución inmediata de los servicios prestados por Easy US LLC, generalmente no se aceptan reembolsos una vez iniciado el proceso del servicio.",
+    "s01p1": "Dado el carácter administrativo, personalizado y de ejecución inmediata de los servicios prestados por Exentax, generalmente no se aceptan reembolsos una vez iniciado el proceso del servicio.",
     "s01p2": "El cliente entiende y acepta que los costes asociados a tasas estatales, registros oficiales, presentación de formularios y gestión administrativa no son recuperables.",
     "s02Title": "Servicios No Reembolsables",
     "s02p1": "Los siguientes servicios y tasas no son reembolsables bajo ninguna circunstancia:",
@@ -3661,18 +3661,18 @@
     "s03Title": "Casos Excepcionales",
     "s03p1": "En circunstancias excepcionales, se pueden considerar reembolsos parciales:",
     "s03item1": "Si el cliente cancela antes de que se prepare o presente cualquier documentación",
-    "s03item2": "Si Easy US LLC no puede completar el servicio por razones internas",
+    "s03item2": "Si Exentax no puede completar el servicio por razones internas",
     "s03item3": "Si hay un error documentado por nuestra parte que impida la finalización del servicio",
     "s03p2": "Cada caso será evaluado individualmente. Cualquier reembolso aprobado excluirá las tasas estatales y costes de terceros ya incurridos.",
     "s04Title": "Rechazo del Servicio",
-    "s04p1": "Easy US LLC se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando:",
+    "s04p1": "Exentax se reserva el derecho de rechazar, suspender o no aceptar una solicitud a su entera discreción, especialmente cuando:",
     "s04item1": "La información proporcionada es incompleta, inconsistente o inexacta",
     "s04item2": "La documentación no cumple con los estándares requeridos",
     "s04item3": "La solicitud no cumple con los criterios internos de la empresa",
     "s04item4": "Existen sospechas de actividad fraudulenta o ilegal",
     "s04p2": "En casos de rechazo antes del inicio del servicio, se puede procesar un reembolso menos cualquier tasa administrativa incurrida.",
     "s05Title": "Apertura de Cuentas Bancarias",
-    "s05p1": "Easy US LLC proporciona asistencia en el proceso de apertura de cuentas bancarias. Sin embargo:",
+    "s05p1": "Exentax proporciona asistencia en el proceso de apertura de cuentas bancarias. Sin embargo:",
     "s05item1": "No garantizamos la aprobación de cuentas bancarias o plataformas de pago",
     "s05item2": "Las decisiones finales dependen exclusivamente de las entidades financieras",
     "s05item3": "El rechazo por parte de un banco o institución financiera no da derecho a reembolso",
@@ -3814,6 +3814,49 @@
       "back": "Anterior",
       "next": "Siguiente",
       "confirm": "Confirmar reserva"
+    }
+  },
+  "start": {
+    "seo": {
+      "title": "Empieza tu LLC en EE.UU. | Exentax"
+    },
+    "hero": {
+      "badge": "Empieza hoy",
+      "title": "Crea tu LLC en EE.UU. y paga menos impuestos",
+      "subtitle": "Calcula cuánto puedes ahorrar con una LLC americana y agenda una consulta gratuita con nuestros expertos.",
+      "ctaCalculate": "Calcula tu ahorro",
+      "ctaConsult": "Consulta gratuita"
+    },
+    "benefits": {
+      "tax": {
+        "title": "Optimización fiscal",
+        "desc": "Reduce legalmente tu carga tributaria con una estructura LLC en EE.UU."
+      },
+      "global": {
+        "title": "Operación global",
+        "desc": "Accede a mercados internacionales, pasarelas de pago y banca en dólares."
+      },
+      "fast": {
+        "title": "Proceso rápido",
+        "desc": "Tu LLC lista en 3-5 días hábiles con toda la documentación incluida."
+      },
+      "support": {
+        "title": "Soporte continuo",
+        "desc": "Acompañamiento en español durante todo el proceso y mantenimiento anual."
+      }
+    },
+    "steps": {
+      "title": "Tres pasos para empezar",
+      "subtitle": "El camino hacia tu LLC americana es más fácil de lo que piensas.",
+      "calculate": "Calcula tu ahorro fiscal con nuestra herramienta",
+      "consult": "Agenda una consulta gratuita con un experto",
+      "launch": "Lanza tu LLC y empieza a operar"
+    },
+    "cta": {
+      "title": "¿Listo para dar el paso?",
+      "subtitle": "Agenda una consulta gratuita y resuelve todas tus dudas con un experto en formación de empresas en EE.UU.",
+      "button": "Agendar consulta gratuita",
+      "services": "Ver todos los servicios"
     }
   }
 }

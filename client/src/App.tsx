@@ -54,6 +54,7 @@ const CsvGenerator = lazy(() => lazyRetry(() => import("@/pages/csv-generator"))
 const OperatingAgreement = lazy(() => lazyRetry(() => import("@/pages/operating-agreement")));
 const LinktreePage = lazy(() => lazyRetry(() => import("@/pages/linktree")));
 const AgendarConsultoria = lazy(() => lazyRetry(() => import("@/pages/agendar-consultoria")));
+const StartPage = lazy(() => lazyRetry(() => import("@/pages/start")));
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -173,6 +174,8 @@ function MainRouter() {
             <Route path="/legal/reembolsos" component={Reembolsos} />
             <Route path="/legal/cookies" component={Cookies} />
             <Route path="/agendar-consultoria" component={AgendarConsultoria} />
+            <Route path="/start" component={StartPage} />
+            <Route path="/links" component={LinktreePage} />
             <Route path="/auth/login" component={Login} />
             <Route path="/auth/register" component={Register} />
             <Route path="/auth/forgot-password" component={ForgotPassword} />
@@ -202,6 +205,7 @@ function usePrefetchCriticalRoutes() {
       const criticalRoutes = [
         () => import("@/pages/servicios"),
         () => import("@/pages/home"),
+        () => import("@/pages/start"),
         () => import("@/pages/faq"),
         () => import("@/pages/auth/login.tsx"),
         () => import("@/pages/dashboard"),
@@ -213,30 +217,12 @@ function usePrefetchCriticalRoutes() {
 }
 
 function App() {
-  const hostname = typeof window !== 'undefined' ? window.location.hostname : '';
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
-  
   usePrefetchCriticalRoutes();
   
-  const isLinktreeDomain = hostname === 'creamostullc.com' || hostname === 'www.creamostullc.com';
-
-  // creamostullc.com - Solo Linktree (completamente aislado, sin i18n)
-  if (isLinktreeDomain) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <ErrorBoundary>
-          <Suspense fallback={<LoadingScreen delay={0} />}>
-            <LinktreePage />
-          </Suspense>
-        </ErrorBoundary>
-      </QueryClientProvider>
-    );
-  }
-
-  // easyusllc.com - Main website (everything: info, services, FAQ, legal, dashboard, forms)
+  // Main website
   return (
     <QueryClientProvider client={queryClient}>
-      <ThemeProvider defaultTheme="system" storageKey="easyusllc-theme">
+      <ThemeProvider defaultTheme="system" storageKey="exentax-theme">
         <TooltipProvider>
           <ScrollToTop />
           <MainRouter />

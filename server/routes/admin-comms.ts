@@ -203,7 +203,7 @@ export function registerAdminCommsRoutes(app: Express) {
           <h1 style="font-size: 24px; font-weight: 900; color: #0A0A0A; margin: 0 0 24px 0;">${subject}</h1>
           <div style="font-size: 15px; line-height: 1.6; color: #333;">${message.replace(/\n/g, '<br>')}</div>
           <hr style="border: none; border-top: 1px solid #E6E9EC; margin: 32px 0;" />
-          <p style="font-size: 12px; color: #6B7280; margin: 0;">Easy US LLC - Formación de empresas en USA</p>
+          <p style="font-size: 12px; color: #6B7280; margin: 0;">Exentax - Formación de empresas en USA</p>
         </div>
       </div>
     `;

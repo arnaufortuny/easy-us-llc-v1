@@ -183,7 +183,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({ size: 'A4', margin: 50, bufferPages: false,
-        info: { Title: `Factura ${data.orderNumber}`, Author: 'Easy US LLC' }
+        info: { Title: `Factura ${data.orderNumber}`, Author: 'Exentax' }
       });
       const chunks: Buffer[] = [];
       doc.on('data', (chunk: Buffer) => chunks.push(chunk));
@@ -206,7 +206,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       const logoPath = getLogoPath();
       if (logoPath) { try { doc.image(logoPath, left, 40, { width: 36, height: 36 }); } catch {} }
 
-      doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Easy US LLC', left + 44, 44);
+      doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Exentax', left + 44, 44);
       doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
 
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.orderNumber}`, left, 80, { align: 'right', width: contentW });
@@ -220,7 +220,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
       doc.text('Albuquerque, NM 87110, USA', left, y + 38);
-      doc.text('hola@easyusllc.com', left, y + 50);
+      doc.text('hola@exentax.com', left, y + 50);
 
       const cX = 320;
       doc.font('Helvetica').fontSize(7).fillColor(light).text('BILL TO', cX, y);
@@ -352,7 +352,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       }
 
       doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Easy US LLC is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
@@ -365,7 +365,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
   return new Promise((resolve, reject) => {
     try {
       const doc = new PDFDocument({ size: 'A4', margin: 50, bufferPages: false,
-        info: { Title: `Factura ${data.invoiceNumber}`, Author: 'Easy US LLC' }
+        info: { Title: `Factura ${data.invoiceNumber}`, Author: 'Exentax' }
       });
       const chunks: Buffer[] = [];
       doc.on('data', (chunk: Buffer) => chunks.push(chunk));
@@ -387,7 +387,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       const logoPath = getLogoPath();
       if (logoPath) { try { doc.image(logoPath, left, 40, { width: 36, height: 36 }); } catch {} }
 
-      doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Easy US LLC', left + 44, 44);
+      doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Exentax', left + 44, 44);
       doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
 
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.invoiceNumber}`, left, 80, { align: 'right', width: contentW });
@@ -401,7 +401,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
       doc.text('Albuquerque, NM 87110, USA', left, y + 38);
-      doc.text('hola@easyusllc.com', left, y + 50);
+      doc.text('hola@exentax.com', left, y + 50);
 
       const cX = 320;
       doc.font('Helvetica').fontSize(7).fillColor(light).text('BILL TO', cX, y);
@@ -493,7 +493,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       }
 
       doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Easy US LLC is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
@@ -533,7 +533,7 @@ export function generateOperatingAgreement(data: {
     margin: 40,
     info: {
       Title: `Operating Agreement - ${data.llc.companyName}`,
-      Author: 'Easy US LLC'
+      Author: 'Exentax'
     }
   });
 
@@ -563,7 +563,7 @@ export function generateOperatingAgreement(data: {
     const addFooter = (pageNum: number) => {
       doc.moveTo(margin, pageHeight - 50).lineTo(pageWidth - margin, pageHeight - 50).strokeColor('#E5E7EB').lineWidth(0.5).stroke();
       doc.font('Helvetica').fontSize(7).fillColor(BRAND_GRAY);
-      doc.text('www.easyusllc.com', margin, pageHeight - 40);
+      doc.text('www.exentax.com', margin, pageHeight - 40);
       doc.text(`Page ${pageNum}`, margin, pageHeight - 40, { align: 'right', width: contentWidth });
     };
 
@@ -716,7 +716,7 @@ export function generateOperatingAgreement(data: {
 
     addSection(23, "ENTIRE AGREEMENT", "This Agreement constitutes the complete governing document of the Company.");
 
-    addSection(24, "ADMINISTRATIVE PREPARATION STATEMENT", "This Operating Agreement has been prepared administratively by: Easy US LLC. Easy US LLC does not assume ownership, management, fiduciary responsibility, or legal representation of the Company.");
+    addSection(24, "ADMINISTRATIVE PREPARATION STATEMENT", "This Operating Agreement has been prepared administratively by: Exentax. Exentax does not assume ownership, management, fiduciary responsibility, or legal representation of the Company.");
 
     addSection(25, "COMPLIANCE AND REGULATORY COMMITMENT", "The Company is committed to operating with transparency, integrity, and full respect for applicable laws and regulations. The Member confirms that the Company has been created to conduct legitimate commercial activities.");
 
@@ -734,7 +734,7 @@ export function generateOperatingAgreement(data: {
 
     addSection(32, "RESPONSIBLE BUSINESS USE", "The Company is intended exclusively for lawful activities. Misuse of infrastructure may result in service termination.");
 
-    addSection(33, "AUTOMATED DOCUMENT PREPARATION", "This Agreement may be generated through structured administrative preparation processes. Easy US LLC assists in preparation but does not provide legal advice.");
+    addSection(33, "AUTOMATED DOCUMENT PREPARATION", "This Agreement may be generated through structured administrative preparation processes. Exentax assists in preparation but does not provide legal advice.");
 
     // Final Signature Page
     doc.addPage();

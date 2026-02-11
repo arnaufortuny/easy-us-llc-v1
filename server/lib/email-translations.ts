@@ -413,7 +413,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Cliente"
     },
     otp: {
-      thanks: "Gracias por continuar con tu proceso en Easy US LLC.",
+      thanks: "Gracias por continuar con tu proceso en Exentax.",
       forSecurity: "Para garantizar la seguridad de tu cuenta, utiliza el siguiente código de verificación:",
       yourCode: "Tu código OTP:",
       important: "Importante:",
@@ -424,7 +424,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Intento de acceso detectado desde la IP:"
     },
     welcome: {
-      welcomeMessage: "¡Bienvenido a Easy US LLC! Nos alegra mucho tenerte con nosotros.",
+      welcomeMessage: "¡Bienvenido a Exentax! Nos alegra mucho tenerte con nosotros.",
       accountCreated: "Tu cuenta ha sido creada correctamente y ya puedes empezar a explorar todo lo que podemos hacer juntos. Desde tu Área Cliente tendrás acceso a:",
       accessFrom: "Desde tu Área Cliente tendrás acceso a:",
       realTimeTracking: "Seguimiento en tiempo real de tus solicitudes",
@@ -445,7 +445,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Queremos informarte de que tu cuenta ha entrado en un breve proceso de revisión. No te preocupes, esto es algo completamente rutinario y forma parte de nuestros estándares de seguridad para proteger tu información y garantizar una experiencia segura.",
       whyReview: "¿Por qué hacemos esto?",
-      whyReviewText: "En Easy US LLC nos tomamos muy en serio la seguridad de nuestros clientes. Este proceso nos permite verificar que toda la información está correcta y que tu cuenta está debidamente protegida.",
+      whyReviewText: "En Exentax nos tomamos muy en serio la seguridad de nuestros clientes. Este proceso nos permite verificar que toda la información está correcta y que tu cuenta está debidamente protegida.",
       duringProcess: "Durante este breve período, las funciones de tu cuenta estarán temporalmente limitadas. Esto significa que no podrás realizar nuevos pedidos ni modificar información existente, pero no te preocupes: esta situación es temporal y no afectará a ningún trámite que ya esté en curso.",
       whatHappens: "¿Qué pasará ahora?",
       step1: "Nuestro equipo revisará la información de tu cuenta (normalmente en 24-48 horas laborables)",
@@ -453,7 +453,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Si necesitamos algún documento adicional, te lo haremos saber de forma clara y sencilla",
       teamReviewing: "Mientras tanto, si tienes cualquier pregunta o necesitas ayuda, no dudes en responder a este correo. Estamos aquí para ayudarte en todo lo que necesites.",
       patience: "Gracias por tu paciencia y confianza. Sabemos que tu tiempo es valioso y haremos todo lo posible para resolver esto lo antes posible.",
-      closing: "Un abrazo del equipo de Easy US LLC"
+      closing: "Un abrazo del equipo de Exentax"
     },
     accountVip: {
       updatedToVip: "Tu cuenta ha sido actualizada al estado VIP.",
@@ -627,7 +627,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Ver calendario fiscal"
     },
     registrationOtp: {
-      almostDone: "Gracias por registrarte en Easy US LLC. Tu código de verificación es:",
+      almostDone: "Gracias por registrarte en Exentax. Tu código de verificación es:",
       confirmEmail: "Para completar el registro de tu cuenta, introduce el siguiente código de verificación:",
       yourCode: "Tu código de verificación:",
       important: "Importante:",
@@ -685,7 +685,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "Tu borrador se eliminará automáticamente si no lo completas. Por motivos de seguridad y protección de datos, no podemos mantener solicitudes incompletas indefinidamente.",
       understandDoubts: "Entendemos que dar el paso de crear una LLC puede generar algunas dudas. Queremos que sepas que estamos aquí para ayudarte en cada paso del proceso.",
       questionsHelp: "Si tienes alguna pregunta o necesitas asistencia para completar tu solicitud, simplemente responde a este correo y te ayudaremos encantados.",
-      whyChoose: "¿Por qué elegir Easy US LLC?",
+      whyChoose: "¿Por qué elegir Exentax?",
       reason1: "Formación completa en 48-72 horas",
       reason2: "Asistencia en español durante todo el proceso",
       reason3: "Obtención del EIN incluida",
@@ -720,7 +720,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "Tu suscripción ha sido confirmada correctamente.",
-      willReceive: "Recibirás información relevante sobre servicios, actualizaciones y novedades relacionadas con Easy US LLC.",
+      willReceive: "Recibirás información relevante sobre servicios, actualizaciones y novedades relacionadas con Exentax.",
       unsubscribe: "Puedes darte de baja en cualquier momento desde el enlace incluido en nuestros correos."
     },
     orderEvent: {
@@ -729,10 +729,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Ver Detalles"
     },
     identityVerificationRequest: {
-      subject: "Verificación de identidad requerida | Easy US LLC",
+      subject: "Verificación de identidad requerida | Exentax",
       intro: "Necesitamos verificar tu identidad para garantizar la seguridad de tu cuenta y cumplir con nuestras políticas de protección de datos.",
       whyTitle: "¿Por qué es necesario?",
-      whyText: "En Easy US LLC nos tomamos muy en serio la seguridad de nuestros clientes. Esta verificación es un paso esencial para proteger tu información personal y garantizar que solo tú tengas acceso a tu cuenta.",
+      whyText: "En Exentax nos tomamos muy en serio la seguridad de nuestros clientes. Esta verificación es un paso esencial para proteger tu información personal y garantizar que solo tú tengas acceso a tu cuenta.",
       whatNeedTitle: "¿Qué necesitamos?",
       whatNeedText: "Te pedimos que subas un documento de identidad oficial válido y vigente. Acepta los siguientes formatos:",
       acceptedDocs: "Documentos aceptados:",
@@ -750,7 +750,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gracias por tu colaboración y paciencia. Estamos aquí para ayudarte."
     },
     identityVerificationApproved: {
-      subject: "Identidad verificada correctamente | Easy US LLC",
+      subject: "Identidad verificada correctamente | Exentax",
       intro: "¡Excelentes noticias! Tu identidad ha sido verificada correctamente.",
       verified: "Nuestro equipo ha revisado tu documentación y todo está en orden. Tu cuenta ha sido reactivada y ya puedes utilizar todos nuestros servicios con normalidad.",
       accessRestored: "El acceso completo a tu cuenta ha sido restaurado. Ya puedes realizar pedidos, modificar tu perfil y acceder a todos los servicios disponibles.",
@@ -758,7 +758,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gracias por tu paciencia y colaboración. Estamos encantados de seguir ayudándote."
     },
     identityVerificationRejected: {
-      subject: "Verificación de identidad: se requiere nueva documentación | Easy US LLC",
+      subject: "Verificación de identidad: se requiere nueva documentación | Exentax",
       intro: "Hemos revisado la documentación que nos enviaste, pero lamentablemente no hemos podido verificar tu identidad con el documento proporcionado.",
       notApproved: "El documento enviado no cumple con los requisitos necesarios para completar la verificación.",
       reason: "Motivo:",
@@ -769,7 +769,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gracias por tu comprensión y colaboración."
     },
     consultationConfirmation: {
-      subject: "Asesoría gratuita confirmada | Easy US LLC",
+      subject: "Asesoría gratuita confirmada | Exentax",
       greeting: "¡Excelente noticia!",
       confirmed: "Tu asesoría gratuita ha sido reservada con éxito.",
       details: "Detalles de tu cita:",
@@ -789,11 +789,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minutos"
     },
     consultationReminder: {
-      subject3h: "Recordatorio: tu asesoría gratuita es en 3 horas | Easy US LLC",
-      subject30m: "Recordatorio: tu asesoría gratuita es en 30 minutos | Easy US LLC",
+      subject3h: "Recordatorio: tu asesoría gratuita es en 3 horas | Exentax",
+      subject30m: "Recordatorio: tu asesoría gratuita es en 30 minutos | Exentax",
       greeting: "¡Hola de nuevo!",
-      reminder3h: "Te recordamos que tu asesoría gratuita con Easy US LLC es en aproximadamente 3 horas.",
-      reminder30m: "Tu asesoría gratuita con Easy US LLC comienza en 30 minutos. ¡Prepárate!",
+      reminder3h: "Te recordamos que tu asesoría gratuita con Exentax es en aproximadamente 3 horas.",
+      reminder30m: "Tu asesoría gratuita con Exentax comienza en 30 minutos. ¡Prepárate!",
       details: "Detalles de tu cita:",
       dateLabel: "Fecha",
       timeLabel: "Hora",
@@ -804,7 +804,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Te llamaremos al número que nos proporcionaste. Asegúrate de tener buena cobertura y estar en un lugar tranquilo.",
       cancelNote: "Si no puedes asistir, por favor avísanos lo antes posible para reprogramar tu cita.",
       seeYouSoon: "¡Nos vemos pronto!",
-      closing: "El equipo de Easy US LLC",
+      closing: "El equipo de Exentax",
       minutes: "minutos"
     }
   },
@@ -816,7 +816,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Client"
     },
     otp: {
-      thanks: "Thank you for continuing with your process at Easy US LLC.",
+      thanks: "Thank you for continuing with your process at Exentax.",
       forSecurity: "To ensure the security of your account, use the following verification code:",
       yourCode: "Your OTP code:",
       important: "Important:",
@@ -827,7 +827,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Login attempt detected from IP:"
     },
     welcome: {
-      welcomeMessage: "Welcome to Easy US LLC! We're thrilled to have you with us.",
+      welcomeMessage: "Welcome to Exentax! We're thrilled to have you with us.",
       accountCreated: "Your account has been created successfully and you can start exploring everything we can do together. From your Client Area you'll have access to:",
       accessFrom: "From your Client Area you'll have access to:",
       realTimeTracking: "Real-time tracking of your requests",
@@ -848,7 +848,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "We wanted to let you know that your account has entered a brief review process. Don't worry, this is completely routine and is part of our security standards to protect your information and ensure a safe experience.",
       whyReview: "Why do we do this?",
-      whyReviewText: "At Easy US LLC, we take our clients' security very seriously. This process allows us to verify that all information is correct and that your account is properly protected.",
+      whyReviewText: "At Exentax, we take our clients' security very seriously. This process allows us to verify that all information is correct and that your account is properly protected.",
       duringProcess: "During this brief period, your account functions will be temporarily limited. This means you won't be able to place new orders or modify existing information, but don't worry: this situation is temporary and won't affect any procedures already in progress.",
       whatHappens: "What happens now?",
       step1: "Our team will review your account information (usually within 24-48 business hours)",
@@ -856,7 +856,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "If we need any additional documents, we'll let you know clearly and simply",
       teamReviewing: "In the meantime, if you have any questions or need help, don't hesitate to reply to this email. We're here to help you with whatever you need.",
       patience: "Thank you for your patience and trust. We know your time is valuable and we'll do everything possible to resolve this as quickly as possible.",
-      closing: "Warm regards from the Easy US LLC team"
+      closing: "Warm regards from the Exentax team"
     },
     accountVip: {
       updatedToVip: "Your account has been upgraded to VIP status.",
@@ -1030,7 +1030,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "View fiscal calendar"
     },
     registrationOtp: {
-      almostDone: "Thank you for registering at Easy US LLC. Your verification code is:",
+      almostDone: "Thank you for registering at Exentax. Your verification code is:",
       confirmEmail: "To complete your account registration, enter the following verification code:",
       yourCode: "Your verification code:",
       important: "Important:",
@@ -1088,7 +1088,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "Your draft will be automatically deleted if you don't complete it. For security and data protection reasons, we cannot keep incomplete applications indefinitely.",
       understandDoubts: "We understand that taking the step to create an LLC can raise some questions. We want you to know that we are here to help you at every step of the process.",
       questionsHelp: "If you have any questions or need assistance completing your application, simply reply to this email and we'll be happy to help.",
-      whyChoose: "Why choose Easy US LLC?",
+      whyChoose: "Why choose Exentax?",
       reason1: "Complete formation in 48-72 hours",
       reason2: "Spanish-language assistance throughout the process",
       reason3: "EIN obtainment included",
@@ -1123,7 +1123,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "Your subscription has been confirmed successfully.",
-      willReceive: "You will receive relevant information about services, updates, and news related to Easy US LLC.",
+      willReceive: "You will receive relevant information about services, updates, and news related to Exentax.",
       unsubscribe: "You can unsubscribe at any time from the link included in our emails."
     },
     orderEvent: {
@@ -1132,10 +1132,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "View Details"
     },
     identityVerificationRequest: {
-      subject: "Identity verification required | Easy US LLC",
+      subject: "Identity verification required | Exentax",
       intro: "We need to verify your identity to ensure the security of your account and comply with our data protection policies.",
       whyTitle: "Why is this necessary?",
-      whyText: "At Easy US LLC, we take our clients' security very seriously. This verification is an essential step to protect your personal information and ensure that only you have access to your account.",
+      whyText: "At Exentax, we take our clients' security very seriously. This verification is an essential step to protect your personal information and ensure that only you have access to your account.",
       whatNeedTitle: "What do we need?",
       whatNeedText: "We ask you to upload a valid and current official identity document. The following formats are accepted:",
       acceptedDocs: "Accepted documents:",
@@ -1153,7 +1153,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Thank you for your cooperation and patience. We are here to help you."
     },
     identityVerificationApproved: {
-      subject: "Identity successfully verified | Easy US LLC",
+      subject: "Identity successfully verified | Exentax",
       intro: "Great news! Your identity has been successfully verified.",
       verified: "Our team has reviewed your documentation and everything is in order. Your account has been reactivated and you can now use all our services normally.",
       accessRestored: "Full access to your account has been restored. You can now place orders, modify your profile and access all available services.",
@@ -1161,7 +1161,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Thank you for your patience and cooperation. We are delighted to continue helping you."
     },
     identityVerificationRejected: {
-      subject: "Identity verification: new documentation required | Easy US LLC",
+      subject: "Identity verification: new documentation required | Exentax",
       intro: "We have reviewed the documentation you sent us, but unfortunately we were unable to verify your identity with the document provided.",
       notApproved: "The submitted document does not meet the requirements necessary to complete the verification.",
       reason: "Reason:",
@@ -1172,7 +1172,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Thank you for your understanding and cooperation."
     },
     consultationConfirmation: {
-      subject: "Free consultation confirmed | Easy US LLC",
+      subject: "Free consultation confirmed | Exentax",
       greeting: "Great news!",
       confirmed: "Your free consultation has been successfully booked.",
       details: "Your appointment details:",
@@ -1192,11 +1192,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minutes"
     },
     consultationReminder: {
-      subject3h: "Reminder: your free consultation is in 3 hours | Easy US LLC",
-      subject30m: "Reminder: your free consultation is in 30 minutes | Easy US LLC",
+      subject3h: "Reminder: your free consultation is in 3 hours | Exentax",
+      subject30m: "Reminder: your free consultation is in 30 minutes | Exentax",
       greeting: "Hello again!",
-      reminder3h: "This is a reminder that your free consultation with Easy US LLC is in approximately 3 hours.",
-      reminder30m: "Your free consultation with Easy US LLC starts in 30 minutes. Get ready!",
+      reminder3h: "This is a reminder that your free consultation with Exentax is in approximately 3 hours.",
+      reminder30m: "Your free consultation with Exentax starts in 30 minutes. Get ready!",
       details: "Your appointment details:",
       dateLabel: "Date",
       timeLabel: "Time",
@@ -1207,7 +1207,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "We will call you at the number you provided. Make sure you have good reception and are in a quiet place.",
       cancelNote: "If you cannot attend, please let us know as soon as possible to reschedule your appointment.",
       seeYouSoon: "See you soon!",
-      closing: "The Easy US LLC Team",
+      closing: "The Exentax Team",
       minutes: "minutes"
     }
   },
@@ -1219,7 +1219,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Client"
     },
     otp: {
-      thanks: "Gràcies per continuar amb el teu procés a Easy US LLC.",
+      thanks: "Gràcies per continuar amb el teu procés a Exentax.",
       forSecurity: "Per garantir la seguretat del teu compte, utilitza el següent codi de verificació:",
       yourCode: "El teu codi OTP:",
       important: "Important:",
@@ -1230,7 +1230,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Intent d'accés detectat des de la IP:"
     },
     welcome: {
-      welcomeMessage: "Benvingut a Easy US LLC! Ens alegra molt tenir-te amb nosaltres.",
+      welcomeMessage: "Benvingut a Exentax! Ens alegra molt tenir-te amb nosaltres.",
       accountCreated: "El teu compte s'ha creat correctament i ja pots començar a explorar tot el que podem fer junts. Des de la teva Àrea Client tindràs accés a:",
       accessFrom: "Des de la teva Àrea Client tindràs accés a:",
       realTimeTracking: "Seguiment en temps real de les teves sol·licituds",
@@ -1251,7 +1251,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Volem informar-te que el teu compte ha entrat en un breu procés de revisió. No et preocupis, això és completament rutinari i forma part dels nostres estàndards de seguretat per protegir la teva informació i garantir una experiència segura.",
       whyReview: "Per què fem això?",
-      whyReviewText: "A Easy US LLC ens prenem molt seriosament la seguretat dels nostres clients. Aquest procés ens permet verificar que tota la informació és correcta i que el teu compte està degudament protegit.",
+      whyReviewText: "A Exentax ens prenem molt seriosament la seguretat dels nostres clients. Aquest procés ens permet verificar que tota la informació és correcta i que el teu compte està degudament protegit.",
       duringProcess: "Durant aquest breu període, les funcions del teu compte estaran temporalment limitades. Això significa que no podràs realitzar noves comandes ni modificar informació existent, però no et preocupis: aquesta situació és temporal i no afectarà cap tràmit que ja estigui en curs.",
       whatHappens: "Què passarà ara?",
       step1: "El nostre equip revisarà la informació del teu compte (normalment en 24-48 hores laborables)",
@@ -1259,7 +1259,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Si necessitem algun document addicional, t'ho farem saber de forma clara i senzilla",
       teamReviewing: "Mentrestant, si tens qualsevol pregunta o necessites ajuda, no dubtis a respondre a aquest correu. Estem aquí per ajudar-te en tot el que necessitis.",
       patience: "Gràcies per la teva paciència i confiança. Sabem que el teu temps és valuós i farem tot el possible per resoldre això el més aviat possible.",
-      closing: "Una abraçada de l'equip d'Easy US LLC"
+      closing: "Una abraçada de l'equip d'Exentax"
     },
     accountVip: {
       updatedToVip: "El teu compte ha estat actualitzat a l'estat VIP.",
@@ -1433,7 +1433,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Veure calendari fiscal"
     },
     registrationOtp: {
-      almostDone: "Gràcies per registrar-te a Easy US LLC. El teu codi de verificació és:",
+      almostDone: "Gràcies per registrar-te a Exentax. El teu codi de verificació és:",
       confirmEmail: "Per completar el registre del teu compte, introdueix el següent codi de verificació:",
       yourCode: "El teu codi de verificació:",
       important: "Important:",
@@ -1491,7 +1491,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "El teu esborrany s'eliminarà automàticament si no el completes. Per motius de seguretat i protecció de dades, no podem mantenir sol·licituds incompletes indefinidament.",
       understandDoubts: "Entenem que fer el pas de crear una LLC pot generar alguns dubtes. Volem que sàpigues que estem aquí per ajudar-te en cada pas del procés.",
       questionsHelp: "Si tens alguna pregunta o necessites assistència per completar la teva sol·licitud, simplement respon a aquest correu i t'ajudarem encantats.",
-      whyChoose: "Per què triar Easy US LLC?",
+      whyChoose: "Per què triar Exentax?",
       reason1: "Formació completa en 48-72 hores",
       reason2: "Assistència en espanyol durant tot el procés",
       reason3: "Obtenció de l'EIN inclosa",
@@ -1526,7 +1526,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "La teva subscripció ha estat confirmada correctament.",
-      willReceive: "Rebràs informació rellevant sobre serveis, actualitzacions i novetats relacionades amb Easy US LLC.",
+      willReceive: "Rebràs informació rellevant sobre serveis, actualitzacions i novetats relacionades amb Exentax.",
       unsubscribe: "Pots donar-te de baixa en qualsevol moment des de l'enllaç inclòs als nostres correus."
     },
     orderEvent: {
@@ -1535,10 +1535,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Veure Detalls"
     },
     identityVerificationRequest: {
-      subject: "Verificació d'identitat requerida | Easy US LLC",
+      subject: "Verificació d'identitat requerida | Exentax",
       intro: "Necessitem verificar la teva identitat per garantir la seguretat del teu compte i complir amb les nostres polítiques de protecció de dades.",
       whyTitle: "Per què és necessari?",
-      whyText: "A Easy US LLC ens prenem molt seriosament la seguretat dels nostres clients. Aquesta verificació és un pas essencial per protegir la teva informació personal i garantir que només tu tinguis accés al teu compte.",
+      whyText: "A Exentax ens prenem molt seriosament la seguretat dels nostres clients. Aquesta verificació és un pas essencial per protegir la teva informació personal i garantir que només tu tinguis accés al teu compte.",
       whatNeedTitle: "Què necessitem?",
       whatNeedText: "Et demanem que pugis un document d'identitat oficial vàlid i vigent. S'accepten els següents formats:",
       acceptedDocs: "Documents acceptats:",
@@ -1556,7 +1556,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gràcies per la teva col·laboració i paciència. Estem aquí per ajudar-te."
     },
     identityVerificationApproved: {
-      subject: "Identitat verificada correctament | Easy US LLC",
+      subject: "Identitat verificada correctament | Exentax",
       intro: "Excel·lents notícies! La teva identitat ha estat verificada correctament.",
       verified: "El nostre equip ha revisat la teva documentació i tot està en ordre. El teu compte ha estat reactivat i ja pots utilitzar tots els nostres serveis amb normalitat.",
       accessRestored: "L'accés complet al teu compte ha estat restaurat. Ja pots realitzar comandes, modificar el teu perfil i accedir a tots els serveis disponibles.",
@@ -1564,7 +1564,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gràcies per la teva paciència i col·laboració. Estem encantats de seguir ajudant-te."
     },
     identityVerificationRejected: {
-      subject: "Verificació d'identitat: es requereix nova documentació | Easy US LLC",
+      subject: "Verificació d'identitat: es requereix nova documentació | Exentax",
       intro: "Hem revisat la documentació que ens vas enviar, però malauradament no hem pogut verificar la teva identitat amb el document proporcionat.",
       notApproved: "El document enviat no compleix amb els requisits necessaris per completar la verificació.",
       reason: "Motiu:",
@@ -1575,7 +1575,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Gràcies per la teva comprensió i col·laboració."
     },
     consultationConfirmation: {
-      subject: "Assessoria gratuïta confirmada | Easy US LLC",
+      subject: "Assessoria gratuïta confirmada | Exentax",
       greeting: "Excel·lent notícia!",
       confirmed: "La teva assessoria gratuïta ha estat reservada amb èxit.",
       details: "Detalls de la teva cita:",
@@ -1595,11 +1595,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minuts"
     },
     consultationReminder: {
-      subject3h: "Recordatori: la teva assessoria gratuïta és en 3 hores | Easy US LLC",
-      subject30m: "Recordatori: la teva assessoria gratuïta és en 30 minuts | Easy US LLC",
+      subject3h: "Recordatori: la teva assessoria gratuïta és en 3 hores | Exentax",
+      subject30m: "Recordatori: la teva assessoria gratuïta és en 30 minuts | Exentax",
       greeting: "Hola de nou!",
-      reminder3h: "Et recordem que la teva assessoria gratuïta amb Easy US LLC és en aproximadament 3 hores.",
-      reminder30m: "La teva assessoria gratuïta amb Easy US LLC comença en 30 minuts. Prepara't!",
+      reminder3h: "Et recordem que la teva assessoria gratuïta amb Exentax és en aproximadament 3 hores.",
+      reminder30m: "La teva assessoria gratuïta amb Exentax comença en 30 minuts. Prepara't!",
       details: "Detalls de la teva cita:",
       dateLabel: "Data",
       timeLabel: "Hora",
@@ -1610,7 +1610,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Et trucarem al número que ens vas proporcionar. Assegura't de tenir bona cobertura i estar en un lloc tranquil.",
       cancelNote: "Si no pots assistir, si us plau avisa'ns com més aviat millor per reprogramar la teva cita.",
       seeYouSoon: "Ens veiem aviat!",
-      closing: "L'equip d'Easy US LLC",
+      closing: "L'equip d'Exentax",
       minutes: "minuts"
     }
   },
@@ -1622,7 +1622,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Client"
     },
     otp: {
-      thanks: "Merci de poursuivre votre démarche chez Easy US LLC.",
+      thanks: "Merci de poursuivre votre démarche chez Exentax.",
       forSecurity: "Pour garantir la sécurité de votre compte, utilisez le code de vérification suivant :",
       yourCode: "Votre code OTP :",
       important: "Important :",
@@ -1633,7 +1633,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Tentative de connexion détectée depuis l'IP :"
     },
     welcome: {
-      welcomeMessage: "Bienvenue chez Easy US LLC ! Nous sommes ravis de vous compter parmi nous.",
+      welcomeMessage: "Bienvenue chez Exentax ! Nous sommes ravis de vous compter parmi nous.",
       accountCreated: "Votre compte a été créé avec succès et vous pouvez commencer à explorer tout ce que nous pouvons faire ensemble. Depuis votre Espace Client, vous aurez accès à :",
       accessFrom: "Depuis votre Espace Client, vous aurez accès à :",
       realTimeTracking: "Suivi en temps réel de vos demandes",
@@ -1654,7 +1654,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Nous souhaitons vous informer que votre compte est entré dans un bref processus de vérification. Ne vous inquiétez pas, c'est tout à fait routinier et fait partie de nos normes de sécurité pour protéger vos informations et garantir une expérience sûre.",
       whyReview: "Pourquoi faisons-nous cela ?",
-      whyReviewText: "Chez Easy US LLC, nous prenons très au sérieux la sécurité de nos clients. Ce processus nous permet de vérifier que toutes les informations sont correctes et que votre compte est correctement protégé.",
+      whyReviewText: "Chez Exentax, nous prenons très au sérieux la sécurité de nos clients. Ce processus nous permet de vérifier que toutes les informations sont correctes et que votre compte est correctement protégé.",
       duringProcess: "Pendant cette brève période, les fonctions de votre compte seront temporairement limitées. Cela signifie que vous ne pourrez pas passer de nouvelles commandes ni modifier les informations existantes, mais ne vous inquiétez pas : cette situation est temporaire et n'affectera aucune démarche déjà en cours.",
       whatHappens: "Que va-t-il se passer maintenant ?",
       step1: "Notre équipe examinera les informations de votre compte (généralement sous 24 à 48 heures ouvrables)",
@@ -1662,7 +1662,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Si nous avons besoin de documents supplémentaires, nous vous le ferons savoir clairement et simplement",
       teamReviewing: "En attendant, si vous avez des questions ou besoin d'aide, n'hésitez pas à répondre à cet e-mail. Nous sommes là pour vous aider dans tout ce dont vous avez besoin.",
       patience: "Merci pour votre patience et votre confiance. Nous savons que votre temps est précieux et nous ferons tout notre possible pour résoudre cela le plus rapidement possible.",
-      closing: "Chaleureusement, l'équipe Easy US LLC"
+      closing: "Chaleureusement, l'équipe Exentax"
     },
     accountVip: {
       updatedToVip: "Votre compte a été mis à niveau au statut VIP.",
@@ -1836,7 +1836,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Voir le calendrier fiscal"
     },
     registrationOtp: {
-      almostDone: "Merci de vous être inscrit chez Easy US LLC. Votre code de vérification est :",
+      almostDone: "Merci de vous être inscrit chez Exentax. Votre code de vérification est :",
       confirmEmail: "Pour compléter l'inscription de votre compte, entrez le code de vérification suivant :",
       yourCode: "Votre code de vérification :",
       important: "Important :",
@@ -1894,7 +1894,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "Votre brouillon sera automatiquement supprimé si vous ne le complétez pas. Pour des raisons de sécurité et de protection des données, nous ne pouvons pas conserver les demandes incomplètes indéfiniment.",
       understandDoubts: "Nous comprenons que créer une LLC peut soulever quelques questions. Sachez que nous sommes là pour vous accompagner à chaque étape du processus.",
       questionsHelp: "Si vous avez des questions ou besoin d'aide pour compléter votre demande, répondez simplement à cet e-mail et nous serons ravis de vous aider.",
-      whyChoose: "Pourquoi choisir Easy US LLC ?",
+      whyChoose: "Pourquoi choisir Exentax ?",
       reason1: "Formation complète en 48-72 heures",
       reason2: "Assistance en espagnol tout au long du processus",
       reason3: "Obtention de l'EIN incluse",
@@ -1929,7 +1929,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "Votre abonnement a été confirmé avec succès.",
-      willReceive: "Vous recevrez des informations pertinentes sur les services, mises à jour et nouveautés liées à Easy US LLC.",
+      willReceive: "Vous recevrez des informations pertinentes sur les services, mises à jour et nouveautés liées à Exentax.",
       unsubscribe: "Vous pouvez vous désabonner à tout moment via le lien inclus dans nos e-mails."
     },
     orderEvent: {
@@ -1938,10 +1938,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Voir les détails"
     },
     identityVerificationRequest: {
-      subject: "Vérification d'identité requise | Easy US LLC",
+      subject: "Vérification d'identité requise | Exentax",
       intro: "Nous devons vérifier votre identité pour garantir la sécurité de votre compte et respecter nos politiques de protection des données.",
       whyTitle: "Pourquoi est-ce nécessaire ?",
-      whyText: "Chez Easy US LLC, nous prenons très au sérieux la sécurité de nos clients. Cette vérification est une étape essentielle pour protéger vos informations personnelles et garantir que vous seul avez accès à votre compte.",
+      whyText: "Chez Exentax, nous prenons très au sérieux la sécurité de nos clients. Cette vérification est une étape essentielle pour protéger vos informations personnelles et garantir que vous seul avez accès à votre compte.",
       whatNeedTitle: "De quoi avons-nous besoin ?",
       whatNeedText: "Nous vous demandons de télécharger un document d'identité officiel valide et en cours de validité. Les formats suivants sont acceptés :",
       acceptedDocs: "Documents acceptés :",
@@ -1959,7 +1959,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Merci pour votre coopération et votre patience. Nous sommes là pour vous aider."
     },
     identityVerificationApproved: {
-      subject: "Identité vérifiée avec succès | Easy US LLC",
+      subject: "Identité vérifiée avec succès | Exentax",
       intro: "Excellente nouvelle ! Votre identité a été vérifiée avec succès.",
       verified: "Notre équipe a examiné votre documentation et tout est en ordre. Votre compte a été réactivé et vous pouvez désormais utiliser tous nos services normalement.",
       accessRestored: "L'accès complet à votre compte a été restauré. Vous pouvez maintenant passer des commandes, modifier votre profil et accéder à tous les services disponibles.",
@@ -1967,7 +1967,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Merci pour votre patience et votre coopération. Nous sommes ravis de continuer à vous aider."
     },
     identityVerificationRejected: {
-      subject: "Vérification d'identité : nouvelle documentation requise | Easy US LLC",
+      subject: "Vérification d'identité : nouvelle documentation requise | Exentax",
       intro: "Nous avons examiné la documentation que vous nous avez envoyée, mais malheureusement nous n'avons pas pu vérifier votre identité avec le document fourni.",
       notApproved: "Le document soumis ne répond pas aux exigences nécessaires pour compléter la vérification.",
       reason: "Raison :",
@@ -1978,7 +1978,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Merci pour votre compréhension et votre coopération."
     },
     consultationConfirmation: {
-      subject: "Consultation gratuite confirmée | Easy US LLC",
+      subject: "Consultation gratuite confirmée | Exentax",
       greeting: "Excellente nouvelle !",
       confirmed: "Votre consultation gratuite a été réservée avec succès.",
       details: "Détails de votre rendez-vous :",
@@ -1998,11 +1998,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minutes"
     },
     consultationReminder: {
-      subject3h: "Rappel : votre consultation gratuite est dans 3 heures | Easy US LLC",
-      subject30m: "Rappel : votre consultation gratuite est dans 30 minutes | Easy US LLC",
+      subject3h: "Rappel : votre consultation gratuite est dans 3 heures | Exentax",
+      subject30m: "Rappel : votre consultation gratuite est dans 30 minutes | Exentax",
       greeting: "Rebonjour !",
-      reminder3h: "Nous vous rappelons que votre consultation gratuite avec Easy US LLC est dans environ 3 heures.",
-      reminder30m: "Votre consultation gratuite avec Easy US LLC commence dans 30 minutes. Préparez-vous !",
+      reminder3h: "Nous vous rappelons que votre consultation gratuite avec Exentax est dans environ 3 heures.",
+      reminder30m: "Votre consultation gratuite avec Exentax commence dans 30 minutes. Préparez-vous !",
       details: "Détails de votre rendez-vous :",
       dateLabel: "Date",
       timeLabel: "Heure",
@@ -2013,7 +2013,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Nous vous appellerons au numéro que vous nous avez fourni. Assurez-vous d'avoir une bonne réception et d'être dans un endroit calme.",
       cancelNote: "Si vous ne pouvez pas y assister, veuillez nous prévenir dès que possible pour reprogrammer votre rendez-vous.",
       seeYouSoon: "À bientôt !",
-      closing: "L'équipe Easy US LLC",
+      closing: "L'équipe Exentax",
       minutes: "minutes"
     }
   },
@@ -2025,7 +2025,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Kunde"
     },
     otp: {
-      thanks: "Vielen Dank, dass Sie Ihren Prozess bei Easy US LLC fortsetzen.",
+      thanks: "Vielen Dank, dass Sie Ihren Prozess bei Exentax fortsetzen.",
       forSecurity: "Um die Sicherheit Ihres Kontos zu gewährleisten, verwenden Sie bitte den folgenden Verifizierungscode:",
       yourCode: "Ihr OTP-Code:",
       important: "Wichtig:",
@@ -2036,7 +2036,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Anmeldeversuch erkannt von IP:"
     },
     welcome: {
-      welcomeMessage: "Willkommen bei Easy US LLC! Wir freuen uns sehr, Sie bei uns zu haben.",
+      welcomeMessage: "Willkommen bei Exentax! Wir freuen uns sehr, Sie bei uns zu haben.",
       accountCreated: "Ihr Konto wurde erfolgreich erstellt und Sie können alles erkunden, was wir gemeinsam erreichen können. Über Ihren Kundenbereich haben Sie Zugang zu:",
       accessFrom: "Über Ihren Kundenbereich haben Sie Zugang zu:",
       realTimeTracking: "Echtzeit-Verfolgung Ihrer Anfragen",
@@ -2057,7 +2057,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Wir möchten Sie darüber informieren, dass Ihr Konto einen kurzen Überprüfungsprozess durchläuft. Keine Sorge, dies ist völlig routinemäßig und gehört zu unseren Sicherheitsstandards zum Schutz Ihrer Daten und zur Gewährleistung einer sicheren Erfahrung.",
       whyReview: "Warum tun wir das?",
-      whyReviewText: "Bei Easy US LLC nehmen wir die Sicherheit unserer Kunden sehr ernst. Dieser Prozess ermöglicht es uns zu überprüfen, ob alle Informationen korrekt sind und Ihr Konto ordnungsgemäß geschützt ist.",
+      whyReviewText: "Bei Exentax nehmen wir die Sicherheit unserer Kunden sehr ernst. Dieser Prozess ermöglicht es uns zu überprüfen, ob alle Informationen korrekt sind und Ihr Konto ordnungsgemäß geschützt ist.",
       duringProcess: "Während dieser kurzen Phase werden die Funktionen Ihres Kontos vorübergehend eingeschränkt. Das bedeutet, dass Sie keine neuen Bestellungen aufgeben oder bestehende Informationen ändern können, aber keine Sorge: Diese Situation ist vorübergehend und beeinträchtigt keine bereits laufenden Verfahren.",
       whatHappens: "Was passiert jetzt?",
       step1: "Unser Team wird Ihre Kontoinformationen überprüfen (normalerweise innerhalb von 24-48 Geschäftstagen)",
@@ -2065,7 +2065,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Wenn wir zusätzliche Dokumente benötigen, werden wir Sie klar und einfach darüber informieren",
       teamReviewing: "In der Zwischenzeit, wenn Sie Fragen haben oder Hilfe benötigen, zögern Sie nicht, auf diese E-Mail zu antworten. Wir sind hier, um Ihnen bei allem zu helfen, was Sie brauchen.",
       patience: "Vielen Dank für Ihre Geduld und Ihr Vertrauen. Wir wissen, dass Ihre Zeit wertvoll ist, und werden alles tun, um dies so schnell wie möglich zu klären.",
-      closing: "Herzliche Grüße vom Easy US LLC Team"
+      closing: "Herzliche Grüße vom Exentax Team"
     },
     accountVip: {
       updatedToVip: "Ihr Konto wurde auf den VIP-Status aktualisiert.",
@@ -2239,7 +2239,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Steuerkalender anzeigen"
     },
     registrationOtp: {
-      almostDone: "Vielen Dank für Ihre Registrierung bei Easy US LLC. Ihr Verifizierungscode lautet:",
+      almostDone: "Vielen Dank für Ihre Registrierung bei Exentax. Ihr Verifizierungscode lautet:",
       confirmEmail: "Um die Registrierung Ihres Kontos abzuschließen, geben Sie den folgenden Verifizierungscode ein:",
       yourCode: "Ihr Verifizierungscode:",
       important: "Wichtig:",
@@ -2297,7 +2297,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "Ihr Entwurf wird automatisch gelöscht, wenn Sie ihn nicht abschließen. Aus Sicherheits- und Datenschutzgründen können wir unvollständige Anträge nicht unbegrenzt aufbewahren.",
       understandDoubts: "Wir verstehen, dass die Gründung einer LLC einige Fragen aufwerfen kann. Wir möchten, dass Sie wissen, dass wir Ihnen bei jedem Schritt des Prozesses zur Seite stehen.",
       questionsHelp: "Wenn Sie Fragen haben oder Hilfe beim Ausfüllen Ihres Antrags benötigen, antworten Sie einfach auf diese E-Mail und wir helfen Ihnen gerne.",
-      whyChoose: "Warum Easy US LLC wählen?",
+      whyChoose: "Warum Exentax wählen?",
       reason1: "Vollständige Gründung in 48-72 Stunden",
       reason2: "Spanischsprachige Unterstützung während des gesamten Prozesses",
       reason3: "EIN-Beschaffung inklusive",
@@ -2332,7 +2332,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "Ihr Abonnement wurde erfolgreich bestätigt.",
-      willReceive: "Sie erhalten relevante Informationen über Dienste, Updates und Neuigkeiten rund um Easy US LLC.",
+      willReceive: "Sie erhalten relevante Informationen über Dienste, Updates und Neuigkeiten rund um Exentax.",
       unsubscribe: "Sie können sich jederzeit über den Link in unseren E-Mails abmelden."
     },
     orderEvent: {
@@ -2341,10 +2341,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Details anzeigen"
     },
     identityVerificationRequest: {
-      subject: "Identitätsverifizierung erforderlich | Easy US LLC",
+      subject: "Identitätsverifizierung erforderlich | Exentax",
       intro: "Wir müssen Ihre Identität verifizieren, um die Sicherheit Ihres Kontos zu gewährleisten und unsere Datenschutzrichtlinien einzuhalten.",
       whyTitle: "Warum ist das notwendig?",
-      whyText: "Bei Easy US LLC nehmen wir die Sicherheit unserer Kunden sehr ernst. Diese Verifizierung ist ein wesentlicher Schritt, um Ihre persönlichen Daten zu schützen und sicherzustellen, dass nur Sie Zugang zu Ihrem Konto haben.",
+      whyText: "Bei Exentax nehmen wir die Sicherheit unserer Kunden sehr ernst. Diese Verifizierung ist ein wesentlicher Schritt, um Ihre persönlichen Daten zu schützen und sicherzustellen, dass nur Sie Zugang zu Ihrem Konto haben.",
       whatNeedTitle: "Was benötigen wir?",
       whatNeedText: "Wir bitten Sie, ein gültiges und aktuelles amtliches Ausweisdokument hochzuladen. Die folgenden Formate werden akzeptiert:",
       acceptedDocs: "Akzeptierte Dokumente:",
@@ -2362,7 +2362,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Vielen Dank für Ihre Zusammenarbeit und Geduld. Wir sind hier, um Ihnen zu helfen."
     },
     identityVerificationApproved: {
-      subject: "Identität erfolgreich verifiziert | Easy US LLC",
+      subject: "Identität erfolgreich verifiziert | Exentax",
       intro: "Großartige Neuigkeiten! Ihre Identität wurde erfolgreich verifiziert.",
       verified: "Unser Team hat Ihre Dokumentation geprüft und alles ist in Ordnung. Ihr Konto wurde reaktiviert und Sie können nun alle unsere Dienste normal nutzen.",
       accessRestored: "Der vollständige Zugang zu Ihrem Konto wurde wiederhergestellt. Sie können jetzt Bestellungen aufgeben, Ihr Profil ändern und auf alle verfügbaren Dienste zugreifen.",
@@ -2370,7 +2370,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Vielen Dank für Ihre Geduld und Zusammenarbeit. Wir freuen uns, Ihnen weiterhin helfen zu können."
     },
     identityVerificationRejected: {
-      subject: "Identitätsverifizierung: neue Dokumentation erforderlich | Easy US LLC",
+      subject: "Identitätsverifizierung: neue Dokumentation erforderlich | Exentax",
       intro: "Wir haben die von Ihnen gesendete Dokumentation geprüft, konnten Ihre Identität jedoch leider nicht mit dem bereitgestellten Dokument verifizieren.",
       notApproved: "Das eingereichte Dokument erfüllt nicht die Anforderungen zur Durchführung der Verifizierung.",
       reason: "Grund:",
@@ -2381,7 +2381,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Vielen Dank für Ihr Verständnis und Ihre Zusammenarbeit."
     },
     consultationConfirmation: {
-      subject: "Kostenlose Beratung bestätigt | Easy US LLC",
+      subject: "Kostenlose Beratung bestätigt | Exentax",
       greeting: "Tolle Neuigkeiten!",
       confirmed: "Ihre kostenlose Beratung wurde erfolgreich gebucht.",
       details: "Ihre Termindetails:",
@@ -2401,11 +2401,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "Minuten"
     },
     consultationReminder: {
-      subject3h: "Erinnerung: Ihre kostenlose Beratung ist in 3 Stunden | Easy US LLC",
-      subject30m: "Erinnerung: Ihre kostenlose Beratung ist in 30 Minuten | Easy US LLC",
+      subject3h: "Erinnerung: Ihre kostenlose Beratung ist in 3 Stunden | Exentax",
+      subject30m: "Erinnerung: Ihre kostenlose Beratung ist in 30 Minuten | Exentax",
       greeting: "Hallo nochmal!",
-      reminder3h: "Wir möchten Sie daran erinnern, dass Ihre kostenlose Beratung mit Easy US LLC in etwa 3 Stunden stattfindet.",
-      reminder30m: "Ihre kostenlose Beratung mit Easy US LLC beginnt in 30 Minuten. Machen Sie sich bereit!",
+      reminder3h: "Wir möchten Sie daran erinnern, dass Ihre kostenlose Beratung mit Exentax in etwa 3 Stunden stattfindet.",
+      reminder30m: "Ihre kostenlose Beratung mit Exentax beginnt in 30 Minuten. Machen Sie sich bereit!",
       details: "Ihre Termindetails:",
       dateLabel: "Datum",
       timeLabel: "Uhrzeit",
@@ -2416,7 +2416,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Wir rufen Sie unter der von Ihnen angegebenen Nummer an. Stellen Sie sicher, dass Sie guten Empfang haben und sich an einem ruhigen Ort befinden.",
       cancelNote: "Wenn Sie nicht teilnehmen können, informieren Sie uns bitte so schnell wie möglich, um Ihren Termin zu verschieben.",
       seeYouSoon: "Bis bald!",
-      closing: "Das Easy US LLC Team",
+      closing: "Das Exentax Team",
       minutes: "Minuten"
     }
   },
@@ -2428,7 +2428,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Cliente"
     },
     otp: {
-      thanks: "Grazie per continuare il tuo processo con Easy US LLC.",
+      thanks: "Grazie per continuare il tuo processo con Exentax.",
       forSecurity: "Per garantire la sicurezza del tuo account, utilizza il seguente codice di verifica:",
       yourCode: "Il tuo codice OTP:",
       important: "Importante:",
@@ -2439,7 +2439,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Tentativo di accesso rilevato dall'IP:"
     },
     welcome: {
-      welcomeMessage: "Benvenuto in Easy US LLC! Siamo felici di averti con noi.",
+      welcomeMessage: "Benvenuto in Exentax! Siamo felici di averti con noi.",
       accountCreated: "Il tuo account è stato creato con successo e puoi iniziare a esplorare tutto ciò che possiamo fare insieme. Dalla tua Area Cliente avrai accesso a:",
       accessFrom: "Dalla tua Area Cliente avrai accesso a:",
       realTimeTracking: "Monitoraggio in tempo reale delle tue richieste",
@@ -2460,7 +2460,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Vogliamo informarti che il tuo account è entrato in un breve processo di verifica. Non preoccuparti, è completamente di routine e fa parte dei nostri standard di sicurezza per proteggere le tue informazioni e garantire un'esperienza sicura.",
       whyReview: "Perché lo facciamo?",
-      whyReviewText: "In Easy US LLC prendiamo molto seriamente la sicurezza dei nostri clienti. Questo processo ci permette di verificare che tutte le informazioni siano corrette e che il tuo account sia adeguatamente protetto.",
+      whyReviewText: "In Exentax prendiamo molto seriamente la sicurezza dei nostri clienti. Questo processo ci permette di verificare che tutte le informazioni siano corrette e che il tuo account sia adeguatamente protetto.",
       duringProcess: "Durante questo breve periodo, le funzioni del tuo account saranno temporaneamente limitate. Ciò significa che non potrai effettuare nuovi ordini o modificare le informazioni esistenti, ma non preoccuparti: questa situazione è temporanea e non influirà su nessuna procedura già in corso.",
       whatHappens: "Cosa succede ora?",
       step1: "Il nostro team esaminerà le informazioni del tuo account (solitamente entro 24-48 ore lavorative)",
@@ -2468,7 +2468,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Se avremo bisogno di documenti aggiuntivi, te lo comunicheremo in modo chiaro e semplice",
       teamReviewing: "Nel frattempo, se hai domande o hai bisogno di aiuto, non esitare a rispondere a questa e-mail. Siamo qui per aiutarti in tutto ciò di cui hai bisogno.",
       patience: "Grazie per la tua pazienza e fiducia. Sappiamo che il tuo tempo è prezioso e faremo tutto il possibile per risolvere la questione il prima possibile.",
-      closing: "Un caro saluto dal team di Easy US LLC"
+      closing: "Un caro saluto dal team di Exentax"
     },
     accountVip: {
       updatedToVip: "Il tuo account è stato aggiornato allo stato VIP.",
@@ -2642,7 +2642,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Visualizza calendario fiscale"
     },
     registrationOtp: {
-      almostDone: "Grazie per esserti registrato su Easy US LLC. Il tuo codice di verifica è:",
+      almostDone: "Grazie per esserti registrato su Exentax. Il tuo codice di verifica è:",
       confirmEmail: "Per completare la registrazione del tuo account, inserisci il seguente codice di verifica:",
       yourCode: "Il tuo codice di verifica:",
       important: "Importante:",
@@ -2700,7 +2700,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "La tua bozza verrà eliminata automaticamente se non la completi. Per motivi di sicurezza e protezione dei dati, non possiamo conservare le richieste incomplete a tempo indeterminato.",
       understandDoubts: "Capiamo che fare il passo di creare una LLC possa generare alcune domande. Vogliamo che tu sappia che siamo qui per aiutarti in ogni fase del processo.",
       questionsHelp: "Se hai domande o hai bisogno di assistenza per completare la tua richiesta, rispondi semplicemente a questa e-mail e saremo felici di aiutarti.",
-      whyChoose: "Perché scegliere Easy US LLC?",
+      whyChoose: "Perché scegliere Exentax?",
       reason1: "Costituzione completa in 48-72 ore",
       reason2: "Assistenza in spagnolo durante tutto il processo",
       reason3: "Ottenimento dell'EIN incluso",
@@ -2735,7 +2735,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "La tua iscrizione è stata confermata con successo.",
-      willReceive: "Riceverai informazioni pertinenti su servizi, aggiornamenti e novità relative a Easy US LLC.",
+      willReceive: "Riceverai informazioni pertinenti su servizi, aggiornamenti e novità relative a Exentax.",
       unsubscribe: "Puoi annullare l'iscrizione in qualsiasi momento tramite il link incluso nelle nostre e-mail."
     },
     orderEvent: {
@@ -2744,10 +2744,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Visualizza dettagli"
     },
     identityVerificationRequest: {
-      subject: "Verifica dell'identità richiesta | Easy US LLC",
+      subject: "Verifica dell'identità richiesta | Exentax",
       intro: "Dobbiamo verificare la tua identità per garantire la sicurezza del tuo account e rispettare le nostre politiche di protezione dei dati.",
       whyTitle: "Perché è necessario?",
-      whyText: "In Easy US LLC prendiamo molto seriamente la sicurezza dei nostri clienti. Questa verifica è un passo essenziale per proteggere le tue informazioni personali e garantire che solo tu abbia accesso al tuo account.",
+      whyText: "In Exentax prendiamo molto seriamente la sicurezza dei nostri clienti. Questa verifica è un passo essenziale per proteggere le tue informazioni personali e garantire che solo tu abbia accesso al tuo account.",
       whatNeedTitle: "Di cosa abbiamo bisogno?",
       whatNeedText: "Ti chiediamo di caricare un documento di identità ufficiale valido e in corso di validità. Sono accettati i seguenti formati:",
       acceptedDocs: "Documenti accettati:",
@@ -2765,7 +2765,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Grazie per la tua collaborazione e pazienza. Siamo qui per aiutarti."
     },
     identityVerificationApproved: {
-      subject: "Identità verificata con successo | Easy US LLC",
+      subject: "Identità verificata con successo | Exentax",
       intro: "Ottime notizie! La tua identità è stata verificata con successo.",
       verified: "Il nostro team ha esaminato la tua documentazione e tutto è in ordine. Il tuo account è stato riattivato e ora puoi utilizzare tutti i nostri servizi normalmente.",
       accessRestored: "L'accesso completo al tuo account è stato ripristinato. Ora puoi effettuare ordini, modificare il tuo profilo e accedere a tutti i servizi disponibili.",
@@ -2773,7 +2773,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Grazie per la tua pazienza e collaborazione. Siamo lieti di continuare ad aiutarti."
     },
     identityVerificationRejected: {
-      subject: "Verifica dell'identità: nuova documentazione richiesta | Easy US LLC",
+      subject: "Verifica dell'identità: nuova documentazione richiesta | Exentax",
       intro: "Abbiamo esaminato la documentazione che ci hai inviato, ma purtroppo non siamo riusciti a verificare la tua identità con il documento fornito.",
       notApproved: "Il documento inviato non soddisfa i requisiti necessari per completare la verifica.",
       reason: "Motivo:",
@@ -2784,7 +2784,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Grazie per la tua comprensione e collaborazione."
     },
     consultationConfirmation: {
-      subject: "Consulenza gratuita confermata | Easy US LLC",
+      subject: "Consulenza gratuita confermata | Exentax",
       greeting: "Ottima notizia!",
       confirmed: "La tua consulenza gratuita è stata prenotata con successo.",
       details: "Dettagli del tuo appuntamento:",
@@ -2804,11 +2804,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minuti"
     },
     consultationReminder: {
-      subject3h: "Promemoria: la tua consulenza gratuita è tra 3 ore | Easy US LLC",
-      subject30m: "Promemoria: la tua consulenza gratuita è tra 30 minuti | Easy US LLC",
+      subject3h: "Promemoria: la tua consulenza gratuita è tra 3 ore | Exentax",
+      subject30m: "Promemoria: la tua consulenza gratuita è tra 30 minuti | Exentax",
       greeting: "Ciao di nuovo!",
-      reminder3h: "Ti ricordiamo che la tua consulenza gratuita con Easy US LLC è tra circa 3 ore.",
-      reminder30m: "La tua consulenza gratuita con Easy US LLC inizia tra 30 minuti. Preparati!",
+      reminder3h: "Ti ricordiamo che la tua consulenza gratuita con Exentax è tra circa 3 ore.",
+      reminder30m: "La tua consulenza gratuita con Exentax inizia tra 30 minuti. Preparati!",
       details: "Dettagli del tuo appuntamento:",
       dateLabel: "Data",
       timeLabel: "Ora",
@@ -2819,7 +2819,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Ti chiameremo al numero che ci hai fornito. Assicurati di avere buona ricezione e di essere in un posto tranquillo.",
       cancelNote: "Se non puoi partecipare, avvisaci il prima possibile per riprogrammare il tuo appuntamento.",
       seeYouSoon: "A presto!",
-      closing: "Il team di Easy US LLC",
+      closing: "Il team di Exentax",
       minutes: "minuti"
     }
   },
@@ -2831,7 +2831,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       client: "Cliente"
     },
     otp: {
-      thanks: "Obrigado por continuar com o seu processo na Easy US LLC.",
+      thanks: "Obrigado por continuar com o seu processo na Exentax.",
       forSecurity: "Para garantir a segurança da sua conta, utilize o seguinte código de verificação:",
       yourCode: "O seu código OTP:",
       important: "Importante:",
@@ -2842,7 +2842,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       ipDetected: "Tentativa de acesso detetada a partir do IP:"
     },
     welcome: {
-      welcomeMessage: "Bem-vindo à Easy US LLC! Estamos muito felizes por tê-lo connosco.",
+      welcomeMessage: "Bem-vindo à Exentax! Estamos muito felizes por tê-lo connosco.",
       accountCreated: "A sua conta foi criada com sucesso e pode começar a explorar tudo o que podemos fazer juntos. A partir da sua Área de Cliente terá acesso a:",
       accessFrom: "A partir da sua Área de Cliente terá acesso a:",
       realTimeTracking: "Acompanhamento em tempo real dos seus pedidos",
@@ -2863,7 +2863,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     accountUnderReview: {
       underReview: "Queremos informá-lo de que a sua conta entrou num breve processo de verificação. Não se preocupe, é completamente rotineiro e faz parte dos nossos padrões de segurança para proteger as suas informações e garantir uma experiência segura.",
       whyReview: "Porque fazemos isto?",
-      whyReviewText: "Na Easy US LLC, levamos muito a sério a segurança dos nossos clientes. Este processo permite-nos verificar que todas as informações estão corretas e que a sua conta está devidamente protegida.",
+      whyReviewText: "Na Exentax, levamos muito a sério a segurança dos nossos clientes. Este processo permite-nos verificar que todas as informações estão corretas e que a sua conta está devidamente protegida.",
       duringProcess: "Durante este breve período, as funções da sua conta estarão temporariamente limitadas. Isto significa que não poderá fazer novos pedidos nem modificar informações existentes, mas não se preocupe: esta situação é temporária e não afetará nenhum processo já em curso.",
       whatHappens: "O que acontece agora?",
       step1: "A nossa equipa irá rever as informações da sua conta (normalmente dentro de 24-48 horas úteis)",
@@ -2871,7 +2871,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       step3: "Se precisarmos de documentos adicionais, informá-lo-emos de forma clara e simples",
       teamReviewing: "Entretanto, se tiver alguma dúvida ou precisar de ajuda, não hesite em responder a este e-mail. Estamos aqui para ajudá-lo em tudo o que precisar.",
       patience: "Obrigado pela sua paciência e confiança. Sabemos que o seu tempo é valioso e faremos tudo o possível para resolver isto o mais rapidamente possível.",
-      closing: "Com carinho, a equipa da Easy US LLC"
+      closing: "Com carinho, a equipa da Exentax"
     },
     accountVip: {
       updatedToVip: "A sua conta foi atualizada para o estado VIP.",
@@ -3045,7 +3045,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewCalendar: "Ver calendário fiscal"
     },
     registrationOtp: {
-      almostDone: "Obrigado por se registar na Easy US LLC. O seu código de verificação é:",
+      almostDone: "Obrigado por se registar na Exentax. O seu código de verificação é:",
       confirmEmail: "Para completar o registo da sua conta, introduza o seguinte código de verificação:",
       yourCode: "O seu código de verificação:",
       important: "Importante:",
@@ -3103,7 +3103,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       draftDeletion: "O seu rascunho será automaticamente eliminado se não o completar. Por razões de segurança e proteção de dados, não podemos manter pedidos incompletos indefinidamente.",
       understandDoubts: "Compreendemos que dar o passo de criar uma LLC pode gerar algumas dúvidas. Queremos que saiba que estamos aqui para ajudá-lo em cada passo do processo.",
       questionsHelp: "Se tiver alguma dúvida ou precisar de assistência para completar o seu pedido, responda simplesmente a este e-mail e teremos todo o prazer em ajudar.",
-      whyChoose: "Porquê escolher a Easy US LLC?",
+      whyChoose: "Porquê escolher a Exentax?",
       reason1: "Constituição completa em 48-72 horas",
       reason2: "Assistência em espanhol durante todo o processo",
       reason3: "Obtenção do EIN incluída",
@@ -3138,7 +3138,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     newsletter: {
       confirmed: "A sua subscrição foi confirmada com sucesso.",
-      willReceive: "Receberá informações relevantes sobre serviços, atualizações e novidades relacionadas com a Easy US LLC.",
+      willReceive: "Receberá informações relevantes sobre serviços, atualizações e novidades relacionadas com a Exentax.",
       unsubscribe: "Pode cancelar a subscrição a qualquer momento através do link incluído nos nossos e-mails."
     },
     orderEvent: {
@@ -3147,10 +3147,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       viewDetails: "Ver detalhes"
     },
     identityVerificationRequest: {
-      subject: "Verificação de identidade necessária | Easy US LLC",
+      subject: "Verificação de identidade necessária | Exentax",
       intro: "Precisamos verificar a sua identidade para garantir a segurança da sua conta e cumprir as nossas políticas de proteção de dados.",
       whyTitle: "Por que é necessário?",
-      whyText: "Na Easy US LLC, levamos a segurança dos nossos clientes muito a sério. Esta verificação é um passo essencial para proteger as suas informações pessoais e garantir que apenas você tenha acesso à sua conta.",
+      whyText: "Na Exentax, levamos a segurança dos nossos clientes muito a sério. Esta verificação é um passo essencial para proteger as suas informações pessoais e garantir que apenas você tenha acesso à sua conta.",
       whatNeedTitle: "Do que precisamos?",
       whatNeedText: "Pedimos que carregue um documento de identidade oficial válido e vigente. Os seguintes formatos são aceites:",
       acceptedDocs: "Documentos aceites:",
@@ -3168,7 +3168,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Obrigado pela sua colaboração e paciência. Estamos aqui para ajudá-lo."
     },
     identityVerificationApproved: {
-      subject: "Identidade verificada com sucesso | Easy US LLC",
+      subject: "Identidade verificada com sucesso | Exentax",
       intro: "Excelentes notícias! A sua identidade foi verificada com sucesso.",
       verified: "A nossa equipa analisou a sua documentação e tudo está em ordem. A sua conta foi reativada e já pode utilizar todos os nossos serviços normalmente.",
       accessRestored: "O acesso completo à sua conta foi restaurado. Já pode fazer encomendas, modificar o seu perfil e aceder a todos os serviços disponíveis.",
@@ -3176,7 +3176,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Obrigado pela sua paciência e colaboração. Estamos encantados por continuar a ajudá-lo."
     },
     identityVerificationRejected: {
-      subject: "Verificação de identidade: nova documentação necessária | Easy US LLC",
+      subject: "Verificação de identidade: nova documentação necessária | Exentax",
       intro: "Analisámos a documentação que nos enviou, mas infelizmente não conseguimos verificar a sua identidade com o documento fornecido.",
       notApproved: "O documento enviado não cumpre os requisitos necessários para completar a verificação.",
       reason: "Motivo:",
@@ -3187,7 +3187,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       closing: "Obrigado pela sua compreensão e colaboração."
     },
     consultationConfirmation: {
-      subject: "Consultoria gratuita confirmada | Easy US LLC",
+      subject: "Consultoria gratuita confirmada | Exentax",
       greeting: "Excelente notícia!",
       confirmed: "A sua consultoria gratuita foi reservada com sucesso.",
       details: "Detalhes da sua consulta:",
@@ -3207,11 +3207,11 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       minutes: "minutos"
     },
     consultationReminder: {
-      subject3h: "Lembrete: a sua consultoria gratuita é em 3 horas | Easy US LLC",
-      subject30m: "Lembrete: a sua consultoria gratuita é em 30 minutos | Easy US LLC",
+      subject3h: "Lembrete: a sua consultoria gratuita é em 3 horas | Exentax",
+      subject30m: "Lembrete: a sua consultoria gratuita é em 30 minutos | Exentax",
       greeting: "Olá de novo!",
-      reminder3h: "Lembramos que a sua consultoria gratuita com a Easy US LLC é em aproximadamente 3 horas.",
-      reminder30m: "A sua consultoria gratuita com a Easy US LLC começa em 30 minutos. Prepare-se!",
+      reminder3h: "Lembramos que a sua consultoria gratuita com a Exentax é em aproximadamente 3 horas.",
+      reminder30m: "A sua consultoria gratuita com a Exentax começa em 30 minutos. Prepare-se!",
       details: "Detalhes da sua consulta:",
       dateLabel: "Data",
       timeLabel: "Hora",
@@ -3222,7 +3222,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       weWillCallYou: "Ligaremos para o número que nos forneceu. Certifique-se de ter boa receção e estar num local tranquilo.",
       cancelNote: "Se não puder comparecer, por favor avise-nos o mais cedo possível para reagendar a sua consulta.",
       seeYouSoon: "Até breve!",
-      closing: "A equipa Easy US LLC",
+      closing: "A equipa Exentax",
       minutes: "minutos"
     }
   }
@@ -3244,13 +3244,13 @@ export function getDefaultClientName(lang: EmailLanguage = 'es'): string {
 
 export function getWelcomeNotificationTitle(lang: EmailLanguage = 'es'): string {
   const titles: Record<EmailLanguage, string> = {
-    es: "¡Bienvenido a Easy US LLC!",
-    en: "Welcome to Easy US LLC!",
-    ca: "Benvingut a Easy US LLC!",
-    fr: "Bienvenue chez Easy US LLC !",
-    de: "Willkommen bei Easy US LLC!",
-    it: "Benvenuto in Easy US LLC!",
-    pt: "Bem-vindo à Easy US LLC!"
+    es: "¡Bienvenido a Exentax!",
+    en: "Welcome to Exentax!",
+    ca: "Benvingut a Exentax!",
+    fr: "Bienvenue chez Exentax !",
+    de: "Willkommen bei Exentax!",
+    it: "Benvenuto in Exentax!",
+    pt: "Bem-vindo à Exentax!"
   };
   return titles[lang] || titles.es;
 }
@@ -3270,78 +3270,78 @@ export function getWelcomeNotificationMessage(lang: EmailLanguage = 'es'): strin
 
 export function getWelcomeEmailSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "¡Bienvenido a Easy US LLC!",
-    en: "Welcome to Easy US LLC!",
-    ca: "Benvingut a Easy US LLC!",
-    fr: "Bienvenue chez Easy US LLC !",
-    de: "Willkommen bei Easy US LLC!",
-    it: "Benvenuto in Easy US LLC!",
-    pt: "Bem-vindo à Easy US LLC!"
+    es: "¡Bienvenido a Exentax!",
+    en: "Welcome to Exentax!",
+    ca: "Benvingut a Exentax!",
+    fr: "Bienvenue chez Exentax !",
+    de: "Willkommen bei Exentax!",
+    it: "Benvenuto in Exentax!",
+    pt: "Bem-vindo à Exentax!"
   };
   return subjects[lang] || subjects.es;
 }
 
 export function getRegistrationOtpSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "Bienvenido a Easy US LLC - Verifica tu cuenta",
-    en: "Welcome to Easy US LLC - Verify your account",
-    ca: "Benvingut a Easy US LLC - Verifica el teu compte",
-    fr: "Bienvenue chez Easy US LLC - Vérifiez votre compte",
-    de: "Willkommen bei Easy US LLC - Verifizieren Sie Ihr Konto",
-    it: "Benvenuto in Easy US LLC - Verifica il tuo account",
-    pt: "Bem-vindo à Easy US LLC - Verifique a sua conta"
+    es: "Bienvenido a Exentax - Verifica tu cuenta",
+    en: "Welcome to Exentax - Verify your account",
+    ca: "Benvingut a Exentax - Verifica el teu compte",
+    fr: "Bienvenue chez Exentax - Vérifiez votre compte",
+    de: "Willkommen bei Exentax - Verifizieren Sie Ihr Konto",
+    it: "Benvenuto in Exentax - Verifica il tuo account",
+    pt: "Bem-vindo à Exentax - Verifique a sua conta"
   };
   return subjects[lang] || subjects.es;
 }
 
 export function getOtpSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "Tu código de verificación | Easy US LLC",
-    en: "Your verification code | Easy US LLC",
-    ca: "El teu codi de verificació | Easy US LLC",
-    fr: "Votre code de vérification | Easy US LLC",
-    de: "Ihr Verifizierungscode | Easy US LLC",
-    it: "Il tuo codice di verifica | Easy US LLC",
-    pt: "O seu código de verificação | Easy US LLC"
+    es: "Tu código de verificación | Exentax",
+    en: "Your verification code | Exentax",
+    ca: "El teu codi de verificació | Exentax",
+    fr: "Votre code de vérification | Exentax",
+    de: "Ihr Verifizierungscode | Exentax",
+    it: "Il tuo codice di verifica | Exentax",
+    pt: "O seu código de verificação | Exentax"
   };
   return subjects[lang] || subjects.es;
 }
 
 export function getSecurityOtpSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "Verificación de seguridad - Easy US LLC",
-    en: "Security verification - Easy US LLC",
-    ca: "Verificació de seguretat - Easy US LLC",
-    fr: "Vérification de sécurité - Easy US LLC",
-    de: "Sicherheitsverifizierung - Easy US LLC",
-    it: "Verifica di sicurezza - Easy US LLC",
-    pt: "Verificação de segurança - Easy US LLC"
+    es: "Verificación de seguridad - Exentax",
+    en: "Security verification - Exentax",
+    ca: "Verificació de seguretat - Exentax",
+    fr: "Vérification de sécurité - Exentax",
+    de: "Sicherheitsverifizierung - Exentax",
+    it: "Verifica di sicurezza - Exentax",
+    pt: "Verificação de segurança - Exentax"
   };
   return subjects[lang] || subjects.es;
 }
 
 export function getPasswordResetSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "Código de verificación - Easy US LLC",
-    en: "Verification code - Easy US LLC",
-    ca: "Codi de verificació - Easy US LLC",
-    fr: "Code de vérification - Easy US LLC",
-    de: "Verifizierungscode - Easy US LLC",
-    it: "Codice di verifica - Easy US LLC",
-    pt: "Código de verificação - Easy US LLC"
+    es: "Código de verificación - Exentax",
+    en: "Verification code - Exentax",
+    ca: "Codi de verificació - Exentax",
+    fr: "Code de vérification - Exentax",
+    de: "Verifizierungscode - Exentax",
+    it: "Codice di verifica - Exentax",
+    pt: "Código de verificação - Exentax"
   };
   return subjects[lang] || subjects.es;
 }
 
 export function getVerifyEmailSubject(lang: EmailLanguage = 'es'): string {
   const subjects: Record<EmailLanguage, string> = {
-    es: "Verifica tu email - Easy US LLC",
-    en: "Verify your email - Easy US LLC",
-    ca: "Verifica el teu email - Easy US LLC",
-    fr: "Vérifiez votre email - Easy US LLC",
-    de: "Verifizieren Sie Ihre E-Mail - Easy US LLC",
-    it: "Verifica la tua email - Easy US LLC",
-    pt: "Verifique o seu email - Easy US LLC"
+    es: "Verifica tu email - Exentax",
+    en: "Verify your email - Exentax",
+    ca: "Verifica el teu email - Exentax",
+    fr: "Vérifiez votre email - Exentax",
+    de: "Verifizieren Sie Ihre E-Mail - Exentax",
+    it: "Verifica la tua email - Exentax",
+    pt: "Verifique o seu email - Exentax"
   };
   return subjects[lang] || subjects.es;
 }

@@ -21,7 +21,7 @@ export default function Privacidad() {
             <p className="font-black text-xl text-brand-dark dark:text-white">Fortuny Consulting LLC</p>
             <p>{t("legalPrivacy.s01TradeName")}: Easy US LLC</p>
             <p>{t("legalPrivacy.s01RegisteredAddress")}: 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {t("legalPrivacy.s01Country")}</p>
-            <p>Email: hola@easyusllc.com</p>
+            <p>Email: hola@exentax.com</p>
             <p>WhatsApp: +34 614 916 910</p>
           </LegalHighlightBox>
         </LegalSubSection>
@@ -147,7 +147,7 @@ export default function Privacidad() {
       <LegalSection number="08" title={t("legalPrivacy.s08Title")}>
         <LegalHighlightBox variant="dark">
           <p>{t("legalPrivacy.s08p1")}</p>
-          <p className="mt-4">Email: hola@easyusllc.com</p>
+          <p className="mt-4">Email: hola@exentax.com</p>
           <p>WhatsApp: +34 614 916 910</p>
         </LegalHighlightBox>
       </LegalSection>

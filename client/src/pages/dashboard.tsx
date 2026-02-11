@@ -1598,7 +1598,7 @@ export default function Dashboard() {
                         <p className="font-black text-foreground text-sm tracking-tight">{t('dashboard.trustpilot.title')}</p>
                         <p className="text-xs text-muted-foreground mt-0.5">{t('dashboard.trustpilot.subtitle')}</p>
                       </div>
-                      <a href="https://es.trustpilot.com/review/easyusllc.com" target="_blank" rel="noopener noreferrer">
+                      <a href="https://es.trustpilot.com/review/exentax.com" target="_blank" rel="noopener noreferrer">
                         <Button className="bg-accent text-accent-foreground font-black rounded-full whitespace-nowrap" size="sm" data-testid="button-trustpilot-review">
                           {t('dashboard.trustpilot.button')}
                         </Button>

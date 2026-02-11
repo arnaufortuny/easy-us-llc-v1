@@ -648,7 +648,7 @@ export default function Contacto() {
             </a>
 
             <a 
-              href="mailto:hola@easyusllc.com" 
+              href="mailto:hola@exentax.com" 
               className="flex items-center justify-center gap-4 p-5 rounded-full hover:bg-accent/5 transition-all group"
               data-testid="link-email"
             >
@@ -656,7 +656,7 @@ export default function Contacto() {
                 <Mail className="w-7 h-7" />
               </div>
               <div className="text-left">
-                <p className="text-lg font-black text-primary">hola@easyusllc.com</p>
+                <p className="text-lg font-black text-primary">hola@exentax.com</p>
               </div>
             </a>
           </div>

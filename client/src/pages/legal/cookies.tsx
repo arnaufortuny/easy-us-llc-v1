@@ -100,7 +100,7 @@ export default function Cookies() {
       <LegalSection number="08" title={t("legalCookies.s08Title")}>
         <LegalHighlightBox variant="dark">
           <p>{t("legalCookies.s08p1")}</p>
-          <p className="mt-4">Email: hola@easyusllc.com</p>
+          <p className="mt-4">Email: hola@exentax.com</p>
           <p>WhatsApp: +34 614 916 910</p>
         </LegalHighlightBox>
       </LegalSection>

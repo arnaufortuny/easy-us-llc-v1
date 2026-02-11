@@ -199,7 +199,7 @@ export function registerUserProfileRoutes(app: Express) {
           const userName = currentUser.firstName || 'Cliente';
           sendEmail({
             to: currentUserEmail,
-            subject: `${getEmailTranslations(userLang).profileChangeOtp.title} - Easy US LLC`,
+            subject: `${getEmailTranslations(userLang).profileChangeOtp.title} - Exentax`,
             html: getProfileChangeOtpTemplate(userName, otp, userLang)
           }).catch((err: any) => log.error('Failed to send profile change OTP', err));
           
@@ -452,7 +452,7 @@ export function registerUserProfileRoutes(app: Express) {
       const resendName = user.firstName || 'Cliente';
       sendEmail({
         to: userEmail,
-        subject: `${getEmailTranslations(resendLang).profileChangeOtp.title} - Easy US LLC`,
+        subject: `${getEmailTranslations(resendLang).profileChangeOtp.title} - Exentax`,
         html: getProfileChangeOtpTemplate(resendName, otp, resendLang)
       }).catch((err: any) => log.error('Failed to send resend OTP email', err));
       

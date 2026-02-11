@@ -80,11 +80,11 @@ export function Navbar() {
   return (
     <>
     <div className="h-20 sm:h-24 w-full shrink-0" aria-hidden="true" />
-    <header className="fixed top-0 left-0 right-0 z-[110] bg-white/95 dark:bg-background/95 backdrop-blur-md border-b border-[#E8F0EC] dark:border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
+    <header className="fixed top-0 left-0 right-0 z-[110] bg-white/95 dark:bg-background backdrop-blur-md border-b border-[#E8F0EC] dark:border-border shadow-sm transition-shadow h-20 sm:h-24 flex items-center w-full" data-mobile-menu-open={isOpen}>
       <div className="w-full px-5 sm:px-8">
         <div className="flex items-center justify-between w-full">
           <Link href="/" className="flex items-center gap-3 shrink-0 relative z-[110]" onClick={() => { setIsOpen(false); resetScrollLock(); window.scrollTo(0, 0); }}>
-            <img src={logoIcon} alt="Easy US LLC" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
+            <img src={logoIcon} alt="Exentax" className="w-14 h-14 sm:w-16 sm:h-16 object-contain drop-shadow-sm" loading="eager" />
           </Link>
           
           <nav className="hidden md:flex items-center gap-0.5 lg:gap-1.5 bg-[#00C48C]/5 dark:bg-[#00C48C]/10 rounded-full px-2 lg:px-3 h-11 border border-[#00C48C]/20">

@@ -83,16 +83,16 @@ export function registerContactRoutes(app: Express) {
       
       const nlLang = ((user as any)?.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
       const nlSubjects: Record<string, string> = {
-        en: "Subscription confirmed - Easy US LLC",
-        ca: "Subscripció confirmada - Easy US LLC",
-        fr: "Abonnement confirmé - Easy US LLC",
-        de: "Abonnement bestätigt - Easy US LLC",
-        it: "Iscrizione confermata - Easy US LLC",
-        pt: "Subscrição confirmada - Easy US LLC",
+        en: "Subscription confirmed - Exentax",
+        ca: "Subscripció confirmada - Exentax",
+        fr: "Abonnement confirmé - Exentax",
+        de: "Abonnement bestätigt - Exentax",
+        it: "Iscrizione confermata - Exentax",
+        pt: "Subscrição confirmada - Exentax",
       };
       await sendEmail({
         to: targetEmail,
-        subject: nlSubjects[nlLang] || "Confirmación de suscripción a Easy US LLC",
+        subject: nlSubjects[nlLang] || "Confirmación de suscripción a Exentax",
         html: getNewsletterWelcomeTemplate(nlLang),
       }).catch(() => {});
       

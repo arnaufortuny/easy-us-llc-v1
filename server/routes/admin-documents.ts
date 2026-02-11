@@ -472,7 +472,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       const payLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
       await sendEmail({
         to: user.email,
-        subject: payLang === 'en' ? "Payment pending - Easy US LLC" : payLang === 'ca' ? "Pagament pendent - Easy US LLC" : payLang === 'fr' ? "Paiement en attente - Easy US LLC" : payLang === 'de' ? "Zahlung ausstehend - Easy US LLC" : payLang === 'it' ? "Pagamento in sospeso - Easy US LLC" : payLang === 'pt' ? "Pagamento pendente - Easy US LLC" : "Pago pendiente - Easy US LLC",
+        subject: payLang === 'en' ? "Payment pending - Exentax" : payLang === 'ca' ? "Pagament pendent - Exentax" : payLang === 'fr' ? "Paiement en attente - Exentax" : payLang === 'de' ? "Zahlung ausstehend - Exentax" : payLang === 'it' ? "Pagamento in sospeso - Exentax" : payLang === 'pt' ? "Pagamento pendente - Exentax" : "Pago pendiente - Exentax",
         html: getPaymentRequestTemplate(user.firstName || '', amount || '', paymentLink, message, payLang)
       });
 
@@ -541,8 +541,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
         const { encrypt } = await import("../utils/encryption");
         await db.insert(messagesTable).values({
           userId,
-          name: "Easy US LLC (Soporte)",
-          email: "soporte@easyusllc.com",
+          name: "Exentax (Soporte)",
+          email: "soporte@exentax.com",
           subject: `i18n:ntf.docRequest.subject::{"docType":"${reqDocKey}"}`,
           content: message,
           encryptedContent: encrypt(message),
@@ -729,8 +729,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
           
           <div class="header">
             <div class="logo-section">
-              <img src="cid:logo-icon" alt="Easy US LLC" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 12px;">
-              <h1>Easy US LLC</h1>
+              <img src="cid:logo-icon" alt="Exentax" style="width: 60px; height: 60px; margin-bottom: 10px; border-radius: 12px;">
+              <h1>Exentax</h1>
               <p class="subtitle">Servicios de Constitución Empresarial</p>
             </div>
             <div class="invoice-info">
@@ -744,11 +744,11 @@ export function registerAdminDocumentsRoutes(app: Express) {
             <div class="detail-box">
               <div class="detail-label">Datos del Emisor</div>
               <div class="detail-content">
-                <p><strong>EASY US LLC</strong></p>
+                <p><strong>EXENTAX</strong></p>
                 <p>FORTUNY CONSULTING LLC</p>
                 <p>1209 Mountain Road Place NE, STE R</p>
                 <p>Albuquerque, NM 87110, USA</p>
-                <p style="margin-top: 10px;">hola@easyusllc.com</p>
+                <p style="margin-top: 10px;">hola@exentax.com</p>
                 <p>+34 614 91 69 10</p>
               </div>
             </div>
@@ -805,9 +805,9 @@ export function registerAdminDocumentsRoutes(app: Express) {
           </div>
           
           <div class="footer">
-            <p><strong>EASY US LLC</strong> • FORTUNY CONSULTING LLC</p>
+            <p><strong>EXENTAX</strong> • FORTUNY CONSULTING LLC</p>
             <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA</p>
-            <p>hola@easyusllc.com • +34 614 91 69 10 • www.easyusllc.com</p>
+            <p>hola@exentax.com • +34 614 91 69 10 • www.exentax.com</p>
           </div>
         </body>
       </html>
