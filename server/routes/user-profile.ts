@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
@@ -12,13 +12,13 @@ import { createLogger } from "../lib/logger";
 const log = createLogger('user-profile');
 
 export function registerUserProfileRoutes(app: Express) {
-  app.get("/api/products", asyncHandler(async (req, res) => {
+  app.get("/api/products", asyncHandler(async (req: any, res: Response) => {
     const products = await storage.getProducts();
     res.json(products);
   }));
 
   // Protected admin seeding - requires existing admin authentication
-  app.post("/api/seed-admin", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/seed-admin", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const { email } = req.body;
       const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
@@ -37,7 +37,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
 
   // Client Deactivate Account (user requests "delete" but we only deactivate, preserving all data)
-  app.delete("/api/user/account", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.delete("/api/user/account", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -86,7 +86,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
 
   // Save language preference (separate from profile - no OTP needed)
-  app.patch("/api/user/language", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.patch("/api/user/language", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const { preferredLanguage } = req.body;
@@ -122,7 +122,7 @@ export function registerUserProfileRoutes(app: Express) {
   // Sensitive fields that require OTP: name, ID/passport, phone only
   const sensitiveFields = ['firstName', 'lastName', 'idNumber', 'idType', 'phone'];
   
-  app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const { otpCode, ...profileData } = req.body;
@@ -283,7 +283,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
   
   // Confirm pending profile changes with OTP
-  app.post("/api/user/profile/confirm-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/profile/confirm-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const { otpCode } = req.body;
@@ -403,7 +403,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
   
   // Cancel pending profile changes
-  app.post("/api/user/profile/cancel-pending", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/profile/cancel-pending", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       await db.update(usersTable).set({ pendingProfileChanges: null, pendingChangesExpiresAt: null }).where(eq(usersTable.id, userId));
@@ -416,7 +416,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
   
   // Resend OTP for pending profile changes
-  app.post("/api/user/profile/resend-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/profile/resend-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -464,7 +464,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
 
   // User Compliance Deadlines - Calendar API
-  app.get("/api/user/deadlines", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/deadlines", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       
@@ -490,7 +490,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
 
   // Client update order (allowed fields before processing)
-  app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -523,7 +523,7 @@ export function registerUserProfileRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/user/invoices", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/invoices", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const invoices = await db.select({
@@ -547,7 +547,7 @@ export function registerUserProfileRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/user/invoices/:id/download", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/invoices/:id/download", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const invoiceId = parseInt(req.params.id);
@@ -578,7 +578,7 @@ export function registerUserProfileRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/user/notifications", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/notifications", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const notifs = await db.select()
@@ -593,7 +593,7 @@ export function registerUserProfileRoutes(app: Express) {
     }
   }));
 
-  app.patch("/api/user/notifications/:id/read", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.patch("/api/user/notifications/:id/read", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       await db.update(userNotifications)
         .set({ isRead: true })
@@ -605,7 +605,7 @@ export function registerUserProfileRoutes(app: Express) {
   }));
 
   // Delete user notification
-  app.delete("/api/user/notifications/:id", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.delete("/api/user/notifications/:id", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       await db.delete(userNotifications)
         .where(and(eq(userNotifications.id, req.params.id), eq(userNotifications.userId, req.session.userId)));

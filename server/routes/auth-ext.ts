@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { db, logAudit, getClientIp , asyncHandler } from "./shared";
 import { contactOtps, users as usersTable } from "@shared/schema";
@@ -12,7 +12,7 @@ const log = createLogger('auth');
 
 export function registerAuthExtRoutes(app: Express) {
   // Check if email already exists (for form flow to detect existing users)
-  app.post("/api/auth/check-email", asyncHandler(async (req, res) => {
+  app.post("/api/auth/check-email", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
@@ -31,7 +31,7 @@ export function registerAuthExtRoutes(app: Express) {
   }));
   
   // Send OTP for account registration (email verification before creating account)
-  app.post("/api/register/send-otp", asyncHandler(async (req, res) => {
+  app.post("/api/register/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('register', ip);
@@ -101,7 +101,7 @@ export function registerAuthExtRoutes(app: Express) {
   }));
 
   // Verify OTP for account registration
-  app.post("/api/register/verify-otp", asyncHandler(async (req, res) => {
+  app.post("/api/register/verify-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
@@ -133,7 +133,7 @@ export function registerAuthExtRoutes(app: Express) {
   }));
 
   // Send OTP for password reset (forgot password)
-  app.post("/api/password-reset/send-otp", asyncHandler(async (req, res) => {
+  app.post("/api/password-reset/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('passwordReset', ip);
@@ -181,7 +181,7 @@ export function registerAuthExtRoutes(app: Express) {
   }));
 
   // Verify OTP and reset password
-  app.post("/api/password-reset/confirm", asyncHandler(async (req, res) => {
+  app.post("/api/password-reset/confirm", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email, otp, newPassword } = z.object({ 
         email: z.string().email(), 

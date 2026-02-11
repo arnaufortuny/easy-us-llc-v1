@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp , asyncHandler } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
@@ -21,7 +21,7 @@ const createMessageSchema = z.object({
 });
 
 export function registerMessageRoutes(app: Express) {
-  app.get("/api/messages", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/messages", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userMessages = await storage.getMessagesByUserId(req.session.userId);
       res.json(userMessages);
@@ -30,7 +30,7 @@ export function registerMessageRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/messages", asyncHandler(async (req: any, res) => {
+  app.post("/api/messages", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = await checkRateLimit('contact', ip);
@@ -114,7 +114,7 @@ export function registerMessageRoutes(app: Express) {
   }));
 
   // Message replies - secured: only message owner or admin can view
-  app.get("/api/messages/:id/replies", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/messages/:id/replies", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const messageId = Number(req.params.id);
       
@@ -139,7 +139,7 @@ export function registerMessageRoutes(app: Express) {
   }));
 
   // Add reply to message - secured: only message owner or admin can reply
-  app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const messageId = Number(req.params.id);
       const { content } = req.body;

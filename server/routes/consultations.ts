@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { db, isAuthenticated, isNotUnderReview, isAdmin, isAdminOrSupport, logAudit, getClientIp , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
@@ -59,7 +59,7 @@ function getMadridOffset(date: Date): number {
 export function registerConsultationRoutes(app: Express) {
   // ============ CONSULTATION BOOKING SYSTEM ============
 
-  app.get("/api/consultations/settings", asyncHandler(async (req, res) => {
+  app.get("/api/consultations/settings", asyncHandler(async (req: any, res: Response) => {
     try {
       const settings = await getSettings();
       const blocked = await db.select().from(consultationBlockedDates);
@@ -81,7 +81,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get all active consultation types (public)
-  app.get("/api/consultations/types", asyncHandler(async (req, res) => {
+  app.get("/api/consultations/types", asyncHandler(async (req: any, res: Response) => {
     try {
       const types = await db.select().from(consultationTypes).where(eq(consultationTypes.isActive, true));
       res.json(types);
@@ -92,7 +92,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get availability for a specific date
-  app.get("/api/consultations/availability", asyncHandler(async (req, res) => {
+  app.get("/api/consultations/availability", asyncHandler(async (req: any, res: Response) => {
     try {
       const date = req.query.date as string;
       if (!date) return res.status(400).json({ message: "Date parameter required" });
@@ -139,7 +139,7 @@ export function registerConsultationRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/consultations/free-slots", asyncHandler(async (req, res) => {
+  app.get("/api/consultations/free-slots", asyncHandler(async (req: any, res: Response) => {
     try {
       const date = req.query.date as string;
       if (!date) return res.status(400).json({ message: "Date parameter required" });
@@ -220,7 +220,7 @@ export function registerConsultationRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/consultations/check-email", asyncHandler(async (req: any, res) => {
+  app.post("/api/consultations/check-email", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email } = req.body;
       if (!email) return res.json({ exists: false, deactivated: false });
@@ -240,7 +240,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Public booking for free consultations (no auth required)
-  app.post("/api/consultations/book-free", asyncHandler(async (req: any, res) => {
+  app.post("/api/consultations/book-free", asyncHandler(async (req: any, res: Response) => {
     try {
       const clientIpCheck = getClientIp(req);
       const rateCheck = checkRateLimit('consultation', clientIpCheck);
@@ -442,7 +442,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Create a consultation booking (requires authentication)
-  app.post("/api/consultations/book", isAuthenticated, isNotUnderReview, asyncHandler(async (req, res) => {
+  app.post("/api/consultations/book", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId!)).limit(1);
       if (!user) return res.status(401).json({ message: "User not found" });
@@ -548,7 +548,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get user's consultations
-  app.get("/api/consultations/my", isAuthenticated, asyncHandler(async (req, res) => {
+  app.get("/api/consultations/my", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId!;
       
@@ -568,7 +568,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Cancel a consultation (user)
-  app.patch("/api/consultations/:id/cancel", isAuthenticated, isNotUnderReview, asyncHandler(async (req, res) => {
+  app.patch("/api/consultations/:id/cancel", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId!;
       const bookingId = parseInt(req.params.id);
@@ -615,7 +615,7 @@ export function registerConsultationRoutes(app: Express) {
   // ===== ADMIN CONSULTATION ROUTES =====
 
   // Get all consultation types (admin)
-  app.get("/api/admin/consultations/types", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/types", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const types = await db.select().from(consultationTypes).orderBy(desc(consultationTypes.createdAt));
       res.json(types);
@@ -626,7 +626,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Create consultation type (admin)
-  app.post("/api/admin/consultations/types", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/consultations/types", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const schema = z.object({
         name: z.string().min(1),
@@ -663,7 +663,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Update consultation type (admin)
-  app.patch("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const typeId = parseInt(req.params.id);
       
@@ -684,7 +684,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Delete consultation type (admin)
-  app.delete("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.delete("/api/admin/consultations/types/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const typeId = parseInt(req.params.id);
       await db.delete(consultationTypes).where(eq(consultationTypes.id, typeId));
@@ -696,7 +696,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get availability schedule (admin)
-  app.get("/api/admin/consultations/availability", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/availability", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const slots = await db.select().from(consultationAvailability).orderBy(consultationAvailability.dayOfWeek, consultationAvailability.startTime);
       res.json(slots);
@@ -707,7 +707,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Add availability slot (admin)
-  app.post("/api/admin/consultations/availability", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/consultations/availability", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const schema = z.object({
         dayOfWeek: z.number().min(0).max(6),
@@ -727,7 +727,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Update availability slot (admin)
-  app.patch("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const slotId = parseInt(req.params.id);
       
@@ -744,7 +744,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Delete availability slot (admin)
-  app.delete("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.delete("/api/admin/consultations/availability/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const slotId = parseInt(req.params.id);
       await db.delete(consultationAvailability).where(eq(consultationAvailability.id, slotId));
@@ -756,7 +756,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get blocked dates (admin)
-  app.get("/api/admin/consultations/blocked-dates", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/blocked-dates", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const dates = await db.select().from(consultationBlockedDates).orderBy(desc(consultationBlockedDates.date));
       res.json(dates);
@@ -767,7 +767,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Add blocked date (admin)
-  app.post("/api/admin/consultations/blocked-dates", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/consultations/blocked-dates", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const schema = z.object({
         date: z.string(),
@@ -789,7 +789,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Delete blocked date (admin)
-  app.delete("/api/admin/consultations/blocked-dates/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.delete("/api/admin/consultations/blocked-dates/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const dateId = parseInt(req.params.id);
       await db.delete(consultationBlockedDates).where(eq(consultationBlockedDates.id, dateId));
@@ -801,7 +801,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get all bookings (admin)
-  app.get("/api/admin/consultations/bookings", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/bookings", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const { status, from, to } = req.query;
       
@@ -828,7 +828,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Update booking status (admin)
-  app.patch("/api/admin/consultations/bookings/:id", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/consultations/bookings/:id", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const bookingId = parseInt(req.params.id);
       const { status, adminNotes, meetingLink } = req.body;
@@ -870,7 +870,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Reschedule booking (admin)
-  app.patch("/api/admin/consultations/bookings/:id/reschedule", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/consultations/bookings/:id/reschedule", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const bookingId = parseInt(req.params.id);
       const { scheduledDate, scheduledTime } = req.body;
@@ -915,7 +915,7 @@ export function registerConsultationRoutes(app: Express) {
   }));
 
   // Get consultation stats (admin)
-  app.get("/api/admin/consultations/stats", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/stats", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const [pending] = await db.select({ count: sql<number>`count(*)` }).from(consultationBookings).where(eq(consultationBookings.status, 'pending'));
       const [confirmed] = await db.select({ count: sql<number>`count(*)` }).from(consultationBookings).where(eq(consultationBookings.status, 'confirmed'));
@@ -935,7 +935,7 @@ export function registerConsultationRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/admin/consultations/settings", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/consultations/settings", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const settings = await getSettings();
       res.json(settings);
@@ -945,7 +945,7 @@ export function registerConsultationRoutes(app: Express) {
     }
   }));
 
-  app.patch("/api/admin/consultations/settings", isAdmin, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/consultations/settings", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const schema = z.object({
         availableDaysWindow: z.number().min(1).max(30).optional(),

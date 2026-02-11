@@ -215,7 +215,7 @@
   "howWeWork": {
     "title": "<span class='text-foreground'>TU EMPRESA EN ESTADOS UNIDOS,</span><br/><span class='text-accent'>BIEN HECHA DESDE EL INICIO</span>",
     "subtitle": "Analizamos tu caso, creamos la estructura adecuada y gestionamos todos los trámites para que tu LLC nazca lista para operar, crecer y optimizar impuestos.",
-    "subtitleDesc": "",
+    "subtitleDesc": "Sin complicaciones, sin burocracia innecesaria.",
     "steps": {
       "listen": {
         "number": "1",
@@ -730,7 +730,7 @@
       "title": "Crea tu",
       "titleHighlight": "cuenta",
       "subtitle": "Empieza a gestionar tu LLC de forma sencilla, segura y con acompañamiento profesional desde el primer momento.",
-      "subtitleHighlight": "",
+      "subtitleHighlight": "Tu LLC en 2 días",
       "infoCard": {
         "title": "Tu espacio privado",
         "subtitle": "Empieza a gestionar tu LLC de forma sencilla, segura y con acompañamiento profesional desde el primer momento.",
@@ -830,11 +830,11 @@
     "verify": {
       "title": "Verifica tu",
       "titleHighlight": "email",
-      "subtitle": "",
+      "subtitle": "Solo un paso más para activar tu cuenta.",
       "subtitleDesc": "Te hemos enviado un código de verificación.",
       "tip1": "Revisa tu bandeja de entrada.",
       "tip2": "Si no lo ves, comprueba también SPAM o Promociones.",
-      "tipDesc": "",
+      "tipDesc": "El código expira en 10 minutos.",
       "codeLabel": "Código de verificación",
       "submit": "Verificar mi email",
       "notReceived": "¿No has recibido el código?",

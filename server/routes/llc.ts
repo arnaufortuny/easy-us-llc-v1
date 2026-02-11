@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit , asyncHandler } from "./shared";
@@ -13,7 +13,7 @@ const log = createLogger('llc');
 
 export function registerLlcRoutes(app: Express) {
   // Claim order endpoint - creates account and associates with existing order
-  app.post("/api/llc/claim-order", asyncHandler(async (req: any, res) => {
+  app.post("/api/llc/claim-order", asyncHandler(async (req: any, res: Response) => {
     try {
       let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
@@ -131,7 +131,7 @@ export function registerLlcRoutes(app: Express) {
   }));
 
   // Client Update LLC Application Data
-  app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
@@ -168,7 +168,7 @@ export function registerLlcRoutes(app: Express) {
       res.status(500).json({ message: "Error updating application" });
     }
   }));
-  app.get(api.llc.get.path, asyncHandler(async (req: any, res) => {
+  app.get(api.llc.get.path, asyncHandler(async (req: any, res: Response) => {
     const appId = Number(req.params.id);
     
     const application = await storage.getLlcApplication(appId);
@@ -192,7 +192,7 @@ export function registerLlcRoutes(app: Express) {
     res.json(application);
   }));
 
-  app.put(api.llc.update.path, asyncHandler(async (req: any, res) => {
+  app.put(api.llc.update.path, asyncHandler(async (req: any, res: Response) => {
     try {
       const appId = Number(req.params.id);
       const updates = api.llc.update.input.parse(req.body);
@@ -277,7 +277,7 @@ export function registerLlcRoutes(app: Express) {
 }));
 
   // Lookup by request code - requires authentication
-  app.get(api.llc.getByCode.path, asyncHandler(async (req: any, res) => {
+  app.get(api.llc.getByCode.path, asyncHandler(async (req: any, res: Response) => {
     const code = req.params.code;
     
     const application = await storage.getLlcApplicationByRequestCode(code);
@@ -297,7 +297,7 @@ export function registerLlcRoutes(app: Express) {
   }));
 
   // Documents - requires authentication
-  app.post(api.documents.create.path, isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post(api.documents.create.path, isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const docData = api.documents.create.input.parse(req.body);
       
@@ -330,7 +330,7 @@ export function registerLlcRoutes(app: Express) {
   const MAX_FILE_SIZE_MB = 5;
   const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
   
-  app.post("/api/user/documents/upload", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/documents/upload", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       if (!userId) {
@@ -527,7 +527,7 @@ export function registerLlcRoutes(app: Express) {
 
   // Payment simulation endpoint for LLC
   // PROTECTED: Only admin can manually mark orders as paid
-  app.post("/api/llc/:id/pay", isAdmin, asyncHandler(async (req: any, res) => {
+  app.post("/api/llc/:id/pay", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const appId = parseInt(req.params.id);
       const application = await storage.getLlcApplication(appId);

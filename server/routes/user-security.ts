@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, gt } from "drizzle-orm";
 import { db, isAuthenticated, isNotUnderReview, getClientIp, logAudit , asyncHandler } from "./shared";
@@ -12,7 +12,7 @@ const log = createLogger('user-security');
 
 export function registerUserSecurityRoutes(app: Express) {
   // Verify email for pending accounts (activate account)
-  app.post("/api/user/verify-email", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/verify-email", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const { otpCode } = req.body;
@@ -75,7 +75,7 @@ export function registerUserSecurityRoutes(app: Express) {
   }));
   
   // Send verification OTP for pending accounts
-  app.post("/api/user/send-verification-otp", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/send-verification-otp", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -123,7 +123,7 @@ export function registerUserSecurityRoutes(app: Express) {
   }));
 
   // Request OTP for password change
-  app.post("/api/user/request-password-otp", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/request-password-otp", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.email) {
@@ -159,7 +159,7 @@ export function registerUserSecurityRoutes(app: Express) {
   }));
 
   // Change password with OTP verification
-  app.post("/api/user/change-password", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/change-password", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const { currentPassword, newPassword, otp } = z.object({
         currentPassword: z.string().min(1),

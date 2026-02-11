@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
 import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp , asyncHandler } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
@@ -8,7 +8,7 @@ const log = createLogger('user-documents');
 
 export function registerUserDocumentRoutes(app: Express) {
   // Get completed LLCs for user (for Operating Agreement generator)
-  app.get("/api/user/completed-llcs", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/completed-llcs", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       
@@ -47,7 +47,7 @@ export function registerUserDocumentRoutes(app: Express) {
   }));
 
   // Save Operating Agreement to Document Center
-  app.post("/api/user/operating-agreements", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/operating-agreements", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const { llcApplicationId, pdfBase64, fileName } = req.body;
@@ -96,7 +96,7 @@ export function registerUserDocumentRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/user/documents", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/documents", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       
@@ -144,7 +144,7 @@ export function registerUserDocumentRoutes(app: Express) {
     }
   }));
 
-  app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
+  app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
@@ -189,7 +189,7 @@ export function registerUserDocumentRoutes(app: Express) {
   }));
 
 
-  app.get("/api/user/documents/:id/download", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/user/documents/:id/download", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
@@ -244,7 +244,7 @@ export function registerUserDocumentRoutes(app: Express) {
 
 
   // Client: Upload identity verification document
-  app.post("/api/user/identity-verification/upload", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/user/identity-verification/upload", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const userId = req.session.userId;
       
@@ -362,7 +362,7 @@ export function registerUserDocumentRoutes(app: Express) {
   }));
 
   // Protected file serving - admin documents
-  app.get("/uploads/admin-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/uploads/admin-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const filename = req.params.filename;
       
@@ -429,7 +429,7 @@ export function registerUserDocumentRoutes(app: Express) {
   }));
 
   // Protected file serving - client documents
-  app.get("/uploads/client-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/uploads/client-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const filename = req.params.filename;
       

@@ -215,7 +215,7 @@
   "howWeWork": {
     "title": "<span class='text-foreground'>VOTRE SOCIÉTÉ AMÉRICAINE,</span><br/><span class='text-accent'>BIEN FAITE DÈS LE DÉPART</span>",
     "subtitle": "Nous analysons votre situation, créons la structure adaptée et gérons toutes les formalités pour que votre LLC soit prête à opérer, croître et optimiser vos impôts.",
-    "subtitleDesc": "",
+    "subtitleDesc": "Sans complications, sans bureaucratie inutile.",
     "steps": {
       "listen": {
         "number": "1",
@@ -730,7 +730,7 @@
       "title": "Créez votre",
       "titleHighlight": "compte",
       "subtitle": "Commencez à gérer votre LLC simplement, en toute sécurité et avec un accompagnement professionnel dès le premier instant.",
-      "subtitleHighlight": "",
+      "subtitleHighlight": "Votre LLC en 2 jours",
       "infoCard": {
         "title": "Votre espace privé",
         "subtitle": "Commencez à gérer votre LLC simplement, en toute sécurité et avec un accompagnement professionnel dès le premier instant.",
@@ -830,11 +830,11 @@
     "verify": {
       "title": "Vérifiez votre",
       "titleHighlight": "email",
-      "subtitle": "",
+      "subtitle": "Plus qu'une étape pour activer votre compte.",
       "subtitleDesc": "Nous vous avons envoyé un code de vérification.",
       "tip1": "Vérifiez votre boîte de réception.",
       "tip2": "Si vous ne le voyez pas, vérifiez les SPAM ou Promotions.",
-      "tipDesc": "",
+      "tipDesc": "Le code expire dans 10 minutes.",
       "codeLabel": "Code de vérification",
       "submit": "Vérifier mon email",
       "notReceived": "Vous n'avez pas reçu le code ?",

@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { eq, desc, sql, and, gt } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp , asyncHandler } from "./shared";
@@ -14,7 +14,7 @@ const log = createLogger('orders');
 
 export function registerOrderRoutes(app: Express) {
   // Orders (Requires authentication)
-  app.get(api.orders.list.path, asyncHandler(async (req: any, res) => {
+  app.get(api.orders.list.path, asyncHandler(async (req: any, res: Response) => {
     if (!req.session.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
@@ -23,7 +23,7 @@ export function registerOrderRoutes(app: Express) {
   }));
 
   // Invoices
-  app.get("/api/orders/:id/invoice", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/orders/:id/invoice", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -73,7 +73,7 @@ export function registerOrderRoutes(app: Express) {
       res.status(500).send("Error generating invoice");
     }
   }));
-  app.post(api.orders.create.path, asyncHandler(async (req: any, res) => {
+  app.post(api.orders.create.path, asyncHandler(async (req: any, res: Response) => {
     try {
       let { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (email) email = normalizeEmail(email);
@@ -268,7 +268,7 @@ export function registerOrderRoutes(app: Express) {
   }));
 
   // Order Events Timeline
-  app.get("/api/orders/:id/events", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/orders/:id/events", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);

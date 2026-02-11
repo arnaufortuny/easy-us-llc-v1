@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
@@ -12,7 +12,7 @@ import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 
 export function registerContactRoutes(app: Express) {
   // Newsletter
-  app.get("/api/newsletter/status", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.get("/api/newsletter/status", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
       res.json({ isSubscribed });
@@ -22,7 +22,7 @@ export function registerContactRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/newsletter/unsubscribe", isAuthenticated, asyncHandler(async (req: any, res) => {
+  app.post("/api/newsletter/unsubscribe", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
     try {
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
       res.json({ success: true });
@@ -33,7 +33,7 @@ export function registerContactRoutes(app: Express) {
   }));
 
   // Newsletter Subscription
-  app.post("/api/newsletter/subscribe", asyncHandler(async (req: any, res) => {
+  app.post("/api/newsletter/subscribe", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('contact', ip);
@@ -107,7 +107,7 @@ export function registerContactRoutes(app: Express) {
 
 
   // Contact form
-  app.post("/api/contact/send-otp", asyncHandler(async (req, res) => {
+  app.post("/api/contact/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('contact', ip);
@@ -143,7 +143,7 @@ export function registerContactRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/contact/verify-otp", asyncHandler(async (req, res) => {
+  app.post("/api/contact/verify-otp", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
@@ -173,7 +173,7 @@ export function registerContactRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/contact", asyncHandler(async (req, res) => {
+  app.post("/api/contact", asyncHandler(async (req: any, res: Response) => {
     try {
       const contactData = z.object({
         nombre: z.string(),

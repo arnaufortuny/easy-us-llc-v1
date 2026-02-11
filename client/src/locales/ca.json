@@ -215,7 +215,7 @@
   "howWeWork": {
     "title": "<span class='text-foreground'>LA TEVA EMPRESA ALS ESTATS UNITS,</span><br/><span class='text-accent'>BEN FETA DES DE L'INICI</span>",
     "subtitle": "Analitzem el teu cas, creem l'estructura adequada i gestionem tots els tràmits perquè la teva LLC neixi llesta per operar, créixer i optimitzar impostos.",
-    "subtitleDesc": "",
+    "subtitleDesc": "Sense complicacions, sense burocràcia innecessària.",
     "steps": {
       "listen": {
         "number": "1",
@@ -730,7 +730,7 @@
       "title": "Crea el teu",
       "titleHighlight": "compte",
       "subtitle": "Comença a gestionar la teva LLC de forma senzilla, segura i amb acompanyament professional des del primer moment.",
-      "subtitleHighlight": "",
+      "subtitleHighlight": "La teva LLC en 2 dies",
       "infoCard": {
         "title": "El teu espai privat",
         "subtitle": "Comença a gestionar la teva LLC de forma senzilla, segura i amb acompanyament professional des del primer moment.",
@@ -830,11 +830,11 @@
     "verify": {
       "title": "Verifica el teu",
       "titleHighlight": "email",
-      "subtitle": "",
+      "subtitle": "Només un pas més per activar el teu compte.",
       "subtitleDesc": "T'hem enviat un codi de verificació.",
       "tip1": "Revisa la teva safata d'entrada.",
       "tip2": "Si no el veus, comprova també SPAM o Promocions.",
-      "tipDesc": "",
+      "tipDesc": "El codi caduca en 10 minuts.",
       "codeLabel": "Codi de verificació",
       "submit": "Verificar el meu email",
       "notReceived": "No has rebut el codi?",

@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { db, isAdmin, logAudit , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
@@ -8,7 +8,7 @@ import { eq, desc } from "drizzle-orm";
 const log = createLogger('admin-roles');
 
 export function registerAdminRoleRoutes(app: Express) {
-  app.get("/api/admin/roles", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/roles", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const roles = await db.select().from(staffRoles).orderBy(desc(staffRoles.createdAt));
       res.json(roles);
@@ -18,7 +18,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/admin/roles/permissions", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/roles/permissions", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       res.json(STAFF_PERMISSIONS);
     } catch (err) {
@@ -27,7 +27,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/admin/roles", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/roles", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const schema = z.object({
         name: z.string().min(1).max(100),
@@ -67,7 +67,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.patch("/api/admin/roles/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/roles/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const roleId = parseInt(req.params.id);
       const schema = z.object({
@@ -114,7 +114,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.delete("/api/admin/roles/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.delete("/api/admin/roles/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const roleId = parseInt(req.params.id);
 
@@ -143,7 +143,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/admin/users/:userId/assign-role", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/users/:userId/assign-role", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const { userId } = req.params;
       const schema = z.object({
@@ -194,7 +194,7 @@ export function registerAdminRoleRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/admin/staff-users", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/staff-users", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const staffUsers = await db.select({
         id: usersTable.id,

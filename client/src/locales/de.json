@@ -215,7 +215,7 @@
   "howWeWork": {
     "title": "<span class='text-foreground'>IHR US-UNTERNEHMEN,</span><br/><span class='text-accent'>VON ANFANG AN RICHTIG GEMACHT</span>",
     "subtitle": "Wir analysieren Ihren Fall, erstellen die richtige Struktur und erledigen den gesamten Papierkram, damit Ihre LLC von Anfang an betriebsbereit ist, wachsen und Steuern optimieren kann.",
-    "subtitleDesc": "",
+    "subtitleDesc": "Keine Komplikationen, keine unnötige Bürokratie.",
     "steps": {
       "listen": {
         "number": "1",
@@ -730,7 +730,7 @@
       "title": "Erstellen Sie Ihr",
       "titleHighlight": "Konto",
       "subtitle": "Beginnen Sie Ihre LLC einfach, sicher und mit professioneller Begleitung vom ersten Moment an zu verwalten.",
-      "subtitleHighlight": "",
+      "subtitleHighlight": "Ihre LLC in 2 Tagen",
       "infoCard": {
         "title": "Ihr privater Bereich",
         "subtitle": "Beginnen Sie Ihre LLC einfach, sicher und mit professioneller Begleitung vom ersten Moment an zu verwalten.",
@@ -830,11 +830,11 @@
     "verify": {
       "title": "Bestätigen Sie Ihre",
       "titleHighlight": "E-Mail",
-      "subtitle": "",
+      "subtitle": "Nur noch ein Schritt, um Ihr Konto zu aktivieren.",
       "subtitleDesc": "Wir haben Ihnen einen Bestätigungscode gesendet.",
       "tip1": "Überprüfen Sie Ihren Posteingang.",
       "tip2": "Wenn Sie ihn nicht sehen, prüfen Sie SPAM oder Werbung.",
-      "tipDesc": "",
+      "tipDesc": "Der Code läuft in 10 Minuten ab.",
       "codeLabel": "Bestätigungscode",
       "submit": "Meine E-Mail bestätigen",
       "notReceived": "Code nicht erhalten?",

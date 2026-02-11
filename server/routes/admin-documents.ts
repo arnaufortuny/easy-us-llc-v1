@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Response } from "express";
 import { z } from "zod";
 import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport , asyncHandler } from "./shared";
@@ -15,7 +15,7 @@ const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
 
 export function registerAdminDocumentsRoutes(app: Express) {
   // Document Management - Upload official docs by Admin
-  app.post("/api/admin/documents", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.post("/api/admin/documents", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const { orderId, fileName, fileUrl, documentType, applicationId } = req.body;
       const [doc] = await db.insert(applicationDocumentsTable).values({
@@ -37,7 +37,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Admin upload document file for client (supports orderId OR userId)
-  app.post("/api/admin/documents/upload", isAdminOrSupport, asyncHandler(async (req: any, res) => {
+  app.post("/api/admin/documents/upload", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const busboy = (await import('busboy')).default;
       const bb = busboy({ 
@@ -191,7 +191,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
     }
   }));
 
-  app.get("/api/admin/documents", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.get("/api/admin/documents", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const docs = await db.select().from(applicationDocumentsTable)
         .leftJoin(ordersTable, eq(applicationDocumentsTable.orderId, ordersTable.id))
@@ -237,7 +237,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
     }
   }));
 
-  app.patch("/api/admin/documents/:id/review", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.patch("/api/admin/documents/:id/review", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const docId = Number(req.params.id);
       const { reviewStatus, rejectionReason } = z.object({ 
@@ -372,7 +372,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
     }
   }));
 
-  app.delete("/api/admin/documents/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.delete("/api/admin/documents/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const docId = Number(req.params.id);
       await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.id, docId));
@@ -382,7 +382,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
     }
   }));
 
-  app.post("/api/admin/applications/:id/set-formation-date", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/applications/:id/set-formation-date", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const applicationId = parseInt(req.params.id);
       const { formationDate, state } = z.object({
@@ -414,7 +414,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // User notifications - Unified Note + Email System
-  app.post("/api/admin/send-note", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/send-note", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const { userId, title, message, type } = z.object({
         userId: z.string(),
@@ -457,7 +457,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Admin Payment Link system
-  app.post("/api/admin/send-payment-link", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/send-payment-link", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const { userId, paymentLink, message, amount } = z.object({
         userId: z.string(),
@@ -493,7 +493,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Request document from client
-  app.post("/api/admin/request-document", isAdminOrSupport, asyncHandler(async (req, res) => {
+  app.post("/api/admin/request-document", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
     try {
       const { email, documentType, message, userId } = z.object({
         email: z.string().email(),
@@ -560,7 +560,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Admin invoice preview
-  app.get("/api/admin/invoice/:id", isAdmin, asyncHandler(async (req, res) => {
+  app.get("/api/admin/invoice/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -575,7 +575,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Add order event (admin only)
-  app.post("/api/admin/orders/:id/events", isAdmin, asyncHandler(async (req: any, res) => {
+  app.post("/api/admin/orders/:id/events", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       const { eventType, description } = req.body;
@@ -609,7 +609,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
   }));
 
   // Generate invoice for order
-  app.post("/api/admin/orders/:id/generate-invoice", isAdmin, asyncHandler(async (req, res) => {
+  app.post("/api/admin/orders/:id/generate-invoice", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
       const orderId = Number(req.params.id);
       
