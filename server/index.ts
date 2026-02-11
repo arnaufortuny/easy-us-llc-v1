@@ -38,7 +38,7 @@ function getCSP(): string {
   const baseCSP = {
     "default-src": ["'self'"],
     "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
-    "img-src": ["'self'", "data:", "blob:", "https://*.stripe.com", "https://lh3.googleusercontent.com"],
+    "img-src": ["'self'", "data:", "blob:", "https://*.stripe.com", "https://lh3.googleusercontent.com", "https://exentax.com"],
     "connect-src": ["'self'", "https://api.stripe.com", "https://accounts.google.com", "wss://*.replit.dev", "wss://*.replit.app"],
     "frame-src": ["'self'", "https://js.stripe.com", "https://accounts.google.com"],
     "frame-ancestors": ["'self'", "https://*.replit.dev", "https://*.replit.app"],

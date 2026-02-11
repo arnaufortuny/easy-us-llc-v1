@@ -303,7 +303,7 @@ export default function AdminRolesPanel() {
         </div>
       )}
 
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="flex flex-row flex-wrap justify-between items-center gap-3">
         <div className="flex gap-2 flex-wrap">
           <Button
             variant={activeSection === "roles" ? "default" : "outline"}
@@ -327,12 +327,12 @@ export default function AdminRolesPanel() {
           </Button>
         </div>
         {activeSection === "roles" && (
-          <div className="flex items-center gap-2 w-full sm:w-auto">
+          <div className="flex items-center gap-2">
             <Input
               placeholder={t("dashboard.admin.roles.newRolePlaceholder")}
               value={roleForm.name}
               onChange={(e) => setRoleForm((prev) => ({ ...prev, name: e.target.value }))}
-              className="rounded-full text-xs flex-1 sm:w-48"
+              className="rounded-full text-xs w-40 sm:w-48"
               data-testid="input-quick-role-name"
             />
             <Button

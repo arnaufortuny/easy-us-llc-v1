@@ -127,7 +127,7 @@ export default function LinktreePage() {
     <div 
       className="min-h-screen flex flex-col"
       style={{
-        background: 'linear-gradient(135deg, #00C48C 0%, #00855F 50%, #00855F 100%)'
+        background: 'linear-gradient(160deg, #00C48C 0%, #00A876 30%, #00855F 60%, #006B4A 100%)'
       }}
     >
       <Button
@@ -140,7 +140,7 @@ export default function LinktreePage() {
         <Share2 className="w-5 h-5" />
       </Button>
 
-      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-32 pb-8 sm:pt-40 sm:pb-12">
+      <div className="flex-1 flex flex-col items-center justify-start px-4 pt-36 pb-8 sm:pt-44 sm:pb-12">
         <div className="w-full max-w-md mx-auto">
           {formMessage && (
             <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
@@ -184,12 +184,8 @@ export default function LinktreePage() {
                 data-testid={`link-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
               >
                 <Button
-                  className={`w-full font-bold text-base rounded-full flex items-center justify-center gap-3 shadow-lg ${
-                    link.primary 
-                      ? 'bg-white text-accent' 
-                      : 'bg-white/20 backdrop-blur-sm text-white border-2 border-white/30'
-                  }`}
-                  variant={link.primary ? "secondary" : "outline"}
+                  className="w-full font-bold text-base rounded-full flex items-center justify-center gap-3 shadow-lg bg-white/20 backdrop-blur-sm text-white border-2 border-white/30"
+                  variant="outline"
                   size="lg"
                   data-testid={`button-${link.label.toLowerCase().replace(/\s+/g, '-').replace(/[?¿]/g, '')}`}
                 >

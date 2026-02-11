@@ -23,7 +23,7 @@ export default function StartPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <section className="relative overflow-hidden pt-24 pb-16 md:pt-32 md:pb-24">
+      <section className="relative overflow-hidden pt-16 pb-16 md:pt-20 md:pb-24">
         <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-accent/10 dark:from-accent/10 dark:via-transparent dark:to-accent/5" />
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
@@ -73,29 +73,25 @@ export default function StartPage() {
           <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg leading-relaxed">{t("start.steps.subtitle")}</p>
         </div>
         <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {steps.map((s, i) => (
               <motion.div
                 key={i}
-                className="flex gap-5 md:gap-6"
+                className="text-center"
                 initial={{ opacity: 0, y: 15 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.15, duration: 0.4 }}
               >
-                <div className="flex-shrink-0">
-                  <div className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full bg-accent text-white font-bold text-base md:text-lg" data-testid={`text-step-number-${s.num}`}>
-                    {s.num}
-                  </div>
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent text-white font-bold text-lg mb-4" data-testid={`text-step-number-${s.num}`}>
+                  {s.num}
                 </div>
-                <div className="text-left">
-                  <h3 className="text-lg md:text-xl font-semibold text-foreground mb-2 font-[Inter]" data-testid={`text-step-title-${s.num}`}>
-                    {t(s.titleKey)}
-                  </h3>
-                  <p className="text-muted-foreground leading-relaxed" data-testid={`text-step-desc-${s.num}`}>
-                    {t(s.descKey)}
-                  </p>
-                </div>
+                <h3 className="text-base md:text-lg font-semibold text-foreground mb-2 font-[Inter]" data-testid={`text-step-title-${s.num}`}>
+                  {t(s.titleKey)}
+                </h3>
+                <p className="text-sm text-muted-foreground leading-relaxed" data-testid={`text-step-desc-${s.num}`}>
+                  {t(s.descKey)}
+                </p>
               </motion.div>
             ))}
           </div>
