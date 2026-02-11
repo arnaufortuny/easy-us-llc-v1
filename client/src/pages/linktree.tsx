@@ -209,7 +209,7 @@ export default function LinktreePage() {
     <div 
       className="min-h-screen flex flex-col"
       style={{
-        background: 'linear-gradient(135deg, #2C5F8A 0%, #1E4D73 50%, #193F5E 100%)'
+        background: 'linear-gradient(135deg, #00C48C 0%, #00855F 50%, #00855F 100%)'
       }}
     >
       <Button

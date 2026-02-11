@@ -24,13 +24,13 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 - **Internationalization:** react-i18next (7 languages: ES, EN, CA, FR, DE, IT, PT)
 
 ### Design System
-- **Colors:** Primary Ocean Blue (#2C5F8A), CTA Orange (#FF6B35), Secondary Green (#00C48C). Light background #FAFAFA, dark background #0A0F1E. Status labels use semantic colors (amber for pending, purple for processing, green for completed/active, red for cancelled/error, blue for paid, cyan for documents_ready). VIP badge uses gold gradient.
+- **Colors:** Green Primary (#00C48C), Green Neon (#00E57A), Green Lima (#B4ED50), Dark Base (#0A1F17), Card Dark (#112B1E), Deep Green (#00855F). Light bg #F5FBF8, dark bg #0A1F17. Status labels: amber (pending), purple (processing), green (completed/active/paid), red (cancelled/error), lime (documents_ready/filed). VIP badge uses lima-to-green gradient.
 - **Typography:** Space Grotesk (h1/h2 hero headings), Inter (h3/h4 section headings), DM Sans (body/UI)
-- **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence
+- **Theme:** Full dark/light mode with CSS custom properties and localStorage persistence. Inspired by relayfi.com aesthetic.
 - **Animations:** Framer Motion with page transitions
-- **Navbar:** Glassmorphism (backdrop-blur-md, bg-white/95 light, bg-background/95 dark)
-- **Footer:** Dark slate design (bg-slate-900 light, bg-slate-950 dark) with green hover links
-- **Button Variants:** default (primary blue), cta (orange), secondary (green), outline, ghost, destructive, link, premium
+- **Navbar:** Glassmorphism (backdrop-blur-md, bg-white/95 light, bg-[#0A1F17]/95 dark) with green accents
+- **Footer:** Dark green design (bg-[#0A1F17]) with #00C48C hover links, #6B7280 text, #112B1E separators
+- **Button Variants:** default (green), cta (green), secondary (lima), neon, outline (green border), ghost, destructive, link, premium
 - **Badge Variants:** default, pending, processing, completed, cancelled, paid, documentsReady, active, inactive, draft, submitted, filed, vip
 - **Components:** shadcn/ui with custom elevation utilities.
 

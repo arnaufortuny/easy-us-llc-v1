@@ -97,9 +97,9 @@ function DeactivatedPage() {
         <div className="w-full max-w-md text-center">
           <div className="mb-8">
             <svg width="80" height="80" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto mb-6">
-              <circle cx="60" cy="60" r="50" fill="#DBEAFE" stroke="#2C5F8A" strokeWidth="4"/>
-              <path d="M60 35V65" stroke="#2C5F8A" strokeWidth="6" strokeLinecap="round"/>
-              <circle cx="60" cy="80" r="5" fill="#2C5F8A"/>
+              <circle cx="60" cy="60" r="50" fill="#E8F5EF" stroke="#00C48C" strokeWidth="4"/>
+              <path d="M60 35V65" stroke="#00C48C" strokeWidth="6" strokeLinecap="round"/>
+              <circle cx="60" cy="80" r="5" fill="#00C48C"/>
             </svg>
             <h1 className="text-2xl sm:text-3xl font-black text-foreground tracking-tight" data-testid="text-deactivated-title">
               {t("auth.accountDeactivated.title")}

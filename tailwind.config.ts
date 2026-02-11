@@ -54,6 +54,14 @@ export default {
           DEFAULT: "hsl(var(--cta) / <alpha-value>)",
           foreground: "hsl(var(--cta-foreground) / <alpha-value>)",
         },
+        green: {
+          primary: '#00C48C',
+          neon: '#00E57A',
+          lima: '#B4ED50',
+          dark: '#0A1F17',
+          card: '#112B1E',
+          deep: '#00855F',
+        },
         ring: "hsl(var(--ring) / <alpha-value>)",
         chart: {
           "1": "hsl(var(--chart-1) / <alpha-value>)",

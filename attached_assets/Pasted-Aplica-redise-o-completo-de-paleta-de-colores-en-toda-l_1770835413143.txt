@@ -1,0 +1,373 @@
+Aplica rediseño completo de paleta de colores en toda la aplicación.
+Inspiración visual: relayfi.com — estética limpia, dark mode profundo, 
+verde como único color de marca, tipografía bold, mucho contraste.
+Pero con identidad propia: más vibrante, más digital, más cercano.
+
+ELIMINA completamente:
+- Cualquier azul (#2C5F8A o similar)
+- Cualquier referencia a Metallic Blue
+- Cualquier tono azulado en variables, clases o estilos inline
+
+RESTRICCIONES ABSOLUTAS:
+- NO modificar components/icons.tsx
+- NO modificar assets/icons/money-icon.svg
+- NO modificar assets/logo-icon.png
+- NO modificar el menú móvil de navbar
+- NO modificar rutas, base de datos ni lógica de negocio
+- NO instalar nuevas dependencias
+- SOLO estilos, variables CSS y colores
+
+════════════════════════════════════════
+PALETA COMPLETA
+════════════════════════════════════════
+
+Verde Principal:      #00C48C  → color de marca primario
+Verde Neón Acento:    #00E57A  → hovers, highlights, activos
+Verde Lima Energía:   #B4ED50  → CTAs secundarios, métricas positivas
+Verde Oscuro Base:    #0A1F17  → fondo dark mode, textos oscuros
+Verde Card Dark:      #112B1E  → cards en dark mode
+Verde Profundo:       #00855F  → variante oscura del primario
+Off White Verde:      #F5FBF8  → fondo modo claro
+Blanco Puro:          #FFFFFF  → cards modo claro
+Gris Neutro:          #6B7280  → textos secundarios
+Gris Claro:           #E8F0EC  → borders, inputs modo claro
+
+════════════════════════════════════════
+VARIABLES CSS — index.css
+════════════════════════════════════════
+
+Reemplaza TODAS las variables en :root y .dark:
+
+:root {
+  --background: 150 35% 97%;        /* #F5FBF8 */
+  --foreground: 150 38% 8%;         /* #0A1F17 */
+  --card: 0 0% 100%;                /* #FFFFFF */
+  --card-foreground: 150 38% 8%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 150 38% 8%;
+  --primary: 162 100% 38%;          /* #00C48C */
+  --primary-foreground: 0 0% 100%;
+  --secondary: 88 80% 62%;          /* #B4ED50 lima */
+  --secondary-foreground: 150 38% 8%;
+  --muted: 150 25% 92%;
+  --muted-foreground: 150 10% 42%;
+  --accent: 151 100% 45%;           /* #00E57A neón */
+  --accent-foreground: 150 38% 8%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 150 25% 88%;
+  --input: 150 25% 90%;
+  --ring: 162 100% 38%;
+  --radius: 0.5rem;
+
+  --cta: 162 100% 38%;
+  --cta-foreground: 0 0% 100%;
+  --neon: 151 100% 45%;
+  --lima: 88 80% 62%;
+  --primary-dark: 162 100% 26%;     /* #00855F */
+}
+
+.dark {
+  --background: 150 38% 8%;         /* #0A1F17 */
+  --foreground: 150 20% 93%;        /* off white verdoso */
+  --card: 150 38% 12%;              /* #112B1E */
+  --card-foreground: 150 20% 93%;
+  --popover: 150 38% 12%;
+  --popover-foreground: 150 20% 93%;
+  --primary: 162 100% 42%;          /* verde más brillante en dark */
+  --primary-foreground: 150 38% 8%;
+  --secondary: 88 80% 65%;          /* lima más brillante en dark */
+  --secondary-foreground: 150 38% 8%;
+  --muted: 150 32% 15%;
+  --muted-foreground: 150 15% 55%;
+  --accent: 151 100% 50%;           /* neón máximo en dark */
+  --accent-foreground: 150 38% 8%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 150 30% 18%;
+  --input: 150 30% 15%;
+  --ring: 162 100% 42%;
+
+  --cta: 162 100% 42%;
+  --cta-foreground: 150 38% 8%;
+  --neon: 151 100% 50%;
+  --lima: 88 80% 65%;
+  --primary-dark: 162 100% 30%;
+}
+
+════════════════════════════════════════
+TAILWIND CONFIG — tailwind.config.ts
+════════════════════════════════════════
+
+En el extend.colors añade:
+
+green: {
+  primary: '#00C48C',
+  neon: '#00E57A',
+  lima: '#B4ED50',
+  dark: '#0A1F17',
+  card: '#112B1E',
+  deep: '#00855F',
+},
+
+════════════════════════════════════════
+COMPONENTES — REGLAS DE COLOR
+════════════════════════════════════════
+
+1. BOTONES (components/ui/button.tsx)
+
+variant "default":
+  bg-[#00C48C] hover:bg-[#00855F] text-white
+  shadow-md hover:shadow-[#00C48C]/30 hover:shadow-lg
+  transition-all duration-200 font-semibold
+
+variant "secondary":
+  bg-[#B4ED50] hover:bg-[#A0D444] text-[#0A1F17]
+  font-semibold transition-all duration-200
+
+variant "cta":
+  bg-[#00C48C] hover:bg-[#00E57A] text-white
+  shadow-lg hover:shadow-[#00C48C]/40
+  font-bold tracking-wide
+
+variant "outline":
+  border-2 border-[#00C48C] text-[#00C48C]
+  hover:bg-[#00C48C] hover:text-white
+  transition-all duration-200
+
+variant "ghost":
+  hover:bg-[#00C48C]/10 hover:text-[#00C48C]
+  text-muted-foreground transition-all duration-200
+
+variant "neon":  (nuevo — para highlights especiales)
+  bg-[#00E57A] hover:bg-[#00C48C] text-[#0A1F17]
+  font-bold shadow-md hover:shadow-[#00E57A]/40
+
+2. NAVBAR (components/layout/navbar.tsx)
+
+Modo claro:
+  bg-white/95 backdrop-blur-md 
+  border-b border-[#E8F0EC]
+  
+Modo oscuro:
+  bg-[#0A1F17]/95 backdrop-blur-md 
+  border-b border-[#112B1E]
+
+Links activos: text-[#00C48C] font-semibold
+Links hover: text-[#00C48C]/80 transition-colors duration-150
+Botón CTA navbar: variant "cta"
+
+3. HERO SECTION (components/layout/hero-section.tsx)
+
+Modo claro:
+  bg-gradient-to-br from-[#F5FBF8] via-white to-[#E8F5EF]
+  
+Modo oscuro:
+  bg-gradient-to-br from-[#0A1F17] via-[#0D2418] to-[#0A1F17]
+
+Headline: font-hero font-bold tracking-tight text-foreground
+Acento en headline: text-[#00C48C] (una o dos palabras clave)
+Subheadline: text-muted-foreground
+CTA principal: variant="cta" size="lg"
+CTA secundario: variant="outline" size="lg"
+
+Elemento decorativo background (estilo Relay):
+  Círculo o blob con bg-[#00C48C]/5 blur-3xl 
+  posicionado top-right, z-0
+
+4. CARDS (components/ui/card.tsx)
+
+Modo claro:
+  bg-white border border-[#E8F0EC] 
+  shadow-sm hover:shadow-md hover:shadow-[#00C48C]/10
+  transition-all duration-200 rounded-xl
+
+Modo oscuro:
+  bg-[#112B1E] border border-[#00C48C]/10
+  shadow-sm hover:shadow-[#00C48C]/15
+  transition-all duration-200 rounded-xl
+
+variant "elevated":
+  shadow-md hover:shadow-xl hover:shadow-[#00C48C]/20
+  hover:-translate-y-0.5 transition-all duration-200
+
+variant "neon" (nuevo — para cards destacadas):
+  border-2 border-[#00C48C] 
+  shadow-[0_0_20px_rgba(0,196,140,0.15)]
+  dark:shadow-[0_0_30px_rgba(0,196,140,0.2)]
+
+5. BADGES — SISTEMA DE ESTADOS
+
+Estados de pedido:
+- pending:          bg-amber-100 text-amber-800 
+                    dark:bg-amber-900/20 dark:text-amber-400
+- paid:             bg-[#00C48C]/10 text-[#00855F] 
+                    dark:bg-[#00C48C]/20 dark:text-[#00E57A]
+- processing:       bg-purple-100 text-purple-800 
+                    dark:bg-purple-900/20 dark:text-purple-400
+- documents_ready:  bg-[#B4ED50]/20 text-[#4A7A00] 
+                    dark:bg-[#B4ED50]/15 dark:text-[#B4ED50]
+- completed:        bg-[#00C48C]/15 text-[#00C48C] 
+                    dark:bg-[#00C48C]/25 dark:text-[#00E57A]
+                    font-semibold
+- cancelled:        bg-red-100 text-red-700 
+                    dark:bg-red-900/20 dark:text-red-400
+
+Estados de cuenta:
+- active:           bg-[#00C48C]/10 text-[#00855F] 
+                    dark:bg-[#00C48C]/20 dark:text-[#00E57A]
+- pending:          bg-amber-100 text-amber-800 
+                    dark:bg-amber-900/20 dark:text-amber-400
+- deactivated:      bg-red-100 text-red-700 
+                    dark:bg-red-900/20 dark:text-red-400
+- vip:              bg-gradient-to-r from-[#B4ED50] to-[#00C48C] 
+                    text-[#0A1F17] font-bold shadow-sm
+
+Estados LLC:
+- draft:            bg-gray-100 text-gray-600 
+                    dark:bg-gray-800/50 dark:text-gray-400
+- submitted:        bg-[#00C48C]/10 text-[#00855F] 
+                    dark:bg-[#00C48C]/20 dark:text-[#00E57A]
+- filed:            bg-[#B4ED50]/20 text-[#4A7A00] 
+                    dark:bg-[#B4ED50]/15 dark:text-[#B4ED50]
+- rejected:         bg-red-100 text-red-700 
+                    dark:bg-red-900/20 dark:text-red-400
+
+6. INPUTS (components/ui/input.tsx)
+
+bg-background border border-input
+focus:border-[#00C48C] focus:ring-2 focus:ring-[#00C48C]/20
+dark:bg-[#112B1E] dark:border-[#00C48C]/20
+dark:focus:border-[#00C48C] dark:focus:ring-[#00C48C]/25
+placeholder:text-muted-foreground/50
+transition-all duration-200 rounded-lg
+
+7. DASHBOARD
+
+Sidebar modo claro:
+  bg-white border-r border-[#E8F0EC]
+
+Sidebar modo oscuro:
+  bg-[#0A1F17] border-r border-[#112B1E]
+
+Tab activa:
+  bg-[#00C48C] text-white rounded-lg font-semibold
+  shadow-sm shadow-[#00C48C]/30
+
+Tab hover:
+  bg-[#00C48C]/10 text-[#00C48C] rounded-lg 
+  transition-all duration-150
+
+Métricas numéricas:
+  font-hero font-bold text-3xl text-[#00C48C]
+
+Número positivo: text-[#00C48C]
+Número negativo: text-destructive
+Barra de progreso LLC: bg-[#00C48C]
+
+8. FOOTER (components/layout/footer.tsx)
+
+Modo claro y oscuro:
+  bg-[#0A1F17] text-[#94A3B8]
+  
+Links: hover:text-[#00C48C] transition-colors duration-150
+Separador: border-[#112B1E]
+Copyright: text-[#6B7280]
+Acento footer: text-[#00C48C] para nombre de marca
+
+9. EMAILS — server/lib/email.ts
+
+Actualiza todos los templates HTML:
+
+Header:           background-color: #00C48C
+Header texto:     color: #FFFFFF
+Botón CTA:        background-color: #00C48C; color: #FFFFFF
+Botón hover:      background-color: #00855F
+Código OTP:       
+  font-size: 36px;
+  font-family: 'Inter', monospace;
+  letter-spacing: 10px;
+  color: #00C48C;
+  font-weight: 700;
+  background: #F5FBF8;
+  padding: 20px 40px;
+  border-radius: 12px;
+  border: 2px solid #00C48C;
+Fondo email:      #F5FBF8
+Texto principal:  #0A1F17
+Texto secundario: #6B7280
+Footer email:     background: #0A1F17; color: #6B7280
+Acento lateral:   border-left: 4px solid #00C48C
+Link color:       #00C48C
+
+════════════════════════════════════════
+UTILIDADES CSS — añadir en index.css
+════════════════════════════════════════
+
+.gradient-primary {
+  background: linear-gradient(135deg, #00C48C, #00855F);
+}
+.gradient-neon {
+  background: linear-gradient(135deg, #00E57A, #00C48C);
+}
+.gradient-lima {
+  background: linear-gradient(135deg, #B4ED50, #00C48C);
+}
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 196, 140, 0.3);
+}
+.glow-green-lg {
+  box-shadow: 0 0 40px rgba(0, 196, 140, 0.25);
+}
+.text-gradient-green {
+  background: linear-gradient(135deg, #00C48C, #B4ED50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.card-glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 196, 140, 0.15);
+}
+.dark .card-glass {
+  background: rgba(17, 43, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 196, 140, 0.12);
+}
+.scrollbar-green {
+  scrollbar-width: thin;
+  scrollbar-color: #00C48C transparent;
+}
+
+════════════════════════════════════════
+ORDEN DE EJECUCIÓN
+════════════════════════════════════════
+
+1. index.css — variables CSS y utilidades
+2. tailwind.config.ts — colores custom
+3. components/ui/button.tsx
+4. components/ui/card.tsx
+5. components/ui/badge.tsx
+6. components/ui/input.tsx
+7. components/layout/navbar.tsx
+8. components/layout/hero-section.tsx
+9. components/layout/footer.tsx
+10. Componentes dashboard
+11. Componentes área cliente
+12. server/lib/email.ts
+13. Revisión global modo oscuro
+
+════════════════════════════════════════
+VERIFICACIÓN FINAL
+════════════════════════════════════════
+
+Cuando termines, confirma que:
+- No existe ningún #2C5F8A ni azul en ningún archivo
+- Modo claro funciona con fondo #F5FBF8 y verde primario
+- Modo oscuro funciona con fondo #0A1F17 y verde brillante
+- Todos los botones CTA son verdes
+- Todos los badges de estado tienen colores correctos
+- Los emails tienen header verde #00C48C
+- El menú móvil NO fue modificado
+- Los SVGs de icons.tsx NO fueron modificados

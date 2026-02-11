@@ -14,7 +14,7 @@ function getDirname(): string {
 
 const __dirname = getDirname();
 
-const BRAND_BLUE = '#4A8BC2';
+const BRAND_BLUE = '#00C48C';
 const BRAND_DARK = '#0A0A0A';
 const BRAND_GRAY = '#6B7280';
 const BRAND_LIGHT_BLUE = '#DBEAFE';
@@ -253,8 +253,8 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.font('Helvetica-Bold').fontSize(9.5).fillColor(black);
       doc.text(formatDate(data.date), left, y);
       doc.text(data.dueDate ? formatDate(data.dueDate) : formatDate(data.date), col2, y);
-      const statusColors: Record<string, string> = { pending: '#D97706', paid: '#2C5F8A', cancelled: '#DC2626', refunded: '#7C3AED' };
-      doc.fillColor(statusColors[data.status] || '#2C5F8A').text(getStatusText(data.status), col3, y);
+      const statusColors: Record<string, string> = { pending: '#D97706', paid: '#00C48C', cancelled: '#DC2626', refunded: '#7C3AED' };
+      doc.fillColor(statusColors[data.status] || '#00C48C').text(getStatusText(data.status), col3, y);
       doc.fillColor(black).text(data.currency, col4, y);
 
       y += 22;
@@ -299,7 +299,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       if (data.discount && data.discount.amount > 0) {
         const discLabel = data.discount.code ? `Discount (${data.discount.code})` : 'Discount';
         doc.font('Helvetica').fontSize(9).fillColor(mid).text(discLabel, totalLeft, y);
-        doc.font('Helvetica').fontSize(9).fillColor('#2C5F8A').text(`-${formatCurrency(data.discount.amount, data.currency)}`, right - 60, y, { width: 60, align: 'right' });
+        doc.font('Helvetica').fontSize(9).fillColor('#00C48C').text(`-${formatCurrency(data.discount.amount, data.currency)}`, right - 60, y, { width: 60, align: 'right' });
         y += 16;
       }
 
@@ -420,7 +420,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.text('STATUS', left + contentW * 0.4, y);
       y += 11;
       doc.font('Helvetica-Bold').fontSize(9.5).fillColor(black).text(formatDate(data.date), left, y);
-      const sColor = data.status === 'paid' ? '#2C5F8A' : '#D97706';
+      const sColor = data.status === 'paid' ? '#00C48C' : '#D97706';
       doc.fillColor(sColor).text(getStatusText(data.status), left + contentW * 0.4, y);
 
       y += 22;

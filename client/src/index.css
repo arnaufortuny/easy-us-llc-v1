@@ -2,27 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Clean background - Light Mode */
 html {
-  background: #FAFAFA;
+  background: #F5FBF8;
   min-height: 100dvh;
   overflow-x: hidden;
 }
 
-/* Clean background - Dark Mode */
 html.dark {
-  background: #0A0F1E;
+  background: #0A1F17;
 }
 
-/* Ensure consistent background - prevent flash during page transitions */
 body {
-  background: #FAFAFA;
+  background: #F5FBF8;
   min-height: 100dvh;
   overflow-x: hidden;
 }
 
 html.dark body {
-  background: #0A0F1E;
+  background: #0A1F17;
 }
 
 #root {
@@ -38,14 +35,12 @@ html.dark body {
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Prevent zoom on input focus for iOS */
   @supports (-webkit-touch-callout: none) {
     input, textarea, select {
       font-size: 16px !important;
     }
   }
 
-  /* Prevent auto-zoom on mobile devices */
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -79,55 +74,58 @@ html.dark body {
 }
 
 :root {
-  --background: 0 0% 98%;
-  --foreground: 215 25% 12%;
+  --background: 150 43% 97%;
+  --foreground: 157 51% 8%;
 
-  --primary: 213 52% 36%;
+  --primary: 163 100% 38%;
   --primary-foreground: 0 0% 100%;
 
-  --secondary: 162 100% 38%;
-  --secondary-foreground: 0 0% 100%;
+  --secondary: 88 80% 62%;
+  --secondary-foreground: 157 51% 8%;
 
-  --accent: 213 52% 36%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 152 100% 45%;
+  --accent-foreground: 157 51% 8%;
 
-  --muted: 214 20% 94%;
-  --muted-foreground: 215 15% 45%;
+  --muted: 150 25% 92%;
+  --muted-foreground: 150 10% 42%;
 
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 214 20% 88%;
-  --input: 214 20% 92%;
-  --ring: 213 52% 36%;
+  --border: 150 25% 88%;
+  --input: 150 25% 90%;
+  --ring: 163 100% 38%;
 
   --card: 0 0% 100%;
-  --card-foreground: 215 25% 12%;
-  --card-border: 214 20% 88%;
+  --card-foreground: 157 51% 8%;
+  --card-border: 150 25% 88%;
 
   --popover: 0 0% 100%;
-  --popover-foreground: 215 25% 12%;
-  --popover-border: 214 20% 88%;
+  --popover-foreground: 157 51% 8%;
+  --popover-border: 150 25% 88%;
 
   --sidebar: 0 0% 100%;
-  --sidebar-foreground: 215 25% 12%;
-  --sidebar-border: 214 20% 88%;
-  --sidebar-ring: 213 52% 36%;
-  --sidebar-primary: 213 52% 36%;
+  --sidebar-foreground: 157 51% 8%;
+  --sidebar-border: 150 25% 88%;
+  --sidebar-ring: 163 100% 38%;
+  --sidebar-primary: 163 100% 38%;
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 213 52% 36%;
+  --sidebar-accent: 163 100% 38%;
   --sidebar-accent-foreground: 0 0% 100%;
 
-  --chart-1: 213 52% 36%;
-  --chart-2: 220 70% 50%;
-  --chart-3: 280 65% 60%;
+  --chart-1: 163 100% 38%;
+  --chart-2: 152 100% 45%;
+  --chart-3: 82 81% 62%;
   --chart-4: 25 95% 53%;
   --chart-5: 340 75% 55%;
 
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  --cta: 18 100% 57%;
+  --cta: 163 100% 38%;
   --cta-foreground: 0 0% 100%;
+  --neon: 152 100% 45%;
+  --lima: 82 81% 62%;
+  --primary-dark: 163 100% 26%;
 
   --font-hero: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -135,47 +133,50 @@ html.dark body {
 }
 
 .dark {
-  --background: 222 47% 8%;
-  --foreground: 210 20% 94%;
+  --background: 157 51% 8%;
+  --foreground: 150 20% 93%;
 
-  --primary: 213 65% 55%;
-  --primary-foreground: 0 0% 100%;
+  --primary: 163 100% 42%;
+  --primary-foreground: 157 51% 8%;
 
-  --secondary: 162 100% 42%;
-  --secondary-foreground: 222 47% 8%;
+  --secondary: 82 81% 65%;
+  --secondary-foreground: 157 51% 8%;
 
-  --accent: 213 65% 55%;
-  --accent-foreground: 0 0% 100%;
+  --accent: 152 100% 50%;
+  --accent-foreground: 157 51% 8%;
 
-  --muted: 222 35% 15%;
-  --muted-foreground: 215 15% 60%;
+  --muted: 150 32% 15%;
+  --muted-foreground: 150 15% 55%;
 
   --destructive: 0 72% 51%;
   --destructive-foreground: 0 0% 100%;
 
-  --border: 222 35% 18%;
-  --input: 222 35% 15%;
-  --ring: 213 65% 55%;
+  --border: 150 30% 18%;
+  --input: 150 30% 15%;
+  --ring: 163 100% 42%;
 
-  --card: 222 40% 11%;
-  --card-foreground: 210 20% 94%;
-  --card-border: 222 35% 18%;
+  --card: 150 43% 12%;
+  --card-foreground: 150 20% 93%;
+  --card-border: 150 30% 18%;
 
-  --popover: 222 40% 11%;
-  --popover-foreground: 210 20% 94%;
-  --popover-border: 222 35% 20%;
+  --popover: 150 43% 12%;
+  --popover-foreground: 150 20% 93%;
+  --popover-border: 150 30% 20%;
 
-  --sidebar: 222 45% 7%;
-  --sidebar-foreground: 210 20% 94%;
-  --sidebar-border: 222 35% 16%;
-  --sidebar-ring: 213 65% 55%;
-  --sidebar-primary: 213 65% 55%;
-  --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 213 65% 55%;
-  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar: 157 51% 7%;
+  --sidebar-foreground: 150 20% 93%;
+  --sidebar-border: 150 30% 16%;
+  --sidebar-ring: 163 100% 42%;
+  --sidebar-primary: 163 100% 42%;
+  --sidebar-primary-foreground: 157 51% 8%;
+  --sidebar-accent: 163 100% 42%;
+  --sidebar-accent-foreground: 157 51% 8%;
 
-  --cta: 18 100% 57%;
-  --cta-foreground: 0 0% 100%;
+  --cta: 163 100% 42%;
+  --cta-foreground: 157 51% 8%;
+  --neon: 152 100% 50%;
+  --lima: 82 81% 65%;
+  --primary-dark: 163 100% 30%;
 }
 
 @layer base {
@@ -185,7 +186,7 @@ html.dark body {
   html {
     width: 100%;
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+    scrollbar-color: #00C48C transparent;
   }
   body {
     @apply bg-background text-foreground antialiased font-sans text-left;
@@ -233,13 +234,13 @@ html.dark body {
     background-color: hsl(var(--accent));
   }
   .bg-brand-gray {
-    background-color: #E6E9EC;
+    background-color: #E8F0EC;
   }
   .bg-brand-dark {
-    background-color: #0A0F1E;
+    background-color: #0A1F17;
   }
   .text-brand-dark {
-    color: #0A0F1E;
+    color: #0A1F17;
   }
   .text-brand-gray {
     color: #6B7280;
@@ -248,7 +249,6 @@ html.dark body {
     border-color: hsl(var(--accent));
   }
   
-    
   .gpu-accelerated {
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -267,53 +267,80 @@ button {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Main site gradient background - top to bottom */
 .bg-gradient-main {
-  background: linear-gradient(180deg, hsl(213 52% 90% / 0.4) 0%, hsl(0 0% 100%) 100%);
+  background: linear-gradient(180deg, rgba(0, 196, 140, 0.08) 0%, #F5FBF8 100%);
 }
 
 .dark .bg-gradient-main {
-  background: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 40% 12%) 100%);
+  background: linear-gradient(180deg, #0A1F17 0%, #0D2418 100%);
 }
 
-/* Gradient utilities */
 .gradient-primary {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary) / 0.8));
+  background: linear-gradient(135deg, #00C48C, #00855F);
+}
+
+.gradient-neon {
+  background: linear-gradient(135deg, #00E57A, #00C48C);
+}
+
+.gradient-lima {
+  background: linear-gradient(135deg, #B4ED50, #00C48C);
 }
 
 .gradient-cta {
-  background: linear-gradient(135deg, hsl(var(--cta)), hsl(var(--cta) / 0.85));
+  background: linear-gradient(135deg, #00C48C, #00855F);
 }
 
 .gradient-success {
-  background: linear-gradient(135deg, hsl(var(--secondary)), hsl(var(--secondary) / 0.8));
+  background: linear-gradient(135deg, #00C48C, #00855F);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(0, 196, 140, 0.3);
+}
+
+.glow-green-lg {
+  box-shadow: 0 0 40px rgba(0, 196, 140, 0.25);
+}
+
+.text-gradient-green {
+  background: linear-gradient(135deg, #00C48C, #B4ED50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .card-glass {
-  background: rgba(255,255,255,0.7);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255,255,255,0.3);
+  border: 1px solid rgba(0, 196, 140, 0.15);
 }
 
 .dark .card-glass {
-  background: rgba(17,24,39,0.7);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(17, 43, 30, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 196, 140, 0.12);
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+  background: linear-gradient(135deg, #00C48C, #B4ED50);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .badge-vip {
-  background: linear-gradient(135deg, #F59E0B, #EAB308);
-  color: white;
-  box-shadow: 0 2px 8px rgba(245,158,11,0.4);
+  background: linear-gradient(135deg, #B4ED50, #00C48C);
+  color: #0A1F17;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(0, 196, 140, 0.3);
 }
 
-/* Mobile scroll improvements */
+.scrollbar-green {
+  scrollbar-width: thin;
+  scrollbar-color: #00C48C transparent;
+}
+
 @supports (-webkit-touch-callout: none) {
   .overflow-x-auto {
     -webkit-overflow-scrolling: touch;
@@ -330,7 +357,6 @@ button {
   }
 }
 
-/* Prevent content cutoff on mobile */
 @media (max-width: 767px) {
   main {
     min-height: calc(100dvh - 5rem);
@@ -361,7 +387,6 @@ button {
   animation: loading-bar-infinite 1.2s ease-out infinite;
 }
 
-/* Reduce motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   .loading-bar-animation {
     animation: none;
@@ -373,7 +398,6 @@ button {
   }
 }
 
-/* Optimize scroll performance */
 .overflow-y-auto, .overflow-auto, .overflow-x-auto {
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
@@ -403,7 +427,6 @@ button {
     animation: fadeInUp 0.2s ease-out forwards;
   }
 
-  /* Responsive Typography and Spacing */
   @media (max-width: 640px) {
     :root {
       --radius: 0.5rem;
@@ -429,7 +452,6 @@ button {
     animation: tabFadeIn 0.15s ease-out forwards;
   }
 
-  /* Mobile tab bar smooth scroll */
   .mobile-tab-bar {
     scroll-snap-type: x proximity;
     scroll-behavior: smooth;
@@ -440,7 +462,6 @@ button {
     scroll-snap-align: start;
   }
 
-/* Staggered animation delays */
 .animate-delay-1 { animation-delay: 0.03s; opacity: 0; }
 .animate-delay-2 { animation-delay: 0.06s; opacity: 0; }
 .animate-delay-3 { animation-delay: 0.09s; opacity: 0; }
@@ -452,7 +473,6 @@ button {
   animation: fadeInUp 0.2s ease-out forwards;
 }
 
-/* Button press animation - instant response */
 .animate-press {
   transition: transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   transform: translateZ(0);
@@ -467,66 +487,56 @@ button {
   animation: fadeIn 0.15s ease-out forwards;
 }
 
-/* Global animation performance optimization */
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Disable hover pseudo-element effects on touch devices (prevents double-tap issue on iOS/Safari) */
 @media (hover: none) {
   .hover-elevate::before {
     display: none !important;
   }
 }
 
-/* Optimized transitions - fast and smooth */
 .transition-optimized {
   transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
   transition-duration: 0.15s;
 }
 
-/* Smooth scrolling with GPU acceleration */
 .smooth-scroll {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
 }
 
-/* Image loading optimization - prevent layout shift */
 img {
   max-width: 100%;
   height: auto;
   display: block;
 }
 
-/* Container for images to prevent layout shift */
 .img-container {
   position: relative;
   overflow: hidden;
   background: hsl(var(--muted) / 0.3);
 }
 
-/* Lazy load images optimization */
 img[loading="lazy"] {
   background: hsl(var(--muted) / 0.3);
 }
 
-/* Native select styling for dark mode */
 select option {
   background-color: white;
   color: black;
 }
 
 .dark select option {
-  background-color: hsl(222 40% 11%);
+  background-color: #112B1E;
   color: white;
 }
 
-/* Button and interactive element optimizations */
 button, a, [role="button"] {
   touch-action: manipulation;
 }
 
-/* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -608,6 +618,6 @@ button, a, [role="button"] {
 @media (hover: hover) and (pointer: fine) {
   .outline-hover-fix:hover {
     background-color: hsl(var(--accent));
-    color: hsl(var(--primary-foreground));
+    color: hsl(var(--accent-foreground));
   }
 }

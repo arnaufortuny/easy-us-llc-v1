@@ -8,17 +8,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-md hover:shadow-lg border-0",
+        default: "bg-[#00C48C] text-white hover:bg-[#00855F] shadow-md hover:shadow-lg hover:shadow-[#00C48C]/30 border-0 font-semibold",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90 border-0",
         outline:
-          "border-2 border-primary bg-transparent text-foreground hover:bg-primary/10 hover:text-primary",
+          "border-2 border-[#00C48C] bg-transparent text-[#00C48C] hover:bg-[#00C48C] hover:text-white transition-all duration-200",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90 border-0",
-        ghost: "hover:bg-primary/10 hover:text-primary border-0",
-        link: "text-primary underline-offset-4 hover:underline border-0",
-        cta: "bg-cta text-cta-foreground hover:bg-cta/90 shadow-md hover:shadow-lg border-0 font-semibold",
-        premium: "bg-primary text-primary-foreground shadow-lg border-0 hover:bg-primary/90",
+          "bg-[#B4ED50] text-[#0A1F17] hover:bg-[#A0D444] font-semibold border-0 transition-all duration-200",
+        ghost: "hover:bg-[#00C48C]/10 hover:text-[#00C48C] text-muted-foreground border-0 transition-all duration-200",
+        link: "text-[#00C48C] underline-offset-4 hover:underline border-0",
+        cta: "bg-[#00C48C] text-white hover:bg-[#00E57A] shadow-lg hover:shadow-[#00C48C]/40 border-0 font-bold tracking-wide",
+        neon: "bg-[#00E57A] text-[#0A1F17] hover:bg-[#00C48C] font-bold shadow-md hover:shadow-[#00E57A]/40 border-0",
+        premium: "bg-[#00C48C] text-white shadow-lg border-0 hover:bg-[#00855F]",
       },
       size: {
         default: "h-12 px-6 py-2",

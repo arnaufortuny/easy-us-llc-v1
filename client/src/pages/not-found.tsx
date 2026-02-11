@@ -14,7 +14,7 @@ export default function NotFound() {
       
       <main className="flex-1 flex items-center justify-center p-4">
         <div className="text-center max-w-lg mx-auto flex flex-col items-center justify-center">
-          <div className="text-[120px] sm:text-[180px] font-black text-[#4A8BC2]/30 leading-none mb-4">404</div>
+          <div className="text-[120px] sm:text-[180px] font-black text-[#00C48C]/30 leading-none mb-4">404</div>
           
           <h1 className="text-3xl sm:text-4xl font-black text-foreground mb-4 tracking-tight">
             {t("notFound.title")}
@@ -27,7 +27,7 @@ export default function NotFound() {
           <Button 
             asChild 
             size="lg"
-            className="bg-[#4A8BC2] text-[#0A0A0A] border-[#4A8BC2] font-bold rounded-full shadow-lg" 
+            className="bg-[#00C48C] text-[#0A1F17] border-[#00C48C] font-bold rounded-full shadow-lg" 
             data-testid="button-go-home"
           >
             <Link href="/">
