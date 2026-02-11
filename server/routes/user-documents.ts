@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { and, eq, desc, inArray } from "drizzle-orm";
-import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp , asyncHandler } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable } from "@shared/schema";
 import { createLogger } from "../lib/logger";
 
@@ -8,7 +8,7 @@ const log = createLogger('user-documents');
 
 export function registerUserDocumentRoutes(app: Express) {
   // Get completed LLCs for user (for Operating Agreement generator)
-  app.get("/api/user/completed-llcs", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/completed-llcs", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       
@@ -44,10 +44,10 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error fetching completed LLCs", error);
       res.status(500).json({ message: "Error fetching completed LLCs" });
     }
-  });
+  }));
 
   // Save Operating Agreement to Document Center
-  app.post("/api/user/operating-agreements", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/operating-agreements", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { llcApplicationId, pdfBase64, fileName } = req.body;
@@ -94,9 +94,9 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error saving Operating Agreement", error);
       res.status(500).json({ message: "Error saving document" });
     }
-  });
+  }));
 
-  app.get("/api/user/documents", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/documents", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       
@@ -142,9 +142,9 @@ export function registerUserDocumentRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error fetching documents" });
     }
-  });
+  }));
 
-  app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.delete("/api/user/documents/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
@@ -186,10 +186,10 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error deleting document", error);
       res.status(500).json({ message: "Error deleting document" });
     }
-  });
+  }));
 
 
-  app.get("/api/user/documents/:id/download", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/documents/:id/download", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const docId = parseInt(req.params.id);
@@ -240,11 +240,11 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error downloading document", error);
       res.status(500).json({ message: "Error downloading file" });
     }
-  });
+  }));
 
 
   // Client: Upload identity verification document
-  app.post("/api/user/identity-verification/upload", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/identity-verification/upload", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       
@@ -359,10 +359,10 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Identity document upload error", error);
       res.status(500).json({ message: "Error uploading identity document" });
     }
-  });
+  }));
 
   // Protected file serving - admin documents
-  app.get("/uploads/admin-docs/:filename", isAuthenticated, async (req: any, res) => {
+  app.get("/uploads/admin-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const filename = req.params.filename;
       
@@ -426,10 +426,10 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error serving admin doc", error);
       res.status(500).json({ message: "Error serving file" });
     }
-  });
+  }));
 
   // Protected file serving - client documents
-  app.get("/uploads/client-docs/:filename", isAuthenticated, async (req: any, res) => {
+  app.get("/uploads/client-docs/:filename", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const filename = req.params.filename;
       
@@ -493,7 +493,7 @@ export function registerUserDocumentRoutes(app: Express) {
       log.error("Error serving client doc", error);
       res.status(500).json({ message: "Error serving file" });
     }
-  });
+  }));
 
   // Catch-all for /uploads - deny access to any uncovered paths
   app.get("/uploads/*", (_req, res) => {

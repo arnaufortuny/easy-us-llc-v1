@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, logAudit, getClientIp } from "./shared";
+import { db, logAudit, getClientIp , asyncHandler } from "./shared";
 import { contactOtps, users as usersTable } from "@shared/schema";
 import { and, eq, gt } from "drizzle-orm";
 import { checkRateLimit } from "../lib/security";
@@ -12,7 +12,7 @@ const log = createLogger('auth');
 
 export function registerAuthExtRoutes(app: Express) {
   // Check if email already exists (for form flow to detect existing users)
-  app.post("/api/auth/check-email", async (req, res) => {
+  app.post("/api/auth/check-email", asyncHandler(async (req, res) => {
     try {
       const { email } = z.object({ email: z.string().email() }).parse(req.body);
       
@@ -28,10 +28,10 @@ export function registerAuthExtRoutes(app: Express) {
     } catch (err) {
       res.status(400).json({ message: "Invalid email" });
     }
-  });
+  }));
   
   // Send OTP for account registration (email verification before creating account)
-  app.post("/api/register/send-otp", async (req, res) => {
+  app.post("/api/register/send-otp", asyncHandler(async (req, res) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('register', ip);
@@ -98,10 +98,10 @@ export function registerAuthExtRoutes(app: Express) {
       log.error("Error sending registration OTP", err);
       res.status(400).json({ message: "Error sending verification code." });
     }
-  });
+  }));
 
   // Verify OTP for account registration
-  app.post("/api/register/verify-otp", async (req, res) => {
+  app.post("/api/register/verify-otp", asyncHandler(async (req, res) => {
     try {
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
@@ -130,10 +130,10 @@ export function registerAuthExtRoutes(app: Express) {
       log.error("Error verifying registration OTP", err);
       res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
-  });
+  }));
 
   // Send OTP for password reset (forgot password)
-  app.post("/api/password-reset/send-otp", async (req, res) => {
+  app.post("/api/password-reset/send-otp", asyncHandler(async (req, res) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('passwordReset', ip);
@@ -178,10 +178,10 @@ export function registerAuthExtRoutes(app: Express) {
       log.error("Error sending password reset OTP", err);
       res.status(400).json({ message: "Error sending verification code." });
     }
-  });
+  }));
 
   // Verify OTP and reset password
-  app.post("/api/password-reset/confirm", async (req, res) => {
+  app.post("/api/password-reset/confirm", asyncHandler(async (req, res) => {
     try {
       const { email, otp, newPassword } = z.object({ 
         email: z.string().email(), 
@@ -240,5 +240,5 @@ export function registerAuthExtRoutes(app: Express) {
       }
       res.status(400).json({ message: "Error resetting password" });
     }
-  });
+  }));
 }

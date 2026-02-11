@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit , asyncHandler } from "./shared";
 import { api } from "@shared/routes";
 import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
@@ -13,7 +13,7 @@ const log = createLogger('llc');
 
 export function registerLlcRoutes(app: Express) {
   // Claim order endpoint - creates account and associates with existing order
-  app.post("/api/llc/claim-order", async (req: any, res) => {
+  app.post("/api/llc/claim-order", asyncHandler(async (req: any, res) => {
     try {
       let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
@@ -128,10 +128,10 @@ export function registerLlcRoutes(app: Express) {
       log.error("Error claiming order", error);
       res.status(500).json({ message: "Error creating account." });
     }
-  });
+  }));
 
   // Client Update LLC Application Data
-  app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.patch("/api/llc/:id/data", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
@@ -167,8 +167,8 @@ export function registerLlcRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error updating application" });
     }
-  });
-  app.get(api.llc.get.path, async (req: any, res) => {
+  }));
+  app.get(api.llc.get.path, asyncHandler(async (req: any, res) => {
     const appId = Number(req.params.id);
     
     const application = await storage.getLlcApplication(appId);
@@ -190,9 +190,9 @@ export function registerLlcRoutes(app: Express) {
     }
 
     res.json(application);
-  });
+  }));
 
-  app.put(api.llc.update.path, async (req: any, res) => {
+  app.put(api.llc.update.path, asyncHandler(async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = api.llc.update.input.parse(req.body);
@@ -274,10 +274,10 @@ export function registerLlcRoutes(app: Express) {
     log.error("Error updating LLC application", err);
     res.status(500).json({ message: "Error updating request" });
   }
-});
+}));
 
   // Lookup by request code - requires authentication
-  app.get(api.llc.getByCode.path, async (req: any, res) => {
+  app.get(api.llc.getByCode.path, asyncHandler(async (req: any, res) => {
     const code = req.params.code;
     
     const application = await storage.getLlcApplicationByRequestCode(code);
@@ -294,10 +294,10 @@ export function registerLlcRoutes(app: Express) {
     }
 
     res.json(application);
-  });
+  }));
 
   // Documents - requires authentication
-  app.post(api.documents.create.path, isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post(api.documents.create.path, isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const docData = api.documents.create.input.parse(req.body);
       
@@ -324,13 +324,13 @@ export function registerLlcRoutes(app: Express) {
       }
       throw err;
     }
-  });
+  }));
 
   // Client document upload endpoint
   const MAX_FILE_SIZE_MB = 5;
   const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
   
-  app.post("/api/user/documents/upload", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/documents/upload", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       if (!userId) {
@@ -523,11 +523,11 @@ export function registerLlcRoutes(app: Express) {
       log.error("Client upload error", error);
       res.status(500).json({ message: "Error uploading document" });
     }
-  });
+  }));
 
   // Payment simulation endpoint for LLC
   // PROTECTED: Only admin can manually mark orders as paid
-  app.post("/api/llc/:id/pay", isAdmin, async (req: any, res) => {
+  app.post("/api/llc/:id/pay", isAdmin, asyncHandler(async (req: any, res) => {
     try {
       const appId = parseInt(req.params.id);
       const application = await storage.getLlcApplication(appId);
@@ -554,5 +554,5 @@ export function registerLlcRoutes(app: Express) {
       log.error("Payment error", error);
       res.status(500).json({ message: "Payment processing failed" });
     }
-  });
+  }));
 }

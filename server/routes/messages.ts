@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp , asyncHandler } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
@@ -21,16 +21,16 @@ const createMessageSchema = z.object({
 });
 
 export function registerMessageRoutes(app: Express) {
-  app.get("/api/messages", isAuthenticated, async (req: any, res) => {
+  app.get("/api/messages", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userMessages = await storage.getMessagesByUserId(req.session.userId);
       res.json(userMessages);
     } catch (error) {
       res.status(500).json({ message: "Error fetching messages" });
     }
-  });
+  }));
 
-  app.post("/api/messages", async (req: any, res) => {
+  app.post("/api/messages", asyncHandler(async (req: any, res) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = await checkRateLimit('contact', ip);
@@ -111,10 +111,10 @@ export function registerMessageRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error sending message" });
     }
-  });
+  }));
 
   // Message replies - secured: only message owner or admin can view
-  app.get("/api/messages/:id/replies", isAuthenticated, async (req: any, res) => {
+  app.get("/api/messages/:id/replies", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const messageId = Number(req.params.id);
       
@@ -136,10 +136,10 @@ export function registerMessageRoutes(app: Express) {
       log.error("Error fetching message replies", error);
       res.status(500).json({ message: "Error fetching replies" });
     }
-  });
+  }));
 
   // Add reply to message - secured: only message owner or admin can reply
-  app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/messages/:id/reply", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const messageId = Number(req.params.id);
       const { content } = req.body;
@@ -192,5 +192,5 @@ export function registerMessageRoutes(app: Express) {
       log.error("Error creating reply", error);
       res.status(500).json({ message: "Error creating reply" });
     }
-  });
+  }));
 }

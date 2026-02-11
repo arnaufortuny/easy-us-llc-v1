@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, isAdmin, logAudit } from "./shared";
+import { db, isAdmin, logAudit , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
 import { staffRoles, STAFF_PERMISSIONS, users as usersTable } from "@shared/schema";
 import { eq, desc } from "drizzle-orm";
@@ -8,7 +8,7 @@ import { eq, desc } from "drizzle-orm";
 const log = createLogger('admin-roles');
 
 export function registerAdminRoleRoutes(app: Express) {
-  app.get("/api/admin/roles", isAdmin, async (req, res) => {
+  app.get("/api/admin/roles", isAdmin, asyncHandler(async (req, res) => {
     try {
       const roles = await db.select().from(staffRoles).orderBy(desc(staffRoles.createdAt));
       res.json(roles);
@@ -16,18 +16,18 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error fetching roles", error);
       res.status(500).json({ message: "Error fetching roles" });
     }
-  });
+  }));
 
-  app.get("/api/admin/roles/permissions", isAdmin, async (req, res) => {
+  app.get("/api/admin/roles/permissions", isAdmin, asyncHandler(async (req, res) => {
     try {
       res.json(STAFF_PERMISSIONS);
     } catch (err) {
       console.error("Error fetching permissions:", err);
       res.status(500).json({ message: "Error fetching permissions" });
     }
-  });
+  }));
 
-  app.post("/api/admin/roles", isAdmin, async (req, res) => {
+  app.post("/api/admin/roles", isAdmin, asyncHandler(async (req, res) => {
     try {
       const schema = z.object({
         name: z.string().min(1).max(100),
@@ -65,9 +65,9 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error creating role", error);
       res.status(500).json({ message: "Error creating role" });
     }
-  });
+  }));
 
-  app.patch("/api/admin/roles/:id", isAdmin, async (req, res) => {
+  app.patch("/api/admin/roles/:id", isAdmin, asyncHandler(async (req, res) => {
     try {
       const roleId = parseInt(req.params.id);
       const schema = z.object({
@@ -112,9 +112,9 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error updating role", error);
       res.status(500).json({ message: "Error updating role" });
     }
-  });
+  }));
 
-  app.delete("/api/admin/roles/:id", isAdmin, async (req, res) => {
+  app.delete("/api/admin/roles/:id", isAdmin, asyncHandler(async (req, res) => {
     try {
       const roleId = parseInt(req.params.id);
 
@@ -141,9 +141,9 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error deleting role", error);
       res.status(500).json({ message: "Error deleting role" });
     }
-  });
+  }));
 
-  app.post("/api/admin/users/:userId/assign-role", isAdmin, async (req, res) => {
+  app.post("/api/admin/users/:userId/assign-role", isAdmin, asyncHandler(async (req, res) => {
     try {
       const { userId } = req.params;
       const schema = z.object({
@@ -192,9 +192,9 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error assigning role", error);
       res.status(500).json({ message: "Error assigning role" });
     }
-  });
+  }));
 
-  app.get("/api/admin/staff-users", isAdmin, async (req, res) => {
+  app.get("/api/admin/staff-users", isAdmin, asyncHandler(async (req, res) => {
     try {
       const staffUsers = await db.select({
         id: usersTable.id,
@@ -214,5 +214,5 @@ export function registerAdminRoleRoutes(app: Express) {
       log.error("Error fetching staff users", error);
       res.status(500).json({ message: "Error fetching staff" });
     }
-  });
+  }));
 }

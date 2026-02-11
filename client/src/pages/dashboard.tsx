@@ -1466,9 +1466,9 @@ export default function Dashboard() {
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
       <main className={`pt-6 sm:pt-10 pb-20 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
-        {/* Mobile Navigation - Horizontal scroll buttons (ABOVE welcome on mobile) */}
-        <div className="flex flex-col gap-2 mb-4 lg:hidden">
-          <div className="flex overflow-x-auto pb-3 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5 pl-5 sm:pl-5">
+        {/* Mobile Navigation - Sticky horizontal scroll buttons */}
+        <div className="flex flex-col gap-2 mb-4 lg:hidden sticky top-0 z-50 bg-background pt-2 pb-1 -mt-2">
+          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar mobile-tab-bar -mx-5 px-5 pl-5 sm:pl-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;

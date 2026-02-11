@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity } from "./shared";
+import { db, storage, isAuthenticated, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('contact');
@@ -12,7 +12,7 @@ import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
 
 export function registerContactRoutes(app: Express) {
   // Newsletter
-  app.get("/api/newsletter/status", isAuthenticated, async (req: any, res) => {
+  app.get("/api/newsletter/status", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
       res.json({ isSubscribed });
@@ -20,9 +20,9 @@ export function registerContactRoutes(app: Express) {
       console.error("Error fetching newsletter status:", err);
       res.status(500).json({ message: "Error fetching newsletter status" });
     }
-  });
+  }));
 
-  app.post("/api/newsletter/unsubscribe", isAuthenticated, async (req: any, res) => {
+  app.post("/api/newsletter/unsubscribe", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
       res.json({ success: true });
@@ -30,10 +30,10 @@ export function registerContactRoutes(app: Express) {
       console.error("Error unsubscribing from newsletter:", err);
       res.status(500).json({ message: "Error unsubscribing" });
     }
-  });
+  }));
 
   // Newsletter Subscription
-  app.post("/api/newsletter/subscribe", async (req: any, res) => {
+  app.post("/api/newsletter/subscribe", asyncHandler(async (req: any, res) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('contact', ip);
@@ -103,11 +103,11 @@ export function registerContactRoutes(app: Express) {
       }
       res.status(500).json({ message: "Error subscribing" });
     }
-  });
+  }));
 
 
   // Contact form
-  app.post("/api/contact/send-otp", async (req, res) => {
+  app.post("/api/contact/send-otp", asyncHandler(async (req, res) => {
     try {
       const ip = getClientIp(req);
       const rateCheck = checkRateLimit('contact', ip);
@@ -141,9 +141,9 @@ export function registerContactRoutes(app: Express) {
       log.error("Error sending contact OTP", err);
       res.status(400).json({ message: "Error sending verification code. Please try again in a few minutes." });
     }
-  });
+  }));
 
-  app.post("/api/contact/verify-otp", async (req, res) => {
+  app.post("/api/contact/verify-otp", asyncHandler(async (req, res) => {
     try {
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
@@ -171,9 +171,9 @@ export function registerContactRoutes(app: Express) {
       log.error("Error verifying contact OTP", err);
       res.status(400).json({ message: "Could not verify the code. Please try again." });
     }
-  });
+  }));
 
-  app.post("/api/contact", async (req, res) => {
+  app.post("/api/contact", asyncHandler(async (req, res) => {
     try {
       const contactData = z.object({
         nombre: z.string(),
@@ -258,5 +258,5 @@ export function registerContactRoutes(app: Express) {
       log.error("Error processing contact form", err);
       res.status(400).json({ message: "Error processing message" });
     }
-  });
+  }));
 }

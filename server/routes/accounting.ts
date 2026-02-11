@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { z } from "zod";
-import { db, isAdmin, logAudit } from "./shared";
+import { db, isAdmin, logAudit , asyncHandler } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('accounting');
@@ -24,7 +24,7 @@ const updateTransactionSchema = createTransactionSchema.partial();
 
 export function registerAccountingRoutes(app: Express) {
   // Get all transactions with filters
-  app.get("/api/admin/accounting/transactions", isAdmin, async (req, res) => {
+  app.get("/api/admin/accounting/transactions", isAdmin, asyncHandler(async (req, res) => {
     try {
       const { type, category, startDate, endDate } = req.query;
       
@@ -56,10 +56,10 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error fetching accounting transactions", err);
       res.status(500).json({ message: "Error fetching transactions" });
     }
-  });
+  }));
   
   // Get accounting summary/stats
-  app.get("/api/admin/accounting/summary", isAdmin, async (req, res) => {
+  app.get("/api/admin/accounting/summary", isAdmin, asyncHandler(async (req, res) => {
     try {
       const { period } = req.query; // 'month', 'year', 'all'
       
@@ -107,10 +107,10 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error fetching accounting summary", err);
       res.status(500).json({ message: "Error fetching accounting summary" });
     }
-  });
+  }));
   
   // Create transaction
-  app.post("/api/admin/accounting/transactions", isAdmin, async (req: any, res) => {
+  app.post("/api/admin/accounting/transactions", isAdmin, asyncHandler(async (req: any, res) => {
     try {
       const parsed = createTransactionSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -146,10 +146,10 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error creating transaction", err);
       res.status(500).json({ message: "Error creating transaction" });
     }
-  });
+  }));
   
   // Update transaction
-  app.patch("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
+  app.patch("/api/admin/accounting/transactions/:id", isAdmin, asyncHandler(async (req: any, res) => {
     try {
       const txId = Number(req.params.id);
       if (isNaN(txId) || txId <= 0) {
@@ -197,10 +197,10 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error updating transaction", err);
       res.status(500).json({ message: "Error updating transaction" });
     }
-  });
+  }));
   
   // Delete transaction
-  app.delete("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
+  app.delete("/api/admin/accounting/transactions/:id", isAdmin, asyncHandler(async (req: any, res) => {
     try {
       const txId = Number(req.params.id);
       if (isNaN(txId) || txId <= 0) {
@@ -220,10 +220,10 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error deleting transaction", err);
       res.status(500).json({ message: "Error deleting transaction" });
     }
-  });
+  }));
   
   // Export transactions to CSV
-  app.get("/api/admin/accounting/export-csv", isAdmin, async (req, res) => {
+  app.get("/api/admin/accounting/export-csv", isAdmin, asyncHandler(async (req, res) => {
     try {
       const { startDate, endDate, type, category } = req.query;
       
@@ -270,5 +270,5 @@ export function registerAccountingRoutes(app: Express) {
       log.error("Error exporting CSV", err);
       res.status(500).json({ message: "Error exporting CSV" });
     }
-  });
+  }));
 }

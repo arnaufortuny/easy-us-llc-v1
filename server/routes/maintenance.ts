@@ -1,6 +1,6 @@
 import type { Express } from "express";
 import { eq, and, gt, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp, detectSuspiciousOrderActivity, flagAccountForReview , asyncHandler } from "./shared";
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
@@ -11,7 +11,7 @@ const log = createLogger('maintenance');
 
 export function registerMaintenanceRoutes(app: Express) {
   // Claim maintenance order endpoint
-  app.post("/api/maintenance/claim-order", async (req: any, res) => {
+  app.post("/api/maintenance/claim-order", asyncHandler(async (req: any, res) => {
     try {
       let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
@@ -119,9 +119,9 @@ export function registerMaintenanceRoutes(app: Express) {
       log.error("Error claiming maintenance order", error);
       res.status(500).json({ message: "Error creating account." });
     }
-  });
+  }));
 
-  app.post("/api/maintenance/orders", async (req: any, res) => {
+  app.post("/api/maintenance/orders", asyncHandler(async (req: any, res) => {
     try {
       let { productId, state, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (email) email = normalizeEmail(email);
@@ -301,10 +301,10 @@ export function registerMaintenanceRoutes(app: Express) {
       log.error("Error creating maintenance order", err);
       res.status(500).json({ message: "Error creating maintenance order" });
     }
-  });
+  }));
 
   // Maintenance App Updates - Protected with ownership verification
-  app.put("/api/maintenance/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.put("/api/maintenance/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const appId = Number(req.params.id);
       const updates = req.body;
@@ -382,5 +382,5 @@ export function registerMaintenanceRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error updating request" });
     }
-  });
+  }));
 }

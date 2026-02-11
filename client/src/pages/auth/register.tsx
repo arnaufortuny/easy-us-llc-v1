@@ -418,7 +418,7 @@ export default function Register() {
                               {...field}
                               placeholder={t("auth.register.firstNamePlaceholder")}
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                              
                               data-testid="input-firstName"
                             />
                           </FormControl>
@@ -438,7 +438,7 @@ export default function Register() {
                               {...field}
                               placeholder={t("auth.register.lastNamePlaceholder")}
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                              
                               data-testid="input-lastName"
                             />
                           </FormControl>
@@ -468,7 +468,7 @@ export default function Register() {
                               type="email"
                               inputMode="email"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                              
                               data-testid="input-email"
                             />
                           </FormControl>
@@ -499,7 +499,7 @@ export default function Register() {
                               inputMode="tel"
                               placeholder={t("auth.register.phonePlaceholder")}
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                              
                               data-testid="input-phone"
                             />
                           </FormControl>
@@ -567,7 +567,7 @@ export default function Register() {
                                 type={showPassword ? "text" : "password"}
                                 autoComplete="new-password"
                                 className="h-11 md:h-12 px-5 pr-12 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                                style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                                
                                 data-testid="input-password"
                               />
                               <Button
@@ -603,7 +603,7 @@ export default function Register() {
                               type={showPassword ? "text" : "password"}
                               autoComplete="new-password"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-[#1a3a2a] focus:border-accent bg-white dark:bg-[#112B1E] transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
-                              style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
+                              
                               data-testid="input-confirmPassword"
                             />
                           </FormControl>

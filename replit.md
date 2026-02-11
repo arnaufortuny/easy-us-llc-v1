@@ -37,7 +37,7 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 ### Security Features
 - **Encryption:** AES-256-CBC for sensitive data, SHA-256 for file integrity.
 - **Authentication:** bcrypt password hashing (12 rounds), session-based with regeneration, CSRF protection.
-- **Rate Limiting:** IP-based throttling, order creation limits.
+- **Rate Limiting:** DB-backed (PostgreSQL) rate limiting with in-memory fallback, IP-based throttling, order creation limits.
 - **Input Validation:** Centralized Zod schema validation, email normalization, DOMPurify sanitization.
 - **Document Security:** Secure download with access logging, type/size validation.
 - **Account Protection:** Failed login attempt tracking, suspicious activity detection.
@@ -52,7 +52,7 @@ Easy US LLC is a full-stack SaaS platform designed to simplify US LLC formation 
 - **Admin Panel:** Comprehensive management for users, orders, documents, communications, accounting, consultations, and analytics.
 - **Form System:** Multi-step wizards, draft saving, unauthenticated data transfer, age verification, and integrated OTP.
 - **Compliance Calendar:** Automated IRS deadline calculation, annual report reminders, registered agent renewal tracking.
-- **Route Protection:** Client-side `AccountStatusGuard` and server-side middleware (`isNotUnderReview`, `isAuthenticated`, `isAdmin`, `hasPermission`) for role-based access control.
+- **Route Protection:** Client-side `AccountStatusGuard` and server-side middleware (`isNotUnderReview`, `isAuthenticated`, `isAdmin`, `hasPermission`) for role-based access control. All async route handlers wrapped with `asyncHandler` for error safety.
 - **Staff Roles & Permissions:** Granular permissions defined in `staff_roles` table, assigned to users, with admin bypass.
 
 ## External Dependencies

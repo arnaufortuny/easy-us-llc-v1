@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { eq, desc, sql, and, gt } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, logActivity, isIpBlockedFromOrders, trackOrderByIp , asyncHandler } from "./shared";
 import { api } from "@shared/routes";
 import { contactOtps, users as usersTable, orderEvents, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, maintenanceApplications, discountCodes } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate } from "../lib/email";
@@ -14,16 +14,16 @@ const log = createLogger('orders');
 
 export function registerOrderRoutes(app: Express) {
   // Orders (Requires authentication)
-  app.get(api.orders.list.path, async (req: any, res) => {
+  app.get(api.orders.list.path, asyncHandler(async (req: any, res) => {
     if (!req.session.userId) {
       return res.status(401).json({ message: "Unauthorized" });
     }
     const orders = await storage.getOrders(req.session.userId);
     res.json(orders);
-  });
+  }));
 
   // Invoices
-  app.get("/api/orders/:id/invoice", isAuthenticated, async (req: any, res) => {
+  app.get("/api/orders/:id/invoice", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -72,8 +72,8 @@ export function registerOrderRoutes(app: Express) {
       log.error("Invoice error", error);
       res.status(500).send("Error generating invoice");
     }
-  });
-  app.post(api.orders.create.path, async (req: any, res) => {
+  }));
+  app.post(api.orders.create.path, asyncHandler(async (req: any, res) => {
     try {
       let { productId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       if (email) email = normalizeEmail(email);
@@ -265,10 +265,10 @@ export function registerOrderRoutes(app: Express) {
       log.error("Error creating order", err);
       return res.status(500).json({ message: "Error creating order" });
     }
-  });
+  }));
 
   // Order Events Timeline
-  app.get("/api/orders/:id/events", isAuthenticated, async (req: any, res) => {
+  app.get("/api/orders/:id/events", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -287,5 +287,5 @@ export function registerOrderRoutes(app: Express) {
       log.error("Error fetching order events", error);
       res.status(500).json({ message: "Error fetching events" });
     }
-  });
+  }));
 }

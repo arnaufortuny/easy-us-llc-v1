@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt, desc, sql } from "drizzle-orm";
-import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity } from "./shared";
+import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit, getClientIp, logActivity , asyncHandler } from "./shared";
 import { contactOtps, users as usersTable, userNotifications, orders as ordersTable, llcApplications as llcApplicationsTable, standaloneInvoices } from "@shared/schema";
 import { sendEmail, getProfileChangeOtpTemplate, getAdminProfileChangesTemplate, getAccountDeactivatedByUserTemplate } from "../lib/email";
 import { getEmailTranslations, EmailLanguage } from "../lib/email-translations";
@@ -12,13 +12,13 @@ import { createLogger } from "../lib/logger";
 const log = createLogger('user-profile');
 
 export function registerUserProfileRoutes(app: Express) {
-  app.get("/api/products", async (req, res) => {
+  app.get("/api/products", asyncHandler(async (req, res) => {
     const products = await storage.getProducts();
     res.json(products);
-  });
+  }));
 
   // Protected admin seeding - requires existing admin authentication
-  app.post("/api/seed-admin", isAdmin, async (req, res) => {
+  app.post("/api/seed-admin", isAdmin, asyncHandler(async (req, res) => {
     try {
       const { email } = req.body;
       const adminEmail = email || process.env.ADMIN_EMAIL || "afortuny07@gmail.com";
@@ -34,10 +34,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Seed admin error", error);
       res.status(500).json({ message: "Error assigning admin role" });
     }
-  });
+  }));
 
   // Client Deactivate Account (user requests "delete" but we only deactivate, preserving all data)
-  app.delete("/api/user/account", isAuthenticated, async (req: any, res) => {
+  app.delete("/api/user/account", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -83,10 +83,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Deactivate account error", error);
       res.status(500).json({ message: "Error deactivating account" });
     }
-  });
+  }));
 
   // Save language preference (separate from profile - no OTP needed)
-  app.patch("/api/user/language", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/user/language", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { preferredLanguage } = req.body;
@@ -100,7 +100,7 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Update language error", error);
       res.status(500).json({ message: "Error updating language" });
     }
-  });
+  }));
 
   // Client Update Profile
   const updateProfileSchema = z.object({
@@ -122,7 +122,7 @@ export function registerUserProfileRoutes(app: Express) {
   // Sensitive fields that require OTP: name, ID/passport, phone only
   const sensitiveFields = ['firstName', 'lastName', 'idNumber', 'idType', 'phone'];
   
-  app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.patch("/api/user/profile", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode, ...profileData } = req.body;
@@ -280,10 +280,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Update profile error", error);
       res.status(500).json({ message: "Error updating profile" });
     }
-  });
+  }));
   
   // Confirm pending profile changes with OTP
-  app.post("/api/user/profile/confirm-otp", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/profile/confirm-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode } = req.body;
@@ -400,10 +400,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Confirm profile OTP error", error);
       res.status(500).json({ message: "Error confirming changes" });
     }
-  });
+  }));
   
   // Cancel pending profile changes
-  app.post("/api/user/profile/cancel-pending", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/profile/cancel-pending", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       await db.update(usersTable).set({ pendingProfileChanges: null, pendingChangesExpiresAt: null }).where(eq(usersTable.id, userId));
@@ -413,10 +413,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Cancel pending changes error", error);
       res.status(500).json({ message: "Error cancelling changes" });
     }
-  });
+  }));
   
   // Resend OTP for pending profile changes
-  app.post("/api/user/profile/resend-otp", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/profile/resend-otp", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -461,10 +461,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Resend OTP error", error);
       res.status(500).json({ message: "Error sending OTP" });
     }
-  });
+  }));
 
   // User Compliance Deadlines - Calendar API
-  app.get("/api/user/deadlines", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/deadlines", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       
@@ -487,10 +487,10 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Error fetching deadlines", error);
       res.status(500).json({ message: "Error fetching compliance dates" });
     }
-  });
+  }));
 
   // Client update order (allowed fields before processing)
-  app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.patch("/api/orders/:id", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const orderId = Number(req.params.id);
       const order = await storage.getOrder(orderId);
@@ -521,9 +521,9 @@ export function registerUserProfileRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error updating order" });
     }
-  });
+  }));
 
-  app.get("/api/user/invoices", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/invoices", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const invoices = await db.select({
@@ -545,9 +545,9 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Error fetching user invoices", error);
       res.status(500).json({ message: "Error fetching invoices" });
     }
-  });
+  }));
 
-  app.get("/api/user/invoices/:id/download", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/invoices/:id/download", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const invoiceId = parseInt(req.params.id);
@@ -576,9 +576,9 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Error downloading user invoice", error);
       res.status(500).json({ message: "Error downloading invoice" });
     }
-  });
+  }));
 
-  app.get("/api/user/notifications", isAuthenticated, async (req: any, res) => {
+  app.get("/api/user/notifications", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const notifs = await db.select()
@@ -591,9 +591,9 @@ export function registerUserProfileRoutes(app: Express) {
       log.error("Get notifications error", error);
       res.status(500).json({ message: "Error fetching notifications" });
     }
-  });
+  }));
 
-  app.patch("/api/user/notifications/:id/read", isAuthenticated, async (req: any, res) => {
+  app.patch("/api/user/notifications/:id/read", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       await db.update(userNotifications)
         .set({ isRead: true })
@@ -602,10 +602,10 @@ export function registerUserProfileRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error" });
     }
-  });
+  }));
 
   // Delete user notification
-  app.delete("/api/user/notifications/:id", isAuthenticated, async (req: any, res) => {
+  app.delete("/api/user/notifications/:id", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       await db.delete(userNotifications)
         .where(and(eq(userNotifications.id, req.params.id), eq(userNotifications.userId, req.session.userId)));
@@ -613,5 +613,5 @@ export function registerUserProfileRoutes(app: Express) {
     } catch (error) {
       res.status(500).json({ message: "Error deleting notification" });
     }
-  });
+  }));
 }

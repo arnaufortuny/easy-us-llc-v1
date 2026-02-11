@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { z } from "zod";
 import { and, eq, gt } from "drizzle-orm";
-import { db, isAuthenticated, isNotUnderReview, getClientIp, logAudit } from "./shared";
+import { db, isAuthenticated, isNotUnderReview, getClientIp, logAudit , asyncHandler } from "./shared";
 import { contactOtps, users as usersTable } from "@shared/schema";
 import { sendEmail, getOtpEmailTemplate, getWelcomeEmailTemplate, getPasswordChangeOtpTemplate } from "../lib/email";
 import { EmailLanguage, getOtpSubject } from "../lib/email-translations";
@@ -12,7 +12,7 @@ const log = createLogger('user-security');
 
 export function registerUserSecurityRoutes(app: Express) {
   // Verify email for pending accounts (activate account)
-  app.post("/api/user/verify-email", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/verify-email", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const { otpCode } = req.body;
@@ -72,10 +72,10 @@ export function registerUserSecurityRoutes(app: Express) {
       log.error("Verify email error", error);
       res.status(500).json({ message: "Error verifying email" });
     }
-  });
+  }));
   
   // Send verification OTP for pending accounts
-  app.post("/api/user/send-verification-otp", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/send-verification-otp", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const userId = req.session.userId;
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
@@ -120,10 +120,10 @@ export function registerUserSecurityRoutes(app: Express) {
       log.error("Send verification OTP error", error);
       res.status(500).json({ message: "Error sending OTP" });
     }
-  });
+  }));
 
   // Request OTP for password change
-  app.post("/api/user/request-password-otp", isAuthenticated, async (req: any, res) => {
+  app.post("/api/user/request-password-otp", isAuthenticated, asyncHandler(async (req: any, res) => {
     try {
       const [user] = await db.select().from(usersTable).where(eq(usersTable.id, req.session.userId));
       if (!user?.email) {
@@ -156,10 +156,10 @@ export function registerUserSecurityRoutes(app: Express) {
       log.error("Request password OTP error", error);
       res.status(500).json({ message: "Error sending code" });
     }
-  });
+  }));
 
   // Change password with OTP verification
-  app.post("/api/user/change-password", isAuthenticated, isNotUnderReview, async (req: any, res) => {
+  app.post("/api/user/change-password", isAuthenticated, isNotUnderReview, asyncHandler(async (req: any, res) => {
     try {
       const { currentPassword, newPassword, otp } = z.object({
         currentPassword: z.string().min(1),
@@ -208,5 +208,5 @@ export function registerUserSecurityRoutes(app: Express) {
       log.error("Change password error", error);
       res.status(500).json({ message: "Error changing password" });
     }
-  });
+  }));
 }

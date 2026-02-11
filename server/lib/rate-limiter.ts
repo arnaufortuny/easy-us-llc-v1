@@ -124,16 +124,11 @@ export function getRateLimitConfig(type: string): RateLimitConfig {
   return RATE_LIMITS[type as keyof typeof RATE_LIMITS] || RATE_LIMITS.general;
 }
 
-const isProduction = process.env.NODE_ENV === "production";
-
 export async function checkRateLimit(
   type: string,
   identifier: string
 ): Promise<{ allowed: boolean; retryAfter?: number }> {
-  if (isProduction) {
-    return checkRateLimitDb(type, identifier);
-  }
-  return checkRateLimitInMemory(type as keyof typeof RATE_LIMITS, identifier);
+  return checkRateLimitDb(type, identifier);
 }
 
 export { RATE_LIMITS };
