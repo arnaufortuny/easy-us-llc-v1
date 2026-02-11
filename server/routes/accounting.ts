@@ -1,10 +1,26 @@
 import type { Express } from "express";
+import { z } from "zod";
 import { db, isAdmin, logAudit } from "./shared";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('accounting');
 import { accountingTransactions } from "@shared/schema";
 import { and, eq, desc, sql } from "drizzle-orm";
+
+const createTransactionSchema = z.object({
+  type: z.enum(['income', 'expense']),
+  category: z.string().min(1).max(100),
+  amount: z.union([z.string(), z.number()]).refine(val => !isNaN(Number(val)) && Number(val) > 0, { message: "Amount must be a positive number" }),
+  currency: z.string().length(3).optional().default('EUR'),
+  description: z.string().max(1000).optional().nullable(),
+  orderId: z.number().int().positive().optional().nullable(),
+  userId: z.string().optional().nullable(),
+  reference: z.string().max(200).optional().nullable(),
+  transactionDate: z.string().optional().nullable().refine(val => !val || !isNaN(Date.parse(val)), { message: "Invalid date format" }),
+  notes: z.string().max(2000).optional().nullable(),
+});
+
+const updateTransactionSchema = createTransactionSchema.partial();
 
 export function registerAccountingRoutes(app: Express) {
   // Get all transactions with filters
@@ -22,10 +38,12 @@ export function registerAccountingRoutes(app: Express) {
         conditions.push(eq(accountingTransactions.category, category));
       }
       if (startDate && typeof startDate === 'string') {
-        conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(startDate)}`);
+        const d = new Date(startDate);
+        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} >= ${d}`);
       }
       if (endDate && typeof endDate === 'string') {
-        conditions.push(sql`${accountingTransactions.transactionDate} <= ${new Date(endDate)}`);
+        const d = new Date(endDate);
+        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} <= ${d}`);
       }
       
       const transactions = await db.select()
@@ -94,11 +112,11 @@ export function registerAccountingRoutes(app: Express) {
   // Create transaction
   app.post("/api/admin/accounting/transactions", isAdmin, async (req: any, res) => {
     try {
-      const { type, category, amount, currency, description, orderId, userId, reference, transactionDate, notes } = req.body;
-      
-      if (!type || !category || amount === undefined) {
-        return res.status(400).json({ message: "Missing required data" });
+      const parsed = createTransactionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Invalid data", errors: parsed.error.flatten().fieldErrors });
       }
+      const { type, category, amount, currency, description, orderId, userId, reference, transactionDate, notes } = parsed.data;
       
       const amountCents = Math.round(Number(amount) * 100);
       
@@ -134,14 +152,27 @@ export function registerAccountingRoutes(app: Express) {
   app.patch("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
     try {
       const txId = Number(req.params.id);
-      const { type, category, amount, currency, description, reference, transactionDate, notes } = req.body;
+      if (isNaN(txId) || txId <= 0) {
+        return res.status(400).json({ message: "Invalid transaction ID" });
+      }
+      const parsed = updateTransactionSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Invalid data", errors: parsed.error.flatten().fieldErrors });
+      }
+      const { type, category, amount, currency, description, reference, transactionDate, notes } = parsed.data;
       
+      const [existing] = await db.select().from(accountingTransactions).where(eq(accountingTransactions.id, txId)).limit(1);
+      if (!existing) {
+        return res.status(404).json({ message: "Transaction not found" });
+      }
+
       const updateData: Record<string, any> = { updatedAt: new Date() };
       if (type) updateData.type = type;
       if (category) updateData.category = category;
       if (amount !== undefined) {
         const amountCents = Math.round(Number(amount) * 100);
-        updateData.amount = type === 'expense' ? -Math.abs(amountCents) : Math.abs(amountCents);
+        const effectiveType = type || existing.type;
+        updateData.amount = effectiveType === 'expense' ? -Math.abs(amountCents) : Math.abs(amountCents);
       }
       if (currency) updateData.currency = currency;
       if (description !== undefined) updateData.description = description;
@@ -172,6 +203,9 @@ export function registerAccountingRoutes(app: Express) {
   app.delete("/api/admin/accounting/transactions/:id", isAdmin, async (req: any, res) => {
     try {
       const txId = Number(req.params.id);
+      if (isNaN(txId) || txId <= 0) {
+        return res.status(400).json({ message: "Invalid transaction ID" });
+      }
       
       await db.delete(accountingTransactions).where(eq(accountingTransactions.id, txId));
       
@@ -201,10 +235,12 @@ export function registerAccountingRoutes(app: Express) {
         conditions.push(eq(accountingTransactions.category, category));
       }
       if (startDate && typeof startDate === 'string') {
-        conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(startDate)}`);
+        const d = new Date(startDate);
+        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} >= ${d}`);
       }
       if (endDate && typeof endDate === 'string') {
-        conditions.push(sql`${accountingTransactions.transactionDate} <= ${new Date(endDate)}`);
+        const d = new Date(endDate);
+        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} <= ${d}`);
       }
       
       const transactions = await db.select()

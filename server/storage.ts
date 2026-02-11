@@ -272,13 +272,18 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getGuestVisitorStats(): Promise<{ total: number; withEmail: number; sources: Record<string, number> }> {
-    const all = await db.select().from(guestVisitors);
-    const withEmail = all.filter(v => v.email).length;
+    const [totalResult] = await db.select({ count: sql<number>`COUNT(*)` }).from(guestVisitors);
+    const [emailResult] = await db.select({ count: sql<number>`COUNT(*)` }).from(guestVisitors).where(sql`${guestVisitors.email} IS NOT NULL`);
+    const sourceRows = await db.select({
+      source: guestVisitors.source,
+      count: sql<number>`COUNT(*)`
+    }).from(guestVisitors).groupBy(guestVisitors.source);
+
     const sources: Record<string, number> = {};
-    for (const v of all) {
-      sources[v.source] = (sources[v.source] || 0) + 1;
+    for (const row of sourceRows) {
+      sources[row.source] = Number(row.count);
     }
-    return { total: all.length, withEmail, sources };
+    return { total: Number(totalResult?.count || 0), withEmail: Number(emailResult?.count || 0), sources };
   }
 
   async getPaymentAccounts(): Promise<PaymentAccount[]> {

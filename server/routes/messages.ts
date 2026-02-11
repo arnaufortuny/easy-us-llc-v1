@@ -1,15 +1,26 @@
 import type { Express } from "express";
-import { db, storage, isAuthenticated, isNotUnderReview, logActivity } from "./shared";
+import { z } from "zod";
+import { db, storage, isAuthenticated, isNotUnderReview, logActivity, getClientIp } from "./shared";
 import { users as usersTable, messages as messagesTable, messageReplies, userNotifications } from "@shared/schema";
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
 import type { EmailLanguage } from "../lib/email-translations";
+import { checkRateLimit } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('messages');
 
+const createMessageSchema = z.object({
+  name: z.string().min(1).max(200).optional(),
+  email: z.string().email().max(320),
+  phone: z.string().max(30).optional().nullable(),
+  contactByWhatsapp: z.boolean().optional().default(false),
+  subject: z.string().max(500).optional(),
+  content: z.string().min(1).max(5000),
+  requestCode: z.string().max(50).optional(),
+});
+
 export function registerMessageRoutes(app: Express) {
-  // Messages API
   app.get("/api/messages", isAuthenticated, async (req: any, res) => {
     try {
       const userMessages = await storage.getMessagesByUserId(req.session.userId);
@@ -21,7 +32,17 @@ export function registerMessageRoutes(app: Express) {
 
   app.post("/api/messages", async (req: any, res) => {
     try {
-      const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = req.body;
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('contact', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: "Too many messages. Please try again later.", retryAfter: rateCheck.retryAfter });
+      }
+
+      const parsed = createMessageSchema.safeParse(req.body);
+      if (!parsed.success) {
+        return res.status(400).json({ message: "Invalid data", errors: parsed.error.flatten().fieldErrors });
+      }
+      const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = parsed.data;
       const userId = req.session?.userId || null;
       
       // Restrict suspended or under-review accounts from sending new messages

@@ -13,6 +13,7 @@ interface CacheEntry<T> {
 
 const statsCache = new Map<string, CacheEntry<any>>();
 const STATS_CACHE_TTL = 30000;
+const STATS_CACHE_MAX_SIZE = 100;
 
 export function getCachedData<T>(key: string): T | null {
   const entry = statsCache.get(key);
@@ -23,6 +24,21 @@ export function getCachedData<T>(key: string): T | null {
 }
 
 export function setCachedData<T>(key: string, data: T): void {
+  if (statsCache.size >= STATS_CACHE_MAX_SIZE) {
+    const now = Date.now();
+    const entries = Array.from(statsCache.entries());
+    for (const [k, v] of entries) {
+      if (now - v.timestamp >= STATS_CACHE_TTL) {
+        statsCache.delete(k);
+      }
+    }
+    if (statsCache.size >= STATS_CACHE_MAX_SIZE) {
+      const oldest = Array.from(statsCache.entries()).sort((a, b) => a[1].timestamp - b[1].timestamp);
+      for (let i = 0; i < Math.ceil(STATS_CACHE_MAX_SIZE / 4); i++) {
+        statsCache.delete(oldest[i][0]);
+      }
+    }
+  }
   statsCache.set(key, { data, timestamp: Date.now() });
 }
 
