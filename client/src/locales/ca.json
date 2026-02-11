@@ -2551,8 +2551,7 @@
     "location": "Nou Mèxic, EUA",
     "partners": "Partners",
     "disclaimer": "Exentax no és un despatx d'advocats ni un assessor fiscal i no pot proporcionar assessorament legal o fiscal. Som especialistes en tramitació administrativa de LLCs i t'oferim orientació general basada en la nostra experiència. La informació al nostre lloc web, així com la compartida per email, WhatsApp i altres canals de comunicació, és únicament informativa i educativa, no constitueix assessorament legal ni fiscal. Per a decisions legals o fiscals específiques, consulta amb professionals qualificats de la teva jurisdicció.",
-    "copyright": "© {{year}} Exentax. Tots els drets reservats.",
-    "delivery": "Lliurament: 2-3 dies hàbils"
+    "copyright": "© {{year}} Exentax. Tots els drets reservats."
   },
   "legal": {
     "downloadPdf": "Descarregar PDF",

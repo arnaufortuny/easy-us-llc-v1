@@ -196,7 +196,7 @@ function generateToolsInvoicePDF(): Buffer {
   doc.rect(0, pageHeight - 20, pageWidth, 20, "F");
   doc.setFontSize(8);
   doc.setTextColor(107, 114, 128);
-  doc.text("Generado con Easy US LLC - Herramientas", 20, pageHeight - 10);
+  doc.text("Generado con Exentax - Herramientas", 20, pageHeight - 10);
   doc.text(formatDate(testData.invoiceDate), pageWidth - 20, pageHeight - 10, { align: "right" });
 
   return Buffer.from(doc.output("arraybuffer"));

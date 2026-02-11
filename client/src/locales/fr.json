@@ -2551,8 +2551,7 @@
     "location": "New Mexico, USA",
     "partners": "Partenaires",
     "disclaimer": "Exentax n'est ni un cabinet d'avocats ni un conseiller fiscal et ne peut fournir de conseils juridiques ou fiscaux. Nous sommes spécialistes du traitement administratif des LLC et offrons des orientations générales basées sur notre expérience. Les informations sur notre site web, ainsi que celles partagées par email, WhatsApp et autres canaux de communication, sont à titre informatif et éducatif uniquement et ne constituent pas des conseils juridiques ou fiscaux. Pour des décisions juridiques ou fiscales spécifiques, consultez des professionnels qualifiés dans votre juridiction.",
-    "copyright": "© {{year}} Exentax. Tous droits réservés.",
-    "delivery": "Livraison : 2-3 jours ouvrés"
+    "copyright": "© {{year}} Exentax. Tous droits réservés."
   },
   "legal": {
     "downloadPdf": "Télécharger le PDF",

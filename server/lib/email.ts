@@ -635,7 +635,7 @@ export function getRenewalReminderTemplate(
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.renewalReminder.reminderText} <strong>${companyName}</strong> (${state}) vence pronto.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.renewalReminder.reminderText} <strong>${companyName}</strong> (${state}) ${t.renewalReminder.expiresSoon}</p>
     
     <div style="background: ${urgencyBg}; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
       <p style="margin: 0 0 10px 0; font-size: 14px; font-weight: 700; color: ${urgencyColor}; text-transform: uppercase;">${t.renewalReminder.expiresIn} ${daysRemaining}</p>
@@ -1218,72 +1218,6 @@ export function getIdentityVerificationRejectedTemplate(name: string, reason?: s
     <p style="line-height: 1.7; font-size: 15px; color: #0A0A0A; font-weight: 600; margin-bottom: 0;">${t.identityVerificationRejected.closing}</p>
   `;
   return getEmailWrapper(content, lang);
-}
-
-// 24. Carrito abandonado - Aplicación incompleta
-export function getAbandonedApplicationTemplate(
-  name: string,
-  serviceType: string,
-  state?: string,
-  hoursRemaining?: number,
-  lang: EmailLanguage = 'es'
-) {
-  const t = getEmailTranslations(lang);
-  const urgency = hoursRemaining && hoursRemaining <= 12 ? true : false;
-  const urgencyColor = urgency ? "#EF4444" : "#F59E0B";
-  const urgencyBg = urgency ? "#FEE2E2" : "#FEF3C7";
-  
-  const content = `
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
-    
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 20px;">${t.abandonedApplication.noticeText} <strong>${serviceType}</strong>${state ? ` ${lang === 'en' ? 'in' : 'en'} ${state}` : ''}. ${t.abandonedApplication.savedDraft}</p>
-    
-    ${hoursRemaining ? `
-    <div style="background: ${urgencyBg}; padding: 20px 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid ${urgencyColor};">
-      <p style="margin: 0; font-size: 14px; color: ${urgency ? '#B91C1C' : '#92400E'}; line-height: 1.7;">
-        <strong>${t.abandonedApplication.importantNote}</strong> ${t.abandonedApplication.draftDeletion}
-      </p>
-    </div>
-    ` : ''}
-    
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 15px;">${t.abandonedApplication.understandDoubts}</p>
-    
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.abandonedApplication.questionsHelp}</p>
-    
-    <div style="text-align: center; margin: 30px 0;">
-      <a href="https://${domain}/dashboard" style="display: inline-block; background: #00C48C; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(0,196,140,0.35);">${t.abandonedApplication.continueButton}</a>
-    </div>
-    
-    <div style="background: #F9FAFB; padding: 25px; border-radius: 16px; margin: 25px 0; border-left: 4px solid #00C48C;">
-      <p style="margin: 0 0 12px 0; font-size: 13px; font-weight: 800; color: #0A0A0A; text-transform: uppercase;">${t.abandonedApplication.whyChoose}</p>
-      <ul style="margin: 0; padding-left: 18px; color: #444; font-size: 14px; line-height: 1.8;">
-        <li>${t.abandonedApplication.reason1}</li>
-        <li>${t.abandonedApplication.reason2}</li>
-        <li>${t.abandonedApplication.reason3}</li>
-        <li>${t.abandonedApplication.reason4}</li>
-        <li>${t.abandonedApplication.reason5}</li>
-      </ul>
-    </div>
-    
-    <p style="line-height: 1.6; font-size: 14px; color: #6B7280;">${t.abandonedApplication.noMoreReminders}</p>
-  `;
-  return getEmailWrapper(content, lang);
-}
-
-// Legacy exports for compatibility
-export interface EmailMetadata {
-  clientId?: string;
-  date?: Date;
-  reference?: string;
-  ip?: string;
-}
-
-export function getEmailHeader(title: string = "Exentax", metadata?: EmailMetadata) {
-  return getSimpleHeader();
-}
-
-export function getEmailFooter() {
-  return getSimpleFooter();
 }
 
 // Transporter configuration

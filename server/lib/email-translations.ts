@@ -220,6 +220,7 @@ interface EmailTranslations {
     agentExpires: string;
     goodStanding: string;
     viewCalendar: string;
+    expiresSoon: string;
   };
   registrationOtp: {
     almostDone: string;
@@ -624,7 +625,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Posibles penalizaciones y recargos",
       agentExpires: "Tu registered agent expirará",
       goodStanding: "Tu LLC podría perder el buen estado",
-      viewCalendar: "Ver calendario fiscal"
+      viewCalendar: "Ver calendario fiscal",
+      expiresSoon: "vence pronto."
     },
     registrationOtp: {
       almostDone: "Gracias por registrarte en Exentax. Tu código de verificación es:",
@@ -1027,7 +1029,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Possible penalties and surcharges",
       agentExpires: "Your registered agent will expire",
       goodStanding: "Your LLC could lose good standing",
-      viewCalendar: "View fiscal calendar"
+      viewCalendar: "View fiscal calendar",
+      expiresSoon: "is expiring soon."
     },
     registrationOtp: {
       almostDone: "Thank you for registering at Exentax. Your verification code is:",
@@ -1430,7 +1433,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Possibles penalitzacions i recàrrecs",
       agentExpires: "El teu registered agent expirarà",
       goodStanding: "La teva LLC podria perdre el bon estat",
-      viewCalendar: "Veure calendari fiscal"
+      viewCalendar: "Veure calendari fiscal",
+      expiresSoon: "venç aviat."
     },
     registrationOtp: {
       almostDone: "Gràcies per registrar-te a Exentax. El teu codi de verificació és:",
@@ -1833,7 +1837,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Pénalités et frais supplémentaires possibles",
       agentExpires: "Votre agent enregistré expirera",
       goodStanding: "Votre LLC pourrait perdre son bon état",
-      viewCalendar: "Voir le calendrier fiscal"
+      viewCalendar: "Voir le calendrier fiscal",
+      expiresSoon: "expire bientôt."
     },
     registrationOtp: {
       almostDone: "Merci de vous être inscrit chez Exentax. Votre code de vérification est :",
@@ -2236,7 +2241,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Mögliche Strafen und Zuschläge",
       agentExpires: "Ihr registrierter Vertreter läuft ab",
       goodStanding: "Ihre LLC könnte den guten Status verlieren",
-      viewCalendar: "Steuerkalender anzeigen"
+      viewCalendar: "Steuerkalender anzeigen",
+      expiresSoon: "läuft bald ab."
     },
     registrationOtp: {
       almostDone: "Vielen Dank für Ihre Registrierung bei Exentax. Ihr Verifizierungscode lautet:",
@@ -2639,7 +2645,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Possibili penalità e sovrattasse",
       agentExpires: "Il tuo agente registrato scadrà",
       goodStanding: "La tua LLC potrebbe perdere il buono stato",
-      viewCalendar: "Visualizza calendario fiscale"
+      viewCalendar: "Visualizza calendario fiscale",
+      expiresSoon: "scade presto."
     },
     registrationOtp: {
       almostDone: "Grazie per esserti registrato su Exentax. Il tuo codice di verifica è:",
@@ -3042,7 +3049,8 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       penalties: "Possíveis penalizações e sobretaxas",
       agentExpires: "O seu agente registado expirará",
       goodStanding: "A sua LLC pode perder o bom estado",
-      viewCalendar: "Ver calendário fiscal"
+      viewCalendar: "Ver calendário fiscal",
+      expiresSoon: "expira em breve."
     },
     registrationOtp: {
       almostDone: "Obrigado por se registar na Exentax. O seu código de verificação é:",

@@ -15,20 +15,20 @@ describe('Theme System', () => {
   });
 
   it('should default to light theme when no preference stored', () => {
-    const stored = mockLocalStorage.getItem('easyusllc-theme');
+    const stored = mockLocalStorage.getItem('exentax-theme');
     expect(stored).toBeNull();
   });
 
   it('should store theme preference', () => {
-    mockLocalStorage.setItem('easyusllc-theme', 'dark');
-    expect(mockLocalStorage.getItem('easyusllc-theme')).toBe('dark');
+    mockLocalStorage.setItem('exentax-theme', 'dark');
+    expect(mockLocalStorage.getItem('exentax-theme')).toBe('dark');
   });
 
   it('should accept valid theme values', () => {
     const validThemes = ['light', 'dark', 'system'];
     validThemes.forEach(theme => {
-      mockLocalStorage.setItem('easyusllc-theme', theme);
-      expect(['light', 'dark', 'system']).toContain(mockLocalStorage.getItem('easyusllc-theme'));
+      mockLocalStorage.setItem('exentax-theme', theme);
+      expect(['light', 'dark', 'system']).toContain(mockLocalStorage.getItem('exentax-theme'));
     });
   });
 });

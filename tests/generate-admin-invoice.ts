@@ -66,7 +66,7 @@ async function main() {
     state: "New Mexico",
     ein: "92-7654321",
     llcCreatedDate: "2026-02-05",
-    registeredAgent: "Easy US LLC",
+    registeredAgent: "Exentax",
   };
 
   try {

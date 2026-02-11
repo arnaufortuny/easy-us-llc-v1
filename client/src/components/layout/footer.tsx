@@ -162,9 +162,8 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="mt-6 sm:mt-8 pt-6 border-t footer-separator flex flex-col md:flex-row items-center justify-between gap-4 text-white/70 text-sm sm:text-base">
-          <p className="text-center md:text-left">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
-          <p className="font-medium">{t("footer.delivery")}</p>
+        <div className="mt-6 sm:mt-8 pt-6 border-t footer-separator flex flex-col md:flex-row items-center justify-center gap-4 text-white/70 text-sm sm:text-base">
+          <p className="text-center">{t("footer.copyright", { year: new Date().getFullYear() })}</p>
         </div>
       </div>
     </footer>

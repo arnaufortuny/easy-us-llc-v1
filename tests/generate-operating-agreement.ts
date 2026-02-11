@@ -128,7 +128,7 @@ function generateOperatingAgreementPDF(llc: TestLLCData, formData: FormData, log
 
     doc.setFontSize(7);
     doc.setTextColor(gray[0], gray[1], gray[2]);
-    doc.text("www.easyusllc.com", margin, pageHeight - 8);
+    doc.text("www.exentax.com", margin, pageHeight - 8);
     doc.text(`${pageNumber}`, pageWidth - margin, pageHeight - 8, { align: "right" });
   };
 
@@ -311,7 +311,7 @@ function generateOperatingAgreementPDF(llc: TestLLCData, formData: FormData, log
 
   addSection(23, "ENTIRE AGREEMENT", "This Agreement constitutes the complete governing document of the Company.");
 
-  addSection(24, "ADMINISTRATIVE PREPARATION STATEMENT", "This Operating Agreement has been prepared administratively by: Easy US LLC. Acting solely as a corporate formation and administrative services provider on behalf of its client. Easy US LLC does not assume ownership, management, fiduciary responsibility, or legal representation of the Company.");
+  addSection(24, "ADMINISTRATIVE PREPARATION STATEMENT", "This Operating Agreement has been prepared administratively by: Exentax. Acting solely as a corporate formation and administrative services provider on behalf of its client. Exentax does not assume ownership, management, fiduciary responsibility, or legal representation of the Company.");
 
   addSection(25, "COMPLIANCE AND REGULATORY COMMITMENT", "The Company is committed to operating with transparency, integrity, and full respect for applicable laws and regulations. The Member confirms that the Company has been created to conduct legitimate commercial activities. The Company agrees to cooperate with reasonable compliance requests.");
 
@@ -329,7 +329,7 @@ function generateOperatingAgreementPDF(llc: TestLLCData, formData: FormData, log
 
   addSection(32, "RESPONSIBLE BUSINESS USE", "The Company is intended exclusively for lawful activities. Misuse of infrastructure may result in service termination.");
 
-  addSection(33, "AUTOMATED DOCUMENT PREPARATION", "This Agreement may be generated through structured administrative preparation processes. Easy US LLC assists in preparation but does not provide legal or financial advice.");
+  addSection(33, "AUTOMATED DOCUMENT PREPARATION", "This Agreement may be generated through structured administrative preparation processes. Exentax assists in preparation but does not provide legal or financial advice.");
 
   // ===== SIGNATURE PAGE =====
   doc.addPage();
