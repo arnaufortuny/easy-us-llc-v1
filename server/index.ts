@@ -88,11 +88,19 @@ app.use((req, res, next) => {
     const isJS = req.path.match(/\.js$/);
     const isCSS = req.path.match(/\.css$/);
     
-    if (isAsset) {
+    if (isAsset && isProduction) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
       res.setHeader('Vary', 'Accept-Encoding');
-    } else if (isStaticFile) {
+    } else if (isAsset && !isProduction) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
+    } else if (isStaticFile && isProduction) {
       res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (isStaticFile && !isProduction) {
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+      res.setHeader('Expires', '0');
     } else if (isSeoFile) {
       res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
       res.setHeader('X-Robots-Tag', 'all');
