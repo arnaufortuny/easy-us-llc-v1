@@ -133,7 +133,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
         variant="outline"
         onClick={handleGoogleLogin}
         disabled={isLoadingGoogle}
-        className="w-full h-12 font-medium flex items-center justify-center gap-3 bg-white dark:bg-card hover:bg-gray-50 dark:hover:bg-zinc-800 border-gray-300 dark:border-border transition-all shadow-sm"
+        className="w-full h-12 font-medium flex items-center justify-center gap-3 bg-white dark:bg-card hover:bg-muted dark:hover:bg-muted border-border dark:border-border transition-all shadow-sm"
         data-testid="button-google-login"
       >
         {isLoadingGoogle ? (
@@ -141,7 +141,7 @@ export function SocialLogin({ mode = "login", onSuccess, googleConnected, hideSe
         ) : (
           <>
             <GoogleIcon className="w-5 h-5" />
-            <span className="text-gray-700 dark:text-gray-200">{t("auth.google.signIn")}</span>
+            <span className="text-foreground dark:text-muted-foreground">{t("auth.google.signIn")}</span>
           </>
         )}
       </Button>

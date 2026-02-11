@@ -42,7 +42,7 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
   }, [score, password.length, t]);
 
   const strengthColor = useMemo(() => {
-    if (password.length === 0) return "bg-gray-200 dark:bg-gray-700";
+    if (password.length === 0) return "bg-muted dark:bg-muted";
     if (score <= 1) return "bg-red-500";
     if (score === 2) return "bg-orange-500";
     if (score === 3) return "bg-yellow-500";
@@ -74,7 +74,7 @@ export function PasswordStrength({ password, className = "" }: PasswordStrengthP
   return (
     <div className={`space-y-2 ${className}`} data-testid="password-strength-container">
       <div className="flex items-center gap-2">
-        <div className="flex-1 h-1.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        <div className="flex-1 h-1.5 bg-muted dark:bg-muted rounded-full overflow-hidden">
           <div 
             className={`h-full transition-all duration-300 ease-out rounded-full ${strengthColor}`}
             style={{ width: `${(score / 5) * 100}%` }}

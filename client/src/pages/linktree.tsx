@@ -304,7 +304,7 @@ export default function LinktreePage() {
               <Badge className="mb-3 bg-accent/10 text-accent border-0">
                 Calculadora
               </Badge>
-              <h3 className="text-lg font-bold mb-3 text-gray-900">
+              <h3 className="text-lg font-bold mb-3 text-foreground">
                 ¿Cuanto te ahorras?
               </h3>
               
@@ -317,7 +317,7 @@ export default function LinktreePage() {
                     className={`rounded-full ${
                       income === preset
                         ? 'bg-accent text-white'
-                        : 'bg-gray-100 text-gray-700 border-0'
+                        : 'bg-muted text-foreground border-0'
                     }`}
                     data-testid={`button-preset-${preset}`}
                   >
@@ -331,19 +331,19 @@ export default function LinktreePage() {
               <div className="p-4 rounded-2xl text-center bg-red-50">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
                   <SpainFlag />
-                  <span className="text-xs font-semibold text-gray-900">Autonomo</span>
+                  <span className="text-xs font-semibold text-foreground">Autonomo</span>
                 </div>
                 <p className="text-xl font-black text-red-500" data-testid="text-spain-total">{formatCurrency(spanishTaxes.total)}</p>
-                <p className="text-xs text-gray-400">impuestos</p>
+                <p className="text-xs text-muted-foreground">impuestos</p>
               </div>
               
               <div className="p-4 rounded-2xl text-center bg-accent/5">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
                   <USFlag />
-                  <span className="text-xs font-semibold text-gray-900">LLC USA</span>
+                  <span className="text-xs font-semibold text-foreground">LLC USA</span>
                 </div>
                 <p className="text-xl font-black text-accent" data-testid="text-usa-total">{formatCurrency(0)}</p>
-                <p className="text-xs text-gray-400">impuestos</p>
+                <p className="text-xs text-muted-foreground">impuestos</p>
               </div>
             </div>
             
@@ -351,10 +351,10 @@ export default function LinktreePage() {
               <div className="p-5 rounded-2xl text-center bg-gradient-to-r from-accent/5 to-accent/10">
                 <div className="flex items-center justify-center gap-1.5 mb-1">
                   <TrendingDown className="w-4 h-4 text-accent" />
-                  <span className="text-xs font-semibold text-gray-600">Tu ahorro</span>
+                  <span className="text-xs font-semibold text-muted-foreground">Tu ahorro</span>
                 </div>
                 <p className="text-3xl font-black text-accent" data-testid="text-savings-amount">{formatCurrency(savings)}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-muted-foreground">
                   {Math.round(savingsPercentage)}% de tus ingresos
                 </p>
               </div>
@@ -362,7 +362,7 @@ export default function LinktreePage() {
             
             <Button onClick={() => setShowDetails(!showDetails)}
               variant="ghost"
-              className="w-full rounded-xl border-t border-gray-100 text-gray-500"
+              className="w-full rounded-xl border-t border-border text-muted-foreground"
               data-testid="button-toggle-details"
             >
               {showDetails ? 'Ocultar' : 'Ver desglose'}
@@ -370,22 +370,22 @@ export default function LinktreePage() {
             </Button>
             
             {showDetails && (
-              <div className="p-5 border-t border-gray-100 bg-gray-50 text-sm">
+              <div className="p-5 border-t border-border bg-muted text-sm">
                 <div className="space-y-2">
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-foreground">
                     <span>IRPF</span>
                     <span className="font-semibold" data-testid="text-irpf">{formatCurrency(spanishTaxes.irpf)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-foreground">
                     <span>Seg. Social</span>
                     <span className="font-semibold" data-testid="text-social-security">{formatCurrency(spanishTaxes.socialSecurity)}</span>
                   </div>
-                  <div className="flex justify-between text-gray-700">
+                  <div className="flex justify-between text-foreground">
                     <span>IVA (21%)</span>
                     <span className="font-semibold" data-testid="text-vat">{formatCurrency(spanishTaxes.vat)}</span>
                   </div>
                 </div>
-                <p className="mt-4 text-xs leading-relaxed text-gray-400">
+                <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
                   LLC USA sin presencia fisica = 0% impuestos. Consulta tu caso.
                 </p>
               </div>

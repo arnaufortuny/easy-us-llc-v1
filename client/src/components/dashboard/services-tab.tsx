@@ -25,7 +25,7 @@ function getAgentStatusBadge(status: string | null | undefined, t: any) {
     case 'expired':
       return <Badge className="bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400 text-[9px]" data-testid="badge-agent-expired"><AlertTriangle className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.agentExpired')}</Badge>;
     default:
-      return <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400 text-[9px]" data-testid="badge-agent-unknown">{t('dashboard.llcDetails.agentPending')}</Badge>;
+      return <Badge className="bg-muted text-foreground dark:bg-muted dark:text-muted-foreground text-[9px]" data-testid="badge-agent-unknown">{t('dashboard.llcDetails.agentPending')}</Badge>;
   }
 }
 
@@ -38,7 +38,7 @@ function getBoiStatusBadge(status: string | null | undefined, t: any) {
     case 'exempt':
       return <Badge className="bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent text-[9px]" data-testid="badge-boi-exempt"><Shield className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiExempt')}</Badge>;
     default:
-      return <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400 text-[9px]" data-testid="badge-boi-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiPending')}</Badge>;
+      return <Badge className="bg-muted text-foreground dark:bg-muted dark:text-muted-foreground text-[9px]" data-testid="badge-boi-pending"><Clock className="w-3 h-3 mr-1" />{t('dashboard.llcDetails.boiPending')}</Badge>;
   }
 }
 
@@ -152,7 +152,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                       {/* LLC Details Grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {app.ein && (
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-ein-${order.id}`}>
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-muted dark:bg-muted/50" data-testid={`llc-ein-${order.id}`}>
                             <FileText className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                             <div className="min-w-0">
                               <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.ein')}</p>
@@ -162,7 +162,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                         )}
                         
                         {app.registrationNumber && (
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-registration-${order.id}`}>
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-muted dark:bg-muted/50" data-testid={`llc-registration-${order.id}`}>
                             <FileText className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                             <div className="min-w-0">
                               <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.registrationNumber')}</p>
@@ -172,7 +172,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                         )}
                         
                         {app.llcAddress && (
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50 sm:col-span-2" data-testid={`llc-address-${order.id}`}>
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-muted dark:bg-muted/50 sm:col-span-2" data-testid={`llc-address-${order.id}`}>
                             <MapPin className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                             <div className="min-w-0">
                               <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.address')}</p>
@@ -182,7 +182,7 @@ export const ServicesTab = memo(function ServicesTab({ orders, draftOrders, acti
                         )}
                         
                         {app.ownerSharePercentage && (
-                          <div className="flex items-start gap-2 p-3 rounded-lg bg-gray-50 dark:bg-gray-800/50" data-testid={`llc-shares-${order.id}`}>
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-muted dark:bg-muted/50" data-testid={`llc-shares-${order.id}`}>
                             <Users className="w-4 h-4 text-accent mt-0.5 shrink-0" />
                             <div className="min-w-0">
                               <p className="text-[10px] text-muted-foreground uppercase font-bold">{t('dashboard.llcDetails.ownership')}</p>

@@ -41,10 +41,10 @@ export function getConsultationStatusLabel(status: string, t: (key: string) => s
     confirmed: { label: t('consultations.status.confirmed'), className: 'bg-accent/10 dark:bg-accent/20 text-accent dark:text-accent' },
     completed: { label: t('consultations.status.completed'), className: 'bg-accent/10 dark:bg-accent/20 text-accent dark:text-accent' },
     cancelled: { label: t('consultations.status.cancelled'), className: 'bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400' },
-    no_show: { label: t('consultations.status.noShow'), className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' },
+    no_show: { label: t('consultations.status.noShow'), className: 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground' },
     rescheduled: { label: t('consultations.status.rescheduled'), className: 'bg-purple-100 dark:bg-purple-900/50 text-purple-800 dark:text-purple-300' },
   };
-  return statusMap[status] || { label: status, className: 'bg-gray-100 dark:bg-muted text-gray-600 dark:text-gray-300' };
+  return statusMap[status] || { label: status, className: 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground' };
 }
 
 export interface User {
@@ -189,7 +189,7 @@ export function getOrderStatusLabel(status: string, t: (key: string) => string):
     completed: { label: t('dashboard.orders.status.completed'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent dark:border-accent rounded-full' },
     cancelled: { label: t('dashboard.orders.status.cancelled'), className: 'bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700 rounded-full font-black' },
     filed: { label: t('dashboard.orders.status.filed'), className: 'bg-accent/5 dark:bg-accent/10 text-accent dark:text-accent border border-accent/50 dark:border-accent rounded-full' },
-    draft: { label: t('dashboard.orders.status.draft'), className: 'bg-gray-50 dark:bg-muted text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-full' },
+    draft: { label: t('dashboard.orders.status.draft'), className: 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground border border-border dark:border-border rounded-full' },
   };
-  return statusMap[status] || { label: status, className: 'bg-gray-50 dark:bg-muted text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 rounded-full' };
+  return statusMap[status] || { label: status, className: 'bg-muted dark:bg-muted text-muted-foreground dark:text-muted-foreground border border-border dark:border-border rounded-full' };
 }

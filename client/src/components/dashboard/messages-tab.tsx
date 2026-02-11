@@ -151,7 +151,7 @@ export const MessagesTab = memo(function MessagesTab({
               <Input value={inquirySubject} 
                 onChange={(e) => setInquirySubject(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryTitlePlaceholder')}
-                className="rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted text-sm"
+                className="rounded-full h-11 px-5 border-2 border-border dark:border-border bg-white dark:bg-muted text-sm"
                 maxLength={120}
                 data-testid="input-inquiry-subject"
               />
@@ -162,7 +162,7 @@ export const MessagesTab = memo(function MessagesTab({
               <NativeSelect
                 value={inquiryReason}
                 onValueChange={setInquiryReason}
-                className="w-full rounded-full h-11 px-5 border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="w-full rounded-full h-11 px-5 border-2 border-border dark:border-border bg-white dark:bg-muted"
                 data-testid="select-inquiry-reason"
               >
                 <NativeSelectItem value="" disabled>{t('dashboard.support.selectReason')}</NativeSelectItem>
@@ -177,7 +177,7 @@ export const MessagesTab = memo(function MessagesTab({
               <Textarea value={inquiryMessage} 
                 onChange={(e) => setInquiryMessage(e.target.value)} 
                 placeholder={t('dashboard.support.inquiryMessagePlaceholder')}
-                className="rounded-2xl min-h-[120px] text-sm border-2 border-gray-200 dark:border-border bg-white dark:bg-muted"
+                className="rounded-2xl min-h-[120px] text-sm border-2 border-border dark:border-border bg-white dark:bg-muted"
                 style={{ fontSize: '16px' }}
                 data-testid="input-inquiry-message"
               />
@@ -249,7 +249,7 @@ export const MessagesTab = memo(function MessagesTab({
                   <Eye className="w-3 h-3 mr-1" /> {selectedMessage?.id === msg.id ? t('dashboard.support.hide') : t('dashboard.support.view')}
                 </Button>
                 {selectedMessage?.id === msg.id && (
-                  <div className="mt-3 pt-3 border-t border-gray-100 dark:border-border space-y-3">
+                  <div className="mt-3 pt-3 border-t border-border dark:border-border space-y-3">
                     {msg.replies && msg.replies.length > 0 && (
                       <div className="space-y-2 mb-3">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t('dashboard.support.replies')}</p>

@@ -72,22 +72,22 @@ const ACTION_ICONS: Record<string, typeof Shield> = {
 
 const ACTION_COLORS: Record<string, string> = {
   user_login: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  user_logout: "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-300",
+  user_logout: "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground",
   user_register: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   password_change: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
   password_reset: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
   email_verified: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  send_verification_otp: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-  otp_sent: "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
+  send_verification_otp: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
+  otp_sent: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
   order_created: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  order_status_change: "bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300",
+  order_status_change: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   order_completed: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  order_updated: "bg-sky-100 text-sky-800 dark:bg-sky-900/40 dark:text-sky-300",
+  order_updated: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   payment_received: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  payment_link_update: "bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300",
+  payment_link_update: "bg-lime-100 text-lime-800 dark:bg-lime-900/40 dark:text-lime-300",
   document_upload: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
   document_request: "bg-teal-100 text-teal-800 dark:bg-teal-900/40 dark:text-teal-300",
-  identity_doc_uploaded: "bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-300",
+  identity_doc_uploaded: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
   identity_verification_requested: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   identity_verification_approved: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   identity_verification_rejected: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
@@ -95,9 +95,9 @@ const ACTION_COLORS: Record<string, string> = {
   account_unlocked: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
   account_status_change: "bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
   account_flagged_for_review: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
-  admin_send_email: "bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300",
+  admin_send_email: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
   admin_user_update: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
-  consultation_booked: "bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300",
+  consultation_booked: "bg-lime-100 text-lime-800 dark:bg-lime-900/40 dark:text-lime-300",
   consultation_cancelled: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   ip_order_blocked: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
   backup_completed: "bg-accent/10 text-accent dark:bg-accent/20 dark:text-accent",
@@ -141,7 +141,7 @@ export function ActivityLogPanel() {
   };
 
   const getActionColor = (action: string) => {
-    return ACTION_COLORS[action] || "bg-gray-100 text-gray-700 dark:bg-gray-800/40 dark:text-gray-300";
+    return ACTION_COLORS[action] || "bg-muted text-muted-foreground dark:bg-muted dark:text-muted-foreground";
   };
 
   const getEmail = (log: AuditLog): string => {

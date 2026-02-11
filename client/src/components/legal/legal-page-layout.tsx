@@ -153,7 +153,7 @@ interface LegalHighlightBoxProps {
 export function LegalHighlightBox({ children, variant = 'info' }: LegalHighlightBoxProps) {
   if (variant === 'dark') {
     return (
-      <div className="bg-brand-dark dark:bg-muted text-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 shadow-md print:bg-gray-100 print:text-black print:p-4 print:rounded-lg">
+      <div className="bg-brand-dark dark:bg-muted text-white rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8 shadow-md print:bg-muted print:text-black print:p-4 print:rounded-lg">
         <div className="text-sm sm:text-base leading-relaxed font-medium print:text-sm">
           {children}
         </div>

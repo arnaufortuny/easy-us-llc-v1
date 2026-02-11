@@ -30,7 +30,7 @@ export function NewsletterToggle() {
     }
   });
 
-  if (isLoading) return <div className="w-10 h-6 bg-gray-100 dark:bg-muted animate-pulse rounded-full" />;
+  if (isLoading) return <div className="w-10 h-6 bg-muted dark:bg-muted animate-pulse rounded-full" />;
 
   return (
     <div className="flex items-center gap-3">

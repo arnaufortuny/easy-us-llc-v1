@@ -23,7 +23,7 @@ const badgeVariants = cva(
         documentsReady: "border-transparent bg-[#B4ED50]/20 text-[#4A7A00] dark:bg-[#B4ED50]/15 dark:text-[#B4ED50]",
         active: "border-transparent bg-[#00C48C]/10 text-[#00855F] dark:bg-[#00C48C]/20 dark:text-[#00E57A]",
         inactive: "border-transparent bg-red-100 text-red-700 dark:bg-red-900/20 dark:text-red-400",
-        draft: "border-transparent bg-gray-100 text-gray-600 dark:bg-gray-800/50 dark:text-gray-400",
+        draft: "border-transparent bg-muted text-muted-foreground dark:bg-muted/50 dark:text-muted-foreground",
         submitted: "border-transparent bg-[#00C48C]/10 text-[#00855F] dark:bg-[#00C48C]/20 dark:text-[#00E57A]",
         filed: "border-transparent bg-[#B4ED50]/20 text-[#4A7A00] dark:bg-[#B4ED50]/15 dark:text-[#B4ED50]",
         vip: "border-transparent badge-vip",
