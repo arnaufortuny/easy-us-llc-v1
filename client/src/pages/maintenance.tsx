@@ -25,7 +25,7 @@ import { Link } from "wouter";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
 
-const TOTAL_STEPS = 12;
+const TOTAL_STEPS = 11;
 
 const createFormSchema = (t: (key: string) => string) => z.object({
   creationSource: z.string().min(1, t("validation.required")),
@@ -201,14 +201,11 @@ export default function MaintenanceApplication() {
         ownerIdNumber,
       });
       
-      // Skip to first empty required field (step 0 is creationSource, always needs input)
-      // Steps: 0=creationSource, 1=name, 2=phone, 3=email, 4=companyName, 5=ein, 6=state, 7=businessActivity
       const fieldsToCheck = [
-        { step: 0, value: "" }, // creationSource - always needs input
+        { step: 0, value: "" },
         { step: 1, value: ownerFullName },
-        { step: 2, value: ownerPhone },
-        { step: 3, value: ownerEmail },
-        { step: 4, value: "" }, // companyName - always needs input
+        { step: 2, value: ownerEmail && ownerPhone ? `${ownerEmail} ${ownerPhone}` : "" },
+        { step: 3, value: "" },
       ];
       
       for (const field of fieldsToCheck) {
@@ -217,8 +214,7 @@ export default function MaintenanceApplication() {
           return;
         }
       }
-      // If basic info complete, start at company name (step 4)
-      setStep(4);
+      setStep(3);
     }
   }, [isAuthenticated, user, form]);
 
@@ -354,7 +350,7 @@ export default function MaintenanceApplication() {
       await refetchAuth();
       setIsOtpVerified(true);
       setFormMessage({ type: 'success', text: `${t("toast.welcomeBack")}. ${t("toast.welcomeBackDesc")}` });
-      setStep(4);
+      setStep(3);
     } catch {
       setFormMessage({ type: 'error', text: `${t("toast.connectionError")}. ${t("toast.connectionErrorDesc")}` });
     }
@@ -364,14 +360,13 @@ export default function MaintenanceApplication() {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["creationSource"],
       1: ["ownerFullName"],
-      2: ["ownerPhone"],
-      3: ["ownerEmail"],
-      4: ["companyName"],
-      5: ["ein"],
-      6: ["state"],
-      7: ["businessActivity"],
-      8: ["expectedServices"],
-      9: ["wantsDissolve"],
+      2: ["ownerPhone", "ownerEmail"],
+      3: ["companyName"],
+      4: ["ein"],
+      5: ["state"],
+      6: ["businessActivity"],
+      7: ["expectedServices"],
+      8: ["wantsDissolve"],
     };
 
     const fieldsToValidate = stepsValidation[step];
@@ -386,7 +381,7 @@ export default function MaintenanceApplication() {
       return;
     }
     
-    if (step === 3 && !isAuthenticated) {
+    if (step === 2 && !isAuthenticated) {
       const email = form.getValues("ownerEmail");
       const exists = await checkEmailExists(email);
       if (exists) {
@@ -395,11 +390,11 @@ export default function MaintenanceApplication() {
       }
     }
     
-    if (step === 9) {
+    if (step === 8) {
       if (isAuthenticated || isOtpVerified) {
-        setStep(11);
-      } else {
         setStep(10);
+      } else {
+        setStep(9);
       }
       return;
     }
@@ -616,36 +611,13 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 2: Teléfono */}
+                {/* STEP 2: Contact info (Phone + Email) */}
                 {step === 2 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      3️⃣ {t("maintenance.steps.phone")}
+                      3️⃣ {t("application.steps.contactInfo")}
                     </h2>
-                    <FormDescription>{t("maintenance.steps.phoneDesc")}</FormDescription>
-                    <FormField control={form.control} name="ownerPhone" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          {t("maintenance.steps.phoneLabel")}
-                        </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
-                    <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 3: Email */}
-                {step === 3 && (
-                  <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      4️⃣ {t("maintenance.steps.email")}
-                    </h2>
-                    <FormDescription>{t("maintenance.steps.emailDesc")}</FormDescription>
+                    <FormDescription>{t("application.steps.contactInfoDesc")}</FormDescription>
                     <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
@@ -655,6 +627,16 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
+                    <FormField control={form.control} name="ownerPhone" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
+                          {t("maintenance.steps.phoneLabel")}
+                        </FormLabel>
+                        <FormControl><Input {...field} placeholder="+34 600 000 000" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
+                        <p className="text-xs text-muted-foreground mt-1">{t("application.fields.phoneMustStartWithPlus")}</p>
+                        <FormMessage />
+                      </FormItem>
+                    )} />
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
@@ -662,11 +644,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 4: Nombre Legal LLC */}
-                {step === 4 && (
+                {/* STEP 3: Nombre Legal LLC */}
+                {step === 3 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      5️⃣ {t("maintenance.steps.companyName")}
+                      4️⃣ {t("maintenance.steps.companyName")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.companyNameDesc")}</FormDescription>
                     <FormField control={form.control} name="companyName" render={({ field }) => (
@@ -685,11 +667,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 5: EIN */}
-                {step === 5 && (
+                {/* STEP 4: EIN */}
+                {step === 4 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      6️⃣ {t("maintenance.steps.ein")}
+                      5️⃣ {t("maintenance.steps.ein")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.einDesc")}</FormDescription>
                     <FormField control={form.control} name="ein" render={({ field }) => (
@@ -708,11 +690,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 6: Estado de constitución y detalles de la LLC */}
-                {step === 6 && (
+                {/* STEP 5: Estado de constitución y detalles de la LLC */}
+                {step === 5 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      7️⃣ {t("maintenance.steps.llcDetails")}
+                      6️⃣ {t("maintenance.steps.llcDetails")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.llcDetailsDesc")}</FormDescription>
                     
@@ -790,11 +772,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 7: Actividad */}
-                {step === 7 && (
+                {/* STEP 6: Actividad */}
+                {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      8️⃣ {t("maintenance.steps.activity")}
+                      7️⃣ {t("maintenance.steps.activity")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
@@ -810,11 +792,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 8: Servicios */}
-                {step === 8 && (
+                {/* STEP 7: Servicios */}
+                {step === 7 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      9️⃣ {t("maintenance.steps.services")}
+                      8️⃣ {t("maintenance.steps.services")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.servicesDesc")}</FormDescription>
                     <FormField control={form.control} name="expectedServices" render={({ field }) => (
@@ -851,11 +833,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 9: Disolver? */}
-                {step === 9 && (
+                {/* STEP 8: Disolver? */}
+                {step === 8 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      1️⃣0️⃣ {t("maintenance.steps.dissolve")}
+                      9️⃣ {t("maintenance.steps.dissolve")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.dissolveDesc")}</FormDescription>
                     <FormField control={form.control} name="wantsDissolve" render={({ field }) => (
@@ -921,8 +903,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 10: Crear Cuenta */}
-                {step === 10 && (
+                {/* STEP 9: Crear Cuenta */}
+                {step === 9 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#00C48C]/20 pb-2 leading-tight flex items-center gap-2">
                       {t("maintenance.steps.createAccount")}
@@ -1046,8 +1028,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 11: Método de Pago */}
-                {step === 11 && (
+                {/* STEP 10: Método de Pago */}
+                {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#00C48C]/20 pb-2 leading-tight">
                       1️⃣1️⃣ {t("maintenance.payment.title")}
@@ -1132,8 +1114,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 12: Autorización y Consentimiento */}
-                {step === 12 && (
+                {/* STEP 11: Autorización y Consentimiento */}
+                {step === 11 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <div className="text-center mb-6">
                       <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -1250,7 +1232,7 @@ export default function MaintenanceApplication() {
                         size="sm"
                         onClick={() => {
                           setEmailExists(false);
-                          setStep(3);
+                          setStep(2);
                           form.setValue("ownerEmail", "");
                         }}
                         className="rounded-full h-10 px-4 font-medium border-border transition-colors"

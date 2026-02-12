@@ -27,7 +27,7 @@ import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
 import { PasswordStrength } from "@/components/ui/password-strength";
 
-const TOTAL_STEPS = 17; // Single company name (no alternatives), BOI and maintenance mandatory
+const TOTAL_STEPS = 15;
 
 const createFormSchema = (t: (key: string) => string) => z.object({
   ownerFirstName: z.string().min(1, t("validation.firstNameRequired")),
@@ -76,7 +76,7 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   businessActivity: z.string().min(1, t("validation.required")),
   isSellingOnline: z.string().min(1, t("validation.required")),
   needsBankAccount: z.string().min(1, t("validation.required")),
-  willUseStripe: z.string().min(1, t("validation.required")),
+  willUseStripe: z.string().optional(),
   wantsBoiReport: z.string().min(1, t("validation.required")),
   wantsMaintenancePack: z.string().min(1, t("validation.required")),
   ownerIdType: z.string().optional(),
@@ -373,12 +373,10 @@ export default function LlcFormation() {
       // Otherwise, start from step 0 (state selection) or first empty field
       const startStep = hasUrlState ? 1 : 0;
       
-      // Skip to first empty required field (step 1 = name, step 2 = email, etc.)
       const fieldsToCheck = [
         { step: 1, value: ownerFirstName && ownerLastName ? `${ownerFirstName} ${ownerLastName}` : "" },
-        { step: 2, value: ownerEmail },
-        { step: 3, value: ownerPhone },
-        { step: 4, value: "" }, // companyName - always needs input
+        { step: 2, value: ownerEmail && ownerPhone ? `${ownerEmail} ${ownerPhone}` : "" },
+        { step: 3, value: "" },
       ];
       
       for (const field of fieldsToCheck) {
@@ -387,8 +385,7 @@ export default function LlcFormation() {
           return;
         }
       }
-      // If basic info complete, start at company name (step 4)
-      setStep(4);
+      setStep(3);
     }
   }, [isAuthenticated, user, form, hasUrlState]);
 
@@ -497,18 +494,16 @@ export default function LlcFormation() {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["state"],
       1: ["ownerFirstName", "ownerLastName"],
-      2: ["ownerEmail"],
-      3: ["ownerPhone"],
-      4: ["companyName"],
-      5: ["ownerCount"],
-      6: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
-      7: ["ownerBirthDate"],
-      8: ["ownerIdType", "ownerIdNumber", "idDocumentUrl"],
-      9: ["businessActivity"],
-      10: ["isSellingOnline"],
-      11: ["needsBankAccount"],
-      12: ["willUseStripe"],
-      13: ["notes"],
+      2: ["ownerEmail", "ownerPhone"],
+      3: ["companyName"],
+      4: ["ownerCount"],
+      5: ["ownerStreetType", "ownerAddress", "ownerCity", "ownerProvince", "ownerPostalCode", "ownerCountry"],
+      6: ["ownerBirthDate"],
+      7: ["ownerIdType", "ownerIdNumber", "idDocumentUrl"],
+      8: ["businessActivity"],
+      9: ["isSellingOnline"],
+      10: ["needsBankAccount"],
+      11: ["notes"],
     };
 
     const fieldsToValidate = stepsValidation[step];
@@ -527,8 +522,8 @@ export default function LlcFormation() {
       }
     }
     
-    // Validate password step (step 14) for non-authenticated users
-    if (step === 14 && !isAuthenticated) {
+    // Validate password step (step 12) for non-authenticated users
+    if (step === 12 && !isAuthenticated) {
       const password = form.getValues("password");
       const confirmPassword = form.getValues("confirmPassword");
       if (!password || password.length < 8) {
@@ -836,12 +831,20 @@ export default function LlcFormation() {
 
             {step === 2 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">3️⃣ {t("application.steps.contactEmail")}</h2>
-                <FormDescription>{t("application.steps.contactEmailDesc")}</FormDescription>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">3️⃣ {t("application.steps.contactInfo")}</h2>
+                <FormDescription>{t("application.steps.contactInfoDesc")}</FormDescription>
                 <FormField control={form.control} name="ownerEmail" render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm md:text-base font-bold text-foreground">Email:</FormLabel>
                     <FormControl><Input {...field} type="email" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="ownerPhone" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.phone")}:</FormLabel>
+                    <FormControl><Input {...field} placeholder="+34 600 000 000" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" /></FormControl>
+                    <p className="text-xs text-muted-foreground mt-1">{t("application.fields.phoneMustStartWithPlus")}</p>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -854,25 +857,7 @@ export default function LlcFormation() {
 
             {step === 3 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">4️⃣ {t("application.steps.contactPhone")}</h2>
-                <FormDescription>{t("application.steps.contactPhoneDesc")}</FormDescription>
-                <FormField control={form.control} name="ownerPhone" render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.phone")}:</FormLabel>
-                    <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" /></FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )} />
-                <div className="flex gap-3">
-                  <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("application.back")}</Button>
-                  <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("application.continue")}</Button>
-                </div>
-              </div>
-            )}
-
-            {step === 4 && (
-              <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">5️⃣ {t("application.steps.companyName")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">4️⃣ {t("application.steps.companyName")}</h2>
                 <FormDescription>{t("application.steps.companyNameDesc")}</FormDescription>
                 <FormField control={form.control} name="companyName" render={({ field }) => (
                   <FormItem>
@@ -888,9 +873,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 5 && (
+            {step === 4 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ {t("application.steps.howManyOwners")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">5️⃣ {t("application.steps.howManyOwners")}</h2>
                 <FormDescription>{t("application.steps.howManyOwnersDesc")}</FormDescription>
                 <div className="flex items-center justify-between gap-3 p-4 rounded-full border-2 border-accent bg-accent/10 dark:bg-accent/20">
                   <span className="font-bold text-foreground text-sm md:text-base">{t("application.options.singleOwnerLabel")}</span>
@@ -913,9 +898,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 6 && (
+            {step === 5 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">7️⃣ {t("application.steps.yourAddress")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">6️⃣ {t("application.steps.yourAddress")}</h2>
                 <FormDescription>{t("application.steps.yourAddressDesc")}</FormDescription>
                 
                 <div className="grid grid-cols-3 gap-3">
@@ -991,12 +976,12 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 7 && (
+            {step === 6 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">8️⃣ {t("application.steps.birthDate")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">7️⃣ {t("application.steps.birthDate")}</h2>
                 <FormField control={form.control} name="ownerBirthDate" render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="font-black  text-[10px] md:text-xs tracking-widest opacity-60">{t("application.fields.birthDate")}:</FormLabel>
+                    <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.fields.birthDate")}:</FormLabel>
                     <FormControl><Input {...field} type="date" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base max-w-[200px] md:max-w-none rounded-full" /></FormControl>
                     <FormMessage />
                   </FormItem>
@@ -1008,9 +993,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 8 && (
+            {step === 7 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ {t("application.steps.idDocument")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">8️⃣ {t("application.steps.idDocument")}</h2>
                 <FormDescription>{t("application.steps.idDocumentDesc")}</FormDescription>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1105,9 +1090,9 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 9 && (
+            {step === 8 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 {t("application.steps.businessActivity")}</h2>
+                <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">9️⃣ {t("application.steps.businessActivity")}</h2>
                 <FormDescription>{t("application.steps.businessActivityDesc")}</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
@@ -1122,11 +1107,11 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step >= 10 && step <= 13 && (
+            {step >= 9 && step <= 11 && (
               <div key={"step-" + step} className="space-y-6 text-left">
-                {step === 10 && (
+                {step === 9 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ {t("application.steps.sellingOnline")}</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">🔟 {t("application.steps.sellingOnline")}</h2>
                     <FormField control={form.control} name="isSellingOnline" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -1149,9 +1134,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 11 && (
+                {step === 10 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ {t("application.steps.bankAccount")}</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣1️⃣ {t("application.steps.bankAccount")}</h2>
                     <FormField control={form.control} name="needsBankAccount" render={({ field }) => (
                       <FormControl>
                         <div className="flex flex-col gap-3">
@@ -1174,34 +1159,9 @@ export default function LlcFormation() {
                     )} />
                   </>
                 )}
-                {step === 12 && (
+                {step === 11 && (
                   <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣3️⃣ {t("application.steps.stripePayments")}</h2>
-                    <FormField control={form.control} name="willUseStripe" render={({ field }) => (
-                      <FormControl>
-                        <div className="flex flex-col gap-3">
-                          {["Stripe", t("application.options.other"), t("application.options.notYet")].map(opt => (
-                            <label 
-                              key={opt} 
-                              onClick={() => field.onChange(opt)}
-                              className={`flex items-center justify-between gap-3 p-4 rounded-full border-2 cursor-pointer transition-colors ${
-                                field.value === opt 
-                                  ? 'border-accent bg-accent/10 dark:bg-accent/20' 
-                                  : 'border-border dark:border-border bg-white dark:bg-card hover:border-accent/50'
-                              }`}
-                            >
-                              <span className="font-bold text-foreground text-sm md:text-base">{opt}</span>
-                              {field.value === opt && <Check className="w-5 h-5 text-accent" />}
-                            </label>
-                          ))}
-                        </div>
-                      </FormControl>
-                    )} />
-                  </>
-                )}
-                {step === 13 && (
-                  <>
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣4️⃣ {t("application.steps.additionalNotes")}</h2>
+                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">1️⃣2️⃣ {t("application.steps.additionalNotes")}</h2>
                     <FormDescription>{t("application.steps.additionalNotesDesc")}</FormDescription>
                     <FormField control={form.control} name="notes" render={({ field }) => (
                       <FormItem>
@@ -1217,7 +1177,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 14 && (
+            {step === 12 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("application.account.title")}</h2>
                 <p className="text-sm text-muted-foreground">{t("application.account.subtitle")}</p>
@@ -1346,7 +1306,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 15 && (
+            {step === 13 && (
               <div key={"step-" + step} className="space-y-8 text-left">
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("application.paymentMethodTitle")}</h2>
                 <p className="text-sm text-muted-foreground">{t("application.selectPaymentMethod")}</p>
@@ -1488,7 +1448,7 @@ export default function LlcFormation() {
               </div>
             )}
 
-            {step === 16 && (
+            {step === 14 && (
               <div key={"step-" + step} className="space-y-6 text-left">
                 <div className="text-center mb-6">
                   <SuccessCheckmark size={100} className="mx-auto mb-4" />

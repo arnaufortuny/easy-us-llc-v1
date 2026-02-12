@@ -1005,6 +1005,8 @@
       "contactEmailDesc": "Aquí te enviaremos los avances y documentos de tu LLC",
       "contactPhone": "Teléfono de contacto",
       "contactPhoneDesc": "Podemos llamarte para asuntos importantes de tu LLC",
+      "contactInfo": "Datos de contacto",
+      "contactInfoDesc": "Necesitamos tu email y teléfono para comunicarnos contigo sobre tu LLC",
       "companyName": "¿Cómo se llamará tu empresa?",
       "companyNameDesc": "Debe terminar en LLC",
       "howManyOwners": "¿Cuántos propietarios?",
@@ -1066,7 +1068,8 @@
       "selectIdType": "Selecciona tipo",
       "idNumberPlaceholder": "Ej: 12345678A",
       "uploadIdDocument": "Subir copia del documento",
-      "idDocumentFormDesc": "Introduce tu número de documento de identidad (DNI, NIE o Pasaporte)"
+      "idDocumentFormDesc": "Introduce tu número de documento de identidad (DNI, NIE o Pasaporte)",
+      "phoneMustStartWithPlus": "Debe empezar con + (ej: +34, +1, +52)"
     },
     "streetTypes": {
       "street": "Calle",

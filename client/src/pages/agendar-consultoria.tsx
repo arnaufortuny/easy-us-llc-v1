@@ -431,6 +431,7 @@ export default function AsesoriaGratis() {
                                   data-testid="input-phone"
                                 />
                               </FormControl>
+                              <p className="text-xs text-muted-foreground mt-1">{t("application.fields.phoneMustStartWithPlus")}</p>
                               <FormMessage />
                             </FormItem>
                           )} />

@@ -1005,6 +1005,8 @@
       "contactEmailDesc": "Aquí t'enviarem els avenços i documents de la teva LLC",
       "contactPhone": "Telèfon de contacte",
       "contactPhoneDesc": "Podem trucar-te per assumptes importants de la teva LLC",
+      "contactInfo": "Dades de contacte",
+      "contactInfoDesc": "Necessitem el teu email i telèfon per comunicar-nos amb tu sobre la teva LLC",
       "companyName": "Com es dirà la teva empresa?",
       "companyNameDesc": "Ha d'acabar en LLC",
       "howManyOwners": "Quants propietaris?",
@@ -1066,7 +1068,8 @@
       "selectIdType": "Selecciona tipus",
       "idNumberPlaceholder": "Ex: 12345678A",
       "uploadIdDocument": "Pujar còpia del document",
-      "idDocumentFormDesc": "Introdueix el teu número de document d'identitat (DNI, NIE o Passaport)"
+      "idDocumentFormDesc": "Introdueix el teu número de document d'identitat (DNI, NIE o Passaport)",
+      "phoneMustStartWithPlus": "Ha de començar amb + (ex: +34, +1, +52)"
     },
     "streetTypes": {
       "street": "Carrer",
