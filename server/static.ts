@@ -1,26 +1,27 @@
 import express, { type Express } from "express";
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 
-function getDirname(): string {
-  try {
-    if (typeof import.meta?.url !== 'undefined') {
-      return path.dirname(fileURLToPath(import.meta.url));
+function findDistPublic(): string {
+  const candidates = [
+    path.resolve(process.cwd(), "dist", "public"),
+    path.resolve(__dirname, "public"),
+    path.resolve(__dirname, "..", "dist", "public"),
+  ];
+
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate) && fs.existsSync(path.join(candidate, "index.html"))) {
+      return candidate;
     }
-  } catch {}
-  return path.resolve();
+  }
+
+  throw new Error(
+    `Could not find the build directory. Searched:\n${candidates.join("\n")}\nMake sure to build the client first.`,
+  );
 }
 
-const __dirname = getDirname();
-
 export function serveStatic(app: Express) {
-  const distPath = path.resolve(__dirname, "public");
-  if (!fs.existsSync(distPath)) {
-    throw new Error(
-      `Could not find the build directory: ${distPath}, make sure to build the client first`,
-    );
-  }
+  const distPath = findDistPublic();
 
   app.use(express.static(distPath, {
     maxAge: '1y',
@@ -30,7 +31,6 @@ export function serveStatic(app: Express) {
     lastModified: true
   }));
 
-  // fall through to index.html if the file doesn't exist
   app.use("*", (_req, res) => {
     res.sendFile(path.resolve(distPath, "index.html"), {
       headers: {
