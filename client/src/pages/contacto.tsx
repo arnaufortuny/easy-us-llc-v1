@@ -446,7 +446,7 @@ export default function Contacto() {
                           {t("contact.form.enterPhone")} {watchWhatsapp ? "" : `(${t("common.optional")})`}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} type="tel" inputMode="tel" placeholder="+34 600 000 000" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-all font-medium text-foreground text-base rounded-full" data-testid="input-telefono" />
+                          <Input {...field} type="tel" inputMode="tel" className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-all font-medium text-foreground text-base rounded-full" data-testid="input-telefono" />
                         </FormControl>
                         <FormDescription className="text-xs text-muted-foreground">
                           {t("application.fields.phoneMustStartWithPlus")} · {watchWhatsapp ? t("contact.form.whatsappRequired") + " · " : ""}{t("contact.form.whatsappNote")}

@@ -425,7 +425,6 @@ export default function AsesoriaGratis() {
                                   {...field}
                                   type="tel"
                                   inputMode="tel"
-                                  placeholder={t("auth.register.phonePlaceholder")}
                                   className={INPUT_CLASS}
                                   style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                                   data-testid="input-phone"

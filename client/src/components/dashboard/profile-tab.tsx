@@ -299,7 +299,7 @@ export function ProfileTab({
             </div>
             <div className="space-y-1">
               <Label className="text-xs font-bold text-muted-foreground">{t('profile.fields.phone')}</Label>
-              {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} placeholder={t('profile.placeholders.phone')} className={inputClass} data-testid="input-phone" /> : <div className={readOnlyClass}>{user?.phone || t('profile.notProvided')}</div>}
+              {isEditing && canEdit ? <Input value={profileData.phone} onChange={e => setProfileData({...profileData, phone: e.target.value})} className={inputClass} data-testid="input-phone" /> : <div className={readOnlyClass}>{user?.phone || t('profile.notProvided')}</div>}
             </div>
           </div>
 

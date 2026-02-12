@@ -1926,7 +1926,7 @@ export default function Dashboard() {
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} placeholder="+34 600 000 000" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-phone" />
+                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-phone" />
                         </div>
                         <div>
                           <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.password')}</Label>

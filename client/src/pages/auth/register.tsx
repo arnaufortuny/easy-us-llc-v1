@@ -500,8 +500,7 @@ export default function Register() {
                               {...field}
                               type="tel"
                               inputMode="tel"
-                              placeholder={t("auth.register.phonePlaceholder")}
-                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
+                              className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base rounded-full"
                               
                               data-testid="input-phone"
                             />
