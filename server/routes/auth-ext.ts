@@ -49,7 +49,7 @@ export function registerAuthExtRoutes(app: Express) {
         });
       }
 
-      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      const { email, name } = z.object({ email: z.string().email(), name: z.string().optional() }).parse(req.body);
       
       const browserLang = (req.body.preferredLanguage || req.headers['accept-language']?.split(',')[0]?.split('-')[0] || 'es') as EmailLanguage;
       const supportedLangs: string[] = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
@@ -97,7 +97,7 @@ export function registerAuthExtRoutes(app: Express) {
       await sendEmail({
         to: email,
         subject: getOtpSubject(lang),
-        html: getOtpEmailTemplate(otp, undefined, lang),
+        html: getOtpEmailTemplate(otp, name || undefined, lang),
       });
 
       logAudit({ action: 'user_register', ip, details: { email, step: 'otp_sent' } });

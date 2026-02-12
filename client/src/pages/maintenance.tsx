@@ -323,7 +323,10 @@ export default function MaintenanceApplication() {
     setIsSendingOtp(true);
     setFormMessage(null);
     try {
-      const res = await apiRequest("POST", "/api/register/send-otp", { email });
+      const firstName = form.getValues("ownerFirstName");
+      const lastName = form.getValues("ownerLastName");
+      const fullName = `${firstName} ${lastName}`.trim();
+      const res = await apiRequest("POST", "/api/register/send-otp", { email, name: fullName || undefined });
       if (res.ok) {
         setIsOtpSent(true);
         setFormMessage({ type: 'success', text: `${t("toast.codeSent")}. ${t("toast.checkEmail")}` });
@@ -956,7 +959,7 @@ export default function MaintenanceApplication() {
                                 type="button" 
                                 onClick={sendOtp}
                                 disabled={isSendingOtp}
-                                className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#00C48C]/20"
+                                className="w-full bg-accent text-accent-foreground font-black rounded-full h-14 shadow-lg shadow-accent/20"
                                 data-testid="button-send-otp"
                               >
                                 {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
@@ -985,7 +988,7 @@ export default function MaintenanceApplication() {
                                   type="button" 
                                   onClick={verifyOtp}
                                   disabled={isVerifyingOtp || otpCode.length !== 6}
-                                  className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-[#00C48C]/20 disabled:opacity-50"
+                                  className="w-full bg-accent text-accent-foreground font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
                                   data-testid="button-verify-otp"
                                 >
                                   {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
@@ -1155,13 +1158,71 @@ export default function MaintenanceApplication() {
                       <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight">{t("maintenance.confirmation.title")}</h2>
                       <p className="text-sm text-muted-foreground mt-2">{t("maintenance.confirmation.subtitle")}</p>
                     </div>
-                    <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
-                      <p><span className="opacity-50">{t("maintenance.confirmation.name")}:</span> <span className="font-black">{`${form.getValues("ownerFirstName")} ${form.getValues("ownerLastName")}`.trim()}</span></p>
-                      <p><span className="opacity-50">{t("maintenance.confirmation.email")}:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
-                      <p><span className="opacity-50">{t("maintenance.confirmation.llc")}:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
-                      <p><span className="opacity-50">{t("maintenance.confirmation.state")}:</span> <span className="font-black">{form.getValues("state")}</span></p>
-                      <p><span className="opacity-50">EIN:</span> <span className="font-black">{form.getValues("ein")}</span></p>
-                      <p><span className="opacity-50">{t("maintenance.confirmation.payment")}:</span> <span className="font-black">{form.getValues("paymentMethod") === 'transfer' ? t("maintenance.confirmation.bankTransfer") : t("maintenance.confirmation.paymentLink")}</span></p>
+                    
+                    <div className="space-y-4">
+                      <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                        <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                          <h3 className="text-xs font-black text-foreground tracking-wide">{t("maintenance.confirmation.personalInfoTitle", "Personal Information")}</h3>
+                        </div>
+                        <div className="p-5 space-y-3">
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.name")}</span>
+                            <span className="text-sm font-bold text-foreground">{`${form.getValues("ownerFirstName")} ${form.getValues("ownerLastName")}`.trim()}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.email")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("ownerEmail")}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.phoneLabel", "Phone")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("ownerPhone")}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                        <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                          <h3 className="text-xs font-black text-foreground tracking-wide">{t("maintenance.confirmation.llcInfoTitle", "LLC Information")}</h3>
+                        </div>
+                        <div className="p-5 space-y-3">
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.llc")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("companyName")}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.state")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("state")}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">EIN</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("ein")}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.activityLabel", "Activity")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("businessActivity")}</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                        <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                          <h3 className="text-xs font-black text-foreground tracking-wide">{t("maintenance.confirmation.paymentInfoTitle", "Payment Information")}</h3>
+                        </div>
+                        <div className="p-5 space-y-3">
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.payment")}</span>
+                            <span className="text-sm font-bold text-foreground">{form.getValues("paymentMethod") === 'transfer' ? t("maintenance.confirmation.bankTransfer") : t("maintenance.confirmation.paymentLink")}</span>
+                          </div>
+                          <div className="flex flex-wrap justify-between items-center gap-1">
+                            <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.totalLabel", "Total")}</span>
+                            <span className="text-lg font-black text-accent">
+                              {discountInfo?.valid 
+                                ? `${((maintenancePrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
+                                : `${(maintenancePrice / 100).toFixed(2)} €`}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     
                     <FormField control={form.control} name="notes" render={({ field }) => (

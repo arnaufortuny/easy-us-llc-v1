@@ -436,7 +436,10 @@ export default function LlcFormation() {
     setFormMessage(null);
     setIsSendingOtp(true);
     try {
-      const res = await apiRequest("POST", "/api/register/send-otp", { email });
+      const firstName = form.getValues("ownerFirstName");
+      const lastName = form.getValues("ownerLastName");
+      const fullName = `${firstName} ${lastName}`.trim();
+      const res = await apiRequest("POST", "/api/register/send-otp", { email, name: fullName || undefined });
       if (res.ok) {
         setIsOtpSent(true);
         setFormMessage({ type: 'success', text: t("application.messages.codeSent") + ". " + t("application.messages.checkEmailWaiting") });
@@ -729,7 +732,7 @@ export default function LlcFormation() {
               </Button>
               <Button 
                 type="button"
-                className="bg-accent text-primary font-black rounded-full"
+                className="bg-accent text-accent-foreground font-black rounded-full"
                 onClick={handleSaveChanges}
                 data-testid="button-save-changes"
               >
@@ -1240,7 +1243,7 @@ export default function LlcFormation() {
                             type="button" 
                             onClick={sendOtp}
                             disabled={isSendingOtp}
-                            className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20"
+                            className="w-full bg-accent text-accent-foreground font-black rounded-full h-14 shadow-lg shadow-accent/20"
                             data-testid="button-send-otp"
                           >
                             {isSendingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
@@ -1271,7 +1274,7 @@ export default function LlcFormation() {
                               type="button" 
                               onClick={verifyOtp}
                               disabled={isVerifyingOtp || otpCode.length !== 6}
-                              className="w-full bg-accent text-primary font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
+                              className="w-full bg-accent text-accent-foreground font-black rounded-full h-14 shadow-lg shadow-accent/20 disabled:opacity-50"
                               data-testid="button-verify-otp"
                             >
                               {isVerifyingOtp ? <Loader2 className="w-5 h-5 animate-spin mr-2" /> : null}
