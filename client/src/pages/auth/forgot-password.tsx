@@ -262,7 +262,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-24 sm:pt-24 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-28 sm:pt-28 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-center">
@@ -325,19 +325,17 @@ export default function ForgotPassword() {
                   >
                     {isLoading ? <Loader2 className="animate-spin w-4 h-4" /> : t("auth.forgotPassword.sendCode")}
                   </Button>
-                  {nameMatch === 'none' && (
-                    <Link href="/contacto">
-                      <Button
-                        type="button"
-                        variant="outline"
-                        className="w-full mt-3 rounded-full text-sm font-bold gap-2"
-                        data-testid="button-contact-team-bottom"
-                      >
-                        <MessageCircle className="w-4 h-4" />
-                        {t("auth.forgotPassword.contactTeam")}
-                      </Button>
-                    </Link>
-                  )}
+                  <Link href="/contacto">
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="w-full mt-3 rounded-full text-sm font-bold gap-2"
+                      data-testid="button-contact-team-bottom"
+                    >
+                      <MessageCircle className="w-4 h-4" />
+                      {t("auth.forgotPassword.contactTeam")}
+                    </Button>
+                  </Link>
                 </form>
               </Form>
             )}
