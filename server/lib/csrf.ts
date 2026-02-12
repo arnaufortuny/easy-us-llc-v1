@@ -50,5 +50,10 @@ export function getCsrfToken(req: Request, res: Response) {
   if (!req.session.csrfToken) {
     req.session.csrfToken = generateCsrfToken();
   }
-  res.json({ csrfToken: req.session.csrfToken });
+  req.session.save((err) => {
+    if (err) {
+      console.error("Failed to save CSRF session:", err);
+    }
+    res.json({ csrfToken: req.session.csrfToken });
+  });
 }

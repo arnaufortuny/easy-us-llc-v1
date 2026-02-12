@@ -1327,9 +1327,8 @@ async function processEmailQueue() {
       job.retries++;
       
       if (job.retries >= job.maxRetries) {
-        // Max retries reached - remove and log
         emailQueue.shift();
-        log.error(`Email failed after ${job.maxRetries} retries`, null, { id: job.id, to: job.to });
+        log.error(`Email failed after ${job.maxRetries} retries`, error, { id: job.id, to: job.to, errorMessage: error?.message || 'Unknown error' });
       } else {
         // Move to end of queue for retry (with delay via natural queue order)
         emailQueue.shift();

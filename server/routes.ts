@@ -96,6 +96,11 @@ export async function registerRoutes(
     "/api/stripe/webhook",
     "/api/webhook",
     "/api/consultations/book-free",
+    "/api/contact/send-otp",
+    "/api/contact/verify-otp",
+    "/api/contact",
+    "/api/messages",
+    "/api/newsletter/subscribe",
   ];
   
   app.use((req, res, next) => {
