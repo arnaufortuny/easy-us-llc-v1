@@ -322,7 +322,7 @@ export default function Contacto() {
         <div>
           <div className="space-y-6">
             <Form {...form}>
-              <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+              <form noValidate className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
                 {formMessage && (
                   <div className={`p-3 rounded-xl text-center text-sm font-medium ${
                     formMessage.type === 'error' 

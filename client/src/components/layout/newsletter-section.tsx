@@ -89,7 +89,7 @@ export function NewsletterSection() {
             </p>
           </div>
 
-          <form onSubmit={handleSubscribe} className="max-w-lg w-full mx-auto relative group flex flex-col items-center text-center">
+          <form noValidate onSubmit={handleSubscribe} className="max-w-lg w-full mx-auto relative group flex flex-col items-center text-center">
             {formMessage && (
               <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium w-full ${
                 formMessage.type === 'error' 

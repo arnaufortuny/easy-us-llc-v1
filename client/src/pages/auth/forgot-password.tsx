@@ -291,7 +291,7 @@ export default function ForgotPassword() {
 
             {step === 'email' && (
               <Form {...emailForm}>
-                <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-5">
+                <form noValidate onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-5">
                   <div className="space-y-2">
                     <FormInput
                       control={emailForm.control}
@@ -386,7 +386,7 @@ export default function ForgotPassword() {
 
             {step === 'password' && (
               <Form {...resetForm}>
-                <form onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-5">
+                <form noValidate onSubmit={resetForm.handleSubmit(handleResetPassword)} className="space-y-5">
                   <div className="relative">
                     <FormInput
                       control={resetForm.control}

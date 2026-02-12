@@ -151,7 +151,7 @@ export default function Login() {
 
           <div className="bg-white dark:bg-card rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm lg:border-0 lg:shadow-none lg:bg-transparent lg:dark:bg-transparent lg:p-0 lg:flex-1 lg:flex lg:flex-col lg:justify-center">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormInput
                   control={form.control}
                   name="email"

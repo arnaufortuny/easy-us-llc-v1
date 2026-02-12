@@ -753,7 +753,7 @@ export default function LlcFormation() {
         <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-8" />
         
         <Form {...form}>
-          <form className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+          <form noValidate className="space-y-6 md:space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
             {formMessage && (
               <div className={`mb-4 p-3 rounded-xl text-center text-sm font-medium ${
                 formMessage.type === 'error' 

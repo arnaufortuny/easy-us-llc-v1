@@ -116,13 +116,22 @@ export function Navbar() {
 
           <div className="hidden md:flex items-center gap-1.5 lg:gap-2.5">
             {authLoading ? (
-              <Button 
-                variant="outline"
-                className="rounded-full border-2 border-[#00C48C] text-foreground font-semibold text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2 opacity-50"
-                disabled
-              >
-                <UserIcon className="w-4 h-4" /> {t("nav.login")}
-              </Button>
+              <>
+                <Button 
+                  variant="outline"
+                  className="rounded-full border-2 border-[#00C48C] text-foreground font-semibold text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2 opacity-50"
+                  disabled
+                >
+                  <UserIcon className="w-4 h-4" /> {t("nav.login")}
+                </Button>
+                <Button 
+                  variant="cta"
+                  className="font-semibold text-xs lg:text-sm border-0 rounded-full h-11 px-4 lg:px-6 opacity-50"
+                  disabled
+                >
+                  {t("nav.register")}
+                </Button>
+              </>
             ) : isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link href="/dashboard">
@@ -145,23 +154,24 @@ export function Navbar() {
                 </Button>
               </div>
             ) : (
-              <Button 
-                onClick={() => setLocation("/auth/login")}
-                variant="outline"
-                className="rounded-full border-2 border-[#00C48C] text-foreground font-semibold text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2"
-                data-testid="button-desktop-login"
-              >
-                <UserIcon className="w-4 h-4" /> {t("nav.login")}
-              </Button>
-            )}
-            {!authLoading && !isAuthenticated && (
-              <Button 
-                onClick={() => setLocation("/llc/formation")} 
-                variant="cta"
-                className="font-semibold text-xs lg:text-sm border-0 rounded-full h-11 px-4 lg:px-6"
-              >
-                {t("nav.register")}
-              </Button>
+              <>
+                <Button 
+                  onClick={() => setLocation("/auth/login")}
+                  variant="outline"
+                  className="rounded-full border-2 border-[#00C48C] text-foreground font-semibold text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2"
+                  data-testid="button-desktop-login"
+                >
+                  <UserIcon className="w-4 h-4" /> {t("nav.login")}
+                </Button>
+                <Button 
+                  onClick={() => setLocation("/llc/formation")} 
+                  variant="cta"
+                  className="font-semibold text-xs lg:text-sm border-0 rounded-full h-11 px-4 lg:px-6"
+                  data-testid="button-desktop-register"
+                >
+                  {t("nav.register")}
+                </Button>
+              </>
             )}
             <div className="flex items-center gap-1">
               <ThemeToggle />

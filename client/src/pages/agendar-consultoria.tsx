@@ -371,7 +371,7 @@ export default function AsesoriaGratis() {
           <StepProgress currentStep={step} totalSteps={TOTAL_STEPS} className="mb-8" />
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
+            <form noValidate onSubmit={form.handleSubmit(onSubmit)}>
               <Card>
                 <CardContent className="p-6 md:p-8">
                   <AnimatePresence mode="wait">

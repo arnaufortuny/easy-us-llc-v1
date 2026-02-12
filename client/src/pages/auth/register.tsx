@@ -401,7 +401,7 @@ export default function Register() {
 
           <div className="bg-white dark:bg-card rounded-2xl md:rounded-3xl p-5 md:p-8 border border-border shadow-sm lg:border-0 lg:shadow-none lg:bg-transparent lg:dark:bg-transparent lg:p-0">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
+              <form noValidate onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 md:space-y-5">
               
                 {step === 0 && (
                   <div key="step-0" className="space-y-4">
