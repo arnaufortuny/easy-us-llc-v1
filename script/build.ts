@@ -28,53 +28,68 @@ try {
 }
 
 var expressApp = null;
+var appLoading = false;
+var healthCheckCount = 0;
+
+function loadFullApp() {
+  if (appLoading || expressApp) return;
+  appLoading = true;
+  console.log("[boot] Health checks passed (" + healthCheckCount + "). Loading full application...");
+  process.env.BOOT_SERVER = "1";
+  process.env.BOOT_PORT = String(port);
+  try {
+    var appModule = require("./index.cjs");
+    if (appModule && appModule.__httpServer && appModule.__expressApp) {
+      expressApp = appModule.__expressApp;
+      appModule.__httpServer.removeAllListeners("request");
+      server.removeAllListeners("upgrade");
+      var upgradeListeners = appModule.__httpServer.listeners("upgrade");
+      for (var j = 0; j < upgradeListeners.length; j++) {
+        server.on("upgrade", upgradeListeners[j]);
+      }
+      console.log("[boot] Express app active - full application ready");
+    } else {
+      console.log("[boot] Application loaded (no express export found)");
+    }
+  } catch (e) {
+    console.error("[boot] Failed to load application:", e);
+    appLoading = false;
+  }
+}
 
 var server = http.createServer(function(req, res) {
   if (expressApp) {
     return expressApp(req, res);
   }
   if (req.url === "/_health" || req.url === "/_health/") {
+    healthCheckCount++;
     res.writeHead(200, { "Content-Type": "text/plain" });
-    return res.end("ok");
+    res.end("ok");
+    return;
   }
-  if (req.url === "/" || req.url === "") {
-    res.writeHead(200, {
-      "Content-Type": "text/html",
-      "Cache-Control": "no-cache, no-store, must-revalidate"
-    });
-    return res.end(indexHtml || "<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Loading...</p><script>setTimeout(function(){location.reload()},1000)</script></body></html>");
-  }
-  res.writeHead(200, { "Content-Type": "text/html" });
+  res.writeHead(200, {
+    "Content-Type": "text/html",
+    "Cache-Control": "no-cache, no-store, must-revalidate"
+  });
   res.end(indexHtml || "<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Loading...</p><script>setTimeout(function(){location.reload()},1000)</script></body></html>");
 });
 
 server.listen(port, "0.0.0.0", function() {
-  console.log("[boot] Server listening on 0.0.0.0:" + port + " - health check ready immediately");
+  console.log("[boot] Server listening on 0.0.0.0:" + port + " - health check ready");
+
+  var loadCheck = setInterval(function() {
+    if (healthCheckCount >= 2) {
+      clearInterval(loadCheck);
+      setTimeout(loadFullApp, 200);
+    }
+  }, 50);
 
   setTimeout(function() {
-    console.log("[boot] Loading full application...");
-    process.env.BOOT_SERVER = "1";
-    process.env.BOOT_PORT = String(port);
-    try {
-      var appModule = require("./index.cjs");
-      if (appModule && appModule.__httpServer && appModule.__expressApp) {
-        expressApp = appModule.__expressApp;
-        appModule.__httpServer.removeAllListeners("request");
-        server.removeAllListeners("upgrade");
-        if (appModule.__httpServer.listeners) {
-          var upgradeListeners = appModule.__httpServer.listeners("upgrade");
-          for (var j = 0; j < upgradeListeners.length; j++) {
-            server.on("upgrade", upgradeListeners[j]);
-          }
-        }
-        console.log("[boot] Express app active - full application ready");
-      } else {
-        console.log("[boot] Application loaded");
-      }
-    } catch (e) {
-      console.error("[boot] Failed to load application:", e);
+    clearInterval(loadCheck);
+    if (!appLoading && !expressApp) {
+      loadFullApp();
     }
-  }, 0);
+  }, 8000);
 });
 `;
 
