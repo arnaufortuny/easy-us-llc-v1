@@ -884,7 +884,16 @@
       "errorSendCode": "Impossible d'envoyer le code",
       "errorEnterCode": "Saisissez le code à 6 chiffres",
       "errorInvalidCode": "Code invalide ou expiré",
-      "errorResetPassword": "Impossible de réinitialiser le mot de passe"
+      "errorResetPassword": "Impossible de réinitialiser le mot de passe",
+      "nameRequired": "Le nom complet est requis",
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "Votre nom complet tel qu'il figure sur votre compte",
+      "fullNameHelp": "Saisissez le nom exact que vous avez utilisé lors de la création de votre compte pour vérifier votre identité.",
+      "nameChecking": "Vérification de l'identité...",
+      "nameExact": "Identité vérifiée avec succès",
+      "namePartial": "Correspondance partielle : vérifiez que le nom est exact",
+      "nameNoMatch": "Le nom ne correspond pas à nos registres",
+      "nameError": "Erreur de vérification. Veuillez réessayer."
     },
     "otp": {
       "title": "Vérifier l'email",

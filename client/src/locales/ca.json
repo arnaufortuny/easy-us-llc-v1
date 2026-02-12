@@ -884,7 +884,16 @@
       "errorSendCode": "No s'ha pogut enviar el codi",
       "errorEnterCode": "Introdueix el codi de 6 dígits",
       "errorInvalidCode": "Codi invàlid o expirat",
-      "errorResetPassword": "No s'ha pogut restablir la contrasenya"
+      "errorResetPassword": "No s'ha pogut restablir la contrasenya",
+      "nameRequired": "El nom complet és obligatori",
+      "fullNameLabel": "Nom complet",
+      "fullNamePlaceholder": "El teu nom i cognoms tal com consten al teu compte",
+      "fullNameHelp": "Introdueix el nom exacte que vas fer servir en crear el teu compte per verificar la teva identitat.",
+      "nameChecking": "Verificant identitat...",
+      "nameExact": "Identitat verificada correctament",
+      "namePartial": "Coincidència parcial: revisa que el nom sigui exacte",
+      "nameNoMatch": "El nom no coincideix amb els nostres registres",
+      "nameError": "Error en la verificació. Torna-ho a provar."
     },
     "otp": {
       "title": "Verificar correu",

@@ -884,7 +884,16 @@
       "errorSendCode": "Could not send the code",
       "errorEnterCode": "Enter the 6-digit code",
       "errorInvalidCode": "Invalid or expired code",
-      "errorResetPassword": "Could not reset password"
+      "errorResetPassword": "Could not reset password",
+      "nameRequired": "Full name is required",
+      "fullNameLabel": "Full name",
+      "fullNamePlaceholder": "Your full name as it appears on your account",
+      "fullNameHelp": "Enter the exact name you used when creating your account to verify your identity.",
+      "nameChecking": "Verifying identity...",
+      "nameExact": "Identity verified successfully",
+      "namePartial": "Partial match: please check your name is exact",
+      "nameNoMatch": "The name does not match our records",
+      "nameError": "Verification error. Please try again."
     },
     "otp": {
       "title": "Verify Email",

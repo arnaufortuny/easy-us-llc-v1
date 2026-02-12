@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Link } from "wouter";
-import { Loader2, Eye, EyeOff, ArrowLeft } from "@/components/icons";
+import { Loader2, Eye, EyeOff, ArrowLeft, CheckCircle2, AlertTriangle, XCircle } from "@/components/icons";
 import { useTranslation } from "react-i18next";
 
 import { Navbar } from "@/components/layout/navbar";
@@ -19,6 +19,7 @@ import { usePageTitle } from "@/hooks/use-page-title";
 
 const createEmailSchema = (t: (key: string) => string) => z.object({
   email: z.string().email(t("validation.email")),
+  fullName: z.string().min(2, t("auth.forgotPassword.nameRequired")),
 });
 
 const createResetSchema = (t: (key: string) => string) => z.object({
@@ -30,6 +31,7 @@ const createResetSchema = (t: (key: string) => string) => z.object({
 });
 
 type Step = 'email' | 'otp' | 'password' | 'success';
+type NameMatch = 'idle' | 'checking' | 'exact' | 'partial' | 'none' | 'error';
 
 export default function ForgotPassword() {
   const { t } = useTranslation();
@@ -37,9 +39,11 @@ export default function ForgotPassword() {
   const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState<Step>('email');
   const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
   const [otp, setOtp] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [formMessage, setFormMessage] = useState<{ type: 'error' | 'success' | 'info', text: string } | null>(null);
+  const [nameMatch, setNameMatch] = useState<NameMatch>('idle');
 
   const emailSchema = createEmailSchema(t);
   const resetSchema = createResetSchema(t);
@@ -49,7 +53,7 @@ export default function ForgotPassword() {
 
   const emailForm = useForm<EmailFormValues>({
     resolver: zodResolver(emailSchema),
-    defaultValues: { email: "" },
+    defaultValues: { email: "", fullName: "" },
   });
 
   const resetForm = useForm<ResetFormValues>({
@@ -64,17 +68,50 @@ export default function ForgotPassword() {
     }
   }, [formMessage]);
 
-  const handleSendOtp = async (data: { email: string }) => {
+  const watchedEmail = emailForm.watch("email");
+  const watchedName = emailForm.watch("fullName");
+
+  const checkNameMatch = useCallback(async (emailVal: string, nameVal: string) => {
+    if (!emailVal || !nameVal || nameVal.length < 2) {
+      setNameMatch('idle');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailVal)) {
+      setNameMatch('idle');
+      return;
+    }
+    setNameMatch('checking');
+    try {
+      const res = await apiRequest("POST", "/api/password-reset/verify-name", { email: emailVal, fullName: nameVal });
+      const data = await res.json();
+      setNameMatch(data.match || 'none');
+    } catch {
+      setNameMatch('error');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (watchedEmail && watchedName && watchedName.length >= 2) {
+      const timer = setTimeout(() => checkNameMatch(watchedEmail, watchedName), 800);
+      return () => clearTimeout(timer);
+    } else {
+      setNameMatch('idle');
+    }
+  }, [watchedEmail, watchedName, checkNameMatch]);
+
+  const handleSendOtp = async (data: { email: string; fullName: string }) => {
     setIsLoading(true);
     setFormMessage(null);
     try {
-      const res = await apiRequest("POST", "/api/password-reset/send-otp", data);
+      const res = await apiRequest("POST", "/api/password-reset/send-otp", { email: data.email, fullName: data.fullName });
       if (res.ok) {
         const result = await res.json();
         if (result.deactivated) {
           setFormMessage({ type: 'error', text: t("auth.accountDeactivated.passwordResetBlocked") || "Your account has been deactivated. Password recovery is not available. Contact support for more information." });
         } else {
           setEmail(data.email);
+          setFullName(data.fullName);
           setStep('otp');
           setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeSentDesc") });
         }
@@ -124,7 +161,7 @@ export default function ForgotPassword() {
     setIsLoading(true);
     setFormMessage(null);
     try {
-      const res = await apiRequest("POST", "/api/password-reset/send-otp", { email });
+      const res = await apiRequest("POST", "/api/password-reset/send-otp", { email, fullName });
       if (res.ok) {
         setFormMessage({ type: 'success', text: t("auth.forgotPassword.codeResentDesc") });
       } else {
@@ -136,6 +173,53 @@ export default function ForgotPassword() {
       setIsLoading(false);
     }
   };
+
+  const getNameMatchIndicator = () => {
+    if (nameMatch === 'idle') return null;
+    if (nameMatch === 'error') {
+      return (
+        <div className="flex items-center gap-2 text-xs text-destructive mt-1.5 px-1" data-testid="status-name-error">
+          <XCircle className="w-3.5 h-3.5" />
+          <span>{t("auth.forgotPassword.nameError")}</span>
+        </div>
+      );
+    }
+    if (nameMatch === 'checking') {
+      return (
+        <div className="flex items-center gap-2 text-xs text-muted-foreground mt-1.5 px-1" data-testid="status-name-checking">
+          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <span>{t("auth.forgotPassword.nameChecking")}</span>
+        </div>
+      );
+    }
+    if (nameMatch === 'exact') {
+      return (
+        <div className="flex items-center gap-2 text-xs text-accent mt-1.5 px-1" data-testid="status-name-exact">
+          <CheckCircle2 className="w-3.5 h-3.5" />
+          <span>{t("auth.forgotPassword.nameExact")}</span>
+        </div>
+      );
+    }
+    if (nameMatch === 'partial') {
+      return (
+        <div className="flex items-center gap-2 text-xs text-amber-500 mt-1.5 px-1" data-testid="status-name-partial">
+          <AlertTriangle className="w-3.5 h-3.5" />
+          <span>{t("auth.forgotPassword.namePartial")}</span>
+        </div>
+      );
+    }
+    if (nameMatch === 'none') {
+      return (
+        <div className="flex items-center gap-2 text-xs text-destructive mt-1.5 px-1" data-testid="status-name-none">
+          <XCircle className="w-3.5 h-3.5" />
+          <span>{t("auth.forgotPassword.nameNoMatch")}</span>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const canSubmitEmail = nameMatch === 'exact' || nameMatch === 'partial';
 
   if (step === 'success') {
     return (
@@ -165,7 +249,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-14 sm:pt-20 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-20 sm:pt-20 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-black text-primary tracking-tight text-center">
@@ -193,7 +277,7 @@ export default function ForgotPassword() {
 
             {step === 'email' && (
               <Form {...emailForm}>
-                <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-6">
+                <form onSubmit={emailForm.handleSubmit(handleSendOtp)} className="space-y-5">
                   <div className="space-y-2">
                     <FormInput
                       control={emailForm.control}
@@ -204,13 +288,24 @@ export default function ForgotPassword() {
                       placeholder={t("auth.forgotPassword.emailPlaceholder")}
                       className="[&_input]:rounded-full"
                     />
-                    <p className="text-[10px] md:text-xs text-muted-foreground px-1">
-                      {t("auth.forgotPassword.emailHelp")}
+                  </div>
+                  <div className="space-y-1">
+                    <FormInput
+                      control={emailForm.control}
+                      name="fullName"
+                      label={t("auth.forgotPassword.fullNameLabel")}
+                      type="text"
+                      placeholder={t("auth.forgotPassword.fullNamePlaceholder")}
+                      className="[&_input]:rounded-full"
+                    />
+                    {getNameMatchIndicator()}
+                    <p className="text-[10px] md:text-xs text-muted-foreground px-1 mt-1">
+                      {t("auth.forgotPassword.fullNameHelp")}
                     </p>
                   </div>
                   <Button
                     type="submit"
-                    disabled={isLoading}
+                    disabled={isLoading || !canSubmitEmail}
                     className="w-full bg-accent text-primary font-black h-11 md:h-12 rounded-full text-sm md:text-base shadow-lg shadow-accent/20 active:scale-95 transition-all"
                     data-testid="button-send-otp"
                   >

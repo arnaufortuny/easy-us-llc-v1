@@ -884,7 +884,16 @@
       "errorSendCode": "Der Code konnte nicht gesendet werden",
       "errorEnterCode": "Geben Sie den 6-stelligen Code ein",
       "errorInvalidCode": "Ungültiger oder abgelaufener Code",
-      "errorResetPassword": "Das Passwort konnte nicht zurückgesetzt werden"
+      "errorResetPassword": "Das Passwort konnte nicht zurückgesetzt werden",
+      "nameRequired": "Der vollständige Name ist erforderlich",
+      "fullNameLabel": "Vollständiger Name",
+      "fullNamePlaceholder": "Ihr vollständiger Name wie in Ihrem Konto hinterlegt",
+      "fullNameHelp": "Geben Sie den genauen Namen ein, den Sie bei der Kontoerstellung verwendet haben, um Ihre Identität zu bestätigen.",
+      "nameChecking": "Identität wird überprüft...",
+      "nameExact": "Identität erfolgreich verifiziert",
+      "namePartial": "Teilweise Übereinstimmung: Bitte überprüfen Sie den genauen Namen",
+      "nameNoMatch": "Der Name stimmt nicht mit unseren Aufzeichnungen überein",
+      "nameError": "Überprüfungsfehler. Bitte versuchen Sie es erneut."
     },
     "otp": {
       "title": "E-Mail bestätigen",

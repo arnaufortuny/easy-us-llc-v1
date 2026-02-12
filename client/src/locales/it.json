@@ -884,7 +884,16 @@
       "errorSendCode": "Non è stato possibile inviare il codice",
       "errorEnterCode": "Inserisci il codice di 6 cifre",
       "errorInvalidCode": "Codice non valido o scaduto",
-      "errorResetPassword": "Errore nel ripristino della password"
+      "errorResetPassword": "Errore nel ripristino della password",
+      "nameRequired": "Il nome completo è obbligatorio",
+      "fullNameLabel": "Nome completo",
+      "fullNamePlaceholder": "Il tuo nome completo come risulta nel tuo account",
+      "fullNameHelp": "Inserisci il nome esatto che hai usato durante la creazione del tuo account per verificare la tua identità.",
+      "nameChecking": "Verifica dell'identità...",
+      "nameExact": "Identità verificata con successo",
+      "namePartial": "Corrispondenza parziale: verifica che il nome sia esatto",
+      "nameNoMatch": "Il nome non corrisponde ai nostri registri",
+      "nameError": "Errore di verifica. Riprova."
     },
     "otp": {
       "title": "Verifica Email",

@@ -884,7 +884,16 @@
       "errorSendCode": "No se pudo enviar el código",
       "errorEnterCode": "Ingresa el código de 6 dígitos",
       "errorInvalidCode": "Código inválido o expirado",
-      "errorResetPassword": "No se pudo restablecer la contraseña"
+      "errorResetPassword": "No se pudo restablecer la contraseña",
+      "nameRequired": "El nombre completo es obligatorio",
+      "fullNameLabel": "Nombre completo",
+      "fullNamePlaceholder": "Tu nombre y apellidos tal como están en tu cuenta",
+      "fullNameHelp": "Introduce el nombre exacto que usaste al crear tu cuenta para verificar tu identidad.",
+      "nameChecking": "Verificando identidad...",
+      "nameExact": "Identidad verificada correctamente",
+      "namePartial": "Coincidencia parcial: revisa que el nombre sea exacto",
+      "nameNoMatch": "El nombre no coincide con nuestros registros",
+      "nameError": "Error al verificar. Inténtalo de nuevo."
     },
     "otp": {
       "title": "Verificar Email",

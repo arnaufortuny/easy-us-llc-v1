@@ -132,6 +132,64 @@ export function registerAuthExtRoutes(app: Express) {
     }
   }));
 
+  // Verify name before sending password reset OTP
+  // Returns uniform "checking" delay and same structure regardless of account existence
+  app.post("/api/password-reset/verify-name", asyncHandler(async (req: any, res: Response) => {
+    try {
+      const ip = getClientIp(req);
+      const rateCheck = checkRateLimit('passwordReset', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ 
+          message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` 
+        });
+      }
+
+      const { email, fullName } = z.object({ 
+        email: z.string().email(),
+        fullName: z.string().min(2).max(200)
+      }).parse(req.body);
+
+      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+      
+      const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
+      
+      // Uniform response for non-existent accounts (same as "exact" to prevent enumeration)
+      if (!existingUser) {
+        return res.json({ match: "exact" });
+      }
+
+      if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
+        return res.json({ match: "exact" });
+      }
+      
+      const accountFullName = normalize(`${existingUser.firstName || ""} ${existingUser.lastName || ""}`);
+      const inputName = normalize(fullName);
+      
+      // No name on file - allow through (can't verify what doesn't exist)
+      if (!accountFullName || accountFullName.length < 2) {
+        return res.json({ match: "exact" });
+      }
+
+      if (accountFullName === inputName) {
+        return res.json({ match: "exact" });
+      }
+
+      const accountParts = accountFullName.split(" ").filter(Boolean);
+      const inputParts = inputName.split(" ").filter(Boolean);
+      const matchingParts = inputParts.filter(part => accountParts.includes(part));
+      
+      if (matchingParts.length > 0 && matchingParts.length >= Math.min(accountParts.length, inputParts.length) * 0.5) {
+        return res.json({ match: "partial" });
+      }
+
+      logAudit({ action: 'password_reset_name_mismatch', ip, details: { email } });
+      return res.json({ match: "none" });
+    } catch (err) {
+      log.error("Error verifying name for password reset", err);
+      res.status(400).json({ message: "Error verifying identity." });
+    }
+  }));
+
   // Send OTP for password reset (forgot password)
   app.post("/api/password-reset/send-otp", asyncHandler(async (req: any, res: Response) => {
     try {
@@ -143,7 +201,10 @@ export function registerAuthExtRoutes(app: Express) {
         });
       }
 
-      const { email } = z.object({ email: z.string().email() }).parse(req.body);
+      const { email, fullName } = z.object({ 
+        email: z.string().email(),
+        fullName: z.string().min(2).max(200)
+      }).parse(req.body);
       
       const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.email, email)).limit(1);
       
@@ -153,6 +214,21 @@ export function registerAuthExtRoutes(app: Express) {
       
       if (existingUser.isActive === false || existingUser.accountStatus === 'deactivated') {
         return res.json({ success: true, deactivated: true });
+      }
+
+      const normalize = (s: string) => s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, " ").trim();
+      const accountFullName = normalize(`${existingUser.firstName || ""} ${existingUser.lastName || ""}`);
+      const inputName = normalize(fullName);
+      
+      if (accountFullName && accountFullName.length >= 2) {
+        const accountParts = accountFullName.split(" ").filter(Boolean);
+        const inputParts = inputName.split(" ").filter(Boolean);
+        const matchingParts = inputParts.filter(part => accountParts.includes(part));
+        
+        if (matchingParts.length === 0) {
+          logAudit({ action: 'password_reset_blocked_name', ip, details: { email } });
+          return res.status(403).json({ message: "Identity verification failed. The name does not match our records." });
+        }
       }
       
       const otp = Math.floor(100000 + Math.random() * 900000).toString();
