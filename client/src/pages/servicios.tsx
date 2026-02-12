@@ -232,7 +232,7 @@ export default function Servicios() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-foreground text-sm font-black">5/5</span>
+                  <span className="text-black text-sm font-black">5/5</span>
                 </a>
               </motion.div>
             </div>

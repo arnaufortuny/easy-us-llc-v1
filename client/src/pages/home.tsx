@@ -59,7 +59,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-foreground text-xs font-black">5/5</span>
+                <span className="text-black text-xs font-black">5/5</span>
               </a>
             </div>
 
@@ -89,7 +89,7 @@ export default function Home() {
                     </svg>
                   ))}
                 </div>
-                <span className="text-foreground text-lg font-black">5/5</span>
+                <span className="text-black text-lg font-black">5/5</span>
               </a>
             </div>
 
