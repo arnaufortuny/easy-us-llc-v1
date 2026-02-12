@@ -72,8 +72,8 @@ localPort = 9999
 externalPort = 3000
 
 [deployment]
-deploymentTarget = "vm"
-run = ["bash", "-c", "NODE_ENV=production node dist/boot.cjs"]
+deploymentTarget = "autoscale"
+run = ["bash", "-c", "NODE_ENV=production node dist/index.cjs"]
 build = ["npm", "run", "build"]
 
 [userenv]

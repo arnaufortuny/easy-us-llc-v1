@@ -1,59 +1,45 @@
-import express, { type Request, Response, NextFunction } from "express";
-import { setupStaticFiles, setupSPAFallback } from "./static";
 import { createServer } from "http";
-import compression from "compression";
-import { createLogger } from "./lib/logger";
 import fs from "fs";
 import path from "path";
 
-const serverLog = createLogger('server');
-
-process.on('unhandledRejection', (reason, promise) => {
-  serverLog.error('Unhandled Promise Rejection', reason, { promise: String(promise) });
-});
-
-process.on('uncaughtException', (error) => {
-  serverLog.error('Uncaught Exception - server will continue', error);
-});
-
-const app = express();
 const isProduction = process.env.NODE_ENV === "production";
-let lazyRecordApiMetric: ((method: string, path: string, durationMs: number, statusCode: number) => void) | null = null;
-
-const httpServer = createServer(app);
+const port = parseInt(process.env.PORT || "5000", 10);
 
 let cachedIndexHtml: string | null = null;
 if (isProduction) {
   try {
-    const distCandidates = [
+    const candidates = [
       path.resolve(process.cwd(), "dist", "public", "index.html"),
       path.resolve(__dirname, "public", "index.html"),
       path.resolve(__dirname, "..", "dist", "public", "index.html"),
     ];
-    for (const candidate of distCandidates) {
+    for (const candidate of candidates) {
       if (fs.existsSync(candidate)) {
         cachedIndexHtml = fs.readFileSync(candidate, "utf-8");
-        serverLog.info(`Cached index.html from ${candidate}`);
         break;
       }
     }
-  } catch (e) {
-    serverLog.error("Failed to pre-cache index.html", e);
-  }
+  } catch (_e) {}
 }
 
-app.get("/_health", (_req, res) => {
-  res.status(200).send("ok");
+let expressApp: any = null;
+
+const httpServer = createServer((req, res) => {
+  if (expressApp) {
+    return expressApp(req, res);
+  }
+  if (req.url === "/_health" || req.url === "/_health/") {
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    return res.end("ok");
+  }
+  const html = cachedIndexHtml || "<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Loading...</p><script>setTimeout(function(){location.reload()},1000)</script></body></html>";
+  res.writeHead(200, { "Content-Type": "text/html", "Cache-Control": "no-cache, no-store, must-revalidate" });
+  res.end(html);
 });
 
-app.get("/", (_req, res, next) => {
-  if (cachedIndexHtml) {
-    res.status(200).setHeader("Content-Type", "text/html").setHeader("Cache-Control", "no-cache, no-store, must-revalidate").send(cachedIndexHtml);
-  } else if (isProduction) {
-    res.status(200).setHeader("Content-Type", "text/html").send("<!DOCTYPE html><html><head><title>Exentax</title></head><body><p>Starting...</p><script>setTimeout(()=>location.reload(),1000)</script></body></html>");
-  } else {
-    next();
-  }
+httpServer.listen(port, "0.0.0.0", () => {
+  console.log(`Server listening on 0.0.0.0:${port}`);
+  initializeApp();
 });
 
 export function log(message: string, source = "express") {
@@ -63,162 +49,156 @@ export function log(message: string, source = "express") {
     second: "2-digit",
     hour12: true,
   });
-
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-app.use(compression());
+async function initializeApp() {
+  try {
+    const express = (await import("express")).default;
+    const compression = (await import("compression")).default;
+    const { createLogger } = await import("./lib/logger");
+    const { setupStaticFiles, setupSPAFallback } = await import("./static");
 
-function getCSP(): string {
-  const baseCSP = {
-    "default-src": ["'self'"],
-    "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
-    "img-src": ["'self'", "data:", "blob:", "https://*.stripe.com", "https://lh3.googleusercontent.com", "https://exentax.com"],
-    "connect-src": ["'self'", "https://api.stripe.com", "https://accounts.google.com", "wss://*.replit.dev", "wss://*.replit.app"],
-    "frame-src": ["'self'", "https://js.stripe.com", "https://accounts.google.com"],
-    "frame-ancestors": ["'self'", "https://*.replit.dev", "https://*.replit.app"],
-  };
+    const serverLog = createLogger('server');
 
-  if (isProduction) {
-    return [
-      `default-src ${baseCSP["default-src"].join(" ")}`,
-      `script-src 'self' https://js.stripe.com https://accounts.google.com`,
-      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-      `font-src ${baseCSP["font-src"].join(" ")}`,
-      `img-src ${baseCSP["img-src"].join(" ")}`,
-      `connect-src ${baseCSP["connect-src"].join(" ")}`,
-      `frame-src ${baseCSP["frame-src"].join(" ")}`,
-      `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
-    ].join("; ");
-  } else {
-    return [
-      `default-src ${baseCSP["default-src"].join(" ")}`,
-      `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://accounts.google.com`,
-      `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-      `font-src ${baseCSP["font-src"].join(" ")}`,
-      `img-src ${baseCSP["img-src"].join(" ")}`,
-      `connect-src ${baseCSP["connect-src"].join(" ")}`,
-      `frame-src ${baseCSP["frame-src"].join(" ")}`,
-      `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
-    ].join("; ");
-  }
-}
-
-app.use((req, res, next) => {
-  res.setHeader("X-Content-Type-Options", "nosniff");
-  res.setHeader("X-Frame-Options", "SAMEORIGIN");
-  res.setHeader("X-XSS-Protection", "1; mode=block");
-  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
-  res.setHeader("Content-Security-Policy", getCSP());
-  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()");
-  res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
-  res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
-  
-  if (req.method === 'GET') {
-    const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
-    const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
-    const isSeoFile = req.path === '/robots.txt' || req.path.startsWith('/sitemap');
-    const isJS = req.path.match(/\.js$/);
-    const isCSS = req.path.match(/\.css$/);
-    
-    if (isAsset && isProduction) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-      res.setHeader('Vary', 'Accept-Encoding');
-    } else if (isAsset && !isProduction) {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
-    } else if (isStaticFile && isProduction) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
-    } else if (isStaticFile && !isProduction) {
-      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-      res.setHeader('Pragma', 'no-cache');
-      res.setHeader('Expires', '0');
-    } else if (isSeoFile) {
-      res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
-      res.setHeader('X-Robots-Tag', 'all');
-    }
-    
-    if (isJS) {
-      res.setHeader('X-Content-Type-Options', 'nosniff');
-    }
-    if (isCSS) {
-      res.setHeader('X-Content-Type-Options', 'nosniff');
-    }
-    
-    res.setHeader("X-DNS-Prefetch-Control", "on");
-    
-    const linkHints = [
-      '</logo-icon.png>; rel=preload; as=image; fetchpriority=high',
-      '<https://fonts.googleapis.com>; rel=preconnect',
-      '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
-      '<https://js.stripe.com>; rel=preconnect',
-    ];
-    res.setHeader("Link", linkHints.join(', '));
-  }
-  
-  const seoPages = ['/', '/servicios', '/faq', '/contacto', '/llc/formation', '/llc/maintenance'];
-  if (seoPages.includes(req.path)) {
-    res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-    const existingLinkRaw = res.getHeader('Link');
-    const existingLink = Array.isArray(existingLinkRaw) ? existingLinkRaw.join(', ') : (existingLinkRaw || '');
-    const canonicalLink = `<https://exentax.com${req.path}>; rel="canonical"`;
-    res.setHeader('Link', existingLink ? `${existingLink}, ${canonicalLink}` : canonicalLink);
-  }
-  
-  const noindexPages = ['/dashboard', '/admin', '/auth/forgot-password'];
-  if (noindexPages.some(p => req.path.startsWith(p))) {
-    res.setHeader('X-Robots-Tag', 'noindex, nofollow');
-  }
-  
-  if (req.path.startsWith('/api/')) {
-    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-  }
-  
-  if (req.path.startsWith('/api/') && lazyRecordApiMetric) {
-    const start = process.hrtime.bigint();
-    const metricFn = lazyRecordApiMetric;
-    res.on('finish', () => {
-      const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
-      metricFn(req.method, req.path, Math.round(durationMs), res.statusCode);
+    process.on('unhandledRejection', (reason, promise) => {
+      serverLog.error('Unhandled Promise Rejection', reason, { promise: String(promise) });
     });
-  }
-  
-  next();
-});
 
-const port = parseInt(process.env.PORT || "5000", 10);
-const isBootMode = process.env.BOOT_SERVER === "1";
+    process.on('uncaughtException', (error) => {
+      serverLog.error('Uncaught Exception - server will continue', error);
+    });
 
-serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}${isBootMode ? ' (boot mode)' : ''}`);
+    const app = express();
+    let lazyRecordApiMetric: ((method: string, p: string, durationMs: number, statusCode: number) => void) | null = null;
 
-if (isProduction) {
-  try {
-    setupStaticFiles(app);
-    serverLog.info("Static files setup complete");
-  } catch (e) {
-    serverLog.error("Failed to setup static files (fallback active)", e);
-  }
-}
+    app.use(compression());
 
-if (!isBootMode) {
-  httpServer.listen(
-    { port, host: "0.0.0.0", reusePort: true },
-    () => {
-      log(`serving on port ${port}`);
-      serverLog.info(`Server listening on 0.0.0.0:${port}`);
-    },
-  );
-}
+    app.get("/_health", (_req: any, res: any) => {
+      res.status(200).send("ok");
+    });
 
-export const __expressApp = app;
-export const __httpServer = httpServer;
+    const getCSP = (): string => {
+      const baseCSP = {
+        "default-src": ["'self'"],
+        "font-src": ["'self'", "https://fonts.gstatic.com", "data:"],
+        "img-src": ["'self'", "data:", "blob:", "https://*.stripe.com", "https://lh3.googleusercontent.com", "https://exentax.com"],
+        "connect-src": ["'self'", "https://api.stripe.com", "https://accounts.google.com", "wss://*.replit.dev", "wss://*.replit.app"],
+        "frame-src": ["'self'", "https://js.stripe.com", "https://accounts.google.com"],
+        "frame-ancestors": ["'self'", "https://*.replit.dev", "https://*.replit.app"],
+      };
 
-(async () => {
-  try {
+      if (isProduction) {
+        return [
+          `default-src ${baseCSP["default-src"].join(" ")}`,
+          `script-src 'self' https://js.stripe.com https://accounts.google.com`,
+          `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+          `font-src ${baseCSP["font-src"].join(" ")}`,
+          `img-src ${baseCSP["img-src"].join(" ")}`,
+          `connect-src ${baseCSP["connect-src"].join(" ")}`,
+          `frame-src ${baseCSP["frame-src"].join(" ")}`,
+          `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
+        ].join("; ");
+      } else {
+        return [
+          `default-src ${baseCSP["default-src"].join(" ")}`,
+          `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://accounts.google.com`,
+          `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
+          `font-src ${baseCSP["font-src"].join(" ")}`,
+          `img-src ${baseCSP["img-src"].join(" ")}`,
+          `connect-src ${baseCSP["connect-src"].join(" ")}`,
+          `frame-src ${baseCSP["frame-src"].join(" ")}`,
+          `frame-ancestors ${baseCSP["frame-ancestors"].join(" ")}`,
+        ].join("; ");
+      }
+    }
+
+    app.use((req: any, res: any, next: any) => {
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("X-Frame-Options", "SAMEORIGIN");
+      res.setHeader("X-XSS-Protection", "1; mode=block");
+      res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+      res.setHeader("Content-Security-Policy", getCSP());
+      res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+      res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=()");
+      res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
+      res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+
+      if (req.method === 'GET') {
+        const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
+        const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
+        const isSeoFile = req.path === '/robots.txt' || req.path.startsWith('/sitemap');
+
+        if (isAsset && isProduction) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+          res.setHeader('Vary', 'Accept-Encoding');
+        } else if (isAsset && !isProduction) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        } else if (isStaticFile && isProduction) {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        } else if (isStaticFile && !isProduction) {
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+          res.setHeader('Pragma', 'no-cache');
+          res.setHeader('Expires', '0');
+        } else if (isSeoFile) {
+          res.setHeader('Cache-Control', 'public, max-age=86400, stale-while-revalidate=604800');
+          res.setHeader('X-Robots-Tag', 'all');
+        }
+
+        res.setHeader("X-DNS-Prefetch-Control", "on");
+
+        const linkHints = [
+          '</logo-icon.png>; rel=preload; as=image; fetchpriority=high',
+          '<https://fonts.googleapis.com>; rel=preconnect',
+          '<https://fonts.gstatic.com>; rel=preconnect; crossorigin',
+          '<https://js.stripe.com>; rel=preconnect',
+        ];
+        res.setHeader("Link", linkHints.join(', '));
+      }
+
+      const seoPages = ['/', '/servicios', '/faq', '/contacto', '/llc/formation', '/llc/maintenance'];
+      if (seoPages.includes(req.path)) {
+        res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
+        const existingLinkRaw = res.getHeader('Link');
+        const existingLink = Array.isArray(existingLinkRaw) ? existingLinkRaw.join(', ') : (existingLinkRaw || '');
+        const canonicalLink = `<https://exentax.com${req.path}>; rel="canonical"`;
+        res.setHeader('Link', existingLink ? `${existingLink}, ${canonicalLink}` : canonicalLink);
+      }
+
+      const noindexPages = ['/dashboard', '/admin', '/auth/forgot-password'];
+      if (noindexPages.some(p => req.path.startsWith(p))) {
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+      }
+
+      if (req.path.startsWith('/api/')) {
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+      }
+
+      if (req.path.startsWith('/api/') && lazyRecordApiMetric) {
+        const start = process.hrtime.bigint();
+        const metricFn = lazyRecordApiMetric;
+        res.on('finish', () => {
+          const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
+          metricFn(req.method, req.path, Math.round(durationMs), res.statusCode);
+        });
+      }
+
+      next();
+    });
+
+    if (isProduction) {
+      try {
+        setupStaticFiles(app);
+        serverLog.info("Static files setup complete");
+      } catch (e) {
+        serverLog.error("Failed to setup static files", e);
+      }
+    }
+
     const { initServerSentry, sentryRequestHandler, sentryErrorHandler } = await import("./lib/sentry");
     initServerSentry();
     app.use(sentryRequestHandler());
@@ -245,34 +225,32 @@ export const __httpServer = httpServer;
     const { WebSocketServer } = await import('ws');
     const wss = new WebSocketServer({ noServer: true });
 
-    httpServer.on('upgrade', (request, socket, head) => {
+    httpServer.on('upgrade', (request: any, socket: any, head: any) => {
       const { pathname } = new URL(request.url!, `http://${request.headers.host}`);
       if (pathname === '/ws/logs') {
-        wss.handleUpgrade(request, socket, head, (ws) => {
+        wss.handleUpgrade(request, socket, head, (ws: any) => {
           wss.emit('connection', ws, request);
         });
       }
     });
 
     const originalLog = console.log;
-    console.log = (...args) => {
+    console.log = (...args: any[]) => {
       originalLog(...args);
-      const msg = args.map(arg => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
-      wss.clients.forEach(client => {
+      const msg = args.map((arg: any) => typeof arg === 'object' ? JSON.stringify(arg) : arg).join(' ');
+      wss.clients.forEach((client: any) => {
         if (client.readyState === 1) client.send(msg);
       });
     };
 
     app.use(sentryErrorHandler());
 
-    app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    app.use((err: any, _req: any, res: any, _next: any) => {
       const status = err.status || err.statusCode || 500;
       const message = err.message || "Internal Server Error";
-
       if (!res.headersSent) {
         res.status(status).json({ message });
       }
-
       serverLog.error(`Request error [${status}]`, err, { status, message });
     });
 
@@ -280,13 +258,13 @@ export const __httpServer = httpServer;
       setupSPAFallback(app);
     }
 
+    expressApp = app;
+    serverLog.info("Express app active - full application ready");
+
     try {
       const { recordApiMetric } = await import("./lib/api-metrics");
       lazyRecordApiMetric = recordApiMetric;
-      serverLog.info("API metrics loaded");
-    } catch (e) {
-      serverLog.error("API metrics failed to load (non-fatal)", e);
-    }
+    } catch (_e) {}
 
     serverLog.info("Application fully initialized and ready");
 
@@ -302,26 +280,17 @@ export const __httpServer = httpServer;
         const { runWatchedTask } = await import("./lib/task-watchdog");
         runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
       } catch (e) {
-        serverLog.error("Rate limit cleanup setup failed (non-fatal)", e);
-      }
-      try {
-        const { processConsultationReminders } = await import("./routes/consultations");
-        const { runWatchedTask } = await import("./lib/task-watchdog");
-        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
-      } catch (e) {
-        serverLog.error("Consultation reminders setup failed (non-fatal)", e);
-      }
-    } else {
-      try {
-        const { processConsultationReminders } = await import("./routes/consultations");
-        const { runWatchedTask } = await import("./lib/task-watchdog");
-        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
-      } catch (e) {
-        serverLog.error("Consultation reminders setup failed (non-fatal)", e);
+        serverLog.error("Rate limit cleanup failed (non-fatal)", e);
       }
     }
+    try {
+      const { processConsultationReminders } = await import("./routes/consultations");
+      const { runWatchedTask } = await import("./lib/task-watchdog");
+      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+    } catch (e) {
+      serverLog.error("Consultation reminders failed (non-fatal)", e);
+    }
   } catch (error) {
-    serverLog.error("Fatal error during application initialization", error);
     console.error("FATAL: Application initialization failed:", error);
   }
-})();
+}
