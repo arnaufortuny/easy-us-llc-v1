@@ -42,8 +42,20 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
+let appInitialized = false;
+
 app.get("/_health", (_req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime(), initialized: appInitialized });
+});
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (appInitialized) {
+    return next();
+  }
+  if (req.method === 'GET' && (req.path === '/' || req.path === '/index.html')) {
+    return res.status(200).send('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Exentax</title></head><body><p>Starting...</p></body></html>');
+  }
+  next();
 });
 
 app.use(sentryRequestHandler());
@@ -177,9 +189,17 @@ app.use((req, res, next) => {
 
 const port = parseInt(process.env.PORT || "5000", 10);
 
-async function startServer() {
-  serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
+serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
 
+httpServer.listen(
+  { port, host: "0.0.0.0", reusePort: true },
+  () => {
+    log(`serving on port ${port}`);
+    serverLog.info(`Server listening on 0.0.0.0:${port}, initializing application...`);
+  },
+);
+
+async function initializeApp() {
   try {
     const { storage } = await import("./storage");
     try {
@@ -190,7 +210,7 @@ async function startServer() {
     }
 
     await registerRoutes(httpServer, app);
-    
+
     setupSitemapRoute(app);
 
     const { WebSocketServer } = await import('ws');
@@ -223,7 +243,7 @@ async function startServer() {
       if (!res.headersSent) {
         res.status(status).json({ message });
       }
-      
+
       serverLog.error(`Request error [${status}]`, err, { status, message });
     });
 
@@ -234,33 +254,18 @@ async function startServer() {
       await setupVite(httpServer, app);
     }
 
-    httpServer.listen(
-      {
-        port,
-        host: "0.0.0.0",
-        reusePort: true,
-      },
-      () => {
-        log(`serving on port ${port}`);
-        serverLog.info(`Server ready and listening on 0.0.0.0:${port}`);
-        if (isProduction) {
-          scheduleBackups();
-          runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
-        }
-        runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
-      },
-    );
-  } catch (error) {
-    serverLog.error("Fatal error during server startup", error);
-    console.error("FATAL: Server failed to start:", error);
+    appInitialized = true;
+    serverLog.info("Application fully initialized and ready");
 
-    httpServer.listen(
-      { port, host: "0.0.0.0", reusePort: true },
-      () => {
-        serverLog.error(`Server started in degraded mode on port ${port} - initialization failed`);
-      },
-    );
+    if (isProduction) {
+      scheduleBackups();
+      runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
+    }
+    runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+  } catch (error) {
+    serverLog.error("Fatal error during application initialization", error);
+    console.error("FATAL: Application initialization failed:", error);
   }
 }
 
-startServer();
+initializeApp();
