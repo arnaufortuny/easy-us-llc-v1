@@ -1118,7 +1118,8 @@
       "passwordMismatch": "Le password non corrispondono",
       "passwordTooShort": "Password troppo corta",
       "passwordMinChars": "Deve contenere almeno 8 caratteri",
-      "fileTooLarge": "Il file non può superare 10MB"
+      "fileTooLarge": "Il file non può superare 10MB",
+      "postalCodeNumbersOnly": "Il codice postale deve contenere solo numeri"
     },
     "messages": {
       "dataLoaded": "Dati caricati",
@@ -1278,6 +1279,10 @@
       "orContinueQuickly": "o continua in modo rapido",
       "accessWithGoogle": "Accedi con Google",
       "orLoginWithEmail": "o accedi con email per andare più veloce"
+    },
+    "validation": {
+      "mustEndInLLC": "Il nome dell'azienda deve terminare con LLC",
+      "einNumbersOnly": "Il EIN deve contenere solo numeri"
     },
     "buttons": {
       "continue": "Continua",

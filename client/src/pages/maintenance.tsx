@@ -24,12 +24,14 @@ import { useAuth } from "@/hooks/use-auth";
 import { Link } from "wouter";
 import { StepProgress } from "@/components/ui/step-progress";
 import { useFormDraft } from "@/hooks/use-form-draft";
+import { PasswordStrength } from "@/components/ui/password-strength";
 
-const TOTAL_STEPS = 11;
+const TOTAL_STEPS = 10;
 
 const createFormSchema = (t: (key: string) => string) => z.object({
   creationSource: z.string().min(1, t("validation.required")),
-  ownerFullName: z.string().min(1, t("validation.required")),
+  ownerFirstName: z.string().min(1, t("validation.required")),
+  ownerLastName: z.string().min(1, t("validation.required")),
   ownerPhone: z.string()
     .min(1, t("validation.required"))
     .refine(
@@ -50,7 +52,6 @@ const createFormSchema = (t: (key: string) => string) => z.object({
   state: z.string().min(1, t("validation.required")),
   creationYear: z.string().optional(),
   bankAccount: z.string().optional(),
-  paymentGateway: z.string().optional(),
   businessActivity: z.string().min(1, t("validation.required")),
   expectedServices: z.string().min(1, t("validation.required")),
   wantsDissolve: z.string().min(1, t("validation.required")),
@@ -115,12 +116,37 @@ export default function MaintenanceApplication() {
   const stateFromUrl = params.get("state") || "New Mexico";
 
   const formSchema = useMemo(() => createFormSchema(t), [t]);
+
+  const BUSINESS_ACTIVITIES = useMemo(() => [
+    { key: "ecommerce", label: t("auth.register.businessActivities.ecommerce") },
+    { key: "dropshipping", label: t("auth.register.businessActivities.dropshipping") },
+    { key: "consulting", label: t("auth.register.businessActivities.consulting") },
+    { key: "marketing", label: t("auth.register.businessActivities.marketing") },
+    { key: "software", label: t("auth.register.businessActivities.software") },
+    { key: "saas", label: t("auth.register.businessActivities.saas") },
+    { key: "apps", label: t("auth.register.businessActivities.apps") },
+    { key: "ai", label: t("auth.register.businessActivities.ai") },
+    { key: "investments", label: t("auth.register.businessActivities.investments") },
+    { key: "tradingEducation", label: t("auth.register.businessActivities.tradingEducation") },
+    { key: "financial", label: t("auth.register.businessActivities.financial") },
+    { key: "crypto", label: t("auth.register.businessActivities.crypto") },
+    { key: "realestate", label: t("auth.register.businessActivities.realestate") },
+    { key: "import", label: t("auth.register.businessActivities.import") },
+    { key: "coaching", label: t("auth.register.businessActivities.coaching") },
+    { key: "content", label: t("auth.register.businessActivities.content") },
+    { key: "affiliate", label: t("auth.register.businessActivities.affiliate") },
+    { key: "freelance", label: t("auth.register.businessActivities.freelance") },
+    { key: "gaming", label: t("auth.register.businessActivities.gaming") },
+    { key: "digitalProducts", label: t("auth.register.businessActivities.digitalProducts") },
+    { key: "other", label: t("auth.register.businessActivities.other") },
+  ], [t]);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       creationSource: "",
-      ownerFullName: "",
+      ownerFirstName: "",
+      ownerLastName: "",
       ownerPhone: "",
       ownerEmail: "",
       companyName: "",
@@ -128,7 +154,6 @@ export default function MaintenanceApplication() {
       state: stateFromUrl,
       creationYear: "",
       bankAccount: "",
-      paymentGateway: "",
       businessActivity: "",
       expectedServices: "",
       wantsDissolve: "No",
@@ -154,7 +179,8 @@ export default function MaintenanceApplication() {
 
   const formDefaults = {
     creationSource: "",
-    ownerFullName: "",
+    ownerFirstName: "",
+    ownerLastName: "",
     ownerPhone: "",
     ownerEmail: "",
     companyName: "",
@@ -162,7 +188,6 @@ export default function MaintenanceApplication() {
     state: stateFromUrl,
     creationYear: "",
     bankAccount: "",
-    paymentGateway: "",
     businessActivity: "",
     expectedServices: "",
     wantsDissolve: "No",
@@ -183,7 +208,8 @@ export default function MaintenanceApplication() {
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      const ownerFullName = `${user.firstName || ""} ${user.lastName || ""}`.trim();
+      const ownerFirstName = user.firstName || "";
+      const ownerLastName = user.lastName || "";
       const ownerEmail = user.email || "";
       const ownerPhone = user.phone || "";
       const businessActivity = user.businessActivity || "";
@@ -193,7 +219,8 @@ export default function MaintenanceApplication() {
 
       form.reset({
         ...form.getValues(),
-        ownerFullName,
+        ownerFirstName,
+        ownerLastName,
         ownerEmail,
         ownerPhone,
         businessActivity,
@@ -203,7 +230,7 @@ export default function MaintenanceApplication() {
       
       const fieldsToCheck = [
         { step: 0, value: "" },
-        { step: 1, value: ownerFullName },
+        { step: 1, value: ownerFirstName },
         { step: 2, value: ownerEmail && ownerPhone ? `${ownerEmail} ${ownerPhone}` : "" },
         { step: 3, value: "" },
       ];
@@ -272,10 +299,14 @@ export default function MaintenanceApplication() {
 
   // Reset OTP state when email changes
   const watchedEmail = form.watch("ownerEmail");
+  const prevEmailRef = useRef(watchedEmail);
   useEffect(() => {
-    setIsOtpSent(false);
-    setIsOtpVerified(false);
-    setOtpCode("");
+    if (prevEmailRef.current !== watchedEmail) {
+      prevEmailRef.current = watchedEmail;
+      setIsOtpSent(false);
+      setIsOtpVerified(false);
+      setOtpCode("");
+    }
   }, [watchedEmail]);
 
   // Send OTP for email verification
@@ -359,20 +390,32 @@ export default function MaintenanceApplication() {
   const nextStep = async () => {
     const stepsValidation: Record<number, (keyof FormValues)[]> = {
       0: ["creationSource"],
-      1: ["ownerFullName"],
+      1: ["ownerFirstName", "ownerLastName"],
       2: ["ownerPhone", "ownerEmail"],
-      3: ["companyName"],
-      4: ["ein"],
-      5: ["state"],
-      6: ["businessActivity"],
-      7: ["expectedServices"],
-      8: ["wantsDissolve"],
+      3: ["companyName", "ein"],
+      4: ["state"],
+      5: ["businessActivity"],
+      6: ["expectedServices"],
+      7: ["wantsDissolve"],
     };
 
     const fieldsToValidate = stepsValidation[step];
     if (fieldsToValidate) {
       const isValid = await form.trigger(fieldsToValidate);
       if (!isValid) return;
+    }
+
+    if (step === 3) {
+      const companyName = form.getValues("companyName");
+      if (!companyName.toUpperCase().trimEnd().endsWith("LLC")) {
+        setFormMessage({ type: 'error', text: t("maintenance.validation.mustEndInLLC", "The company name must end in LLC") });
+        return;
+      }
+      const ein = form.getValues("ein");
+      if (!/^\d+$/.test(ein.replace(/[-\s]/g, ''))) {
+        setFormMessage({ type: 'error', text: t("maintenance.validation.einNumbersOnly", "The EIN must contain only numbers") });
+        return;
+      }
     }
     
     if (step === 0 && form.getValues("creationSource")?.includes("No")) {
@@ -390,11 +433,11 @@ export default function MaintenanceApplication() {
       }
     }
     
-    if (step === 8) {
+    if (step === 7) {
       if (isAuthenticated || isOtpVerified) {
-        setStep(10);
-      } else {
         setStep(9);
+      } else {
+        setStep(8);
       }
       return;
     }
@@ -462,7 +505,7 @@ export default function MaintenanceApplication() {
           state,
           email: data.ownerEmail,
           password: data.password,
-          ownerFullName: data.ownerFullName,
+          ownerFullName: `${data.ownerFirstName} ${data.ownerLastName}`.trim(),
           paymentMethod: data.paymentMethod || "transfer"
         };
         if (discountInfo?.valid && data.discountCode) {
@@ -588,22 +631,33 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 1: Nombre Completo */}
+                {/* STEP 1: Nombre y Apellido */}
                 {step === 1 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
                       2️⃣ {t("maintenance.steps.fullName")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.fullNameDesc")}</FormDescription>
-                    <FormField control={form.control} name="ownerFullName" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
-                          {t("maintenance.steps.fullNameLabel")}
-                        </FormLabel>
-                        <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full"  /></FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )} />
+                    <div className="grid grid-cols-2 gap-3">
+                      <FormField control={form.control} name="ownerFirstName" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
+                            {t("application.fields.firstName", "First Name")}
+                          </FormLabel>
+                          <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" data-testid="input-owner-first-name" /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                      <FormField control={form.control} name="ownerLastName" render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
+                            {t("application.fields.lastName", "Last Name")}
+                          </FormLabel>
+                          <FormControl><Input {...field} className="h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground text-base rounded-full" data-testid="input-owner-last-name" /></FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )} />
+                    </div>
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
@@ -644,7 +698,7 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 3: Nombre Legal LLC */}
+                {/* STEP 3: Nombre Legal LLC + EIN */}
                 {step === 3 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
@@ -660,20 +714,6 @@ export default function MaintenanceApplication() {
                         <FormMessage />
                       </FormItem>
                     )} />
-                    <div className="flex gap-3 max-w-md mx-auto">
-                      <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
-                      <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* STEP 4: EIN */}
-                {step === 4 && (
-                  <div key={"step-" + step} className="space-y-6 text-left">
-                    <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      5️⃣ {t("maintenance.steps.ein")}
-                    </h2>
-                    <FormDescription>{t("maintenance.steps.einDesc")}</FormDescription>
                     <FormField control={form.control} name="ein" render={({ field }) => (
                       <FormItem>
                         <FormLabel className="text-sm md:text-base font-bold text-foreground flex items-center gap-2">
@@ -690,11 +730,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 5: Estado de constitución y detalles de la LLC */}
-                {step === 5 && (
+                {/* STEP 4: Estado de constitución y detalles de la LLC */}
+                {step === 4 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      6️⃣ {t("maintenance.steps.llcDetails")}
+                      5️⃣ {t("maintenance.steps.llcDetails")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.llcDetailsDesc")}</FormDescription>
                     
@@ -745,26 +785,6 @@ export default function MaintenanceApplication() {
                       </FormItem>
                     )} />
                     
-                    <FormField control={form.control} name="paymentGateway" render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.paymentGatewayLabel")}</FormLabel>
-                        <FormControl>
-                          <NativeSelect 
-                            value={field.value || ""} 
-                            onValueChange={field.onChange}
-                            placeholder={t("maintenance.steps.selectPaymentGateway")}
-                            className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-card"
-                          >
-                            <NativeSelectItem value="Stripe">Stripe</NativeSelectItem>
-                            <NativeSelectItem value="PayPal">PayPal</NativeSelectItem>
-                            <NativeSelectItem value="Stripe y PayPal">{t("maintenance.steps.stripeAndPaypal")}</NativeSelectItem>
-                            <NativeSelectItem value="Otra">{t("maintenance.steps.other")}</NativeSelectItem>
-                            <NativeSelectItem value="Ninguna">{t("maintenance.steps.none")}</NativeSelectItem>
-                          </NativeSelect>
-                        </FormControl>
-                      </FormItem>
-                    )} />
-                    
                     <div className="flex gap-3 max-w-md mx-auto">
                       <Button type="button" variant="outline" onClick={prevStep} className="rounded-full h-12 px-6 font-bold border-border transition-colors">{t("maintenance.buttons.back")}</Button>
                       <Button type="button" onClick={nextStep} className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors">{t("maintenance.buttons.continue")}</Button>
@@ -772,16 +792,23 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 6: Actividad */}
-                {step === 6 && (
+                {/* STEP 5: Actividad */}
+                {step === 5 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      7️⃣ {t("maintenance.steps.activity")}
+                      6️⃣ {t("maintenance.steps.activity")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.activityDesc")}</FormDescription>
                     <FormField control={form.control} name="businessActivity" render={({ field }) => (
                       <FormItem>
-                        <FormControl><Textarea {...field} className="rounded-2xl min-h-[120px] p-6 border-border focus:border-accent transition-colors font-bold text-foreground placeholder:text-primary/30 text-lg"  /></FormControl>
+                        <FormControl>
+                          <NativeSelect value={field.value || ""} onValueChange={field.onChange} className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-card font-medium text-foreground text-base">
+                            <NativeSelectItem value="">{t("common.select")}</NativeSelectItem>
+                            {BUSINESS_ACTIVITIES.map((activity) => (
+                              <NativeSelectItem key={activity.key} value={activity.label}>{activity.label}</NativeSelectItem>
+                            ))}
+                          </NativeSelect>
+                        </FormControl>
                         <FormMessage />
                       </FormItem>
                     )} />
@@ -792,11 +819,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 7: Servicios */}
-                {step === 7 && (
+                {/* STEP 6: Servicios */}
+                {step === 6 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight flex items-center gap-2">
-                      8️⃣ {t("maintenance.steps.services")}
+                      7️⃣ {t("maintenance.steps.services")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.servicesDesc")}</FormDescription>
                     <FormField control={form.control} name="expectedServices" render={({ field }) => (
@@ -833,11 +860,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 8: Disolver? */}
-                {step === 8 && (
+                {/* STEP 7: Disolver? */}
+                {step === 7 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">
-                      9️⃣ {t("maintenance.steps.dissolve")}
+                      8️⃣ {t("maintenance.steps.dissolve")}
                     </h2>
                     <FormDescription>{t("maintenance.steps.dissolveDesc")}</FormDescription>
                     <FormField control={form.control} name="wantsDissolve" render={({ field }) => (
@@ -903,8 +930,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 9: Crear Cuenta */}
-                {step === 9 && (
+                {/* STEP 8: Crear Cuenta */}
+                {step === 8 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#00C48C]/20 pb-2 leading-tight flex items-center gap-2">
                       {t("maintenance.steps.createAccount")}
@@ -941,7 +968,7 @@ export default function MaintenanceApplication() {
                                 </div>
                                 
                                 <div>
-                                  <label className="text-xs font-bold text-foreground tracking-widest block mb-2">{t("maintenance.steps.verificationCode")}</label>
+                                  <label className="text-sm md:text-base font-bold text-foreground block mb-2">{t("maintenance.steps.verificationCode")}</label>
                                   <Input type="text" 
                                     value={otpCode}
                                     onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
@@ -984,16 +1011,17 @@ export default function MaintenanceApplication() {
                             
                             <FormField control={form.control} name="password" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.password")}</FormLabel>
+                                <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.password")}</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-full" data-testid="input-password" />
                                 </FormControl>
+                                <PasswordStrength password={form.watch("password") || ""} className="mt-2" />
                                 <FormMessage />
                               </FormItem>
                             )} />
                             <FormField control={form.control} name="confirmPassword" render={({ field }) => (
                               <FormItem>
-                                <FormLabel className="text-xs font-bold text-foreground tracking-widest">{t("maintenance.steps.confirmPassword")}</FormLabel>
+                                <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("maintenance.steps.confirmPassword")}</FormLabel>
                                 <FormControl>
                                   <Input {...field} type="password"  className="p-6 border-border focus:border-accent rounded-full" data-testid="input-confirm-password" />
                                 </FormControl>
@@ -1020,7 +1048,7 @@ export default function MaintenanceApplication() {
                         onClick={nextStep} 
                         disabled={!isAuthenticated && (!isOtpVerified || !form.getValues("password") || form.getValues("password")!.length < 8 || form.getValues("password") !== form.getValues("confirmPassword"))}
                         className="flex-[2] bg-accent text-accent-foreground font-bold rounded-full h-12 transition-colors disabled:opacity-50"
-                        data-testid="button-next-step-10"
+                        data-testid="button-next-step-9"
                       >
                         {t("maintenance.buttons.continue")}
                       </Button>
@@ -1028,11 +1056,11 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 10: Método de Pago */}
-                {step === 10 && (
+                {/* STEP 9: Método de Pago */}
+                {step === 9 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <h2 className="text-xl md:text-2xl font-bold text-foreground border-b border-[#00C48C]/20 pb-2 leading-tight">
-                      1️⃣1️⃣ {t("maintenance.payment.title")}
+                      1️⃣0️⃣ {t("maintenance.payment.title")}
                     </h2>
                     <p className="text-sm text-muted-foreground">{t("maintenance.payment.desc")}</p>
                     
@@ -1114,8 +1142,8 @@ export default function MaintenanceApplication() {
                   </div>
                 )}
 
-                {/* STEP 11: Autorización y Consentimiento */}
-                {step === 11 && (
+                {/* STEP 10: Autorización y Consentimiento */}
+                {step === 10 && (
                   <div key={"step-" + step} className="space-y-6 text-left">
                     <div className="text-center mb-6">
                       <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -1125,7 +1153,7 @@ export default function MaintenanceApplication() {
                       <p className="text-sm text-muted-foreground mt-2">{t("maintenance.confirmation.subtitle")}</p>
                     </div>
                     <div className="bg-accent/5 p-5 rounded-2xl border border-accent/20 text-xs space-y-2 mb-4">
-                      <p><span className="opacity-50">{t("maintenance.confirmation.name")}:</span> <span className="font-black">{form.getValues("ownerFullName")}</span></p>
+                      <p><span className="opacity-50">{t("maintenance.confirmation.name")}:</span> <span className="font-black">{`${form.getValues("ownerFirstName")} ${form.getValues("ownerLastName")}`.trim()}</span></p>
                       <p><span className="opacity-50">{t("maintenance.confirmation.email")}:</span> <span className="font-black">{form.getValues("ownerEmail")}</span></p>
                       <p><span className="opacity-50">{t("maintenance.confirmation.llc")}:</span> <span className="font-black">{form.getValues("companyName")}</span></p>
                       <p><span className="opacity-50">{t("maintenance.confirmation.state")}:</span> <span className="font-black">{form.getValues("state")}</span></p>

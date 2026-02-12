@@ -152,6 +152,30 @@ export default function LlcFormation() {
   const hasUrlState = !!urlState && ["New Mexico", "Wyoming", "Delaware"].includes(urlState);
 
   const formSchema = useMemo(() => createFormSchema(t), [t]);
+
+  const BUSINESS_ACTIVITIES = useMemo(() => [
+    { key: "ecommerce", label: t("auth.register.businessActivities.ecommerce") },
+    { key: "dropshipping", label: t("auth.register.businessActivities.dropshipping") },
+    { key: "consulting", label: t("auth.register.businessActivities.consulting") },
+    { key: "marketing", label: t("auth.register.businessActivities.marketing") },
+    { key: "software", label: t("auth.register.businessActivities.software") },
+    { key: "saas", label: t("auth.register.businessActivities.saas") },
+    { key: "apps", label: t("auth.register.businessActivities.apps") },
+    { key: "ai", label: t("auth.register.businessActivities.ai") },
+    { key: "investments", label: t("auth.register.businessActivities.investments") },
+    { key: "tradingEducation", label: t("auth.register.businessActivities.tradingEducation") },
+    { key: "financial", label: t("auth.register.businessActivities.financial") },
+    { key: "crypto", label: t("auth.register.businessActivities.crypto") },
+    { key: "realestate", label: t("auth.register.businessActivities.realestate") },
+    { key: "import", label: t("auth.register.businessActivities.import") },
+    { key: "coaching", label: t("auth.register.businessActivities.coaching") },
+    { key: "content", label: t("auth.register.businessActivities.content") },
+    { key: "affiliate", label: t("auth.register.businessActivities.affiliate") },
+    { key: "freelance", label: t("auth.register.businessActivities.freelance") },
+    { key: "gaming", label: t("auth.register.businessActivities.gaming") },
+    { key: "digitalProducts", label: t("auth.register.businessActivities.digitalProducts") },
+    { key: "other", label: t("auth.register.businessActivities.other") },
+  ], [t]);
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -391,10 +415,14 @@ export default function LlcFormation() {
 
   // Reset OTP state when email changes
   const watchedEmail = form.watch("ownerEmail");
+  const prevEmailRef = useRef(watchedEmail);
   useEffect(() => {
-    setIsOtpSent(false);
-    setIsOtpVerified(false);
-    setOtpCode("");
+    if (prevEmailRef.current !== watchedEmail) {
+      prevEmailRef.current = watchedEmail;
+      setIsOtpSent(false);
+      setIsOtpVerified(false);
+      setOtpCode("");
+    }
   }, [watchedEmail]);
 
   // Send OTP for email verification
@@ -532,6 +560,14 @@ export default function LlcFormation() {
       }
       if (password !== confirmPassword) {
         setFormMessage({ type: 'error', text: t("application.validation.passwordMismatch") + ". " + t("application.messages.tryAgain") });
+        return;
+      }
+    }
+
+    if (step === 5) {
+      const postalCode = form.getValues("ownerPostalCode");
+      if (postalCode && !/^\d+$/.test(postalCode.replace(/[\s-]/g, ''))) {
+        setFormMessage({ type: 'error', text: t("application.validation.postalCodeNumbersOnly", "The postal code must contain only numbers") });
         return;
       }
     }
@@ -1096,7 +1132,14 @@ export default function LlcFormation() {
                 <FormDescription>{t("application.steps.businessActivityDesc")}</FormDescription>
                 <FormField control={form.control} name="businessActivity" render={({ field }) => (
                   <FormItem>
-                    <FormControl><Textarea {...field} className="rounded-2xl min-h-[120px] p-6 border-border focus:border-accent"  /></FormControl>
+                    <FormControl>
+                      <NativeSelect value={field.value || ""} onValueChange={field.onChange} className="rounded-full h-12 px-5 border-2 border-border dark:border-border bg-white dark:bg-card font-medium text-foreground text-base">
+                        <NativeSelectItem value="">{t("common.select")}</NativeSelectItem>
+                        {BUSINESS_ACTIVITIES.map((activity) => (
+                          <NativeSelectItem key={activity.key} value={activity.label}>{activity.label}</NativeSelectItem>
+                        ))}
+                      </NativeSelect>
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )} />
@@ -1214,7 +1257,7 @@ export default function LlcFormation() {
                             </div>
                             
                             <div>
-                              <label className="text-xs font-black text-primary tracking-widest block mb-2">{t("application.account.otpLabel")}</label>
+                              <label className="text-sm md:text-base font-bold text-foreground block mb-2">{t("application.account.otpLabel")}</label>
                               <Input type="text" 
                                 value={otpCode}
                                 onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, '').slice(0, 6))}
@@ -1259,7 +1302,7 @@ export default function LlcFormation() {
                         
                         <FormField control={form.control} name="password" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.passwordLabel")}</FormLabel>
+                            <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.account.passwordLabel")}</FormLabel>
                             <FormControl>
                               <Input {...field} type="password" className="h-14 px-5 border-border focus:border-accent rounded-full" data-testid="input-password" />
                             </FormControl>
@@ -1269,7 +1312,7 @@ export default function LlcFormation() {
                         )} />
                         <FormField control={form.control} name="confirmPassword" render={({ field }) => (
                           <FormItem>
-                            <FormLabel className="text-xs font-black text-primary tracking-widest">{t("application.account.confirmPasswordLabel")}</FormLabel>
+                            <FormLabel className="text-sm md:text-base font-bold text-foreground">{t("application.account.confirmPasswordLabel")}</FormLabel>
                             <FormControl>
                               <Input {...field} type="password" className="h-14 px-5 border-border focus:border-accent rounded-full" data-testid="input-confirm-password" />
                             </FormControl>

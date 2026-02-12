@@ -1118,7 +1118,8 @@
       "passwordMismatch": "Les contrasenyes no coincideixen",
       "passwordTooShort": "Contrasenya massa curta",
       "passwordMinChars": "Ha de tenir almenys 8 caràcters",
-      "fileTooLarge": "L'arxiu no pot superar 10MB"
+      "fileTooLarge": "L'arxiu no pot superar 10MB",
+      "postalCodeNumbersOnly": "El codi postal només pot contenir números"
     },
     "messages": {
       "dataLoaded": "Dades carregades",
@@ -1278,6 +1279,10 @@
       "orContinueQuickly": "o continua de forma ràpida",
       "accessWithGoogle": "Accedir amb Google",
       "orLoginWithEmail": "o inicia sessió amb email per anar més ràpid"
+    },
+    "validation": {
+      "mustEndInLLC": "El nom de l'empresa ha d'acabar en LLC",
+      "einNumbersOnly": "L'EIN només pot contenir números"
     },
     "buttons": {
       "continue": "Continuar",
