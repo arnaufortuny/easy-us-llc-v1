@@ -10,7 +10,7 @@ import { queryClient, apiRequest, getCsrfToken, setStoredAuthToken } from "@/lib
 import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Key, Search, LogOut, ClipboardList } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { useEffect, useState, useMemo, useCallback, useRef } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef, lazy, Suspense } from "react";
 import { Link, useLocation, useSearch } from "wouter";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
@@ -27,30 +27,41 @@ import {
 } from "@/components/dashboard";
 import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
-import { ActivityLogPanel } from "@/components/dashboard/activity-log-panel";
-import { CrmMetricsSection } from "@/components/dashboard/crm-metrics-section";
-import AdminRolesPanel from "@/components/dashboard/admin-roles-panel";
+const ActivityLogPanel = lazy(() => import("@/components/dashboard/activity-log-panel").then(m => ({ default: m.ActivityLogPanel })));
+const CrmMetricsSection = lazy(() => import("@/components/dashboard/crm-metrics-section").then(m => ({ default: m.CrmMetricsSection })));
+const AdminRolesPanel = lazy(() => import("@/components/dashboard/admin-roles-panel"));
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";
 import { MessagesTab } from "@/components/dashboard/messages-tab";
 import { ProfileTab } from "@/components/dashboard/profile-tab";
 import { ConsultationsTab } from "@/components/dashboard/consultations-tab";
-import { AdminConsultationsPanel } from "@/components/dashboard/admin-consultations-panel";
-import { AdminDashboardPanel } from "@/pages/dashboard/panels/admin/AdminDashboardPanel";
-import { AdminOrdersPanel } from "@/pages/dashboard/panels/admin/AdminOrdersPanel";
-import { AdminUsersPanel } from "@/pages/dashboard/panels/admin/AdminUsersPanel";
-import { AdminCommsPanel } from "@/pages/dashboard/panels/admin/AdminCommsPanel";
-import { AdminAccountingPanel } from "@/components/dashboard/admin-accounting-panel";
-import { AdminBillingPanel } from "@/pages/dashboard/panels/admin/AdminBillingPanel";
+const AdminConsultationsPanel = lazy(() => import("@/components/dashboard/admin-consultations-panel").then(m => ({ default: m.AdminConsultationsPanel })));
+const AdminDashboardPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminDashboardPanel").then(m => ({ default: m.AdminDashboardPanel })));
+const AdminOrdersPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminOrdersPanel").then(m => ({ default: m.AdminOrdersPanel })));
+const AdminUsersPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminUsersPanel").then(m => ({ default: m.AdminUsersPanel })));
+const CreateUserForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/CreateUserForm").then(m => ({ default: m.CreateUserForm })));
+const CreateOrderForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/CreateOrderForm").then(m => ({ default: m.CreateOrderForm })));
+const SendNoteForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/SendNoteForm").then(m => ({ default: m.SendNoteForm })));
+const EditUserForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/EditUserForm").then(m => ({ default: m.EditUserForm })));
+const DeleteUserConfirm = lazy(() => import("@/pages/dashboard/panels/admin/forms/DeleteUserConfirm").then(m => ({ default: m.DeleteUserConfirm })));
+const DeleteOrderConfirm = lazy(() => import("@/pages/dashboard/panels/admin/forms/DeleteOrderConfirm").then(m => ({ default: m.DeleteOrderConfirm })));
+const GenerateInvoiceForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/GenerateInvoiceForm").then(m => ({ default: m.GenerateInvoiceForm })));
+const RequestDocumentsForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/RequestDocumentsForm").then(m => ({ default: m.RequestDocumentsForm })));
+const CreateInvoiceForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/CreateInvoiceForm").then(m => ({ default: m.CreateInvoiceForm })));
+const DiscountCodeForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/DiscountCodeForm").then(m => ({ default: m.DiscountCodeForm })));
+const AdminCommsPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminCommsPanel").then(m => ({ default: m.AdminCommsPanel })));
+const AdminAccountingPanel = lazy(() => import("@/components/dashboard/admin-accounting-panel").then(m => ({ default: m.AdminAccountingPanel })));
+const AdminBillingPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminBillingPanel").then(m => ({ default: m.AdminBillingPanel })));
 import { DocumentsPanel } from "@/pages/dashboard/panels/user/DocumentsPanel";
 import { PaymentsPanel } from "@/pages/dashboard/panels/user/PaymentsPanel";
 import { CalendarPanel } from "@/pages/dashboard/panels/user/CalendarPanel";
 import { ToolsPanel } from "@/pages/dashboard/panels/user/ToolsPanel";
-import { AdminCalendarPanel } from "@/pages/dashboard/panels/admin/AdminCalendarPanel";
-import { AdminDocsPanel } from "@/pages/dashboard/panels/admin/AdminDocsPanel";
-import { AdminIncompletePanel } from "@/pages/dashboard/panels/admin/AdminIncompletePanel";
-import { AdminDiscountsPanel } from "@/pages/dashboard/panels/admin/AdminDiscountsPanel";
+const AdminCalendarPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminCalendarPanel").then(m => ({ default: m.AdminCalendarPanel })));
+const AdminDocsPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminDocsPanel").then(m => ({ default: m.AdminDocsPanel })));
+const AdminIncompletePanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminIncompletePanel").then(m => ({ default: m.AdminIncompletePanel })));
+const AdminDiscountsPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminDiscountsPanel").then(m => ({ default: m.AdminDiscountsPanel })));
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 import { LoadingScreen } from "@/components/loading-screen";
+import { PanelErrorBoundary } from "@/components/dashboard/panel-error-boundary";
 
 
 function PendingReviewCard({ user }: { user: any }) {
@@ -1579,12 +1590,14 @@ export default function Dashboard() {
                 {isPendingAccount ? (
                   <PendingReviewCard user={user} />
                 ) : (
-                <ServicesTab 
-                  orders={orders} 
-                  draftOrders={draftOrders} 
-                  activeOrders={activeOrders}
-                  userName={user?.firstName || ''}
-                />
+                <PanelErrorBoundary panelName="services">
+                  <ServicesTab 
+                    orders={orders} 
+                    draftOrders={draftOrders} 
+                    activeOrders={activeOrders}
+                    userName={user?.firstName || ''}
+                  />
+                </PanelErrorBoundary>
                 )}
                 {showTrustpilotCard && (
                   <Card className="rounded-2xl border border-accent/20 shadow-sm p-5 pr-10 bg-white dark:bg-card mt-4 relative" data-testid="card-trustpilot-review">
@@ -1615,92 +1628,108 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'notifications' && (
-                <NotificationsTab
-                  notifications={notifications}
-                  notificationsLoading={notificationsLoading}
-                  user={user}
-                  markNotificationRead={markNotificationRead}
-                  deleteNotification={deleteNotification}
-                  setActiveTab={setActiveTab}
-                />
+                <PanelErrorBoundary panelName="notifications">
+                  <NotificationsTab
+                    notifications={notifications}
+                    notificationsLoading={notificationsLoading}
+                    user={user}
+                    markNotificationRead={markNotificationRead}
+                    deleteNotification={deleteNotification}
+                    setActiveTab={setActiveTab}
+                  />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'consultations' && (
-                <ConsultationsTab setActiveTab={setActiveTab} />
+                <PanelErrorBoundary panelName="consultations">
+                  <ConsultationsTab setActiveTab={setActiveTab} />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'messages' && (
-                <MessagesTab
-                  messagesData={messagesData}
-                  selectedMessage={selectedMessage}
-                  setSelectedMessage={setSelectedMessage}
-                  replyContent={replyContent}
-                  setReplyContent={setReplyContent}
-                  sendReplyMutation={sendReplyMutation}
-                  user={user}
-                  setFormMessage={setFormMessage}
-                />
+                <PanelErrorBoundary panelName="messages">
+                  <MessagesTab
+                    messagesData={messagesData}
+                    selectedMessage={selectedMessage}
+                    setSelectedMessage={setSelectedMessage}
+                    replyContent={replyContent}
+                    setReplyContent={setReplyContent}
+                    sendReplyMutation={sendReplyMutation}
+                    user={user}
+                    setFormMessage={setFormMessage}
+                  />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'documents' && (
-                <DocumentsPanel
-                  user={user}
-                  notifications={notifications || []}
-                  userDocuments={userDocuments || []}
-                  canEdit={canEdit}
-                  setFormMessage={setFormMessage}
-                  tn={tn}
-                  formatDate={formatDate}
-                />
+                <PanelErrorBoundary panelName="documents">
+                  <DocumentsPanel
+                    user={user}
+                    notifications={notifications || []}
+                    userDocuments={userDocuments || []}
+                    canEdit={canEdit}
+                    setFormMessage={setFormMessage}
+                    tn={tn}
+                    formatDate={formatDate}
+                  />
+                </PanelErrorBoundary>
               )}
 
 
               {activeTab === 'payments' && (
-                <PaymentsPanel orders={orders} clientInvoices={clientInvoices} />
+                <PanelErrorBoundary panelName="payments">
+                  <PaymentsPanel orders={orders} clientInvoices={clientInvoices} />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'calendar' && (
-                <CalendarPanel orders={orders || []} />
+                <PanelErrorBoundary panelName="calendar">
+                  <CalendarPanel orders={orders || []} />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'tools' && (
-                <ToolsPanel />
+                <PanelErrorBoundary panelName="tools">
+                  <ToolsPanel />
+                </PanelErrorBoundary>
               )}
 
               {activeTab === 'profile' && (
                 <>
-                <ProfileTab
-                  user={user ?? null}
-                  canEdit={canEdit}
-                  isEditing={isEditing}
-                  setIsEditing={setIsEditing}
-                  profileData={profileData}
-                  setProfileData={setProfileData}
-                  updateProfile={updateProfile}
-                  showPasswordForm={showPasswordForm}
-                  setShowPasswordForm={setShowPasswordForm}
-                  passwordStep={passwordStep}
-                  setPasswordStep={setPasswordStep}
-                  currentPassword={currentPassword}
-                  setCurrentPassword={setCurrentPassword}
-                  newPassword={newPassword}
-                  setNewPassword={setNewPassword}
-                  confirmPassword={confirmPassword}
-                  setConfirmPassword={setConfirmPassword}
-                  passwordOtp={passwordOtp}
-                  setPasswordOtp={setPasswordOtp}
-                  requestPasswordOtpMutation={requestPasswordOtpMutation}
-                  changePasswordMutation={changePasswordMutation}
-                  setShowEmailVerification={setShowEmailVerification}
-                  setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
-                  profileOtpStep={profileOtpStep}
-                  setProfileOtpStep={setProfileOtpStep}
-                  profileOtp={profileOtp}
-                  setProfileOtp={setProfileOtp}
-                  confirmProfileWithOtp={confirmProfileWithOtp}
-                  cancelPendingChanges={cancelPendingChanges}
-                  resendProfileOtp={resendProfileOtp}
-                />
+                <PanelErrorBoundary panelName="profile">
+                  <ProfileTab
+                    user={user ?? null}
+                    canEdit={canEdit}
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
+                    profileData={profileData}
+                    setProfileData={setProfileData}
+                    updateProfile={updateProfile}
+                    showPasswordForm={showPasswordForm}
+                    setShowPasswordForm={setShowPasswordForm}
+                    passwordStep={passwordStep}
+                    setPasswordStep={setPasswordStep}
+                    currentPassword={currentPassword}
+                    setCurrentPassword={setCurrentPassword}
+                    newPassword={newPassword}
+                    setNewPassword={setNewPassword}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                    passwordOtp={passwordOtp}
+                    setPasswordOtp={setPasswordOtp}
+                    requestPasswordOtpMutation={requestPasswordOtpMutation}
+                    changePasswordMutation={changePasswordMutation}
+                    setShowEmailVerification={setShowEmailVerification}
+                    setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
+                    profileOtpStep={profileOtpStep}
+                    setProfileOtpStep={setProfileOtpStep}
+                    profileOtp={profileOtp}
+                    setProfileOtp={setProfileOtp}
+                    confirmProfileWithOtp={confirmProfileWithOtp}
+                    cancelPendingChanges={cancelPendingChanges}
+                    resendProfileOtp={resendProfileOtp}
+                  />
+                </PanelErrorBoundary>
                 
                 {/* Inline Email Verification Panel */}
                 {showEmailVerification && (
@@ -1813,6 +1842,7 @@ export default function Dashboard() {
               )}
 
               {activeTab === 'admin' && isStaff && (
+                <Suspense fallback={<div className="flex items-center justify-center py-12"><Loader2 className="w-6 h-6 animate-spin text-accent" /></div>}>
                 <div key="admin" className="space-y-4">
                   {!isAdmin && (
                   <div className="flex overflow-x-auto pb-3 gap-2 mb-2 md:mb-3 no-scrollbar -mx-1 px-1" style={{ WebkitOverflowScrolling: 'touch' }}>
@@ -1899,762 +1929,125 @@ export default function Dashboard() {
 
                   {/* Inline Admin Panels - Replace Sheets */}
                   {createUserDialog && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.newClient')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setCreateUserDialog(false)} className="rounded-full" data-testid="button-close-create-user">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={newUserData.firstName} onChange={e => setNewUserData(p => ({ ...p, firstName: e.target.value }))} placeholder={t('dashboard.admin.firstName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-firstname" />
-                          </div>
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={newUserData.lastName} onChange={e => setNewUserData(p => ({ ...p, lastName: e.target.value }))} placeholder={t('dashboard.admin.lastName')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-lastname" />
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.email')}</Label>
-                          <Input type="email" value={newUserData.email} onChange={e => setNewUserData(p => ({ ...p, email: e.target.value }))} placeholder={t('dashboard.admin.email')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-email" />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={newUserData.phone} onChange={e => setNewUserData(p => ({ ...p, phone: e.target.value }))} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-phone" />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.password')}</Label>
-                          <Input type="password" value={newUserData.password} onChange={e => setNewUserData(p => ({ ...p, password: e.target.value }))} placeholder={t('dashboard.admin.minChars')} className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-create-user-password" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => createUserMutation.mutate(newUserData)} disabled={createUserMutation.isPending || !newUserData.email || !newUserData.password} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-user">
-                          {createUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createClient')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setCreateUserDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-user">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <CreateUserForm
+                      newUserData={newUserData}
+                      setNewUserData={setNewUserData}
+                      createUserMutation={createUserMutation}
+                      onClose={() => setCreateUserDialog(false)}
+                    />
                   )}
 
                   {createOrderDialog && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.createOrder')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.configureOrder')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setCreateOrderDialog(false)} className="rounded-full" data-testid="button-close-create-order">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.orderType')}</Label>
-                          <NativeSelect 
-                            value={newOrderData.orderType} 
-                            onValueChange={val => {
-                              const type = val as 'llc' | 'maintenance' | 'custom';
-                              if (type === 'custom') {
-                                setNewOrderData(p => ({ ...p, orderType: type, amount: '', concept: '' }));
-                              } else {
-                                const stateKey = newOrderData.state === 'Wyoming' ? 'wyoming' : newOrderData.state === 'Delaware' ? 'delaware' : 'newMexico';
-                                const defaultAmount = type === 'maintenance' 
-                                  ? String(PRICING.maintenance[stateKey as keyof typeof PRICING.maintenance].price)
-                                  : String(PRICING.formation[stateKey as keyof typeof PRICING.formation].price);
-                                setNewOrderData(p => ({ ...p, orderType: type, amount: defaultAmount, concept: '' }));
-                              }
-                            }}
-                            placeholder={t('dashboard.admin.selectOrderType')}
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                            data-testid="select-order-type"
-                          >
-                            <NativeSelectItem value="llc">{t('dashboard.admin.llcCreation')}</NativeSelectItem>
-                            <NativeSelectItem value="maintenance">{t('dashboard.admin.maintenanceService')}</NativeSelectItem>
-                            <NativeSelectItem value="custom">{t('dashboard.admin.customOrder')}</NativeSelectItem>
-                          </NativeSelect>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.client')}</Label>
-                          <NativeSelect 
-                            value={newOrderData.userId} 
-                            onValueChange={val => setNewOrderData(p => ({ ...p, userId: val }))}
-                            placeholder={t('dashboard.admin.selectClient')}
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                            data-testid="select-order-user"
-                          >
-                            {adminUsers?.map((u: any) => (
-                              <NativeSelectItem key={u.id} value={u.id}>{u.firstName} {u.lastName} ({u.email})</NativeSelectItem>
-                            ))}
-                          </NativeSelect>
-                        </div>
-                        {newOrderData.orderType === 'custom' ? (
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept')}</Label>
-                            <Input value={newOrderData.concept} 
-                              onChange={e => setNewOrderData(p => ({ ...p, concept: e.target.value }))} 
-                              placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                              className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-order-concept" 
-                            />
-                          </div>
-                        ) : (
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.state')}</Label>
-                            <NativeSelect 
-                              value={newOrderData.state} 
-                              onValueChange={val => {
-                                const sk = val === 'Wyoming' ? 'wyoming' : val === 'Delaware' ? 'delaware' : 'newMexico';
-                                const priceConfig = newOrderData.orderType === 'maintenance' ? PRICING.maintenance : PRICING.formation;
-                                const amount = String(priceConfig[sk as keyof typeof priceConfig].price);
-                                setNewOrderData(p => ({ ...p, state: val, amount }));
-                              }}
-                              placeholder={t('dashboard.admin.selectState')}
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                              data-testid="select-order-state"
-                            >
-                              {newOrderData.orderType === 'maintenance' ? (
-                                <>
-                                  <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getMaintenancePriceFormatted("newMexico")}</NativeSelectItem>
-                                  <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getMaintenancePriceFormatted("wyoming")}</NativeSelectItem>
-                                  <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getMaintenancePriceFormatted("delaware")}</NativeSelectItem>
-                                </>
-                              ) : (
-                                <>
-                                  <NativeSelectItem value="New Mexico">{t('application.states.newMexico')} - {getFormationPriceFormatted("newMexico")}</NativeSelectItem>
-                                  <NativeSelectItem value="Wyoming">{t('application.states.wyoming')} - {getFormationPriceFormatted("wyoming")}</NativeSelectItem>
-                                  <NativeSelectItem value="Delaware">{t('application.states.delaware')} - {getFormationPriceFormatted("delaware")}</NativeSelectItem>
-                                </>
-                              )}
-                            </NativeSelect>
-                          </div>
-                        )}
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.amount')} (€)</Label>
-                          <Input type="number" value={newOrderData.amount} onChange={e => setNewOrderData(p => ({ ...p, amount: e.target.value }))} placeholder="899" className="rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-order-amount" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => createOrderMutation.mutate(newOrderData)} disabled={createOrderMutation.isPending || !newOrderData.userId || !newOrderData.amount || (newOrderData.orderType === 'custom' && !newOrderData.concept)} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-confirm-create-order">
-                          {createOrderMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.createOrderBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setCreateOrderDialog(false)} className="flex-1 rounded-full" data-testid="button-cancel-create-order">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <CreateOrderForm
+                      newOrderData={newOrderData}
+                      setNewOrderData={setNewOrderData}
+                      adminUsers={adminUsers || []}
+                      createOrderMutation={createOrderMutation}
+                      onClose={() => setCreateOrderDialog(false)}
+                    />
                   )}
 
                   {/* Inline Panel: Send Note to Client */}
                   {noteDialog.open && noteDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.sendMessageTitle')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.clientNotification')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setNoteDialog({ open: false, user: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.messageTitle')}</Label>
-                          <Input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder={t('dashboard.admin.messageTitlePlaceholder')} className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" data-testid="input-note-title" />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={noteMessage} onChange={e => setNoteMessage(e.target.value)} placeholder={t('dashboard.admin.messagePlaceholder')} rows={4} className="w-full rounded-2xl border-border bg-background dark:bg-card" data-testid="input-note-message" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => noteDialog.user?.id && sendNoteMutation.mutate({ userId: noteDialog.user.id, title: noteTitle, message: noteMessage, type: noteType })} disabled={!noteTitle || !noteMessage || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-send-note">
-                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.sendMessage')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setNoteDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <SendNoteForm
+                      noteDialog={noteDialog}
+                      noteTitle={noteTitle}
+                      setNoteTitle={setNoteTitle}
+                      noteMessage={noteMessage}
+                      setNoteMessage={setNoteMessage}
+                      noteType={noteType}
+                      sendNoteMutation={sendNoteMutation}
+                      onClose={() => setNoteDialog({ open: false, user: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Edit User */}
                   {editingUser && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.editUser')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.editUserDesc')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setEditingUser(null)} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-3">
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.firstName')}</Label>
-                            <Input value={editingUser.firstName || ''} onChange={e => setEditingUser({...editingUser, firstName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-firstname" />
-                          </div>
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.lastName')}</Label>
-                            <Input value={editingUser.lastName || ''} onChange={e => setEditingUser({...editingUser, lastName: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-lastname" />
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.email')}</Label>
-                          <Input value={editingUser.email || ''} onChange={e => setEditingUser({...editingUser, email: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-email" />
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.phone')}</Label>
-                          <Input value={editingUser.phone || ''} onChange={e => setEditingUser({...editingUser, phone: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-phone" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idType')}</Label>
-                            <NativeSelect 
-                              value={editingUser.idType || ''} 
-                              onValueChange={val => setEditingUser({...editingUser, idType: val})}
-                              placeholder={t('dashboard.admin.select')}
-                              className="w-full rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card"
-                            >
-                              <NativeSelectItem value="dni">DNI</NativeSelectItem>
-                              <NativeSelectItem value="nie">NIE</NativeSelectItem>
-                              <NativeSelectItem value="passport">{t('dashboard.admin.passport')}</NativeSelectItem>
-                            </NativeSelect>
-                          </div>
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.idNumber')}</Label>
-                            <Input value={editingUser.idNumber || ''} onChange={e => setEditingUser({...editingUser, idNumber: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-idnumber" />
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.birthDate')}</Label>
-                          <Input type="date" value={editingUser.birthDate || ''} onChange={e => setEditingUser({...editingUser, birthDate: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-birthdate" />
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.businessActivity')}</Label>
-                          <NativeSelect 
-                            value={editingUser.businessActivity || ''} 
-                            onValueChange={val => setEditingUser({...editingUser, businessActivity: val})}
-                            placeholder={t("common.select")}
-                            className="rounded-xl h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card"
-                            data-testid="select-edit-activity"
-                          >
-                            <NativeSelectItem value="ecommerce">{t("auth.register.businessActivities.ecommerce")}</NativeSelectItem>
-                            <NativeSelectItem value="dropshipping">{t("auth.register.businessActivities.dropshipping")}</NativeSelectItem>
-                            <NativeSelectItem value="consulting">{t("auth.register.businessActivities.consulting")}</NativeSelectItem>
-                            <NativeSelectItem value="marketing">{t("auth.register.businessActivities.marketing")}</NativeSelectItem>
-                            <NativeSelectItem value="software">{t("auth.register.businessActivities.software")}</NativeSelectItem>
-                            <NativeSelectItem value="saas">{t("auth.register.businessActivities.saas")}</NativeSelectItem>
-                            <NativeSelectItem value="apps">{t("auth.register.businessActivities.apps")}</NativeSelectItem>
-                            <NativeSelectItem value="ai">{t("auth.register.businessActivities.ai")}</NativeSelectItem>
-                            <NativeSelectItem value="investments">{t("auth.register.businessActivities.investments")}</NativeSelectItem>
-                            <NativeSelectItem value="tradingEducation">{t("auth.register.businessActivities.tradingEducation")}</NativeSelectItem>
-                            <NativeSelectItem value="financial">{t("auth.register.businessActivities.financial")}</NativeSelectItem>
-                            <NativeSelectItem value="crypto">{t("auth.register.businessActivities.crypto")}</NativeSelectItem>
-                            <NativeSelectItem value="realestate">{t("auth.register.businessActivities.realestate")}</NativeSelectItem>
-                            <NativeSelectItem value="import">{t("auth.register.businessActivities.import")}</NativeSelectItem>
-                            <NativeSelectItem value="coaching">{t("auth.register.businessActivities.coaching")}</NativeSelectItem>
-                            <NativeSelectItem value="content">{t("auth.register.businessActivities.content")}</NativeSelectItem>
-                            <NativeSelectItem value="affiliate">{t("auth.register.businessActivities.affiliate")}</NativeSelectItem>
-                            <NativeSelectItem value="freelance">{t("auth.register.businessActivities.freelance")}</NativeSelectItem>
-                            <NativeSelectItem value="gaming">{t("auth.register.businessActivities.gaming")}</NativeSelectItem>
-                            <NativeSelectItem value="digitalProducts">{t("auth.register.businessActivities.digitalProducts")}</NativeSelectItem>
-                            <NativeSelectItem value="other">{t("auth.register.businessActivities.other")}</NativeSelectItem>
-                          </NativeSelect>
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.address')}</Label>
-                          <Input value={editingUser.address || ''} onChange={e => setEditingUser({...editingUser, address: e.target.value})} placeholder={t('dashboard.admin.streetAndNumber')} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-address" />
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.city')}</Label>
-                            <Input value={editingUser.city || ''} onChange={e => setEditingUser({...editingUser, city: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-city" />
-                          </div>
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.postalCode')}</Label>
-                            <Input value={editingUser.postalCode || ''} onChange={e => setEditingUser({...editingUser, postalCode: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-postal" />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.province')}</Label>
-                            <Input value={editingUser.province || ''} onChange={e => setEditingUser({...editingUser, province: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-province" />
-                          </div>
-                          <div>
-                            <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.country')}</Label>
-                            <Input value={editingUser.country || ''} onChange={e => setEditingUser({...editingUser, country: e.target.value})} className="rounded-full h-10 px-3 border border-border dark:border-border text-sm bg-white dark:bg-card" data-testid="input-edit-country" />
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-xs font-semibold text-foreground mb-1.5 block">{t('dashboard.admin.internalNotes')}</Label>
-                          <Textarea value={editingUser.internalNotes || ''} onChange={e => setEditingUser({...editingUser, internalNotes: e.target.value})} rows={2} className="rounded-2xl border-border bg-background dark:bg-card text-sm" data-testid="input-edit-notes" />
-                        </div>
-                        {user?.email === 'afortuny07@gmail.com' && (
-                          <>
-                          <div className="p-3 bg-purple-50 dark:bg-purple-900/20 rounded-xl border border-purple-200 dark:border-purple-800">
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <p className="text-xs font-black text-purple-700 dark:text-purple-300">{t('dashboard.admin.adminPermissions')}</p>
-                                <p className="text-[10px] text-purple-600 dark:text-purple-400">{t('dashboard.admin.onlyYouCanChange')}</p>
-                              </div>
-                              <Switch
-                                checked={editingUser.isAdmin || false}
-                                onCheckedChange={(checked) => setEditingUser({...editingUser, isAdmin: checked})}
-                                data-testid="switch-admin-toggle"
-                              />
-                            </div>
-                          </div>
-                          <div className="p-3 bg-accent/5 dark:bg-accent/10 rounded-xl border border-accent/20 dark:border-accent/30">
-                            <div className="flex items-center justify-between">
-                              <div>
-                                <p className="text-xs font-black text-accent dark:text-accent">{t('dashboard.admin.supportPermissions')}</p>
-                                <p className="text-[10px] text-accent dark:text-accent">{t('dashboard.admin.supportPermissionsDesc')}</p>
-                              </div>
-                              <Switch
-                                checked={editingUser.isSupport || false}
-                                onCheckedChange={(checked) => setEditingUser({...editingUser, isSupport: checked})}
-                                data-testid="switch-support-toggle"
-                              />
-                            </div>
-                          </div>
-                          </>
-                        )}
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t mt-4">
-                        <Button type="button" onClick={(e) => { e.preventDefault(); editingUser.id && updateUserMutation.mutate({ id: editingUser.id, ...editingUser }); }} disabled={updateUserMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-save-user">
-                          {updateUserMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.saveChanges')}
-                        </Button>
-                        <Button type="button" variant="outline" onClick={(e) => { e.preventDefault(); setEditingUser(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <EditUserForm
+                      editingUser={editingUser}
+                      setEditingUser={setEditingUser}
+                      updateUserMutation={updateUserMutation}
+                      currentUserEmail={user?.email}
+                      onClose={() => setEditingUser(null)}
+                    />
                   )}
 
                   {/* Inline Panel: Delete User Confirmation */}
                   {deleteConfirm.open && deleteConfirm.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-black text-red-600">{t('dashboard.admin.deleteUser')}</h3>
-                        <Button variant="ghost" size="icon" onClick={() => setDeleteConfirm({ open: false, user: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="py-4">
-                        <p className="text-sm text-muted-foreground">{t('dashboard.admin.deleteUserConfirm')} <strong>{deleteConfirm.user?.firstName} {deleteConfirm.user?.lastName}</strong>?</p>
-                        <p className="text-xs text-red-500 mt-2">{t('dashboard.admin.actionIrreversible')}</p>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                        <Button variant="destructive" onClick={() => deleteConfirm.user?.id && deleteUserMutation.mutate(deleteConfirm.user.id)} disabled={deleteUserMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete">
-                          {deleteUserMutation.isPending ? t('dashboard.admin.deleting') : t('dashboard.admin.delete')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setDeleteConfirm({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <DeleteUserConfirm
+                      deleteConfirm={deleteConfirm}
+                      deleteUserMutation={deleteUserMutation}
+                      onClose={() => setDeleteConfirm({ open: false, user: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Delete Order Confirmation */}
                   {deleteOrderConfirm.open && deleteOrderConfirm.order && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-800 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-lg font-black text-red-600">{t('dashboard.admin.deleteOrder')}</h3>
-                        <Button variant="ghost" size="icon" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="py-4">
-                        <p className="text-sm text-muted-foreground">{t('dashboard.admin.deleteUserConfirm')} <strong>{deleteOrderConfirm.order?.application?.requestCode || deleteOrderConfirm.order?.maintenanceApplication?.requestCode || deleteOrderConfirm.order?.invoiceNumber}</strong>?</p>
-                        <p className="text-xs text-muted-foreground mt-2">{t('dashboard.admin.deleteOrderClient')}: {deleteOrderConfirm.order?.user?.firstName} {deleteOrderConfirm.order?.user?.lastName}</p>
-                        <p className="text-xs text-red-500 mt-2">{t('dashboard.admin.deleteOrderWarning')}</p>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                        <Button variant="destructive" onClick={() => deleteOrderConfirm.order?.id && deleteOrderMutation.mutate(deleteOrderConfirm.order.id)} disabled={deleteOrderMutation.isPending} className="flex-1 rounded-full font-black" data-testid="button-confirm-delete-order">
-                          {deleteOrderMutation.isPending ? t('dashboard.admin.deleting') : t('dashboard.admin.deleteOrderBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setDeleteOrderConfirm({ open: false, order: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <DeleteOrderConfirm
+                      deleteOrderConfirm={deleteOrderConfirm}
+                      deleteOrderMutation={deleteOrderMutation}
+                      onClose={() => setDeleteOrderConfirm({ open: false, order: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Generate Invoice */}
                   {generateInvoiceDialog.open && generateInvoiceDialog.order && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.generateInvoice')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.orderLabel')}: {generateInvoiceDialog.order?.application?.requestCode || generateInvoiceDialog.order?.maintenanceApplication?.requestCode || generateInvoiceDialog.order?.invoiceNumber}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
-                          <Input type="number" 
-                            step="0.01" 
-                            value={orderInvoiceAmount} 
-                            onChange={e => setOrderInvoiceAmount(e.target.value)}
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                            placeholder="899.00"
-                            data-testid="input-invoice-amount"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.currency')}</Label>
-                          <NativeSelect 
-                            value={orderInvoiceCurrency} 
-                            onValueChange={setOrderInvoiceCurrency}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                          >
-                            <NativeSelectItem value="EUR">EUR (€)</NativeSelectItem>
-                            <NativeSelectItem value="USD">USD ($)</NativeSelectItem>
-                          </NativeSelect>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button 
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                          disabled={!orderInvoiceAmount || isNaN(parseFloat(orderInvoiceAmount)) || parseFloat(orderInvoiceAmount) <= 0 || isGeneratingInvoice}
-                          onClick={async () => {
-                            setIsGeneratingInvoice(true);
-                            try {
-                              const amountCents = Math.round(parseFloat(orderInvoiceAmount) * 100);
-                              if (amountCents <= 0) {
-                                setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.amountMustBeGreater") });
-                                return;
-                              }
-                              const res = await apiRequest("POST", `/api/admin/orders/${generateInvoiceDialog.order?.id}/generate-invoice`, {
-                                amount: amountCents,
-                                currency: orderInvoiceCurrency
-                              });
-                              if (!res.ok) {
-                                const data = await res.json().catch(() => ({}));
-                                throw new Error(data.message || t("dashboard.toasts.couldNotGenerate"));
-                              }
-                              setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceGenerated") + ". " + t("dashboard.toasts.invoiceGeneratedDesc", { amount: orderInvoiceAmount, currency: orderInvoiceCurrency }) });
-                              queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-                              queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-                              window.open(`/api/orders/${generateInvoiceDialog.order?.id}/invoice`, '_blank');
-                              setGenerateInvoiceDialog({ open: false, order: null });
-                              setOrderInvoiceAmount("");
-                            } catch (err: any) {
-                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (err.message || t("dashboard.toasts.couldNotGenerate")) });
-                            } finally {
-                              setIsGeneratingInvoice(false);
-                            }
-                          }}
-                          data-testid="button-confirm-generate-invoice"
-                        >
-                          {isGeneratingInvoice ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.generateInvoiceBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setGenerateInvoiceDialog({ open: false, order: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <GenerateInvoiceForm
+                      generateInvoiceDialog={generateInvoiceDialog}
+                      orderInvoiceAmount={orderInvoiceAmount}
+                      setOrderInvoiceAmount={setOrderInvoiceAmount}
+                      orderInvoiceCurrency={orderInvoiceCurrency}
+                      setOrderInvoiceCurrency={setOrderInvoiceCurrency}
+                      isGeneratingInvoice={isGeneratingInvoice}
+                      setIsGeneratingInvoice={setIsGeneratingInvoice}
+                      setFormMessage={setFormMessage}
+                      onClose={() => setGenerateInvoiceDialog({ open: false, order: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Request Documents */}
                   {docDialog.open && docDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.requestDocs')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.requestDocsDesc')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setDocDialog({ open: false, user: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.docType')}</Label>
-                          <NativeSelect 
-                            value={docType} 
-                            onValueChange={setDocType}
-                            placeholder={t('dashboard.admin.selectDocType')}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                          >
-                            <NativeSelectItem value="passport">{t('dashboard.admin.docPassport')}</NativeSelectItem>
-                            <NativeSelectItem value="address_proof">{t('dashboard.admin.docAddressProof')}</NativeSelectItem>
-                            <NativeSelectItem value="tax_id">{t('dashboard.admin.docTaxId')}</NativeSelectItem>
-                            <NativeSelectItem value="other">{t('dashboard.admin.docOther')}</NativeSelectItem>
-                          </NativeSelect>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.message')}</Label>
-                          <Textarea value={docMessage} onChange={e => setDocMessage(e.target.value)} placeholder={t('dashboard.admin.messageForClient')} rows={3} className="w-full rounded-2xl border-border bg-background dark:bg-card" data-testid="input-doc-message" />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => {
-                          if (docDialog.user?.id && docDialog.user?.email) {
-                            const docTypeI18nKeys: Record<string, string> = {
-                              passport: 'dashboard.documents.passport',
-                              address_proof: 'dashboard.documents.addressProof',
-                              tax_id: 'dashboard.documents.taxId',
-                              other: 'dashboard.documents.otherDocument'
-                            };
-                            const docI18nKey = docTypeI18nKeys[docType] || docType;
-                            const i18nTitle = `i18n:ntf.docRequested.title::{"docType":"@${docI18nKey}"}`;
-                            const i18nMessage = docMessage 
-                              ? `i18n:ntf.docRequested.message::{"docType":"@${docI18nKey}"}` 
-                              : `i18n:ntf.docRequested.message::{"docType":"@${docI18nKey}"}`;
-                            sendNoteMutation.mutate({ 
-                              userId: docDialog.user.id, 
-                              title: i18nTitle, 
-                              message: docMessage || i18nMessage, 
-                              type: 'action_required' 
-                            });
-                            setDocDialog({ open: false, user: null });
-                            setDocType('');
-                            setDocMessage('');
-                          }
-                        }} disabled={!docType || sendNoteMutation.isPending} className="flex-1 bg-accent text-accent-foreground font-black rounded-full" data-testid="button-request-doc">
-                          {sendNoteMutation.isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.requestDocBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setDocDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <RequestDocumentsForm
+                      docDialog={docDialog}
+                      docType={docType}
+                      setDocType={setDocType}
+                      docMessage={docMessage}
+                      setDocMessage={setDocMessage}
+                      sendNoteMutation={sendNoteMutation}
+                      onClose={() => setDocDialog({ open: false, user: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Create Invoice */}
                   {invoiceDialog.open && invoiceDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.createInvoice')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.client')}: {invoiceDialog.user?.firstName} {invoiceDialog.user?.lastName}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setInvoiceDialog({ open: false, user: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.concept')}</Label>
-                          <Input value={invoiceConcept} 
-                            onChange={e => setInvoiceConcept(e.target.value)} 
-                            placeholder={t('dashboard.admin.conceptPlaceholder')} 
-                            className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                            data-testid="input-invoice-concept"
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceAmount')}</Label>
-                            <Input type="number" 
-                              value={invoiceAmount} 
-                              onChange={e => setInvoiceAmount(e.target.value)} 
-                              placeholder="899" 
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                              data-testid="input-invoice-amount"
-                            />
-                          </div>
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.currencyLabel')}</Label>
-                            <NativeSelect 
-                              value={invoiceCurrency} 
-                              onValueChange={setInvoiceCurrency}
-                              className="w-full rounded-full h-11 px-3 border border-border dark:border-border bg-white dark:bg-card"
-                              data-testid="select-invoice-currency"
-                            >
-                              <NativeSelectItem value="EUR">EUR</NativeSelectItem>
-                              <NativeSelectItem value="USD">USD</NativeSelectItem>
-                            </NativeSelect>
-                          </div>
-                          <div className="col-span-2">
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoiceDate')}</Label>
-                            <Input type="date" 
-                              value={invoiceDate} 
-                              onChange={e => setInvoiceDate(e.target.value)} 
-                              className="w-full rounded-full h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                              data-testid="input-invoice-date"
-                            />
-                          </div>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.invoicePaymentMethods')}</Label>
-                          <div className="flex flex-wrap gap-2">
-                            {paymentAccountsList?.filter((a: any) => a.isActive).map((acct: any) => (
-                              <Button 
-                                key={acct.id}
-                                type="button"
-                                size="sm"
-                                variant={invoicePaymentAccountIds.includes(acct.id) ? "default" : "outline"}
-                                className={`rounded-full text-xs ${invoicePaymentAccountIds.includes(acct.id) ? 'bg-accent text-accent-foreground' : ''}`}
-                                onClick={() => {
-                                  setInvoicePaymentAccountIds(prev => 
-                                    prev.includes(acct.id) ? prev.filter(id => id !== acct.id) : [...prev, acct.id]
-                                  );
-                                }}
-                                data-testid={`button-invoice-payment-${acct.id}`}
-                              >
-                                {acct.label}
-                              </Button>
-                            ))}
-                            {(!paymentAccountsList || paymentAccountsList.filter((a: any) => a.isActive).length === 0) && (
-                              <p className="text-xs text-muted-foreground">{t('dashboard.admin.noPaymentAccounts')}</p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={() => invoiceDialog.user?.id && createInvoiceMutation.mutate({ 
-                            userId: invoiceDialog.user.id, 
-                            concept: invoiceConcept, 
-                            amount: Math.round(parseFloat(invoiceAmount) * 100),
-                            currency: invoiceCurrency,
-                            invoiceDate,
-                            paymentAccountIds: invoicePaymentAccountIds.length > 0 ? invoicePaymentAccountIds : undefined
-                          })} 
-                          disabled={!invoiceConcept || !invoiceAmount || createInvoiceMutation.isPending}
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                          data-testid="button-create-invoice"
-                        >
-                          {createInvoiceMutation.isPending ? t('dashboard.admin.creating') : t('dashboard.admin.createInvoiceBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setInvoiceDialog({ open: false, user: null })} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <CreateInvoiceForm
+                      invoiceDialog={invoiceDialog}
+                      invoiceConcept={invoiceConcept}
+                      setInvoiceConcept={setInvoiceConcept}
+                      invoiceAmount={invoiceAmount}
+                      setInvoiceAmount={setInvoiceAmount}
+                      invoiceCurrency={invoiceCurrency}
+                      setInvoiceCurrency={setInvoiceCurrency}
+                      invoiceDate={invoiceDate}
+                      setInvoiceDate={setInvoiceDate}
+                      invoicePaymentAccountIds={invoicePaymentAccountIds}
+                      setInvoicePaymentAccountIds={setInvoicePaymentAccountIds}
+                      paymentAccountsList={paymentAccountsList || []}
+                      createInvoiceMutation={createInvoiceMutation}
+                      onClose={() => setInvoiceDialog({ open: false, user: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Discount Code */}
                   {discountCodeDialog.open && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200 max-h-[80vh] overflow-y-auto">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">
-                            {discountCodeDialog.code ? t('dashboard.admin.editDiscountCode') : t('dashboard.admin.newDiscountCode')}
-                          </h3>
-                          <p className="text-sm text-muted-foreground">
-                            {discountCodeDialog.code ? t('dashboard.admin.editDiscountCodeDesc') : t('dashboard.admin.newDiscountCodeDesc')}
-                          </p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.code')}</Label>
-                          <Input value={newDiscountCode.code} 
-                            onChange={e => setNewDiscountCode(p => ({ ...p, code: e.target.value.toUpperCase() }))} 
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border uppercase bg-white dark:bg-card" 
-                            disabled={!!discountCodeDialog.code}
-                            data-testid="input-discount-code" 
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.type')}</Label>
-                            <NativeSelect 
-                              value={newDiscountCode.discountType} 
-                              onValueChange={(val) => setNewDiscountCode(p => ({ ...p, discountType: val as 'percentage' | 'fixed' }))}
-                              className="w-full rounded-xl h-11 px-3 border border-border dark:border-border bg-white dark:bg-card"
-                              data-testid="select-discount-type"
-                            >
-                              <NativeSelectItem value="percentage">{t('dashboard.admin.percentage')}</NativeSelectItem>
-                              <NativeSelectItem value="fixed">{t('dashboard.admin.fixed')}</NativeSelectItem>
-                            </NativeSelect>
-                          </div>
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">
-                              {t('dashboard.admin.value')} {newDiscountCode.discountType === 'percentage' ? '(%)' : '(cts)'}
-                            </Label>
-                            <Input type="number" 
-                              value={newDiscountCode.discountValue} 
-                              onChange={e => setNewDiscountCode(p => ({ ...p, discountValue: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-discount-value" 
-                            />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.minAmount')}</Label>
-                            <Input type="number" 
-                              value={newDiscountCode.minOrderAmount} 
-                              onChange={e => setNewDiscountCode(p => ({ ...p, minOrderAmount: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-discount-min-amount" 
-                            />
-                          </div>
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.maxUses')}</Label>
-                            <Input type="number" 
-                              value={newDiscountCode.maxUses} 
-                              onChange={e => setNewDiscountCode(p => ({ ...p, maxUses: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-discount-max-uses" 
-                            />
-                          </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validFrom')}</Label>
-                            <Input type="date" 
-                              value={newDiscountCode.validFrom} 
-                              onChange={e => setNewDiscountCode(p => ({ ...p, validFrom: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-discount-valid-from" 
-                            />
-                          </div>
-                          <div>
-                            <Label className="text-sm font-semibold text-foreground mb-2 block">{t('dashboard.admin.validUntil')}</Label>
-                            <Input type="date" 
-                              value={newDiscountCode.validUntil} 
-                              onChange={e => setNewDiscountCode(p => ({ ...p, validUntil: e.target.value }))} 
-                              className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card" 
-                              data-testid="input-discount-valid-until" 
-                            />
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <Switch 
-                            checked={newDiscountCode.isActive} 
-                            onCheckedChange={(checked) => setNewDiscountCode(p => ({ ...p, isActive: checked }))}
-                            data-testid="switch-discount-active"
-                          />
-                          <Label className="text-sm font-semibold">{t('dashboard.admin.activeCode')}</Label>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t mt-4">
-                        <Button onClick={async () => {
-                            try {
-                              const payload = {
-                                code: newDiscountCode.code,
-                                discountType: newDiscountCode.discountType,
-                                discountValue: parseInt(newDiscountCode.discountValue),
-                                minOrderAmount: newDiscountCode.minOrderAmount ? parseInt(newDiscountCode.minOrderAmount) * 100 : null,
-                                maxUses: newDiscountCode.maxUses ? parseInt(newDiscountCode.maxUses) : null,
-                                validFrom: newDiscountCode.validFrom || null,
-                                validUntil: newDiscountCode.validUntil || null,
-                                isActive: newDiscountCode.isActive
-                              };
-                              if (discountCodeDialog.code) {
-                                await apiRequest("PATCH", `/api/admin/discount-codes/${discountCodeDialog.code.id}`, payload);
-                                setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeUpdated") });
-                              } else {
-                                await apiRequest("POST", "/api/admin/discount-codes", payload);
-                                setFormMessage({ type: 'success', text: t("dashboard.toasts.discountCodeCreated") });
-                              }
-                              refetchDiscountCodes();
-                              setDiscountCodeDialog({ open: false, code: null });
-                            } catch (e: any) {
-                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (e.message || t("dashboard.toasts.couldNotSave")) });
-                            }
-                          }} 
-                          disabled={!newDiscountCode.code || !newDiscountCode.discountValue} 
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full" 
-                          data-testid="button-save-discount"
-                        >
-                          {discountCodeDialog.code ? t('dashboard.admin.saveDiscountChanges') : t('dashboard.admin.createCode')}
-                        </Button>
-                        <Button variant="outline" onClick={() => setDiscountCodeDialog({ open: false, code: null })} className="flex-1 rounded-full" data-testid="button-cancel-discount">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <DiscountCodeForm
+                      discountCodeDialog={discountCodeDialog}
+                      newDiscountCode={newDiscountCode}
+                      setNewDiscountCode={setNewDiscountCode}
+                      refetchDiscountCodes={refetchDiscountCodes}
+                      setFormMessage={setFormMessage}
+                      onClose={() => setDiscountCodeDialog({ open: false, code: null })}
+                    />
                   )}
 
                   {/* Inline Panel: Payment Link */}
@@ -3041,181 +2434,204 @@ export default function Dashboard() {
                   )}
 
                   {adminSubTab === 'dashboard' && (
-                    <AdminDashboardPanel
-                      adminStats={adminStats}
-                      adminOrders={adminOrders || []}
-                      adminUsers={adminUsers || []}
-                      adminMessages={adminMessages || []}
-                      adminDocuments={adminDocuments || []}
-                      guestVisitors={guestVisitors}
-                      setAdminSubTab={setAdminSubTab}
-                      refetchGuests={refetchGuests}
-                      showConfirm={showConfirm}
-                      setFormMessage={setFormMessage}
-                    />
+                    <PanelErrorBoundary panelName="admin-dashboard">
+                      <AdminDashboardPanel
+                        adminStats={adminStats}
+                        adminOrders={adminOrders || []}
+                        adminUsers={adminUsers || []}
+                        adminMessages={adminMessages || []}
+                        adminDocuments={adminDocuments || []}
+                        guestVisitors={guestVisitors}
+                        setAdminSubTab={setAdminSubTab}
+                        refetchGuests={refetchGuests}
+                        showConfirm={showConfirm}
+                        setFormMessage={setFormMessage}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   
                   {adminSubTab === 'orders' && (
-                    <AdminOrdersPanel
-                      filteredAdminOrders={filteredAdminOrders || []}
-                      adminSearchQuery={adminSearchQuery}
-                      adminUsers={adminUsers || []}
-                      paymentAccountsList={paymentAccountsList || []}
-                      setAdminSubTab={setAdminSubTab}
-                      onEditOrder={() => {}}
-                      onPaymentLink={(order) => {
-                        setPaymentLinkDialog({ open: true, user: order.user });
-                      }}
-                      onCreateInvoice={(order) => {
-                        setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
-                        setOrderInvoiceCurrency("EUR");
-                        setGenerateInvoiceDialog({ open: true, order });
-                      }}
-                      onStatusChange={(orderId, status) => updateStatusMutation.mutate({ id: orderId, status })}
-                      onDeleteOrder={(orderId) => {
-                        const order = filteredAdminOrders?.find((o: any) => o.id === orderId);
-                        if (order) setDeleteOrderConfirm({ open: true, order });
-                      }}
-                      pagination={ordersPagination}
-                      onPageChange={setOrdersPage}
-                    />
+                    <PanelErrorBoundary panelName="admin-orders">
+                      <AdminOrdersPanel
+                        filteredAdminOrders={filteredAdminOrders || []}
+                        adminSearchQuery={adminSearchQuery}
+                        adminUsers={adminUsers || []}
+                        paymentAccountsList={paymentAccountsList || []}
+                        setAdminSubTab={setAdminSubTab}
+                        onEditOrder={() => {}}
+                        onPaymentLink={(order) => {
+                          setPaymentLinkDialog({ open: true, user: order.user });
+                        }}
+                        onCreateInvoice={(order) => {
+                          setOrderInvoiceAmount(((order.amount || 0) / 100).toFixed(2));
+                          setOrderInvoiceCurrency("EUR");
+                          setGenerateInvoiceDialog({ open: true, order });
+                        }}
+                        onStatusChange={(orderId, status) => updateStatusMutation.mutate({ id: orderId, status })}
+                        onDeleteOrder={(orderId) => {
+                          const order = filteredAdminOrders?.find((o: any) => o.id === orderId);
+                          if (order) setDeleteOrderConfirm({ open: true, order });
+                        }}
+                        pagination={ordersPagination}
+                        onPageChange={setOrdersPage}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'communications' && (
-                    <AdminCommsPanel
-                      commSubTab={commSubTab}
-                      setCommSubTab={setCommSubTab}
-                      filteredAdminMessages={filteredAdminMessages || []}
-                      adminSearchQuery={adminSearchQuery}
-                      onSelectMessage={(msg) => setSelectedMessage(msg)}
-                      onDeleteMessage={(msgId) => {}}
-                      onToggleRead={(msgId, isRead) => {}}
-                      pagination={messagesPagination}
-                      onPageChange={setMessagesPage}
-                    />
+                    <PanelErrorBoundary panelName="admin-comms">
+                      <AdminCommsPanel
+                        commSubTab={commSubTab}
+                        setCommSubTab={setCommSubTab}
+                        filteredAdminMessages={filteredAdminMessages || []}
+                        adminSearchQuery={adminSearchQuery}
+                        onSelectMessage={(msg) => setSelectedMessage(msg)}
+                        onDeleteMessage={(msgId) => {}}
+                        onToggleRead={(msgId, isRead) => {}}
+                        pagination={messagesPagination}
+                        onPageChange={setMessagesPage}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'incomplete' && (
-                    <AdminIncompletePanel
-                      incompleteApps={incompleteApps}
-                      onDelete={(params) => deleteIncompleteAppMutation.mutate(params)}
-                      isDeleting={deleteIncompleteAppMutation.isPending}
-                    />
+                    <PanelErrorBoundary panelName="admin-incomplete">
+                      <AdminIncompletePanel
+                        incompleteApps={incompleteApps}
+                        onDelete={(params) => deleteIncompleteAppMutation.mutate(params)}
+                        isDeleting={deleteIncompleteAppMutation.isPending}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'users' && (
-                    <AdminUsersPanel
-                      filteredAdminUsers={filteredAdminUsers || []}
-                      adminSearchQuery={adminSearchQuery}
-                      usersSubTab={usersSubTab}
-                      setUsersSubTab={setUsersSubTab}
-                      adminNewsletterSubs={adminNewsletterSubs || []}
-                      onEditUser={(u) => setEditingUser(u)}
-                      onViewOrders={(userId) => { setAdminSubTab('orders'); }}
-                      onResetPassword={(userId) => { const u = adminUsers?.find((x: any) => x.id === userId); if (u) setResetPasswordDialog({ open: true, user: u }); }}
-                      onToggleActive={(userId, isActive) => updateUserMutation.mutate({ id: userId, accountStatus: isActive ? 'active' : 'deactivated' })}
-                      onDeleteUser={(userId) => { const u = adminUsers?.find((x: any) => x.id === userId); if (u) setDeleteConfirm({ open: true, user: u }); }}
-                      onIdvAction={(userId, action) => {
-                        const u = adminUsers?.find((x: any) => x.id === userId);
-                        if (!u) return;
-                        if (action === 'request') { setIdvRequestDialog({ open: true, user: u }); setIdvRequestNotes(""); }
-                        else if (action === 'reject') { setIdvRejectDialog({ open: true, user: u }); setIdvRejectReason(""); }
-                      }}
-                      onStatusChange={(userId, status) => updateUserMutation.mutate({ id: userId, accountStatus: status as any })}
-                      onRequestIdv={(u) => { setIdvRequestDialog({ open: true, user: u }); setIdvRequestNotes(""); }}
-                      onRejectIdv={(u) => { setIdvRejectDialog({ open: true, user: u }); setIdvRejectReason(""); }}
-                      onSendNote={(u) => setNoteDialog({ open: true, user: u })}
-                      onRequestDoc={(u) => setDocDialog({ open: true, user: u })}
-                      onCreateInvoice={(u) => setInvoiceDialog({ open: true, user: u })}
-                      onPaymentLink={(u) => setPaymentLinkDialog({ open: true, user: u })}
-                      broadcastSubject={broadcastSubject}
-                      setBroadcastSubject={setBroadcastSubject}
-                      broadcastMessage={broadcastMessage}
-                      setBroadcastMessage={setBroadcastMessage}
-                      broadcastMutationIsPending={broadcastMutation.isPending}
-                      onSendBroadcast={(data) => broadcastMutation.mutate(data)}
-                      onDeleteSubscriber={(sub) => {
-                        showConfirm({
-                          title: t('common.confirmAction'),
-                          description: t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`,
-                          onConfirm: async () => {
-                            try {
-                              await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
-                              refetchNewsletterSubs();
-                              setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
-                            } catch (e) {
-                              setFormMessage({ type: 'error', text: t("common.error") });
-                            }
-                          },
-                        });
-                      }}
-                      isApprovingIdv={isApprovingIdv}
-                      onApproveIdv={async (userId) => {
-                        setIsApprovingIdv(true);
-                        try {
-                          await apiRequest("POST", `/api/admin/users/${userId}/approve-identity-verification`);
-                          setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvApproved') });
-                          queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
-                        } catch { setFormMessage({ type: 'error', text: t('common.error') }); }
-                        finally { setIsApprovingIdv(false); }
-                      }}
-                      pagination={usersPagination}
-                      onPageChange={setUsersPage}
-                    />
+                    <PanelErrorBoundary panelName="admin-users">
+                      <AdminUsersPanel
+                        filteredAdminUsers={filteredAdminUsers || []}
+                        adminSearchQuery={adminSearchQuery}
+                        usersSubTab={usersSubTab}
+                        setUsersSubTab={setUsersSubTab}
+                        adminNewsletterSubs={adminNewsletterSubs || []}
+                        onEditUser={(u) => setEditingUser(u)}
+                        onViewOrders={(userId) => { setAdminSubTab('orders'); }}
+                        onResetPassword={(userId) => { const u = adminUsers?.find((x: any) => x.id === userId); if (u) setResetPasswordDialog({ open: true, user: u }); }}
+                        onToggleActive={(userId, isActive) => updateUserMutation.mutate({ id: userId, accountStatus: isActive ? 'active' : 'deactivated' })}
+                        onDeleteUser={(userId) => { const u = adminUsers?.find((x: any) => x.id === userId); if (u) setDeleteConfirm({ open: true, user: u }); }}
+                        onIdvAction={(userId, action) => {
+                          const u = adminUsers?.find((x: any) => x.id === userId);
+                          if (!u) return;
+                          if (action === 'request') { setIdvRequestDialog({ open: true, user: u }); setIdvRequestNotes(""); }
+                          else if (action === 'reject') { setIdvRejectDialog({ open: true, user: u }); setIdvRejectReason(""); }
+                        }}
+                        onStatusChange={(userId, status) => updateUserMutation.mutate({ id: userId, accountStatus: status as any })}
+                        onRequestIdv={(u) => { setIdvRequestDialog({ open: true, user: u }); setIdvRequestNotes(""); }}
+                        onRejectIdv={(u) => { setIdvRejectDialog({ open: true, user: u }); setIdvRejectReason(""); }}
+                        onSendNote={(u) => setNoteDialog({ open: true, user: u })}
+                        onRequestDoc={(u) => setDocDialog({ open: true, user: u })}
+                        onCreateInvoice={(u) => setInvoiceDialog({ open: true, user: u })}
+                        onPaymentLink={(u) => setPaymentLinkDialog({ open: true, user: u })}
+                        broadcastSubject={broadcastSubject}
+                        setBroadcastSubject={setBroadcastSubject}
+                        broadcastMessage={broadcastMessage}
+                        setBroadcastMessage={setBroadcastMessage}
+                        broadcastMutationIsPending={broadcastMutation.isPending}
+                        onSendBroadcast={(data) => broadcastMutation.mutate(data)}
+                        onDeleteSubscriber={(sub) => {
+                          showConfirm({
+                            title: t('common.confirmAction'),
+                            description: t('dashboard.admin.newsletterSection.confirmDelete') + ` ${sub.email}?`,
+                            onConfirm: async () => {
+                              try {
+                                await apiRequest("DELETE", `/api/admin/newsletter/${sub.id}`);
+                                refetchNewsletterSubs();
+                                setFormMessage({ type: 'success', text: t("dashboard.toasts.subscriberDeleted") });
+                              } catch (e) {
+                                setFormMessage({ type: 'error', text: t("common.error") });
+                              }
+                            },
+                          });
+                        }}
+                        isApprovingIdv={isApprovingIdv}
+                        onApproveIdv={async (userId) => {
+                          setIsApprovingIdv(true);
+                          try {
+                            await apiRequest("POST", `/api/admin/users/${userId}/approve-identity-verification`);
+                            setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvApproved') });
+                            queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
+                          } catch { setFormMessage({ type: 'error', text: t('common.error') }); }
+                          finally { setIsApprovingIdv(false); }
+                        }}
+                        pagination={usersPagination}
+                        onPageChange={setUsersPage}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'calendar' && (
-                    <AdminCalendarPanel
-                      adminOrders={adminOrders || []}
-                      updateLlcDatesMutation={updateLlcDatesMutation}
-                      setFormMessage={setFormMessage}
-                      showConfirm={showConfirm}
-                    />
+                    <PanelErrorBoundary panelName="admin-calendar">
+                      <AdminCalendarPanel
+                        adminOrders={adminOrders || []}
+                        updateLlcDatesMutation={updateLlcDatesMutation}
+                        setFormMessage={setFormMessage}
+                        showConfirm={showConfirm}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'docs' && (
-                    <AdminDocsPanel
-                      filteredAdminDocuments={filteredAdminDocuments}
-                      adminSearchQuery={adminSearchQuery}
-                      adminOrders={adminOrders}
-                      adminUsers={adminUsers}
-                      setFormMessage={setFormMessage}
-                      setDocRejectDialog={setDocRejectDialog}
-                      setDocRejectReason={setDocRejectReason}
-                      setNoteDialog={setNoteDialog}
-                      setAdminDocUploadDialog={setAdminDocUploadDialog}
-                      setAdminDocType={setAdminDocType}
-                      setAdminDocFile={setAdminDocFile}
-                      showConfirm={showConfirm}
-                    />
+                    <PanelErrorBoundary panelName="admin-docs">
+                      <AdminDocsPanel
+                        filteredAdminDocuments={filteredAdminDocuments}
+                        adminSearchQuery={adminSearchQuery}
+                        adminOrders={adminOrders}
+                        adminUsers={adminUsers}
+                        setFormMessage={setFormMessage}
+                        setDocRejectDialog={setDocRejectDialog}
+                        setDocRejectReason={setDocRejectReason}
+                        setNoteDialog={setNoteDialog}
+                        setAdminDocUploadDialog={setAdminDocUploadDialog}
+                        setAdminDocType={setAdminDocType}
+                        setAdminDocFile={setAdminDocFile}
+                        showConfirm={showConfirm}
+                      />
+                    </PanelErrorBoundary>
                   )}
                   {adminSubTab === 'billing' && (
-                    <AdminBillingPanel
-                      billingSubTab={billingSubTab}
-                      setBillingSubTab={setBillingSubTab}
-                      adminInvoices={adminInvoices || []}
-                      paymentAccountsList={paymentAccountsList || []}
-                      refetchPaymentAccounts={refetchPaymentAccounts}
-                      setFormMessage={setFormMessage}
-                      showConfirm={showConfirm}
-                    />
+                    <PanelErrorBoundary panelName="admin-billing">
+                      <AdminBillingPanel
+                        billingSubTab={billingSubTab}
+                        setBillingSubTab={setBillingSubTab}
+                        adminInvoices={adminInvoices || []}
+                        paymentAccountsList={paymentAccountsList || []}
+                        refetchPaymentAccounts={refetchPaymentAccounts}
+                        setFormMessage={setFormMessage}
+                        showConfirm={showConfirm}
+                      />
+                    </PanelErrorBoundary>
                   )}
 
 
                   {adminSubTab === 'activity' && (
-                    <ActivityLogPanel />
+                    <PanelErrorBoundary panelName="activity-log">
+                      <ActivityLogPanel />
+                    </PanelErrorBoundary>
                   )}
 
                   {adminSubTab === 'roles' && (
-                    <AdminRolesPanel />
+                    <PanelErrorBoundary panelName="admin-roles">
+                      <AdminRolesPanel />
+                    </PanelErrorBoundary>
                   )}
 
                   {adminSubTab === 'descuentos' && (
-                    <AdminDiscountsPanel
-                      discountCodes={discountCodes}
-                      refetchDiscountCodes={refetchDiscountCodes}
-                      setFormMessage={setFormMessage}
-                      setNewDiscountCode={setNewDiscountCode}
-                      setDiscountCodeDialog={setDiscountCodeDialog}
-                      showConfirm={showConfirm}
-                    />
+                    <PanelErrorBoundary panelName="admin-discounts">
+                      <AdminDiscountsPanel
+                        discountCodes={discountCodes}
+                        refetchDiscountCodes={refetchDiscountCodes}
+                        setFormMessage={setFormMessage}
+                        setNewDiscountCode={setNewDiscountCode}
+                        setDiscountCodeDialog={setDiscountCodeDialog}
+                        showConfirm={showConfirm}
+                      />
+                    </PanelErrorBoundary>
                   )}
                 </div>
+                </Suspense>
               )}
             </div>
 

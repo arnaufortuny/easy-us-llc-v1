@@ -5,6 +5,9 @@ import { orders as ordersTable, users as usersTable } from "@shared/schema";
 import { and, eq, gt, sql } from "drizzle-orm";
 import { logAudit, getClientIp } from "../lib/security";
 import { isAuthenticated, isAdmin, isAdminOrSupport, isNotUnderReview, hasPermission, hasAnyPermission } from "../lib/custom-auth";
+import { createLogger } from "../lib/logger";
+
+const log = createLogger('shared');
 
 interface CacheEntry<T> {
   data: T;
@@ -115,7 +118,7 @@ export async function flagAccountForReview(userId: string, reason: string): Prom
 
 export const logActivity = async (title: string, data: any, _req?: any) => {
   if (process.env.NODE_ENV === 'development') {
-    console.log(`[LOG] ${title}:`, data);
+    log.debug(`${title}:`, data);
   }
 };
 

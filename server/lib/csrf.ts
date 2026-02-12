@@ -1,5 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import crypto from "crypto";
+import { createLogger } from "./logger";
+
+const log = createLogger('csrf');
 
 const CSRF_TOKEN_LENGTH = 32;
 const CSRF_HEADER = "x-csrf-token";
@@ -52,7 +55,7 @@ export function getCsrfToken(req: Request, res: Response) {
   }
   req.session.save((err) => {
     if (err) {
-      console.error("Failed to save CSRF session:", err);
+      log.error("Failed to save CSRF session:", err);
     }
     res.json({ csrfToken: req.session.csrfToken });
   });

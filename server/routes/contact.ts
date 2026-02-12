@@ -17,7 +17,7 @@ export function registerContactRoutes(app: Express) {
       const isSubscribed = await storage.isSubscribedToNewsletter(req.session.email);
       res.json({ isSubscribed });
     } catch (err) {
-      console.error("Error fetching newsletter status:", err);
+      log.error("Error fetching newsletter status:", err);
       res.status(500).json({ message: "Error fetching newsletter status" });
     }
   }));
@@ -27,7 +27,7 @@ export function registerContactRoutes(app: Express) {
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.email, req.session.email));
       res.json({ success: true });
     } catch (err) {
-      console.error("Error unsubscribing from newsletter:", err);
+      log.error("Error unsubscribing from newsletter:", err);
       res.status(500).json({ message: "Error unsubscribing" });
     }
   }));

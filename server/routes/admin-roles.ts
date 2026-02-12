@@ -22,7 +22,7 @@ export function registerAdminRoleRoutes(app: Express) {
     try {
       res.json(STAFF_PERMISSIONS);
     } catch (err) {
-      console.error("Error fetching permissions:", err);
+      log.error("Error fetching permissions:", err);
       res.status(500).json({ message: "Error fetching permissions" });
     }
   }));

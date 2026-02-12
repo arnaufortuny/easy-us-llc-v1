@@ -678,7 +678,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
       res.setHeader('Content-Type', 'text/html');
       res.send(generateInvoiceHtml(order));
     } catch (err) {
-      console.error("Error fetching admin invoice:", err);
+      log.error("Error fetching admin invoice:", err);
       res.status(500).json({ message: "Error fetching invoice" });
     }
   }));
