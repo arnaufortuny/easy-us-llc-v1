@@ -2841,6 +2841,7 @@
     "dividendTax": "Dividend tax",
     "socialSecurity": "Social security",
     "vat": "VAT",
+    "vatNote": "You're a collector, not money lost",
     "structures": {
       "spain": { "autonomo": "Autónomo", "company": "Company (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },

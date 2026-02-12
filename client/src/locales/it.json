@@ -2841,6 +2841,7 @@
     "dividendTax": "IRPEF dividendi",
     "socialSecurity": "Contributi previdenziali",
     "vat": "IVA",
+    "vatNote": "Sei un esattore, non è denaro perso",
     "structures": {
       "spain": { "autonomo": "Autónomo", "company": "Società (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },

@@ -2841,6 +2841,7 @@
     "dividendTax": "IRPF dividendos",
     "socialSecurity": "Cuota autónomos",
     "vat": "IVA",
+    "vatNote": "Eres recaudador, no es dinero perdido",
     "structures": {
       "spain": { "autonomo": "Autónomo", "company": "Sociedad (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },

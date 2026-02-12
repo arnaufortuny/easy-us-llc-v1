@@ -2841,6 +2841,7 @@
     "dividendTax": "Dividendensteuer",
     "socialSecurity": "Sozialversicherung",
     "vat": "Umsatzsteuer",
+    "vatNote": "Sie sind Einzieher, kein verlorenes Geld",
     "structures": {
       "spain": { "autonomo": "Autónomo", "company": "Gesellschaft (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },

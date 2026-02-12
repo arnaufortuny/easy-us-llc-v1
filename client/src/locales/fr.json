@@ -2841,6 +2841,7 @@
     "dividendTax": "Impôt sur les dividendes",
     "socialSecurity": "Cotisations sociales",
     "vat": "TVA",
+    "vatNote": "Vous êtes collecteur, ce n'est pas de l'argent perdu",
     "structures": {
       "spain": { "autonomo": "Autónomo", "company": "Société (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },

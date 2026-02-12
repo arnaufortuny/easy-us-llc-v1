@@ -187,7 +187,7 @@ function calculateTaxesAutonomo(grossIncome: number, country: Country, activity:
   }
 
   const vat = grossIncome * vatRate;
-  const total = incomeTax + socialSecurity + vat;
+  const total = incomeTax + socialSecurity;
   const netIncome = grossIncome - total;
   const effectiveRate = grossIncome > 0 ? (total / grossIncome) * 100 : 0;
 
@@ -352,7 +352,7 @@ function calculateTaxes(grossIncome: number, country: Country, activity: Activit
   }
 
   const vat = grossIncome * vatRate;
-  const total = corporateTax + incomeTax + socialSecurity + vat;
+  const total = corporateTax + incomeTax + socialSecurity;
   const netIncome = grossIncome - total;
   const effectiveRate = grossIncome > 0 ? (total / grossIncome) * 100 : 0;
 
@@ -549,13 +549,13 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             
             {/* Business Structure Selection */}
             <div className="p-6 sm:p-8 lg:p-5 border-b border-accent/10">
-              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center">
+              <h3 className="text-xl sm:text-2xl lg:text-lg font-black text-foreground mb-4 lg:mb-3 text-center uppercase">
                 {t("taxComparator.selectStructure")}
               </h3>
-              <div className="flex justify-center gap-2">
+              <div className="flex justify-center gap-3">
                 <button
                   onClick={() => setSelectedStructure("autonomo")}
-                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors ${
+                  className={`px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-black transition-colors ${
                     selectedStructure === "autonomo"
                       ? 'bg-accent text-accent-foreground shadow-md shadow-accent/30'
                       : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
@@ -566,7 +566,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                 </button>
                 <button
                   onClick={() => setSelectedStructure("company")}
-                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold transition-colors ${
+                  className={`px-5 sm:px-7 py-2.5 sm:py-3 rounded-full text-sm sm:text-base font-black transition-colors ${
                     selectedStructure === "company"
                       ? 'bg-accent text-accent-foreground shadow-md shadow-accent/30'
                       : 'bg-background text-foreground border-2 border-accent/20 hover:border-accent/40 hover:bg-accent/5'
@@ -829,8 +829,11 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                           <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.socialSecurity)}</span>
                         </div>
                         <div className="flex justify-between items-center py-3 border-b border-border/50">
-                          <span className="text-sm text-muted-foreground font-black">{t("taxComparator.vat")} ({selectedCountryInfo.vatRate}%)</span>
-                          <span className="font-black text-destructive text-lg">-{formatCurrency(countryTaxes.vat)}</span>
+                          <div className="flex flex-col">
+                            <span className="text-sm text-muted-foreground font-black">{t("taxComparator.vat")} ({selectedCountryInfo.vatRate}%)</span>
+                            <span className="text-[10px] text-muted-foreground/70 font-medium">{t("taxComparator.vatNote")}</span>
+                          </div>
+                          <span className="font-black text-muted-foreground text-lg">{formatCurrency(countryTaxes.vat)}</span>
                         </div>
                   <div className="pt-4">
                     <div className="flex justify-between items-center">

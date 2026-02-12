@@ -2841,6 +2841,7 @@
     "dividendTax": "IRPF dividends",
     "socialSecurity": "Quota autònoms",
     "vat": "IVA",
+    "vatNote": "Ets recaptador, no és diners perduts",
     "structures": {
       "spain": { "autonomo": "Autònom", "company": "Societat (SL)" },
       "uk": { "autonomo": "Sole Trader", "company": "Limited (Ltd)" },
