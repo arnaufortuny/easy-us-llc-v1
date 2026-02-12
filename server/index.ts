@@ -42,20 +42,8 @@ export function log(message: string, source = "express") {
   console.log(`${formattedTime} [${source}] ${message}`);
 }
 
-let appInitialized = false;
-
 app.get("/_health", (_req, res) => {
-  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime(), initialized: appInitialized });
-});
-
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (appInitialized) {
-    return next();
-  }
-  if (req.method === 'GET' && (req.path === '/' || req.path === '/index.html')) {
-    return res.status(200).send('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Exentax</title></head><body><p>Starting...</p></body></html>');
-  }
-  next();
+  res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
 });
 
 app.use(sentryRequestHandler());
@@ -191,16 +179,17 @@ const port = parseInt(process.env.PORT || "5000", 10);
 
 serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'} mode on port ${port}`);
 
-httpServer.listen(
-  { port, host: "0.0.0.0", reusePort: true },
-  () => {
-    log(`serving on port ${port}`);
-    serverLog.info(`Server listening on 0.0.0.0:${port}, initializing application...`);
-  },
-);
+if (isProduction) {
+  serveStatic(app);
+}
 
-async function initializeApp() {
+(async () => {
   try {
+    if (!isProduction) {
+      const { setupVite } = await import("./vite");
+      await setupVite(httpServer, app);
+    }
+
     const { storage } = await import("./storage");
     try {
       await storage.seedDefaultPaymentAccounts();
@@ -247,14 +236,6 @@ async function initializeApp() {
       serverLog.error(`Request error [${status}]`, err, { status, message });
     });
 
-    if (isProduction) {
-      serveStatic(app);
-    } else {
-      const { setupVite } = await import("./vite");
-      await setupVite(httpServer, app);
-    }
-
-    appInitialized = true;
     serverLog.info("Application fully initialized and ready");
 
     if (isProduction) {
@@ -266,6 +247,12 @@ async function initializeApp() {
     serverLog.error("Fatal error during application initialization", error);
     console.error("FATAL: Application initialization failed:", error);
   }
-}
+})();
 
-initializeApp();
+httpServer.listen(
+  { port, host: "0.0.0.0", reusePort: true },
+  () => {
+    log(`serving on port ${port}`);
+    serverLog.info(`Server listening on 0.0.0.0:${port}`);
+  },
+);
