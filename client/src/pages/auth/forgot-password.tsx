@@ -265,7 +265,7 @@ export default function ForgotPassword() {
       <main className="pt-28 sm:pt-28 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center">
               <span className="text-foreground">{t("auth.forgotPassword.title")}</span>{" "}
               <span className="text-accent">{t("auth.forgotPassword.titleHighlight")}</span>
             </h1>
@@ -332,7 +332,6 @@ export default function ForgotPassword() {
                       className="w-full mt-3 rounded-full text-sm font-bold gap-2"
                       data-testid="button-contact-team-bottom"
                     >
-                      <MessageCircle className="w-4 h-4" />
                       {t("auth.forgotPassword.contactTeam")}
                     </Button>
                   </Link>
