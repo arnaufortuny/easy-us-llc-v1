@@ -1314,7 +1314,7 @@ async function processEmailQueue() {
     
     try {
       await transporter.sendMail({
-        from: `"Exentax" <hola@exentax.com>`,
+        from: `"Exentax" <no-reply@easyusllc.com>`,
         replyTo: job.replyTo || "hola@exentax.com",
         to: job.to,
         subject: job.subject,
@@ -1391,7 +1391,7 @@ export async function sendEmail({ to, subject, html, replyTo }: { to: string; su
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Exentax" <hola@exentax.com>`,
+      from: `"Exentax" <no-reply@easyusllc.com>`,
       replyTo: replyTo || "hola@exentax.com",
       to: to,
       subject: subject,
@@ -1553,7 +1553,7 @@ export async function sendTrustpilotEmail({ to, name, orderNumber, lang = 'es' }
     const logoPath = path.join(process.cwd(), "client/public/logo-icon.png");
 
     const info = await transporter.sendMail({
-      from: `"Exentax" <hola@exentax.com>`,
+      from: `"Exentax" <no-reply@easyusllc.com>`,
       replyTo: "hola@exentax.com",
       to: to,
       bcc: trustpilotBcc,
