@@ -206,7 +206,7 @@ function DocumentRequestsSection({ setFormMessage, showConfirm }: Pick<AdminDocs
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center gap-1 shrink-0">
+                    <div className="flex items-center gap-1 shrink-0 flex-wrap justify-end">
                       <NativeSelect
                         value={req.status}
                         onValueChange={(val) => updateMutation.mutate({ id: req.id, data: { status: val } })}
@@ -412,7 +412,7 @@ export function AdminDocsPanel({
                       <span className="text-[10px] text-muted-foreground">{doc.uploadedAt ? formatDate(doc.uploadedAt) : '-'}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="flex items-center gap-1.5 shrink-0 flex-wrap justify-end">
                     <NativeSelect 
                       value={doc.reviewStatus || 'pending'} 
                       onValueChange={async val => {

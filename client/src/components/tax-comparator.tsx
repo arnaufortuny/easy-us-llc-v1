@@ -2,7 +2,6 @@ import { useState, useMemo, ComponentType, type ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, ChevronUp, TrendingUp, Calculator } from "@/components/icons";
-import { GrowthChartIcon } from "@/components/ui/flags";
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
@@ -649,7 +648,6 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                   className="p-6 sm:p-8 lg:p-5 bg-background flex items-center justify-center min-h-[280px] lg:min-h-[220px] w-full"
                 >
                   <div className="max-w-sm sm:max-w-md w-full mx-auto text-center flex flex-col items-center">
-                    <GrowthChartIcon className="w-16 h-16 mb-4" />
                     <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
                       {t("taxComparator.emailTitle")}
                     </h3>

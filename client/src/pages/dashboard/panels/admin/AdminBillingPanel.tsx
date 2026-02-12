@@ -41,7 +41,7 @@ export function AdminBillingPanel({
 
   return (
     <div className="space-y-4">
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-4 flex-wrap">
         <Button
           variant={billingSubTab === 'invoices' ? 'default' : 'outline'}
           size="sm"

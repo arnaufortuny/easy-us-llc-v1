@@ -73,7 +73,7 @@ export function AdminCommsPanel({
           {formMessage.text}
         </div>
       )}
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-4 flex-wrap">
         <Button
           variant={commSubTab === 'inbox' ? 'default' : 'outline'}
           size="sm"

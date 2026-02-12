@@ -273,7 +273,7 @@ export function AdminAccountingPanel() {
         <NativeSelect
           value={typeFilter}
           onValueChange={setTypeFilter}
-          className="rounded-full h-9 text-xs w-32"
+          className="rounded-full h-9 text-xs w-28 sm:w-32"
         >
           <NativeSelectItem value="">{t('common.all')}</NativeSelectItem>
           <NativeSelectItem value="income">{t('dashboard.admin.income')}</NativeSelectItem>
@@ -282,7 +282,7 @@ export function AdminAccountingPanel() {
         <NativeSelect
           value={categoryFilter}
           onValueChange={setCategoryFilter}
-          className="rounded-full h-9 text-xs w-40"
+          className="rounded-full h-9 text-xs w-36 sm:w-40"
         >
           <NativeSelectItem value="">{t('dashboard.admin.allCategories')}</NativeSelectItem>
           {[...INCOME_CATEGORIES, ...EXPENSE_CATEGORIES].map(cat => (
