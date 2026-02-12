@@ -94,7 +94,7 @@ export function registerAdminOrderRoutes(app: Express) {
           to: order.user.email,
           name: order.user.firstName || "Cliente",
           orderNumber: orderCode
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
       }
 
       if (status === 'filed' && order.application) {
@@ -164,7 +164,7 @@ export function registerAdminOrderRoutes(app: Express) {
           emailBodies[userLang] || emailBodies.es,
           userLang as any
         )
-      }).catch(() => {});
+      }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
     }
     res.json(updatedOrder);
   }));

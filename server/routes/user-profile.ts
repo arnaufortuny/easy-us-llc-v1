@@ -72,7 +72,7 @@ export function registerUserProfileRoutes(app: Express) {
             : uLang === 'pt' ? "Pedido de eliminação da sua conta" 
             : "Solicitud de eliminación de tu cuenta",
           html: getAccountDeactivatedByUserTemplate(user.firstName || undefined, uLang)
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
       }
 
       logActivity("Cuenta desactivada por cliente", { userId, email: user.email });

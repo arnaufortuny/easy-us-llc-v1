@@ -116,7 +116,7 @@ export async function createUser(data: {
       to: adminEmail,
       subject: `[NUEVA CUENTA] ${data.firstName} ${data.lastName}`,
       html: getAdminNewRegistrationTemplate(data.clientId, data.firstName, data.lastName, data.email, data.phone)
-    }).catch(() => {});
+    }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
 
   } catch (emailError) {
     // Email error silenced

@@ -256,14 +256,14 @@ export function registerLlcRoutes(app: Express) {
             wantsMaintenancePack: updatedApp.wantsMaintenancePack || undefined,
             notes: updatedApp.notes || undefined
           })
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
 
         // Confirmation to client with full info
         sendEmail({
           to: updatedApp.ownerEmail,
           subject: `Solicitud recibida - Referencia ${orderIdentifier}`,
           html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName || undefined }),
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
     }
 
     res.json(updatedApp);

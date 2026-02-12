@@ -177,7 +177,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
               to: user.email,
               subject: `${docSubjects[docLang] || 'Nuevo documento disponible'}${orderCode ? ` - ${orderCode}` : ''}`,
               html: getDocumentUploadedTemplate(user.firstName || '', docLabel, orderCode || '', docLang)
-            }).catch(() => {});
+            }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
           }
         }
         
@@ -597,7 +597,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
             to: user.email,
             subject: evtLang === 'en' ? "Update on your order" : evtLang === 'ca' ? "Actualització del teu pedido" : evtLang === 'fr' ? "Mise à jour de votre commande" : evtLang === 'de' ? "Aktualisierung Ihrer Bestellung" : evtLang === 'it' ? "Aggiornamento del tuo ordine" : evtLang === 'pt' ? "Atualização do seu pedido" : "Actualización de tu pedido",
             html: getOrderEventTemplate(user.firstName || '', String(orderId), eventType, description, evtLang)
-          }).catch(() => {});
+          }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
         }
       }
       

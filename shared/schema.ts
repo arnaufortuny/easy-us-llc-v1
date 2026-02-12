@@ -271,6 +271,7 @@ export const messagesRelations = relations(messages, ({ many }) => ({
 
 export const messageRepliesRelations = relations(messageReplies, ({ one }) => ({
   message: one(messages, { fields: [messageReplies.messageId], references: [messages.id] }),
+  author: one(users, { fields: [messageReplies.createdBy], references: [users.id] }),
 }));
 
 export const llcApplicationsRelations = relations(llcApplications, ({ one, many }) => ({

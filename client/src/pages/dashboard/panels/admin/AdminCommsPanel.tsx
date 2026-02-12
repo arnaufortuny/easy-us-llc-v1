@@ -165,7 +165,7 @@ export function AdminCommsPanel({
                     {msg.replies.map((reply: any) => (
                       <div key={reply.id} className="text-xs">
                         <span className={`font-semibold ${reply.isAdmin ? 'text-accent' : 'text-muted-foreground'}`}>
-                          {reply.isAdmin ? t('dashboard.admin.inboxSection.adminLabel') : t('dashboard.admin.inboxSection.clientLabel')}:
+                          {reply.isAdmin ? (reply.authorName || t('dashboard.admin.inboxSection.adminLabel')) : t('dashboard.admin.inboxSection.clientLabel')}:
                         </span>
                         <span className="ml-2">{reply.content}</span>
                         <span className="text-[10px] text-muted-foreground ml-2">

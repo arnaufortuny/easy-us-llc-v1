@@ -114,7 +114,7 @@ export function registerAdminUserRoutes(app: Express) {
             to: user.email,
             subject: uLang === 'en' ? "Account status notification" : uLang === 'ca' ? "Notificació d'estat del compte" : uLang === 'fr' ? "Notification de statut de compte" : uLang === 'de' ? "Kontostatus-Benachrichtigung" : uLang === 'it' ? "Notifica stato account" : uLang === 'pt' ? "Notificação de estado da conta" : "Notificación de estado de cuenta",
             html: getAccountDeactivatedTemplate(user.firstName || undefined, uLang)
-          }).catch(() => {});
+          }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
           await db.insert(userNotifications).values({
             userId,
             title: 'i18n:ntf.accountDeactivated.title',
@@ -127,7 +127,7 @@ export function registerAdminUserRoutes(app: Express) {
             to: user.email,
             subject: uLang === 'en' ? "Your account has been upgraded to VIP" : uLang === 'ca' ? "El teu compte ha estat actualitzat a VIP" : uLang === 'fr' ? "Votre compte a été mis à jour en VIP" : uLang === 'de' ? "Ihr Konto wurde auf VIP aktualisiert" : uLang === 'it' ? "Il tuo account è stato aggiornato a VIP" : uLang === 'pt' ? "A sua conta foi atualizada para VIP" : "Tu cuenta ha sido actualizada a estado VIP",
             html: getAccountVipTemplate(user.firstName || undefined, uLang)
-          }).catch(() => {});
+          }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
           await db.insert(userNotifications).values({
             userId,
             title: 'i18n:ntf.accountVip.title',
@@ -140,7 +140,7 @@ export function registerAdminUserRoutes(app: Express) {
             to: user.email,
             subject: uLang === 'en' ? "Your account has been reactivated" : uLang === 'ca' ? "El teu compte ha estat reactivat" : uLang === 'fr' ? "Votre compte a été réactivé" : uLang === 'de' ? "Ihr Konto wurde reaktiviert" : uLang === 'it' ? "Il tuo account è stato riattivato" : uLang === 'pt' ? "A sua conta foi reativada" : "Tu cuenta ha sido reactivada",
             html: getAccountReactivatedTemplate(user.firstName || undefined, uLang)
-          }).catch(() => {});
+          }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
           await db.insert(userNotifications).values({
             userId,
             title: 'i18n:ntf.accountActivated.title',
@@ -306,7 +306,7 @@ export function registerAdminUserRoutes(app: Express) {
         to: user.email,
         subject: rpLang === 'en' ? "Your password has been reset" : rpLang === 'ca' ? "La teva contrasenya ha estat restablerta" : rpLang === 'fr' ? "Votre mot de passe a été réinitialisé" : rpLang === 'de' ? "Ihr Passwort wurde zurückgesetzt" : rpLang === 'it' ? "La tua password è stata reimpostata" : rpLang === 'pt' ? "A sua palavra-passe foi redefinida" : "Tu contraseña ha sido restablecida",
         html: getAdminPasswordResetTemplate(user.firstName || '', rpLang)
-      }).catch(() => {});
+      }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
     }
     
     res.json({ success: true });

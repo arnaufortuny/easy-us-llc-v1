@@ -254,9 +254,9 @@ export const MessagesTab = memo(function MessagesTab({
                       <div className="space-y-2 mb-3">
                         <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">{t('dashboard.support.replies')}</p>
                         {msg.replies.map((reply: any, idx: number) => (
-                          <div key={idx} className={`p-3 rounded-xl text-sm ${reply.isFromAdmin ? 'bg-accent/10 border-l-2 border-accent' : 'bg-muted/50'}`}>
+                          <div key={idx} className={`p-3 rounded-xl text-sm ${reply.isFromAdmin || reply.isAdmin ? 'bg-accent/10 border-l-2 border-accent' : 'bg-muted/50'}`}>
                             <div className="flex justify-between items-center mb-1">
-                              <span className="text-xs font-semibold text-foreground">{reply.isFromAdmin ? t('dashboard.support.teamEasyUS') : t('dashboard.support.you')}</span>
+                              <span className="text-xs font-semibold text-foreground">{(reply.isFromAdmin || reply.isAdmin) ? (reply.authorName || t('dashboard.support.teamEasyUS')) : t('dashboard.support.you')}</span>
                               <span className="text-[10px] text-muted-foreground">{formatDate(reply.createdAt)}</span>
                             </div>
                             <p className="text-muted-foreground text-xs sm:text-sm">{reply.content}</p>

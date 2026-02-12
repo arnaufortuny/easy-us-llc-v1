@@ -222,7 +222,13 @@ export class DatabaseStorage implements IStorage {
       where: eq(messagesTable.userId, userId),
       orderBy: desc(messagesTable.createdAt),
       with: {
-        replies: true
+        replies: {
+          with: {
+            author: {
+              columns: { id: true, firstName: true, lastName: true, isAdmin: true, isSupport: true }
+            }
+          }
+        }
       }
     });
     return messages.map(msg => ({
@@ -232,17 +238,37 @@ export class DatabaseStorage implements IStorage {
         ?.replace(/\n*Archivo:.*\.(png|jpg|jpeg|pdf)/gim, '')
         ?.replace(/\/uploads\/[^\s]*/g, '')
         ?.trim() || msg.content,
-      encryptedContent: undefined
+      encryptedContent: undefined,
+      replies: (msg.replies || []).map((r: any) => ({
+        ...r,
+        authorName: r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null,
+        isFromAdmin: r.isAdmin,
+        author: undefined
+      }))
     }));
   }
 
   async getAllMessages(): Promise<any[]> {
-    return await db.query.messages.findMany({
+    const messages = await db.query.messages.findMany({
       orderBy: desc(messagesTable.createdAt),
       with: {
-        replies: true
+        replies: {
+          with: {
+            author: {
+              columns: { id: true, firstName: true, lastName: true, isAdmin: true, isSupport: true }
+            }
+          }
+        }
       }
     });
+    return messages.map(msg => ({
+      ...msg,
+      replies: (msg.replies || []).map((r: any) => ({
+        ...r,
+        authorName: r.author ? `${r.author.firstName || ''} ${r.author.lastName || ''}`.trim() || null : null,
+        author: undefined
+      }))
+    }));
   }
 
   async updateMessageStatus(id: number, status: string): Promise<any> {

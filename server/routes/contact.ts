@@ -67,7 +67,7 @@ export function registerContactRoutes(app: Express) {
         page: req.headers['referer'] || null,
         referrer: null,
         metadata: null,
-      }).catch(() => {});
+      }).catch((err) => log.debug("Non-critical operation failed", { error: err?.message }));
 
       // NOTIFICATION: Newsletter subscription (translated on frontend via i18n keys)
       const [user] = await db.select().from(usersTable).where(eq(usersTable.email, targetEmail)).limit(1);
@@ -94,7 +94,7 @@ export function registerContactRoutes(app: Express) {
         to: targetEmail,
         subject: nlSubjects[nlLang] || "Confirmación de suscripción a Exentax",
         html: getNewsletterWelcomeTemplate(nlLang),
-      }).catch(() => {});
+      }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
       
       res.json({ success: true });
     } catch (err) {
@@ -250,7 +250,7 @@ export function registerContactRoutes(app: Express) {
         page: '/contacto',
         referrer: req.headers['referer'] || null,
         metadata: JSON.stringify({ name: `${sanitizedData.nombre} ${sanitizedData.apellido}`, subject: sanitizedData.subject }),
-      }).catch(() => {});
+      }).catch((err) => log.debug("Non-critical operation failed", { error: err?.message }));
 
       logAudit({ action: 'order_created', ip: clientIp, details: { ticketId, type: 'contact' } });
       res.json({ success: true, ticketId });

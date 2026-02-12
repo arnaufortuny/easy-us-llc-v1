@@ -120,7 +120,7 @@ export function setupCustomAuth(app: Express) {
         to: user.email!,
         subject: getWelcomeEmailSubject(emailLang),
         html: getWelcomeEmailTemplate(user.firstName || getDefaultClientName(emailLang), emailLang)
-      }).catch(() => {});
+      }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
 
       req.session.regenerate((regenErr) => {
         if (regenErr) {

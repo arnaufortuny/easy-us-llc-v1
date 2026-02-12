@@ -366,7 +366,7 @@ export function registerMaintenanceRoutes(app: Express) {
             wantsDissolve: updatedApp.wantsDissolve || undefined,
             notes: updatedApp.notes || undefined
           })
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
         
         // Confirmation to client
         if (updatedApp.ownerEmail) {
@@ -374,7 +374,7 @@ export function registerMaintenanceRoutes(app: Express) {
             to: updatedApp.ownerEmail,
             subject: `Solicitud recibida - Referencia ${orderIdentifier}`,
             html: getConfirmationEmailTemplate(updatedApp.ownerFullName || "Cliente", orderIdentifier, { companyName: updatedApp.companyName || undefined, serviceType: "Mantenimiento Anual" }),
-          }).catch(() => {});
+          }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
         }
       }
       

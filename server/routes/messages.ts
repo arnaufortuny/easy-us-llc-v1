@@ -94,7 +94,7 @@ export function registerMessageRoutes(app: Express) {
         to: email,
         subject: ticketSubjects[userLang] || ticketSubjects.es,
         html: getAutoReplyTemplate(name || "Cliente", ticketId, userLang),
-      }).catch(() => {});
+      }).catch((err) => log.warn("Failed to send auto-reply email", { to: email, error: err?.message }));
 
       // Notify admin with WhatsApp preference
       logActivity("Nuevo Mensaje de Contacto", {
@@ -127,9 +127,33 @@ export function registerMessageRoutes(app: Express) {
         return res.status(403).json({ message: "Access denied" });
       }
       
-      const replies = await db.select().from(messageReplies)
+      const rawReplies = await db.select({
+        id: messageReplies.id,
+        messageId: messageReplies.messageId,
+        content: messageReplies.content,
+        isAdmin: messageReplies.isAdmin,
+        createdAt: messageReplies.createdAt,
+        createdBy: messageReplies.createdBy,
+        authorFirstName: usersTable.firstName,
+        authorLastName: usersTable.lastName,
+      })
+        .from(messageReplies)
+        .leftJoin(usersTable, eq(messageReplies.createdBy, usersTable.id))
         .where(eq(messageReplies.messageId, messageId))
         .orderBy(messageReplies.createdAt);
+      
+      const replies = rawReplies.map(r => ({
+        id: r.id,
+        messageId: r.messageId,
+        content: r.content,
+        isAdmin: r.isAdmin,
+        isFromAdmin: r.isAdmin,
+        createdAt: r.createdAt,
+        createdBy: r.createdBy,
+        authorName: r.authorFirstName || r.authorLastName 
+          ? `${r.authorFirstName || ''} ${r.authorLastName || ''}`.trim() 
+          : null,
+      }));
       
       res.json(replies);
     } catch (error) {
@@ -173,7 +197,7 @@ export function registerMessageRoutes(app: Express) {
           to: message.email,
           subject: `Nueva respuesta a tu consulta - Ticket #${ticketId}`,
           html: getMessageReplyTemplate(message.name?.split(' ')[0] || 'Cliente', content, ticketId)
-        }).catch(() => {});
+        }).catch((err) => log.warn("Failed to send reply notification email", { to: message.email, error: err?.message }));
         
         // Create notification for client if they have a user account
         if (message.userId) {
