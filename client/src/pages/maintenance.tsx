@@ -65,7 +65,10 @@ const createFormSchema = (t: (key: string) => string) => z.object({
     { message: t("validation.idNumberMinDigits") }
   ),
   notes: z.string().optional(),
-  password: z.string().min(8, t("validation.minLength")).optional(),
+  password: z.string().optional().refine(
+    (val) => !val || val.length === 0 || val.length >= 8,
+    { message: t("validation.minLength") }
+  ),
   confirmPassword: z.string().optional(),
   paymentMethod: z.string().optional(),
   discountCode: z.string().optional(),
@@ -1064,17 +1067,17 @@ export default function MaintenanceApplication() {
                     </h2>
                     <p className="text-sm text-muted-foreground">{t("maintenance.payment.desc")}</p>
                     
-                    <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
-                      <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">{t("maintenance.payment.totalToPay")}</p>
-                      <p className="text-3xl font-black">
+                    <div className="bg-accent p-6 rounded-[2rem] text-center mb-6">
+                      <p className="text-[10px] font-black tracking-widest text-white/60 mb-1">{t("maintenance.payment.totalToPay")}</p>
+                      <p className="text-3xl font-black text-white">
                         {discountInfo?.valid 
                           ? `${((maintenancePrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
                           : `${(maintenancePrice / 100).toFixed(2)} €`}
                       </p>
                       {discountInfo?.valid && (
-                        <p className="text-xs line-through opacity-60">{(maintenancePrice / 100).toFixed(2)} €</p>
+                        <p className="text-xs line-through text-white/50">{(maintenancePrice / 100).toFixed(2)} €</p>
                       )}
-                      <p className="text-[10px] opacity-80">{t("maintenance.payment.annualMaintenance")}</p>
+                      <p className="text-[10px] text-white/70">{t("maintenance.payment.annualMaintenance")}</p>
                     </div>
 
                     <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-card mb-6">
@@ -1184,7 +1187,10 @@ export default function MaintenanceApplication() {
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-card">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.dataProcessing")}</FormLabel>
+                            <FormLabel className="text-xs md:text-sm font-medium">
+                              {t("maintenance.confirmation.dataProcessingPre", "I accept the processing of my personal data according to the")}{" "}
+                              <Link href="/legal/privacidad" className="text-accent hover:underline font-bold" target="_blank">{t("maintenance.confirmation.privacyPolicyLink", "privacy policy")}</Link>.
+                            </FormLabel>
                             <FormMessage />
                           </div>
                         </FormItem>
@@ -1193,7 +1199,11 @@ export default function MaintenanceApplication() {
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 p-4 rounded-2xl bg-muted dark:bg-card">
                           <FormControl><Checkbox checked={field.value} onCheckedChange={field.onChange} /></FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel className="text-xs md:text-sm font-medium">{t("maintenance.confirmation.termsConsent")}</FormLabel>
+                            <FormLabel className="text-xs md:text-sm font-medium">
+                              {t("maintenance.confirmation.termsConsentPre", "I have read and accept the")}{" "}
+                              <Link href="/legal/terminos" className="text-accent hover:underline font-bold" target="_blank">{t("maintenance.confirmation.termsLink", "Terms and Conditions")}</Link>{" "}
+                              {t("maintenance.confirmation.termsConsentPost", "of Exentax")}.
+                            </FormLabel>
                             <FormMessage />
                           </div>
                         </FormItem>

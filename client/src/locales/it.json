@@ -1319,7 +1319,12 @@
       "additionalNotes": "Note aggiuntive (facoltativo)",
       "authorizedManagement": "Autorizzo Exentax a gestire amministrativamente la mia LLC presso gli enti competenti.",
       "dataProcessing": "Acconsento al trattamento dei miei dati personali secondo la politica sulla privacy.",
+      "dataProcessingPre": "Acconsento al trattamento dei miei dati personali secondo la",
+      "privacyPolicyLink": "politica sulla privacy",
       "termsConsent": "Ho letto e accetto i Termini e Condizioni di Exentax.",
+      "termsConsentPre": "Ho letto e accetto i",
+      "termsLink": "Termini e Condizioni",
+      "termsConsentPost": "di Exentax",
       "submit": "Invia Richiesta",
       "submitting": "Invio in corso..."
     },

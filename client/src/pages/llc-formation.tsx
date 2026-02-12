@@ -1354,17 +1354,17 @@ export default function LlcFormation() {
                 <h2 className="text-xl md:text-2xl font-black text-foreground border-b border-accent/20 pb-2 leading-tight">{t("application.paymentMethodTitle")}</h2>
                 <p className="text-sm text-muted-foreground">{t("application.selectPaymentMethod")}</p>
                 
-                <div className="bg-accent text-primary p-6 rounded-[2rem] text-center mb-6">
-                  <p className="text-[10px] font-black tracking-widest opacity-50 mb-1">{t("application.totalToPay")}</p>
-                  <p className="text-3xl font-black">
+                <div className="bg-accent p-6 rounded-[2rem] text-center mb-6">
+                  <p className="text-[10px] font-black tracking-widest text-white/60 mb-1">{t("application.totalToPay")}</p>
+                  <p className="text-3xl font-black text-white">
                     {discountInfo?.valid 
                       ? `${((formationPrice - discountInfo.discountAmount) / 100).toFixed(2)} €` 
                       : `${(formationPrice / 100).toFixed(2)} €`}
                   </p>
                   {discountInfo?.valid && (
-                    <p className="text-xs line-through opacity-60">{(formationPrice / 100).toFixed(2)} €</p>
+                    <p className="text-xs line-through text-white/50">{(formationPrice / 100).toFixed(2)} €</p>
                   )}
-                  <p className="text-[10px] opacity-80">{t("application.includesStateFees", { state: form.getValues("state") })}</p>
+                  <p className="text-[10px] text-white/70">{t("application.includesStateFees", { state: form.getValues("state") })}</p>
                 </div>
 
                 <div className="space-y-3 p-5 rounded-2xl border-2 border-border bg-white dark:bg-card mb-6">
