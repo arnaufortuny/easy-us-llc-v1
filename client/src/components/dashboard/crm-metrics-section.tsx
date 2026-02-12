@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Loader2, TrendingUp, Users, DollarSign, BarChart3 } from "@/components/icons";
+import { Loader2 } from "@/components/icons";
 import { getLocale } from "@/lib/utils";
 
 type MonthlyRevenue = {
@@ -87,7 +87,6 @@ export function CrmMetricsSection() {
     <div className="space-y-5 md:space-y-7" data-testid="crm-metrics-section">
       <div data-testid="section-revenue-trend">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <TrendingUp className="w-4 h-4 text-accent" />
           <h3 className="font-black text-lg tracking-tight">{t('dashboard.admin.crm.monthlyRevenue')}</h3>
         </div>
         {monthlyLoading ? (

@@ -5,7 +5,7 @@ import { db, storage, isAdmin, isAdminOrSupport , asyncHandler } from "./shared"
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-documents');
-import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable } from "@shared/schema";
+import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable, documentRequests as documentRequestsTable, auditLogs } from "@shared/schema";
 import { sendEmail, getDocumentUploadedTemplate, getAdminNoteTemplate, getPaymentRequestTemplate, getDocumentRequestTemplate, getOrderEventTemplate, getDocumentApprovedTemplate, getDocumentRejectedTemplate } from "../lib/email";
 import { EmailLanguage } from "../lib/email-translations";
 import { updateApplicationDeadlines } from "../calendar-service";
@@ -365,6 +365,16 @@ export function registerAdminDocumentsRoutes(app: Express) {
         }
       }
       
+      if (reviewStatus === 'approved' || reviewStatus === 'rejected') {
+        const linkedRequests = await db.select().from(documentRequestsTable)
+          .where(eq(documentRequestsTable.linkedDocumentId, docId));
+        for (const req_ of linkedRequests) {
+          await db.update(documentRequestsTable)
+            .set({ status: reviewStatus, updatedAt: new Date() })
+            .where(eq(documentRequestsTable.id, req_.id));
+        }
+      }
+      
       res.json(updated);
     } catch (error) {
       log.error("Document review error", error);
@@ -552,10 +562,109 @@ export function registerAdminDocumentsRoutes(app: Express) {
         });
       }
 
+      await db.insert(documentRequestsTable).values({
+        requestId: msgId,
+        userId: userId || '',
+        documentType,
+        notes: message,
+        status: 'sent',
+        requestedBy: req.session.userId,
+      });
+
+      await db.insert(auditLogs).values({
+        action: 'document_request_created',
+        userId: req.session.userId,
+        targetId: userId || '',
+        details: { requestId: msgId, documentType, email },
+      });
+
       res.json({ success: true, messageId: msgId });
     } catch (error) {
       log.error("Request doc error", error);
       res.status(500).json({ message: "Error requesting document" });
+    }
+  }));
+
+  // List all document requests
+  app.get("/api/admin/document-requests", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const requests = await db.select()
+        .from(documentRequestsTable)
+        .leftJoin(usersTable, eq(documentRequestsTable.userId, usersTable.id))
+        .leftJoin(applicationDocumentsTable, eq(documentRequestsTable.linkedDocumentId, applicationDocumentsTable.id))
+        .orderBy(desc(documentRequestsTable.createdAt));
+      
+      res.json(requests.map(r => ({
+        ...r.document_requests,
+        user: r.users ? {
+          id: r.users.id,
+          firstName: r.users.firstName,
+          lastName: r.users.lastName,
+          email: r.users.email,
+        } : null,
+        linkedDocument: r.application_documents || null,
+      })));
+    } catch (error) {
+      log.error("Error fetching document requests", error);
+      res.status(500).json({ message: "Error fetching document requests" });
+    }
+  }));
+
+  // Update document request
+  app.patch("/api/admin/document-requests/:id", isAdminOrSupport, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const id = Number(req.params.id);
+      const { notes, status } = z.object({
+        notes: z.string().optional(),
+        status: z.enum(["sent", "pending_upload", "uploaded", "approved", "rejected", "completed"]).optional(),
+      }).parse(req.body);
+      
+      const updateData: any = { updatedAt: new Date() };
+      if (notes !== undefined) updateData.notes = notes;
+      if (status !== undefined) updateData.status = status;
+      
+      const [updated] = await db.update(documentRequestsTable)
+        .set(updateData)
+        .where(eq(documentRequestsTable.id, id))
+        .returning();
+      
+      if (!updated) return res.status(404).json({ message: "Request not found" });
+      
+      await db.insert(auditLogs).values({
+        action: 'document_request_updated',
+        userId: req.session.userId,
+        targetId: String(id),
+        details: { requestId: updated.requestId, status, notes: notes ? 'updated' : undefined },
+      });
+      
+      res.json(updated);
+    } catch (error) {
+      log.error("Error updating document request", error);
+      res.status(500).json({ message: "Error updating document request" });
+    }
+  }));
+
+  // Delete document request
+  app.delete("/api/admin/document-requests/:id", isAdmin, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const id = Number(req.params.id);
+      const [deleted] = await db.delete(documentRequestsTable)
+        .where(eq(documentRequestsTable.id, id))
+        .returning();
+      
+      if (!deleted) return res.status(404).json({ message: "Request not found" });
+      
+      await db.insert(auditLogs).values({
+        action: 'document_request_deleted',
+        userId: req.session.userId,
+        targetId: String(id),
+        details: { requestId: deleted.requestId },
+      });
+      
+      res.json({ success: true });
+    } catch (error) {
+      log.error("Error deleting document request", error);
+      res.status(500).json({ message: "Error deleting document request" });
     }
   }));
 

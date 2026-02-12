@@ -368,6 +368,27 @@ export const insertDocumentAccessLogSchema = createInsertSchema(documentAccessLo
 export type DocumentAccessLog = typeof documentAccessLogs.$inferSelect;
 export type InsertDocumentAccessLog = z.infer<typeof insertDocumentAccessLogSchema>;
 
+export const documentRequests = pgTable("document_requests", {
+  id: serial("id").primaryKey(),
+  requestId: varchar("request_id", { length: 20 }).notNull().unique(),
+  userId: varchar("user_id").notNull().references(() => users.id),
+  documentType: text("document_type").notNull(),
+  notes: text("notes"),
+  status: text("status").notNull().default("sent"),
+  requestedBy: varchar("requested_by").references(() => users.id),
+  linkedDocumentId: integer("linked_document_id").references(() => applicationDocuments.id),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("doc_requests_user_id_idx").on(table.userId),
+  statusIdx: index("doc_requests_status_idx").on(table.status),
+  requestIdIdx: index("doc_requests_request_id_idx").on(table.requestId),
+}));
+
+export const insertDocumentRequestSchema = createInsertSchema(documentRequests).omit({ id: true, createdAt: true, updatedAt: true });
+export type DocumentRequest = typeof documentRequests.$inferSelect;
+export type InsertDocumentRequest = z.infer<typeof insertDocumentRequestSchema>;
+
 export const encryptedFields = pgTable("encrypted_fields", {
   id: serial("id").primaryKey(),
   entityType: text("entity_type").notNull(), // llc_application, user, maintenance
