@@ -1,20 +1,10 @@
 import express, { type Request, Response, NextFunction } from "express";
-import { registerRoutes } from "./routes";
 import { setupStaticFiles, setupSPAFallback } from "./static";
 import { createServer } from "http";
 import compression from "compression";
-import { initServerSentry, sentryRequestHandler, sentryErrorHandler } from "./lib/sentry";
-import { scheduleBackups } from "./lib/backup";
-import { cleanupDbRateLimits } from "./lib/rate-limiter";
-import { processConsultationReminders } from "./routes/consultations";
-import { setupSitemapRoute } from "./sitemap";
 import { createLogger } from "./lib/logger";
-import { runWatchedTask, getTaskHealthStatus } from "./lib/task-watchdog";
-import { recordApiMetric } from "./lib/api-metrics";
 
 const serverLog = createLogger('server');
-
-initServerSentry();
 
 process.on('unhandledRejection', (reason, promise) => {
   serverLog.error('Unhandled Promise Rejection', reason, { promise: String(promise) });
@@ -26,6 +16,7 @@ process.on('uncaughtException', (error) => {
 
 const app = express();
 const isProduction = process.env.NODE_ENV === "production";
+let lazyRecordApiMetric: ((method: string, path: string, durationMs: number, statusCode: number) => void) | null = null;
 
 const httpServer = createServer(app);
 
@@ -45,8 +36,6 @@ export function log(message: string, source = "express") {
 app.get("/_health", (_req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
 });
-
-app.use(sentryRequestHandler());
 
 function getCSP(): string {
   const baseCSP = {
@@ -94,7 +83,6 @@ app.use((req, res, next) => {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin-allow-popups");
   res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
   
-  // Performance Headers
   if (req.method === 'GET') {
     const isAsset = req.path.startsWith('/assets/') || req.path.match(/\.(jpg|jpeg|png|gif|svg|webp|ico|css|js|woff2|woff)$/);
     const isStaticFile = req.path.match(/\.(png|jpg|jpeg|gif|svg|webp|ico|woff2|woff|ttf|eot)$/);
@@ -120,7 +108,6 @@ app.use((req, res, next) => {
       res.setHeader('X-Robots-Tag', 'all');
     }
     
-    // Content-type specific optimizations
     if (isJS) {
       res.setHeader('X-Content-Type-Options', 'nosniff');
     }
@@ -130,7 +117,6 @@ app.use((req, res, next) => {
     
     res.setHeader("X-DNS-Prefetch-Control", "on");
     
-    // Resource hints via Link header
     const linkHints = [
       '</logo-icon.png>; rel=preload; as=image; fetchpriority=high',
       '<https://fonts.googleapis.com>; rel=preconnect',
@@ -140,35 +126,32 @@ app.use((req, res, next) => {
     res.setHeader("Link", linkHints.join(', '));
   }
   
-  // SEO Headers for main pages
   const seoPages = ['/', '/servicios', '/faq', '/contacto', '/llc/formation', '/llc/maintenance'];
   if (seoPages.includes(req.path)) {
     res.setHeader('X-Robots-Tag', 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1');
-    // Append canonical to existing Link header (don't overwrite preconnect hints)
     const existingLinkRaw = res.getHeader('Link');
     const existingLink = Array.isArray(existingLinkRaw) ? existingLinkRaw.join(', ') : (existingLinkRaw || '');
     const canonicalLink = `<https://exentax.com${req.path}>; rel="canonical"`;
     res.setHeader('Link', existingLink ? `${existingLink}, ${canonicalLink}` : canonicalLink);
   }
   
-  // Noindex for private/auth pages
   const noindexPages = ['/dashboard', '/admin', '/auth/forgot-password'];
   if (noindexPages.some(p => req.path.startsWith(p))) {
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
   }
   
-  // Prevent caching of API responses
   if (req.path.startsWith('/api/')) {
     res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
   }
   
-  if (req.path.startsWith('/api/')) {
+  if (req.path.startsWith('/api/') && lazyRecordApiMetric) {
     const start = process.hrtime.bigint();
+    const metricFn = lazyRecordApiMetric;
     res.on('finish', () => {
       const durationMs = Number(process.hrtime.bigint() - start) / 1e6;
-      recordApiMetric(req.method, req.path, Math.round(durationMs), res.statusCode);
+      metricFn(req.method, req.path, Math.round(durationMs), res.statusCode);
     });
   }
   
@@ -198,6 +181,10 @@ httpServer.listen(
 
 (async () => {
   try {
+    const { initServerSentry, sentryRequestHandler, sentryErrorHandler } = await import("./lib/sentry");
+    initServerSentry();
+    app.use(sentryRequestHandler());
+
     if (!isProduction) {
       const { setupVite } = await import("./vite");
       await setupVite(httpServer, app);
@@ -211,8 +198,10 @@ httpServer.listen(
       serverLog.error("Payment accounts seed error (non-fatal)", e);
     }
 
+    const { registerRoutes } = await import("./routes");
     await registerRoutes(httpServer, app);
 
+    const { setupSitemapRoute } = await import("./sitemap");
     setupSitemapRoute(app);
 
     const { WebSocketServer } = await import('ws');
@@ -253,13 +242,29 @@ httpServer.listen(
       setupSPAFallback(app);
     }
 
+    try {
+      const { recordApiMetric } = await import("./lib/api-metrics");
+      lazyRecordApiMetric = recordApiMetric;
+      serverLog.info("API metrics loaded");
+    } catch (e) {
+      serverLog.error("API metrics failed to load (non-fatal)", e);
+    }
+
     serverLog.info("Application fully initialized and ready");
 
     if (isProduction) {
+      const { scheduleBackups } = await import("./lib/backup");
       scheduleBackups();
+      const { cleanupDbRateLimits } = await import("./lib/rate-limiter");
+      const { runWatchedTask } = await import("./lib/task-watchdog");
       runWatchedTask("rate-limit-cleanup", 300000, cleanupDbRateLimits);
+      const { processConsultationReminders } = await import("./routes/consultations");
+      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
+    } else {
+      const { processConsultationReminders } = await import("./routes/consultations");
+      const { runWatchedTask } = await import("./lib/task-watchdog");
+      runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
     }
-    runWatchedTask("consultation-reminders", 600000, processConsultationReminders);
   } catch (error) {
     serverLog.error("Fatal error during application initialization", error);
     console.error("FATAL: Application initialization failed:", error);
