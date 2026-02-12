@@ -1964,6 +1964,20 @@
         "idvApproved": "Verificato",
         "idvRejected": "Verifica rifiutata"
       },
+      "docRequests": {
+        "title": "Richieste di Documenti",
+        "statusSent": "Inviata",
+        "statusPending": "In attesa",
+        "statusUploaded": "Caricato",
+        "statusApproved": "Approvato",
+        "statusRejected": "Rifiutato",
+        "statusCompleted": "Completato",
+        "filterAll": "Tutti gli stati",
+        "noRequests": "Nessuna richiesta di documenti",
+        "noRequestsHint": "Le richieste inviate ai clienti appariranno qui",
+        "confirmDelete": "Sei sicuro di voler eliminare questa richiesta?",
+        "linked": "Doc collegato"
+      },
       "guestSection": {
         "title": "Visitatori",
         "guests": "Visitatori",

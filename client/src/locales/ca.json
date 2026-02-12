@@ -2015,6 +2015,20 @@
         "idvApproved": "Verificat",
         "idvRejected": "Verificació rebutjada"
       },
+      "docRequests": {
+        "title": "Sol·licituds de Documents",
+        "statusSent": "Enviada",
+        "statusPending": "Pendent de pujada",
+        "statusUploaded": "Pujat",
+        "statusApproved": "Aprovat",
+        "statusRejected": "Rebutjat",
+        "statusCompleted": "Completat",
+        "filterAll": "Tots els estats",
+        "noRequests": "Sense sol·licituds de documents",
+        "noRequestsHint": "Les sol·licituds enviades als clients apareixeran aquí",
+        "confirmDelete": "Estàs segur que vols eliminar aquesta sol·licitud?",
+        "linked": "Doc vinculat"
+      },
       "guestSection": {
         "title": "Visitants",
         "guests": "Visitants",

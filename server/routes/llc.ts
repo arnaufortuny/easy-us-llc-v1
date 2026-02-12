@@ -3,7 +3,7 @@ import { z } from "zod";
 import { eq, and, gt, sql } from "drizzle-orm";
 import { db, storage, isAuthenticated, isNotUnderReview, isAdmin, logAudit , asyncHandler } from "./shared";
 import { api } from "@shared/routes";
-import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable } from "@shared/schema";
+import { insertLlcApplicationSchema, insertApplicationDocumentSchema, contactOtps, users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, discountCodes, userNotifications, messages as messagesTable, documentRequests as documentRequestsTable } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminLLCOrderTemplate } from "../lib/email";
 import { EmailLanguage, getWelcomeEmailSubject } from "../lib/email-translations";
 import { validateEmail, normalizeEmail } from "../lib/security";
@@ -461,6 +461,26 @@ export function registerLlcRoutes(app: Express) {
           reviewStatus: 'pending',
           uploadedBy: userId
         }).returning();
+
+        if (doc[0]) {
+          const matchingRequests = await db.select().from(documentRequestsTable)
+            .where(and(
+              eq(documentRequestsTable.userId, userId),
+              eq(documentRequestsTable.documentType, documentType),
+              sql`${documentRequestsTable.status} IN ('sent', 'pending_upload')`
+            ))
+            .limit(1);
+          
+          if (matchingRequests.length > 0) {
+            await db.update(documentRequestsTable)
+              .set({ 
+                status: 'uploaded', 
+                linkedDocumentId: doc[0].id,
+                updatedAt: new Date() 
+              })
+              .where(eq(documentRequestsTable.id, matchingRequests[0].id));
+          }
+        }
 
         // Get user data for admin notification
         const userData = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);

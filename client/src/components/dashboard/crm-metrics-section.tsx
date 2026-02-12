@@ -126,7 +126,6 @@ export function CrmMetricsSection() {
 
       <div data-testid="section-funnel">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <BarChart3 className="w-4 h-4 text-accent" />
           <h3 className="font-black text-lg tracking-tight">{t('dashboard.admin.crm.conversionFunnel')}</h3>
         </div>
         {funnelLoading ? (
@@ -168,7 +167,6 @@ export function CrmMetricsSection() {
 
       <div data-testid="section-top-clients">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <DollarSign className="w-4 h-4 text-accent" />
           <h3 className="font-black text-lg tracking-tight">{t('dashboard.admin.crm.topClients')}</h3>
         </div>
         {lifecycleLoading ? (
@@ -212,7 +210,6 @@ export function CrmMetricsSection() {
 
       <div data-testid="section-daily-activity">
         <div className="flex items-center gap-2 mb-3 flex-wrap">
-          <Users className="w-4 h-4 text-accent" />
           <h3 className="font-black text-lg tracking-tight">{t('dashboard.admin.crm.dailyActivity')}</h3>
         </div>
         {lifecycleLoading ? (

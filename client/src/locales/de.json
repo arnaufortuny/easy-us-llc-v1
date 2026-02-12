@@ -2015,6 +2015,20 @@
         "idvApproved": "Verifiziert",
         "idvRejected": "Verifizierung abgelehnt"
       },
+      "docRequests": {
+        "title": "Dokumentanfragen",
+        "statusSent": "Gesendet",
+        "statusPending": "Ausstehend",
+        "statusUploaded": "Hochgeladen",
+        "statusApproved": "Genehmigt",
+        "statusRejected": "Abgelehnt",
+        "statusCompleted": "Abgeschlossen",
+        "filterAll": "Alle Status",
+        "noRequests": "Keine Dokumentanfragen",
+        "noRequestsHint": "An Kunden gesendete Anfragen erscheinen hier",
+        "confirmDelete": "Möchten Sie diese Anfrage wirklich löschen?",
+        "linked": "Dok. verknüpft"
+      },
       "guestSection": {
         "title": "Besucher",
         "guests": "Besucher",

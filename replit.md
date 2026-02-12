@@ -23,6 +23,7 @@ Key architectural patterns include:
 - **Theming System:** Supports Light, Dark, and Forest modes, with dynamic `theme-color` meta tag updates for a consistent mobile experience.
 - **Wizards and Flows:** Complex user interactions like registration, LLC formation, and maintenance applications are guided through multi-step wizards with draft saving and progress tracking.
 - **Dashboard:** A central hub for clients and administrators, featuring URL-based tab navigation, modular panels, and server-side pagination for data-intensive sections.
+- **Document Request Tracking:** Admin can request specific documents from clients. The system tracks requests through a lifecycle (sent → pending_upload → uploaded → approved/rejected → completed), automatically links client uploads to matching requests, and provides full CRUD management in the admin panel with audit logging.
 - **PDF Generation:** Server-side `pdfkit` for official documents (invoices, operating agreements) and client-side `jspdf` for user-generated tools.
 - **Scheduled Tasks:** Background services for data backups, abandoned application reminders, rate limit cleanup, consultation reminders, and audit log cleanup, monitored by a task watchdog.
 - **SEO Optimization:** Dynamic sitemap generation, structured data (JSON-LD), comprehensive meta tags, and `hreflang` attributes.

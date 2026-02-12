@@ -2015,6 +2015,20 @@
         "idvApproved": "Verificado",
         "idvRejected": "Verificação rejeitada"
       },
+      "docRequests": {
+        "title": "Solicitações de Documentos",
+        "statusSent": "Enviada",
+        "statusPending": "Pendente",
+        "statusUploaded": "Carregado",
+        "statusApproved": "Aprovado",
+        "statusRejected": "Rejeitado",
+        "statusCompleted": "Concluído",
+        "filterAll": "Todos os estados",
+        "noRequests": "Sem solicitações de documentos",
+        "noRequestsHint": "As solicitações enviadas aos clientes aparecerão aqui",
+        "confirmDelete": "Tem certeza que deseja excluir esta solicitação?",
+        "linked": "Doc vinculado"
+      },
       "guestSection": {
         "title": "Visitantes",
         "guests": "Visitantes",
