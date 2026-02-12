@@ -18,8 +18,8 @@ export default function Terminos() {
         <p>{t("legalTerms.s01p1")}</p>
         <LegalHighlightBox>
           <p className="text-xs text-muted-foreground mb-1">{t("legalTerms.s01LegalEntity")}</p>
-          <p className="font-bold text-base text-foreground">Fortuny Consulting LLC</p>
-          <p className="text-sm text-muted-foreground">Domestic Limited Liability Company · Nº 0008072199</p>
+          <p className="font-bold text-base text-foreground">Exentax Holdings LLC</p>
+          <p className="text-sm text-muted-foreground">Domestic Limited Liability Company</p>
           <p className="text-sm text-muted-foreground">{t("legalTerms.s01Address")}: 1209 Mountain Road Pl NE, STE R, Albuquerque, NM 87110, USA</p>
         </LegalHighlightBox>
         <p>{t("legalTerms.s01p2")}</p>

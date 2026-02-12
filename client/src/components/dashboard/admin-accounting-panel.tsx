@@ -16,7 +16,7 @@ import type { AccountingTransaction } from "@shared/schema";
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 
 const INCOME_CATEGORIES = ['llc_formation', 'maintenance', 'consultation', 'other_income'];
-const EXPENSE_CATEGORIES = ['state_fees', 'registered_agent', 'bank_fees', 'marketing', 'software', 'other_expense'];
+const EXPENSE_CATEGORIES = ['state_fees', 'registered_agent', 'bank_fees', 'marketing', 'software', 'payroll', 'legal_professional', 'taxes', 'insurance', 'rent_office', 'hosting_infrastructure', 'contractors', 'travel', 'supplies', 'advertising', 'utilities', 'other_expense'];
 
 export function AdminAccountingPanel() {
   const { t } = useTranslation();
@@ -167,6 +167,7 @@ export function AdminAccountingPanel() {
       const params = new URLSearchParams();
       if (typeFilter) params.set('type', typeFilter);
       if (categoryFilter) params.set('category', categoryFilter);
+      if (periodFilter !== 'all') params.set('period', periodFilter);
       const res = await apiRequest("GET", `/api/admin/accounting/export-csv?${params.toString()}`);
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);

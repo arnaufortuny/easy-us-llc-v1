@@ -225,7 +225,7 @@ export function registerAccountingRoutes(app: Express) {
   // Export transactions to CSV
   app.get("/api/admin/accounting/export-csv", isAdmin, asyncHandler(async (req: any, res: Response) => {
     try {
-      const { startDate, endDate, type, category } = req.query;
+      const { startDate, endDate, type, category, period } = req.query;
       
       const conditions: any[] = [];
       if (type && typeof type === 'string') {
@@ -234,13 +234,23 @@ export function registerAccountingRoutes(app: Express) {
       if (category && typeof category === 'string') {
         conditions.push(eq(accountingTransactions.category, category));
       }
-      if (startDate && typeof startDate === 'string') {
-        const d = new Date(startDate);
-        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} >= ${d}`);
-      }
-      if (endDate && typeof endDate === 'string') {
-        const d = new Date(endDate);
-        if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} <= ${d}`);
+      
+      if (period && typeof period === 'string') {
+        const now = new Date();
+        if (period === 'month') {
+          conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(now.getFullYear(), now.getMonth(), 1)}`);
+        } else if (period === 'year') {
+          conditions.push(sql`${accountingTransactions.transactionDate} >= ${new Date(now.getFullYear(), 0, 1)}`);
+        }
+      } else {
+        if (startDate && typeof startDate === 'string') {
+          const d = new Date(startDate);
+          if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} >= ${d}`);
+        }
+        if (endDate && typeof endDate === 'string') {
+          const d = new Date(endDate);
+          if (!isNaN(d.getTime())) conditions.push(sql`${accountingTransactions.transactionDate} <= ${d}`);
+        }
       }
       
       const transactions = await db.select()
@@ -248,24 +258,39 @@ export function registerAccountingRoutes(app: Express) {
         .where(conditions.length > 0 ? and(...conditions) : undefined)
         .orderBy(desc(accountingTransactions.transactionDate));
       
-      // Build CSV
-      const headers = ['ID', 'Fecha', 'Tipo', 'Categoría', 'Importe (€)', 'Descripción', 'Referencia', 'Notas'];
+      const escCsv = (val: string) => val.includes(';') || val.includes('"') || val.includes('\n') ? `"${val.replace(/"/g, '""')}"` : val;
+      
+      const headers = ['ID', 'Fecha', 'Tipo', 'Categoría', 'Importe (€)', 'Moneda', 'Descripción', 'Referencia', 'Notas', 'Creado'];
       const rows = transactions.map(tx => [
-        tx.id,
+        String(tx.id),
         tx.transactionDate ? new Date(tx.transactionDate).toLocaleDateString('es-ES') : '',
         tx.type === 'income' ? 'Ingreso' : 'Gasto',
         tx.category,
         (tx.amount / 100).toFixed(2),
-        tx.description || '',
-        tx.reference || '',
-        tx.notes || ''
+        tx.currency || 'EUR',
+        escCsv(tx.description || ''),
+        escCsv(tx.reference || ''),
+        escCsv(tx.notes || ''),
+        tx.createdAt ? new Date(tx.createdAt).toLocaleDateString('es-ES') : ''
       ]);
       
-      const csvContent = [headers.join(';'), ...rows.map(r => r.join(';'))].join('\n');
+      let totalIncome = 0;
+      let totalExpenses = 0;
+      transactions.forEach(tx => {
+        if (tx.type === 'income') totalIncome += tx.amount;
+        else totalExpenses += Math.abs(tx.amount);
+      });
+      
+      rows.push([]);
+      rows.push(['', '', 'TOTAL INGRESOS', '', (totalIncome / 100).toFixed(2), 'EUR', '', '', '', '']);
+      rows.push(['', '', 'TOTAL GASTOS', '', (-totalExpenses / 100).toFixed(2), 'EUR', '', '', '', '']);
+      rows.push(['', '', 'BALANCE NETO', '', ((totalIncome - totalExpenses) / 100).toFixed(2), 'EUR', '', '', '', '']);
+      
+      const csvContent = [headers.join(';'), ...rows.map(r => (r as string[]).join(';'))].join('\n');
       
       res.setHeader('Content-Type', 'text/csv; charset=utf-8');
-      res.setHeader('Content-Disposition', `attachment; filename="transacciones_${new Date().toISOString().slice(0, 10)}.csv"`);
-      res.send('\uFEFF' + csvContent); // BOM for Excel UTF-8
+      res.setHeader('Content-Disposition', `attachment; filename="transacciones_exentax_${new Date().toISOString().slice(0, 10)}.csv"`);
+      res.send('\uFEFF' + csvContent);
     } catch (err) {
       log.error("Error exporting CSV", err);
       res.status(500).json({ message: "Error exporting CSV" });

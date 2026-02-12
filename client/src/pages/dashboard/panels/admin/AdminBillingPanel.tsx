@@ -173,7 +173,7 @@ export function AdminBillingPanel({
               className="rounded-full text-xs font-black"
               onClick={() => {
                 setPaymentAccountForm({
-                  label: '', holder: 'Fortuny Consulting LLC', bankName: '', accountType: 'checking',
+                  label: '', holder: 'Exentax Holdings LLC', bankName: '', accountType: 'checking',
                   accountNumber: '', routingNumber: '', iban: '', swift: '', address: '', isActive: true, sortOrder: 0,
                 });
                 setPaymentAccountDialog({ open: true, account: null });

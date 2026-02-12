@@ -35,7 +35,7 @@ export interface BankAccountInfo {
 const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
   {
     label: 'Thread Bank (Checking)',
-    holder: 'Fortuny Consulting LLC',
+    holder: 'Exentax Holdings LLC',
     bankName: 'Thread Bank NA',
     accountType: 'checking',
     accountNumber: '200002330558',
@@ -45,7 +45,7 @@ const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
   },
   {
     label: 'Column N.A. (Checking)',
-    holder: 'Fortuny Consulting LLC',
+    holder: 'Exentax Holdings LLC',
     bankName: 'Column N.A.',
     accountType: 'checking',
     accountNumber: '141432778929495',
@@ -54,7 +54,7 @@ const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
   },
   {
     label: 'Cuenta Internacional (IBAN)',
-    holder: 'Fortuny Consulting LLC',
+    holder: 'Exentax Holdings LLC',
     bankName: 'BANKING CIRCLE SA',
     accountType: 'iban',
     iban: 'DK2489000045271938',
@@ -207,7 +207,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       if (logoPath) { try { doc.image(logoPath, left, 40, { width: 36, height: 36 }); } catch {} }
 
       doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Exentax', left + 44, 44);
-      doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
+      doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Exentax Holdings LLC', left + 44, 62);
 
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.orderNumber}`, left, 80, { align: 'right', width: contentW });
 
@@ -216,7 +216,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       let y = 118;
 
       doc.font('Helvetica').fontSize(7).fillColor(light).text('FROM', left, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Fortuny Consulting LLC', left, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Exentax Holdings LLC', left, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
       doc.text('Albuquerque, NM 87110, USA', left, y + 38);
@@ -352,7 +352,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       }
 
       doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
@@ -388,7 +388,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       if (logoPath) { try { doc.image(logoPath, left, 40, { width: 36, height: 36 }); } catch {} }
 
       doc.font('Helvetica-Bold').fontSize(16).fillColor(black).text('Exentax', left + 44, 44);
-      doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Fortuny Consulting LLC', left + 44, 62);
+      doc.font('Helvetica').fontSize(7.5).fillColor(light).text('Exentax Holdings LLC', left + 44, 62);
 
       doc.font('Helvetica').fontSize(9).fillColor(mid).text(`No. ${data.invoiceNumber}`, left, 80, { align: 'right', width: contentW });
 
@@ -397,7 +397,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       let y = 118;
 
       doc.font('Helvetica').fontSize(7).fillColor(light).text('FROM', left, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Fortuny Consulting LLC', left, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Exentax Holdings LLC', left, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
       doc.text('Albuquerque, NM 87110, USA', left, y + 38);
@@ -493,7 +493,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       }
 
       doc.moveTo(left, 790).lineTo(right, 790).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Fortuny Consulting LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(7).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, 798, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
