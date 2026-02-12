@@ -262,7 +262,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen bg-background font-sans">
       <Navbar />
-      <main className="pt-28 sm:pt-28 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
+      <main className="pt-32 sm:pt-32 pb-12 md:pb-16 px-4 sm:px-6 flex flex-col items-center justify-center min-h-[80vh]">
         <div className="w-full max-w-sm md:max-w-md">
           <div className="text-center mb-6 md:mb-8 mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-center">
