@@ -37,6 +37,12 @@ app.get("/_health", (_req, res) => {
   res.status(200).json({ status: "ok", timestamp: new Date().toISOString(), uptime: process.uptime() });
 });
 
+let staticRootReady = false;
+app.get("/", (req, res, next) => {
+  if (staticRootReady) return next();
+  res.status(200).setHeader("Content-Type", "text/html").send("<!DOCTYPE html><html><head><title>Exentax</title><meta charset='utf-8'/></head><body><p>Loading...</p><script>setTimeout(()=>location.reload(),2000)</script></body></html>");
+});
+
 function getCSP(): string {
   const baseCSP = {
     "default-src": ["'self'"],
@@ -165,9 +171,10 @@ serverLog.info(`Starting server in ${isProduction ? 'production' : 'development'
 if (isProduction) {
   try {
     setupStaticFiles(app);
+    staticRootReady = true;
     serverLog.info("Static files configured (index.html cached in memory)");
   } catch (e) {
-    serverLog.error("Failed to setup static files", e);
+    serverLog.error("Failed to setup static files (fallback active)", e);
   }
 }
 

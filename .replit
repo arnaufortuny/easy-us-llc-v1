@@ -40,6 +40,10 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
+localPort = 9997
+externalPort = 3003
+
+[[ports]]
 localPort = 9998
 externalPort = 3002
 
@@ -49,7 +53,7 @@ externalPort = 3000
 
 [deployment]
 deploymentTarget = "vm"
-run = ["node", "dist/index.cjs"]
+run = ["bash", "-c", "NODE_ENV=production node dist/index.cjs"]
 build = ["npm", "run", "build"]
 
 [userenv]
