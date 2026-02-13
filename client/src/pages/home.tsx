@@ -559,7 +559,6 @@ function HomeFAQ() {
             <span className="text-foreground">{t("homeFaq.ctaPart4")}</span>
           </h3>
           <Button
-            size="lg"
             asChild
             className="bg-accent text-white font-black text-sm px-8 border-0 rounded-full shadow-lg"
             data-testid="button-faq-cta"
