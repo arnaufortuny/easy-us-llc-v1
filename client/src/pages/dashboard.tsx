@@ -1359,7 +1359,7 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-screen bg-background font-sans animate-page-in flex flex-col overflow-hidden max-w-[100vw]">
+    <div className="h-dvh bg-background font-sans animate-page-in flex flex-col overflow-hidden max-w-[100vw]">
       <Navbar />
       {!isAdmin && <DashboardTour />}
 
@@ -1477,8 +1477,8 @@ export default function Dashboard() {
         <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
 
         {/* Mobile Navigation - Fixed above scroll area, never hides on scroll */}
-        <div className="flex flex-col gap-2 lg:hidden bg-background pt-3 pb-2 shadow-sm shrink-0 z-[60] border-b border-border/30 sticky top-0">
-          <div className="flex overflow-x-auto pb-2 gap-2 no-scrollbar mobile-tab-bar pl-4 pr-4 sm:pl-5 sm:pr-5">
+        <div className="flex flex-col lg:hidden bg-background pt-3 pb-2 shrink-0 z-[60]">
+          <div className="flex overflow-x-auto pb-1 gap-2 no-scrollbar mobile-tab-bar pl-4 pr-4 sm:pl-5 sm:pr-5">
             {isAdmin ? (
               adminMenuItems.map((item: any) => {
                 const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
@@ -1486,10 +1486,10 @@ export default function Dashboard() {
                   <Button key={item.id}
                     variant={isActive ? "default" : "ghost"}
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
-                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-colors ${
                       isActive 
-                      ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
-                      : 'bg-card text-muted-foreground'
+                      ? 'bg-accent text-accent-foreground' 
+                      : 'bg-muted/60 text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
                   >
@@ -1504,10 +1504,10 @@ export default function Dashboard() {
                   <Button key={item.id}
                     variant={activeTab === item.id ? "default" : "ghost"}
                     onClick={() => setActiveTab(item.id as Tab)}
-                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-all duration-200 animate-press ${
+                    className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-colors ${
                       activeTab === item.id 
-                      ? 'bg-accent text-accent-foreground shadow-md scale-[1.02]' 
-                      : 'bg-card text-muted-foreground'
+                      ? 'bg-accent text-accent-foreground' 
+                      : 'bg-muted/60 text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
                     {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
@@ -1526,8 +1526,8 @@ export default function Dashboard() {
                 size="sm"
                 className={`flex items-center gap-1.5 rounded-full font-black text-[11px] sm:text-xs tracking-normal whitespace-nowrap shrink-0 h-10 px-4 transition-colors ${
                   activeTab === 'admin' 
-                  ? 'bg-accent text-accent-foreground shadow-md' 
-                  : 'bg-accent/10 dark:bg-accent/20 text-accent hover:bg-accent/20 dark:hover:bg-accent/30'
+                  ? 'bg-accent text-accent-foreground' 
+                  : 'bg-accent/10 dark:bg-accent/20 text-accent'
                 }`}
                 data-testid="button-tab-admin-mobile"
               >
@@ -1540,7 +1540,7 @@ export default function Dashboard() {
 
         {/* Scrollable content area */}
         <div className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
-      <main className={`pt-6 sm:pt-10 pb-20 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
+      <main className={`pt-6 sm:pt-10 pb-20 !min-h-0 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
         <header className="mb-2 md:mb-4 animate-fade-in-up">
           {!user?.emailVerified && (
