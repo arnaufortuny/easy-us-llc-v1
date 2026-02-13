@@ -7,7 +7,6 @@ import { useLocation } from "wouter";
 import { apiRequest } from "@/lib/queryClient";
 import { getLocale } from "@/lib/utils";
 import { validateEmail } from "@/lib/validation";
-import moneyIcon from "@/assets/icons/money-icon.svg";
 import { SpainFlag, UKFlag, GermanyFlag, FranceFlag, BulgariaFlag, USAFlag } from "@/components/ui/flags";
 
 interface TaxBreakdown {
@@ -580,12 +579,14 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             {/* Income Selection */}
             <div className="p-6 sm:p-8 bg-background">
               <div className="flex flex-col items-center gap-3">
-                <div className="flex items-center gap-3">
-                  <img src={moneyIcon} alt="" className="w-8 h-8" />
-                  <label className="text-base font-black text-foreground">
-                    {t("taxComparator.annualIncome")}
-                  </label>
-                </div>
+                <h3 className="text-xl sm:text-2xl font-black text-foreground text-center uppercase flex items-center gap-3">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="w-7 h-7 text-accent shrink-0">
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8" />
+                    <path d="M12 18V6" />
+                  </svg>
+                  {t("taxComparator.annualIncome")}
+                </h3>
                 <div className="relative w-full max-w-xs sm:max-w-md">
                   <input
                     type="text"
@@ -619,9 +620,9 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
             {/* Activity Type Selection */}
             <div className="p-6 sm:p-8 bg-background border-t border-accent/10">
               <div className="flex flex-col items-center gap-3">
-                <label className="text-base font-black text-foreground">
+                <h3 className="text-xl sm:text-2xl font-black text-foreground text-center uppercase">
                   {t("taxComparator.activityType")}
-                </label>
+                </h3>
                 <select
                   value={selectedActivity}
                   onChange={(e) => setSelectedActivity(e.target.value as ActivityType)}
@@ -648,7 +649,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                   className="p-6 sm:p-8 bg-background flex items-center justify-center min-h-[280px] w-full"
                 >
                   <div className="max-w-md sm:max-w-lg w-full mx-auto text-center flex flex-col items-center">
-                    <h3 className="text-lg sm:text-xl font-black text-foreground mb-1 text-center w-full">
+                    <h3 className="text-xl sm:text-2xl font-black text-foreground mb-1 text-center w-full uppercase">
                       {t("taxComparator.emailTitle")}
                     </h3>
                     <p className="text-muted-foreground font-medium text-sm mb-4">
