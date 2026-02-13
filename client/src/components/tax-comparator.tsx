@@ -648,7 +648,7 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-6 sm:p-8 bg-background flex items-center justify-center min-h-[280px] w-full"
                 >
-                  <div className="max-w-md sm:max-w-lg w-full mx-auto text-center flex flex-col items-center">
+                  <div className="max-w-lg sm:max-w-2xl w-full mx-auto text-center flex flex-col items-center">
                     <h3 className="text-xl sm:text-2xl font-black text-foreground mb-1 text-center w-full uppercase">
                       {t("taxComparator.emailTitle")}
                     </h3>
