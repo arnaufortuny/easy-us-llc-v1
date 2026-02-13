@@ -648,14 +648,14 @@ export function TaxComparator({ titleOverride, subtitleOverride }: TaxComparator
                   transition={{ duration: 0.2, ease: "easeOut" }}
                   className="p-6 sm:p-8 bg-background flex items-center justify-center min-h-[280px] w-full"
                 >
-                  <div className="max-w-2xl w-full mx-auto text-center flex flex-col items-center px-2">
+                  <div className="w-full mx-auto text-center flex flex-col items-center">
                     <h3 className="text-xl sm:text-2xl font-black text-foreground mb-1 text-center w-full uppercase">
                       {t("taxComparator.emailTitle")}
                     </h3>
                     <p className="text-muted-foreground font-medium text-sm mb-4">
                       {t("taxComparator.emailSubtitle")}
                     </p>
-                    <div className="space-y-3">
+                    <div className="space-y-3 w-full max-w-xs sm:max-w-md">
                       <div className="relative">
                         <input
                           type="email"
