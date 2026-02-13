@@ -75,8 +75,8 @@ export function AdminBillingPanel({
           <div className="flex justify-between items-center">
             <h3 className="font-black text-lg">{t('dashboard.admin.invoicesSection.title')}</h3>
           </div>
-          <Card className="rounded-2xl shadow-sm overflow-hidden">
-            <div className="divide-y max-h-[60vh] overflow-y-auto">
+          <Card className="rounded-2xl shadow-sm overflow-x-auto">
+            <div className="divide-y max-h-[60vh] overflow-y-auto min-w-[600px]">
               {adminInvoices?.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground text-sm">{t('dashboard.admin.invoicesSection.noInvoices')}</div>
               )}
@@ -183,8 +183,8 @@ export function AdminBillingPanel({
               <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.paymentAccounts.newAccount')}
             </Button>
           </div>
-          <Card className="rounded-2xl shadow-sm overflow-hidden">
-            <div className="divide-y">
+          <Card className="rounded-2xl shadow-sm overflow-x-auto">
+            <div className="divide-y min-w-[600px]">
               {paymentAccountsList?.map((acct: any) => (
                 <div key={acct.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`billing-payment-account-${acct.id}`}>
                   <div className="space-y-1 flex-1 min-w-0">

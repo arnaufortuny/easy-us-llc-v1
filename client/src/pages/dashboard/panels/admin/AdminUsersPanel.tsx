@@ -99,8 +99,8 @@ export function AdminUsersPanel({
         </Button>
       </div>
       {usersSubTab === 'users' && (
-        <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
-          <div className="divide-y">
+        <Card className="rounded-2xl shadow-sm p-0 overflow-x-auto">
+          <div className="divide-y min-w-[600px]">
             {filteredAdminUsers?.map(u => (
               <div key={u.id} className="p-3 md:p-4 space-y-3">
                 <div className="flex flex-col gap-2">

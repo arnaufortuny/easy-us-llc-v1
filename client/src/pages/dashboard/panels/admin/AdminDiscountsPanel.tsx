@@ -52,8 +52,8 @@ export function AdminDiscountsPanel({
           <Plus className="w-3 h-3 mr-1" /> {t('dashboard.admin.discountsSection.newCode')}
         </Button>
       </div>
-      <Card className="rounded-2xl shadow-sm overflow-hidden">
-        <div className="divide-y">
+      <Card className="rounded-2xl shadow-sm overflow-x-auto">
+        <div className="divide-y min-w-[600px]">
           {discountCodes?.map((dc) => (
             <div key={dc.id} className="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3" data-testid={`discount-code-${dc.code}`}>
               <div className="space-y-1">

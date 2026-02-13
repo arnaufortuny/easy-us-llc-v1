@@ -619,6 +619,13 @@ export function registerUserDocumentRoutes(app: Express) {
           "File": fileName
         });
 
+        logAudit({
+          action: 'document_upload',
+          userId: userId.toString(),
+          targetId: doc.id.toString(),
+          details: { documentType: docRequest.documentType, fileName, requestId }
+        });
+
         res.json({ success: true, documentId: doc.id });
       });
 

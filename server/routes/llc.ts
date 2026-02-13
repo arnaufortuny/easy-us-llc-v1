@@ -547,6 +547,13 @@ export function registerLlcRoutes(app: Express) {
             ));
         }
 
+        logAudit({
+          action: 'document_upload',
+          userId: userId.toString(),
+          targetId: doc[0].id.toString(),
+          details: { documentType, fileName, ticketId }
+        });
+
         const safeDoc = { id: doc[0].id, documentType: doc[0].documentType, reviewStatus: doc[0].reviewStatus, uploadedAt: doc[0].uploadedAt };
         res.json({ success: true, document: safeDoc, ticketId });
       });

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import { SiWhatsapp } from "react-icons/si";
@@ -10,9 +9,8 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
 import { usePageTitle } from "@/hooks/use-page-title";
-import { fadeInUp, lineExpand, viewportOnce, easing } from "@/lib/animations";
+import { fadeInUp, lineExpand, viewportOnce } from "@/lib/animations";
 import { ArrowRight } from "@/components/icons";
-import type { Product } from "@shared/schema";
 import { createSafeHtml } from "@/lib/sanitize";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import llcFormationImg from "@assets/D69A3B61-5493-4DA9-B0CC-F8C4513AA081_1770477081267.png";
@@ -35,11 +33,6 @@ export default function Home() {
       }
     }
   }, [location]);
-
-  const { data: products } = useQuery<Product[]>({
-    queryKey: ["/api/products"],
-    staleTime: 1000 * 60 * 10,
-  });
 
   return (
     <div className="min-h-screen font-sans text-left bg-background w-full relative animate-page-in">

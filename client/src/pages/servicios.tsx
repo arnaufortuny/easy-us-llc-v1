@@ -4,18 +4,15 @@ import { Button } from "@/components/ui/button";
 import { HeroSection } from "@/components/layout/hero-section";
 import { TaxComparator } from "@/components/tax-comparator";
 import { StateComparison } from "@/components/state-comparison";
-import type { Product } from "@shared/schema";
 import { getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 
 import { createSafeHtml } from "@/lib/sanitize";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useLocation, Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import { openWhatsApp, getWhatsAppUrl } from "@/lib/whatsapp";
 import { motion } from "framer-motion";
-import { apiRequest } from "@/lib/queryClient";
-import { ChevronDown, Check, ArrowRight } from "@/components/icons";
+import { Check, ArrowRight } from "@/components/icons";
 import { SiWhatsapp } from "react-icons/si";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
@@ -87,22 +84,6 @@ const RelayIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const StrategyIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-    <path d="M2 17l10 5 10-5"/>
-    <path d="M2 12l10 5 10-5"/>
-  </svg>
-);
-
-const ContinuousIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-    <path d="M12 6v6l4 2"/>
-    <path d="M16 16l2 2"/>
-  </svg>
-);
-
 export default function Servicios() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
@@ -120,13 +101,6 @@ export default function Servicios() {
       }
     }
   }, []);
-
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  const { data: products } = useQuery<Product[]>({
-    queryKey: ["/api/products"],
-    staleTime: 1000 * 60 * 10,
-  });
 
   const handleSelectProduct = (stateName: string) => {
     setLocation(`/llc/formation?state=${encodeURIComponent(stateName)}`);

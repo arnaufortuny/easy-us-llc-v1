@@ -22,7 +22,7 @@ export function AdminCalendarPanel({ adminOrders, updateLlcDatesMutation, setFor
       <h4 className="font-black text-lg">
         {t('dashboard.admin.calendar.title')}
       </h4>
-    <Card className="rounded-2xl shadow-sm p-4 md:p-6 overflow-hidden">
+    <Card className="rounded-2xl shadow-sm p-4 md:p-6 overflow-x-auto">
       <div className="space-y-4 md:space-y-6">
         {adminOrders?.map((order: any) => {
           const app = order.application;

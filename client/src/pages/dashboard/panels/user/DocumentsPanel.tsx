@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface DocumentsPanelProps {
   user: any;
@@ -161,7 +162,7 @@ export function DocumentsPanel({ user, notifications, userDocuments, canEdit, se
   const [uploadDocType, setUploadDocType] = useState("passport");
   const [uploadNotes, setUploadNotes] = useState("");
 
-  const { data: documentRequests } = useQuery<any[]>({
+  const { data: documentRequests, isLoading: isLoadingRequests } = useQuery<any[]>({
     queryKey: ['/api/user/document-requests'],
     enabled: !user?.isAdmin,
   });
@@ -195,6 +196,24 @@ export function DocumentsPanel({ user, notifications, userDocuments, canEdit, se
         <h2 className="text-base sm:text-xl md:text-2xl font-black text-foreground tracking-tight">{t('dashboard.documents.title')}</h2>
         <p className="text-base text-muted-foreground mt-1">{t('dashboard.documents.subtitle')}</p>
       </div>
+
+      {isLoadingRequests && !user?.isAdmin && (
+        <div className="space-y-3">
+          <Skeleton className="h-5 w-48" />
+          <Card className="rounded-xl md:rounded-2xl shadow-sm">
+            <CardContent className="p-4 md:p-5 space-y-3">
+              <div className="flex items-start gap-3">
+                <Skeleton className="w-10 h-10 rounded-xl shrink-0" />
+                <div className="flex-1 space-y-2">
+                  <Skeleton className="h-4 w-3/4" />
+                  <Skeleton className="h-3 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
       {pendingRequests.length > 0 && user?.accountStatus !== 'deactivated' && (
         <div className="space-y-3">

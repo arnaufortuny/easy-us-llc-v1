@@ -61,8 +61,8 @@ export function AdminOrdersPanel({
   });
 
   return (
-    <Card className="rounded-2xl shadow-sm p-0 overflow-hidden">
-      <div className="divide-y">
+    <Card className="rounded-2xl shadow-sm p-0 overflow-x-auto">
+      <div className="divide-y min-w-[600px]">
         {(!filteredAdminOrders || filteredAdminOrders.length === 0) && (
           <div className="text-center py-8 text-muted-foreground text-sm">
             {adminSearchQuery ? t('dashboard.admin.orders.noResults') || 'No se encontraron pedidos' : t('dashboard.admin.orders.noOrders') || 'No hay pedidos registrados'}

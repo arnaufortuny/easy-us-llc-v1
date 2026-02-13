@@ -1,6 +1,7 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
 import { Control, FieldPath, FieldValues } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 
 interface FormSelectProps<T extends FieldValues> {
   control: Control<T>;
@@ -16,11 +17,13 @@ export function FormSelect<T extends FieldValues>({
   control,
   name,
   label,
-  placeholder = "Seleccionar...",
+  placeholder,
   description,
   options,
   className = "",
 }: FormSelectProps<T>) {
+  const { t } = useTranslation();
+  const resolvedPlaceholder = placeholder ?? t("common.select");
   const normalizedOptions = options.map(opt => 
     typeof opt === 'string' ? { value: opt, label: opt } : opt
   );
@@ -39,7 +42,7 @@ export function FormSelect<T extends FieldValues>({
             <NativeSelect 
               value={field.value || ""} 
               onValueChange={field.onChange}
-              placeholder={placeholder}
+              placeholder={resolvedPlaceholder}
               className="rounded-full h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-all font-medium text-foreground dark:text-white text-base"
             >
               {normalizedOptions.map(opt => (
