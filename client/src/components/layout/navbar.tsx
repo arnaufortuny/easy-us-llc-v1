@@ -212,7 +212,7 @@ export function Navbar() {
               <div className="flex flex-col gap-0 items-stretch text-left">
                 <button
                   onClick={() => handleNavClick("/")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-home"
                 >
                   <span>{t("nav.home")}</span>
@@ -220,7 +220,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/servicios")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-services"
                 >
                   <span>{t("nav.services")}</span>
@@ -228,7 +228,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/servicios#pricing")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-pricing"
                 >
                   <span>{t("nav.pricing")}</span>
@@ -236,7 +236,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/servicios#comparador")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-savings"
                 >
                   <span>{t("nav.savings")}</span>
@@ -244,7 +244,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/faq")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-faq"
                 >
                   <span>{t("nav.faq")}</span>
@@ -252,7 +252,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/contacto")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-foreground hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-mobile-contact"
                 >
                   <span>{t("nav.contact")}</span>
@@ -260,7 +260,7 @@ export function Navbar() {
                 </button>
                 <button
                   onClick={() => handleNavClick("/agendar-consultoria")}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#00C48C] hover:bg-primary/10 transition-colors font-semibold text-base tracking-tight outline-none focus:outline-none"
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg text-[#00C48C] hover:bg-primary/10 transition-colors font-semibold text-lg tracking-tight outline-none focus:outline-none"
                   data-testid="link-free-consultation-mobile"
                 >
                   <span>{t("nav.freeConsultation")}</span>
