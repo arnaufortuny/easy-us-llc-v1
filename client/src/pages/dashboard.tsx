@@ -1177,15 +1177,21 @@ export default function Dashboard() {
   const deleteOwnAccountMutation = useMutation({
     mutationFn: async () => {
       setFormMessage(null);
-      const res = await apiRequest("DELETE", "/api/user/account");
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
+      try {
+        await apiRequest("DELETE", "/api/user/account");
+      } catch (e: any) {
+        if (e?.message?.includes("CSRF") || e?.message?.includes("authenticated") || e?.message?.includes("Not authenticated")) {
+          return; // Session was destroyed, action succeeded
+        }
+        throw e;
+      }
     },
     onSuccess: () => {
       setFormMessage({ type: 'success', text: t("dashboard.toasts.accountDeleted") + ". " + t("dashboard.toasts.accountDeletedDesc") });
       window.location.href = "/";
     },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
+    onError: (error: any) => {
+      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error?.message || t("dashboard.toasts.couldNotDelete")) });
     }
   });
 

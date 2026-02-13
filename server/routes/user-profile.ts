@@ -77,8 +77,8 @@ export function registerUserProfileRoutes(app: Express) {
 
       logActivity("Cuenta desactivada por cliente", { userId, email: user.email });
 
-      req.session.destroy(() => {});
       res.json({ success: true, message: "Account deactivated successfully" });
+      req.session.destroy(() => {});
     } catch (error) {
       log.error("Deactivate account error", error);
       res.status(500).json({ message: "Error deactivating account" });

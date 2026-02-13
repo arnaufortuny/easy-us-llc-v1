@@ -1177,6 +1177,18 @@ export default function MaintenanceApplication() {
                             <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.phoneLabel", "Phone")}</span>
                             <span className="text-sm font-bold text-foreground">{form.getValues("ownerPhone")}</span>
                           </div>
+                          {form.getValues("ownerIdType") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("application.fields.idType")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("ownerIdType")}</span>
+                            </div>
+                          )}
+                          {form.getValues("ownerIdNumber") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("application.fields.idNumber")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("ownerIdNumber")}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       
@@ -1201,8 +1213,43 @@ export default function MaintenanceApplication() {
                             <span className="text-xs text-muted-foreground">{t("maintenance.confirmation.activityLabel", "Activity")}</span>
                             <span className="text-sm font-bold text-foreground">{form.getValues("businessActivity")}</span>
                           </div>
+                          {form.getValues("creationYear") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("maintenance.steps.creationYearLabel")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("creationYear")}</span>
+                            </div>
+                          )}
+                          {form.getValues("bankAccount") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("maintenance.steps.bankAccountLabel")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("bankAccount")}</span>
+                            </div>
+                          )}
+                          {form.getValues("expectedServices") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("maintenance.steps.services")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("expectedServices")}</span>
+                            </div>
+                          )}
+                          {form.getValues("wantsDissolve") && (
+                            <div className="flex flex-wrap justify-between items-center gap-1">
+                              <span className="text-xs text-muted-foreground">{t("maintenance.steps.dissolve")}</span>
+                              <span className="text-sm font-bold text-foreground">{form.getValues("wantsDissolve")}</span>
+                            </div>
+                          )}
                         </div>
                       </div>
+
+                      {form.getValues("notes") && (
+                        <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                          <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                            <h3 className="text-xs font-black text-foreground tracking-wide">{t("maintenance.confirmation.additionalNotes")}</h3>
+                          </div>
+                          <div className="p-5">
+                            <p className="text-sm text-foreground">{form.getValues("notes")}</p>
+                          </div>
+                        </div>
+                      )}
                       
                       <div className="bg-card border border-border rounded-2xl overflow-hidden">
                         <div className="bg-accent/10 px-5 py-3 border-b border-border">

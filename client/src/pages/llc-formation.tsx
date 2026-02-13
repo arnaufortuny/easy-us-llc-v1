@@ -1515,18 +1515,44 @@ export default function LlcFormation() {
                       <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.personalInfo")}</h3>
                     </div>
                     <div className="p-5 space-y-3">
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.fullName")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("ownerFirstName")} {form.getValues("ownerLastName")}</span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.emailLabel")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("ownerEmail")}</span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.phoneLabel")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("ownerPhone")}</span>
                       </div>
+                      {(form.getValues("ownerAddress") || form.getValues("ownerCity")) && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.address")}</span>
+                          <span className="text-sm font-bold text-foreground">
+                            {[form.getValues("ownerStreetType"), form.getValues("ownerAddress"), form.getValues("ownerCity"), form.getValues("ownerProvince"), form.getValues("ownerPostalCode"), form.getValues("ownerCountry")].filter(Boolean).join(", ")}
+                          </span>
+                        </div>
+                      )}
+                      {form.getValues("ownerBirthDate") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.birthDate")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("ownerBirthDate")}</span>
+                        </div>
+                      )}
+                      {form.getValues("ownerIdType") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.idType")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("ownerIdType")}</span>
+                        </div>
+                      )}
+                      {form.getValues("ownerIdNumber") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.idNumber")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("ownerIdNumber")}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   
@@ -1535,27 +1561,74 @@ export default function LlcFormation() {
                       <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.llcInfo")}</h3>
                     </div>
                     <div className="p-5 space-y-3">
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.companyNameLabel")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("companyName")}</span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.stateLabel")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("state")}</span>
                       </div>
+                      {form.getValues("businessActivity") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.businessActivity")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("businessActivity")}</span>
+                        </div>
+                      )}
+                      {form.getValues("isSellingOnline") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.sellingOnline")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("isSellingOnline")}</span>
+                        </div>
+                      )}
+                      {form.getValues("willUseStripe") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.useStripe")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("willUseStripe")}</span>
+                        </div>
+                      )}
+                      {form.getValues("needsBankAccount") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.needsBank")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("needsBankAccount")}</span>
+                        </div>
+                      )}
+                      {form.getValues("wantsBoiReport") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.wantsBoi")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("wantsBoiReport")}</span>
+                        </div>
+                      )}
+                      {form.getValues("wantsMaintenancePack") && (
+                        <div className="flex flex-wrap justify-between items-center gap-1">
+                          <span className="text-xs text-muted-foreground">{t("application.fields.wantsMaintenance")}</span>
+                          <span className="text-sm font-bold text-foreground">{form.getValues("wantsMaintenancePack")}</span>
+                        </div>
+                      )}
                     </div>
                   </div>
+
+                  {form.getValues("notes") && (
+                    <div className="bg-card border border-border rounded-2xl overflow-hidden">
+                      <div className="bg-accent/10 px-5 py-3 border-b border-border">
+                        <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.fields.notes")}</h3>
+                      </div>
+                      <div className="p-5">
+                        <p className="text-sm text-foreground">{form.getValues("notes")}</p>
+                      </div>
+                    </div>
+                  )}
                   
                   <div className="bg-card border border-border rounded-2xl overflow-hidden">
                     <div className="bg-accent/10 px-5 py-3 border-b border-border">
                       <h3 className="text-xs font-black text-foreground tracking-wide">{t("application.paymentInfo")}</h3>
                     </div>
                     <div className="p-5 space-y-3">
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.paymentMethodLabel")}</span>
                         <span className="text-sm font-bold text-foreground">{form.getValues("paymentMethod") === 'transfer' ? t("application.bankTransfer") : t("application.paymentLink")}</span>
                       </div>
-                      <div className="flex justify-between items-center">
+                      <div className="flex flex-wrap justify-between items-center gap-1">
                         <span className="text-xs text-muted-foreground">{t("application.totalLabel")}</span>
                         <span className="text-lg font-black text-accent">
                           {discountInfo?.valid 
