@@ -13,7 +13,7 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 export function Navbar() {
   const [location, setLocation] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
-  const { user, isAuthenticated, logout, isLoading: authLoading } = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
   const { prefetchOnHover, cancelPrefetch } = usePrefetch();
   const { t } = useTranslation();
 
@@ -115,24 +115,7 @@ export function Navbar() {
           </nav>
 
           <div className="hidden md:flex items-center gap-1.5 lg:gap-2.5">
-            {authLoading ? (
-              <>
-                <Button 
-                  variant="outline"
-                  className="rounded-full border-2 border-[#00C48C] text-foreground font-semibold text-xs lg:text-sm h-11 px-3 lg:px-5 flex items-center gap-2 opacity-50"
-                  disabled
-                >
-                  <UserIcon className="w-4 h-4" /> {t("nav.login")}
-                </Button>
-                <Button 
-                  variant="cta"
-                  className="font-semibold text-xs lg:text-sm border-0 rounded-full h-11 px-4 lg:px-6 opacity-50"
-                  disabled
-                >
-                  {t("nav.register")}
-                </Button>
-              </>
-            ) : isAuthenticated ? (
+            {isAuthenticated ? (
               <div className="flex items-center gap-2">
                 <Link href="/dashboard">
                   <Button 
