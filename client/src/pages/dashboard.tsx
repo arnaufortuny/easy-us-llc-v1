@@ -1579,7 +1579,7 @@ export default function Dashboard() {
               </div>
             )}
             <div className={`flex flex-col ${isAdmin ? '' : 'xl:grid xl:grid-cols-3'} gap-6 lg:gap-8`}>
-              <div className={`${isAdmin ? '' : 'xl:col-span-2'} space-y-6 ${isAdmin ? '' : 'order-2 xl:order-1'}`}>
+              <div className={`${isAdmin ? '' : 'xl:col-span-2'} space-y-6 ${isAdmin ? '' : 'order-1 xl:order-1'}`}>
             
               {activeTab === 'services' && (
                 <>
@@ -2620,7 +2620,7 @@ export default function Dashboard() {
               )}
             </div>
 
-          <div className="space-y-6 order-1 xl:order-2 self-start">
+          <div className="space-y-6 order-2 xl:order-2 self-start">
             {/* Consolidated Action Required Card */}
             {!user?.isAdmin && (notifications?.some((n: any) => n.type === 'action_required' && !(n.title || '').includes('accountDeactivated') && !(n.message || '').includes('accountDeactivated')) || 
               notifications?.some((n: any) => n.type === 'info' && (n.title || '').includes('docInReview')) ||

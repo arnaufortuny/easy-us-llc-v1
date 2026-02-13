@@ -1119,7 +1119,8 @@
       "passwordTooShort": "Passwort zu kurz",
       "passwordMinChars": "Mindestens 8 Zeichen erforderlich",
       "fileTooLarge": "Die Datei darf 10 MB nicht überschreiten",
-      "postalCodeNumbersOnly": "Die Postleitzahl darf nur Zahlen enthalten"
+      "postalCodeNumbersOnly": "Die Postleitzahl darf nur Zahlen enthalten",
+      "selectPaymentMethod": "Bitte wählen Sie eine Zahlungsmethode aus, um fortzufahren"
     },
     "messages": {
       "dataLoaded": "Daten geladen",

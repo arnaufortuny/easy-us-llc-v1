@@ -575,7 +575,14 @@ export default function LlcFormation() {
       }
     }
 
-    // All steps advance normally
+    if (step === 13) {
+      const paymentMethod = form.getValues("paymentMethod");
+      if (!paymentMethod) {
+        setFormMessage({ type: 'error', text: t("application.validation.selectPaymentMethod") });
+        return;
+      }
+    }
+
     setStep(s => s + 1);
     window.scrollTo({ top: 0, behavior: 'instant' });
   };

@@ -235,7 +235,9 @@ export default function Contacto() {
         <Navbar />
         <main className="min-h-[calc(100vh-80px)] pt-6 sm:pt-12 pb-12 px-4 flex flex-col items-center justify-center text-center max-w-3xl mx-auto">
           <div className="space-y-5 sm:space-y-6 w-full">
-            <SuccessCheckmark size={120} />
+            <div className="flex justify-center">
+              <SuccessCheckmark size={120} />
+            </div>
             
             <div className="space-y-2 sm:space-y-3">
               <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tighter text-foreground leading-tight">

@@ -1119,7 +1119,8 @@
       "passwordTooShort": "Contrasenya massa curta",
       "passwordMinChars": "Ha de tenir almenys 8 caràcters",
       "fileTooLarge": "L'arxiu no pot superar 10MB",
-      "postalCodeNumbersOnly": "El codi postal només pot contenir números"
+      "postalCodeNumbersOnly": "El codi postal només pot contenir números",
+      "selectPaymentMethod": "Selecciona un mètode de pagament per continuar"
     },
     "messages": {
       "dataLoaded": "Dades carregades",

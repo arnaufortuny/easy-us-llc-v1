@@ -1119,7 +1119,8 @@
       "passwordTooShort": "Contraseña demasiado corta",
       "passwordMinChars": "Debe tener al menos 8 caracteres",
       "fileTooLarge": "El archivo no puede superar 10MB",
-      "postalCodeNumbersOnly": "El código postal solo puede contener números"
+      "postalCodeNumbersOnly": "El código postal solo puede contener números",
+      "selectPaymentMethod": "Selecciona un método de pago para continuar"
     },
     "messages": {
       "dataLoaded": "Datos cargados",
