@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { desc, eq, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport, getClientIp, asyncHandler } from "./shared";
-import { checkRateLimit } from "../lib/security";
+import { checkRateLimit, sanitizeHtml } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('admin-comms');
@@ -191,10 +191,12 @@ export function registerAdminCommsRoutes(app: Express) {
 
   // Broadcast to all newsletter subscribers
   app.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req: Request, res: Response) => {
-    const { subject, message } = z.object({
-      subject: z.string().min(1),
-      message: z.string().min(1)
+    const parsed = z.object({
+      subject: z.string().min(1).max(500),
+      message: z.string().min(1).max(10000)
     }).parse(req.body);
+    const subject = sanitizeHtml(parsed.subject);
+    const message = sanitizeHtml(parsed.message);
 
     const subscribers = await db.select().from(newsletterSubscribers);
     const html = getNewsletterBroadcastTemplate(subject, message);

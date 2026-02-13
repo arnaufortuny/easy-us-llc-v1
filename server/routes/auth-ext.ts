@@ -111,6 +111,12 @@ export function registerAuthExtRoutes(app: Express) {
   // Verify OTP for account registration
   app.post("/api/register/verify-otp", asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
       const [record] = await db.select()
@@ -318,6 +324,12 @@ export function registerAuthExtRoutes(app: Express) {
   // Verify OTP and reset password
   app.post("/api/password-reset/confirm", asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, otp, newPassword } = z.object({ 
         email: z.string().email(), 
         otp: z.string(),

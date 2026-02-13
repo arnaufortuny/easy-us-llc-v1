@@ -50,6 +50,7 @@ export function registerAdminUserRoutes(app: Express) {
   }));
 
   app.patch("/api/admin/users/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const userId = req.params.id;
     const updateSchema = z.object({
       firstName: z.string().min(1).max(100).optional(),
@@ -163,65 +164,63 @@ export function registerAdminUserRoutes(app: Express) {
     }
 
     res.json(updated);
+    } catch (error) {
+      log.error("Error updating user", error);
+      res.status(500).json({ message: "Error updating user" });
+    }
   }));
 
   app.delete("/api/admin/users/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
     try {
       const userId = req.params.id;
       
-      // Cascade delete all user-related data for security and data integrity
-      // 1. Get all orders for this user
+      const [user] = await db.select().from(usersTable).where(eq(usersTable.id, userId)).limit(1);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      
+      if (user.isAdmin) {
+        return res.status(403).json({ message: "Cannot delete an administrator account" });
+      }
+      
       const userOrders = await db.select({ id: ordersTable.id }).from(ordersTable).where(eq(ordersTable.userId, userId));
       const orderIds = userOrders.map(o => o.id);
       
-      // 2. Get all LLC applications from user's orders
       const userApps = orderIds.length > 0 
         ? await db.select({ id: llcApplicationsTable.id }).from(llcApplicationsTable).where(inArray(llcApplicationsTable.orderId, orderIds))
         : [];
       const appIds = userApps.map(a => a.id);
       
-      // 3. Delete documents associated with orders/applications
-      if (orderIds.length > 0) {
-        await db.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.orderId, orderIds));
-      }
-      if (appIds.length > 0) {
-        await db.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.applicationId, appIds));
-      }
-      
-      // 4. Delete order events
-      if (orderIds.length > 0) {
-        await db.delete(orderEvents).where(inArray(orderEvents.orderId, orderIds));
-      }
-      
-      // 5. Delete user notifications
-      await db.delete(userNotifications).where(eq(userNotifications.userId, userId));
-      
-      // 6. Delete message replies and messages
       const userMessages = await db.select({ id: messagesTable.id }).from(messagesTable).where(eq(messagesTable.userId, userId));
       const messageIds = userMessages.map(m => m.id);
-      if (messageIds.length > 0) {
-        await db.delete(messageReplies).where(inArray(messageReplies.messageId, messageIds));
-      }
-      await db.delete(messagesTable).where(eq(messagesTable.userId, userId));
       
-      // 7. Delete maintenance applications from user's orders
-      if (orderIds.length > 0) {
-        await db.delete(maintenanceApplications).where(inArray(maintenanceApplications.orderId, orderIds));
-      }
-      
-      // 8. Delete LLC applications from user's orders
-      if (orderIds.length > 0) {
-        await db.delete(llcApplicationsTable).where(inArray(llcApplicationsTable.orderId, orderIds));
-      }
-      
-      // 9. Delete orders
-      await db.delete(ordersTable).where(eq(ordersTable.userId, userId));
-      
-      // 10. Finally delete the user
-      await db.delete(usersTable).where(eq(usersTable.id, userId));
+      await db.transaction(async (tx) => {
+        if (orderIds.length > 0) {
+          await tx.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.orderId, orderIds));
+        }
+        if (appIds.length > 0) {
+          await tx.delete(applicationDocumentsTable).where(inArray(applicationDocumentsTable.applicationId, appIds));
+        }
+        if (orderIds.length > 0) {
+          await tx.delete(orderEvents).where(inArray(orderEvents.orderId, orderIds));
+        }
+        await tx.delete(userNotifications).where(eq(userNotifications.userId, userId));
+        if (messageIds.length > 0) {
+          await tx.delete(messageReplies).where(inArray(messageReplies.messageId, messageIds));
+        }
+        await tx.delete(messagesTable).where(eq(messagesTable.userId, userId));
+        if (orderIds.length > 0) {
+          await tx.delete(maintenanceApplications).where(inArray(maintenanceApplications.orderId, orderIds));
+        }
+        if (orderIds.length > 0) {
+          await tx.delete(llcApplicationsTable).where(inArray(llcApplicationsTable.orderId, orderIds));
+        }
+        await tx.delete(ordersTable).where(eq(ordersTable.userId, userId));
+        await tx.delete(usersTable).where(eq(usersTable.id, userId));
+      });
       
       logAudit({ 
-        action: 'admin_user_update', 
+        action: 'admin_user_delete', 
         userId: req.session?.userId, 
         targetId: userId,
         details: { action: 'cascade_delete', deletedOrders: orderIds.length, deletedApps: appIds.length } 

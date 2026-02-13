@@ -261,11 +261,11 @@ async function initializeApp() {
       }
 
       const status = err.status || err.statusCode || 500;
-      const message = err.message || "Internal Server Error";
+      const message = status >= 500 ? "Internal Server Error" : (err.message || "Internal Server Error");
       if (!res.headersSent) {
         res.status(status).json({ message });
       }
-      serverLog.error(`Request error [${status}]`, err, { status, message });
+      serverLog.error(`Request error [${status}]`, err);
     });
 
     if (isProduction) {

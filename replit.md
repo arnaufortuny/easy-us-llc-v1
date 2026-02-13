@@ -41,7 +41,15 @@ Key architectural patterns include:
 - **PDF Generation (Client-side):** jspdf
 
 ## Recent Changes
-- **2026-02-13:** Removed green shadow/outline animations from all buttons (default, cta, neon variants). Changed button focus ring to neutral color.
+- **2026-02-13:** Comprehensive security audit: CSRF protection hardened (fixed startsWith matching), rate limiting added to OTP/registration/password-reset, input sanitization added to messages/LLC/maintenance routes, global error handler hardened (no stack traces leaked).
+- **2026-02-13:** PDF invoice generator constrained to 1 page max for admin invoices. Added text truncation, item limits, and fixed footer positioning.
+- **2026-02-13:** Order/payment status transition validation added with explicit state machine rules. Transaction safety added for cascade deletes.
+- **2026-02-13:** Storage layer hardened with existence checks before updates.
+- **2026-02-13:** Consultation calendar loading state added.
+- **2026-02-13:** Database verified: 33 tables, 107 indexes, 28 FK constraints, all in sync with Drizzle schema. Zero orphaned records.
+- **2026-02-13:** Translation verified: 3,215 keys across 7 languages, 100% parity, no empty values.
+- **2026-02-13:** README updated with comprehensive project documentation.
+- **2026-02-13:** Removed green shadow/outline animations from all buttons. Changed button focus ring to neutral color.
 - **2026-02-13:** Removed green hover shadow from Card component.
 - **2026-02-13:** Email templates: changed header from hard green gradient to soft green (#F0FAF5), footer updated to "Exentax Holdings LLC".
 - **2026-02-13:** Email sending address changed from no-reply@easyusllc.com to no-reply@exentax.com. SMTP credentials updated.

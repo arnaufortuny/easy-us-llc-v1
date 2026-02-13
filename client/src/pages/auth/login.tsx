@@ -196,6 +196,8 @@ export default function Login() {
                       value={securityOtp}
                       onChange={(e) => setSecurityOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
                       maxLength={6}
+                      inputMode="numeric"
+                      autoComplete="one-time-code"
                       className="h-12 text-center text-xl tracking-[0.5em] font-bold rounded-full"
                       data-testid="input-security-otp"
                     />

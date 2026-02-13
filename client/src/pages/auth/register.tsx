@@ -420,6 +420,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.firstNamePlaceholder")}
+                              autoComplete="given-name"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-firstName"
@@ -440,6 +441,7 @@ export default function Register() {
                             <Input
                               {...field}
                               placeholder={t("auth.register.lastNamePlaceholder")}
+                              autoComplete="family-name"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-lastName"
@@ -470,6 +472,7 @@ export default function Register() {
                               {...field}
                               type="email"
                               inputMode="email"
+                              autoComplete="email"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base placeholder:text-muted-foreground rounded-full"
                               
                               data-testid="input-email"
@@ -500,6 +503,7 @@ export default function Register() {
                               {...field}
                               type="tel"
                               inputMode="tel"
+                              autoComplete="tel"
                               className="h-11 md:h-12 px-5 border-2 border-border dark:border-border focus:border-accent bg-white dark:bg-card transition-colors font-medium text-foreground dark:text-white text-base rounded-full"
                               
                               data-testid="input-phone"

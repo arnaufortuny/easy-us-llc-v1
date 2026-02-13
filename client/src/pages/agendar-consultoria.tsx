@@ -393,7 +393,7 @@ export default function AsesoriaGratis() {
                               <FormItem>
                                 <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.firstName")}</FormLabel>
                                 <FormControl>
-                                  <Input data-testid="input-first-name" placeholder={t("freeConsultation.fields.firstNamePlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
+                                  <Input data-testid="input-first-name" placeholder={t("freeConsultation.fields.firstNamePlaceholder")} autoComplete="given-name" {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -402,7 +402,7 @@ export default function AsesoriaGratis() {
                               <FormItem>
                                 <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.lastName")}</FormLabel>
                                 <FormControl>
-                                  <Input data-testid="input-last-name" placeholder={t("freeConsultation.fields.lastNamePlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
+                                  <Input data-testid="input-last-name" placeholder={t("freeConsultation.fields.lastNamePlaceholder")} autoComplete="family-name" {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -412,7 +412,7 @@ export default function AsesoriaGratis() {
                             <FormItem>
                               <FormLabel className={LABEL_CLASS}>{t("freeConsultation.fields.email")}</FormLabel>
                               <FormControl>
-                                <Input data-testid="input-email" type="email" placeholder={t("freeConsultation.fields.emailPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
+                                <Input data-testid="input-email" type="email" autoComplete="email" placeholder={t("freeConsultation.fields.emailPlaceholder")} {...field} className={INPUT_CLASS} style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -425,6 +425,7 @@ export default function AsesoriaGratis() {
                                   {...field}
                                   type="tel"
                                   inputMode="tel"
+                                  autoComplete="tel"
                                   className={INPUT_CLASS}
                                   style={{ fontFamily: 'Inter, system-ui, sans-serif', fontSize: '16px' }}
                                   data-testid="input-phone"
@@ -453,6 +454,11 @@ export default function AsesoriaGratis() {
                             <p className="text-sm text-muted-foreground">{t("freeConsultation.steps.schedule.subtitle")}</p>
                           </div>
 
+                          {settingsQuery.isLoading ? (
+                            <div className="flex items-center justify-center py-12">
+                              <Loader2 className="w-6 h-6 animate-spin text-accent" />
+                            </div>
+                          ) : (
                           <div>
                             <div className="flex items-center justify-between mb-4">
                               <Button
@@ -552,6 +558,8 @@ export default function AsesoriaGratis() {
                           )}
                           {form.formState.errors.scheduledDate && !selectedDate && (
                             <p className="text-sm text-destructive">{form.formState.errors.scheduledDate.message}</p>
+                          )}
+                          </div>
                           )}
                         </div>
                       )}

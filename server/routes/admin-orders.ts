@@ -10,6 +10,19 @@ import { orders as ordersTable, users as usersTable, maintenanceApplications, or
 import { sendEmail, sendTrustpilotEmail, getOrderUpdateTemplate } from "../lib/email";
 import { updateApplicationDeadlines } from "../calendar-service";
 
+const VALID_ORDER_STATUSES = ['pending', 'paid', 'processing', 'filed', 'documents_ready', 'completed', 'cancelled'] as const;
+type OrderStatus = typeof VALID_ORDER_STATUSES[number];
+
+const VALID_ORDER_TRANSITIONS: Record<string, OrderStatus[]> = {
+  pending: ['paid', 'processing', 'cancelled'],
+  paid: ['processing', 'cancelled'],
+  processing: ['filed', 'documents_ready', 'completed', 'cancelled'],
+  filed: ['documents_ready', 'completed', 'cancelled'],
+  documents_ready: ['completed', 'cancelled'],
+  completed: [],
+  cancelled: ['pending'],
+};
+
 export function registerAdminOrderRoutes(app: Express) {
   // Admin Orders
   app.get("/api/admin/orders", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
@@ -52,20 +65,33 @@ export function registerAdminOrderRoutes(app: Express) {
   }));
 
   app.patch("/api/admin/orders/:id/status", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const orderId = Number(req.params.id);
-    const { status } = z.object({ status: z.string() }).parse(req.body);
+    const { status } = z.object({ status: z.enum(VALID_ORDER_STATUSES) }).parse(req.body);
+    
+    const existingOrder = await storage.getOrder(orderId);
+    if (!existingOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+    
+    const currentStatus = existingOrder.status as OrderStatus;
+    const allowedTransitions = VALID_ORDER_TRANSITIONS[currentStatus] || [];
+    if (!allowedTransitions.includes(status)) {
+      return res.status(400).json({ 
+        message: `Invalid status transition from '${currentStatus}' to '${status}'. Allowed: ${allowedTransitions.join(', ') || 'none'}` 
+      });
+    }
     
     const [updatedOrder] = await db.update(ordersTable)
       .set({ status })
       .where(eq(ordersTable.id, orderId))
       .returning();
     
-    // Audit log for order status change
     logAudit({ 
       action: 'order_status_change', 
       userId: req.session?.userId, 
       targetId: String(orderId),
-      details: { newStatus: status } 
+      details: { previousStatus: currentStatus, newStatus: status } 
     });
     
     const order = await storage.getOrder(orderId);
@@ -168,9 +194,14 @@ export function registerAdminOrderRoutes(app: Express) {
       }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
     }
     res.json(updatedOrder);
+    } catch (error) {
+      log.error("Order status change error", error);
+      res.status(500).json({ message: "Error updating order status" });
+    }
   }));
 
   app.patch("/api/admin/orders/:id/inline", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const orderId = Number(req.params.id);
     const body = z.object({
       amount: z.number().optional(),
@@ -219,10 +250,21 @@ export function registerAdminOrderRoutes(app: Express) {
       details: { orderId, changedFields: Object.keys(body) }
     });
     res.json({ success: true });
+    } catch (error) {
+      log.error("Order inline edit error", error);
+      res.status(500).json({ message: "Error updating order" });
+    }
   }));
 
-  // Update payment link on order (admin only)
+  const VALID_PAYMENT_TRANSITIONS: Record<string, string[]> = {
+    pending: ['paid', 'overdue', 'cancelled'],
+    overdue: ['paid', 'cancelled'],
+    paid: [],
+    cancelled: ['pending'],
+  };
+
   app.patch("/api/admin/orders/:id/payment-link", isAdminOrSupport, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const orderId = Number(req.params.id);
     const { paymentLink, paymentStatus, paymentDueDate } = z.object({
       paymentLink: z.string().url().optional().nullable(),
@@ -230,36 +272,55 @@ export function registerAdminOrderRoutes(app: Express) {
       paymentDueDate: z.string().optional().nullable()
     }).parse(req.body);
 
+    const existingOrder = await storage.getOrder(orderId);
+    if (!existingOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    if (paymentStatus) {
+      const currentPaymentStatus = existingOrder.paymentStatus || 'pending';
+      const allowedPaymentTransitions = VALID_PAYMENT_TRANSITIONS[currentPaymentStatus] || [];
+      if (!allowedPaymentTransitions.includes(paymentStatus)) {
+        return res.status(400).json({
+          message: `Invalid payment status transition from '${currentPaymentStatus}' to '${paymentStatus}'. Allowed: ${allowedPaymentTransitions.join(', ') || 'none'}`
+        });
+      }
+    }
+
     const updateData: Record<string, unknown> = {};
     if (paymentLink !== undefined) updateData.paymentLink = paymentLink;
     if (paymentStatus) updateData.paymentStatus = paymentStatus;
     if (paymentDueDate !== undefined) updateData.paymentDueDate = paymentDueDate ? new Date(paymentDueDate) : null;
-    if (paymentStatus === 'paid') updateData.paidAt = new Date();
+    if (paymentStatus === 'paid') {
+      updateData.paidAt = new Date();
+      if (existingOrder.status === 'pending') {
+        updateData.status = 'paid';
+      }
+    }
 
     const [updatedOrder] = await db.update(ordersTable)
       .set(updateData)
       .where(eq(ordersTable.id, orderId))
       .returning();
 
-    if (!updatedOrder) {
-      return res.status(404).json({ message: "Order not found" });
-    }
-
     logAudit({
       action: 'payment_link_update',
       userId: req.session?.userId,
       targetId: String(orderId),
-      details: { paymentLink, paymentStatus }
+      details: { paymentLink, paymentStatus, previousPaymentStatus: existingOrder.paymentStatus }
     });
 
     res.json(updatedOrder);
+    } catch (error) {
+      log.error("Payment link update error", error);
+      res.status(500).json({ message: "Error updating payment information" });
+    }
   }));
 
-  // Delete order (admin only) - Full cascade deletion
   app.delete("/api/admin/orders/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const orderId = Number(req.params.id);
     
-    // Get order details before deletion for logging
     const order = await storage.getOrder(orderId);
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
@@ -293,6 +354,10 @@ export function registerAdminOrderRoutes(app: Express) {
     });
     
     res.json({ success: true, message: "Order deleted successfully" });
+    } catch (error) {
+      log.error("Error deleting order", error);
+      res.status(500).json({ message: "Error deleting order" });
+    }
   }));
 
   // Get incomplete/draft applications for admin
@@ -344,8 +409,8 @@ export function registerAdminOrderRoutes(app: Express) {
     }
   }));
 
-  // Delete incomplete application (admin only) - with full cascade cleanup
   app.delete("/api/admin/incomplete-applications/:type/:id", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const { type, id } = req.params;
     const appId = Number(id);
     
@@ -358,11 +423,12 @@ export function registerAdminOrderRoutes(app: Express) {
         return res.status(404).json({ message: "Request not found" });
       }
       
-      // Cascade delete: documents, notifications, events, application, order
-      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
-      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
-      await db.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, appId));
-      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+      await db.transaction(async (tx) => {
+        await tx.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+        await tx.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+        await tx.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, appId));
+        await tx.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+      });
     } else if (type === 'maintenance') {
       const [app] = await db.select({ orderId: maintenanceApplications.orderId })
         .from(maintenanceApplications)
@@ -372,16 +438,21 @@ export function registerAdminOrderRoutes(app: Express) {
         return res.status(404).json({ message: "Request not found" });
       }
       
-      // Cascade delete: documents, notifications, events, application, order
-      await db.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
-      await db.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
-      await db.delete(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
-      await db.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+      await db.transaction(async (tx) => {
+        await tx.delete(applicationDocumentsTable).where(eq(applicationDocumentsTable.orderId, app.orderId));
+        await tx.delete(orderEvents).where(eq(orderEvents.orderId, app.orderId));
+        await tx.delete(maintenanceApplications).where(eq(maintenanceApplications.id, appId));
+        await tx.delete(ordersTable).where(eq(ordersTable.id, app.orderId));
+      });
     } else {
       return res.status(400).json({ message: "Invalid request type" });
     }
     
     res.json({ success: true, message: "Incomplete request deleted" });
+    } catch (error) {
+      log.error("Error deleting incomplete application", error);
+      res.status(500).json({ message: "Error deleting incomplete application" });
+    }
   }));
 
   // Update LLC important dates with automatic calculation

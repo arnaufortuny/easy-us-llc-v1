@@ -145,6 +145,12 @@ export function registerContactRoutes(app: Express) {
 
   app.post("/api/contact/verify-otp", asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, otp } = z.object({ email: z.string().email(), otp: z.string() }).parse(req.body);
       
       const [record] = await db.select()

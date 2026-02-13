@@ -4,7 +4,7 @@ import { db, storage, isAuthenticated, isNotUnderReview, logAudit, getClientIp, 
 import { contactOtps, users as usersTable, orders as ordersTable, maintenanceApplications, discountCodes, userNotifications } from "@shared/schema";
 import { sendEmail, getWelcomeEmailTemplate, getConfirmationEmailTemplate, getAdminMaintenanceOrderTemplate, getAccountPendingVerificationTemplate } from "../lib/email";
 import { EmailLanguage, getVerifyEmailSubject, getWelcomeEmailSubject } from "../lib/email-translations";
-import { validateEmail, normalizeEmail } from "../lib/security";
+import { validateEmail, normalizeEmail, checkRateLimit, sanitizeObject } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('maintenance');
@@ -13,6 +13,12 @@ export function registerMaintenanceRoutes(app: Express) {
   // Claim maintenance order endpoint
   app.post("/api/maintenance/claim-order", asyncHandler(async (req: any, res: Response) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('register', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       let { applicationId, email, password, ownerFullName, paymentMethod, discountCode, discountAmount } = req.body;
       
       if (!applicationId || !email || !password) {
@@ -330,8 +336,9 @@ export function registerMaintenanceRoutes(app: Express) {
         }
       }
       
+      const sanitizedUpdates = sanitizeObject(updates, ['companyName', 'businessActivity', 'notes', 'ownerFullName', 'ownerEmail', 'ownerPhone', 'expectedServices']);
       const [updatedApp] = await db.update(maintenanceApplications)
-        .set({ ...updates, lastUpdated: new Date() })
+        .set({ ...sanitizedUpdates, lastUpdated: new Date() })
         .where(eq(maintenanceApplications.id, appId))
         .returning();
       

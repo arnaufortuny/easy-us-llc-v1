@@ -90,7 +90,8 @@ export function registerUserProfileRoutes(app: Express) {
     try {
       const userId = req.session.userId;
       const { preferredLanguage } = req.body;
-      if (!preferredLanguage || typeof preferredLanguage !== 'string') {
+      const supportedLangs = ['es', 'en', 'ca', 'fr', 'de', 'it', 'pt'];
+      if (!preferredLanguage || typeof preferredLanguage !== 'string' || !supportedLangs.includes(preferredLanguage)) {
         return res.status(400).json({ message: "Invalid language" });
       }
       await db.update(usersTable).set({ preferredLanguage }).where(eq(usersTable.id, userId));

@@ -150,6 +150,17 @@ function getPaymentMethodText(method?: string): string {
   return map[method] || 'Transferencia bancaria';
 }
 
+function truncateText(text: string | null | undefined, maxLen: number): string {
+  if (!text) return '';
+  if (text.length <= maxLen) return text;
+  return text.substring(0, maxLen - 3) + '...';
+}
+
+const MAX_INVOICE_ITEMS = 5;
+const MAX_BANK_ACCOUNTS = 2;
+const PAGE_BOTTOM_LIMIT = 760;
+const FOOTER_Y = 780;
+
 export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     try {
@@ -195,16 +206,16 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
 
       const cX = 320;
       doc.font('Helvetica').fontSize(7).fillColor(light).text('BILL TO', cX, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text(data.customer.name, cX, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text(truncateText(data.customer.name || 'Cliente', 40), cX, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       let cy = y + 26;
       if (data.customer.idType && data.customer.idNumber) {
         doc.text(`${data.customer.idType}: ${data.customer.idNumber}`, cX, cy); cy += 12;
       }
-      doc.text(data.customer.email, cX, cy); cy += 12;
+      doc.text(truncateText(data.customer.email, 40), cX, cy); cy += 12;
       if (data.customer.phone) { doc.text(data.customer.phone, cX, cy); cy += 12; }
       if (data.customer.address) {
-        const addr = [data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.country].filter(Boolean).join(', ');
+        const addr = truncateText([data.customer.streetType, data.customer.address, data.customer.postalCode, data.customer.city, data.customer.country].filter(Boolean).join(', '), 80);
         doc.fontSize(8).text(addr, cX, cy, { width: right - cX });
       }
 
@@ -241,11 +252,17 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.moveTo(left, y).lineTo(right, y).strokeColor(black).lineWidth(0.8).stroke();
       y += 8;
 
-      for (const item of data.items) {
-        doc.font('Helvetica-Bold').fontSize(9.5).fillColor(dark).text(item.description, left, y, { width: contentW * 0.58 });
-        const descH = doc.heightOfString(item.description, { width: contentW * 0.58 });
-        if (item.details) {
-          doc.font('Helvetica').fontSize(8).fillColor(light).text(item.details, left, y + descH + 2, { width: contentW * 0.58 });
+      const displayItems = data.items.slice(0, MAX_INVOICE_ITEMS);
+      const hasMoreItems = data.items.length > MAX_INVOICE_ITEMS;
+
+      for (const item of displayItems) {
+        if (y > PAGE_BOTTOM_LIMIT - 60) break;
+        const desc = truncateText(item.description, 80);
+        const details = truncateText(item.details, 120);
+        doc.font('Helvetica-Bold').fontSize(9.5).fillColor(dark).text(desc, left, y, { width: contentW * 0.58 });
+        const descH = doc.heightOfString(desc, { width: contentW * 0.58 });
+        if (details) {
+          doc.font('Helvetica').fontSize(8).fillColor(light).text(details, left, y + descH + 2, { width: contentW * 0.58 });
         }
         doc.font('Helvetica').fontSize(9.5).fillColor(dark);
         const rowMid = y + 1;
@@ -253,10 +270,14 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         doc.text(formatCurrency(item.unitPrice, data.currency), left + contentW * 0.72, rowMid, { width: 60 });
         doc.font('Helvetica-Bold').text(formatCurrency(item.total, data.currency), right - 60, rowMid, { width: 60, align: 'right' });
 
-        const rowH = item.details ? descH + 18 : Math.max(descH + 8, 22);
+        const rowH = details ? descH + 18 : Math.max(descH + 8, 22);
         y += rowH;
         doc.moveTo(left, y).lineTo(right, y).strokeColor(faint).lineWidth(0.5).stroke();
         y += 6;
+      }
+      if (hasMoreItems) {
+        doc.font('Helvetica').fontSize(7).fillColor(light).text(`+ ${data.items.length - MAX_INVOICE_ITEMS} more item(s)`, left, y);
+        y += 10;
       }
 
       y += 12;
@@ -283,29 +304,31 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.moveTo(left, y).lineTo(right, y).strokeColor(line).lineWidth(0.5).stroke();
       y += 18;
 
-      const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : [];
-      if (accounts.length > 0) {
+      const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts.slice(0, MAX_BANK_ACCOUNTS) : [];
+      if (accounts.length > 0 && y < PAGE_BOTTOM_LIMIT - 40) {
         doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
         y += 12;
 
         for (let ai = 0; ai < accounts.length; ai++) {
+          if (y > PAGE_BOTTOM_LIMIT - 30) break;
           const account = accounts[ai];
-          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(truncateText(account.label, 40).toUpperCase(), left, y);
           y += 9;
 
           const colW = contentW / 4;
           const fields: [string, string][] = [];
-          fields.push(['Holder', account.holder]);
-          fields.push(['Bank', account.bankName]);
-          if (account.iban) fields.push(['IBAN', account.iban]);
-          if (account.accountNumber) fields.push(['Account', account.accountNumber]);
-          if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
-          if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
+          fields.push(['Holder', truncateText(account.holder, 40)]);
+          fields.push(['Bank', truncateText(account.bankName, 40)]);
+          if (account.iban) fields.push(['IBAN', truncateText(account.iban, 34)]);
+          if (account.accountNumber) fields.push(['Account', truncateText(account.accountNumber, 30)]);
+          if (account.routingNumber) fields.push(['Routing', truncateText(account.routingNumber, 20)]);
+          if (account.swift) fields.push(['SWIFT/BIC', truncateText(account.swift, 20)]);
 
           let fX = left;
           let fRow = 0;
           for (const [label, value] of fields) {
             if (fX + colW > right + 10) { fX = left; fRow++; }
+            if (y + fRow * 15 > PAGE_BOTTOM_LIMIT - 10) break;
             const fY = y + fRow * 15;
             doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
             doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
@@ -319,15 +342,15 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
         }
       }
 
-      if (data.status === 'pending' && data.paymentLink) {
+      if (data.status === 'pending' && data.paymentLink && y < PAGE_BOTTOM_LIMIT - 20) {
         y += 4;
         doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('ONLINE PAYMENT', left, y);
         y += 10;
-        doc.font('Helvetica').fontSize(8).fillColor(mid).text(data.paymentLink, left, y, { link: data.paymentLink, underline: true });
+        doc.font('Helvetica').fontSize(8).fillColor(mid).text(truncateText(data.paymentLink, 80), left, y, { link: data.paymentLink, underline: true });
         y += 14;
       }
 
-      const footerY = Math.max(y + 10, 780);
+      const footerY = FOOTER_Y;
       doc.moveTo(left, footerY).lineTo(right, footerY).strokeColor(line).lineWidth(0.5).stroke();
       doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY + 6, { align: 'center', width: contentW });
 
@@ -382,10 +405,10 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
 
       const cX = 320;
       doc.font('Helvetica').fontSize(7).fillColor(light).text('BILL TO', cX, y);
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text(data.customer.name, cX, y + 12);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text(truncateText(data.customer.name || 'Cliente', 40), cX, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
       let cy = y + 26;
-      doc.text(data.customer.email, cX, cy); cy += 12;
+      doc.text(truncateText(data.customer.email, 40), cX, cy); cy += 12;
       if (data.customer.phone) { doc.text(data.customer.phone, cX, cy); cy += 12; }
 
       y += 80;
@@ -411,10 +434,12 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.moveTo(left, y).lineTo(right, y).strokeColor(black).lineWidth(0.8).stroke();
       y += 10;
 
-      doc.font('Helvetica-Bold').fontSize(10).fillColor(dark).text(data.concept, left, y, { width: contentW * 0.7 });
-      const conceptH = doc.heightOfString(data.concept, { width: contentW * 0.7 });
-      if (data.description) {
-        doc.font('Helvetica').fontSize(8.5).fillColor(light).text(data.description, left, y + conceptH + 4, { width: contentW * 0.7 });
+      const conceptText = truncateText(data.concept, 100);
+      const descriptionText = truncateText(data.description, 150);
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(dark).text(conceptText, left, y, { width: contentW * 0.7 });
+      const conceptH = doc.heightOfString(conceptText, { width: contentW * 0.7 });
+      if (descriptionText) {
+        doc.font('Helvetica').fontSize(8.5).fillColor(light).text(descriptionText, left, y + conceptH + 4, { width: contentW * 0.7 });
       }
       doc.font('Helvetica-Bold').fontSize(11).fillColor(dark).text(formatCurrency(data.amount, data.currency), right - 80, y + 2, { width: 80, align: 'right' });
 
@@ -432,28 +457,30 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.moveTo(left, y).lineTo(right, y).strokeColor(line).lineWidth(0.5).stroke();
       y += 18;
 
-      const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : [];
-      if (customAccounts.length > 0) {
+      const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts.slice(0, MAX_BANK_ACCOUNTS) : [];
+      if (customAccounts.length > 0 && y < PAGE_BOTTOM_LIMIT - 40) {
         doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
         y += 12;
 
         for (let ai = 0; ai < customAccounts.length; ai++) {
+          if (y > PAGE_BOTTOM_LIMIT - 30) break;
           const account = customAccounts[ai];
-          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(truncateText(account.label, 40).toUpperCase(), left, y);
           y += 9;
           const colW = contentW / 4;
           const fields: [string, string][] = [];
-          fields.push(['Holder', account.holder]);
-          fields.push(['Bank', account.bankName]);
-          if (account.iban) fields.push(['IBAN', account.iban]);
-          if (account.accountNumber) fields.push(['Account', account.accountNumber]);
-          if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
-          if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
+          fields.push(['Holder', truncateText(account.holder, 40)]);
+          fields.push(['Bank', truncateText(account.bankName, 40)]);
+          if (account.iban) fields.push(['IBAN', truncateText(account.iban, 34)]);
+          if (account.accountNumber) fields.push(['Account', truncateText(account.accountNumber, 30)]);
+          if (account.routingNumber) fields.push(['Routing', truncateText(account.routingNumber, 20)]);
+          if (account.swift) fields.push(['SWIFT/BIC', truncateText(account.swift, 20)]);
 
           let fX = left;
           let fRow = 0;
           for (const [label, value] of fields) {
             if (fX + colW > right + 10) { fX = left; fRow++; }
+            if (y + fRow * 15 > PAGE_BOTTOM_LIMIT - 10) break;
             const fY = y + fRow * 15;
             doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
             doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
@@ -467,16 +494,17 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
         }
       }
 
-      if (data.notes) {
+      if (data.notes && y < PAGE_BOTTOM_LIMIT - 20) {
         y += 6;
+        const notesText = truncateText(data.notes, 200);
         doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('NOTES', left, y);
         y += 10;
-        doc.font('Helvetica').fontSize(8).fillColor(mid).text(data.notes, left, y, { width: contentW });
+        doc.font('Helvetica').fontSize(8).fillColor(mid).text(notesText, left, y, { width: contentW });
       }
 
-      const footerY = Math.max(y + 10, 780);
-      doc.moveTo(left, footerY).lineTo(right, footerY).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY + 6, { align: 'center', width: contentW });
+      const footerY2 = FOOTER_Y;
+      doc.moveTo(left, footerY2).lineTo(right, footerY2).strokeColor(line).lineWidth(0.5).stroke();
+      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY2 + 6, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {

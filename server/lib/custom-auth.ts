@@ -105,6 +105,12 @@ export function setupCustomAuth(app: Express) {
   // Register endpoint
   app.post("/api/auth/register", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('register', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, password, firstName, lastName, phone, birthDate, businessActivity, preferredLanguage } = req.body;
 
       if (!email || !password || !firstName || !lastName || !phone) {
@@ -182,7 +188,13 @@ export function setupCustomAuth(app: Express) {
       });
     } catch (error: any) {
       log.error("Registration error", error);
-      res.status(400).json({ message: error.message || "Error creating account" });
+      const safeMessages = [
+        "Email already registered",
+        "All fields are required",
+        "Password must be at least 8 characters",
+      ];
+      const message = safeMessages.find(m => error.message?.includes(m)) || "Error creating account";
+      res.status(400).json({ message });
     }
   });
 
@@ -404,6 +416,12 @@ export function setupCustomAuth(app: Express) {
   // Resend verification email
   app.post("/api/auth/resend-verification", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const userId = req.session.userId;
 
       if (!userId) {
@@ -426,6 +444,12 @@ export function setupCustomAuth(app: Express) {
   // Request password reset OTP
   app.post("/api/auth/forgot-password", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('passwordReset', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email } = req.body;
 
       if (!email) {
@@ -455,6 +479,12 @@ export function setupCustomAuth(app: Express) {
   // Verify password reset OTP
   app.post("/api/auth/verify-reset-otp", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, otp } = req.body;
 
       if (!email || !otp) {
@@ -476,6 +506,12 @@ export function setupCustomAuth(app: Express) {
   // Reset password with OTP
   app.post("/api/auth/reset-password", async (req, res) => {
     try {
+      const ip = getClientIp(req);
+      const rateCheck = await checkRateLimit('otp', ip);
+      if (!rateCheck.allowed) {
+        return res.status(429).json({ message: `Too many attempts. Wait ${rateCheck.retryAfter} seconds.` });
+      }
+
       const { email, otp, password } = req.body;
 
       if (!email || !otp || !password) {

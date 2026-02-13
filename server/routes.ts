@@ -92,28 +92,43 @@ export async function registerRoutes(
     getCsrfToken(req, res);
   });
   
-  // CSRF Validation for ALL state-changing endpoints (must be after csrfMiddleware)
-  const csrfExemptPaths = [
+  const csrfExemptExactPaths = [
     "/api/stripe/webhook",
     "/api/webhook",
+    "/api/auth/exchange-code",
+  ];
+
+  const csrfExemptPrefixPaths = [
+    "/api/stripe/webhook",
+  ];
+
+  const csrfExemptPublicForms = [
     "/api/consultations/book-free",
     "/api/contact/send-otp",
     "/api/contact/verify-otp",
     "/api/messages",
     "/api/newsletter/subscribe",
-    "/api/auth/exchange-code",
     "/api/calculator/consultation",
+    "/api/guest/track",
   ];
   
   app.use((req, res, next) => {
-    const isExempt = csrfExemptPaths.some(path => req.path.startsWith(path));
     const isMutatingMethod = !["GET", "HEAD", "OPTIONS"].includes(req.method);
     const isApiRoute = req.path.startsWith("/api/");
     
-    if (isApiRoute && isMutatingMethod && !isExempt && !isTokenAuth(req)) {
-      return validateCsrf(req, res, next);
+    if (!isApiRoute || !isMutatingMethod || isTokenAuth(req)) {
+      return next();
     }
-    next();
+
+    const isExemptExact = csrfExemptExactPaths.includes(req.path);
+    const isExemptPrefix = csrfExemptPrefixPaths.some(path => req.path.startsWith(path));
+    const isExemptPublicForm = csrfExemptPublicForms.includes(req.path);
+
+    if (isExemptExact || isExemptPrefix || isExemptPublicForm) {
+      return next();
+    }
+
+    return validateCsrf(req, res, next);
   });
 
   app.post("/api/auth/exchange-code", (req, res) => {

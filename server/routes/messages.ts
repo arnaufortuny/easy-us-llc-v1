@@ -5,7 +5,7 @@ import { users as usersTable, messages as messagesTable, messageReplies, userNot
 import { eq } from "drizzle-orm";
 import { sendEmail, getAutoReplyTemplate, getMessageReplyTemplate } from "../lib/email";
 import type { EmailLanguage } from "../lib/email-translations";
-import { checkRateLimit } from "../lib/security";
+import { checkRateLimit, sanitizeHtml } from "../lib/security";
 import { createLogger } from "../lib/logger";
 
 const log = createLogger('messages');
@@ -42,7 +42,10 @@ export function registerMessageRoutes(app: Express) {
       if (!parsed.success) {
         return res.status(400).json({ message: "Invalid data", errors: parsed.error.flatten().fieldErrors });
       }
-      const { name, email, phone, contactByWhatsapp, subject, content, requestCode } = parsed.data;
+      const { name: rawName, email, phone, contactByWhatsapp, subject: rawSubject, content: rawContent, requestCode } = parsed.data;
+      const name = rawName ? sanitizeHtml(rawName) : rawName;
+      const subject = rawSubject ? sanitizeHtml(rawSubject) : rawSubject;
+      const content = sanitizeHtml(rawContent);
       const userId = req.session?.userId || null;
       
       // Restrict suspended or under-review accounts from sending new messages
@@ -182,10 +185,11 @@ export function registerMessageRoutes(app: Express) {
         return res.status(400).json({ message: "Reply content is required" });
       }
       
+      const sanitizedContent = sanitizeHtml(content);
       const isAdminReply = req.session.isAdmin || req.session.isSupport || false;
       const [reply] = await db.insert(messageReplies).values({
         messageId,
-        content,
+        content: sanitizedContent,
         isAdmin: isAdminReply,
         fromName: isAdminReply && fromName ? fromName.trim().substring(0, 100) : null,
         createdBy: req.session.userId,

@@ -140,6 +140,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateLlcApplication(id: number, updates: Partial<LlcApplication>): Promise<LlcApplication> {
+    const [existing] = await db.select().from(llcApplications).where(eq(llcApplications.id, id)).limit(1);
+    if (!existing) {
+      throw new Error(`LLC application with id ${id} not found`);
+    }
     const [updated] = await db
       .update(llcApplications)
       .set({ ...updates, lastUpdated: new Date() })
@@ -195,6 +199,10 @@ export class DatabaseStorage implements IStorage {
   }
 
   async updateOrderStatus(orderId: number, status: string): Promise<Order> {
+    const [existing] = await db.select().from(orders).where(eq(orders.id, orderId)).limit(1);
+    if (!existing) {
+      throw new Error(`Order with id ${orderId} not found`);
+    }
     const [updated] = await db
       .update(orders)
       .set({ status })
@@ -276,6 +284,9 @@ export class DatabaseStorage implements IStorage {
       .set({ status })
       .where(eq(messagesTable.id, id))
       .returning();
+    if (!updated) {
+      throw new Error(`Message with id ${id} not found`);
+    }
     return updated;
   }
 
@@ -327,6 +338,9 @@ export class DatabaseStorage implements IStorage {
 
   async updatePaymentAccount(id: number, updates: Partial<InsertPaymentAccount>): Promise<PaymentAccount> {
     const [updated] = await db.update(paymentAccounts).set(updates).where(eq(paymentAccounts.id, id)).returning();
+    if (!updated) {
+      throw new Error(`Payment account with id ${id} not found`);
+    }
     return updated;
   }
 
