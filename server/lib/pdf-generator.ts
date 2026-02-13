@@ -32,35 +32,6 @@ export interface BankAccountInfo {
   address?: string | null;
 }
 
-const DEFAULT_BANK_ACCOUNTS: BankAccountInfo[] = [
-  {
-    label: 'Thread Bank (Checking)',
-    holder: 'Exentax Holdings LLC',
-    bankName: 'Thread Bank NA',
-    accountType: 'checking',
-    accountNumber: '200002330558',
-    routingNumber: '064209588',
-    swift: 'CLNOUS66MER',
-    address: '1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110'
-  },
-  {
-    label: 'Column N.A. (Checking)',
-    holder: 'Exentax Holdings LLC',
-    bankName: 'Column N.A.',
-    accountType: 'checking',
-    accountNumber: '141432778929495',
-    routingNumber: '121145433',
-    address: '1 Letterman Drive, Building A, Suite A4-700, San Francisco, CA 94129'
-  },
-  {
-    label: 'Cuenta Internacional (IBAN)',
-    holder: 'Exentax Holdings LLC',
-    bankName: 'BANKING CIRCLE SA',
-    accountType: 'iban',
-    iban: 'DK2489000045271938',
-    swift: 'SXPYDKKK',
-  }
-];
 
 let cachedLogoPath: string | null = null;
 let logoChecked = false;
@@ -312,37 +283,39 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.moveTo(left, y).lineTo(right, y).strokeColor(line).lineWidth(0.5).stroke();
       y += 18;
 
-      const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
-      doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
-      y += 12;
+      const accounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : [];
+      if (accounts.length > 0) {
+        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
+        y += 12;
 
-      for (let ai = 0; ai < accounts.length; ai++) {
-        const account = accounts[ai];
-        doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
-        y += 9;
+        for (let ai = 0; ai < accounts.length; ai++) {
+          const account = accounts[ai];
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+          y += 9;
 
-        const colW = contentW / 4;
-        const fields: [string, string][] = [];
-        fields.push(['Holder', account.holder]);
-        fields.push(['Bank', account.bankName]);
-        if (account.iban) fields.push(['IBAN', account.iban]);
-        if (account.accountNumber) fields.push(['Account', account.accountNumber]);
-        if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
-        if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
+          const colW = contentW / 4;
+          const fields: [string, string][] = [];
+          fields.push(['Holder', account.holder]);
+          fields.push(['Bank', account.bankName]);
+          if (account.iban) fields.push(['IBAN', account.iban]);
+          if (account.accountNumber) fields.push(['Account', account.accountNumber]);
+          if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
+          if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
 
-        let fX = left;
-        let fRow = 0;
-        for (const [label, value] of fields) {
-          if (fX + colW > right + 10) { fX = left; fRow++; }
-          const fY = y + fRow * 15;
-          doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
-          doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
-          fX += colW;
-        }
-        y += (fRow + 1) * 15 + 4;
-        if (ai < accounts.length - 1) {
-          doc.moveTo(left, y).lineTo(right, y).strokeColor(faint).lineWidth(0.5).stroke();
-          y += 5;
+          let fX = left;
+          let fRow = 0;
+          for (const [label, value] of fields) {
+            if (fX + colW > right + 10) { fX = left; fRow++; }
+            const fY = y + fRow * 15;
+            doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
+            doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
+            fX += colW;
+          }
+          y += (fRow + 1) * 15 + 4;
+          if (ai < accounts.length - 1) {
+            doc.moveTo(left, y).lineTo(right, y).strokeColor(faint).lineWidth(0.5).stroke();
+            y += 5;
+          }
         }
       }
 
@@ -459,36 +432,38 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.moveTo(left, y).lineTo(right, y).strokeColor(line).lineWidth(0.5).stroke();
       y += 18;
 
-      const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : DEFAULT_BANK_ACCOUNTS;
-      doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
-      y += 12;
+      const customAccounts = data.bankAccounts && data.bankAccounts.length > 0 ? data.bankAccounts : [];
+      if (customAccounts.length > 0) {
+        doc.font('Helvetica-Bold').fontSize(7.5).fillColor(black).text('PAYMENT DETAILS', left, y);
+        y += 12;
 
-      for (let ai = 0; ai < customAccounts.length; ai++) {
-        const account = customAccounts[ai];
-        doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
-        y += 9;
-        const colW = contentW / 4;
-        const fields: [string, string][] = [];
-        fields.push(['Holder', account.holder]);
-        fields.push(['Bank', account.bankName]);
-        if (account.iban) fields.push(['IBAN', account.iban]);
-        if (account.accountNumber) fields.push(['Account', account.accountNumber]);
-        if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
-        if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
+        for (let ai = 0; ai < customAccounts.length; ai++) {
+          const account = customAccounts[ai];
+          doc.font('Helvetica-Bold').fontSize(7).fillColor(dark).text(account.label.toUpperCase(), left, y);
+          y += 9;
+          const colW = contentW / 4;
+          const fields: [string, string][] = [];
+          fields.push(['Holder', account.holder]);
+          fields.push(['Bank', account.bankName]);
+          if (account.iban) fields.push(['IBAN', account.iban]);
+          if (account.accountNumber) fields.push(['Account', account.accountNumber]);
+          if (account.routingNumber) fields.push(['Routing', account.routingNumber]);
+          if (account.swift) fields.push(['SWIFT/BIC', account.swift]);
 
-        let fX = left;
-        let fRow = 0;
-        for (const [label, value] of fields) {
-          if (fX + colW > right + 10) { fX = left; fRow++; }
-          const fY = y + fRow * 15;
-          doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
-          doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
-          fX += colW;
-        }
-        y += (fRow + 1) * 15 + 4;
-        if (ai < customAccounts.length - 1) {
-          doc.moveTo(left, y).lineTo(right, y).strokeColor('#F5F5F5').lineWidth(0.5).stroke();
-          y += 5;
+          let fX = left;
+          let fRow = 0;
+          for (const [label, value] of fields) {
+            if (fX + colW > right + 10) { fX = left; fRow++; }
+            const fY = y + fRow * 15;
+            doc.font('Helvetica').fontSize(6).fillColor(light).text(label.toUpperCase(), fX, fY);
+            doc.font('Helvetica').fontSize(7).fillColor(dark).text(value, fX, fY + 7);
+            fX += colW;
+          }
+          y += (fRow + 1) * 15 + 4;
+          if (ai < customAccounts.length - 1) {
+            doc.moveTo(left, y).lineTo(right, y).strokeColor('#F5F5F5').lineWidth(0.5).stroke();
+            y += 5;
+          }
         }
       }
 

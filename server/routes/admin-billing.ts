@@ -918,6 +918,22 @@ export function registerAdminBillingRoutes(app: Express) {
         }));
       }
     }
+    if (!selectedBankAccounts || selectedBankAccounts.length === 0) {
+      const activeAccounts = await storage.getActivePaymentAccounts();
+      if (activeAccounts.length > 0) {
+        selectedBankAccounts = activeAccounts.map(a => ({
+          label: a.label,
+          holder: a.holder,
+          bankName: a.bankName,
+          accountType: a.accountType,
+          accountNumber: a.accountNumber,
+          routingNumber: a.routingNumber,
+          iban: a.iban,
+          swift: a.swift,
+          address: a.address,
+        }));
+      }
+    }
 
     const dateStr = invoiceDate || new Date().toISOString().split('T')[0];
 
