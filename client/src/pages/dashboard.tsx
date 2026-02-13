@@ -57,10 +57,18 @@ const AdminCalendarPanel = lazy(() => import("@/pages/dashboard/panels/admin/Adm
 const AdminDocsPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminDocsPanel").then(m => ({ default: m.AdminDocsPanel })));
 const AdminIncompletePanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminIncompletePanel").then(m => ({ default: m.AdminIncompletePanel })));
 const AdminDiscountsPanel = lazy(() => import("@/pages/dashboard/panels/admin/AdminDiscountsPanel").then(m => ({ default: m.AdminDiscountsPanel })));
+const PaymentLinkForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/PaymentLinkForm").then(m => ({ default: m.PaymentLinkForm })));
+const AdminDocUploadForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/AdminDocUploadForm").then(m => ({ default: m.AdminDocUploadForm })));
+const ResetPasswordForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/ResetPasswordForm").then(m => ({ default: m.ResetPasswordForm })));
+const IdvRequestForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/IdvRequestForm").then(m => ({ default: m.IdvRequestForm })));
+const IdvRejectForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/IdvRejectForm").then(m => ({ default: m.IdvRejectForm })));
+const DocRejectForm = lazy(() => import("@/pages/dashboard/panels/admin/forms/DocRejectForm").then(m => ({ default: m.DocRejectForm })));
 import { ConfirmDialog, useConfirmDialog } from "@/components/ui/confirm-dialog";
 import { LoadingScreen } from "@/components/loading-screen";
 import { PanelErrorBoundary } from "@/components/dashboard/panel-error-boundary";
 import { useUserProfileState } from "./dashboard/hooks/useUserProfileState";
+import { useAdminState } from "./dashboard/hooks/useAdminState";
+import { DashboardSidebar } from "./dashboard/components/DashboardSidebar";
 
 
 function PendingReviewCard({ user }: { user: any }) {
@@ -412,84 +420,6 @@ export default function Dashboard() {
     requestPasswordOtpMutation,
     changePasswordMutation,
   } = useUserProfileState(user, t, canEdit);
-    
-  const [editingUser, setEditingUser] = useState<AdminUserData | null>(null);
-  const [paymentDialog, setPaymentDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [paymentLink, setPaymentLink] = useState("");
-  const [paymentAmount, setPaymentAmount] = useState("");
-  const [paymentMessage, setPaymentMessage] = useState("");
-  const [docDialog, setDocDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [docType, setDocType] = useState("");
-  const [docMessage, setDocMessage] = useState("");
-  const [docRejectDialog, setDocRejectDialog] = useState<{ open: boolean; docId: number | null }>({ open: false, docId: null });
-  const [docRejectReason, setDocRejectReason] = useState("");
-  const [noteDialog, setNoteDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [noteTitle, setNoteTitle] = useState("");
-  const [noteMessage, setNoteMessage] = useState("");
-  const [noteType, setNoteType] = useState("info");
-  const [invoiceDialog, setInvoiceDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [invoiceConcept, setInvoiceConcept] = useState("");
-  const [invoiceAmount, setInvoiceAmount] = useState("");
-  const [invoiceCurrency, setInvoiceCurrency] = useState("EUR");
-  const [invoiceDate, setInvoiceDate] = useState(new Date().toISOString().split('T')[0]);
-  const [invoicePaymentAccountIds, setInvoicePaymentAccountIds] = useState<number[]>([]);
-  const [adminSubTab, setAdminSubTabRaw] = useState(subTabFromUrl || (user?.isSupport && !user?.isAdmin ? "orders" : "dashboard"));
-
-  const setAdminSubTab = useCallback((sub: string) => {
-    setAdminSubTabRaw(sub);
-    syncTabToUrl('admin', sub);
-    setOrdersPage(1);
-    setUsersPage(1);
-    setMessagesPage(1);
-    setAdminSearchQuery('');
-  }, [syncTabToUrl]);
-  const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
-  const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
-  const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting' | 'payment-methods'>('invoices');
-  const [adminSearchQuery, setAdminSearchQuery] = useState("");
-  const [adminSearchFilter, setAdminSearchFilter] = useState<'all' | 'name' | 'email' | 'date' | 'invoiceId'>('all');
-  const [ordersPage, setOrdersPage] = useState(1);
-  const [usersPage, setUsersPage] = useState(1);
-  const [messagesPage, setMessagesPage] = useState(1);
-  const adminPageSize = 50;
-  const [createUserDialog, setCreateUserDialog] = useState(false);
-  const [newUserData, setNewUserData] = useState({ firstName: '', lastName: '', email: '', phone: '', password: '' });
-  const [createOrderDialog, setCreateOrderDialog] = useState(false);
-  const [newOrderData, setNewOrderData] = useState({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc' as 'llc' | 'maintenance' | 'custom', concept: '' });
-  const [deleteConfirm, setDeleteConfirm] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [discountCodeDialog, setDiscountCodeDialog] = useState<{ open: boolean; code: DiscountCode | null }>({ open: false, code: null });
-  const [paymentLinkDialog, setPaymentLinkDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [paymentLinkUrl, setPaymentLinkUrl] = useState("");
-  const [paymentLinkAmount, setPaymentLinkAmount] = useState("");
-  const [paymentLinkMessage, setPaymentLinkMessage] = useState("");
-  const [isSendingPaymentLink, setIsSendingPaymentLink] = useState(false);
-  const [isGeneratingInvoice, setIsGeneratingInvoice] = useState(false);
-  const [adminDocUploadDialog, setAdminDocUploadDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
-  const [adminDocType, setAdminDocType] = useState("articles_of_organization");
-  const [adminDocFile, setAdminDocFile] = useState<File | null>(null);
-  const [isUploadingAdminDoc, setIsUploadingAdminDoc] = useState(false);
-  const [resetPasswordDialog, setResetPasswordDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [newAdminPassword, setNewAdminPassword] = useState("");
-  const [isResettingPassword, setIsResettingPassword] = useState(false);
-  const [idvRequestDialog, setIdvRequestDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [idvRequestNotes, setIdvRequestNotes] = useState("");
-  const [isSendingIdvRequest, setIsSendingIdvRequest] = useState(false);
-  const [idvRejectDialog, setIdvRejectDialog] = useState<{ open: boolean; user: AdminUserData | null }>({ open: false, user: null });
-  const [idvRejectReason, setIdvRejectReason] = useState("");
-  const [isSendingIdvReject, setIsSendingIdvReject] = useState(false);
-  const [isApprovingIdv, setIsApprovingIdv] = useState(false);
-  const [idvUploadFile, setIdvUploadFile] = useState<File | null>(null);
-  const [isUploadingIdv, setIsUploadingIdv] = useState(false);
-  const [newDiscountCode, setNewDiscountCode] = useState({
-    code: '',
-    discountType: 'percentage' as 'percentage' | 'fixed',
-    discountValue: '',
-    minOrderAmount: '',
-    maxUses: '',
-    validFrom: '',
-    validUntil: '',
-    isActive: true
-  });
 
   const [isTabFocused, setIsTabFocused] = useState(() => typeof document !== 'undefined' ? document.hasFocus() : true);
   useEffect(() => {
@@ -505,6 +435,107 @@ export default function Dashboard() {
       document.removeEventListener('visibilitychange', onVisChange);
     };
   }, []);
+    
+  const adminState = useAdminState({
+    user, t, setFormMessage, isAuthenticated, isTabFocused, activeTab, syncTabToUrl, subTabFromUrl,
+  });
+  const {
+    editingUser, setEditingUser,
+    paymentDialog, setPaymentDialog,
+    paymentLink, setPaymentLink,
+    paymentAmount, setPaymentAmount,
+    paymentMessage, setPaymentMessage,
+    docDialog, setDocDialog,
+    docType, setDocType,
+    docMessage, setDocMessage,
+    docRejectDialog, setDocRejectDialog,
+    docRejectReason, setDocRejectReason,
+    noteDialog, setNoteDialog,
+    noteTitle, setNoteTitle,
+    noteMessage, setNoteMessage,
+    noteType, setNoteType,
+    invoiceDialog, setInvoiceDialog,
+    invoiceConcept, setInvoiceConcept,
+    invoiceAmount, setInvoiceAmount,
+    invoiceCurrency, setInvoiceCurrency,
+    invoiceDate, setInvoiceDate,
+    invoicePaymentAccountIds, setInvoicePaymentAccountIds,
+    adminSubTab, setAdminSubTabRaw, setAdminSubTab,
+    commSubTab, setCommSubTab,
+    usersSubTab, setUsersSubTab,
+    billingSubTab, setBillingSubTab,
+    adminSearchQuery, setAdminSearchQuery,
+    adminSearchFilter, setAdminSearchFilter,
+    ordersPage, setOrdersPage,
+    usersPage, setUsersPage,
+    messagesPage, setMessagesPage,
+    adminPageSize,
+    createUserDialog, setCreateUserDialog,
+    newUserData, setNewUserData,
+    createOrderDialog, setCreateOrderDialog,
+    newOrderData, setNewOrderData,
+    deleteConfirm, setDeleteConfirm,
+    discountCodeDialog, setDiscountCodeDialog,
+    paymentLinkDialog, setPaymentLinkDialog,
+    paymentLinkUrl, setPaymentLinkUrl,
+    paymentLinkAmount, setPaymentLinkAmount,
+    paymentLinkMessage, setPaymentLinkMessage,
+    isSendingPaymentLink, setIsSendingPaymentLink,
+    isGeneratingInvoice, setIsGeneratingInvoice,
+    adminDocUploadDialog, setAdminDocUploadDialog,
+    adminDocType, setAdminDocType,
+    adminDocFile, setAdminDocFile,
+    isUploadingAdminDoc, setIsUploadingAdminDoc,
+    resetPasswordDialog, setResetPasswordDialog,
+    newAdminPassword, setNewAdminPassword,
+    isResettingPassword, setIsResettingPassword,
+    idvRequestDialog, setIdvRequestDialog,
+    idvRequestNotes, setIdvRequestNotes,
+    isSendingIdvRequest, setIsSendingIdvRequest,
+    idvRejectDialog, setIdvRejectDialog,
+    idvRejectReason, setIdvRejectReason,
+    isSendingIdvReject, setIsSendingIdvReject,
+    isApprovingIdv, setIsApprovingIdv,
+    idvUploadFile, setIdvUploadFile,
+    isUploadingIdv, setIsUploadingIdv,
+    newDiscountCode, setNewDiscountCode,
+    broadcastSubject, setBroadcastSubject,
+    broadcastMessage, setBroadcastMessage,
+    deleteOrderConfirm, setDeleteOrderConfirm,
+    generateInvoiceDialog, setGenerateInvoiceDialog,
+    orderInvoiceAmount, setOrderInvoiceAmount,
+    orderInvoiceCurrency, setOrderInvoiceCurrency,
+    isAdminTab, isStaffUser,
+    adminOrders, ordersPagination,
+    incompleteApps,
+    adminUsers, usersPagination,
+    adminNewsletterSubs, refetchNewsletterSubs,
+    adminDocuments,
+    adminInvoices,
+    adminStats,
+    adminMessages, messagesPagination,
+    discountCodes, refetchDiscountCodes,
+    guestVisitors, refetchGuests,
+    paymentAccountsList, refetchPaymentAccounts,
+    deleteIncompleteAppMutation,
+    broadcastMutation,
+    uploadDocMutation,
+    updateStatusMutation,
+    updateLlcDatesMutation,
+    sendNoteMutation,
+    updateUserMutation,
+    deleteUserMutation,
+    deleteOrderMutation,
+    createInvoiceMutation,
+    createUserMutation,
+    createOrderMutation,
+    deleteDocMutation,
+    matchesFilter,
+    filteredAdminOrders,
+    filteredAdminUsers,
+    filteredAdminMessages,
+    filteredAdminDocuments,
+  } = adminState;
 
   useEffect(() => {
     if (!authLoading && !isAuthenticated) {
@@ -595,429 +626,10 @@ export default function Dashboard() {
     }
   });
 
-  const isAdminTab = activeTab === 'admin';
-  const isStaffUser = !!user?.isAdmin || !!user?.isSupport;
-
-  const adminOrdersSearchParam = adminSubTab === 'orders' ? adminSearchQuery : '';
-  const { data: adminOrdersResponse } = useQuery<{ data: any[]; pagination: { page: number; pageSize: number; total: number; totalPages: number } }>({
-    queryKey: ["/api/admin/orders", { page: ordersPage, pageSize: adminPageSize, search: adminOrdersSearchParam }],
-    queryFn: async () => {
-      const params = new URLSearchParams({ page: String(ordersPage), pageSize: String(adminPageSize) });
-      if (adminOrdersSearchParam) params.set('search', adminOrdersSearchParam);
-      const res = await fetch(`/api/admin/orders?${params}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to fetch orders');
-      return res.json();
-    },
-    enabled: isStaffUser && (isAdminTab && (adminSubTab === 'orders' || adminSubTab === 'dashboard' || adminSubTab === 'calendar')),
-    staleTime: 1000 * 60 * 2,
-  });
-  const adminOrders = adminOrdersResponse?.data;
-  const ordersPagination = adminOrdersResponse?.pagination;
-
-  const { data: incompleteApps } = useQuery<{ llc: any[]; maintenance: any[] }>({
-    queryKey: ["/api/admin/incomplete-applications"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'incomplete',
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const deleteIncompleteAppMutation = useMutation({
-    mutationFn: async ({ type, id }: { type: string; id: number }) => {
-      setFormMessage(null);
-      const res = await apiRequest("DELETE", `/api/admin/incomplete-applications/${type}/${id}`);
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/incomplete-applications"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.incompleteDeleted") + ". " + t("dashboard.toasts.incompleteDeletedDesc") });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
-    }
-  });
-
-  const adminUsersSearchParam = adminSubTab === 'users' ? adminSearchQuery : '';
-  const { data: adminUsersResponse } = useQuery<{ data: any[]; pagination: { page: number; pageSize: number; total: number; totalPages: number } }>({
-    queryKey: ["/api/admin/users", { page: usersPage, pageSize: adminPageSize, search: adminUsersSearchParam }],
-    queryFn: async () => {
-      const params = new URLSearchParams({ page: String(usersPage), pageSize: String(adminPageSize) });
-      if (adminUsersSearchParam) params.set('search', adminUsersSearchParam);
-      const res = await fetch(`/api/admin/users?${params}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to fetch users');
-      return res.json();
-    },
-    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'users' || adminSubTab === 'dashboard' || adminSubTab === 'orders'),
-    staleTime: 1000 * 60 * 3,
-  });
-  const adminUsers = adminUsersResponse?.data;
-  const usersPagination = adminUsersResponse?.pagination;
-
-  const { data: adminNewsletterSubs, refetch: refetchNewsletterSubs } = useQuery<any[]>({
-    queryKey: ["/api/admin/newsletter"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'communications',
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const { data: adminDocuments } = useQuery<any[]>({
-    queryKey: ["/api/admin/documents"],
-    enabled: isStaffUser && isAdminTab && (adminSubTab === 'docs' || adminSubTab === 'dashboard'),
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const { data: adminInvoices } = useQuery<any[]>({
-    queryKey: ["/api/admin/invoices"],
-    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'billing' || adminSubTab === 'orders'),
-    refetchInterval: isTabFocused && adminSubTab === 'billing' ? 30000 : false,
-  });
-
-  const { data: adminStats } = useQuery<{
-    totalSales: number;
-    pendingSales: number;
-    orderCount: number;
-    pendingOrders: number;
-    completedOrders: number;
-    processingOrders: number;
-    userCount: number;
-    pendingAccounts: number;
-    activeAccounts: number;
-    vipAccounts: number;
-    deactivatedAccounts: number;
-    subscriberCount: number;
-    totalMessages: number;
-    pendingMessages: number;
-    totalDocs: number;
-    pendingDocs: number;
-    conversionRate: number;
-  }>({
-    queryKey: ["/api/admin/system-stats"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'dashboard',
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const adminMessagesSearchParam = adminSubTab === 'communications' ? adminSearchQuery : '';
-  const { data: adminMessagesResponse } = useQuery<{ data: any[]; pagination: { page: number; pageSize: number; total: number; totalPages: number } }>({
-    queryKey: ["/api/admin/messages", { page: messagesPage, pageSize: adminPageSize, search: adminMessagesSearchParam }],
-    queryFn: async () => {
-      const params = new URLSearchParams({ page: String(messagesPage), pageSize: String(adminPageSize) });
-      if (adminMessagesSearchParam) params.set('search', adminMessagesSearchParam);
-      const res = await fetch(`/api/admin/messages?${params}`, { credentials: 'include' });
-      if (!res.ok) throw new Error('Failed to fetch messages');
-      return res.json();
-    },
-    enabled: isStaffUser && isAdminTab && (adminSubTab === 'communications' || adminSubTab === 'dashboard'),
-    staleTime: 1000 * 60 * 2,
-  });
-  const adminMessages = adminMessagesResponse?.data;
-  const messagesPagination = adminMessagesResponse?.pagination;
-
-  const { data: discountCodes, refetch: refetchDiscountCodes } = useQuery<DiscountCode[]>({
-    queryKey: ["/api/admin/discount-codes"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'descuentos',
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const { data: guestVisitors, refetch: refetchGuests } = useQuery({
-    queryKey: ["/api/admin/guests"],
-    enabled: !!user?.isAdmin && isAdminTab && adminSubTab === 'dashboard',
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const { data: paymentAccountsList, refetch: refetchPaymentAccounts } = useQuery<any[]>({
-    queryKey: ["/api/admin/payment-accounts"],
-    enabled: !!user?.isAdmin && isAdminTab && (adminSubTab === 'billing' || adminSubTab === 'orders'),
-    staleTime: 1000 * 60 * 2,
-  });
-
-  const [broadcastSubject, setBroadcastSubject] = useState("");
-  const [broadcastMessage, setBroadcastMessage] = useState("");
-
-  const broadcastMutation = useMutation({
-    mutationFn: async ({ subject, message }: { subject: string, message: string }) => {
-      setFormMessage(null);
-      const res = await apiRequest("POST", "/api/admin/newsletter/broadcast", { subject, message });
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotSend"));
-    },
-    onSuccess: () => {
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.emailsSent") + ". " + t("dashboard.toasts.emailsSentDesc") });
-      setBroadcastSubject("");
-      setBroadcastMessage("");
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotSend") });
-    }
-  });
-
   const { data: userDocuments } = useQuery<any[]>({
     queryKey: ["/api/user/documents"],
     enabled: isAuthenticated,
     staleTime: 1000 * 60 * 2,
-  });
-
-  const uploadDocMutation = useMutation({
-    mutationFn: async (data: any) => {
-      setFormMessage(null);
-      const res = await apiRequest("POST", "/api/admin/documents", data);
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || t("dashboard.toasts.couldNotUpload"));
-      }
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentUploaded") + ". " + t("dashboard.toasts.documentUploadedDesc") });
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotUpload")) });
-    }
-  });
-
-  const updateStatusMutation = useMutation({
-    mutationFn: async ({ id, status }: { id: number, status: string }) => {
-      setFormMessage(null);
-      const res = await apiRequest("PATCH", `/api/admin/orders/${id}/status`, { status });
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdate") });
-    }
-  });
-
-  const updateLlcDatesMutation = useMutation({
-    mutationFn: async ({ appId, field, value }: { appId: number, field: string, value: string | null }) => {
-      setFormMessage(null);
-      const res = await apiRequest("PATCH", `/api/admin/llc/${appId}/dates`, { field, value });
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotUpdate"));
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.dateUpdated") });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdate") });
-    }
-  });
-
-  const sendNoteMutation = useMutation({
-    mutationFn: async ({ userId, title, message, type }: { userId: string, title: string, message: string, type: string }) => {
-      setFormMessage(null);
-      const res = await apiRequest("POST", "/api/admin/send-note", { userId, title, message, type });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || t("dashboard.toasts.couldNotSend"));
-      }
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.notesSent") + ". " + t("dashboard.toasts.notesSentDesc") });
-      setNoteDialog({ open: false, user: null });
-      setNoteTitle("");
-      setNoteMessage("");
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotSend")) });
-    }
-  });
-
-  const updateUserMutation = useMutation({
-    mutationFn: async (data: Partial<AdminUserData> & { id: string }) => {
-      setFormMessage(null);
-      const { id, createdAt, ...rest } = data;
-      const validIdTypes = ['dni', 'nie', 'passport'];
-      const validStatuses = ['active', 'pending', 'deactivated', 'vip'];
-      const updateData: Record<string, any> = {};
-      if (rest.firstName !== undefined) updateData.firstName = rest.firstName || undefined;
-      if (rest.lastName !== undefined) updateData.lastName = rest.lastName || undefined;
-      if (rest.email !== undefined) updateData.email = rest.email || undefined;
-      if (rest.phone !== undefined) updateData.phone = rest.phone || null;
-      if (rest.address !== undefined) updateData.address = rest.address || null;
-      if (rest.streetType !== undefined) updateData.streetType = rest.streetType || null;
-      if (rest.city !== undefined) updateData.city = rest.city || null;
-      if (rest.province !== undefined) updateData.province = rest.province || null;
-      if (rest.postalCode !== undefined) updateData.postalCode = rest.postalCode || null;
-      if (rest.country !== undefined) updateData.country = rest.country || null;
-      if (rest.idNumber !== undefined) updateData.idNumber = rest.idNumber || null;
-      if (rest.idType !== undefined) updateData.idType = validIdTypes.includes(rest.idType || '') ? rest.idType : null;
-      if (rest.birthDate !== undefined) updateData.birthDate = rest.birthDate || null;
-      if (rest.businessActivity !== undefined) updateData.businessActivity = rest.businessActivity || null;
-      if (rest.isActive !== undefined) updateData.isActive = rest.isActive;
-      if (rest.isAdmin !== undefined) updateData.isAdmin = rest.isAdmin;
-      if (rest.isSupport !== undefined) updateData.isSupport = rest.isSupport;
-      if (rest.accountStatus !== undefined && validStatuses.includes(rest.accountStatus)) updateData.accountStatus = rest.accountStatus;
-      if (rest.internalNotes !== undefined) updateData.internalNotes = rest.internalNotes || null;
-      const cleanData = Object.fromEntries(Object.entries(updateData).filter(([_, v]) => v !== undefined));
-      const res = await apiRequest("PATCH", `/api/admin/users/${id}`, cleanData);
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || t("dashboard.toasts.couldNotUpdate"));
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.userUpdated") });
-      setEditingUser(null);
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotUpdate")) });
-    }
-  });
-
-  const deleteUserMutation = useMutation({
-    mutationFn: async (userId: string) => {
-      setFormMessage(null);
-      const res = await apiRequest("DELETE", `/api/admin/users/${userId}`);
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.userDeleted") });
-      setDeleteConfirm({ open: false, user: null });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
-    }
-  });
-  
-  const [deleteOrderConfirm, setDeleteOrderConfirm] = useState<{ open: boolean; order: any }>({ open: false, order: null });
-  const [generateInvoiceDialog, setGenerateInvoiceDialog] = useState<{ open: boolean; order: any }>({ open: false, order: null });
-  const [orderInvoiceAmount, setOrderInvoiceAmount] = useState("");
-  const [orderInvoiceCurrency, setOrderInvoiceCurrency] = useState("EUR");
-
-  const deleteOrderMutation = useMutation({
-    mutationFn: async (orderId: number) => {
-      setFormMessage(null);
-      const res = await apiRequest("DELETE", `/api/admin/orders/${orderId}`);
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
-    },
-    onSuccess: () => {
-      // Invalidate all related queries
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/user/notifications"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.orderDeleted") + ". " + t("dashboard.toasts.orderDeletedDesc") });
-      setDeleteOrderConfirm({ open: false, order: null });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotDelete") });
-    }
-  });
-
-  const createInvoiceMutation = useMutation({
-    mutationFn: async ({ userId, concept, amount, currency, invoiceDate, paymentAccountIds }: { userId: string, concept: string, amount: number, currency: string, invoiceDate?: string, paymentAccountIds?: number[] }) => {
-      setFormMessage(null);
-      if (!amount || isNaN(amount) || amount < 1) {
-        throw new Error(t("dashboard.toasts.invalidAmount"));
-      }
-      const res = await apiRequest("POST", "/api/admin/invoices/create", { userId, concept, amount, currency, invoiceDate, paymentAccountIds });
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.message || t("dashboard.toasts.couldNotCreate"));
-      }
-      return res.json();
-    },
-    onSuccess: (data) => {
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.invoiceCreated") + ". " + (t("dashboard.toasts.invoiceCreatedDesc", { number: data?.invoiceNumber || '' })) });
-      setInvoiceDialog({ open: false, user: null });
-      setInvoiceConcept("");
-      setInvoiceAmount("");
-      setInvoiceCurrency("EUR");
-      setInvoiceDate(new Date().toISOString().split('T')[0]);
-      setInvoicePaymentAccountIds([]);
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
-    }
-  });
-
-  const createUserMutation = useMutation({
-    mutationFn: async (data: typeof newUserData) => {
-      setFormMessage(null);
-      const res = await apiRequest("POST", "/api/admin/users/create", data);
-      return res.json();
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/users"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.userCreated") + ". " + t("dashboard.toasts.userCreatedDesc") });
-      setCreateUserDialog(false);
-      setNewUserData({ firstName: '', lastName: '', email: '', phone: '', password: '' });
-    },
-    onError: () => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotCreate") });
-    }
-  });
-
-  const createOrderMutation = useMutation({
-    mutationFn: async (data: typeof newOrderData) => {
-      setFormMessage(null);
-      const { userId, amount, orderType } = data;
-      if (!userId || !amount) {
-        throw new Error(t("dashboard.toasts.missingRequiredData"));
-      }
-      if (orderType === 'custom') {
-        if (!data.concept) throw new Error(t("dashboard.toasts.missingRequiredData"));
-        const res = await apiRequest("POST", "/api/admin/orders/create-custom", { userId, concept: data.concept, amount });
-        if (!res.ok) {
-          const errorData = await res.json().catch(() => ({}));
-          throw new Error(errorData.message || t("dashboard.toasts.couldNotCreate"));
-        }
-        return res.json();
-      }
-      const { state } = data;
-      if (!state) throw new Error(t("dashboard.toasts.missingRequiredData"));
-      const endpoint = orderType === 'maintenance' ? "/api/admin/orders/create-maintenance" : "/api/admin/orders/create";
-      const res = await apiRequest("POST", endpoint, { userId, state, amount });
-      if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || t("dashboard.toasts.couldNotCreate"));
-      }
-      return res.json();
-    },
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/orders"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/invoices"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/accounting/transactions"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.orderCreated") + ". " + (t("dashboard.toasts.orderCreatedDesc", { number: data?.invoiceNumber || '' })) });
-      setCreateOrderDialog(false);
-      setNewOrderData({ userId: '', productId: '1', amount: '', state: 'New Mexico', orderType: 'llc', concept: '' });
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error.message || t("dashboard.toasts.couldNotCreate")) });
-    }
-  });
-
-  const deleteDocMutation = useMutation({
-    mutationFn: async (docId: number) => {
-      setFormMessage(null);
-      const endpoint = user?.isAdmin ? `/api/admin/documents/${docId}` : `/api/user/documents/${docId}`;
-      const res = await apiRequest("DELETE", endpoint);
-      if (!res.ok) throw new Error(t("dashboard.toasts.couldNotDelete"));
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-      queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-      setFormMessage({ type: 'success', text: t("dashboard.toasts.documentDeleted") });
-    },
-    onError: (error: any) => {
-      setFormMessage({ type: 'error', text: t("common.error") + ". " + (error?.message || t("dashboard.toasts.couldNotDelete")) });
-    }
   });
 
   const isAdmin = user?.isAdmin;
@@ -1075,34 +687,6 @@ export default function Dashboard() {
     apiRequest("POST", "/api/auth/logout").then(() => window.location.href = "/");
   }, []);
 
-  const matchesFilter = (fields: Record<string, string>, query: string, filter: typeof adminSearchFilter) => {
-    if (filter === 'all') return Object.values(fields).some(v => v.includes(query));
-    if (filter === 'name') return (fields.name || '').includes(query);
-    if (filter === 'email') return (fields.email || '').includes(query);
-    if (filter === 'date') return (fields.date || '').includes(query) || (fields.dateLong || '').includes(query);
-    if (filter === 'invoiceId') return (fields.invoiceId || '').includes(query) || (fields.orderId || '').includes(query);
-    return false;
-  };
-
-  const filteredAdminOrders = adminOrders;
-  const filteredAdminUsers = adminUsers;
-  const filteredAdminMessages = adminMessages;
-
-  const filteredAdminDocuments = useMemo(() => {
-    if (!adminSearchQuery.trim() || !adminDocuments) return adminDocuments;
-    const query = adminSearchQuery.toLowerCase().trim();
-    return adminDocuments.filter((doc: any) => {
-      const fields: Record<string, string> = {
-        name: ((doc.user?.firstName || '') + ' ' + (doc.user?.lastName || '')).toLowerCase(),
-        email: (doc.user?.email || '').toLowerCase(),
-        date: doc.uploadedAt ? formatDateShort(doc.uploadedAt) : '',
-        invoiceId: (doc.fileName || '').toLowerCase(),
-        orderId: (doc.id?.toString() || ''),
-        companyName: (doc.application?.companyName || '').toLowerCase(),
-      };
-      return matchesFilter(fields, query, adminSearchFilter);
-    });
-  }, [adminDocuments, adminSearchQuery, adminSearchFilter]);
 
   if (authLoading) {
     return <LoadingScreen />;
@@ -1157,114 +741,19 @@ export default function Dashboard() {
       {!isAdmin && <DashboardTour />}
 
       <div className="flex flex-1 relative min-h-0">
-      {/* Desktop Sidebar - Fixed position */}
-      <aside className="hidden lg:flex lg:flex-col h-full w-64 shrink-0 border-r border-border/50 bg-card z-40">
-          <div className="flex flex-col h-full">
-            {/* Main navigation */}
-            <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-1">
-              {isAdmin ? (
-                <>
-                  {sidebarMainItems.map((item: any) => {
-                    const isActive = activeTab === 'admin' && adminSubTab === item.subTab;
-                    return (
-                      <button
-                        key={item.id}
-                        onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
-                        className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                          isActive 
-                          ? 'bg-accent text-accent-foreground shadow-sm' 
-                          : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                        }`}
-                        data-testid={`button-sidebar-${item.id}`}
-                      >
-                        <item.icon className={`w-5 h-5 shrink-0 ${isActive ? 'text-accent-foreground' : 'text-accent'}`} />
-                        <span>{item.label}</span>
-                      </button>
-                    );
-                  })}
-                </>
-              ) : (
-                <>
-                  {sidebarMainItems.map((item) => (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveTab(item.id as Tab)}
-                      className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                        activeTab === item.id 
-                        ? 'bg-accent text-accent-foreground shadow-sm' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                      }`}
-                      data-testid={`button-sidebar-${item.id}`}
-                      {...('tour' in item && item.tour ? { 'data-tour': item.tour } : {})}
-                    >
-                      <item.icon className={`w-5 h-5 shrink-0 ${activeTab === item.id ? 'text-accent-foreground' : 'text-accent'}`} />
-                      <span>{item.label}</span>
-                    </button>
-                  ))}
-                  
-                  {isSupport && (
-                    <>
-                      <div className="pt-2 pb-1 px-4">
-                        <div className="border-t border-border/30" />
-                      </div>
-                      <button
-                        onClick={() => setActiveTab('admin' as Tab)}
-                        className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                          activeTab === 'admin' 
-                          ? 'bg-accent text-accent-foreground shadow-sm' 
-                          : 'text-accent hover:bg-accent/10'
-                        }`}
-                        data-testid="button-sidebar-admin"
-                      >
-                        <Shield className={`w-5 h-5 shrink-0 ${activeTab === 'admin' ? 'text-accent-foreground' : 'text-accent'}`} />
-                        <span>{t('dashboard.menu.support')}</span>
-                      </button>
-                    </>
-                  )}
-                </>
-              )}
-            </nav>
-
-            {/* Bottom section: Profile + Settings + Logout */}
-            <div className="border-t border-border/30 px-3 py-3 space-y-1">
-              <button
-                onClick={() => setActiveTab('profile' as Tab)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors ${
-                  activeTab === 'profile' 
-                  ? 'bg-accent text-accent-foreground shadow-sm' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-secondary/50'
-                }`}
-                data-testid="button-sidebar-profile"
-                data-tour="profile"
-              >
-                <UserIcon className={`w-5 h-5 shrink-0 ${activeTab === 'profile' ? 'text-accent-foreground' : 'text-accent'}`} />
-                <span>{t('dashboard.tabs.profile')}</span>
-              </button>
-
-              <button
-                onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-bold text-red-500 dark:text-red-400 hover-elevate transition-colors"
-                data-testid="button-sidebar-logout"
-              >
-                <LogOut className="w-5 h-5 shrink-0" />
-                <span>{t("nav.logout")}</span>
-              </button>
-
-              {/* User info */}
-              <div className="flex items-center gap-3 px-4 py-3 mt-1 rounded-xl bg-secondary/30">
-                <div className="w-8 h-8 rounded-full bg-accent/20 flex items-center justify-center shrink-0">
-                  <span className="text-accent font-black text-sm">
-                    {(user?.firstName || '?').charAt(0).toUpperCase()}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-foreground truncate">{user?.firstName} {user?.lastName}</p>
-                  <p className="text-[11px] text-muted-foreground truncate">{user?.email}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
+      <DashboardSidebar
+        isAdmin={isAdmin}
+        isSupport={isSupport}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        adminSubTab={adminSubTab}
+        setAdminSubTab={setAdminSubTab}
+        sidebarMainItems={sidebarMainItems}
+        adminMenuItems={adminMenuItems}
+        userMenuItems={userMenuItems}
+        user={user}
+        handleLogout={handleLogout}
+      />
 
         {/* Main content wrapper - vertical flex for mobile tabs + scroll area */}
         <div className="flex-1 min-w-0 flex flex-col overflow-hidden">
@@ -1841,385 +1330,87 @@ export default function Dashboard() {
 
                   {/* Inline Panel: Payment Link */}
                   {paymentLinkDialog.open && paymentLinkDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.sendPaymentLink')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.sendPaymentLinkDesc')} {paymentLinkDialog.user?.firstName} {paymentLinkDialog.user?.lastName}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentLinkUrl')}</Label>
-                          <Input value={paymentLinkUrl}
-                            onChange={(e) => setPaymentLinkUrl(e.target.value)}
-                            placeholder="https://..."
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                            data-testid="input-payment-link-url"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentAmount')}</Label>
-                          <Input value={paymentLinkAmount}
-                            onChange={(e) => setPaymentLinkAmount(e.target.value)}
-                            placeholder={t('dashboard.admin.paymentAmountPlaceholder')}
-                            className="rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                            data-testid="input-payment-link-amount"
-                          />
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.paymentMessage')}</Label>
-                          <Textarea value={paymentLinkMessage}
-                            onChange={(e) => setPaymentLinkMessage(e.target.value)}
-                            placeholder={t('dashboard.admin.paymentMessagePlaceholder')}
-                            className="rounded-xl border-border bg-background dark:bg-card"
-                            rows={3}
-                            data-testid="input-payment-link-message"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button onClick={async () => {
-                            if (!paymentLinkUrl || !paymentLinkAmount) {
-                              setFormMessage({ type: 'error', text: t("form.validation.requiredFields") });
-                              return;
-                            }
-                            setIsSendingPaymentLink(true);
-                            try {
-                              await apiRequest("POST", "/api/admin/send-payment-link", {
-                                userId: paymentLinkDialog.user?.id,
-                                paymentLink: paymentLinkUrl,
-                                amount: paymentLinkAmount,
-                                message: paymentLinkMessage || `Por favor, completa el pago de ${paymentLinkAmount} a través del siguiente enlace.`
-                              });
-                              setFormMessage({ type: 'success', text: t("dashboard.toasts.paymentLinkSent") + ". " + t("dashboard.toasts.paymentLinkSentDesc", { email: paymentLinkDialog.user?.email }) });
-                              setPaymentLinkDialog({ open: false, user: null });
-                              setPaymentLinkUrl("");
-                              setPaymentLinkAmount("");
-                              setPaymentLinkMessage("");
-                            } catch (err: any) {
-                              setFormMessage({ type: 'error', text: t("common.error") + ". " + (err.message || t("dashboard.toasts.couldNotSendLink")) });
-                            } finally {
-                              setIsSendingPaymentLink(false);
-                            }
-                          }}
-                          disabled={isSendingPaymentLink || !paymentLinkUrl || !paymentLinkAmount}
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                          data-testid="button-send-payment-link"
-                        >
-                          {isSendingPaymentLink ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.sendPaymentLinkBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <PaymentLinkForm
+                      paymentLinkDialog={paymentLinkDialog}
+                      paymentLinkUrl={paymentLinkUrl}
+                      setPaymentLinkUrl={setPaymentLinkUrl}
+                      paymentLinkAmount={paymentLinkAmount}
+                      setPaymentLinkAmount={setPaymentLinkAmount}
+                      paymentLinkMessage={paymentLinkMessage}
+                      setPaymentLinkMessage={setPaymentLinkMessage}
+                      isSendingPaymentLink={isSendingPaymentLink}
+                      setIsSendingPaymentLink={setIsSendingPaymentLink}
+                      setPaymentLinkDialog={setPaymentLinkDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setPaymentLinkDialog({ open: false, user: null }); setPaymentLinkUrl(""); setPaymentLinkAmount(""); setPaymentLinkMessage(""); }}
+                    />
                   )}
 
                   {/* Inline Panel: Admin Document Upload */}
                   {adminDocUploadDialog.open && adminDocUploadDialog.order && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground tracking-tight">{t('dashboard.admin.uploadDocForClient')}</h3>
-                          <p className="text-sm text-muted-foreground">
-                            {adminDocUploadDialog.order?.userId 
-                              ? `${t('dashboard.admin.user')}: ${adminDocUploadDialog.order?.user?.firstName} ${adminDocUploadDialog.order?.user?.lastName}`
-                              : `${t('dashboard.admin.orderLabel')}: ${adminDocUploadDialog.order?.application?.requestCode || adminDocUploadDialog.order?.maintenanceApplication?.requestCode || adminDocUploadDialog.order?.invoiceNumber}`
-                            }
-                          </p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); setAdminDocType("articles_of_organization"); }} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.adminDocType')}</Label>
-                          <NativeSelect
-                            value={adminDocType}
-                            onValueChange={setAdminDocType}
-                            className="w-full rounded-xl h-11 px-4 border border-border dark:border-border bg-white dark:bg-card"
-                          >
-                            <NativeSelectItem value="articles_of_organization">{t('dashboard.admin.articlesOfOrg')}</NativeSelectItem>
-                            <NativeSelectItem value="certificate_of_formation">{t('dashboard.admin.certOfFormation')}</NativeSelectItem>
-                            <NativeSelectItem value="boir">BOIR</NativeSelectItem>
-                            <NativeSelectItem value="ein_document">{t('dashboard.admin.einDocument')}</NativeSelectItem>
-                            <NativeSelectItem value="operating_agreement">{t('dashboard.admin.operatingAgreement')}</NativeSelectItem>
-                            <NativeSelectItem value="invoice">{t('dashboard.admin.invoice')}</NativeSelectItem>
-                            <NativeSelectItem value="other">{t('dashboard.admin.otherDoc')}</NativeSelectItem>
-                          </NativeSelect>
-                        </div>
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.file')}</Label>
-                          <label className="cursor-pointer block">
-                            <input 
-                              type="file" 
-                              className="hidden" 
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) setAdminDocFile(file);
-                              }}
-                            />
-                            <div className={`p-4 border-2 border-dashed rounded-xl text-center ${adminDocFile ? 'border-accent bg-accent/5' : 'border-border dark:border-border'}`}>
-                              {adminDocFile ? (
-                                <div className="flex items-center justify-center gap-2">
-                                  <FileUp className="w-5 h-5 text-accent" />
-                                  <span className="text-sm font-medium truncate max-w-[200px]">{adminDocFile.name}</span>
-                                </div>
-                              ) : (
-                                <div className="text-muted-foreground text-sm">
-                                  <Upload className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                                  {t('dashboard.admin.clickToSelectFile')}
-                                </div>
-                              )}
-                            </div>
-                          </label>
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button disabled={!adminDocFile || isUploadingAdminDoc}
-                          onClick={async () => {
-                            if (!adminDocFile || !adminDocUploadDialog.order) return;
-                            setIsUploadingAdminDoc(true);
-                            try {
-                              const formData = new FormData();
-                              formData.append('file', adminDocFile);
-                              formData.append('documentType', adminDocType);
-                              if (adminDocUploadDialog.order.userId) {
-                                formData.append('userId', adminDocUploadDialog.order.userId);
-                              } else {
-                                formData.append('orderId', adminDocUploadDialog.order.id);
-                              }
-                              const csrfToken = await getCsrfToken();
-                              const res = await fetch('/api/admin/documents/upload', {
-                                method: 'POST',
-                                headers: { 'X-CSRF-Token': csrfToken },
-                                body: formData,
-                                credentials: 'include'
-                              });
-                              if (res.ok) {
-                                setFormMessage({ type: 'success', text: t("dashboard.toasts.adminDocUploaded") + ". " + t("dashboard.toasts.adminDocUploadedDesc") });
-                                queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                                queryClient.invalidateQueries({ queryKey: ["/api/user/documents"] });
-                                setAdminDocUploadDialog({ open: false, order: null });
-                                setAdminDocFile(null);
-                              } else {
-                                const data = await res.json();
-                                setFormMessage({ type: 'error', text: t("common.error") + ". " + (data.message || t("dashboard.toasts.couldNotUpload")) });
-                              }
-                            } catch {
-                              setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.connectionError") });
-                            } finally {
-                              setIsUploadingAdminDoc(false);
-                            }
-                          }}
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                          data-testid="button-admin-upload-doc"
-                        >
-                          {isUploadingAdminDoc ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.uploadDocBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <AdminDocUploadForm
+                      adminDocUploadDialog={adminDocUploadDialog}
+                      adminDocType={adminDocType}
+                      setAdminDocType={setAdminDocType}
+                      adminDocFile={adminDocFile}
+                      setAdminDocFile={setAdminDocFile}
+                      isUploadingAdminDoc={isUploadingAdminDoc}
+                      setIsUploadingAdminDoc={setIsUploadingAdminDoc}
+                      setAdminDocUploadDialog={setAdminDocUploadDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setAdminDocUploadDialog({ open: false, order: null }); setAdminDocFile(null); setAdminDocType("articles_of_organization"); }}
+                    />
                   )}
 
                   {/* Inline Panel: Reset Password */}
                   {resetPasswordDialog.open && resetPasswordDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 bg-white dark:bg-card shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.resetPassword')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.newPasswordFor')} {resetPasswordDialog.user?.firstName} {resetPasswordDialog.user?.lastName}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.newPassword')}</Label>
-                          <Input type="password"
-                            value={newAdminPassword}
-                            onChange={(e) => setNewAdminPassword(e.target.value)}
-                            placeholder={t('dashboard.admin.minChars')}
-                            className="rounded-xl h-12 border-border bg-background dark:bg-card"
-                            data-testid="input-admin-new-password"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t">
-                        <Button disabled={newAdminPassword.length < 8 || isResettingPassword}
-                          onClick={async () => {
-                            if (!resetPasswordDialog.user?.id || newAdminPassword.length < 8) return;
-                            setIsResettingPassword(true);
-                            try {
-                              await apiRequest("POST", `/api/admin/users/${resetPasswordDialog.user.id}/reset-password`, { newPassword: newAdminPassword });
-                              setFormMessage({ type: 'success', text: t("dashboard.toasts.adminPasswordUpdated") + ". " + t("dashboard.toasts.adminPasswordUpdatedDesc") });
-                              setResetPasswordDialog({ open: false, user: null });
-                              setNewAdminPassword("");
-                            } catch {
-                              setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotUpdatePassword") });
-                            } finally {
-                              setIsResettingPassword(false);
-                            }
-                          }}
-                          className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                          data-testid="button-confirm-reset-password"
-                        >
-                          {isResettingPassword ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.resetPasswordBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <ResetPasswordForm
+                      resetPasswordDialog={resetPasswordDialog}
+                      newAdminPassword={newAdminPassword}
+                      setNewAdminPassword={setNewAdminPassword}
+                      isResettingPassword={isResettingPassword}
+                      setIsResettingPassword={setIsResettingPassword}
+                      setResetPasswordDialog={setResetPasswordDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setResetPasswordDialog({ open: false, user: null }); setNewAdminPassword(""); }}
+                    />
                   )}
 
                   {idvRequestDialog.open && idvRequestDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-accent/30 dark:border-accent/30 bg-accent/5 dark:bg-accent/10 shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.requestIdvTitle')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.requestIdvDesc')} {idvRequestDialog.user?.firstName} {idvRequestDialog.user?.lastName} ({idvRequestDialog.user?.email})</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setIdvRequestDialog({ open: false, user: null }); setIdvRequestNotes(""); }} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.idvNotes')}</Label>
-                          <Textarea value={idvRequestNotes}
-                            onChange={(e) => setIdvRequestNotes(e.target.value)}
-                            placeholder={t('dashboard.admin.users.idvNotesPlaceholder')}
-                            className="rounded-xl border-border bg-white dark:bg-card"
-                            rows={3}
-                            data-testid="input-idv-notes"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-accent/30 dark:border-accent/30">
-                        <Button disabled={isSendingIdvRequest}
-                          onClick={async () => {
-                            if (!idvRequestDialog.user?.id) return;
-                            setIsSendingIdvRequest(true);
-                            try {
-                              await apiRequest("POST", `/api/admin/users/${idvRequestDialog.user.id}/request-identity-verification`, { notes: idvRequestNotes || undefined });
-                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvRequestSent') });
-                              setIdvRequestDialog({ open: false, user: null });
-                              setIdvRequestNotes("");
-                              queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
-                            } catch {
-                              setFormMessage({ type: 'error', text: t('dashboard.admin.users.idvRequestError') });
-                            } finally {
-                              setIsSendingIdvRequest(false);
-                            }
-                          }}
-                          className="flex-1 bg-accent text-white font-black rounded-full"
-                          data-testid="button-confirm-idv-request"
-                        >
-                          {isSendingIdvRequest ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.sendIdvBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setIdvRequestDialog({ open: false, user: null }); setIdvRequestNotes(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <IdvRequestForm
+                      idvRequestDialog={idvRequestDialog}
+                      idvRequestNotes={idvRequestNotes}
+                      setIdvRequestNotes={setIdvRequestNotes}
+                      isSendingIdvRequest={isSendingIdvRequest}
+                      setIsSendingIdvRequest={setIsSendingIdvRequest}
+                      setIdvRequestDialog={setIdvRequestDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setIdvRequestDialog({ open: false, user: null }); setIdvRequestNotes(""); }}
+                    />
                   )}
 
                   {idvRejectDialog.open && idvRejectDialog.user && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.users.rejectIdvTitle')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.admin.users.rejectIdvDesc')} {idvRejectDialog.user?.firstName} {idvRejectDialog.user?.lastName}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setIdvRejectDialog({ open: false, user: null }); setIdvRejectReason(""); }} className="rounded-full">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.admin.users.idvRejectReason')}</Label>
-                          <Textarea value={idvRejectReason}
-                            onChange={(e) => setIdvRejectReason(e.target.value)}
-                            placeholder={t('dashboard.admin.users.idvRejectReasonPlaceholder')}
-                            className="rounded-xl border-border bg-white dark:bg-card"
-                            rows={3}
-                            data-testid="input-idv-reject-reason"
-                          />
-                        </div>
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-6 pt-4 border-t border-red-200 dark:border-red-800">
-                        <Button disabled={isSendingIdvReject}
-                          onClick={async () => {
-                            if (!idvRejectDialog.user?.id) return;
-                            setIsSendingIdvReject(true);
-                            try {
-                              await apiRequest("POST", `/api/admin/users/${idvRejectDialog.user.id}/reject-identity-verification`, { reason: idvRejectReason || undefined });
-                              setFormMessage({ type: 'success', text: t('dashboard.admin.users.idvRejected') });
-                              setIdvRejectDialog({ open: false, user: null });
-                              setIdvRejectReason("");
-                              queryClient.invalidateQueries({ queryKey: ['/api/admin/users'] });
-                            } catch {
-                              setFormMessage({ type: 'error', text: t('common.error') });
-                            } finally {
-                              setIsSendingIdvReject(false);
-                            }
-                          }}
-                          className="flex-1 bg-red-600 text-white font-black rounded-full"
-                          data-testid="button-confirm-idv-reject"
-                        >
-                          {isSendingIdvReject ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.admin.users.rejectIdvBtn')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setIdvRejectDialog({ open: false, user: null }); setIdvRejectReason(""); }} className="flex-1 rounded-full">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <IdvRejectForm
+                      idvRejectDialog={idvRejectDialog}
+                      idvRejectReason={idvRejectReason}
+                      setIdvRejectReason={setIdvRejectReason}
+                      isSendingIdvReject={isSendingIdvReject}
+                      setIsSendingIdvReject={setIsSendingIdvReject}
+                      setIdvRejectDialog={setIdvRejectDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setIdvRejectDialog({ open: false, user: null }); setIdvRejectReason(""); }}
+                    />
                   )}
                   
                   {docRejectDialog.open && docRejectDialog.docId && (
-                    <Card className="mb-4 p-4 md:p-6 rounded-2xl border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30 shadow-lg animate-in slide-in-from-top-2 duration-200">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.admin.documents.rejectionReasonTitle')}</h3>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setDocRejectDialog({ open: false, docId: null }); setDocRejectReason(""); }} className="rounded-full" data-testid="button-close-doc-reject">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <Textarea value={docRejectReason}
-                          onChange={(e) => setDocRejectReason(e.target.value)}
-                          placeholder={t('dashboard.admin.documents.rejectionReasonPlaceholder')}
-                          className="rounded-xl border-border bg-white dark:bg-card"
-                          rows={3}
-                          data-testid="input-doc-reject-reason"
-                        />
-                      </div>
-                      <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-red-200 dark:border-red-800">
-                        <Button
-                          disabled={!docRejectReason.trim()}
-                          onClick={async () => {
-                            if (!docRejectDialog.docId || !docRejectReason.trim()) {
-                              setFormMessage({ type: 'error', text: t('dashboard.admin.documents.rejectionReasonRequired') });
-                              return;
-                            }
-                            try {
-                              await apiRequest("PATCH", `/api/admin/documents/${docRejectDialog.docId}/review`, { reviewStatus: 'rejected', rejectionReason: docRejectReason });
-                              queryClient.invalidateQueries({ queryKey: ["/api/admin/documents"] });
-                              setFormMessage({ type: 'success', text: t("dashboard.toasts.statusUpdated") });
-                              setDocRejectDialog({ open: false, docId: null });
-                              setDocRejectReason("");
-                            } catch { setFormMessage({ type: 'error', text: t("common.error") }); }
-                          }}
-                          variant="destructive"
-                          className="flex-1 font-black rounded-full"
-                          data-testid="button-confirm-doc-reject"
-                        >
-                          {t('dashboard.admin.documents.confirmReject')}
-                        </Button>
-                        <Button variant="outline" onClick={() => { setDocRejectDialog({ open: false, docId: null }); setDocRejectReason(""); }} className="flex-1 rounded-full" data-testid="button-cancel-doc-reject">{t('common.cancel')}</Button>
-                      </div>
-                    </Card>
+                    <DocRejectForm
+                      docRejectDialog={docRejectDialog}
+                      docRejectReason={docRejectReason}
+                      setDocRejectReason={setDocRejectReason}
+                      setDocRejectDialog={setDocRejectDialog}
+                      setFormMessage={setFormMessage}
+                      onClose={() => { setDocRejectDialog({ open: false, docId: null }); setDocRejectReason(""); }}
+                    />
                   )}
 
                   {adminSubTab === 'dashboard' && (
