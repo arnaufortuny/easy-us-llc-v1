@@ -712,10 +712,22 @@ export function registerAdminDocumentsRoutes(app: Express) {
         const [user] = await db.select().from(usersTable).where(eq(usersTable.id, order.userId)).limit(1);
         if (user?.email) {
           const evtLang = ((user as any).preferredLanguage || 'es') as EmailLanguage;
+          const [llcAppEvt] = await db.select().from(llcApplicationsTable).where(eq(llcApplicationsTable.orderId, orderId)).limit(1);
+          const [maintAppEvt] = await db.select().from(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId)).limit(1);
+          const orderCode = llcAppEvt?.requestCode || maintAppEvt?.requestCode || order.invoiceNumber || `#${order.id}`;
+          const subjectMap: Record<string, string> = {
+            es: `Actualización de tu pedido ${orderCode}`,
+            en: `Update on your order ${orderCode}`,
+            ca: `Actualització de la teva comanda ${orderCode}`,
+            fr: `Mise à jour de votre commande ${orderCode}`,
+            de: `Aktualisierung Ihrer Bestellung ${orderCode}`,
+            it: `Aggiornamento del tuo ordine ${orderCode}`,
+            pt: `Atualização do seu pedido ${orderCode}`
+          };
           sendEmail({
             to: user.email,
-            subject: evtLang === 'en' ? "Update on your order" : evtLang === 'ca' ? "Actualització del teu pedido" : evtLang === 'fr' ? "Mise à jour de votre commande" : evtLang === 'de' ? "Aktualisierung Ihrer Bestellung" : evtLang === 'it' ? "Aggiornamento del tuo ordine" : evtLang === 'pt' ? "Atualização do seu pedido" : "Actualización de tu pedido",
-            html: getOrderEventTemplate(user.firstName || '', String(orderId), eventType, description, evtLang)
+            subject: subjectMap[evtLang] || subjectMap.es,
+            html: getOrderEventTemplate(user.firstName || '', orderCode, eventType, description, evtLang)
           }).catch((err) => log.warn("Failed to send email", { error: err?.message }));
         }
       }
