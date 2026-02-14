@@ -931,6 +931,7 @@ export function registerAdminBillingRoutes(app: Express) {
 
   // Create standalone invoice for user (not tied to order)
   app.post("/api/admin/invoices/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const { userId, concept, amount, currency, invoiceDate, paymentAccountIds } = z.object({
       userId: z.string(),
       concept: z.string().min(1),
@@ -1055,5 +1056,12 @@ export function registerAdminBillingRoutes(app: Express) {
     });
 
     res.json({ success: true, invoiceNumber, invoiceId: invoice.id });
+    } catch (error: any) {
+      if (error?.name === 'ZodError') {
+        return res.status(400).json({ message: "Invalid invoice data: " + error.errors?.map((e: any) => e.message).join(', ') });
+      }
+      log.error("Error creating invoice", error);
+      res.status(500).json({ message: "Error creating invoice" });
+    }
   }));
 }

@@ -28,7 +28,6 @@ export function registerAccountingRoutes(app: Express) {
     try {
       const { type, category, startDate, endDate } = req.query;
       
-      let query = db.select().from(accountingTransactions);
       const conditions: any[] = [];
       
       if (type && typeof type === 'string') {
@@ -205,6 +204,11 @@ export function registerAccountingRoutes(app: Express) {
       const txId = Number(req.params.id);
       if (isNaN(txId) || txId <= 0) {
         return res.status(400).json({ message: "Invalid transaction ID" });
+      }
+      
+      const [existing] = await db.select({ id: accountingTransactions.id }).from(accountingTransactions).where(eq(accountingTransactions.id, txId)).limit(1);
+      if (!existing) {
+        return res.status(404).json({ message: "Transaction not found" });
       }
       
       await db.delete(accountingTransactions).where(eq(accountingTransactions.id, txId));

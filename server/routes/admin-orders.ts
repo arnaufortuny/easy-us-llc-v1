@@ -339,7 +339,7 @@ export function registerAdminOrderRoutes(app: Express) {
         await tx.delete(userNotifications).where(
           and(
             eq(userNotifications.userId, order.userId),
-            sql`${userNotifications.message} LIKE ${'%' + (order.invoiceNumber || `#${orderId}`) + '%'}`
+            eq(userNotifications.orderId, orderId)
           )
         );
       }
@@ -348,6 +348,9 @@ export function registerAdminOrderRoutes(app: Express) {
       if (order.application?.id) {
         await tx.delete(llcApplicationsTable).where(eq(llcApplicationsTable.id, order.application.id));
       }
+      
+      // Delete maintenance application if exists
+      await tx.delete(maintenanceApplications).where(eq(maintenanceApplications.orderId, orderId));
       
       // Finally delete the order
       await tx.delete(ordersTable).where(eq(ordersTable.id, orderId));

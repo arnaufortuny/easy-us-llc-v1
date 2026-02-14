@@ -293,7 +293,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
           await db.delete(userNotifications).where(
             and(
               eq(userNotifications.userId, targetUser.id),
-              inArray(userNotifications.type, ['action_required', 'info'])
+              inArray(userNotifications.type, ['action_required', 'info']),
+              sql`${userNotifications.title} IN ('i18n:ntf.docInReview.title', 'i18n:ntf.docRejected.title', 'i18n:ntf.docRequested.title')`
             )
           );
           

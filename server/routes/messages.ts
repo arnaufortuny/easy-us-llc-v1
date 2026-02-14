@@ -197,6 +197,16 @@ export function registerMessageRoutes(app: Express) {
         createdBy: req.session.userId,
       }).returning();
       
+      // Update message status based on who is replying
+      if (isAdminReply) {
+        await db.update(messagesTable).set({ status: 'replied' }).where(eq(messagesTable.id, messageId));
+      } else {
+        const [currentMsg] = await db.select({ status: messagesTable.status }).from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
+        if (currentMsg && (currentMsg.status === 'replied' || currentMsg.status === 'closed' || currentMsg.status === 'resolved')) {
+          await db.update(messagesTable).set({ status: 'pending' }).where(eq(messagesTable.id, messageId));
+        }
+      }
+      
       // Get message for email notification
       const [message] = await db.select().from(messagesTable).where(eq(messagesTable.id, messageId)).limit(1);
       if (message?.email && (req.session.isAdmin || req.session.isSupport)) {
