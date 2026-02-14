@@ -153,7 +153,7 @@ export function Navbar() {
             {isAuthenticated && location.startsWith("/dashboard") ? (
               <Button 
                 variant="outline"
-                className="border-2 border-red-500 text-red-500 bg-card dark:text-red-400 dark:border-red-400 rounded-full px-3 text-sm flex items-center gap-1.5"
+                className="border-2 border-red-500 text-red-500 bg-card dark:text-red-400 dark:border-red-400 rounded-full px-3 text-sm flex items-center gap-1.5 hover:bg-red-500/10 hover:text-red-600 dark:hover:bg-red-400/10 dark:hover:text-red-400"
                 size="sm"
                 onClick={() => { setIsOpen(false); resetScrollLock(); logout(); }}
                 data-testid="button-mobile-logout-header"
