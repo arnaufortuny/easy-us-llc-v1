@@ -3,6 +3,7 @@ import { z } from "zod";
 import { and, eq, desc, inArray, or, sql } from "drizzle-orm";
 import { db, storage, isAdmin, isAdminOrSupport, asyncHandler, logAudit, getClientIp } from "./shared";
 import { createLogger } from "../lib/logger";
+import { compressImage } from "../lib/image-compress";
 
 const log = createLogger('admin-documents');
 import { orders as ordersTable, users as usersTable, maintenanceApplications, orderEvents, userNotifications, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, messages as messagesTable, documentRequests as documentRequestsTable, auditLogs } from "@shared/schema";
@@ -101,7 +102,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
         const identifier = orderId || targetUserId;
         const safeFileName = `admin_${identifier}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const filePath = path.join(uploadDir, safeFileName);
-        await fs.writeFile(filePath, fileBuffer);
+        const compressedBuffer = await compressImage(fileBuffer, fileName);
+        await fs.writeFile(filePath, compressedBuffer);
         
         // Determine file type from extension
         const ext = fileName.toLowerCase().split('.').pop() || '';

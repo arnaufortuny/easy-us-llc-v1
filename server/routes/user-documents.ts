@@ -3,6 +3,7 @@ import { and, eq, desc, inArray } from "drizzle-orm";
 import { db, isAuthenticated, isNotUnderReview, logActivity, logAudit, getClientIp, asyncHandler, parseIdParam } from "./shared";
 import { users as usersTable, orders as ordersTable, llcApplications as llcApplicationsTable, applicationDocuments as applicationDocumentsTable, documentRequests as documentRequestsTable, userNotifications } from "@shared/schema";
 import { createLogger } from "../lib/logger";
+import { compressImage } from "../lib/image-compress";
 
 const log = createLogger('user-documents');
 
@@ -274,6 +275,8 @@ export function registerUserDocumentRoutes(app: Express) {
       let fileSaved: Promise<boolean> | null = null;
       let hitLimit = false;
       
+      let fileBuffer: Buffer | null = null;
+
       bb.on("file", (_fieldname: string, file: any, info: { filename: string; mimeType: string }) => {
         const { filename, mimeType } = info;
         originalName = filename;
@@ -290,40 +293,28 @@ export function registerUserDocumentRoutes(app: Express) {
         const safeFilename = `idv_${userId}_${Date.now()}${ext}`;
         filePath = path.join(uploadDir, safeFilename);
         
-        const writeStream = fs.createWriteStream(filePath);
-        
-        fileSaved = new Promise<boolean>((resolve) => {
-          writeStream.on("finish", () => resolve(true));
-          writeStream.on("error", () => resolve(false));
-        });
-        
-        file.pipe(writeStream);
-        
-        file.on("limit", () => {
-          hitLimit = true;
-          writeStream.end();
-        });
+        const chunks: Buffer[] = [];
+        file.on('data', (data: Buffer) => chunks.push(data));
+        file.on('limit', () => { hitLimit = true; });
+        file.on('end', () => { fileBuffer = Buffer.concat(chunks); });
+
+        fileSaved = Promise.resolve(true);
       });
       
       bb.on("finish", async () => {
         try {
-          if (!fileSaved || !filePath) {
+          if (!fileBuffer || !filePath) {
             return res.status(400).json({ message: "Invalid file. Allowed: PDF, JPG, PNG (max 5MB)" });
           }
           
-          const saved = await fileSaved;
-          
           if (hitLimit) {
-            try { fs.unlinkSync(filePath); } catch {}
             return res.status(400).json({ message: "File too large. Max 5MB allowed." });
           }
           
-          if (!saved) {
-            return res.status(500).json({ message: "Error saving file" });
-          }
+          const compressedBuffer = await compressImage(fileBuffer, originalName);
+          fs.writeFileSync(filePath, compressedBuffer);
           
-          const fileBuffer = fs.readFileSync(filePath);
-          const fileHash = crypto.createHash("sha256").update(fileBuffer).digest("hex");
+          const fileHash = crypto.createHash("sha256").update(compressedBuffer).digest("hex");
           
           const relativePath = filePath.replace(process.cwd() + "/", "").replace(process.cwd() + "\\", "");
           
@@ -575,7 +566,8 @@ export function registerUserDocumentRoutes(app: Express) {
 
         const safeFileName = `${userId}_${Date.now()}_${fileName.replace(/[^a-zA-Z0-9.-]/g, '_')}`;
         const filePath = path.join(uploadDir, safeFileName);
-        await fs.writeFile(filePath, fileBuffer);
+        const compressedBuffer = await compressImage(fileBuffer, fileName);
+        await fs.writeFile(filePath, compressedBuffer);
 
         const mimeTypesMap: Record<string, string> = {
           'pdf': 'application/pdf', 'jpg': 'image/jpeg', 'jpeg': 'image/jpeg', 'png': 'image/png'
