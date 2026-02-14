@@ -132,7 +132,8 @@ export type AuditAction =
   | 'staff_role_deleted'
   | 'staff_role_assigned'
   | 'password_reset_name_mismatch'
-  | 'password_reset_blocked_name';
+  | 'password_reset_blocked_name'
+  | 'consent_accepted';
 
 interface AuditLogEntry {
   action: AuditAction;

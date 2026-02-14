@@ -2102,7 +2102,26 @@
       },
       "clientsSubTabs": {
         "users": "Usuarios",
-        "newsletter": "Boletín"
+        "newsletter": "Boletín",
+        "consent": "Registros de Consentimiento"
+      },
+      "consentRecords": {
+        "title": "Registros de Consentimiento",
+        "userId": "ID de Usuario",
+        "ip": "Dirección IP",
+        "fullName": "Nombre Completo",
+        "email": "Correo Electrónico",
+        "date": "Fecha",
+        "year": "Año",
+        "version": "Versión",
+        "consentType": "Tipo de Consentimiento",
+        "filterAll": "Todos",
+        "filterTerms": "Términos",
+        "filterPrivacy": "Privacidad",
+        "filterCookies": "Cookies",
+        "searchPlaceholder": "Buscar por correo o nombre...",
+        "noRecords": "No se encontraron registros de consentimiento",
+        "loading": "Cargando registros de consentimiento..."
       },
       "billingSubTabs": {
         "invoices": "Facturas",
@@ -3211,82 +3230,82 @@
   },
   "seo": {
     "home": {
-      "title": "Constituir LLC en USA con Optimización Fiscal | Todo Incluido | Exentax",
-      "description": "Constituye tu LLC en Estados Unidos con optimización fiscal internacional, estructura legal eficiente y soporte experto. En Exentax gestionamos todo el proceso, incluyendo cumplimiento normativo, banca empresarial y asesoramiento estratégico para negocios digitales y emprendedores globales."
+      "title": "ExenTax - Optimiza tu Estructura Fiscal con una LLC en USA | Constituir LLC",
+      "description": "Constituye tu LLC en Estados Unidos con optimización fiscal internacional, estructura legal eficiente y soporte experto. En ExenTax gestionamos todo el proceso incluyendo cumplimiento normativo, banca empresarial y asesoramiento estratégico para negocios digitales y emprendedores globales."
     },
     "servicios": {
-      "title": "Servicios y Precios | Exentax",
-      "description": "Descubre nuestros packs de formación de LLC en New Mexico, Wyoming y Delaware. Precios transparentes desde 899€."
+      "title": "Nuestros Servicios - Constitución, Mantenimiento y Asesoría LLC | ExenTax",
+      "description": "Descubre nuestros packs todo incluido de constitución de LLC en New Mexico, Wyoming y Delaware. Precios transparentes, sin costes ocultos. Incluye EIN, Agente Registrado, cuenta bancaria en USA y cumplimiento fiscal del primer año."
     },
     "faq": {
-      "title": "Preguntas Frecuentes | Exentax",
-      "description": "Resuelve todas tus dudas sobre la formación de LLC en Estados Unidos. Centro de ayuda completo."
+      "title": "Preguntas Frecuentes sobre Constitución de LLC en USA | ExenTax",
+      "description": "Resuelve todas tus dudas sobre la constitución de LLC en Estados Unidos para no residentes. Información sobre impuestos, EIN, banca, acceso a Stripe y más. Centro de ayuda completo de ExenTax."
     },
     "contacto": {
-      "title": "Contacto | Exentax",
-      "description": "Contacta con nuestro equipo de expertos en formación de LLC en Estados Unidos."
+      "title": "Contáctanos - Consulta Gratuita | ExenTax",
+      "description": "Contacta con nuestro equipo de expertos en constitución de LLC en Estados Unidos. Obtén una consulta gratuita sobre crear tu LLC en USA. Respondemos en menos de 24 horas."
     },
     "dashboard": {
-      "title": "Mi Área | Exentax",
-      "description": "Gestiona tu LLC, documentos y servicios desde tu área de clientes."
+      "title": "Panel de Control | ExenTax",
+      "description": "Gestiona tu LLC, documentos y servicios desde tu panel de control personalizado de ExenTax."
     },
     "formation": {
-      "title": "Crear LLC | Exentax",
-      "description": "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro."
+      "title": "Crear tu LLC en USA - Empieza Ahora | ExenTax",
+      "description": "Inicia el proceso de creación de tu LLC en Estados Unidos. Formulario simple y seguro. Tu LLC lista en 2-3 días hábiles con soporte completo."
     },
     "maintenance": {
-      "title": "Mantenimiento LLC | Exentax",
-      "description": "Renueva el mantenimiento anual de tu LLC. Agente registrado y cumplimiento incluido."
+      "title": "Mantenimiento Anual y Renovación de LLC | ExenTax",
+      "description": "Renueva el mantenimiento anual de tu LLC. Agente registrado, presentación de informes anuales y cumplimiento fiscal completo incluido."
     },
     "login": {
-      "title": "Iniciar Sesión | Exentax",
-      "description": "Accede a tu cuenta de Exentax para gestionar tu empresa."
+      "title": "Iniciar Sesión | ExenTax",
+      "description": "Accede a tu cuenta de ExenTax para gestionar tu LLC y servicios empresariales."
     },
     "register": {
-      "title": "Crear Cuenta | Exentax",
-      "description": "Crea tu cuenta gratuita en Exentax."
+      "title": "Crear Cuenta | ExenTax",
+      "description": "Crea tu cuenta gratuita en ExenTax y comienza tu proceso de constitución de LLC en USA."
     },
     "forgotPassword": {
-      "title": "Recuperar Contraseña | Exentax",
-      "description": "Recupera el acceso a tu cuenta de Exentax."
+      "title": "Recuperar Contraseña | ExenTax",
+      "description": "Recupera el acceso a tu cuenta de ExenTax."
     },
     "invoice": {
-      "title": "Generador de Facturas | Exentax",
-      "description": "Crea facturas profesionales para tu LLC de forma gratuita."
+      "title": "Generador Gratuito de Facturas para tu LLC | ExenTax",
+      "description": "Crea facturas profesionales para tu LLC en USA de forma gratuita. Plantillas personalizables con los datos de tu empresa."
     },
     "calculator": {
-      "title": "Calculadora de Rentabilidad | Exentax",
-      "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos."
+      "title": "Calculadora de Ahorro Fiscal con LLC | ExenTax",
+      "description": "Calcula cuánto puedes ahorrar en impuestos con una LLC en Estados Unidos. Compara estructuras fiscales y descubre tu ahorro potencial."
     },
     "operatingAgreement": {
-      "title": "Generador Operating Agreement | Exentax",
-      "description": "Genera el Operating Agreement de tu LLC de forma automática."
+      "title": "Generador de Operating Agreement | ExenTax",
+      "description": "Genera el Operating Agreement de tu LLC de forma automática. Documento legal profesional adaptado a tu negocio."
     },
     "legal": {
       "terminos": {
-        "title": "Términos y Condiciones | Exentax",
-        "description": "Consulta los términos y condiciones de uso de Exentax."
+        "title": "Términos y Condiciones | ExenTax",
+        "description": "Consulta los términos y condiciones de uso de ExenTax para nuestros servicios de constitución de LLC."
       },
       "privacidad": {
-        "title": "Política de Privacidad | Exentax",
-        "description": "Consulta nuestra política de privacidad y protección de datos."
+        "title": "Política de Privacidad | ExenTax",
+        "description": "Consulta nuestra política de privacidad y protección de datos. Conoce cómo ExenTax protege tu información personal."
       },
       "reembolsos": {
-        "title": "Política de Reembolsos | Exentax",
-        "description": "Consulta nuestra política de reembolsos y devoluciones."
+        "title": "Política de Reembolsos | ExenTax",
+        "description": "Consulta nuestra política de reembolsos y devoluciones para servicios de constitución y mantenimiento de LLC."
       },
       "cookies": {
-        "title": "Política de Cookies | Exentax",
-        "description": "Información sobre el uso de cookies en Exentax."
+        "title": "Política de Cookies | ExenTax",
+        "description": "Información sobre el uso de cookies en el sitio web de ExenTax."
       }
     },
     "csvGenerator": {
-      "title": "Generador CSV de Transacciones | Exentax",
-      "description": "Genera archivos CSV de transacciones bancarias para tu LLC de forma gratuita."
+      "title": "Generador CSV de Transacciones | ExenTax",
+      "description": "Genera archivos CSV de transacciones bancarias para la contabilidad de tu LLC de forma gratuita."
     },
     "asesoriaGratis": {
-      "title": "Consulta Gratuita | Exentax",
-      "description": "Reserva una consulta gratuita de 30 minutos con nuestros expertos en formación de LLC en Estados Unidos. Sin compromiso."
+      "title": "Consulta Gratuita sobre LLC - Reserva Ahora | ExenTax",
+      "description": "Reserva una consulta gratuita de 30 minutos con nuestros expertos en constitución de LLC en Estados Unidos. Sin compromiso. Asesoramiento personalizado para tu negocio."
     }
   },
   "consultations": {

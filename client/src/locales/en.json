@@ -2102,7 +2102,26 @@
       },
       "clientsSubTabs": {
         "users": "Users",
-        "newsletter": "Newsletter"
+        "newsletter": "Newsletter",
+        "consent": "Consent Records"
+      },
+      "consentRecords": {
+        "title": "Consent Records",
+        "userId": "User ID",
+        "ip": "IP Address",
+        "fullName": "Full Name",
+        "email": "Email",
+        "date": "Date",
+        "year": "Year",
+        "version": "Version",
+        "consentType": "Consent Type",
+        "filterAll": "All",
+        "filterTerms": "Terms",
+        "filterPrivacy": "Privacy",
+        "filterCookies": "Cookies",
+        "searchPlaceholder": "Search by email or name...",
+        "noRecords": "No consent records found",
+        "loading": "Loading consent records..."
       },
       "billingSubTabs": {
         "invoices": "Invoices",
@@ -3211,82 +3230,82 @@
   },
   "seo": {
     "home": {
-      "title": "Form Your US LLC with Tax Optimization | All Inclusive | Exentax",
-      "description": "Form your US LLC with international tax optimization, efficient legal structure, and expert support. At Exentax we manage the entire process, including regulatory compliance, business banking, and strategic advisory for digital businesses and global entrepreneurs."
+      "title": "ExenTax - Optimize Your Tax Structure with a US LLC | LLC Formation",
+      "description": "Form your US LLC with international tax optimization, efficient legal structure, and expert support. At ExenTax we manage the entire process including regulatory compliance, business banking, and strategic advisory for digital businesses and global entrepreneurs."
     },
     "servicios": {
-      "title": "Services & Pricing | Exentax",
-      "description": "Discover our LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing from €899."
+      "title": "Our Services - LLC Formation, Maintenance & Consulting | ExenTax",
+      "description": "Discover our all-inclusive LLC formation packages in New Mexico, Wyoming and Delaware. Transparent pricing, no hidden fees. Includes EIN, Registered Agent, US bank account setup, and full first-year tax compliance."
     },
     "faq": {
-      "title": "Frequently Asked Questions | Exentax",
-      "description": "Find answers to all your questions about US LLC formation. Complete help center."
+      "title": "Frequently Asked Questions about US LLC Formation | ExenTax",
+      "description": "Find answers to all your questions about US LLC formation for non-residents. Learn about taxes, EIN, banking, Stripe access, and more. Complete help center by ExenTax."
     },
     "contacto": {
-      "title": "Contact | Exentax",
-      "description": "Contact our team of US LLC formation experts."
+      "title": "Contact Us - Free Consultation | ExenTax",
+      "description": "Contact our team of US LLC formation experts. Get a free consultation about forming your LLC in the United States. We respond within 24 hours."
     },
     "dashboard": {
-      "title": "My Dashboard | Exentax",
-      "description": "Manage your LLC, documents and services from your personal dashboard."
+      "title": "Dashboard | ExenTax",
+      "description": "Manage your LLC, documents and services from your personal ExenTax dashboard."
     },
     "formation": {
-      "title": "Create LLC | Exentax",
-      "description": "Start the process of creating your US LLC. Simple and secure form."
+      "title": "Create Your US LLC - Start Now | ExenTax",
+      "description": "Start the process of creating your US LLC. Simple, secure form. Your LLC ready in 2-3 business days with full support."
     },
     "maintenance": {
-      "title": "LLC Maintenance | Exentax",
-      "description": "Renew your LLC annual maintenance. Registered agent and compliance included."
+      "title": "LLC Annual Maintenance & Renewal | ExenTax",
+      "description": "Renew your LLC annual maintenance. Registered agent, annual report filing, and full tax compliance included."
     },
     "login": {
-      "title": "Sign In | Exentax",
-      "description": "Access your Exentax account to manage your business."
+      "title": "Sign In | ExenTax",
+      "description": "Access your ExenTax account to manage your LLC and business services."
     },
     "register": {
-      "title": "Create Account | Exentax",
-      "description": "Create your free Exentax account."
+      "title": "Create Account | ExenTax",
+      "description": "Create your free ExenTax account and start your US LLC formation journey."
     },
     "forgotPassword": {
-      "title": "Reset Password | Exentax",
-      "description": "Recover access to your Exentax account."
+      "title": "Reset Password | ExenTax",
+      "description": "Recover access to your ExenTax account."
     },
     "invoice": {
-      "title": "Invoice Generator | Exentax",
-      "description": "Create professional invoices for your LLC for free."
+      "title": "Free Invoice Generator for Your LLC | ExenTax",
+      "description": "Create professional invoices for your US LLC for free. Customizable templates with your company details."
     },
     "calculator": {
-      "title": "Profitability Calculator | Exentax",
-      "description": "Calculate how much you can save on taxes with a US LLC."
+      "title": "LLC Tax Savings Calculator | ExenTax",
+      "description": "Calculate how much you can save on taxes with a US LLC. Compare tax structures and see your potential savings."
     },
     "operatingAgreement": {
-      "title": "Operating Agreement Generator | Exentax",
-      "description": "Generate your LLC Operating Agreement automatically."
+      "title": "Operating Agreement Generator | ExenTax",
+      "description": "Generate your LLC Operating Agreement automatically. Professional legal document tailored to your business."
     },
     "legal": {
       "terminos": {
-        "title": "Terms and Conditions | Exentax",
-        "description": "Review Exentax's terms and conditions of use."
+        "title": "Terms and Conditions | ExenTax",
+        "description": "Review ExenTax's terms and conditions of use for our LLC formation services."
       },
       "privacidad": {
-        "title": "Privacy Policy | Exentax",
-        "description": "Review our privacy and data protection policy."
+        "title": "Privacy Policy | ExenTax",
+        "description": "Review our privacy and data protection policy. Learn how ExenTax protects your personal information."
       },
       "reembolsos": {
-        "title": "Refund Policy | Exentax",
-        "description": "Review our refund and return policy."
+        "title": "Refund Policy | ExenTax",
+        "description": "Review our refund and return policy for LLC formation and maintenance services."
       },
       "cookies": {
-        "title": "Cookie Policy | Exentax",
-        "description": "Information about the use of cookies on Exentax."
+        "title": "Cookie Policy | ExenTax",
+        "description": "Information about the use of cookies on the ExenTax website."
       }
     },
     "csvGenerator": {
-      "title": "Transaction CSV Generator | Exentax",
-      "description": "Generate bank transaction CSV files for your LLC for free."
+      "title": "Transaction CSV Generator | ExenTax",
+      "description": "Generate bank transaction CSV files for your LLC bookkeeping for free."
     },
     "asesoriaGratis": {
-      "title": "Free Consultation | Exentax",
-      "description": "Book a free 30-minute consultation with our US LLC formation experts. No commitment required."
+      "title": "Free LLC Consultation - Book Now | ExenTax",
+      "description": "Book a free 30-minute consultation with our US LLC formation experts. No commitment required. Get personalized advice for your business."
     }
   },
   "consultations": {

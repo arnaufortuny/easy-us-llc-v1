@@ -2100,7 +2100,26 @@
       },
       "clientsSubTabs": {
         "users": "Utilizadores",
-        "newsletter": "Boletim"
+        "newsletter": "Boletim",
+        "consent": "Registos de Consentimento"
+      },
+      "consentRecords": {
+        "title": "Registos de Consentimento",
+        "userId": "ID de Utilizador",
+        "ip": "Endereço IP",
+        "fullName": "Nome Completo",
+        "email": "E-mail",
+        "date": "Data",
+        "year": "Ano",
+        "version": "Versão",
+        "consentType": "Tipo de Consentimento",
+        "filterAll": "Todos",
+        "filterTerms": "Termos",
+        "filterPrivacy": "Privacidade",
+        "filterCookies": "Cookies",
+        "searchPlaceholder": "Pesquisar por e-mail ou nome...",
+        "noRecords": "Nenhum registo de consentimento encontrado",
+        "loading": "A carregar registos de consentimento..."
       },
       "billingSubTabs": {
         "invoices": "Faturas",

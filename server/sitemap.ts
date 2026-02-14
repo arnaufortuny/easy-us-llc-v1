@@ -2,6 +2,8 @@ import type { Express } from "express";
 
 const BASE_URL = "https://exentax.com";
 
+const SUPPORTED_LANGS = ["es", "en"];
+
 const PUBLIC_ROUTES = [
   { path: "/", priority: 1.0, changefreq: "weekly" },
   { path: "/servicios", priority: 0.9, changefreq: "weekly" },
@@ -24,16 +26,27 @@ const PUBLIC_ROUTES = [
 export function generateSitemap(): string {
   const today = new Date().toISOString().split("T")[0];
   
-  const urls = PUBLIC_ROUTES.map(route => `
+  const urls = PUBLIC_ROUTES.map(route => {
+    const loc = `${BASE_URL}${route.path}`;
+    const hreflangs = SUPPORTED_LANGS.map(
+      lang => `    <xhtml:link rel="alternate" hreflang="${lang}" href="${loc}" />`
+    ).join("\n");
+    const xDefault = `    <xhtml:link rel="alternate" hreflang="x-default" href="${loc}" />`;
+
+    return `
   <url>
-    <loc>${BASE_URL}${route.path}</loc>
+    <loc>${loc}</loc>
     <lastmod>${today}</lastmod>
     <changefreq>${route.changefreq}</changefreq>
     <priority>${route.priority.toFixed(1)}</priority>
-  </url>`).join("");
+${hreflangs}
+${xDefault}
+  </url>`;
+  }).join("");
 
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}
 </urlset>`;
 }

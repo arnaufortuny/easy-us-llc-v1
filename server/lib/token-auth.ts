@@ -19,7 +19,15 @@ interface TokenPayload {
 }
 
 function getSecret(): string {
-  return process.env.SESSION_SECRET || process.env.JWT_SECRET || "dev-fallback-secret";
+  const secret = process.env.SESSION_SECRET || process.env.JWT_SECRET;
+  if (!secret) {
+    const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_ENVIRONMENT === "production";
+    if (isProduction) {
+      throw new Error("SESSION_SECRET or JWT_SECRET environment variable is required in production");
+    }
+    return require("crypto").randomBytes(32).toString("hex");
+  }
+  return secret;
 }
 
 export function signAuthToken(user: { id: string; email: string; isAdmin: boolean; isSupport: boolean }): string {

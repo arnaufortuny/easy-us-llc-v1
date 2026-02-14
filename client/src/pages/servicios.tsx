@@ -14,7 +14,7 @@ import { openWhatsApp, getWhatsAppUrl } from "@/lib/whatsapp";
 import { motion } from "framer-motion";
 import { Check, ArrowRight } from "@/components/icons";
 import { SiWhatsapp } from "react-icons/si";
-import { usePageTitle } from "@/hooks/use-page-title";
+import { usePageTitle, useJsonLd } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, cardVariants, heroTitle, heroSubtitle, viewportOnce, transitions } from "@/lib/animations";
 import trustpilotLogo from "@/assets/trustpilot-logo.png";
 import relayLogo from "@assets/relay-logo.png";
@@ -88,6 +88,47 @@ export default function Servicios() {
   const [, setLocation] = useLocation();
   const { t } = useTranslation();
   usePageTitle();
+  useJsonLd({
+    "@type": "Service",
+    "serviceType": "US LLC Formation Service",
+    "provider": {
+      "@type": "Organization",
+      "name": "ExenTax",
+      "url": "https://exentax.com"
+    },
+    "name": t("seo.servicios.title"),
+    "description": t("seo.servicios.description"),
+    "url": "https://exentax.com/servicios",
+    "areaServed": [
+      { "@type": "Country", "name": "United States" },
+      { "@type": "Country", "name": "Spain" },
+      { "@type": "Country", "name": "Mexico" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "LLC Formation Packages",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "New Mexico LLC" },
+          "price": "739",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Wyoming LLC" },
+          "price": "899",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": { "@type": "Service", "name": "Delaware LLC" },
+          "price": "1399",
+          "priceCurrency": "EUR"
+        }
+      ]
+    }
+  });
 
   useEffect(() => {
     const hash = window.location.hash;

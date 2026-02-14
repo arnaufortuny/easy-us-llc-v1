@@ -37,6 +37,7 @@ import { registerContactRoutes } from "./routes/contact";
 import { registerAuthExtRoutes } from "./routes/auth-ext";
 import { registerAdminRoleRoutes } from "./routes/admin-roles";
 import { registerPushRoutes } from "./routes/push";
+import { registerAdminConsentRoutes } from "./routes/admin-consent";
 
 export async function registerRoutes(
   httpServer: Server,
@@ -110,6 +111,7 @@ export async function registerRoutes(
     "/api/newsletter/subscribe",
     "/api/calculator/consultation",
     "/api/guest/track",
+    "/api/consent/accept",
   ];
   
   app.use((req, res, next) => {
@@ -251,6 +253,9 @@ export async function registerRoutes(
 
   // Push Notifications
   registerPushRoutes(app);
+
+  // Consent Tracking
+  registerAdminConsentRoutes(app);
 
   // Accounting (extracted to server/routes/accounting.ts)
   registerAccountingRoutes(app);

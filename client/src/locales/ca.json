@@ -2100,7 +2100,26 @@
       },
       "clientsSubTabs": {
         "users": "Usuaris",
-        "newsletter": "Butlletí"
+        "newsletter": "Butlletí",
+        "consent": "Registres de Consentiment"
+      },
+      "consentRecords": {
+        "title": "Registres de Consentiment",
+        "userId": "ID d'Usuari",
+        "ip": "Adreça IP",
+        "fullName": "Nom Complet",
+        "email": "Correu Electrònic",
+        "date": "Data",
+        "year": "Any",
+        "version": "Versió",
+        "consentType": "Tipus de Consentiment",
+        "filterAll": "Tots",
+        "filterTerms": "Termes",
+        "filterPrivacy": "Privacitat",
+        "filterCookies": "Cookies",
+        "searchPlaceholder": "Cercar per correu o nom...",
+        "noRecords": "No s'han trobat registres de consentiment",
+        "loading": "Carregant registres de consentiment..."
       },
       "billingSubTabs": {
         "invoices": "Factures",

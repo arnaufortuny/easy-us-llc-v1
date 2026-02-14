@@ -5,11 +5,41 @@ import { useTranslation } from "react-i18next";
 import { SiWhatsapp } from "react-icons/si";
 import { Button } from "@/components/ui/button";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { usePageTitle } from "@/hooks/use-page-title";
+import { usePageTitle, useJsonLd } from "@/hooks/use-page-title";
 
 export default function FAQ() {
   const { t } = useTranslation();
   usePageTitle();
+
+  const faqJsonLdData = useMemo(() => {
+    const categories = ["aboutUs", "keyConcepts", "taxes", "taxExtensions", "operations"];
+    const questions: { q: string; a: string }[] = [];
+    categories.forEach(cat => {
+      for (let i = 1; i <= 10; i++) {
+        const qKey = `faq.categories.${cat}.q${i}`;
+        const aKey = `faq.categories.${cat}.a${i}`;
+        const q = t(qKey);
+        const a = t(aKey);
+        if (q && q !== qKey && a && a !== aKey) {
+          questions.push({ q, a });
+        }
+      }
+    });
+    return questions;
+  }, [t]);
+
+  useJsonLd({
+    "@type": "FAQPage",
+    "mainEntity": faqJsonLdData.map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  });
+
   const [openItems, setOpenItems] = useState<Record<string, number | null>>({});
   const [searchQuery, setSearchQuery] = useState("");
 

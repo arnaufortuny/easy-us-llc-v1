@@ -389,10 +389,10 @@ interface EmailTranslations {
   };
   consultationReminder: {
     subject3h: string;
-    subject30m: string;
+    subject10m: string;
     greeting: string;
     reminder3h: string;
-    reminder30m: string;
+    reminder10m: string;
     details: string;
     dateLabel: string;
     timeLabel: string;
@@ -801,10 +801,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Recordatorio: tu asesoría gratuita es en 3 horas | Exentax",
-      subject30m: "Recordatorio: tu asesoría gratuita es en 30 minutos | Exentax",
+      subject10m: "Recordatorio: tu asesoría gratuita es en 10 minutos | Exentax",
       greeting: "¡Hola de nuevo!",
       reminder3h: "Te recordamos que tu asesoría gratuita con Exentax es en aproximadamente 3 horas.",
-      reminder30m: "Tu asesoría gratuita con Exentax comienza en 30 minutos. ¡Prepárate!",
+      reminder10m: "Tu asesoría gratuita con Exentax comienza en 10 minutos. ¡Prepárate!",
       details: "Detalles de tu cita:",
       dateLabel: "Fecha",
       timeLabel: "Hora",
@@ -1211,10 +1211,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Reminder: your free consultation is in 3 hours | Exentax",
-      subject30m: "Reminder: your free consultation is in 30 minutes | Exentax",
+      subject10m: "Reminder: your free consultation is in 10 minutes | Exentax",
       greeting: "Hello again!",
       reminder3h: "This is a reminder that your free consultation with Exentax is in approximately 3 hours.",
-      reminder30m: "Your free consultation with Exentax starts in 30 minutes. Get ready!",
+      reminder10m: "Your free consultation with Exentax starts in 10 minutes. Get ready!",
       details: "Your appointment details:",
       dateLabel: "Date",
       timeLabel: "Time",
@@ -1621,10 +1621,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Recordatori: la teva assessoria gratuïta és en 3 hores | Exentax",
-      subject30m: "Recordatori: la teva assessoria gratuïta és en 30 minuts | Exentax",
+      subject10m: "Recordatori: la teva assessoria gratuïta és en 10 minuts | Exentax",
       greeting: "Hola de nou!",
       reminder3h: "Et recordem que la teva assessoria gratuïta amb Exentax és en aproximadament 3 hores.",
-      reminder30m: "La teva assessoria gratuïta amb Exentax comença en 30 minuts. Prepara't!",
+      reminder10m: "La teva assessoria gratuïta amb Exentax comença en 10 minuts. Prepara't!",
       details: "Detalls de la teva cita:",
       dateLabel: "Data",
       timeLabel: "Hora",
@@ -2031,10 +2031,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Rappel : votre consultation gratuite est dans 3 heures | Exentax",
-      subject30m: "Rappel : votre consultation gratuite est dans 30 minutes | Exentax",
+      subject10m: "Rappel : votre consultation gratuite est dans 10 minutes | Exentax",
       greeting: "Rebonjour !",
       reminder3h: "Nous vous rappelons que votre consultation gratuite avec Exentax est dans environ 3 heures.",
-      reminder30m: "Votre consultation gratuite avec Exentax commence dans 30 minutes. Préparez-vous !",
+      reminder10m: "Votre consultation gratuite avec Exentax commence dans 10 minutes. Préparez-vous !",
       details: "Détails de votre rendez-vous :",
       dateLabel: "Date",
       timeLabel: "Heure",
@@ -2441,10 +2441,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Erinnerung: Ihre kostenlose Beratung ist in 3 Stunden | Exentax",
-      subject30m: "Erinnerung: Ihre kostenlose Beratung ist in 30 Minuten | Exentax",
+      subject10m: "Erinnerung: Ihre kostenlose Beratung ist in 10 Minuten | Exentax",
       greeting: "Hallo nochmal!",
       reminder3h: "Wir möchten Sie daran erinnern, dass Ihre kostenlose Beratung mit Exentax in etwa 3 Stunden stattfindet.",
-      reminder30m: "Ihre kostenlose Beratung mit Exentax beginnt in 30 Minuten. Machen Sie sich bereit!",
+      reminder10m: "Ihre kostenlose Beratung mit Exentax beginnt in 10 Minuten. Machen Sie sich bereit!",
       details: "Ihre Termindetails:",
       dateLabel: "Datum",
       timeLabel: "Uhrzeit",
@@ -2851,10 +2851,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Promemoria: la tua consulenza gratuita è tra 3 ore | Exentax",
-      subject30m: "Promemoria: la tua consulenza gratuita è tra 30 minuti | Exentax",
+      subject10m: "Promemoria: la tua consulenza gratuita è tra 10 minuti | Exentax",
       greeting: "Ciao di nuovo!",
       reminder3h: "Ti ricordiamo che la tua consulenza gratuita con Exentax è tra circa 3 ore.",
-      reminder30m: "La tua consulenza gratuita con Exentax inizia tra 30 minuti. Preparati!",
+      reminder10m: "La tua consulenza gratuita con Exentax inizia tra 10 minuti. Preparati!",
       details: "Dettagli del tuo appuntamento:",
       dateLabel: "Data",
       timeLabel: "Ora",
@@ -3261,10 +3261,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     },
     consultationReminder: {
       subject3h: "Lembrete: a sua consultoria gratuita é em 3 horas | Exentax",
-      subject30m: "Lembrete: a sua consultoria gratuita é em 30 minutos | Exentax",
+      subject10m: "Lembrete: a sua consultoria gratuita é em 10 minutos | Exentax",
       greeting: "Olá de novo!",
       reminder3h: "Lembramos que a sua consultoria gratuita com a Exentax é em aproximadamente 3 horas.",
-      reminder30m: "A sua consultoria gratuita com a Exentax começa em 30 minutos. Prepare-se!",
+      reminder10m: "A sua consultoria gratuita com a Exentax começa em 10 minutos. Prepare-se!",
       details: "Detalhes da sua consulta:",
       dateLabel: "Data",
       timeLabel: "Hora",

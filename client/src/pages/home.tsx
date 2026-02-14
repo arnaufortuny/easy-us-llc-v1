@@ -8,7 +8,7 @@ import { getWhatsAppUrl } from "@/lib/whatsapp";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { HeroSection } from "@/components/layout/hero-section";
-import { usePageTitle } from "@/hooks/use-page-title";
+import { usePageTitle, useJsonLd } from "@/hooks/use-page-title";
 import { fadeInUp, lineExpand, viewportOnce } from "@/lib/animations";
 import { ArrowRight } from "@/components/icons";
 import { createSafeHtml } from "@/lib/sanitize";
@@ -21,6 +21,19 @@ export default function Home() {
   const [location, setLocation] = useLocation();
   const { t } = useTranslation();
   usePageTitle();
+  useJsonLd({
+    "@type": "Organization",
+    "name": "ExenTax",
+    "url": "https://exentax.com",
+    "logo": "https://exentax.com/logo-icon.png",
+    "description": t("seo.home.description"),
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "contactType": "customer service",
+      "email": "hola@exentax.com",
+      "availableLanguage": ["Spanish", "English"]
+    }
+  });
   
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);

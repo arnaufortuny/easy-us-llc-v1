@@ -1477,13 +1477,13 @@ export function getConsultationReminderTemplate(
   dateFormatted: string,
   timeFormatted: string,
   duration: number,
-  reminderType: '3h' | '30m',
+  reminderType: '3h' | '10m',
   lang: EmailLanguage = 'es',
   meetLink?: string
 ) {
   const t = getEmailTranslations(lang);
   const ct = t.consultationReminder;
-  const reminderText = reminderType === '3h' ? ct.reminder3h : ct.reminder30m;
+  const reminderText = reminderType === '3h' ? ct.reminder3h : ct.reminder10m;
   const accentColor = reminderType === '3h' ? '#2563EB' : '#DC2626';
 
   const meetSection = meetLink ? `

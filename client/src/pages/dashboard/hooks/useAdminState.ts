@@ -56,7 +56,7 @@ export function useAdminState(params: UseAdminStateParams) {
   }, [syncTabToUrl]);
 
   const [commSubTab, setCommSubTab] = useState<'inbox' | 'agenda'>('inbox');
-  const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter'>('users');
+  const [usersSubTab, setUsersSubTab] = useState<'users' | 'newsletter' | 'consent'>('users');
   const [billingSubTab, setBillingSubTab] = useState<'invoices' | 'accounting' | 'payment-methods'>('invoices');
   const [adminSearchFilter, setAdminSearchFilter] = useState<'all' | 'name' | 'email' | 'date' | 'invoiceId'>('all');
   const adminPageSize = 50;

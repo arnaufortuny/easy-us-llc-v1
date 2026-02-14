@@ -189,11 +189,25 @@ export function registerMessageRoutes(app: Express) {
       
       const sanitizedContent = sanitizeHtml(content);
       const isAdminReply = req.session.isAdmin || req.session.isSupport || false;
+      
+      let resolvedFromName: string | null = null;
+      if (isAdminReply) {
+        if (fromName) {
+          resolvedFromName = fromName.trim().substring(0, 100);
+        } else {
+          const [adminUser] = await db.select({ firstName: usersTable.firstName, lastName: usersTable.lastName })
+            .from(usersTable).where(eq(usersTable.id, req.session.userId)).limit(1);
+          if (adminUser) {
+            resolvedFromName = `${adminUser.firstName || ''} ${adminUser.lastName || ''}`.trim() || null;
+          }
+        }
+      }
+      
       const [reply] = await db.insert(messageReplies).values({
         messageId,
         content: sanitizedContent,
         isAdmin: isAdminReply,
-        fromName: isAdminReply && fromName ? fromName.trim().substring(0, 100) : null,
+        fromName: resolvedFromName,
         createdBy: req.session.userId,
       }).returning();
       

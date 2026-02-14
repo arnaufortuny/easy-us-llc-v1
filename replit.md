@@ -1,79 +1,506 @@
 # Exentax — Complete Platform Documentation
 
 ## Overview
-Exentax is a full-stack SaaS platform designed to simplify US LLC formation for international entrepreneurs, particularly Spanish-speaking clients. It provides end-to-end services including business formation in New Mexico, Wyoming, and Delaware, annual maintenance, banking assistance, compliance tracking, and multilingual professional support. The platform is production-ready, featuring a comprehensive admin panel, secure document handling, and an automated compliance calendar, aiming to facilitate US business entry for a global audience.
 
-## User Preferences
-- Clear, concise communication without technical jargon
-- Iterative development with feedback at each stage
-- Approval required before significant codebase or design changes
-- Spanish as primary language, with full multilingual support (7 languages)
-- Exhaustive testing and validation before deployment
-- All emails must follow consistent branded Exentax templates with full multilingual support
+**Exentax** is a full-stack SaaS platform designed to simplify US LLC formation for international entrepreneurs, particularly Spanish-speaking clients. It provides end-to-end services including business formation in New Mexico, Wyoming, and Delaware, annual maintenance, banking assistance, compliance tracking, and multilingual professional support.
+
+The platform is built with:
+- **Frontend:** React 18 with Vite, Tailwind CSS, shadcn/ui components, Wouter routing, TanStack React Query, and i18n support (7 languages: ES, EN, CA, FR, DE, IT, PT)
+- **Backend:** Express.js with TypeScript, custom session-based + JWT token authentication, Google OAuth integration
+- **Database:** PostgreSQL with Drizzle ORM
+- **File Storage:** Replit Object Storage for documents
+- **Email:** Gmail API integration via Replit google-mail connector
+- **Calendar:** Google Calendar API integration via Replit google-calendar connector
+- **Deployment:** Autoscale on Replit
+
+The platform is production-ready, featuring a comprehensive admin panel, secure document handling, automated compliance calendar, and advanced self-healing error recovery.
 
 ## System Architecture
-Exentax is built with a React (Vite, TypeScript) frontend using Wouter for routing, TanStack Query for data management, and shadcn/ui with Tailwind CSS for UI. The backend is an Express.js (Node.js, TypeScript) application, interfacing with a PostgreSQL database via Drizzle ORM. Authentication is custom, session-based, supporting email/password, Google OAuth, and OTP verification. The system emphasizes secure document handling, email notifications, and web push notifications.
 
-Key architectural patterns include:
-- **Modular Frontend:** Components are organized into `ui`, `layout`, `forms`, `auth`, `dashboard`, `legal` categories. Hooks manage authentication, form drafts, mobile detection, and push notifications.
-- **Robust Backend Services:** API routes are logically grouped (e.g., `auth`, `user`, `orders`, `llc`, `admin`). Core services handle authentication, backups, email, PDF generation, rate limiting, and security.
-- **Shared Schema:** Drizzle ORM schema and Zod validation schemas are shared between frontend and backend to ensure data consistency.
-- **Multi-language Support:** `react-i18next` handles 7 languages across UI, email templates, and generated PDFs, with 100% key parity.
-- **Security-First Design:** Implements AES-256-GCM encryption for sensitive data, PostgreSQL-backed rate limiting, comprehensive security headers (CSP, HSTS), input validation/sanitization, and detailed audit logging.
-- **Theming System:** Supports Light, Dark, and Forest modes, with dynamic `theme-color` meta tag updates for a consistent mobile experience.
-- **Wizards and Flows:** Complex user interactions like registration, LLC formation, and maintenance applications are guided through multi-step wizards with draft saving and progress tracking.
-- **Dashboard:** A central hub for clients and administrators, featuring URL-based tab navigation, modular panels, and server-side pagination for data-intensive sections.
-- **Document Request Tracking:** Admin can request specific documents from clients. The system tracks requests through a lifecycle (sent → pending_upload → uploaded → approved/rejected → completed), automatically links client uploads to matching requests, and provides full CRUD management in the admin panel with audit logging.
-- **PDF Generation:** Server-side `pdfkit` for official documents (invoices, operating agreements) and client-side `jspdf` for user-generated tools.
-- **Scheduled Tasks:** Background services for data backups, abandoned application reminders, rate limit cleanup, consultation reminders, and audit log cleanup, monitored by a task watchdog.
-- **SEO Optimization:** Dynamic sitemap generation, structured data (JSON-LD), comprehensive meta tags, and `hreflang` attributes.
-- **GDPR Compliance:** Features user data export and self-service account deactivation, with admin-only full data deletion capabilities.
+### Frontend Architecture
+- **Framework:** React 18 with Vite bundler for optimal performance
+- **Routing:** Wouter for lightweight client-side routing
+- **State Management:** TanStack React Query v5 for server state with auto-retry logic, TanStack React Query with QueryClient for data fetching with 3x query retries and 2x mutation retries (exponential backoff)
+- **UI Components:** shadcn/ui with Radix UI primitives, custom styled with Tailwind CSS
+- **Styling:** Tailwind CSS with utility-first approach, supports Light/Dark/Forest theme modes
+- **Internationalization:** react-i18next with 7 language support (Spanish primary, English secondary, Catalan, French, German, Italian, Portuguese)
+- **Validation:** Zod schemas with react-hook-form integration
+- **Component Organization:**
+  - `ui/` - Base shadcn UI components
+  - `layout/` - Navigation, hero sections, footers
+  - `forms/` - Form input wrappers (form-input, form-select, etc.)
+  - `auth/` - Authentication components (social login)
+  - `dashboard/` - Dashboard panels and shared components
+  - `legal/` - Legal page layouts
+- **Custom Hooks:**
+  - `use-auth` - Authentication state and login/logout
+  - `use-form-draft` - Persistent form draft saving
+  - `use-mobile` - Mobile responsiveness detection
+  - `use-page-title` - Dynamic page title management with i18n
+  - `use-push-notifications` - Web push subscription handling
+  - `use-theme` - Theme switching (light/dark/forest) with localStorage persistence
+  - `use-toast` - Toast notification system
 
-## External Dependencies
-- **Database:** PostgreSQL (Neon-backed)
-- **Email Service:** Gmail API (via Replit google-mail connector, `server/lib/gmail-client.ts`)
-- **Authentication:** Google OAuth
-- **Storage:** Replit Object Storage
+### Backend Architecture
+- **Framework:** Express.js with TypeScript
+- **Request Validation:** Zod schemas from Drizzle with comprehensive error handling (400 for validation, 503 for DB errors)
+- **Authentication:** 
+  - Session-based auth with `express-session` and PostgreSQL backend (connect-pg-simple)
+  - JWT token auth for API integrations with custom code exchange flow
+  - Google OAuth 2.0 via Passport.js
+  - OTP verification for email/password reset
+  - Account lockout after 5 failed login attempts
+- **Security:**
+  - CSRF protection with token validation (Express middleware)
+  - Rate limiting on sensitive endpoints (OTP, registration, password reset, general API)
+  - PostgreSQL-backed rate limiting with automatic cleanup
+  - AES-256-GCM encryption for sensitive data (encryption.ts utilities)
+  - Input sanitization and DOMPurify for message content
+  - Security headers via Helmet middleware
+  - Audit logging for all admin actions and sensitive operations
+- **Core Services:**
+  - `auth-service.ts` - Session/JWT management, password hashing (bcrypt 12 rounds)
+  - `email.ts` - Email queue system with Gmail API backend, template rendering with i18n
+  - `gmail-client.ts` - Gmail API integration via Replit connector
+  - `google-calendar-client.ts` - Google Calendar + Meet integration
+  - `pdf-generator.ts` - Server-side PDF generation for invoices and operating agreements
+  - `encryption.ts` - Document encryption/decryption utilities
+  - `push-service.ts` - Web push notification management
+  - `backup-service.ts` - Automated Object Storage backups
+  - `abandoned-service.ts` - Abandoned application reminders (30min after submission)
+  - `logger.ts` - Structured logging with debug/info/error levels
+  - `rate-limiter.ts` - Token bucket rate limiting
+  - `task-watchdog.ts` - Monitoring for scheduled background tasks
+- **Scheduled Tasks:**
+  - OTP cleanup every 10 minutes (removes expired tokens)
+  - Compliance reminder checks every 1 hour
+  - Abandoned application reminders every 1 hour
+  - Rate limit entry cleanup hourly
+  - Consultation reminders 10 minutes before scheduled meetings
+- **API Routes (Modular):**
+  - `auth.ts` - Login, logout, registration (via custom-auth.ts middleware)
+  - `auth-ext.ts` - Registration OTP, password reset, email verification
+  - `orders.ts` - Order CRUD, discount code validation
+  - `llc.ts` - LLC application form, state selection, EIN assignment
+  - `maintenance.ts` - Maintenance package applications
+  - `messages.ts` - User-admin messaging with encryption
+  - `contact.ts` - Public contact form, newsletter subscription
+  - `consultations.ts` - Consultation booking, availability check, guest tracking
+  - `user-profile.ts` - Profile updates, notifications, export data
+  - `user-documents.ts` - Document upload, download, encryption
+  - `user-security.ts` - Password change, identity verification, 2FA setup
+  - `push.ts` - Web push subscription management
+  - `admin-users.ts` - User management, account status, role assignment
+  - `admin-orders.ts` - Order management, invoice generation, payment links
+  - `admin-billing.ts` - Billing overview, transaction tracking
+  - `admin-comms.ts` - Admin messaging, newsletter management
+  - `admin-documents.ts` - Document request lifecycle, approval workflow
+  - `admin-roles.ts` - Staff role RBAC configuration
+  - `admin-consent.ts` - User consent tracking and reporting
+  - `accounting.ts` - Transaction logging and accounting reports
+  - `object-storage/` - File upload/download with Replit integration
+- **Health Checks:**
+  - `GET /_health` - Database and pool connectivity status
+  - Returns 200 when healthy, 503 when unhealthy
+  - Includes retry suggestions via `Retry-After` header
+
+### Database Schema (33 Tables)
+
+**Core Users & Auth:**
+- `users` - User accounts with email, password, profile info, OAuth integration, staff roles
+- `sessions` - Express session store (PostgreSQL backend)
+- `passwordResetTokens` - Password reset token tracking
+- `emailVerificationTokens` - Email verification links
+- `userNotifications` - In-app notification history
+
+**Orders & Products:**
+- `products` - LLC formation packages (New Mexico, Wyoming, Delaware)
+- `orders` - Order records with status tracking (pending → paid → completed)
+- `orderEvents` - Order event history for audit trail
+- `discountCodes` - Discount/promo codes with usage limits
+
+**LLC Applications:**
+- `llcApplications` - Main LLC formation application with state selection, owner info, EIN, filing dates
+- `applicationDocuments` - Uploaded documents with encryption support, file hashing
+- `documentRequests` - Admin document request tracking (sent → pending_upload → uploaded → approved)
+- `documentAccessLogs` - Audit trail for all document access
+
+**Maintenance:**
+- `maintenanceApplications` - Annual maintenance package applications
+
+**Consultations:**
+- `consultationTypes` - Consultation service types (free, paid) with duration/price, multilingual names
+- `consultationAvailability` - Weekly availability slots (day of week, start/end time)
+- `consultationBlockedDates` - Blocked dates (holidays, vacations)
+- `consultationBookings` - Actual bookings with Google Meet links, guest info, questionnaire responses
+- `consultationSettings` - Global consultation configuration
+
+**Communications:**
+- `messages` - User-admin message threads (contact, support, system types)
+- `messageReplies` - Individual replies with admin/user distinction
+- `newsletters` - Newsletter subscriber tracking
+- `contactOtps` - OTP verification for contact form
+
+**Compliance & Accounting:**
+- `auditLogs` - Comprehensive audit trail (action, user, IP, timestamp, details)
+- `accountingTransactions` - Financial transaction recording
+- `guestVisitors` - Unauthenticated visitor tracking
+- `paymentAccounts` - Payment method storage
+- `standaloneInvoices` - Admin-generated invoices
+
+**Data Security & Compliance:**
+- `encryptedFields` - Encrypted sensitive data storage
+- `userConsentRecords` - User consent tracking (T&Cs, Privacy, Cookies)
+- `rateLimitEntries` - Rate limiting token bucket entries
+- `pushSubscriptions` - Web push notification subscriptions
+
+**Admin Management:**
+- `staffRoles` - Custom staff role definitions with granular permissions
+- `calculatorConsultations` - Price calculator consultation requests
+
+### Shared Schema Layer
+
+**Data Consistency:**
+- `shared/schema.ts` - Single source of truth for database schema using Drizzle ORM
+- All tables defined with proper indexes for performance
+- Zod insert schemas generated via `createInsertSchema` with `.omit()` for auto-generated fields
+- TypeScript types exported for strict typing across frontend and backend
+- Relations defined for foreign key associations
+
+**Validation Schemas:**
+- Insert schemas omit auto-generated fields (id, timestamps)
+- Select types inferred from table definitions
+- Insert types exported for form validation
+
+### Multi-Language Support
+
+- **7 Languages:** Spanish (ES), English (EN), Catalan (CA), French (FR), German (DE), Italian (IT), Portuguese (PT)
+- **Translation Files:** `client/src/locales/` with JSON files for each language
+- **100% Key Parity:** Verified 3,215 keys across all languages
+- **Email Templates:** Localized in `server/lib/email-translations.ts` with proper date/number formatting
+- **PDF Generation:** Server-side PDFs generated in user's preferred language
+- **Dynamic Page Titles:** Using `use-page-title` hook with i18n support
+- **Currency & Formatting:** Locale-aware number, date, and currency formatting
+
+### Theming System
+
+- **Modes:** Light, Dark, Forest (custom green-tinted dark mode)
+- **Implementation:** CSS custom properties in `index.css` with HSL color values
+- **Persistence:** Theme preference saved to localStorage (`exentax-theme`)
+- **Mobile Integration:** Dynamic `theme-color` meta tag for mobile browser chrome
+- **Components:** All shadcn/ui components support dark mode out of the box
+
+### Security Features
+
+1. **Authentication & Authorization:**
+   - bcrypt password hashing with 12 salt rounds
+   - Session-based auth with httpOnly secure cookies
+   - JWT token auth with custom code exchange (optional for integrations)
+   - Google OAuth 2.0 integration
+   - Account lockout: 5 failed attempts → locked for 15 minutes
+   - OTP verification for sensitive actions (email verification, password reset)
+   - Role-based access control (RBAC): admin, support, staff roles with granular permissions
+
+2. **Data Protection:**
+   - AES-256-GCM encryption for sensitive fields (messages, ID documents)
+   - Document file hashing for integrity verification
+   - TLS/HTTPS enforcement in production
+   - Password reset tokens with 1-hour expiration
+   - Email verification tokens with expiration tracking
+
+3. **Request Security:**
+   - CSRF token validation (Express middleware with auto-refresh on 403)
+   - Rate limiting on:
+     - OTP endpoints (5 per minute per email)
+     - Registration (3 per hour per IP)
+     - Password reset (3 per hour per email)
+     - General API (50 per minute per IP)
+   - Input sanitization (DOMPurify for user-generated content)
+   - Zod schema validation for all request bodies
+
+4. **Audit & Logging:**
+   - Comprehensive audit logs for all admin actions:
+     - Document uploads/approvals/rejections
+     - Order creation/deletion/status changes
+     - Invoice generation
+     - User role changes
+   - Document access logging (view, download, upload, delete actions)
+   - IP address tracking for security monitoring
+   - Log retention with automatic cleanup for older entries
+
+5. **Compliance:**
+   - GDPR-compliant data export and account deactivation
+   - User consent tracking (Terms, Privacy, Cookies)
+   - Admin-only full data deletion
+   - No hardcoded secrets or API keys (all environment variables)
+
+### Error Handling & Recovery
+
+**Self-Healing System:**
+1. **Query-Level Retries:**
+   - Queries: 3 retries with exponential backoff
+   - Mutations: 2 retries with exponential backoff
+   - Skip retry on 401/403/404 errors (permanent failures)
+
+2. **CSRF Auto-Refresh:**
+   - On 403 CSRF error, automatically refresh token and retry
+
+3. **Panel-Level Error Boundary:**
+   - `PanelErrorBoundary` wrapper on dashboard panels
+   - Auto-retry: 3 attempts with 5-second delay
+   - 30-second cooldown reset between retry cycles
+   - Deterministic error detection (network errors excluded)
+
+4. **Global Error Handler:**
+   - Zod validation errors → 400 with field details
+   - Database errors → 503 with Retry-After header
+   - No stack traces leaked to client
+   - Toast notification for network errors
+
+5. **Health Check Integration:**
+   - `GET /_health` endpoint checks DB pool status
+   - Returns current connection count and capacity
+   - Used by Replit autoscale for intelligent scaling decisions
+
+### SEO Optimization
+
+- **Dynamic Sitemap:** Generated at `server/sitemap.ts` with all public routes
+- **Structured Data:** JSON-LD schema for organization, breadcrumbs, FAQ
+- **Meta Tags:** Title, description, Open Graph tags on all pages
+- **hreflang Attributes:** Language-specific URLs for multilingual pages
+- **Mobile Optimization:** Responsive design with viewport configuration
+- **Page Titles:** Dynamic with i18n support via `use-page-title` hook
+
+### Deployment & Scaling
+
+- **Platform:** Replit Autoscale
+- **Build Process:** TypeScript compilation via esbuild (script/build.ts)
+- **Start Command:** `npm run dev` for development (Vite + Express on port 5000)
+- **Production:** Node.js with prebuilt assets
+- **Database:** PostgreSQL (Neon-backed) with connection pooling
+- **Environment Variables:**
+  - `ADMIN_EMAIL` - Centralized admin email (server/lib/config.ts)
+  - `ORG_EMAILS` - Organization email addresses for Meet invites
+  - `NODE_ENV` - Development/production mode
+  - Database, email, OAuth, and storage credentials via environment
+
+## User Preferences
+
+- **Primary Language:** Spanish with full English support
+- **Language Defaults:** Detected from browser, stored in user profile
+- **UI/UX:**
+  - Dark mode as default option
+  - Mobile-first responsive design
+  - Bilingual email templates with localized branding
+  - Clear, non-technical communication
+- **Development Workflow:**
+  - Iterative feedback at each stage
+  - Approval required for significant changes
+  - Exhaustive testing before deployment
+  - Consistent branded templates for all communications
+
+## Configuration & Customization
+
+### Central Configuration Files
+
+- **Admin Email:** `server/lib/config.ts` - `ADMIN_EMAIL` env var
+- **Organization Emails:** `server/lib/config.ts` - `ORG_EMAILS` for Meet integration
+- **Contact Phone:** `client/src/lib/constants.ts` - `CONTACT_PHONE` / `CONTACT_PHONE_DISPLAY`
+- **Pricing Config:** `shared/config/pricing.ts` - Product prices and features
+- **Email Templates:** `server/lib/email-translations.ts` - Multilingual email content
+
+### External Dependencies & Integrations
+
+- **Database:** PostgreSQL (Neon-backed with connection pooling)
+- **Email Service:** Gmail API (via Replit google-mail connector v2.0.0)
+- **Authentication:** Google OAuth 2.0 (Replit handled)
+- **Storage:** Replit Object Storage (with ACL management)
+- **Calendar:** Google Calendar + Meet (via Replit google-calendar connector v1.0.0)
 - **Error Monitoring:** Sentry (optional)
 - **Review Platform:** Trustpilot (optional)
+- **PDF Generation:**
+  - Server-side: pdfkit (invoices, operating agreements)
+  - Client-side: jspdf (user-generated tools)
 - **Push Notifications:** web-push npm package
-- **PDF Generation (Server-side):** pdfkit
-- **PDF Generation (Client-side):** jspdf
+- **Replit Auth:** Login with Replit (optional)
 
-## Configuration
-- **Admin Email:** Centralized in `server/lib/config.ts` via `ADMIN_EMAIL` env var (fallback: afortuny07@gmail.com)
-- **Contact Phone:** Centralized in `client/src/lib/constants.ts` as `CONTACT_PHONE` / `CONTACT_PHONE_DISPLAY`
-- **Self-Healing:** QueryClient has auto-retry (3x queries, 2x mutations) with exponential backoff, skips retry on 401/403/404. CSRF auto-refresh on 403. PanelErrorBoundary auto-retries (3x with 5s delay, 30s cooldown reset). Backend returns 503+Retry-After for DB errors. Health check at `/_health` includes DB status.
+### Self-Healing & Resilience
 
-## Recent Changes
-- **2026-02-13:** Dashboard refactored: reduced from 2,830 to 1,807 lines (36% reduction). Extracted `useUserProfileState` hook (19 useState + 7 mutations, 304 lines), `useAdminState` hook (~60 useState + 13 mutations + 11 queries, 649 lines), `DashboardSidebar` component (141 lines), and 6 admin forms into lazy-loaded components (PaymentLinkForm, AdminDocUploadForm, ResetPasswordForm, IdvRequestForm, IdvRejectForm, DocRejectForm). All files in `client/src/pages/dashboard/` subdirectories.
-- **2026-02-13:** Self-healing system: PanelErrorBoundary auto-retries (3x, 5s delay, 30s cooldown reset, deterministic error detection). QueryClient skips retry on 401/403/404. Global toast for network errors. Backend returns 503+Retry-After for DB errors. Health check includes DB status.
-- **2026-02-13:** Admin email centralized in `server/lib/config.ts` (env-based). Phone number centralized in `client/src/lib/constants.ts`. Removed 9 hardcoded email and 8 hardcoded phone instances.
-- **2026-02-13:** Page titles now i18n-aware (use-page-title.ts). Linktree page fully translated. Form-select placeholder uses t().
-- **2026-02-13:** Audit logging added for: document uploads (llc.ts, user-documents.ts), invoice create/delete/status-change, order deletion, document review.
-- **2026-02-13:** Removed unused code: products queries in home/servicios, DashboardContext system (4 files), StrategyIcon/ContinuousIcon, dead imports.
-- **2026-02-13:** Admin data tables have mobile horizontal scroll. DocumentsPanel has loading skeleton.
-- **2026-02-13:** Global error handler: ZodError→400 with details, DB errors→503, no stack trace leaks.
-- **2026-02-13:** Comprehensive security audit: CSRF protection hardened (fixed startsWith matching), rate limiting added to OTP/registration/password-reset, input sanitization added to messages/LLC/maintenance routes, global error handler hardened (no stack traces leaked).
-- **2026-02-13:** PDF invoice generator constrained to 1 page max for admin invoices. Added text truncation, item limits, and fixed footer positioning.
-- **2026-02-13:** Order/payment status transition validation added with explicit state machine rules. Transaction safety added for cascade deletes.
-- **2026-02-13:** Storage layer hardened with existence checks before updates.
-- **2026-02-13:** Consultation calendar loading state added.
-- **2026-02-13:** Database verified: 33 tables, 107 indexes, 28 FK constraints, all in sync with Drizzle schema. Zero orphaned records.
-- **2026-02-13:** Translation verified: 3,215 keys across 7 languages, 100% parity, no empty values.
-- **2026-02-13:** README updated with comprehensive project documentation.
-- **2026-02-13:** Removed green shadow/outline animations from all buttons. Changed button focus ring to neutral color.
-- **2026-02-13:** Removed green hover shadow from Card component.
-- **2026-02-13:** Email templates: changed header from hard green gradient to soft green (#F0FAF5), footer updated to "Exentax Holdings LLC".
-- **2026-02-13:** Email sending address changed from no-reply@easyusllc.com to no-reply@exentax.com. SMTP credentials updated.
-- **2026-02-13:** All "Easy US LLC" references replaced with "Exentax" or "Exentax Holdings LLC" across README, service worker, and email templates.
-- **2026-02-13:** Contact email confirmed as hola@exentax.com across all pages and legal sections.
-- **2026-02-14:** Email system migrated from IONOS SMTP (nodemailer) to Gmail API via Replit google-mail connector. Created `server/lib/gmail-client.ts`. Removed SMTP env vars (SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_USER_SUPPORT, SMTP_USER_TRUSTPILOT, SMTP_USER_ADMIN). Email queue system preserved with Gmail backend. All email functions (sendEmail, queueEmail, sendTrustpilotEmail) now use Gmail API.
-- **2026-02-14:** Google Meet integration for consultations. Created `server/lib/google-calendar-client.ts` using Replit google-calendar connector. Consultation bookings (free + authenticated) now auto-create Google Calendar events with Meet links. Meet links stored in `consultationBookings.meetingLink`, included in confirmation/reminder emails, and visible in admin panel. Graceful degradation if Meet creation fails.
-- **2026-02-14:** Email i18n audit & fixes: Fixed 6 incomplete language maps (time units: minutes/year/hours only covered 2-3 languages, now all 7). Fixed locale mapping in `getOrderEventTemplate` (fr/de/it/pt were defaulting to es-ES locale). Fixed urgency detection in renewal reminders to cover all 7 languages. Fixed German translation error ("Geschäftstage" → "Geschäftsstunden" = business hours not business days).
-- **2026-02-14:** System-wide error handling audit: Added missing `log.error()` in 20+ catch blocks across routes (messages, contact, llc, maintenance, admin-comms, admin-billing). Wrapped 4 `schema.parse()` calls with try/catch for proper 400 responses. Added onError callback to dashboard mutation. Email queue now attaches logo consistently and supports BCC parameter.
-- **2026-02-14:** Document/order/accounting bug fixes: Order deletion now cleans up maintenanceApplications (was orphaning records). Notification deletion uses FK lookup instead of fragile LIKE pattern. Document approval scopes notification cleanup to document-related only (was over-deleting). Message status now updates on admin/client replies. Accounting delete verifies existence before deletion.
-- **2026-02-14:** Google Meet org access: All org emails (arnau@exentax.com, hola@exentax.com) automatically added as attendees to consultation Meet events. Centralized in `server/lib/config.ts` as `ORG_EMAILS`.
-- **2026-02-14:** Comprehensive system audit & fixes: Fixed Delaware annual report state label bug in calendar-service (was showing "New Mexico"). LLC PUT endpoint now checks EIN lock (was bypassable). Order deletion now properly scopes documentRequests cleanup to linked documents only (was deleting all user doc requests).
-- **2026-02-14:** Consultation system overhaul: Duration changed from 20 to 30 minutes. Hours expanded to 9:00-20:00 daily (including weekends). Calendar shows next 4 days. Seeded 147 availability slots (7 days × 21 slots) and paid consultation type (30 min, 120€). Free consultation blocked for LLC owners (both public page and dashboard). Paid consultation confirmation emails added with Meet link. Maintenance form "dissolve LLC" option redirects to schedule paid consultation. All translations synced across 7 languages.
-- **2026-02-14:** Consultation email detection: Enhanced `/api/consultations/check-email` to return `hasLlc` status. Public booking page now detects registered emails and redirects to login (with distinct messages for LLC owners vs regular users). Server-side validation added to `book-free` endpoint to reject existing user emails (prevents API bypass). Two new translation keys added across 7 languages.
+1. **QueryClient Configuration:**
+   - Default query retry: 3 times with exponential backoff
+   - Default mutation retry: 2 times with exponential backoff
+   - Skip retry on: 401 Unauthorized, 403 Forbidden, 404 Not Found
+   - Stale time: Varies by query (usually 1-5 minutes)
+
+2. **CSRF Protection:**
+   - Auto-refresh on 403 CSRF error before retrying request
+   - Token validated server-side for all mutations
+   - Exempt paths: Webhooks, public forms, token exchange
+
+3. **PanelErrorBoundary:**
+   - Wraps dashboard panels for isolated error handling
+   - Auto-retry: 3 attempts with 5-second delay between attempts
+   - Cooldown reset: 30 seconds between retry cycles
+   - Error detection: Network errors excluded from auto-retry logic
+
+4. **Backend Resilience:**
+   - Returns 503 + `Retry-After` for temporary DB errors
+   - Health check includes DB pool status and connectivity
+   - Rate limiting prevents cascading failures
+   - Abandoned task watchdog monitors background services
+
+5. **Data Persistence:**
+   - Form drafts saved to localStorage (use-form-draft hook)
+   - User preferences and theme stored locally
+   - Critical state (auth token) stored in sessionStorage
+
+## Development
+
+### Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server (Vite + Express on port 5000)
+npm run dev
+
+# Push database schema changes
+npm run db:push
+
+# Run tests
+npm run test
+
+# Watch mode for tests
+npm run test:watch
+
+# Type checking
+npm check
+```
+
+### Database Management
+
+**Schema Management:**
+- Drizzle ORM for type-safe schema definition
+- `shared/schema.ts` is single source of truth
+- Use `npm run db:push` to sync schema with database
+- Never modify `drizzle.config.ts`
+
+**Testing Database Connection:**
+- Health check: `GET /api/healthz`
+- Returns DB pool status and connectivity info
+- Used for monitoring and scaling decisions
+
+### Building for Production
+
+```bash
+npm run build
+```
+
+This creates:
+- Compiled backend code in `dist/`
+- Bundled frontend assets in `dist/client/`
+- Production-optimized JavaScript and CSS
+
+### Testing
+
+```bash
+# Run all tests once
+npm run test
+
+# Watch mode for development
+npm run test:watch
+```
+
+Test files located in:
+- `server/test/` - Backend tests
+- `test/` - Shared tests (i18n, validation)
+- `e2e/tests/` - End-to-end tests (Playwright)
+
+## Recent Changes (2026-02-14)
+
+### System Improvements
+- **Email Migration:** IONOS SMTP → Gmail API via Replit connector. Created `server/lib/gmail-client.ts`, removed SMTP env vars.
+- **Calendar Integration:** Google Calendar + Meet for consultation bookings. Created `server/lib/google-calendar-client.ts`.
+- **Error Handling:** Added missing `log.error()` in 20+ catch blocks. Wrapped 4 `schema.parse()` calls with try/catch.
+- **Consultation System Overhaul:**
+  - Duration: 20 → 30 minutes
+  - Hours: 9:00-20:00 daily (including weekends)
+  - Calendar shows next 4 days
+  - Seeded 147 availability slots
+  - Free consultation blocked for LLC owners
+- **Email i18n Audit:** Fixed 6 incomplete language maps (time units now cover all 7 languages). Fixed locale mapping in order event templates.
+- **Document Bug Fixes:**
+  - Order deletion now cleans up maintenanceApplications
+  - Document approval scopes notification cleanup (was over-deleting)
+  - Message status now updates on admin/client replies
+- **Consultation Email Detection:** Enhanced check-email endpoint to return `hasLlc` status. Public booking redirects registered users to login.
+
+### Previous Changes (2026-02-13)
+- **Dashboard Refactor:** 2,830 → 1,807 lines (-36%). Extracted `useUserProfileState` (304 lines), `useAdminState` (649 lines), `DashboardSidebar` (141 lines).
+- **Self-Healing System:** PanelErrorBoundary with 3x auto-retry, 5s delay, 30s cooldown reset.
+- **Centralized Configuration:** Admin email in `server/lib/config.ts`, phone in `client/src/lib/constants.ts`.
+- **Audit Logging:** Added for document uploads, invoice operations, order deletion, document review.
+- **Security Hardening:** CSRF protection improved, rate limiting on OTP/registration/password-reset, input sanitization.
+- **Comprehensive Database Audit:** 33 tables, 107 indexes, 28 FK constraints, all synced.
+- **Translation Verification:** 3,215 keys across 7 languages, 100% parity.
+
+## Code Organization
+
+### Frontend Structure
+```
+client/src/
+├── pages/              # Route components
+│   ├── auth/          # Login, register, password reset
+│   ├── dashboard/     # Dashboard with hooks and panels
+│   ├── legal/         # Legal document pages
+│   └── [other pages]
+├── components/        # Reusable components
+│   ├── ui/           # shadcn UI components
+│   ├── forms/        # Form input wrappers
+│   ├── dashboard/    # Dashboard panels
+│   ├── layout/       # Navigation, hero, footer
+│   └── [others]
+├── hooks/            # Custom React hooks
+├── lib/              # Utilities and helpers
+├── locales/          # i18n translation files
+├── assets/           # Images and icons
+├── index.css         # Global styles with theme variables
+└── App.tsx           # Main router component
+```
+
+### Backend Structure
+```
+server/
+├── routes/           # API endpoint handlers (modular)
+├── lib/              # Core services
+│   ├── auth-service.ts
+│   ├── email.ts
+│   ├── gmail-client.ts
+│   ├── google-calendar-client.ts
+│   ├── pdf-generator.ts
+│   ├── encryption.ts
+│   └── [other services]
+├── test/             # Backend unit tests
+├── db.ts             # Database connection
+├── storage.ts        # Storage interface (CRUD)
+├── index.ts          # Server entry point
+└── routes.ts         # Route registration
+```
+
+### Shared Code
+```
+shared/
+├── schema.ts         # Database schema (single source of truth)
+├── models/auth.ts    # User and session schemas
+├── config/pricing.ts # Pricing configuration
+└── routes.ts         # API route definitions
+```
+
+## Important Notes
+
+- **Do NOT modify:** `package.json`, `drizzle.config.ts`, `server/vite.ts`, `vite.config.ts` (already optimized)
+- **Environment Variables:** Managed per environment (development/production/shared) via Replit
+- **Database Migrations:** Use `npm run db:push` (never raw SQL)
+- **Git Workflow:** Automated commits after task completion
+- **Logging:** Use `createLogger()` from `server/lib/logger.ts` for consistent structured logs

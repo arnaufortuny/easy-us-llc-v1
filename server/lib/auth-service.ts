@@ -354,15 +354,17 @@ export async function resetPasswordWithOtp(email: string, otp: string, newPasswo
     .set({ used: true })
     .where(eq(passwordResetTokens.id, tokenRecord.id));
 
-  // Also unlock account if it was locked due to too many attempts
+  const updateData: Record<string, any> = { 
+    passwordHash, 
+    updatedAt: new Date(),
+    loginAttempts: 0,
+    lockUntil: null,
+  };
+  if (user.accountStatus !== 'deactivated' && user.isActive !== false) {
+    updateData.accountStatus = 'active';
+  }
   await db.update(users)
-    .set({ 
-      passwordHash, 
-      updatedAt: new Date(),
-      loginAttempts: 0,
-      lockUntil: null,
-      accountStatus: 'active' 
-    })
+    .set(updateData)
     .where(eq(users.id, tokenRecord.userId));
 
   return true;

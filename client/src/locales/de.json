@@ -2100,7 +2100,26 @@
       },
       "clientsSubTabs": {
         "users": "Benutzer",
-        "newsletter": "Newsletter"
+        "newsletter": "Newsletter",
+        "consent": "Einwilligungen"
+      },
+      "consentRecords": {
+        "title": "Einwilligungen",
+        "userId": "Benutzer-ID",
+        "ip": "IP-Adresse",
+        "fullName": "Vollständiger Name",
+        "email": "E-Mail",
+        "date": "Datum",
+        "year": "Jahr",
+        "version": "Version",
+        "consentType": "Einwilligungstyp",
+        "filterAll": "Alle",
+        "filterTerms": "AGB",
+        "filterPrivacy": "Datenschutz",
+        "filterCookies": "Cookies",
+        "searchPlaceholder": "Nach E-Mail oder Name suchen...",
+        "noRecords": "Keine Einwilligungen gefunden",
+        "loading": "Einwilligungen werden geladen..."
       },
       "billingSubTabs": {
         "invoices": "Rechnungen",

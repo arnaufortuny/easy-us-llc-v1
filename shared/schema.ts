@@ -499,7 +499,7 @@ export const consultationBookings = pgTable("consultation_bookings", {
   meetingLink: text("meeting_link"),
   // Reminder tracking
   reminder3hSentAt: timestamp("reminder_3h_sent_at"),
-  reminder30mSentAt: timestamp("reminder_30m_sent_at"),
+  reminder10mSentAt: timestamp("reminder_10m_sent_at"),
   confirmationSentAt: timestamp("confirmation_sent_at"),
   // Timestamps
   confirmedAt: timestamp("confirmed_at"),
@@ -691,3 +691,25 @@ export const pushSubscriptions = pgTable("push_subscriptions", {
 export const insertPushSubscriptionSchema = createInsertSchema(pushSubscriptions).omit({ id: true, createdAt: true });
 export type PushSubscription = typeof pushSubscriptions.$inferSelect;
 export type InsertPushSubscription = z.infer<typeof insertPushSubscriptionSchema>;
+
+export const userConsentRecords = pgTable("user_consent_records", {
+  id: serial("id").primaryKey(),
+  userId: varchar("user_id").references(() => users.id),
+  email: text("email"),
+  fullName: text("full_name"),
+  ip: text("ip"),
+  userAgent: text("user_agent"),
+  consentType: text("consent_type").notNull(),
+  version: text("version").notNull(),
+  accepted: boolean("accepted").notNull().default(true),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("consent_records_user_id_idx").on(table.userId),
+  consentTypeIdx: index("consent_records_consent_type_idx").on(table.consentType),
+  emailIdx: index("consent_records_email_idx").on(table.email),
+  createdAtIdx: index("consent_records_created_at_idx").on(table.createdAt),
+}));
+
+export const insertUserConsentRecordSchema = createInsertSchema(userConsentRecords).omit({ id: true, createdAt: true });
+export type UserConsentRecord = typeof userConsentRecords.$inferSelect;
+export type InsertUserConsentRecord = z.infer<typeof insertUserConsentRecordSchema>;

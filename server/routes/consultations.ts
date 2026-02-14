@@ -599,8 +599,8 @@ export function registerConsultationRoutes(app: Express) {
         const startDateTime = startDt.toISOString().replace('Z', '');
         const endDateTime = endDt.toISOString().replace('Z', '');
 
-        const firstName = user.firstName || user.fullName?.split(' ')[0] || '';
-        const lastName = user.lastName || user.fullName?.split(' ').slice(1).join(' ') || '';
+        const firstName = user.firstName || '';
+        const lastName = user.lastName || '';
         const attendeeEmail = user.email || '';
 
         const meetResult = await createGoogleMeetEvent({
@@ -630,7 +630,7 @@ export function registerConsultationRoutes(app: Express) {
         const { getEmailTranslations } = await import("../lib/email-translations");
         const et = getEmailTranslations(lang);
         const html = getConsultationConfirmationTemplate(
-          user.firstName || user.fullName?.split(' ')[0] || 'Cliente',
+          user.firstName || 'Cliente',
           bookingCode,
           dateFormatted,
           data.scheduledTime,
@@ -1170,10 +1170,10 @@ async function sendReminder(booking: any, email: string, name: string, lang: any
     log.info(`Sent 3h reminder for booking ${booking.bookingCode} to ${email}`);
   }
   
-  if (hoursUntil <= 0.75 && hoursUntil > 0.1 && !booking.reminder30mSentAt) {
-    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '30m', lang, meetLink);
-    await sendEmail({ to: email, subject: t.consultationReminder.subject30m, html });
-    await db.update(consultationBookings).set({ reminder30mSentAt: new Date() }).where(eq(consultationBookings.id, booking.id));
-    log.info(`Sent 30m reminder for booking ${booking.bookingCode} to ${email}`);
+  if (hoursUntil <= (10 / 60 + 0.08) && hoursUntil > 0.1 && !booking.reminder10mSentAt) {
+    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '10m', lang, meetLink);
+    await sendEmail({ to: email, subject: t.consultationReminder.subject10m, html });
+    await db.update(consultationBookings).set({ reminder10mSentAt: new Date() }).where(eq(consultationBookings.id, booking.id));
+    log.info(`Sent 10m reminder for booking ${booking.bookingCode} to ${email}`);
   }
 }
