@@ -997,7 +997,7 @@ export default function Dashboard() {
                     setPasswordOtp={setPasswordOtp}
                     requestPasswordOtpMutation={requestPasswordOtpMutation}
                     changePasswordMutation={changePasswordMutation}
-                    setShowEmailVerification={setShowEmailVerification}
+                    setShowEmailVerification={() => setActiveTab('services')}
                     setDeleteOwnAccountDialog={setDeleteOwnAccountDialog}
                     profileOtpStep={profileOtpStep}
                     setProfileOtpStep={setProfileOtpStep}
@@ -1009,82 +1009,6 @@ export default function Dashboard() {
                   />
                 </PanelErrorBoundary>
                 
-                {/* Inline Email Verification Panel */}
-                {showEmailVerification && (
-                  <Card className="mt-6 rounded-2xl border-accent/30 shadow-lg animate-in slide-in-from-top-2 duration-300">
-                    <CardContent className="p-4 sm:p-6">
-                      <div className="flex items-center justify-between mb-4">
-                        <div>
-                          <h3 className="text-lg font-black text-foreground">{t('dashboard.profile.verifyEmail')}</h3>
-                          <p className="text-sm text-muted-foreground">{t('dashboard.profile.verifyEmailDesc')}</p>
-                        </div>
-                        <Button variant="ghost" size="icon" onClick={() => { setShowEmailVerification(false); setEmailVerificationCode(""); }} className="rounded-full" data-testid="button-close-email-verification">
-                          <X className="w-4 h-4" />
-                        </Button>
-                      </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label className="text-sm font-semibold text-foreground block mb-2">{t('dashboard.profile.verificationCode')}</Label>
-                          <Input value={emailVerificationCode}
-                            onChange={(e) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                            className="rounded-xl text-center text-2xl font-black border-border bg-background dark:bg-card h-14 tracking-[0.5em]"
-                            maxLength={6}
-                            inputMode="numeric"
-                            autoComplete="one-time-code"
-                            data-testid="input-email-verification-code"
-                          />
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          <Button onClick={async () => {
-                              if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                                setFormMessage({ type: 'error', text: t("dashboard.toasts.enter6DigitCode") });
-                                return;
-                              }
-                              setIsVerifyingEmail(true);
-                              try {
-                                const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
-                                const result = await res.json();
-                                if (result.success) {
-                                  await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                                  setFormMessage({ type: 'success', text: t("dashboard.toasts.emailVerified") });
-                                  setShowEmailVerification(false);
-                                  setEmailVerificationCode("");
-                                }
-                              } catch (err: any) {
-                                setFormMessage({ type: 'error', text: t("dashboard.toasts.incorrectCode") + ". " + (err.message || t("dashboard.toasts.incorrectCodeDesc")) });
-                              } finally {
-                                setIsVerifyingEmail(false);
-                              }
-                            }}
-                            disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-                            className="flex-1 bg-accent text-accent-foreground font-black rounded-full"
-                            data-testid="button-verify-email-code"
-                          >
-                            {isVerifyingEmail ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.verifyEmail')}
-                          </Button>
-                          <Button variant="outline"
-                            onClick={async () => {
-                              setIsResendingCode(true);
-                              try {
-                                await apiRequest("POST", "/api/auth/resend-verification");
-                                setFormMessage({ type: 'success', text: t("dashboard.toasts.codeSent") + ". " + t("dashboard.toasts.codeSentDesc") });
-                              } catch {
-                                setFormMessage({ type: 'error', text: t("common.error") + ". " + t("dashboard.toasts.couldNotSend") });
-                              } finally {
-                                setIsResendingCode(false);
-                              }
-                            }}
-                            disabled={isResendingCode}
-                            className="rounded-full"
-                            data-testid="button-resend-verification-code"
-                          >
-                            {isResendingCode ? <Loader2 className="w-4 h-4 animate-spin" /> : t('dashboard.profile.resendCode')}
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
                 
                 {/* Inline Delete Own Account Panel */}
                 {deleteOwnAccountDialog && (
