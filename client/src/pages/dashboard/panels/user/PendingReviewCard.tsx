@@ -52,55 +52,58 @@ export function PendingReviewCard({ user }: { user: any }) {
               </p>
               <Input value={emailVerificationCode}
                 onChange={(e: any) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-3"
+                placeholder="000000"
+                className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-4"
                 maxLength={6}
                 inputMode="numeric"
                 data-testid="input-pending-verification-code"
               />
-              <Button onClick={async () => {
-                  if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                    setFormMsg({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
-                    return;
-                  }
-                  setIsVerifyingEmail(true);
-                  try {
-                    const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
-                    const result = await res.json();
-                    if (result.success) {
-                      await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                      setFormMsg({ type: 'success', text: t("dashboard.pendingAccount.emailVerified") });
-                      setEmailVerificationCode("");
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={async () => {
+                    if (!emailVerificationCode || emailVerificationCode.length < 6) {
+                      setFormMsg({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
+                      return;
                     }
-                  } catch {
-                    setFormMsg({ type: 'error', text: t("application.messages.incorrectCode") });
-                  } finally {
-                    setIsVerifyingEmail(false);
-                  }
-                }}
-                disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-                className="w-full bg-accent text-accent-foreground font-black rounded-full h-11"
-                data-testid="button-pending-verify"
-              >
-                {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
-              </Button>
-              <Button variant="link"
-                onClick={async () => {
-                  setIsResendingCode(true);
-                  try {
-                    await apiRequest("POST", "/api/auth/resend-verification");
-                    setFormMsg({ type: 'success', text: t("application.messages.codeSent") });
-                  } catch {
-                    setFormMsg({ type: 'error', text: t("common.error") });
-                  } finally {
-                    setIsResendingCode(false);
-                  }
-                }}
-                disabled={isResendingCode}
-                className="text-accent p-0 h-auto text-xs mt-2 rounded-full"
-                data-testid="button-pending-resend"
-              >
-                {isResendingCode ? t("common.sending") : t("dashboard.pendingAccount.resendCode")}
-              </Button>
+                    setIsVerifyingEmail(true);
+                    try {
+                      const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
+                      const result = await res.json();
+                      if (result.success) {
+                        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+                        setFormMsg({ type: 'success', text: t("dashboard.pendingAccount.emailVerified") });
+                        setEmailVerificationCode("");
+                      }
+                    } catch {
+                      setFormMsg({ type: 'error', text: t("application.messages.incorrectCode") });
+                    } finally {
+                      setIsVerifyingEmail(false);
+                    }
+                  }}
+                  disabled={isVerifyingEmail || emailVerificationCode.length < 6}
+                  className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11"
+                  data-testid="button-pending-verify"
+                >
+                  {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
+                </Button>
+                <Button variant="outline"
+                  onClick={async () => {
+                    setIsResendingCode(true);
+                    try {
+                      await apiRequest("POST", "/api/auth/resend-verification");
+                      setFormMsg({ type: 'success', text: t("application.messages.codeSent") });
+                    } catch {
+                      setFormMsg({ type: 'error', text: t("common.error") });
+                    } finally {
+                      setIsResendingCode(false);
+                    }
+                  }}
+                  disabled={isResendingCode}
+                  className="flex-1 rounded-full h-11 font-black"
+                  data-testid="button-pending-resend"
+                >
+                  {isResendingCode ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.resendCode")}
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">

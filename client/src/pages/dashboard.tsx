@@ -115,55 +115,58 @@ function PendingReviewCard({ user }: { user: any }) {
               </p>
               <Input value={emailVerificationCode}
                 onChange={(e: any) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-3"
+                placeholder="000000"
+                className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-4"
                 maxLength={6}
                 inputMode="numeric"
                 data-testid="input-pending-verification-code"
               />
-              <Button onClick={async () => {
-                  if (!emailVerificationCode || emailVerificationCode.length < 6) {
-                    setFormMsg({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
-                    return;
-                  }
-                  setIsVerifyingEmail(true);
-                  try {
-                    const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
-                    const result = await res.json();
-                    if (result.success) {
-                      await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
-                      setFormMsg({ type: 'success', text: t("dashboard.pendingAccount.emailVerified") });
-                      setEmailVerificationCode("");
+              <div className="flex flex-col sm:flex-row gap-2">
+                <Button onClick={async () => {
+                    if (!emailVerificationCode || emailVerificationCode.length < 6) {
+                      setFormMsg({ type: 'error', text: t("dashboard.pendingAccount.enter6DigitCode") });
+                      return;
                     }
-                  } catch {
-                    setFormMsg({ type: 'error', text: t("application.messages.incorrectCode") });
-                  } finally {
-                    setIsVerifyingEmail(false);
-                  }
-                }}
-                disabled={isVerifyingEmail || emailVerificationCode.length < 6}
-                className="w-full bg-accent text-accent-foreground font-black rounded-full h-11"
-                data-testid="button-pending-verify"
-              >
-                {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
-              </Button>
-              <Button variant="link"
-                onClick={async () => {
-                  setIsResendingCode(true);
-                  try {
-                    await apiRequest("POST", "/api/auth/resend-verification");
-                    setFormMsg({ type: 'success', text: t("application.messages.codeSent") });
-                  } catch {
-                    setFormMsg({ type: 'error', text: t("common.error") });
-                  } finally {
-                    setIsResendingCode(false);
-                  }
-                }}
-                disabled={isResendingCode}
-                className="text-accent p-0 h-auto text-xs mt-2 rounded-full"
-                data-testid="button-pending-resend"
-              >
-                {isResendingCode ? t("common.sending") : t("dashboard.pendingAccount.resendCode")}
-              </Button>
+                    setIsVerifyingEmail(true);
+                    try {
+                      const res = await apiRequest("POST", "/api/auth/verify-email", { code: emailVerificationCode });
+                      const result = await res.json();
+                      if (result.success) {
+                        await queryClient.refetchQueries({ queryKey: ["/api/auth/user"] });
+                        setFormMsg({ type: 'success', text: t("dashboard.pendingAccount.emailVerified") });
+                        setEmailVerificationCode("");
+                      }
+                    } catch {
+                      setFormMsg({ type: 'error', text: t("application.messages.incorrectCode") });
+                    } finally {
+                      setIsVerifyingEmail(false);
+                    }
+                  }}
+                  disabled={isVerifyingEmail || emailVerificationCode.length < 6}
+                  className="flex-1 bg-accent text-accent-foreground font-black rounded-full h-11"
+                  data-testid="button-pending-verify"
+                >
+                  {isVerifyingEmail ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.verifyButton")}
+                </Button>
+                <Button variant="outline"
+                  onClick={async () => {
+                    setIsResendingCode(true);
+                    try {
+                      await apiRequest("POST", "/api/auth/resend-verification");
+                      setFormMsg({ type: 'success', text: t("application.messages.codeSent") });
+                    } catch {
+                      setFormMsg({ type: 'error', text: t("common.error") });
+                    } finally {
+                      setIsResendingCode(false);
+                    }
+                  }}
+                  disabled={isResendingCode}
+                  className="flex-1 rounded-full h-11 font-black"
+                  data-testid="button-pending-resend"
+                >
+                  {isResendingCode ? <Loader2 className="w-5 h-5 animate-spin" /> : t("dashboard.pendingAccount.resendCode")}
+                </Button>
+              </div>
             </div>
           ) : (
             <div className="space-y-4">
@@ -823,7 +826,7 @@ export default function Dashboard() {
       <main className={`pt-6 sm:pt-10 pb-20 !min-h-0 ${isAdmin ? 'px-3 md:px-4 lg:px-4 xl:px-5' : 'px-5 md:px-8 max-w-7xl mx-auto lg:mx-0 lg:max-w-none lg:px-10'}`}>
 
         <header className="mb-4 md:mb-6 animate-fade-in-up">
-          {!user?.emailVerified && (
+          {!user?.emailVerified && !isPendingAccount && (
             <Card className="mt-4 p-4 rounded-2xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10 dark:border-accent/30">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-accent/10 dark:bg-accent/15 flex items-center justify-center shrink-0">
