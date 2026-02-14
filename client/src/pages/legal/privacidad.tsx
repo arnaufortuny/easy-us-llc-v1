@@ -21,7 +21,7 @@ export default function Privacidad() {
             <p className="font-black text-brand-dark dark:text-zinc-400 text-xs tracking-widest opacity-50">{t("legalPrivacy.s01LegalEntity")}</p>
             <p className="font-black text-xl text-brand-dark dark:text-white">Exentax Holdings LLC</p>
             <p>{t("legalPrivacy.s01TradeName")}: Exentax</p>
-            <p>{t("legalPrivacy.s01RegisteredAddress")}: 1209 Mountain Road Pl NE, STE R, Albuquerque, New Mexico 87110, {t("legalPrivacy.s01Country")}</p>
+            <p>{t("legalPrivacy.s01RegisteredAddress")}: One Franklin Square, 1301 K St NW, Washington, DC 20005, {t("legalPrivacy.s01Country")}</p>
             <p>Email: hola@exentax.com</p>
             <p>WhatsApp: {CONTACT_PHONE_DISPLAY}</p>
           </LegalHighlightBox>

@@ -200,8 +200,8 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
       doc.font('Helvetica').fontSize(7).fillColor(light).text('FROM', left, y);
       doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Exentax Holdings LLC', left, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
-      doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
-      doc.text('Albuquerque, NM 87110, USA', left, y + 38);
+      doc.text('One Franklin Square, 1301 K St NW', left, y + 26);
+      doc.text('Washington, DC 20005, USA', left, y + 38);
       doc.text('hola@exentax.com', left, y + 50);
 
       const cX = 320;
@@ -352,7 +352,7 @@ export function generateInvoicePdf(data: InvoiceData): Promise<Buffer> {
 
       const footerY = FOOTER_Y;
       doc.moveTo(left, footerY).lineTo(right, footerY).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY + 6, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. One Franklin Square, 1301 K St NW, Washington, DC 20005, USA', left, footerY + 6, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {
@@ -399,8 +399,8 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
       doc.font('Helvetica').fontSize(7).fillColor(light).text('FROM', left, y);
       doc.font('Helvetica-Bold').fontSize(10).fillColor(black).text('Exentax Holdings LLC', left, y + 12);
       doc.font('Helvetica').fontSize(8.5).fillColor(mid);
-      doc.text('1209 Mountain Road Place NE, STE R', left, y + 26);
-      doc.text('Albuquerque, NM 87110, USA', left, y + 38);
+      doc.text('One Franklin Square, 1301 K St NW', left, y + 26);
+      doc.text('Washington, DC 20005, USA', left, y + 38);
       doc.text('hola@exentax.com', left, y + 50);
 
       const cX = 320;
@@ -504,7 +504,7 @@ export function generateCustomInvoicePdf(data: CustomInvoiceData): Promise<Buffe
 
       const footerY2 = FOOTER_Y;
       doc.moveTo(left, footerY2).lineTo(right, footerY2).strokeColor(line).lineWidth(0.5).stroke();
-      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. 1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA', left, footerY2 + 6, { align: 'center', width: contentW });
+      doc.font('Helvetica').fontSize(6.5).fillColor(light).text('Exentax is a brand of Exentax Holdings LLC. One Franklin Square, 1301 K St NW, Washington, DC 20005, USA', left, footerY2 + 6, { align: 'center', width: contentW });
 
       doc.end();
     } catch (error) {

@@ -879,8 +879,8 @@ export function registerAdminDocumentsRoutes(app: Express) {
               <div class="detail-content">
                 <p><strong>EXENTAX</strong></p>
                 <p>FORTUNY CONSULTING LLC</p>
-                <p>1209 Mountain Road Place NE, STE R</p>
-                <p>Albuquerque, NM 87110, USA</p>
+                <p>One Franklin Square, 1301 K St NW</p>
+                <p>Washington, DC 20005, USA</p>
                 <p style="margin-top: 10px;">hola@exentax.com</p>
                 <p>+34 614 91 69 10</p>
               </div>
@@ -939,7 +939,7 @@ export function registerAdminDocumentsRoutes(app: Express) {
           
           <div class="footer">
             <p><strong>EXENTAX</strong> • FORTUNY CONSULTING LLC</p>
-            <p>1209 Mountain Road Place NE, STE R, Albuquerque, NM 87110, USA</p>
+            <p>One Franklin Square, 1301 K St NW, Washington, DC 20005, USA</p>
             <p>hola@exentax.com • +34 614 91 69 10 • www.exentax.com</p>
           </div>
         </body>

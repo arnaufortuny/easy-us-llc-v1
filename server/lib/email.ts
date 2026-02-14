@@ -8,9 +8,9 @@ const log = createLogger('email');
 
 const domain = "exentax.com";
 const companyAddress = `Exentax
-1209 Mountain Road Place Northeast
-STE R
-Albuquerque, NM 87110`;
+One Franklin Square
+1301 K St NW
+Washington, DC 20005`;
 
 const EMAIL_LOGO = "cid:logo-icon";
 
@@ -28,7 +28,7 @@ function getSimpleFooter() {
   return `
     <div style="background-color: #0A1F17; padding: 35px 25px; text-align: center; color: #F7F7F5;">
       <div style="width: 40px; height: 3px; background: #00C48C; margin: 0 auto 20px; border-radius: 2px;"></div>
-      <p style="margin: 0 0 15px 0; font-size: 12px; color: #6B7280; line-height: 1.7;">1209 Mountain Road Place Northeast, STE R<br>Albuquerque, NM 87110</p>
+      <p style="margin: 0 0 15px 0; font-size: 12px; color: #6B7280; line-height: 1.7;">One Franklin Square, 1301 K St NW<br>Washington, DC 20005</p>
       <p style="margin: 0; font-size: 11px; color: #6B7280;">© ${new Date().getFullYear()} Exentax Holdings LLC</p>
     </div>
   `;

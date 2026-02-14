@@ -18,7 +18,7 @@ async function getSettings() {
     slotStartHour: 9,
     slotEndHour: 20,
     slotIntervalMinutes: 30,
-    allowWeekends: true,
+    allowWeekends: false,
     timezone: 'Europe/Madrid',
   }).returning();
   return created;
