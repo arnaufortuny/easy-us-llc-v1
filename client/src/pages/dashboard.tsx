@@ -770,7 +770,7 @@ export default function Dashboard() {
                     onClick={() => { setActiveTab('admin' as Tab); setAdminSubTab(item.subTab); }}
                     className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-colors ${
                       isActive 
-                      ? 'bg-accent text-accent-foreground' 
+                      ? 'bg-accent/20 dark:bg-accent/25 text-accent' 
                       : 'bg-muted/60 text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
@@ -788,7 +788,7 @@ export default function Dashboard() {
                     onClick={() => setActiveTab(item.id as Tab)}
                     className={`flex items-center gap-1.5 rounded-full font-bold text-xs tracking-normal whitespace-nowrap shrink-0 min-h-9 px-4 transition-colors ${
                       activeTab === item.id 
-                      ? 'bg-accent text-accent-foreground' 
+                      ? 'bg-accent/20 dark:bg-accent/25 text-accent' 
                       : 'bg-muted/60 text-muted-foreground'
                     }`}
                     data-testid={`button-tab-${item.id}`}
