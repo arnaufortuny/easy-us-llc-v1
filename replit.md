@@ -56,11 +56,21 @@ Exentax is a full-stack SaaS platform designed to simplify US LLC formation for 
 - **Audit & Logging:** Comprehensive audit logs for admin actions, document access, and IP tracking.
 - **Compliance:** GDPR-compliant data handling, user consent tracking, environment variable for secrets.
 
+### Performance Optimizations
+- **Server-Side Caching:** In-memory TTL cache (`server/lib/cache.ts`) for products (5 min), consultation types (5 min), and consultation settings (2 min). Cache auto-invalidated on admin mutations.
+- **Image Compression:** Uploaded images (JPG/PNG) are compressed via `sharp` before storage — max 2048px width, JPEG quality 80, PNG level 8. PDFs pass through unchanged.
+- **Admin Orders Query:** DB-level filtering with ILIKE search and SQL pagination instead of loading all orders into memory.
+
 ### Error Handling & Recovery
 - **Self-Healing:** Query-level retries (3x query, 2x mutation with exponential backoff), CSRF auto-refresh.
 - **Error Boundaries:** `PanelErrorBoundary` for dashboard panels with auto-retry logic.
 - **Global Handling:** Zod validation to 400, DB errors to 503 with `Retry-After` header.
 - **Health Checks:** `GET /_health` endpoint for database and pool connectivity status.
+- **Sentry Monitoring:** Optional Sentry integration (`SENTRY_DSN` env var) for error tracking in production. Captures unhandled exceptions, critical route errors (orders, billing, auth, LLC), and strips sensitive headers.
+
+### Automated Tests
+- **Framework:** Vitest with 40+ unit tests in `server/__tests__/api.test.ts`.
+- **Coverage:** Cache utility, image compression, ID generation, and Zod validation schemas.
 
 ### SEO Optimization
 - Dynamic sitemap, JSON-LD structured data, meta tags, hreflang attributes, mobile optimization, and dynamic i18n page titles.
