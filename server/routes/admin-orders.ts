@@ -213,10 +213,10 @@ export function registerAdminOrderRoutes(app: Express) {
 
       sendEmail({
         to: order.user.email,
-        subject: emailSubjects[userLang] || emailSubjects.es,
+        subject: (emailSubjects[userLang] || emailSubjects.es).replace(order.invoiceNumber || `#${order.id}`, orderCode),
         html: getOrderUpdateTemplate(
           order.user.firstName || "Cliente",
-          order.invoiceNumber || `#${order.id}`,
+          orderCode,
           status,
           emailBodies[userLang] || emailBodies.es,
           userLang as any

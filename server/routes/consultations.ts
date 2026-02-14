@@ -1019,7 +1019,7 @@ export function registerConsultationRoutes(app: Express) {
         .set({ 
           scheduledDate: newDate,
           scheduledTime,
-          status: 'rescheduled',
+          status: 'confirmed',
           updatedAt: new Date()
         })
         .where(eq(consultationBookings.id, bookingId))
