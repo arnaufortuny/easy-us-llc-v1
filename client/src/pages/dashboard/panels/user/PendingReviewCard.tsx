@@ -52,7 +52,6 @@ export function PendingReviewCard({ user }: { user: any }) {
               </p>
               <Input value={emailVerificationCode}
                 onChange={(e: any) => setEmailVerificationCode(e.target.value.replace(/\D/g, ""))}
-                placeholder="000000"
                 className="rounded-full text-center text-xl font-black border-accent/30 focus:border-accent tracking-[0.4em] h-12 mb-4"
                 maxLength={6}
                 inputMode="numeric"
