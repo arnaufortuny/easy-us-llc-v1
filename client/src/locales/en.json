@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Free Consultation | Exentax",
-      "description": "Book a free 20-minute consultation with our US LLC formation experts. No commitment required."
+      "description": "Book a free 30-minute consultation with our US LLC formation experts. No commitment required."
     }
   },
   "consultations": {
@@ -3401,7 +3401,14 @@
       "meetingLink": "Meeting link",
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Search by code, client, email..."
-    }
+    },
+    "llcOwnerBlocked": "As a client with an active LLC, free consultations are not available. Please schedule a paid consultation from your dashboard.",
+    "llcOwnerBlockedTitle": "Free consultation not available",
+    "goToDashboard": "Go to my consultations panel",
+    "paidConsultationInfo": "Paid consultations will be available soon. Contact support if you need an urgent consultation.",
+    "paidConsultationTitle": "Paid consultation required",
+    "dissolutionRequiresConsultation": "Dissolving your LLC requires a paid consultation with our team to guide you through the process.",
+    "scheduleDissolutionConsultation": "Schedule dissolution consultation"
   },
   "homeFaq": {
     "titlePart1": "Learn how an LLC can help you",
@@ -3844,8 +3851,8 @@
     "title": "Free Consultation",
     "titleFree": "Free",
     "titleConsultation": "Consultation",
-    "subtitle": "Book a 20-minute session with our expert team. No commitment required.",
-    "duration": "20 minutes · Free · No commitment",
+    "subtitle": "Book a 30-minute session with our expert team. No commitment required.",
+    "duration": "30 minutes · Free · No commitment",
     "error": "Error booking consultation. Please try again.",
     "consent": "I agree to the processing of my personal data to manage this consultation, in accordance with the privacy policy.",
     "emailDeactivated": "This email is associated with a deactivated account. Please contact support.",

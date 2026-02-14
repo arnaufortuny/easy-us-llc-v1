@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Kostenlose Beratung | Exentax",
-      "description": "Buchen Sie eine kostenlose 20-minütige Beratung mit unseren US-LLC-Gründungsexperten."
+      "description": "Buchen Sie eine kostenlose 30-minütige Beratung mit unseren US-LLC-Gründungsexperten."
     }
   },
   "consultations": {
@@ -3401,7 +3401,14 @@
       "meetingLink": "Meeting-Link",
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Suche nach Code, Kunde, E-Mail..."
-    }
+    },
+    "llcOwnerBlocked": "Als Kunde mit einer aktiven LLC sind kostenlose Beratungen nicht verfügbar. Bitte buchen Sie eine kostenpflichtige Beratung über Ihr Dashboard.",
+    "llcOwnerBlockedTitle": "Kostenlose Beratung nicht verfügbar",
+    "goToDashboard": "Zu meinem Beratungs-Panel",
+    "paidConsultationInfo": "Kostenpflichtige Beratungen werden in Kürze verfügbar sein. Kontaktieren Sie den Support, wenn Sie eine dringende Beratung benötigen.",
+    "paidConsultationTitle": "Kostenpflichtige Beratung erforderlich",
+    "dissolutionRequiresConsultation": "Die Auflösung Ihrer LLC erfordert eine kostenpflichtige Beratung mit unserem Team, um Sie durch den Prozess zu führen.",
+    "scheduleDissolutionConsultation": "Auflösungsberatung buchen"
   },
   "homeFaq": {
     "titlePart1": "Erfahren Sie, wie eine LLC Ihnen helfen kann",
@@ -3844,8 +3851,8 @@
     "title": "Kostenlose Beratung",
     "titleFree": "Kostenlose",
     "titleConsultation": "Beratung",
-    "subtitle": "Buchen Sie eine 20-minütige Sitzung mit unserem Expertenteam. Ohne Verpflichtung.",
-    "duration": "20 Minuten · Kostenlos · Ohne Verpflichtung",
+    "subtitle": "Buchen Sie eine 30-minütige Sitzung mit unserem Expertenteam. Ohne Verpflichtung.",
+    "duration": "30 Minuten · Kostenlos · Ohne Verpflichtung",
     "error": "Fehler bei der Buchung. Bitte versuchen Sie es erneut.",
     "consent": "Ich stimme der Verarbeitung meiner personenbezogenen Daten zur Verwaltung dieser Beratung gemäß der Datenschutzrichtlinie zu.",
     "emailDeactivated": "Diese E-Mail ist mit einem deaktivierten Konto verknüpft. Bitte kontaktieren Sie den Support.",

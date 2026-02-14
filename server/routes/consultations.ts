@@ -6,18 +6,18 @@ import { checkRateLimit } from "../lib/security";
 import { DateTime } from "luxon";
 
 const log = createLogger('consultations');
-import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, consultationSettings, users as usersTable } from "@shared/schema";
+import { consultationTypes, consultationAvailability, consultationBlockedDates, consultationBookings, consultationSettings, users as usersTable, orders as ordersTable } from "@shared/schema";
 import { and, eq, desc, sql, inArray, isNull, isNotNull, lte, gte } from "drizzle-orm";
 
 async function getSettings() {
   const [settings] = await db.select().from(consultationSettings).limit(1);
   if (settings) return settings;
   const [created] = await db.insert(consultationSettings).values({
-    availableDaysWindow: 3,
-    slotStartHour: 10,
-    slotEndHour: 18,
-    slotIntervalMinutes: 20,
-    allowWeekends: false,
+    availableDaysWindow: 4,
+    slotStartHour: 9,
+    slotEndHour: 20,
+    slotIntervalMinutes: 30,
+    allowWeekends: true,
     timezone: 'Europe/Madrid',
   }).returning();
   return created;
@@ -319,11 +319,11 @@ export function registerConsultationRoutes(app: Express) {
           nameEs: 'Asesoría Gratuita',
           nameEn: 'Free Consultation',
           nameCa: 'Assessoria Gratuïta',
-          description: 'Free 20-minute consultation for potential clients',
-          descriptionEs: 'Asesoría gratuita de 20 minutos para potenciales clientes',
-          descriptionEn: 'Free 20-minute consultation for potential clients',
-          descriptionCa: 'Assessoria gratuïta de 20 minuts per a potencials clients',
-          duration: 20,
+          description: 'Free 30-minute consultation for potential clients',
+          descriptionEs: 'Asesoría gratuita de 30 minutos para potenciales clientes',
+          descriptionEn: 'Free 30-minute consultation for potential clients',
+          descriptionCa: 'Assessoria gratuïta de 30 minuts per a potencials clients',
+          duration: 30,
           price: 0,
           isActive: true,
         }).returning();
@@ -357,6 +357,16 @@ export function registerConsultationRoutes(app: Express) {
           userId = guestUser.id;
         }
       }
+
+      if (userId) {
+        const userOrders = await db.select({ id: ordersTable.id })
+          .from(ordersTable)
+          .where(eq(ordersTable.userId, userId))
+          .limit(1);
+        if (userOrders.length > 0) {
+          return res.status(400).json({ message: "Users with existing orders cannot book free consultations. Please book a paid consultation from your dashboard." });
+        }
+      }
       
       const { generateUniqueBookingCode } = await import("../lib/id-generator");
       const bookingCode = await generateUniqueBookingCode();
@@ -367,7 +377,7 @@ export function registerConsultationRoutes(app: Express) {
         consultationTypeId: freeType.id,
         scheduledDate,
         scheduledTime: data.scheduledTime,
-        duration: 20,
+        duration: 30,
         status: 'confirmed',
         guestFirstName: data.firstName,
         guestLastName: data.lastName,
@@ -407,7 +417,7 @@ export function registerConsultationRoutes(app: Express) {
         const [hours, minutes] = data.scheduledTime.split(':').map(Number);
         const startDt = new Date(data.scheduledDate);
         startDt.setHours(hours, minutes, 0, 0);
-        const endDt = new Date(startDt.getTime() + 20 * 60 * 1000);
+        const endDt = new Date(startDt.getTime() + 30 * 60 * 1000);
         const startDateTime = startDt.toISOString().replace('Z', '');
         const endDateTime = endDt.toISOString().replace('Z', '');
 
@@ -440,7 +450,7 @@ export function registerConsultationRoutes(app: Express) {
           bookingCode,
           dateFormatted,
           data.scheduledTime,
-          20,
+          30,
           lang,
           meetLink
         );
@@ -593,6 +603,35 @@ export function registerConsultationRoutes(app: Express) {
       } catch (meetErr) {
         log.error("Error creating Google Meet event for authenticated booking", meetErr);
       }
+
+      try {
+        const { getConsultationConfirmationTemplate, sendEmail } = await import("../lib/email");
+        const lang = (user.preferredLanguage || 'es') as any;
+        const dateObj = new Date(data.scheduledDate);
+        const locale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : lang === 'fr' ? 'fr-FR' : lang === 'it' ? 'it-IT' : lang === 'pt' ? 'pt-PT' : lang === 'ca' ? 'ca-ES' : 'es-ES';
+        const dateFormatted = dateObj.toLocaleDateString(locale, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        const { getEmailTranslations } = await import("../lib/email-translations");
+        const et = getEmailTranslations(lang);
+        const html = getConsultationConfirmationTemplate(
+          user.firstName || user.fullName?.split(' ')[0] || 'Cliente',
+          bookingCode,
+          dateFormatted,
+          data.scheduledTime,
+          consultationType.duration,
+          lang,
+          booking.meetingLink || undefined
+        );
+        await sendEmail({
+          to: user.email!,
+          subject: et.consultationConfirmation.subject,
+          html
+        });
+        await db.update(consultationBookings)
+          .set({ confirmationSentAt: new Date() })
+          .where(eq(consultationBookings.id, booking.id));
+      } catch (emailErr) {
+        log.error("Error sending paid consultation confirmation email", emailErr);
+      }
       
       res.json({ success: true, booking });
     } catch (err: any) {
@@ -601,6 +640,20 @@ export function registerConsultationRoutes(app: Express) {
         return res.status(400).json({ message: err.errors[0]?.message || "Error creating booking" });
       }
       res.status(500).json({ message: "Error creating the booking" });
+    }
+  }));
+
+  app.get("/api/consultations/user-has-llc", isAuthenticated, asyncHandler(async (req: any, res: Response) => {
+    try {
+      const userId = req.session.userId!;
+      const userOrders = await db.select({ id: ordersTable.id })
+        .from(ordersTable)
+        .where(eq(ordersTable.userId, userId))
+        .limit(1);
+      res.json({ hasLlc: userOrders.length > 0 });
+    } catch (err) {
+      log.error("Error checking user LLC status", err);
+      res.status(500).json({ message: "Error checking LLC status" });
     }
   }));
 

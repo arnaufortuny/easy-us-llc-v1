@@ -45,6 +45,14 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
     queryKey: ["/api/consultations/types"],
   });
 
+  const { data: llcStatus } = useQuery<{ hasLlc: boolean }>({
+    queryKey: ["/api/consultations/user-has-llc"],
+  });
+
+  const filteredTypes = llcStatus?.hasLlc
+    ? consultationTypes.filter(type => type.price > 0 && type.name !== 'free_consultation')
+    : consultationTypes;
+
   const { data: myBookings = [] } = useQuery<{ booking: ConsultationBooking; consultationType: ConsultationType }[]>({
     queryKey: ["/api/consultations/my"],
   });
@@ -170,7 +178,7 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
               <div className="space-y-2">
                 <Label className="font-bold text-sm">{t("consultations.selectType")}</Label>
                 <div className="grid gap-2 sm:grid-cols-2">
-                  {consultationTypes.map(type => (
+                  {filteredTypes.length > 0 ? filteredTypes.map(type => (
                     <Button
                       key={type.id}
                       variant={selectedType?.id === type.id ? "default" : "outline"}
@@ -190,7 +198,12 @@ export function ConsultationsTab({ setActiveTab }: ConsultationsTabProps) {
                         )}
                       </div>
                     </Button>
-                  ))}
+                  )) : llcStatus?.hasLlc ? (
+                    <div className="col-span-2 p-4 rounded-xl border border-accent/20 bg-accent/5 dark:bg-accent/10 text-sm text-muted-foreground" data-testid="card-paid-consultation-info">
+                      <p className="font-bold text-foreground mb-1">{t("consultations.paidConsultationTitle")}</p>
+                      <p>{t("consultations.paidConsultationInfo")}</p>
+                    </div>
+                  ) : null}
                 </div>
               </div>
 

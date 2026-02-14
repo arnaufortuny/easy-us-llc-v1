@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Consulenza Gratuita | Exentax",
-      "description": "Prenota una consulenza gratuita di 20 minuti con i nostri esperti in formazione LLC negli Stati Uniti."
+      "description": "Prenota una consulenza gratuita di 30 minuti con i nostri esperti in formazione LLC negli Stati Uniti."
     }
   },
   "consultations": {
@@ -3401,7 +3401,14 @@
       "meetingLink": "Link della riunione",
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Cerca per codice, cliente, email..."
-    }
+    },
+    "llcOwnerBlocked": "Come cliente con una LLC attiva, le consulenze gratuite non sono disponibili. Prenota una consulenza a pagamento dal tuo pannello.",
+    "llcOwnerBlockedTitle": "Consulenza gratuita non disponibile",
+    "goToDashboard": "Vai al mio pannello consulenze",
+    "paidConsultationInfo": "Le consulenze a pagamento saranno disponibili a breve. Contatta il supporto se hai bisogno di una consulenza urgente.",
+    "paidConsultationTitle": "Consulenza a pagamento richiesta",
+    "dissolutionRequiresConsultation": "Lo scioglimento della tua LLC richiede una consulenza a pagamento con il nostro team per guidarti nel processo.",
+    "scheduleDissolutionConsultation": "Prenotare consulenza di scioglimento"
   },
   "homeFaq": {
     "titlePart1": "Scopri come una LLC può aiutarti",
@@ -3844,8 +3851,8 @@
     "title": "Consulenza Gratuita",
     "titleFree": "Consulenza",
     "titleConsultation": "Gratuita",
-    "subtitle": "Prenota una sessione di 20 minuti con il nostro team di esperti. Senza impegno.",
-    "duration": "20 minuti · Gratuita · Senza impegno",
+    "subtitle": "Prenota una sessione di 30 minuti con il nostro team di esperti. Senza impegno.",
+    "duration": "30 minuti · Gratuita · Senza impegno",
     "error": "Errore nella prenotazione. Riprova.",
     "consent": "Accetto il trattamento dei miei dati personali per gestire questa consulenza, secondo la politica sulla privacy.",
     "emailDeactivated": "Questa email è associata a un account disattivato. Contatta il supporto.",

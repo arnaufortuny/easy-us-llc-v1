@@ -899,6 +899,21 @@ export default function MaintenanceApplication() {
                           </div>
                         </FormControl>
                         <FormMessage />
+                        {field.value && field.value !== "No" && (
+                          <div className="mt-4 p-4 rounded-xl border-2 border-accent/30 bg-accent/5 dark:bg-accent/10" data-testid="card-dissolution-consultation">
+                            <p className="text-sm font-bold text-foreground mb-2">{t("consultations.paidConsultationTitle")}</p>
+                            <p className="text-sm text-muted-foreground mb-3">{t("consultations.dissolutionRequiresConsultation")}</p>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              className="rounded-full border-accent text-accent font-bold"
+                              onClick={() => { window.location.href = '/dashboard?tab=consultations'; }}
+                              data-testid="button-schedule-dissolution"
+                            >
+                              {t("consultations.scheduleDissolutionConsultation")}
+                            </Button>
+                          </div>
+                        )}
                       </FormItem>
                     )} />
                     <div className="pt-4 border-t border-accent/20">

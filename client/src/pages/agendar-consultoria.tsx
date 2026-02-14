@@ -79,6 +79,11 @@ export default function AsesoriaGratis() {
   const { t, i18n } = useTranslation();
   usePageTitle();
 
+  const { data: llcStatus } = useQuery<{ hasLlc: boolean }>({
+    queryKey: ["/api/consultations/user-has-llc"],
+    enabled: isAuthenticated,
+  });
+
   const [step, setStep] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -299,6 +304,35 @@ export default function AsesoriaGratis() {
     const locale = lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : lang === 'fr' ? 'fr-FR' : lang === 'it' ? 'it-IT' : lang === 'pt' ? 'pt-PT' : lang === 'ca' ? 'ca-ES' : 'es-ES';
     return d.toLocaleDateString(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   };
+
+  if (isAuthenticated && llcStatus?.hasLlc) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Navbar />
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <Card className="max-w-lg w-full">
+            <CardContent className="p-8 text-center space-y-6">
+              <Calendar className="w-16 h-16 text-accent mx-auto" />
+              <h2 className="text-2xl font-bold" data-testid="text-llc-blocked">
+                {t("consultations.llcOwnerBlockedTitle")}
+              </h2>
+              <p className="text-muted-foreground">
+                {t("consultations.llcOwnerBlocked")}
+              </p>
+              <Button
+                onClick={() => { window.location.href = '/dashboard?tab=consultations'; }}
+                className="bg-accent text-accent-foreground font-black rounded-full px-8"
+                data-testid="button-go-dashboard"
+              >
+                {t("consultations.goToDashboard")}
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   if (isSubmitted) {
     return (

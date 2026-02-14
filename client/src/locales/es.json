@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Consulta Gratuita | Exentax",
-      "description": "Reserva una consulta gratuita de 20 minutos con nuestros expertos en formación de LLC en Estados Unidos. Sin compromiso."
+      "description": "Reserva una consulta gratuita de 30 minutos con nuestros expertos en formación de LLC en Estados Unidos. Sin compromiso."
     }
   },
   "consultations": {
@@ -3335,6 +3335,13 @@
       "select": "Seleccionar...",
       "other": "Otro"
     },
+    "llcOwnerBlocked": "Como cliente con una LLC activa, las consultas gratuitas no están disponibles. Por favor, agenda una consulta de pago desde tu panel.",
+    "llcOwnerBlockedTitle": "Consulta gratuita no disponible",
+    "goToDashboard": "Ir a mi panel de consultas",
+    "paidConsultationInfo": "Las consultas de pago estarán disponibles próximamente. Contacta con soporte si necesitas una consulta urgente.",
+    "paidConsultationTitle": "Consulta de pago requerida",
+    "dissolutionRequiresConsultation": "La disolución de tu LLC requiere una consulta de pago con nuestro equipo para guiarte en el proceso.",
+    "scheduleDissolutionConsultation": "Agendar consulta de disolución",
     "admin": {
       "toasts": {
         "typeCreated": "Tipo creado correctamente",
@@ -3844,8 +3851,8 @@
     "title": "Consulta Gratuita",
     "titleFree": "Consulta",
     "titleConsultation": "Gratuita",
-    "subtitle": "Reserva una sesión de 20 minutos con nuestro equipo de expertos. Sin compromiso.",
-    "duration": "20 minutos · Gratuita · Sin compromiso",
+    "subtitle": "Reserva una sesión de 30 minutos con nuestro equipo de expertos. Sin compromiso.",
+    "duration": "30 minutos · Gratuita · Sin compromiso",
     "error": "Error al reservar la consulta. Inténtalo de nuevo.",
     "consent": "Acepto el tratamiento de mis datos personales para gestionar esta consulta, según la política de privacidad.",
     "emailDeactivated": "Este email está asociado con una cuenta desactivada. Contacte con soporte.",

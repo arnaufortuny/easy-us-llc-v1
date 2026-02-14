@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Consulta Gratuïta | Exentax",
-      "description": "Reserva una consulta gratuïta de 20 minuts amb els nostres experts en formació de LLC als Estats Units."
+      "description": "Reserva una consulta gratuïta de 30 minuts amb els nostres experts en formació de LLC als Estats Units."
     }
   },
   "consultations": {
@@ -3401,7 +3401,14 @@
       "meetingLink": "Enllaç de reunió",
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Cercar per codi, client, correu..."
-    }
+    },
+    "llcOwnerBlocked": "Com a client amb una LLC activa, les consultes gratuïtes no estan disponibles. Si us plau, agenda una consulta de pagament des del teu panell.",
+    "llcOwnerBlockedTitle": "Consulta gratuïta no disponible",
+    "goToDashboard": "Anar al meu panell de consultes",
+    "paidConsultationInfo": "Les consultes de pagament estaran disponibles properament. Contacta amb suport si necessites una consulta urgent.",
+    "paidConsultationTitle": "Consulta de pagament requerida",
+    "dissolutionRequiresConsultation": "La dissolució de la teva LLC requereix una consulta de pagament amb el nostre equip per guiar-te en el procés.",
+    "scheduleDissolutionConsultation": "Agendar consulta de dissolució"
   },
   "homeFaq": {
     "titlePart1": "Aclareix com una LLC pot ajudar-te",
@@ -3844,8 +3851,8 @@
     "title": "Consulta Gratuïta",
     "titleFree": "Consulta",
     "titleConsultation": "Gratuïta",
-    "subtitle": "Reserva una sessió de 20 minuts amb el nostre equip d'experts. Sense compromís.",
-    "duration": "20 minuts · Gratuïta · Sense compromís",
+    "subtitle": "Reserva una sessió de 30 minuts amb el nostre equip d'experts. Sense compromís.",
+    "duration": "30 minuts · Gratuïta · Sense compromís",
     "error": "Error en reservar la consulta. Torna-ho a provar.",
     "consent": "Accepto el tractament de les meves dades personals per gestionar aquesta consulta, segons la política de privacitat.",
     "emailDeactivated": "Aquest email està associat amb un compte desactivat. Contacteu amb suport.",

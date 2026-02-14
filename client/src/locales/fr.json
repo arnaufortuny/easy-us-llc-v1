@@ -3286,7 +3286,7 @@
     },
     "asesoriaGratis": {
       "title": "Consultation Gratuite | Exentax",
-      "description": "Réservez une consultation gratuite de 20 minutes avec nos experts en création de LLC aux États-Unis."
+      "description": "Réservez une consultation gratuite de 30 minutes avec nos experts en création de LLC aux États-Unis."
     }
   },
   "consultations": {
@@ -3401,7 +3401,14 @@
       "meetingLink": "Lien de réunion",
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Rechercher par code, client, e-mail..."
-    }
+    },
+    "llcOwnerBlocked": "En tant que client avec une LLC active, les consultations gratuites ne sont pas disponibles. Veuillez programmer une consultation payante depuis votre tableau de bord.",
+    "llcOwnerBlockedTitle": "Consultation gratuite non disponible",
+    "goToDashboard": "Aller à mon panneau de consultations",
+    "paidConsultationInfo": "Les consultations payantes seront disponibles prochainement. Contactez le support si vous avez besoin d'une consultation urgente.",
+    "paidConsultationTitle": "Consultation payante requise",
+    "dissolutionRequiresConsultation": "La dissolution de votre LLC nécessite une consultation payante avec notre équipe pour vous guider dans le processus.",
+    "scheduleDissolutionConsultation": "Programmer une consultation de dissolution"
   },
   "homeFaq": {
     "titlePart1": "Découvrez comment une LLC peut vous aider",
@@ -3844,8 +3851,8 @@
     "title": "Consultation Gratuite",
     "titleFree": "Consultation",
     "titleConsultation": "Gratuite",
-    "subtitle": "Réservez une session de 20 minutes avec notre équipe d'experts. Sans engagement.",
-    "duration": "20 minutes · Gratuite · Sans engagement",
+    "subtitle": "Réservez une session de 30 minutes avec notre équipe d'experts. Sans engagement.",
+    "duration": "30 minutes · Gratuite · Sans engagement",
     "error": "Erreur lors de la réservation. Veuillez réessayer.",
     "consent": "J'accepte le traitement de mes données personnelles pour gérer cette consultation, conformément à la politique de confidentialité.",
     "emailDeactivated": "Cet email est associé à un compte désactivé. Veuillez contacter le support.",
