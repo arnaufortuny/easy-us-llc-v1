@@ -3335,6 +3335,8 @@
       "select": "Seleccionar...",
       "other": "Otro"
     },
+    "emailAlreadyRegistered": "Ya tienes una cuenta registrada. Inicia sesión para gestionar tus consultas.",
+    "emailHasLlcRedirect": "Ya tienes una LLC registrada. Inicia sesión para programar una consulta de pago desde tu panel.",
     "llcOwnerBlocked": "Como cliente con una LLC activa, las consultas gratuitas no están disponibles. Por favor, agenda una consulta de pago desde tu panel.",
     "llcOwnerBlockedTitle": "Consulta gratuita no disponible",
     "goToDashboard": "Ir a mi panel de consultas",

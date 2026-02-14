@@ -3402,6 +3402,8 @@
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Cerca per codice, cliente, email..."
     },
+    "emailAlreadyRegistered": "Hai già un account registrato. Accedi per gestire le tue consulenze.",
+    "emailHasLlcRedirect": "Hai già una LLC registrata. Accedi per programmare una consulenza a pagamento dal tuo pannello.",
     "llcOwnerBlocked": "Come cliente con una LLC attiva, le consulenze gratuite non sono disponibili. Prenota una consulenza a pagamento dal tuo pannello.",
     "llcOwnerBlockedTitle": "Consulenza gratuita non disponibile",
     "goToDashboard": "Vai al mio pannello consulenze",

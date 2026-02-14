@@ -3402,6 +3402,8 @@
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Suche nach Code, Kunde, E-Mail..."
     },
+    "emailAlreadyRegistered": "Sie haben bereits ein registriertes Konto. Bitte melden Sie sich an, um Ihre Beratungen zu verwalten.",
+    "emailHasLlcRedirect": "Sie haben bereits eine registrierte LLC. Bitte melden Sie sich an, um eine kostenpflichtige Beratung über Ihr Dashboard zu buchen.",
     "llcOwnerBlocked": "Als Kunde mit einer aktiven LLC sind kostenlose Beratungen nicht verfügbar. Bitte buchen Sie eine kostenpflichtige Beratung über Ihr Dashboard.",
     "llcOwnerBlockedTitle": "Kostenlose Beratung nicht verfügbar",
     "goToDashboard": "Zu meinem Beratungs-Panel",

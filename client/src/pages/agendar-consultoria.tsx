@@ -229,7 +229,18 @@ export default function AsesoriaGratis() {
         const checkRes = await apiRequest("POST", "/api/consultations/check-email", { email });
         const checkData = await checkRes.json();
         if (checkData.deactivated) {
-          window.location.href = "/auth/login";
+          setFormMessage({ type: 'error', text: t("consultations.emailAlreadyRegistered") });
+          setTimeout(() => { window.location.href = "/auth/login"; }, 2500);
+          return;
+        }
+        if (checkData.exists && checkData.hasLlc) {
+          setFormMessage({ type: 'error', text: t("consultations.emailHasLlcRedirect") });
+          setTimeout(() => { window.location.href = "/auth/login"; }, 2500);
+          return;
+        }
+        if (checkData.exists) {
+          setFormMessage({ type: 'error', text: t("consultations.emailAlreadyRegistered") });
+          setTimeout(() => { window.location.href = "/auth/login"; }, 2500);
           return;
         }
       } catch {

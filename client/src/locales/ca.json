@@ -3402,6 +3402,8 @@
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Cercar per codi, client, correu..."
     },
+    "emailAlreadyRegistered": "Ja tens un compte registrat. Inicia sessió per gestionar les teves consultes.",
+    "emailHasLlcRedirect": "Ja tens una LLC registrada. Inicia sessió per programar una consulta de pagament des del teu panell.",
     "llcOwnerBlocked": "Com a client amb una LLC activa, les consultes gratuïtes no estan disponibles. Si us plau, agenda una consulta de pagament des del teu panell.",
     "llcOwnerBlockedTitle": "Consulta gratuïta no disponible",
     "goToDashboard": "Anar al meu panell de consultes",

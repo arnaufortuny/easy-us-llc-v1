@@ -3402,6 +3402,8 @@
       "meetingLinkPlaceholder": "https://meet.google.com/...",
       "searchBookings": "Search by code, client, email..."
     },
+    "emailAlreadyRegistered": "You already have a registered account. Please log in to manage your consultations.",
+    "emailHasLlcRedirect": "You already have an LLC registered. Please log in to schedule a paid consultation from your dashboard.",
     "llcOwnerBlocked": "As a client with an active LLC, free consultations are not available. Please schedule a paid consultation from your dashboard.",
     "llcOwnerBlockedTitle": "Free consultation not available",
     "goToDashboard": "Go to my consultations panel",

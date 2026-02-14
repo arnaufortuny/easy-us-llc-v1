@@ -220,7 +220,7 @@ export function registerConsultationRoutes(app: Express) {
   app.post("/api/consultations/check-email", asyncHandler(async (req: any, res: Response) => {
     try {
       const { email } = req.body;
-      if (!email) return res.json({ exists: false, deactivated: false });
+      if (!email) return res.json({ exists: false, deactivated: false, hasLlc: false });
       
       const normalizedEmail = email.trim().toLowerCase();
       const [user] = await db.select({ id: usersTable.id, accountStatus: usersTable.accountStatus })
@@ -228,11 +228,18 @@ export function registerConsultationRoutes(app: Express) {
         .where(eq(usersTable.email, normalizedEmail))
         .limit(1);
       
-      if (!user) return res.json({ exists: false, deactivated: false });
-      if (user.accountStatus === 'deactivated') return res.json({ exists: true, deactivated: true });
-      return res.json({ exists: true, deactivated: false });
+      if (!user) return res.json({ exists: false, deactivated: false, hasLlc: false });
+      if (user.accountStatus === 'deactivated') return res.json({ exists: true, deactivated: true, hasLlc: false });
+      
+      const userOrders = await db.select({ id: ordersTable.id })
+        .from(ordersTable)
+        .where(eq(ordersTable.userId, user.id))
+        .limit(1);
+      const hasLlc = userOrders.length > 0;
+      
+      return res.json({ exists: true, deactivated: false, hasLlc });
     } catch (error) {
-      res.json({ exists: false, deactivated: false });
+      res.json({ exists: false, deactivated: false, hasLlc: false });
     }
   }));
 
@@ -270,6 +277,16 @@ export function registerConsultationRoutes(app: Express) {
       const data = schema.parse(req.body);
       const email = data.email.trim().toLowerCase();
       const lang = (data.preferredLanguage || 'es') as any;
+      
+      if (!req.session?.userId) {
+        const [existingUser] = await db.select({ id: usersTable.id })
+          .from(usersTable)
+          .where(eq(usersTable.email, email))
+          .limit(1);
+        if (existingUser) {
+          return res.status(400).json({ message: "This email is already registered. Please log in to book a consultation." });
+        }
+      }
       
       const clientIp = getClientIp(req);
       
