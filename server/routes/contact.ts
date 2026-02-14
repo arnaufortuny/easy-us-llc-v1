@@ -101,6 +101,7 @@ export function registerContactRoutes(app: Express) {
       if (err instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid email" });
       }
+      log.error("Error subscribing to newsletter", err);
       res.status(500).json({ message: "Error subscribing" });
     }
   }));

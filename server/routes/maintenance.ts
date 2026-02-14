@@ -393,6 +393,7 @@ export function registerMaintenanceRoutes(app: Express) {
       
       res.json(updatedApp);
     } catch (error) {
+      log.error("Error updating maintenance request", error);
       res.status(500).json({ message: "Error updating request" });
     }
   }));

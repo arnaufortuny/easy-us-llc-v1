@@ -17,7 +17,8 @@ export function registerAdminCommsRoutes(app: Express) {
       const subscribers = await db.select().from(newsletterSubscribers).orderBy(desc(newsletterSubscribers.subscribedAt));
       res.json(subscribers);
     } catch (error) {
-      res.status(500).json({ message: "Error" });
+      log.error("Error fetching newsletter subscribers", error);
+      res.status(500).json({ message: "Error fetching newsletter subscribers" });
     }
   }));
 
@@ -28,6 +29,7 @@ export function registerAdminCommsRoutes(app: Express) {
       await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
+      log.error("Error deleting subscriber", error);
       res.status(500).json({ message: "Error deleting subscriber" });
     }
   }));
@@ -83,6 +85,7 @@ export function registerAdminCommsRoutes(app: Express) {
       const consultations = await db.select().from(calculatorConsultations).orderBy(desc(calculatorConsultations.createdAt));
       res.json(consultations);
     } catch (error) {
+      log.error("Error fetching consultations", error);
       res.status(500).json({ message: "Error fetching consultations" });
     }
   }));
@@ -94,6 +97,7 @@ export function registerAdminCommsRoutes(app: Express) {
       await db.update(calculatorConsultations).set({ isRead: true }).where(eq(calculatorConsultations.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
+      log.error("Error marking consultation as read", error);
       res.status(500).json({ message: "Error marking as read" });
     }
   }));
@@ -128,6 +132,7 @@ export function registerAdminCommsRoutes(app: Express) {
 
       res.json({ success: true });
     } catch (error) {
+      log.error("Error tracking guest visitor", error);
       res.status(400).json({ message: "Invalid tracking data" });
     }
   }));
@@ -137,6 +142,7 @@ export function registerAdminCommsRoutes(app: Express) {
       const guests = await storage.getAllGuestVisitors();
       res.json(guests);
     } catch (error) {
+      log.error("Error fetching guests", error);
       res.status(500).json({ message: "Error fetching guests" });
     }
   }));
@@ -146,6 +152,7 @@ export function registerAdminCommsRoutes(app: Express) {
       const stats = await storage.getGuestVisitorStats();
       res.json(stats);
     } catch (error) {
+      log.error("Error fetching guest stats", error);
       res.status(500).json({ message: "Error fetching guest stats" });
     }
   }));
@@ -155,6 +162,7 @@ export function registerAdminCommsRoutes(app: Express) {
       await storage.deleteGuestVisitor(parseInt(req.params.id));
       res.json({ success: true });
     } catch (error) {
+      log.error("Error deleting guest", error);
       res.status(500).json({ message: "Error deleting guest" });
     }
   }));
@@ -164,6 +172,7 @@ export function registerAdminCommsRoutes(app: Express) {
       const count = await storage.deleteGuestVisitorsByEmail(decodeURIComponent(req.params.email));
       res.json({ success: true, deleted: count });
     } catch (error) {
+      log.error("Error deleting guest records", error);
       res.status(500).json({ message: "Error deleting guest records" });
     }
   }));
@@ -175,6 +184,7 @@ export function registerAdminCommsRoutes(app: Express) {
       await db.delete(calculatorConsultations).where(eq(calculatorConsultations.id, parseInt(id)));
       res.json({ success: true });
     } catch (error) {
+      log.error("Error deleting consultation", error);
       res.status(500).json({ message: "Error deleting consultation" });
     }
   }));
@@ -185,12 +195,14 @@ export function registerAdminCommsRoutes(app: Express) {
       const [result] = await db.select({ count: sql<number>`count(*)` }).from(calculatorConsultations).where(eq(calculatorConsultations.isRead, false));
       res.json({ count: result?.count || 0 });
     } catch (error) {
-      res.status(500).json({ message: "Error" });
+      log.error("Error fetching unread consultation count", error);
+      res.status(500).json({ message: "Error fetching unread count" });
     }
   }));
 
   // Broadcast to all newsletter subscribers
   app.post("/api/admin/newsletter/broadcast", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const parsed = z.object({
       subject: z.string().min(1).max(500),
       message: z.string().min(1).max(10000)
@@ -212,6 +224,11 @@ export function registerAdminCommsRoutes(app: Express) {
     }
 
     res.json({ success: true, sent, total: subscribers.length });
+    } catch (err: any) {
+      log.error("Error broadcasting newsletter", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
+      res.status(500).json({ message: "Error broadcasting newsletter" });
+    }
   }));
 
   // Admin Messages
@@ -242,7 +259,8 @@ export function registerAdminCommsRoutes(app: Express) {
         pagination: { page, pageSize, total, totalPages },
       });
     } catch (error) {
-      res.status(500).json({ message: "Error" });
+      log.error("Error fetching admin messages", error);
+      res.status(500).json({ message: "Error fetching messages" });
     }
   }));
 
@@ -251,6 +269,7 @@ export function registerAdminCommsRoutes(app: Express) {
       const updated = await storage.updateMessageStatus(Number(req.params.id), 'archived');
       res.json(updated);
     } catch (error) {
+      log.error("Error archiving message", error);
       res.status(500).json({ message: "Error archiving message" });
     }
   }));
@@ -262,6 +281,7 @@ export function registerAdminCommsRoutes(app: Express) {
       await db.delete(messagesTable).where(eq(messagesTable.id, msgId));
       res.json({ success: true });
     } catch (error) {
+      log.error("Error deleting message", error);
       res.status(500).json({ message: "Error deleting message" });
     }
   }));

@@ -1303,12 +1303,15 @@ async function processEmailQueue() {
     }
 
     try {
+      const logo = getLogoAttachment();
+      const attachments = logo ? [logo] : undefined;
       await sendGmailMessage({
         to: job.to,
         subject: job.subject,
         html: job.html,
         replyTo: job.replyTo || "hola@exentax.com",
         bcc: job.bcc,
+        attachments,
       });
 
       emailQueue.shift();
@@ -1330,7 +1333,7 @@ async function processEmailQueue() {
 
 setInterval(processEmailQueue, QUEUE_PROCESS_INTERVAL);
 
-export function queueEmail({ to, subject, html, replyTo }: { to: string; subject: string; html: string; replyTo?: string }): string | null {
+export function queueEmail({ to, subject, html, replyTo, bcc }: { to: string; subject: string; html: string; replyTo?: string; bcc?: string }): string | null {
   if (emailQueue.length >= MAX_QUEUE_SIZE) {
     log.warn(`Email queue full (${MAX_QUEUE_SIZE}), dropping email to: ${to}`);
     return null;
@@ -1342,6 +1345,7 @@ export function queueEmail({ to, subject, html, replyTo }: { to: string; subject
     subject,
     html,
     replyTo,
+    bcc,
     retries: 0,
     maxRetries: MAX_RETRIES,
     createdAt: Date.now()

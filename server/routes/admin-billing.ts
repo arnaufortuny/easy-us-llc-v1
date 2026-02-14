@@ -14,6 +14,7 @@ import { users as usersTable, maintenanceApplications, newsletterSubscribers, me
 
 export function registerAdminBillingRoutes(app: Express) {
   app.post("/api/admin/orders/create", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const validStates = ["New Mexico", "Wyoming", "Delaware"] as const;
     const schema = z.object({
       userId: z.string().uuid(),
@@ -83,10 +84,16 @@ export function registerAdminBillingRoutes(app: Express) {
     });
 
     res.json({ success: true, orderId: order.id, invoiceNumber });
+    } catch (err: any) {
+      log.error("Error creating order", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
+      res.status(500).json({ message: "Error creating order" });
+    }
   }));
 
   // Admin create maintenance order
   app.post("/api/admin/orders/create-maintenance", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const validStates = ["New Mexico", "Wyoming", "Delaware"] as const;
     const schema = z.object({
       userId: z.string().uuid(),
@@ -156,9 +163,15 @@ export function registerAdminBillingRoutes(app: Express) {
     });
     
     res.json({ success: true, orderId: order.id, invoiceNumber });
+    } catch (err: any) {
+      log.error("Error creating maintenance order", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
+      res.status(500).json({ message: "Error creating maintenance order" });
+    }
   }));
 
   app.post("/api/admin/orders/create-custom", isAdmin, asyncHandler(async (req: Request, res: Response) => {
+    try {
     const schema = z.object({
       userId: z.string().uuid(),
       concept: z.string().min(1, "Concept is required"),
@@ -208,6 +221,11 @@ export function registerAdminBillingRoutes(app: Express) {
     });
     
     res.json({ success: true, orderId: order.id, invoiceNumber });
+    } catch (err: any) {
+      log.error("Error creating custom order", err);
+      if (err.errors) return res.status(400).json({ message: err.errors[0]?.message || "Validation error" });
+      res.status(500).json({ message: "Error creating custom order" });
+    }
   }));
 
   app.get("/api/admin/system-stats", isAdmin, asyncHandler(async (req: Request, res: Response) => {
@@ -311,6 +329,7 @@ export function registerAdminBillingRoutes(app: Express) {
       const result = await db.select({ total: sql<number>`sum(amount)` }).from(ordersTable).where(eq(ordersTable.status, 'completed'));
       res.json({ totalSales: Number(result[0]?.total || 0) });
     } catch (error) {
+      log.error("Error fetching stats", error);
       res.status(500).json({ message: "Error fetching stats" });
     }
   }));

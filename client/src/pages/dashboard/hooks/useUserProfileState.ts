@@ -174,6 +174,9 @@ export function useUserProfileState(user: any, t: TFunction, canEdit: boolean) {
       setProfileOtp("");
       setPendingProfileData(null);
       setFormMessage(null);
+    },
+    onError: (error: any) => {
+      setFormMessage({ type: 'error', text: error.message || t("common.error") });
     }
   });
 

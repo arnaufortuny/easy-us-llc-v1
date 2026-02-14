@@ -26,6 +26,7 @@ export function registerMessageRoutes(app: Express) {
       const userMessages = await storage.getMessagesByUserId(req.session.userId);
       res.json(userMessages);
     } catch (error) {
+      log.error("Error fetching messages", error);
       res.status(500).json({ message: "Error fetching messages" });
     }
   }));
@@ -112,6 +113,7 @@ export function registerMessageRoutes(app: Express) {
 
       res.status(201).json(message);
     } catch (error) {
+      log.error("Error sending message", error);
       res.status(500).json({ message: "Error sending message" });
     }
   }));

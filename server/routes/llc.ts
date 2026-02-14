@@ -178,6 +178,7 @@ export function registerLlcRoutes(app: Express) {
         .returning();
       res.json(updated);
     } catch (error) {
+      log.error("Error updating LLC application", error);
       res.status(500).json({ message: "Error updating application" });
     }
   }));
