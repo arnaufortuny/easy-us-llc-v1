@@ -131,9 +131,7 @@ export async function sendGmailMessage({
   try {
     const gmail = await getUncachableGmailClient();
 
-    const profile = await gmail.users.getProfile({ userId: 'me' });
-    const senderEmail = profile.data.emailAddress;
-    const from = `"Exentax" <${senderEmail}>`;
+    const from = `"Exentax" <no-reply@exentax.com>`;
 
     const rawMessage = buildMimeMessage({
       from,
