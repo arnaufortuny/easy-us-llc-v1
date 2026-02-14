@@ -383,6 +383,9 @@ interface EmailTranslations {
     lookingForward: string;
     closing: string;
     minutes: string;
+    meetingLinkLabel: string;
+    joinMeeting: string;
+    meetingNote: string;
   };
   consultationReminder: {
     subject3h: string;
@@ -402,6 +405,9 @@ interface EmailTranslations {
     seeYouSoon: string;
     closing: string;
     minutes: string;
+    meetingLinkLabel: string;
+    joinMeeting: string;
+    meetingNote: string;
   };
 }
 
@@ -788,7 +794,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si necesitas cancelar o reprogramar, por favor contáctanos con la mayor antelación posible.",
       lookingForward: "Estamos deseando ayudarte a dar el siguiente paso en tu aventura empresarial.",
       closing: "Un saludo cordial,",
-      minutes: "minutos"
+      minutes: "minutos",
+      meetingLinkLabel: "Enlace de reunión",
+      joinMeeting: "Unirse a la reunión",
+      meetingNote: "La reunión se realizará por Google Meet"
     },
     consultationReminder: {
       subject3h: "Recordatorio: tu asesoría gratuita es en 3 horas | Exentax",
@@ -807,7 +816,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si no puedes asistir, por favor avísanos lo antes posible para reprogramar tu cita.",
       seeYouSoon: "¡Nos vemos pronto!",
       closing: "El equipo de Exentax",
-      minutes: "minutos"
+      minutes: "minutos",
+      meetingLinkLabel: "Enlace de reunión",
+      joinMeeting: "Unirse a la reunión",
+      meetingNote: "La reunión se realizará por Google Meet"
     }
   },
   en: {
@@ -1192,7 +1204,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "If you need to cancel or reschedule, please contact us as soon as possible.",
       lookingForward: "We are looking forward to helping you take the next step in your business journey.",
       closing: "Best regards,",
-      minutes: "minutes"
+      minutes: "minutes",
+      meetingLinkLabel: "Meeting link",
+      joinMeeting: "Join meeting",
+      meetingNote: "The meeting will be held via Google Meet"
     },
     consultationReminder: {
       subject3h: "Reminder: your free consultation is in 3 hours | Exentax",
@@ -1211,7 +1226,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "If you cannot attend, please let us know as soon as possible to reschedule your appointment.",
       seeYouSoon: "See you soon!",
       closing: "The Exentax Team",
-      minutes: "minutes"
+      minutes: "minutes",
+      meetingLinkLabel: "Meeting link",
+      joinMeeting: "Join meeting",
+      meetingNote: "The meeting will be held via Google Meet"
     }
   },
   ca: {
@@ -1596,7 +1614,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si necessites cancel·lar o reprogramar, si us plau contacta'ns amb la major antelació possible.",
       lookingForward: "Estem desitjant ajudar-te a fer el següent pas en la teva aventura empresarial.",
       closing: "Una salutació cordial,",
-      minutes: "minuts"
+      minutes: "minuts",
+      meetingLinkLabel: "Enllaç de reunió",
+      joinMeeting: "Unir-se a la reunió",
+      meetingNote: "La reunió es farà per Google Meet"
     },
     consultationReminder: {
       subject3h: "Recordatori: la teva assessoria gratuïta és en 3 hores | Exentax",
@@ -1615,7 +1636,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si no pots assistir, si us plau avisa'ns com més aviat millor per reprogramar la teva cita.",
       seeYouSoon: "Ens veiem aviat!",
       closing: "L'equip d'Exentax",
-      minutes: "minuts"
+      minutes: "minuts",
+      meetingLinkLabel: "Enllaç de reunió",
+      joinMeeting: "Unir-se a la reunió",
+      meetingNote: "La reunió es farà per Google Meet"
     }
   },
   fr: {
@@ -2000,7 +2024,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si vous devez annuler ou reprogrammer, veuillez nous contacter le plus tôt possible.",
       lookingForward: "Nous avons hâte de vous aider à franchir la prochaine étape de votre aventure entrepreneuriale.",
       closing: "Cordialement,",
-      minutes: "minutes"
+      minutes: "minutes",
+      meetingLinkLabel: "Lien de réunion",
+      joinMeeting: "Rejoindre la réunion",
+      meetingNote: "La réunion se tiendra via Google Meet"
     },
     consultationReminder: {
       subject3h: "Rappel : votre consultation gratuite est dans 3 heures | Exentax",
@@ -2019,7 +2046,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Si vous ne pouvez pas y assister, veuillez nous prévenir dès que possible pour reprogrammer votre rendez-vous.",
       seeYouSoon: "À bientôt !",
       closing: "L'équipe Exentax",
-      minutes: "minutes"
+      minutes: "minutes",
+      meetingLinkLabel: "Lien de réunion",
+      joinMeeting: "Rejoindre la réunion",
+      meetingNote: "La réunion se tiendra via Google Meet"
     }
   },
   de: {
@@ -2404,7 +2434,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Wenn Sie absagen oder umbuchen müssen, kontaktieren Sie uns bitte so früh wie möglich.",
       lookingForward: "Wir freuen uns darauf, Ihnen beim nächsten Schritt Ihres unternehmerischen Abenteuers zu helfen.",
       closing: "Mit freundlichen Grüßen,",
-      minutes: "Minuten"
+      minutes: "Minuten",
+      meetingLinkLabel: "Besprechungslink",
+      joinMeeting: "An Besprechung teilnehmen",
+      meetingNote: "Die Besprechung findet über Google Meet statt"
     },
     consultationReminder: {
       subject3h: "Erinnerung: Ihre kostenlose Beratung ist in 3 Stunden | Exentax",
@@ -2423,7 +2456,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Wenn Sie nicht teilnehmen können, informieren Sie uns bitte so schnell wie möglich, um Ihren Termin zu verschieben.",
       seeYouSoon: "Bis bald!",
       closing: "Das Exentax Team",
-      minutes: "Minuten"
+      minutes: "Minuten",
+      meetingLinkLabel: "Besprechungslink",
+      joinMeeting: "An Besprechung teilnehmen",
+      meetingNote: "Die Besprechung findet über Google Meet statt"
     }
   },
   it: {
@@ -2808,7 +2844,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Se hai bisogno di cancellare o riprogrammare, contattaci il prima possibile.",
       lookingForward: "Non vediamo l'ora di aiutarti a fare il prossimo passo nella tua avventura imprenditoriale.",
       closing: "Cordiali saluti,",
-      minutes: "minuti"
+      minutes: "minuti",
+      meetingLinkLabel: "Link della riunione",
+      joinMeeting: "Partecipa alla riunione",
+      meetingNote: "La riunione si terrà tramite Google Meet"
     },
     consultationReminder: {
       subject3h: "Promemoria: la tua consulenza gratuita è tra 3 ore | Exentax",
@@ -2827,7 +2866,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Se non puoi partecipare, avvisaci il prima possibile per riprogrammare il tuo appuntamento.",
       seeYouSoon: "A presto!",
       closing: "Il team di Exentax",
-      minutes: "minuti"
+      minutes: "minuti",
+      meetingLinkLabel: "Link della riunione",
+      joinMeeting: "Partecipa alla riunione",
+      meetingNote: "La riunione si terrà tramite Google Meet"
     }
   },
   pt: {
@@ -3212,7 +3254,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Se precisar de cancelar ou reagendar, por favor contacte-nos o mais cedo possível.",
       lookingForward: "Estamos ansiosos por ajudá-lo a dar o próximo passo na sua aventura empresarial.",
       closing: "Com os melhores cumprimentos,",
-      minutes: "minutos"
+      minutes: "minutos",
+      meetingLinkLabel: "Link da reunião",
+      joinMeeting: "Participar da reunião",
+      meetingNote: "A reunião será realizada via Google Meet"
     },
     consultationReminder: {
       subject3h: "Lembrete: a sua consultoria gratuita é em 3 horas | Exentax",
@@ -3231,7 +3276,10 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
       cancelNote: "Se não puder comparecer, por favor avise-nos o mais cedo possível para reagendar a sua consulta.",
       seeYouSoon: "Até breve!",
       closing: "A equipa Exentax",
-      minutes: "minutos"
+      minutes: "minutos",
+      meetingLinkLabel: "Link da reunião",
+      joinMeeting: "Participar da reunião",
+      meetingNote: "A reunião será realizada via Google Meet"
     }
   }
 };

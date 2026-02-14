@@ -1415,10 +1415,20 @@ export function getConsultationConfirmationTemplate(
   dateFormatted: string,
   timeFormatted: string,
   duration: number,
-  lang: EmailLanguage = 'es'
+  lang: EmailLanguage = 'es',
+  meetLink?: string
 ) {
   const t = getEmailTranslations(lang);
   const ct = t.consultationConfirmation;
+
+  const meetSection = meetLink ? `
+    <div style="background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); padding: 25px 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6366F1;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; font-weight: 700; color: #4338CA; text-transform: uppercase; letter-spacing: 0.5px;">${ct.meetingLinkLabel}</p>
+      <p style="margin: 0 0 15px 0; font-size: 13px; color: #6366F1;">${ct.meetingNote}</p>
+      <a href="${meetLink}" style="display: inline-block; background: #4285F4; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 14px; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(66,133,244,0.35);">${ct.joinMeeting}</a>
+    </div>
+  ` : '';
+
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 10px 0;">${ct.greeting}</p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name}, ${ct.confirmed}</p>
@@ -1433,6 +1443,8 @@ export function getConsultationConfirmationTemplate(
         <tr><td style="padding: 6px 0; font-weight: 600;">${ct.bookingCodeLabel}:</td><td style="padding: 6px 0; font-weight: 700; color: #1E40AF;">${bookingCode}</td></tr>
       </table>
     </div>
+
+    ${meetSection}
 
     <p style="line-height: 1.7; font-size: 15px; color: #444; font-weight: 600; margin: 25px 0 10px 0;">${ct.whatToExpect}</p>
     <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 0 0 20px 0;">${ct.expectText}</p>
@@ -1457,12 +1469,22 @@ export function getConsultationReminderTemplate(
   timeFormatted: string,
   duration: number,
   reminderType: '3h' | '30m',
-  lang: EmailLanguage = 'es'
+  lang: EmailLanguage = 'es',
+  meetLink?: string
 ) {
   const t = getEmailTranslations(lang);
   const ct = t.consultationReminder;
   const reminderText = reminderType === '3h' ? ct.reminder3h : ct.reminder30m;
   const accentColor = reminderType === '3h' ? '#2563EB' : '#DC2626';
+
+  const meetSection = meetLink ? `
+    <div style="background: linear-gradient(135deg, #EEF2FF 0%, #E0E7FF 100%); padding: 25px 30px; border-radius: 16px; margin: 25px 0; text-align: center; border: 2px solid #6366F1;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; font-weight: 700; color: #4338CA; text-transform: uppercase; letter-spacing: 0.5px;">${ct.meetingLinkLabel}</p>
+      <p style="margin: 0 0 15px 0; font-size: 13px; color: #6366F1;">${ct.meetingNote}</p>
+      <a href="${meetLink}" style="display: inline-block; background: #4285F4; color: #ffffff; text-decoration: none; font-weight: 800; font-size: 14px; padding: 14px 35px; border-radius: 50px; letter-spacing: 0.3px; box-shadow: 0 4px 14px rgba(66,133,244,0.35);">${ct.joinMeeting}</a>
+    </div>
+  ` : '';
+
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 10px 0;">${ct.greeting}</p>
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name}, ${reminderText}</p>
@@ -1476,6 +1498,8 @@ export function getConsultationReminderTemplate(
         <tr><td style="padding: 6px 0; font-weight: 600;">${ct.bookingCodeLabel}:</td><td style="padding: 6px 0; font-weight: 700; color: #1E40AF;">${bookingCode}</td></tr>
       </table>
     </div>
+
+    ${meetSection}
 
     <p style="line-height: 1.7; font-size: 15px; color: #444; font-weight: 600; margin: 25px 0 10px 0;">${ct.prepareTitle}</p>
     <p style="line-height: 1.7; font-size: 14px; color: #555; margin: 0 0 20px 0;">${ct.prepareText}</p>

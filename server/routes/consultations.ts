@@ -400,6 +400,34 @@ export function registerConsultationRoutes(app: Express) {
           phone: data.phone,
         }
       });
+
+      let meetLink: string | undefined;
+      try {
+        const { createGoogleMeetEvent } = await import("../lib/google-calendar-client");
+        const [hours, minutes] = data.scheduledTime.split(':').map(Number);
+        const startDt = new Date(data.scheduledDate);
+        startDt.setHours(hours, minutes, 0, 0);
+        const endDt = new Date(startDt.getTime() + 20 * 60 * 1000);
+        const startDateTime = startDt.toISOString().replace('Z', '');
+        const endDateTime = endDt.toISOString().replace('Z', '');
+
+        const meetResult = await createGoogleMeetEvent({
+          summary: `Consultoría Exentax - ${data.firstName} ${data.lastName}`,
+          description: `Consultoría gratuita con ${data.firstName} ${data.lastName}\nEmail: ${email}\nTema: ${data.mainTopic || 'General'}\nCódigo: ${bookingCode}`,
+          startDateTime,
+          endDateTime,
+          attendeeEmail: email,
+        });
+
+        if (meetResult?.meetLink) {
+          meetLink = meetResult.meetLink;
+          await db.update(consultationBookings)
+            .set({ meetingLink: meetLink })
+            .where(eq(consultationBookings.id, booking.id));
+        }
+      } catch (meetErr) {
+        log.error("Error creating Google Meet event", meetErr);
+      }
       
       try {
         const { getConsultationConfirmationTemplate, sendEmail } = await import("../lib/email");
@@ -413,7 +441,8 @@ export function registerConsultationRoutes(app: Express) {
           dateFormatted,
           data.scheduledTime,
           20,
-          lang
+          lang,
+          meetLink
         );
         await sendEmail({
           to: email,
@@ -533,6 +562,37 @@ export function registerConsultationRoutes(app: Express) {
           scheduledTime: data.scheduledTime
         }
       });
+
+      try {
+        const { createGoogleMeetEvent } = await import("../lib/google-calendar-client");
+        const [hours, minutes] = data.scheduledTime.split(':').map(Number);
+        const startDt = new Date(data.scheduledDate);
+        startDt.setHours(hours, minutes, 0, 0);
+        const endDt = new Date(startDt.getTime() + (consultationType.duration || 20) * 60 * 1000);
+        const startDateTime = startDt.toISOString().replace('Z', '');
+        const endDateTime = endDt.toISOString().replace('Z', '');
+
+        const firstName = user.firstName || user.fullName?.split(' ')[0] || '';
+        const lastName = user.lastName || user.fullName?.split(' ').slice(1).join(' ') || '';
+        const attendeeEmail = user.email || '';
+
+        const meetResult = await createGoogleMeetEvent({
+          summary: `Consultoría Exentax - ${firstName} ${lastName}`,
+          description: `Consultoría con ${firstName} ${lastName}\nEmail: ${attendeeEmail}\nTema: ${data.mainTopic || 'General'}\nCódigo: ${bookingCode}`,
+          startDateTime,
+          endDateTime,
+          attendeeEmail,
+        });
+
+        if (meetResult?.meetLink) {
+          await db.update(consultationBookings)
+            .set({ meetingLink: meetResult.meetLink })
+            .where(eq(consultationBookings.id, booking.id));
+          booking.meetingLink = meetResult.meetLink;
+        }
+      } catch (meetErr) {
+        log.error("Error creating Google Meet event for authenticated booking", meetErr);
+      }
       
       res.json({ success: true, booking });
     } catch (err: any) {
@@ -1031,15 +1091,17 @@ async function sendReminder(booking: any, email: string, name: string, lang: any
   const dateObj = new Date(booking.scheduledDate);
   const dateFormatted = dateObj.toLocaleDateString(lang === 'en' ? 'en-GB' : lang === 'de' ? 'de-DE' : lang === 'fr' ? 'fr-FR' : lang === 'it' ? 'it-IT' : lang === 'pt' ? 'pt-PT' : lang === 'ca' ? 'ca-ES' : 'es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
   
+  const meetLink = booking.meetingLink || undefined;
+
   if (hoursUntil <= 3.5 && hoursUntil > 2.5 && !booking.reminder3hSentAt) {
-    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '3h', lang);
+    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '3h', lang, meetLink);
     await sendEmail({ to: email, subject: t.consultationReminder.subject3h, html });
     await db.update(consultationBookings).set({ reminder3hSentAt: new Date() }).where(eq(consultationBookings.id, booking.id));
     log.info(`Sent 3h reminder for booking ${booking.bookingCode} to ${email}`);
   }
   
   if (hoursUntil <= 0.75 && hoursUntil > 0.1 && !booking.reminder30mSentAt) {
-    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '30m', lang);
+    const html = getConsultationReminderTemplate(name, booking.bookingCode, dateFormatted, booking.scheduledTime, booking.duration, '30m', lang, meetLink);
     await sendEmail({ to: email, subject: t.consultationReminder.subject30m, html });
     await db.update(consultationBookings).set({ reminder30mSentAt: new Date() }).where(eq(consultationBookings.id, booking.id));
     log.info(`Sent 30m reminder for booking ${booking.bookingCode} to ${email}`);
