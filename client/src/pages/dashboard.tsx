@@ -4,20 +4,19 @@ import { useAuth } from "@/hooks/use-auth";
 import { usePageTitle } from "@/hooks/use-page-title";
 import { useTranslation } from "react-i18next";
 import { getWhatsAppUrl } from "@/lib/whatsapp";
-import { formatDate, formatDateShort } from "@/lib/utils";
+import { formatDate } from "@/lib/utils";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import { queryClient, apiRequest, getCsrfToken, setStoredAuthToken } from "@/lib/queryClient";
-import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Search, LogOut, ClipboardList } from "@/components/icons";
+import { queryClient, apiRequest, setStoredAuthToken } from "@/lib/queryClient";
+import { FileText, Clock, User as UserIcon, Package, CreditCard, Mail, BellRing, CheckCircle2, AlertCircle, MessageSquare, Send, Shield, ShieldCheck, Users, Edit, FileUp, Loader2, Receipt, Plus, Calendar, DollarSign, BarChart3, UserCheck, Upload, Tag, X, Calculator, Search, ClipboardList } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useEffect, useState, useMemo, useCallback, useRef, lazy, Suspense } from "react";
+
 import { Link, useLocation, useSearch } from "wouter";
-import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { NativeSelect, NativeSelectItem } from "@/components/ui/native-select";
+import { NativeSelect } from "@/components/ui/native-select";
 import { DashboardTour } from "@/components/dashboard-tour";
 import { 
   Tab, 
@@ -25,7 +24,6 @@ import {
   DiscountCode, 
   getOrderStatusLabel
 } from "@/components/dashboard";
-import { PRICING, getFormationPriceFormatted, getMaintenancePriceFormatted } from "@shared/config/pricing";
 import { ServicesTab } from "@/components/dashboard/services-tab";
 const CrmMetricsSection = lazy(() => import("@/components/dashboard/crm-metrics-section").then(m => ({ default: m.CrmMetricsSection })));
 import { NotificationsTab } from "@/components/dashboard/notifications-tab";

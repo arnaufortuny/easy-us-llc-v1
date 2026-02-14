@@ -12,7 +12,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import { apiRequest, queryClient, setStoredAuthToken, getStoredAuthToken } from "@/lib/queryClient";
+import { queryClient, setStoredAuthToken, getStoredAuthToken } from "@/lib/queryClient";
 import { FormInput } from "@/components/forms";
 import { SocialLogin } from "@/components/auth/social-login";
 import { usePageTitle } from "@/hooks/use-page-title";
