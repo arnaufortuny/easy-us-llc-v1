@@ -1711,7 +1711,7 @@ export default function Dashboard() {
               </Card>
             )}
 
-            {!user?.isAdmin && (
+            {!user?.isAdmin && !isPendingAccount && (
             <Card className={`rounded-2xl shadow-sm bg-white dark:bg-card p-6 md:p-8 ${activeTab !== 'services' ? 'hidden xl:block' : ''}`}>
               <div className="mb-6">
                 <h3 className="text-lg md:text-xl font-black tracking-tight text-primary flex items-center gap-2">
