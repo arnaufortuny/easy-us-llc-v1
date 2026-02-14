@@ -551,7 +551,8 @@ export function getProfileChangeOtpTemplate(name: string, otp: string, lang: Ema
 // 8g. Evento de timeline de pedido
 export function getOrderEventTemplate(name: string, orderId: string, eventType: string, description: string, lang: EmailLanguage = 'es') {
   const t = getEmailTranslations(lang);
-  const locale = lang === 'en' ? 'en-US' : lang === 'ca' ? 'ca-ES' : 'es-ES';
+  const localeMap: Record<string, string> = { es: 'es-ES', en: 'en-US', ca: 'ca-ES', fr: 'fr-FR', de: 'de-DE', it: 'it-IT', pt: 'pt-PT' };
+  const locale = localeMap[lang] || 'es-ES';
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
@@ -630,7 +631,8 @@ export function getRenewalReminderTemplate(
   lang: EmailLanguage = 'es'
 ) {
   const t = getEmailTranslations(lang);
-  const isUrgent = daysRemaining === "una semana" || daysRemaining === "one week" || daysRemaining === "una setmana";
+  const urgentTerms = ['una semana', 'one week', 'una setmana', 'une semaine', 'eine Woche', 'una settimana', 'uma semana'];
+  const isUrgent = urgentTerms.some(term => daysRemaining.toLowerCase().includes(term.toLowerCase()));
   const urgencyColor = isUrgent ? "#EF4444" : "#F59E0B";
   const urgencyBg = isUrgent ? "#FEE2E2" : "#FEF3C7";
   
@@ -663,6 +665,7 @@ export function getRenewalReminderTemplate(
 // 17. Registro con código de verificación
 export function getRegistrationOtpTemplate(name: string, otp: string, clientId: string, expiryMinutes: number = 15, lang: EmailLanguage = 'es') {
   const t = getEmailTranslations(lang);
+  const minuteLabel: Record<string, string> = { es: 'minutos', en: 'minutes', ca: 'minuts', fr: 'minutes', de: 'Minuten', it: 'minuti', pt: 'minutos' };
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
@@ -672,7 +675,7 @@ export function getRegistrationOtpTemplate(name: string, otp: string, clientId: 
       <span style="color: #00C48C; font-size: 32px; font-weight: 700; letter-spacing: 8px; font-family: 'Space Grotesk', monospace;">${otp}</span>
     </div>
     
-    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.validFor} ${expiryMinutes} ${lang === 'en' ? 'minutes' : lang === 'ca' ? 'minuts' : 'minutos'}.</p>
+    <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.validFor} ${expiryMinutes} ${minuteLabel[lang] || 'minutos'}.</p>
     
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin-bottom: 25px;">${t.registrationOtp.clientIdLabel} <strong>${clientId}</strong></p>
   `;
@@ -907,6 +910,7 @@ export function getCalculatorResultsTemplate(
   lang: EmailLanguage = 'es'
 ) {
   const t = getEmailTranslations(lang);
+  const yearLabel: Record<string, string> = { es: 'año', en: 'year', ca: 'any', fr: 'an', de: 'Jahr', it: 'anno', pt: 'ano' };
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>
     
@@ -933,7 +937,7 @@ export function getCalculatorResultsTemplate(
         </tr>
         <tr>
           <td style="padding: 12px 0; color: #00C48C; font-weight: 700; font-size: 15px;">${t.calculatorResults.potentialSavings}</td>
-          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #00C48C; font-size: 18px;">${savings}€/${lang === 'en' ? 'year' : 'año'}</td>
+          <td style="padding: 12px 0; font-weight: 900; text-align: right; color: #00C48C; font-size: 18px;">${savings}€/${yearLabel[lang] || 'año'}</td>
         </tr>
       </table>
     </div>
@@ -1385,7 +1389,8 @@ export function getAbandonedApplicationReminderTemplate(
   const emailDomain = process.env.REPLIT_DEV_DOMAIN || domain;
   const serviceLabel = applicationType === 'llc' ? t.abandonedApplication.llcFormation : t.abandonedApplication.maintenancePack;
   const urgencyColor = hoursRemaining <= 12 ? '#EF4444' : '#F59E0B';
-  const urgencyText = hoursRemaining <= 12 ? t.abandonedApplication.lastHours : `${Math.round(hoursRemaining)} ${lang === 'en' ? 'hours' : lang === 'ca' ? 'hores' : 'horas'}`;
+  const hourLabel: Record<string, string> = { es: 'horas', en: 'hours', ca: 'hores', fr: 'heures', de: 'Stunden', it: 'ore', pt: 'horas' };
+  const urgencyText = hoursRemaining <= 12 ? t.abandonedApplication.lastHours : `${Math.round(hoursRemaining)} ${hourLabel[lang] || 'horas'}`;
   
   const content = `
     <p style="line-height: 1.7; font-size: 15px; color: #444; margin: 0 0 25px 0;">${t.common.greeting} ${name},</p>

@@ -2146,7 +2146,7 @@ const translations: Record<EmailLanguage, EmailTranslations> = {
     autoReply: {
       receivedMessage: "Ihre Nachricht wurde erfolgreich empfangen.",
       ticketNumber: "Ticket-Nummer",
-      estimatedResponse: "Geschätzte Antwortzeit: <strong>24-48 Geschäftstage</strong>",
+      estimatedResponse: "Geschätzte Antwortzeit: <strong>24-48 Geschäftsstunden</strong>",
       responding: "Unser Team wird Ihre Anfrage prüfen und so schnell wie möglich antworten. Wenn Sie zusätzliche Informationen hinzufügen möchten, antworten Sie direkt auf diese E-Mail.",
       seeMessages: "Nachrichten anzeigen"
     },
